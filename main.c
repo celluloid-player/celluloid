@@ -41,9 +41,9 @@ typedef struct context_t
 	gboolean new_file;
 	gboolean sub_visible;
 	gint64 vid_area_wid;
-	gchar *uri;
 	gchar *log_buffer;
 	gchar *mpv_options;
+	GPtrArray *uri_list;
 	GKeyFile *config_file;
 	GtkWidget *fs_control;
 	main_window_t *gui;
@@ -67,7 +67,6 @@ static gint mpv_apply_args(mpv_handle *mpv_ctx, char *args);
 static void mpv_log_handler(context_t *ctx, mpv_event_log_message* message);
 static void seek_relative(context_t *ctx, gint offset);
 static void resize_window_to_fit(context_t *ctx, gdouble multiplier);
-static void mpv_load(context_t *ctx, const gchar *uri);
 static void mpv_init(context_t *ctx, gint64 vid_area_wid);
 static void *mpv_event_handler(void *data);
 static void destroy_handler(GtkWidget *widget, gpointer data);
@@ -78,8 +77,10 @@ static void play_handler(GtkWidget *widget, gpointer data);
 static void stop_handler(GtkWidget *widget, gpointer data);
 static void forward_handler(GtkWidget *widget, gpointer data);
 static void rewind_handler(GtkWidget *widget, gpointer data);
-static void previous_handler(GtkWidget *widget, gpointer data);
-static void next_handler(GtkWidget *widget, gpointer data);
+static void chapter_previous_handler(GtkWidget *widget, gpointer data);
+static void chapter_next_handler(GtkWidget *widget, gpointer data);
+static void playlist_previous_handler(GtkWidget *widget, gpointer data);
+static void playlist_next_handler(GtkWidget *widget, gpointer data);
 static void fullscreen_handler(GtkWidget *widget, gpointer data);
 static void normal_size_handler(GtkWidget *widget, gpointer data);
 static void double_size_handler(GtkWidget *widget, gpointer data);
@@ -95,6 +96,11 @@ static inline void set_config_string(	context_t *ctx,
 					const gchar *group,
 					const gchar *key,
 					const gchar *value );
+
+static void mpv_load(	context_t *ctx,
+			const gchar *uri,
+			gboolean append,
+			gboolean update );
 
 static void window_state_handler(	GtkWidget *widget,
 					GdkEvent *event,
@@ -198,6 +204,7 @@ static gboolean reset_control(gpointer data)
 {
 	context_t* ctx = data;
 
+	gtk_window_set_title(GTK_WINDOW(ctx->gui), g_get_application_name());
 	main_window_reset_control(ctx->gui);
 
 	return FALSE;
@@ -209,6 +216,7 @@ static gboolean mpv_load_gui_update(gpointer data)
 	GtkWidget *icon;
 	gchar* title;
 	gint64 chapter_count;
+	gboolean new_file;
 	gdouble length;
 	gdouble volume;
 
@@ -231,7 +239,7 @@ static gboolean mpv_load_gui_update(gpointer data)
 	if(mpv_get_property(	ctx->mpv_ctx,
 				"chapters",
 				MPV_FORMAT_INT64,
-				&chapter_count) <= 0)
+				&chapter_count) >= 0)
 	{
 		if(chapter_count > 1)
 		{
@@ -246,7 +254,7 @@ static gboolean mpv_load_gui_update(gpointer data)
 	if(mpv_get_property(	ctx->mpv_ctx,
 				"volume",
 				MPV_FORMAT_DOUBLE,
-				&volume) <= 0)
+				&volume) >= 0)
 	{
 		gtk_scale_button_set_value
 			(GTK_SCALE_BUTTON(ctx->gui->volume_button), volume/100);
@@ -255,12 +263,22 @@ static gboolean mpv_load_gui_update(gpointer data)
 	if(mpv_get_property(	ctx->mpv_ctx,
 				"length",
 				MPV_FORMAT_DOUBLE,
-				&length) <= 0)
+				&length) >= 0)
 	{
 		main_window_set_seek_bar_length(ctx->gui, length);
 	}
 
-	resize_window_to_fit(ctx, 1);
+	pthread_mutex_lock(ctx->mpv_event_mutex);
+
+	new_file = ctx->new_file;
+	ctx->new_file = FALSE;
+
+	pthread_mutex_unlock(ctx->mpv_event_mutex);
+
+	if(new_file)
+	{
+		resize_window_to_fit(ctx, 1);
+	}
 
 	return FALSE;
 }
@@ -269,7 +287,7 @@ static gboolean mpv_load_from_ctx(gpointer data)
 {
 	context_t* ctx = data;
 
-	mpv_load(ctx, ctx->uri);
+	mpv_load(ctx, NULL, FALSE, FALSE);
 
 	return FALSE;
 }
@@ -311,7 +329,7 @@ static void seek_relative(context_t *ctx, gint offset)
 
 	if(!ctx->loaded)
 	{
-		mpv_load(ctx, NULL);
+		mpv_load(ctx, NULL, FALSE, TRUE);
 	}
 
 	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
@@ -360,33 +378,70 @@ static void resize_window_to_fit(context_t *ctx, gdouble multiplier)
 	mpv_free(video);
 }
 
-static void mpv_load(context_t *ctx, const gchar *uri)
+static void mpv_load(	context_t *ctx,
+			const gchar *uri,
+			gboolean append,
+			gboolean update )
 {
-	const gchar *load_cmd[] = {"loadfile", NULL, NULL};
-	GFile *file = NULL;
-	gchar *path = NULL;
+	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
+	GPtrArray *uri_list;
+	guint uri_list_len;
+
+	load_cmd[2] = append?"append":"replace";
 
 	pthread_mutex_lock(ctx->mpv_event_mutex);
 
-	if(uri)
-	{
-		gchar *old_uri = ctx->uri;
+	uri_list = ctx->uri_list;
+	uri_list_len = uri_list->len;
 
-		ctx->uri = g_strdup(uri);
+	pthread_mutex_unlock(ctx->mpv_event_mutex);
+
+	if(uri && !append && update)
+	{
+		pthread_mutex_lock(ctx->mpv_event_mutex);
+
+		g_ptr_array_set_size(ctx->uri_list, 0);
+
 		ctx->new_file = TRUE;
 
-		g_free(old_uri);
+		pthread_mutex_unlock(ctx->mpv_event_mutex);
+	}
+	else if(!uri)
+	{
+		guint i;
+
+		for(i = 0; i < uri_list_len; i++)
+		{
+			mpv_load(	ctx,
+					g_ptr_array_index(uri_list, i),
+					(i != 0),
+					FALSE);
+		}
 	}
 
-	if(ctx->uri)
+	if(uri && uri_list)
 	{
-		file = g_vfs_get_file_for_uri(g_vfs_get_default(), ctx->uri);
-		path = g_file_get_path(file);
+		GFile *file;
+		gchar *path;
 
-		load_cmd[1] = path?path:ctx->uri;
-		ctx->loaded = FALSE;
+		pthread_mutex_lock(ctx->mpv_event_mutex);
+
+		if(!append)
+		{
+			ctx->loaded = FALSE;
+		}
+
+		if(update)
+		{
+			g_ptr_array_add(uri_list, g_strdup(uri));
+		}
 
 		pthread_mutex_unlock(ctx->mpv_event_mutex);
+
+		file = g_vfs_get_file_for_uri(g_vfs_get_default(), uri);
+		path = g_file_get_path(file);
+
+		load_cmd[1] = path?path:uri;
 
 		main_window_set_control_enabled(ctx->gui, TRUE);
 
@@ -404,18 +459,14 @@ static void mpv_load(context_t *ctx, const gchar *uri)
 		mpv_check_error(mpv_request_event(	ctx->mpv_ctx,
 							MPV_EVENT_END_FILE,
 							1 ));
-	}
-	else
-	{
-		pthread_mutex_unlock(ctx->mpv_event_mutex);
-	}
 
-	if(file)
-	{
-		g_object_unref(file);
-	}
+		if(file)
+		{
+			g_object_unref(file);
+		}
 
-	g_free(path);
+		g_free(path);
+	}
 }
 
 static gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
@@ -588,16 +639,20 @@ static void *mpv_event_handler(void *data)
 	{
 		event = mpv_wait_event(ctx->mpv_ctx, 1);
 
-		if(event->event_id == MPV_EVENT_END_FILE)
+		if(event->event_id == MPV_EVENT_IDLE)
 		{
 			pthread_mutex_lock(ctx->mpv_event_mutex);
 
-			ctx->paused = TRUE;
-			ctx->loaded = FALSE;
+			if(ctx->loaded)
+			{
+
+				ctx->paused = TRUE;
+				ctx->loaded = FALSE;
+
+				g_idle_add((GSourceFunc)reset_control, ctx);
+			}
 
 			pthread_mutex_unlock(ctx->mpv_event_mutex);
-
-			g_idle_add((GSourceFunc)reset_control, ctx);
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{
@@ -605,16 +660,15 @@ static void *mpv_event_handler(void *data)
 
 			ctx->loaded = TRUE;
 
-			if(ctx->new_file)
-			{
-				g_idle_add(	(GSourceFunc)
-						mpv_load_gui_update,
-						ctx );
-
-				ctx->new_file = FALSE;
-			}
+			g_idle_add(	(GSourceFunc)
+					mpv_load_gui_update,
+					ctx );
 
 			pthread_mutex_unlock(ctx->mpv_event_mutex);
+		}
+		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
+		{
+			g_idle_add((GSourceFunc)mpv_load_gui_update, ctx);
 		}
 		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
 		{
@@ -683,7 +737,7 @@ static void open_handler(GtkWidget *widget, gpointer data)
 
 		ctx->paused = FALSE;
 
-		mpv_load(ctx, uri);
+		mpv_load(ctx, uri, FALSE, TRUE);
 
 		g_free(uri);
 	}
@@ -707,7 +761,7 @@ static void open_loc_handler(GtkWidget *widget, gpointer data)
 
 		ctx->paused = FALSE;
 
-		mpv_load(ctx, loc_str);
+		mpv_load(ctx, loc_str, FALSE, TRUE);
 	}
 
 	gtk_widget_destroy(open_loc_dialog.dialog);
@@ -769,8 +823,10 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog.dialog))
 	== GTK_RESPONSE_ACCEPT)
 	{
+		gint64 playlist_pos;
 		gdouble time_pos;
-		gint timepos_rc;
+		gint playlist_pos_rc;
+		gint time_pos_rc;
 
 		set_config_string(	ctx,
 					"main",
@@ -783,7 +839,12 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 								"pause",
 								"yes" ));
 
-		timepos_rc = mpv_get_property(	ctx->mpv_ctx,
+		playlist_pos_rc = mpv_get_property(	ctx->mpv_ctx,
+							"playlist-pos",
+							MPV_FORMAT_INT64,
+							&playlist_pos );
+
+		time_pos_rc = mpv_get_property(	ctx->mpv_ctx,
 						"time-pos",
 						MPV_FORMAT_DOUBLE,
 						&time_pos );
@@ -816,7 +877,7 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 		pthread_mutex_unlock(ctx->mpv_event_mutex);
 
-		if(ctx->uri)
+		if(ctx->uri_list)
 		{
 			gint rc;
 
@@ -826,7 +887,7 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 			mpv_check_error(rc);
 
-			mpv_load(ctx, NULL);
+			mpv_load(ctx, NULL, FALSE, TRUE);
 
 			rc = mpv_request_event(	ctx->mpv_ctx,
 						MPV_EVENT_FILE_LOADED,
@@ -834,11 +895,26 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 			mpv_check_error(rc);
 
-			if(timepos_rc >= 0)
+			if(playlist_pos_rc >= 0 && playlist_pos > 0)
 			{
-				/* The first two arguemnts aren't used */
-				seek_handler(NULL, 0, time_pos, ctx);
+				mpv_set_property(	ctx->mpv_ctx,
+							"playlist-pos",
+							MPV_FORMAT_INT64,
+							&playlist_pos );
 			}
+
+			if(time_pos_rc >= 0 && time_pos > 0)
+			{
+				mpv_set_property(	ctx->mpv_ctx,
+							"time-pos",
+							MPV_FORMAT_DOUBLE,
+							&time_pos );
+			}
+
+			mpv_set_property(	ctx->mpv_ctx,
+						"pause",
+						MPV_FORMAT_FLAG,
+						&ctx->paused );
 		}
 	}
 
@@ -860,7 +936,7 @@ static void play_handler(GtkWidget *widget, gpointer data)
 
 	if(!loaded)
 	{
-		mpv_load(ctx, NULL);
+		mpv_load(ctx, NULL, FALSE, TRUE);
 	}
 
 	mpv_check_error(mpv_set_property(	ctx->mpv_ctx,
@@ -900,30 +976,46 @@ static void rewind_handler(GtkWidget *widget, gpointer data)
 	seek_relative(data, -10);
 }
 
-static void previous_handler(GtkWidget *widget, gpointer data)
+static void chapter_previous_handler(GtkWidget *widget, gpointer data)
 {
 	context_t *ctx = (context_t *)data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
 	if(!ctx->loaded)
 	{
-		mpv_load(ctx, NULL);
+		mpv_load(ctx, NULL, FALSE, TRUE);
 	}
 
 	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 }
 
-static void next_handler(GtkWidget *widget, gpointer data)
+static void chapter_next_handler(GtkWidget *widget, gpointer data)
 {
 	context_t *ctx = (context_t *)data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
 	if(!ctx->loaded)
 	{
-		mpv_load(ctx, NULL);
+		mpv_load(ctx, NULL, FALSE, TRUE);
 	}
 
 	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+}
+
+static void playlist_previous_handler(GtkWidget *widget, gpointer data)
+{
+	context_t *ctx = (context_t *)data;
+	const gchar *cmd[] = {"playlist_prev", NULL};
+
+	mpv_command(ctx->mpv_ctx, cmd);
+}
+
+static void playlist_next_handler(GtkWidget *widget, gpointer data)
+{
+	context_t *ctx = (context_t *)data;
+	const gchar *cmd[] = {"playlist_next", NULL};
+
+	mpv_command(ctx->mpv_ctx, cmd);
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)
@@ -1006,7 +1098,12 @@ static void drag_data_handler(	GtkWidget *widget,
 
 		if(uri_list)
 		{
-			mpv_load(ctx, uri_list[0]);
+			int i;
+
+			for(i = 0; uri_list[i]; i++)
+			{
+				mpv_load(ctx, uri_list[i], (i != 0), TRUE);
+			}
 
 			g_strfreev(uri_list);
 		}
@@ -1015,7 +1112,7 @@ static void drag_data_handler(	GtkWidget *widget,
 			const guchar *raw_data
 				= gtk_selection_data_get_data(sel_data);
 
-			mpv_load(ctx, (const gchar *)raw_data);
+			mpv_load(ctx, (const gchar *)raw_data, FALSE, TRUE);
 		}
 	}
 }
@@ -1033,7 +1130,7 @@ static void seek_handler(	GtkWidget *widget,
 
 	if(!ctx->loaded)
 	{
-		mpv_load(ctx, NULL);
+		mpv_load(ctx, NULL, FALSE, TRUE);
 	}
 
 	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
@@ -1143,11 +1240,19 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		}
 		else if(keyval == GDK_KEY_exclam)
 		{
-			previous_handler(NULL, ctx);
+			chapter_previous_handler(NULL, ctx);
 		}
 		else if(keyval == GDK_KEY_at)
 		{
-			next_handler(NULL, ctx);
+			chapter_next_handler(NULL, ctx);
+		}
+		else if(keyval == GDK_KEY_less)
+		{
+			playlist_previous_handler(NULL, ctx);
+		}
+		else if(keyval == GDK_KEY_greater)
+		{
+			playlist_next_handler(NULL, ctx);
 		}
 	}
 
@@ -1174,8 +1279,9 @@ int main(int argc, char **argv)
 	ctx.mpv_ctx_reset = FALSE;
 	ctx.paused = TRUE;
 	ctx.loaded = FALSE;
+	ctx.new_file = TRUE;
 	ctx.sub_visible = TRUE;
-	ctx.uri = NULL;
+	ctx.uri_list = g_ptr_array_new_with_free_func((GDestroyNotify)g_free);
 	ctx.log_buffer = NULL;
 	ctx.config_file = g_key_file_new();
 	ctx.gui = &gui;
@@ -1253,12 +1359,12 @@ int main(int argc, char **argv)
 
 	g_signal_connect(	gui.previous_button,
 				"clicked",
-				G_CALLBACK(previous_handler),
+				G_CALLBACK(chapter_previous_handler),
 				&ctx );
 
 	g_signal_connect(	gui.next_button,
 				"clicked",
-				G_CALLBACK(next_handler),
+				G_CALLBACK(chapter_next_handler),
 				&ctx );
 
 	g_signal_connect(	gui.fullscreen_button,
@@ -1335,8 +1441,18 @@ int main(int argc, char **argv)
 	/* Start playing the file given as command line argument, if any */
 	if(argc >= 2)
 	{
+		gint i = 0;
+
+		pthread_mutex_lock(ctx.mpv_event_mutex);
+
 		ctx.paused = FALSE;
-		ctx.uri = g_strdup(argv[1]);
+
+		for(i = 1; i < argc; i++)
+		{
+			g_ptr_array_add(ctx.uri_list, g_strdup(argv[i]));
+		}
+
+		pthread_mutex_unlock(ctx.mpv_event_mutex);
 
 		g_idle_add((GSourceFunc)mpv_load_from_ctx, &ctx);
 	}
