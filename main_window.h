@@ -15,18 +15,34 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#ifndef __MAIN_WINDOW_H__
+#define __MAIN_WINDOW_H__
 
 #include <gtk/gtk.h>
 
-typedef struct main_window_t
+G_BEGIN_DECLS
+
+#define MAIN_WINDOW_TYPE (main_window_get_type ())
+
+#define	MAIN_WINDOW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST((obj), MAIN_WINDOW_TYPE, MainWindow))
+
+#define	MAIN_WINDOW_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST((klass), MAIN_WINDOW_TYPE, MainWindowClass))
+
+#define	IS_MAIN_WINDOW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((obj), MAIN_WINDOW_TYPE))
+
+#define	IS_MAIN_WINDOW_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_TYPE((klass), MAIN_WINDOW_TYPE))
+
+struct _MainWindow
 {
+	GtkWindow window;
 	gint fullscreen;
 	gint seek_bar_length;
 	GtkSettings* settings;
 	GtkAccelGroup *accel_group;
-	GtkWidget *window;
 	GtkWidget *main_box;
 	GtkWidget *vid_area;
 	GtkWidget *control_box;
@@ -58,15 +74,25 @@ typedef struct main_window_t
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
-}
-main_window_t;
+};
 
-void main_window_init(main_window_t *wnd);
-void main_window_toggle_fullscreen(main_window_t *wnd);
-void main_window_reset_control(main_window_t *wnd);
-void main_window_set_seek_bar_length(main_window_t *wnd, gint length);
-void main_window_set_control_enabled(main_window_t *wnd, gboolean enabled);
-void main_window_show_chapter_control(main_window_t *wnd);
-void main_window_hide_chapter_control(main_window_t *wnd);
+struct _MainWindowClass
+{
+	GtkWindowClass parent_class;
+};
+
+typedef struct _MainWindow MainWindow;
+typedef struct _MainWindowClass MainWindowClass;
+
+GtkWidget *main_window_new(void);
+GType main_window_get_type(void);
+void main_window_toggle_fullscreen(MainWindow *wnd);
+void main_window_reset_control(MainWindow *wnd);
+void main_window_set_seek_bar_length(MainWindow *wnd, gint length);
+void main_window_set_control_enabled(MainWindow *wnd, gboolean enabled);
+void main_window_show_chapter_control(MainWindow *wnd);
+void main_window_hide_chapter_control(MainWindow *wnd);
+
+G_END_DECLS
 
 #endif

@@ -17,61 +17,52 @@
 
 #include "pref_dialog.h"
 
+static void response_handler(	GtkDialog *dialog,
+				gint response_id,
+				gpointer data );
+
+static void pref_dialog_init(PrefDialog *dlg);
+
 static void response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 {
 	gtk_widget_hide(GTK_WIDGET(dialog));
 }
 
-inline void pref_dialog_set_string(pref_dialog_t *dlg, gchar *buffer)
-{
-	gtk_entry_set_text(GTK_ENTRY(dlg->opt_entry), buffer);
-}
-
-inline const gchar *pref_dialog_get_string(pref_dialog_t *dlg)
-{
-	return gtk_entry_get_text(GTK_ENTRY(dlg->opt_entry));
-}
-
-inline guint64 pref_dialog_get_string_length(pref_dialog_t *dlg)
-{
-	return gtk_entry_get_text_length(GTK_ENTRY(dlg->opt_entry));
-}
-
-void pref_dialog_init(pref_dialog_t *dlg, GtkWindow *parent)
+static void pref_dialog_init(PrefDialog *dlg)
 {
 	GdkGeometry geom;
 
 	geom.max_width = G_MAXINT;
 	geom.max_height = 0;
 
-	dlg->dialog = gtk_dialog_new_with_buttons(	"Preferences",
-							parent,
-							GTK_DIALOG_MODAL,
-							"_Save",
-							GTK_RESPONSE_ACCEPT,
-							"_Cancel",
-							GTK_RESPONSE_REJECT,
-							NULL );
-
 	dlg->content_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
 	dlg->content_area
-		= gtk_dialog_get_content_area(GTK_DIALOG(dlg->dialog));
+		= gtk_dialog_get_content_area(GTK_DIALOG(dlg));
 
 	dlg->opt_label = gtk_label_new("MPV Options:");
 	dlg->opt_entry = gtk_entry_new();
 
-	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg->dialog),
-					dlg->dialog,
+	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
+				"_Save",
+				GTK_RESPONSE_ACCEPT,
+				"_Cancel",
+				GTK_RESPONSE_REJECT,
+				NULL );
+
+	gtk_window_set_modal(GTK_WINDOW(dlg), 1);
+	gtk_window_set_title(GTK_WINDOW(dlg), "Preferences");
+	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_box), 5);
+
+	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
+					GTK_WIDGET(dlg),
 					&geom,
 					GDK_HINT_MAX_SIZE );
 
-	g_signal_connect(	dlg->dialog,
+	g_signal_connect(	dlg,
 				"response",
 				G_CALLBACK(response_handler),
 				NULL );
-
-	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_box), 5);
 
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->content_box);
 
@@ -87,5 +78,55 @@ void pref_dialog_init(pref_dialog_t *dlg, GtkWindow *parent)
 				TRUE,
 				0 );
 
-	gtk_widget_show_all(dlg->dialog);
+	gtk_widget_show_all(GTK_WIDGET(dlg));
+}
+
+GtkWidget *pref_dialog_new(GtkWindow *parent)
+{
+	PrefDialog *dlg = g_object_new(pref_dialog_get_type(), NULL);
+
+	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
+
+	return GTK_WIDGET(dlg);
+}
+
+GType pref_dialog_get_type()
+{
+	static GType dlg_type = 0;
+
+	if(dlg_type == 0)
+	{
+		const GTypeInfo dlg_info
+			= {	sizeof(PrefDialogClass),
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				sizeof(PrefDialog),
+				0,
+				(GInstanceInitFunc)pref_dialog_init };
+
+		dlg_type = g_type_register_static(	GTK_TYPE_DIALOG,
+							"PrefDialog",
+							&dlg_info,
+							0 );
+	}
+
+	return dlg_type;
+}
+
+void pref_dialog_set_string(PrefDialog *dlg, gchar *buffer)
+{
+	gtk_entry_set_text(GTK_ENTRY(dlg->opt_entry), buffer);
+}
+
+const gchar *pref_dialog_get_string(PrefDialog *dlg)
+{
+	return gtk_entry_get_text(GTK_ENTRY(dlg->opt_entry));
+}
+
+guint64 pref_dialog_get_string_length(PrefDialog *dlg)
+{
+	return gtk_entry_get_text_length(GTK_ENTRY(dlg->opt_entry));
 }

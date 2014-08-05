@@ -15,24 +15,50 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PREF_DIALOG_H
-#define PREF_DIALOG_H
+#ifndef __PREF_DIALOG_H__
+#define __PREF_DIALOG_H__
 
 #include <gtk/gtk.h>
 
-typedef struct pref_dialog_t
+G_BEGIN_DECLS
+
+#define PREF_DIALOG_TYPE (pref_dialog_get_type ())
+
+#define	PREF_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST((obj), PREF_DIALOG_TYPE, PrefDialog))
+
+#define	PREF_DIALOG_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST((klass), PREF_DIALOG_TYPE, PrefDialogClass))
+
+#define	IS_PREF_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((obj), PREF_DIALOG_TYPE))
+
+#define	IS_PREF_DIALOG_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_TYPE((klass), PREF_DIALOG_TYPE))
+
+struct _PrefDialog
 {
-	GtkWidget *dialog;
+	GtkDialog dialog;
 	GtkWidget *content_area;
 	GtkWidget *content_box;
 	GtkWidget *opt_label;
 	GtkWidget *opt_entry;
-}
-pref_dialog_t;
+};
 
-inline void pref_dialog_set_string(pref_dialog_t *dlg, gchar *buffer);
-inline const gchar *pref_dialog_get_string(pref_dialog_t *dlg);
-inline guint64 pref_dialog_get_string_length(pref_dialog_t *dlg);
-void pref_dialog_init(pref_dialog_t *dlg, GtkWindow *parent);
+struct _PrefDialogClass
+{
+	GtkDialogClass parent_class;
+};
+
+typedef struct _PrefDialog PrefDialog;
+typedef struct _PrefDialogClass PrefDialogClass;
+
+GtkWidget *pref_dialog_new(GtkWindow *parent);
+GType pref_dialog_get_type(void);
+void pref_dialog_set_string(PrefDialog *dlg, gchar *buffer);
+const gchar *pref_dialog_get_string(PrefDialog *dlg);
+guint64 pref_dialog_get_string_length(PrefDialog *dlg);
+
+G_END_DECLS
 
 #endif
