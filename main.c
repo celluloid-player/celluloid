@@ -46,7 +46,7 @@ typedef struct context_t
 	gchar *mpv_options;
 	GKeyFile *config_file;
 	GtkWidget *fs_control;
-	main_window_t *gui;
+	MainWindow *gui;
 	pthread_t *mpv_event_handler_thread;
 	pthread_mutex_t *mpv_event_mutex;
 	pthread_cond_t *mpv_ctx_init_cv;
@@ -223,7 +223,7 @@ static gboolean mpv_load_gui_update(gpointer data)
 
 	if(title)
 	{
-		gtk_window_set_title(GTK_WINDOW(ctx->gui->window), title);
+		gtk_window_set_title(GTK_WINDOW(ctx->gui), title);
 
 		mpv_free(title);
 	}
@@ -282,7 +282,7 @@ static gboolean show_error_dialog(gpointer data)
 	{
 		GtkWidget *dialog
 			= gtk_message_dialog_new
-				(	GTK_WINDOW(ctx->gui->window),
+				(	GTK_WINDOW(ctx->gui),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					GTK_MESSAGE_ERROR,
 					GTK_BUTTONS_OK,
@@ -345,14 +345,14 @@ static void resize_window_to_fit(context_t *ctx, gdouble multiplier)
 	&& mpv_height_rc >= 0)
 	{
 		gint width_margin
-			= gtk_widget_get_allocated_width(ctx->gui->window)
+			= gtk_widget_get_allocated_width(GTK_WIDGET(ctx->gui))
 			- gtk_widget_get_allocated_width(ctx->gui->vid_area);
 
 		gint height_margin
-			= gtk_widget_get_allocated_height(ctx->gui->window)
+			= gtk_widget_get_allocated_height(GTK_WIDGET(ctx->gui))
 			- gtk_widget_get_allocated_height(ctx->gui->vid_area);
 
-		gtk_window_resize(	GTK_WINDOW(ctx->gui->window),
+		gtk_window_resize(	GTK_WINDOW(ctx->gui),
 					(multiplier*width)+width_margin,
 					(multiplier*height)+height_margin );
 	}
@@ -668,7 +668,7 @@ static void open_handler(GtkWidget *widget, gpointer data)
 
 	open_dialog
 		= gtk_file_chooser_dialog_new(	"Open File",
-						GTK_WINDOW(ctx->gui->window),
+						GTK_WINDOW(ctx->gui),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						"_Cancel",
 						GTK_RESPONSE_CANCEL,
@@ -694,23 +694,24 @@ static void open_handler(GtkWidget *widget, gpointer data)
 static void open_loc_handler(GtkWidget *widget, gpointer data)
 {
 	context_t *ctx = (context_t*)data;
-	open_loc_dialog_t open_loc_dialog;
+	OpenLocDialog *open_loc_dialog;
 
-	open_loc_dialog_init(&open_loc_dialog, GTK_WINDOW(ctx->gui->window));
+	open_loc_dialog
+		= OPEN_LOC_DIALOG(open_loc_dialog_new(GTK_WINDOW(ctx->gui)));
 
-	if(	gtk_dialog_run(GTK_DIALOG(open_loc_dialog.dialog))
+	if(	gtk_dialog_run(GTK_DIALOG(open_loc_dialog))
 		== GTK_RESPONSE_ACCEPT )
 	{
 		const gchar *loc_str;
 
-		loc_str = open_loc_dialog_get_string(&open_loc_dialog);
+		loc_str = open_loc_dialog_get_string(open_loc_dialog);
 
 		ctx->paused = FALSE;
 
 		mpv_load(ctx, loc_str);
 	}
 
-	gtk_widget_destroy(open_loc_dialog.dialog);
+	gtk_widget_destroy(GTK_WIDGET(open_loc_dialog));
 }
 
 static gboolean load_config(context_t *ctx)
@@ -749,7 +750,7 @@ static gboolean save_config(context_t *ctx)
 static void pref_handler(GtkWidget *widget, gpointer data)
 {
 	context_t *ctx = data;
-	pref_dialog_t pref_dialog;
+	PrefDialog *pref_dialog;
 	gchar *buffer;
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 
@@ -757,16 +758,16 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 	buffer = get_config_string(ctx, "main", "mpv-options");
 
-	pref_dialog_init(&pref_dialog, GTK_WINDOW(ctx->gui->window));
+	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
 	if(buffer)
 	{
-		pref_dialog_set_string(&pref_dialog, buffer);
+		pref_dialog_set_string(pref_dialog, buffer);
 
 		g_free(buffer);
 	}
 
-	if(gtk_dialog_run(GTK_DIALOG(pref_dialog.dialog))
+	if(gtk_dialog_run(GTK_DIALOG(pref_dialog))
 	== GTK_RESPONSE_ACCEPT)
 	{
 		gdouble time_pos;
@@ -775,7 +776,7 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 		set_config_string(	ctx,
 					"main",
 					"mpv-options",
-					pref_dialog_get_string(&pref_dialog) );
+					pref_dialog_get_string(pref_dialog) );
 
 		save_config(ctx);
 
@@ -842,7 +843,7 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 		}
 	}
 
-	gtk_widget_destroy(pref_dialog.dialog);
+	gtk_widget_destroy(GTK_WIDGET(pref_dialog));
 }
 
 static void play_handler(GtkWidget *widget, gpointer data)
@@ -950,7 +951,7 @@ static void about_handler(GtkWidget *widget, gpointer data)
 {
 	context_t *ctx = (context_t*)data;
 
-	gtk_show_about_dialog(	GTK_WINDOW(ctx->gui->window),
+	gtk_show_about_dialog(	GTK_WINDOW(ctx->gui),
 				"logo-icon-name",
 				ICON_NAME,
 				"version",
@@ -971,9 +972,6 @@ static void volume_handler(GtkWidget *widget, gpointer data)
 
 	value *= 100;
 
-	/* Failing to set volume is non-fatal, so the return value of
-	 * mpv_set_property() is not checked.
-	 */
 	mpv_set_property(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
 }
 
@@ -1162,12 +1160,10 @@ int main(int argc, char **argv)
 	pthread_mutex_t mpv_event_mutex;
 	pthread_cond_t mpv_ctx_init_cv;
 	pthread_cond_t mpv_ctx_destroy_cv;
-	main_window_t gui;
 
 	gtk_init(&argc, &argv);
 	g_set_application_name(APP_NAME);
 	gtk_window_set_default_icon_name(ICON_NAME);
-	main_window_init(&gui);
 
 	ctx.mpv_ctx = mpv_create();
 	ctx.exit_flag = FALSE;
@@ -1178,15 +1174,15 @@ int main(int argc, char **argv)
 	ctx.uri = NULL;
 	ctx.log_buffer = NULL;
 	ctx.config_file = g_key_file_new();
-	ctx.gui = &gui;
+	ctx.gui = MAIN_WINDOW(main_window_new());
 	ctx.mpv_event_handler_thread = &mpv_event_handler_thread;
 	ctx.mpv_ctx_init_cv = &mpv_ctx_init_cv;
 	ctx.mpv_ctx_destroy_cv = &mpv_ctx_destroy_cv;
 	ctx.mpv_event_mutex = &mpv_event_mutex;
 	ctx.mpv_event_mutex = &mpv_event_mutex;
 
-	ctx.vid_area_wid
-		= gdk_x11_window_get_xid(gtk_widget_get_window(gui.vid_area));
+	ctx.vid_area_wid = gdk_x11_window_get_xid
+				(gtk_widget_get_window(ctx.gui->vid_area));
 
 	target_entry[0].target = "text/uri-list";
 	target_entry[0].flags = 0;
@@ -1202,121 +1198,121 @@ int main(int argc, char **argv)
 	pthread_cond_init(ctx.mpv_ctx_init_cv, NULL);
 	pthread_cond_init(ctx.mpv_ctx_destroy_cv, NULL);
 
-	gtk_drag_dest_set(	ctx.gui->window,
+	gtk_drag_dest_set(	GTK_WIDGET(ctx.gui),
 				GTK_DEST_DEFAULT_ALL,
 				target_entry,
 				3,
 				GDK_ACTION_COPY );
 
-	gtk_drag_dest_add_uri_targets(ctx.gui->window);
+	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui));
 	gtk_range_set_increments(GTK_RANGE(ctx.gui->seek_bar), 10, 10);
 
-	g_signal_connect(	gui.window,
+	g_signal_connect(	ctx.gui,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
 				&ctx );
 
-	g_signal_connect(	gui.window,
+	g_signal_connect(	ctx.gui,
 				"destroy",
 				G_CALLBACK(destroy_handler),
 				&ctx );
 
-	g_signal_connect(	gui.window,
+	g_signal_connect(	ctx.gui,
 				"window-state-event",
 				G_CALLBACK(window_state_handler),
-				&gui.fullscreen );
+				&ctx.gui->fullscreen );
 
-	g_signal_connect(	gui.window,
+	g_signal_connect(	ctx.gui,
 				"key-press-event",
 				G_CALLBACK(key_press_handler),
 				&ctx );
 
-	g_signal_connect(	gui.play_button,
+	g_signal_connect(	ctx.gui->play_button,
 				"clicked",
 				G_CALLBACK(play_handler),
 				&ctx );
 
-	g_signal_connect(	gui.stop_button,
+	g_signal_connect(	ctx.gui->stop_button,
 				"clicked",
 				G_CALLBACK(stop_handler),
 				&ctx );
 
-	g_signal_connect(	gui.forward_button,
+	g_signal_connect(	ctx.gui->forward_button,
 				"clicked",
 				G_CALLBACK(forward_handler),
 				&ctx );
 
-	g_signal_connect(	gui.rewind_button,
+	g_signal_connect(	ctx.gui->rewind_button,
 				"clicked",
 				G_CALLBACK(rewind_handler),
 				&ctx );
 
-	g_signal_connect(	gui.previous_button,
+	g_signal_connect(	ctx.gui->previous_button,
 				"clicked",
 				G_CALLBACK(previous_handler),
 				&ctx );
 
-	g_signal_connect(	gui.next_button,
+	g_signal_connect(	ctx.gui->next_button,
 				"clicked",
 				G_CALLBACK(next_handler),
 				&ctx );
 
-	g_signal_connect(	gui.fullscreen_button,
+	g_signal_connect(	ctx.gui->fullscreen_button,
 				"clicked",
 				G_CALLBACK(fullscreen_handler),
 				&ctx );
 
-	g_signal_connect(	gui.open_menu_item,
+	g_signal_connect(	ctx.gui->open_menu_item,
 				"activate",
 				G_CALLBACK(open_handler),
 				&ctx );
 
-	g_signal_connect(	gui.open_loc_menu_item,
+	g_signal_connect(	ctx.gui->open_loc_menu_item,
 				"activate",
 				G_CALLBACK(open_loc_handler),
 				&ctx );
 
-	g_signal_connect(	gui.quit_menu_item,
+	g_signal_connect(	ctx.gui->quit_menu_item,
 				"activate",
 				G_CALLBACK(destroy_handler),
 				&ctx );
 
-	g_signal_connect(	gui.pref_menu_item,
+	g_signal_connect(	ctx.gui->pref_menu_item,
 				"activate",
 				G_CALLBACK(pref_handler),
 				&ctx );
 
-	g_signal_connect(	gui.fullscreen_menu_item,
+	g_signal_connect(	ctx.gui->fullscreen_menu_item,
 				"activate",
 				G_CALLBACK(fullscreen_handler),
 				&ctx );
 
-	g_signal_connect(	gui.normal_size_menu_item,
+	g_signal_connect(	ctx.gui->normal_size_menu_item,
 				"activate",
 				G_CALLBACK(normal_size_handler),
 				&ctx );
 
-	g_signal_connect(	gui.double_size_menu_item,
+	g_signal_connect(	ctx.gui->double_size_menu_item,
 				"activate",
 				G_CALLBACK(double_size_handler),
 				&ctx );
 
-	g_signal_connect(	gui.half_size_menu_item,
+	g_signal_connect(	ctx.gui->half_size_menu_item,
 				"activate",
 				G_CALLBACK(half_size_handler),
 				&ctx );
 
-	g_signal_connect(	gui.about_menu_item,
+	g_signal_connect(	ctx.gui->about_menu_item,
 				"activate",
 				G_CALLBACK(about_handler),
 				&ctx );
 
-	g_signal_connect(	gui.volume_button,
+	g_signal_connect(	ctx.gui->volume_button,
 				"value-changed",
 				G_CALLBACK(volume_handler),
 				&ctx );
 
-	g_signal_connect(	gui.seek_bar,
+	g_signal_connect(	ctx.gui->seek_bar,
 				"change-value",
 				G_CALLBACK(seek_handler),
 				&ctx );
@@ -1342,7 +1338,7 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		main_window_set_control_enabled(&gui, FALSE);
+		main_window_set_control_enabled(ctx.gui, FALSE);
 	}
 
 	gtk_main();

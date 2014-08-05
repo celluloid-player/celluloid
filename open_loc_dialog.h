@@ -15,23 +15,50 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OPEN_LOC_DIALOG_H
-#define OPEN_LOC_DIALOG_H
+#ifndef __OPEN_LOC_DIALOG_H__
+#define __OPEN_LOC_DIALOG_H__
 
 #include <gtk/gtk.h>
 
-typedef struct open_loc_dialog_t
+G_BEGIN_DECLS
+
+#define OPEN_LOC_DIALOG_TYPE (open_loc_dialog_get_type ())
+
+#define	OPEN_LOC_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST((obj), OPEN_LOC_DIALOG_TYPE, OpenLocDialog))
+
+#define	OPEN_LOC_DIALOG_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST \
+		((klass), OPEN_LOC_DIALOG_TYPE, OpenLocDialogClass))
+
+#define	IS_OPEN_LOC_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((obj), OPEN_LOC_DIALOG_TYPE))
+
+#define	IS_OPEN_LOC_DIALOG_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_TYPE((klass), OPEN_LOC_DIALOG_TYPE))
+
+struct _OpenLocDialog
 {
-	GtkWidget *dialog;
+	GtkDialog dialog;
 	GtkWidget *content_area;
 	GtkWidget *content_box;
 	GtkWidget *loc_label;
 	GtkWidget *loc_entry;
-}
-open_loc_dialog_t;
+};
 
-inline const gchar *open_loc_dialog_get_string(open_loc_dialog_t *dlg);
-inline guint64 open_loc_dialog_get_string_length(open_loc_dialog_t *dlg);
-void open_loc_dialog_init(open_loc_dialog_t *dlg, GtkWindow *parent);
+struct _OpenLocDialogClass
+{
+	GtkDialogClass parent_class;
+};
+
+typedef struct _OpenLocDialog OpenLocDialog;
+typedef struct _OpenLocDialogClass OpenLocDialogClass;
+
+GtkWidget *open_loc_dialog_new(GtkWindow *parent);
+GType open_loc_dialog_get_type(void);
+const gchar *open_loc_dialog_get_string(OpenLocDialog *dlg);
+guint64 open_loc_dialog_get_string_length(OpenLocDialog *dlg);
+
+G_END_DECLS
 
 #endif
