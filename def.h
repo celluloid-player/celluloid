@@ -23,6 +23,7 @@
 #define APP_DESC "A GTK frontend for MPV"
 #define ICON_NAME "gnome-mpv"
 #define CONFIG_FILE "gnome-mpv.conf"
+#define PLAYLIST_DEFAULT_WIDTH 200
 #define SEEK_BAR_UPDATE_INTERVAL 250
 
 #endif

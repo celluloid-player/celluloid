@@ -28,6 +28,7 @@
 
 #include "def.h"
 #include "main_window.h"
+#include "playlist_widget.h"
 #include "pref_dialog.h"
 #include "open_loc_dialog.h"
 
@@ -58,6 +59,7 @@ static inline void mpv_check_error(int status);
 static inline gchar *get_config_file_path(void);
 static gboolean update_seek_bar(gpointer data);
 static gboolean reset_control(gpointer data);
+static gboolean reset_playlist(gpointer data);
 static gboolean show_error_dialog(gpointer data);
 static gboolean mpv_load_gui_update(gpointer data);
 static gboolean mpv_load_from_ctx(gpointer data);
@@ -79,6 +81,7 @@ static void forward_handler(GtkWidget *widget, gpointer data);
 static void rewind_handler(GtkWidget *widget, gpointer data);
 static void chapter_previous_handler(GtkWidget *widget, gpointer data);
 static void chapter_next_handler(GtkWidget *widget, gpointer data);
+static void playlist_handler(GtkWidget *widget, gpointer data);
 static void playlist_previous_handler(GtkWidget *widget, gpointer data);
 static void playlist_next_handler(GtkWidget *widget, gpointer data);
 static void fullscreen_handler(GtkWidget *widget, gpointer data);
@@ -104,6 +107,11 @@ static void mpv_load(	context_t *ctx,
 
 static void window_state_handler(	GtkWidget *widget,
 					GdkEvent *event,
+					gpointer data );
+
+static void playlist_row_handler(	GtkTreeView *tree_view,
+					GtkTreePath *path,
+					GtkTreeViewColumn *column,
 					gpointer data );
 
 static void drag_data_handler(	GtkWidget *widget,
@@ -210,12 +218,23 @@ static gboolean reset_control(gpointer data)
 	return FALSE;
 }
 
+static gboolean reset_playlist(gpointer data)
+{
+	context_t *ctx = data;
+	PlaylistWidget *playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
+
+	playlist_widget_set_cursor_pos(playlist, 0);
+
+	return FALSE;
+}
+
 static gboolean mpv_load_gui_update(gpointer data)
 {
 	context_t* ctx = data;
 	GtkWidget *icon;
 	gchar* title;
 	gint64 chapter_count;
+	gint64 playlist_pos;
 	gboolean new_file;
 	gdouble length;
 	gdouble volume;
@@ -234,6 +253,15 @@ static gboolean mpv_load_gui_update(gpointer data)
 		gtk_window_set_title(GTK_WINDOW(ctx->gui), title);
 
 		mpv_free(title);
+	}
+
+	if(mpv_get_property(	ctx->mpv_ctx,
+				"playlist-pos",
+				MPV_FORMAT_INT64,
+				&playlist_pos) >= 0)
+	{
+		playlist_widget_set_cursor_pos
+			(PLAYLIST_WIDGET(ctx->gui->playlist), playlist_pos);
 	}
 
 	if(mpv_get_property(	ctx->mpv_ctx,
@@ -396,17 +424,23 @@ static void mpv_load(	context_t *ctx,
 
 	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
-	if(uri && !append && update)
+	if(!append)
 	{
 		pthread_mutex_lock(ctx->mpv_event_mutex);
 
-		g_ptr_array_set_size(ctx->uri_list, 0);
+		playlist_widget_clear(PLAYLIST_WIDGET(ctx->gui->playlist));
 
-		ctx->new_file = TRUE;
+		if(uri && update)
+		{
+			g_ptr_array_set_size(ctx->uri_list, 0);
+
+			ctx->new_file = TRUE;
+		}
 
 		pthread_mutex_unlock(ctx->mpv_event_mutex);
 	}
-	else if(!uri)
+
+	if(!uri)
 	{
 		guint i;
 
@@ -423,6 +457,8 @@ static void mpv_load(	context_t *ctx,
 	{
 		GFile *file;
 		gchar *path;
+		gchar *basename;
+		const gchar *scheme;
 
 		pthread_mutex_lock(ctx->mpv_event_mutex);
 
@@ -438,10 +474,24 @@ static void mpv_load(	context_t *ctx,
 
 		pthread_mutex_unlock(ctx->mpv_event_mutex);
 
+		scheme = g_uri_parse_scheme(uri);
 		file = g_vfs_get_file_for_uri(g_vfs_get_default(), uri);
 		path = g_file_get_path(file);
 
+		/* If scheme is NULL then the uri is probably a local path */
+		if(!scheme || path)
+		{
+			basename = g_path_get_basename(path?path:uri);
+		}
+		else
+		{
+			basename = NULL;
+		}
+
 		load_cmd[1] = path?path:uri;
+
+		playlist_widget_append(	PLAYLIST_WIDGET(ctx->gui->playlist),
+					basename?basename:uri );
 
 		main_window_set_control_enabled(ctx->gui, TRUE);
 
@@ -466,6 +516,7 @@ static void mpv_load(	context_t *ctx,
 		}
 
 		g_free(path);
+		g_free(basename);
 	}
 }
 
@@ -645,11 +696,11 @@ static void *mpv_event_handler(void *data)
 
 			if(ctx->loaded)
 			{
-
 				ctx->paused = TRUE;
 				ctx->loaded = FALSE;
 
 				g_idle_add((GSourceFunc)reset_control, ctx);
+				g_idle_add((GSourceFunc)reset_playlist, ctx);
 			}
 
 			pthread_mutex_unlock(ctx->mpv_event_mutex);
@@ -1003,6 +1054,14 @@ static void chapter_next_handler(GtkWidget *widget, gpointer data)
 	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 }
 
+static void playlist_handler(GtkWidget *widget, gpointer data)
+{
+	context_t *ctx = data;
+	gboolean visible = gtk_widget_get_visible(ctx->gui->playlist);
+
+	main_window_set_playlist_visible(ctx->gui, !visible);
+}
+
 static void playlist_previous_handler(GtkWidget *widget, gpointer data)
 {
 	context_t *ctx = (context_t *)data;
@@ -1017,6 +1076,25 @@ static void playlist_next_handler(GtkWidget *widget, gpointer data)
 	const gchar *cmd[] = {"playlist_next", NULL};
 
 	mpv_command(ctx->mpv_ctx, cmd);
+}
+
+static void playlist_row_handler(	GtkTreeView *tree_view,
+					GtkTreePath *path,
+					GtkTreeViewColumn *column,
+					gpointer data )
+{
+	context_t *ctx = data;
+	gint *indices = gtk_tree_path_get_indices(path);
+
+	if(indices)
+	{
+		gint64 index = indices[0];
+
+		mpv_set_property(	ctx->mpv_ctx,
+					"playlist-pos",
+					MPV_FORMAT_INT64,
+					&index );
+	}
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)
@@ -1333,6 +1411,11 @@ int main(int argc, char **argv)
 				G_CALLBACK(key_press_handler),
 				&ctx );
 
+	g_signal_connect(	PLAYLIST_WIDGET(ctx.gui->playlist)->tree_view,
+				"row-activated",
+				G_CALLBACK(playlist_row_handler),
+				&ctx );
+
 	g_signal_connect(	ctx.gui->play_button,
 				"clicked",
 				G_CALLBACK(play_handler),
@@ -1386,6 +1469,11 @@ int main(int argc, char **argv)
 	g_signal_connect(	ctx.gui->pref_menu_item,
 				"activate",
 				G_CALLBACK(pref_handler),
+				&ctx );
+
+	g_signal_connect(	ctx.gui->playlist_menu_item,
+				"activate",
+				G_CALLBACK(playlist_handler),
 				&ctx );
 
 	g_signal_connect(	ctx.gui->fullscreen_menu_item,
