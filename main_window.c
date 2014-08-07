@@ -558,7 +558,8 @@ void main_window_reset_control(MainWindow *wnd)
 	fullscreen_icon = gtk_image_new_from_icon_name(	"view-fullscreen",
 							GTK_ICON_SIZE_BUTTON );
 
-	gtk_range_set_value(GTK_RANGE(wnd->seek_bar), 0);
+	main_window_set_seek_bar_length(wnd, 0);
+
 	gtk_button_set_image(GTK_BUTTON(wnd->play_button), play_icon);
 
 	gtk_button_set_image(	GTK_BUTTON(wnd->fullscreen_button),
