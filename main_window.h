@@ -39,7 +39,7 @@ G_BEGIN_DECLS
 struct _MainWindow
 {
 	GtkWindow window;
-	gint fullscreen;
+	gboolean fullscreen;
 	gint seek_bar_length;
 	GtkSettings* settings;
 	GtkAccelGroup *accel_group;
