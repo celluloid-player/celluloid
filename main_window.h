@@ -20,6 +20,8 @@
 
 #include <gtk/gtk.h>
 
+#include "def.h"
+
 G_BEGIN_DECLS
 
 #define MAIN_WINDOW_TYPE (main_window_get_type ())
