@@ -44,7 +44,7 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 	dlg->loc_entry = gtk_entry_new();
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
-				"_Save",
+				"_Open",
 				GTK_RESPONSE_ACCEPT,
 				"_Cancel",
 				GTK_RESPONSE_REJECT,
