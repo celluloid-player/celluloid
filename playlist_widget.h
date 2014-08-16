@@ -44,8 +44,10 @@ struct _PlaylistWidget
 	GtkTreeIter tree_iter;
 	GtkWidget *tree_view;
 	GtkListStore *list_store;
-	GtkTreeViewColumn *tree_column;
-	GtkCellRenderer *cell_renderer;
+	GtkTreeViewColumn *indicator_column;
+	GtkTreeViewColumn *title_column;
+	GtkCellRenderer *indicator_renderer;
+	GtkCellRenderer *title_renderer;
 };
 
 struct _PlaylistWidgetClass
@@ -60,7 +62,7 @@ GtkWidget *playlist_widget_new(void);
 GType playlist_widget_get_type(void);
 void playlist_widget_append(PlaylistWidget *wgt, const gchar *entry);
 void playlist_widget_clear(PlaylistWidget *wgt);
-void playlist_widget_set_cursor_pos(PlaylistWidget *wgt, gint pos);
+void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos);
 
 G_END_DECLS
 

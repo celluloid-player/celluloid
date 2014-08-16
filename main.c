@@ -223,7 +223,7 @@ static gboolean reset_playlist(gpointer data)
 	context_t *ctx = data;
 	PlaylistWidget *playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
 
-	playlist_widget_set_cursor_pos(playlist, 0);
+	playlist_widget_set_indicator_pos(playlist, 0);
 
 	return FALSE;
 }
@@ -260,7 +260,7 @@ static gboolean mpv_load_gui_update(gpointer data)
 				MPV_FORMAT_INT64,
 				&playlist_pos) >= 0)
 	{
-		playlist_widget_set_cursor_pos
+		playlist_widget_set_indicator_pos
 			(PLAYLIST_WIDGET(ctx->gui->playlist), playlist_pos);
 	}
 

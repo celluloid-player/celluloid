@@ -21,20 +21,32 @@ static void playlist_widget_init(PlaylistWidget *wgt);
 
 static void playlist_widget_init(PlaylistWidget *wgt)
 {
-	wgt->list_store = gtk_list_store_new(1, G_TYPE_STRING);
-	wgt->cell_renderer = gtk_cell_renderer_text_new();
+	wgt->list_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
+	wgt->indicator_renderer = gtk_cell_renderer_text_new();
+	wgt->title_renderer = gtk_cell_renderer_text_new();
 
 	wgt->tree_view
 		= gtk_tree_view_new_with_model(GTK_TREE_MODEL(wgt->list_store));
 
-	wgt->tree_column
+	wgt->indicator_column
 		= gtk_tree_view_column_new_with_attributes
-			("Playlist", wgt->cell_renderer, "text", 0, NULL);
+			(	"\xe2\x80\xa2", /* UTF-8 bullet */
+				wgt->indicator_renderer,
+				"text",
+				0,
+				NULL );
+
+	wgt->title_column
+		= gtk_tree_view_column_new_with_attributes
+			("Playlist", wgt->title_renderer, "text", 1, NULL);
 
 	gtk_container_add(GTK_CONTAINER(wgt), wgt->tree_view);
 
 	gtk_tree_view_append_column
-		(GTK_TREE_VIEW(wgt->tree_view), wgt->tree_column);
+		(GTK_TREE_VIEW(wgt->tree_view), wgt->indicator_column);
+
+	gtk_tree_view_append_column
+		(GTK_TREE_VIEW(wgt->tree_view), wgt->title_column);
 
 	gtk_tree_view_set_activate_on_single_click
 		(GTK_TREE_VIEW(wgt->tree_view), TRUE);
@@ -75,7 +87,7 @@ GType playlist_widget_get_type()
 void playlist_widget_append(PlaylistWidget *wgt, const gchar *entry)
 {
 	gtk_list_store_append(wgt->list_store, &wgt->tree_iter);
-	gtk_list_store_set(wgt->list_store, &wgt->tree_iter, 0, entry, -1);
+	gtk_list_store_set(wgt->list_store, &wgt->tree_iter, 1, entry, -1);
 }
 
 void playlist_widget_clear(PlaylistWidget *wgt)
@@ -83,14 +95,30 @@ void playlist_widget_clear(PlaylistWidget *wgt)
 	gtk_list_store_clear(wgt->list_store);
 }
 
-void playlist_widget_set_cursor_pos(PlaylistWidget *wgt, gint pos)
+void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos)
 {
-	GtkTreePath *path = gtk_tree_path_new_from_indices(pos, -1);
+	GtkTreeIter iter;
+	gboolean rc;
 
-	gtk_tree_view_set_cursor(	GTK_TREE_VIEW(wgt->tree_view),
-					path,
-					NULL,
-					FALSE );
+	rc = gtk_tree_model_get_iter_first(	GTK_TREE_MODEL(wgt->list_store),
+						&iter );
 
-	gtk_tree_path_free(path);
+	while(rc)
+	{
+		if(pos-- == 0)
+		{
+			/* Put UTF-8 'right-pointing triangle' at requested row
+			 */
+			gtk_list_store_set
+				(wgt->list_store, &iter, 0, "\xe2\x96\xb6", -1);
+		}
+		else
+		{
+			/* Clear other rows */
+			gtk_list_store_set(wgt->list_store, &iter, 0, "", -1);
+		}
+
+		rc = gtk_tree_model_iter_next(	GTK_TREE_MODEL(wgt->list_store),
+						&iter );
+	}
 }
