@@ -249,9 +249,11 @@ static void main_window_init(MainWindow *wnd)
 	g_object_set(wnd->seek_bar, "value-pos", GTK_POS_RIGHT, NULL);
 	g_object_set(wnd->seek_bar, "digits", 2, NULL);
 
-	/* TODO: Find a better way to set position */
-	gtk_paned_set_position(GTK_PANED(wnd->vid_area_paned), 200);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
+
+	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
+				MAIN_WINDOW_DEFAULT_WIDTH
+				-PLAYLIST_DEFAULT_WIDTH );
 
 	gtk_window_set_default_size(	GTK_WINDOW(wnd),
 					MAIN_WINDOW_DEFAULT_WIDTH,
