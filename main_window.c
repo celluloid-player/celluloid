@@ -137,7 +137,7 @@ static gchar *seekbar_format_handler(	GtkScale *scale,
 
 static void main_window_init(MainWindow *wnd)
 {
-	GdkRGBA black;
+	GdkRGBA vid_area_bg_color;
 	GtkWidget *play_icon;
 	GtkWidget *stop_icon;
 	GtkWidget *forward_icon;
@@ -226,7 +226,9 @@ static void main_window_init(MainWindow *wnd)
 		= gtk_image_new_from_icon_name(	"view-fullscreen",
 						GTK_ICON_SIZE_BUTTON );
 
-	gdk_rgba_parse(&black, "#000000");
+	wnd->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+
+	gdk_rgba_parse(&vid_area_bg_color, VID_AREA_BG_COLOR);
 
 	gtk_widget_add_events(	wnd->fs_control,
 				GDK_ENTER_NOTIFY_MASK
@@ -249,15 +251,18 @@ static void main_window_init(MainWindow *wnd)
 
 	/* TODO: Find a better way to set position */
 	gtk_paned_set_position(GTK_PANED(wnd->vid_area_paned), 200);
-	gtk_window_set_default_size(GTK_WINDOW(wnd), 400, 300);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
+
+	gtk_window_set_default_size(	GTK_WINDOW(wnd),
+					MAIN_WINDOW_DEFAULT_WIDTH,
+					MAIN_WINDOW_DEFAULT_HEIGHT );
 
 	gtk_window_add_accel_group(	GTK_WINDOW(wnd),
 					wnd->accel_group );
 
 	gtk_widget_override_background_color(	wnd->vid_area,
 						GTK_STATE_NORMAL,
-						&black);
+						&vid_area_bg_color);
 
 	gtk_widget_add_accelerator(	wnd->open_menu_item,
 					"activate",
@@ -588,7 +593,6 @@ void main_window_reset_control(MainWindow *wnd)
 							GTK_ICON_SIZE_BUTTON );
 
 	main_window_set_seek_bar_length(wnd, 0);
-
 	gtk_button_set_image(GTK_BUTTON(wnd->play_button), play_icon);
 
 	gtk_button_set_image(	GTK_BUTTON(wnd->fullscreen_button),
