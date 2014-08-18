@@ -55,14 +55,29 @@ struct _PlaylistWidgetClass
 	GtkScrolledWindowClass parent_class;
 };
 
+enum _PlaylistStoreColumn
+{
+	PLAYLIST_INDICATOR_COLUMN,
+	PLAYLIST_NAME_COLUMN,
+	PLAYLIST_URI_COLUMN,
+	PLAYLIST_N_COLUMNS
+};
+
 typedef struct _PlaylistWidget PlaylistWidget;
 typedef struct _PlaylistWidgetClass PlaylistWidgetClass;
+typedef enum _PlaylistStoreColumn PlaylistStoreColumn;
 
 GtkWidget *playlist_widget_new(void);
 GType playlist_widget_get_type(void);
-void playlist_widget_append(PlaylistWidget *wgt, const gchar *entry);
 void playlist_widget_clear(PlaylistWidget *wgt);
+void playlist_widget_get_iter_first(PlaylistWidget *wgt, GtkTreeIter *iter);
+void playlist_widget_iter_next(PlaylistWidget *wgt, GtkTreeIter *iter);
+void playlist_widget_get_uri(PlaylistWidget *wgt, gint pos);
 void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos);
+
+void playlist_widget_append(	PlaylistWidget *wgt,
+				const gchar *name,
+				const gchar *uri );
 
 G_END_DECLS
 

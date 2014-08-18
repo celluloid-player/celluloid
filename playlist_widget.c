@@ -21,9 +21,13 @@ static void playlist_widget_init(PlaylistWidget *wgt);
 
 static void playlist_widget_init(PlaylistWidget *wgt)
 {
-	wgt->list_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
 	wgt->indicator_renderer = gtk_cell_renderer_text_new();
 	wgt->title_renderer = gtk_cell_renderer_text_new();
+
+	wgt->list_store = gtk_list_store_new(	3,
+						G_TYPE_STRING,
+						G_TYPE_STRING,
+						G_TYPE_STRING );
 
 	wgt->tree_view
 		= gtk_tree_view_new_with_model(GTK_TREE_MODEL(wgt->list_store));
@@ -40,7 +44,7 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 		= gtk_tree_view_column_new_with_attributes
 			("Playlist", wgt->title_renderer, "text", 1, NULL);
 
-	gtk_container_add(GTK_CONTAINER(wgt), wgt->tree_view);
+	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(wgt->tree_view), TRUE);
 
 	gtk_tree_view_append_column
 		(GTK_TREE_VIEW(wgt->tree_view), wgt->indicator_column);
@@ -48,8 +52,7 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 	gtk_tree_view_append_column
 		(GTK_TREE_VIEW(wgt->tree_view), wgt->title_column);
 
-	gtk_tree_view_set_activate_on_single_click
-		(GTK_TREE_VIEW(wgt->tree_view), TRUE);
+	gtk_container_add(GTK_CONTAINER(wgt), wgt->tree_view);
 }
 
 GtkWidget *playlist_widget_new()
@@ -84,10 +87,23 @@ GType playlist_widget_get_type()
 	return wgt_type;
 }
 
-void playlist_widget_append(PlaylistWidget *wgt, const gchar *entry)
+void playlist_widget_append(	PlaylistWidget *wgt,
+				const gchar *name,
+				const gchar *uri )
 {
 	gtk_list_store_append(wgt->list_store, &wgt->tree_iter);
-	gtk_list_store_set(wgt->list_store, &wgt->tree_iter, 1, entry, -1);
+
+	gtk_list_store_set(	wgt->list_store,
+				&wgt->tree_iter,
+				PLAYLIST_NAME_COLUMN,
+				name,
+				-1 );
+
+	gtk_list_store_set(	wgt->list_store,
+				&wgt->tree_iter,
+				PLAYLIST_URI_COLUMN,
+				uri,
+				-1 );
 }
 
 void playlist_widget_clear(PlaylistWidget *wgt)

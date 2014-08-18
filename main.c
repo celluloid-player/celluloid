@@ -42,9 +42,10 @@ typedef struct context_t
 	gboolean new_file;
 	gboolean sub_visible;
 	gint64 vid_area_wid;
+	gint playlist_move_dest;
 	gchar *log_buffer;
 	gchar *mpv_options;
-	GPtrArray *uri_list;
+	GtkListStore *playlist_store;
 	GKeyFile *config_file;
 	GtkWidget *fs_control;
 	MainWindow *gui;
@@ -57,6 +58,8 @@ context_t;
 
 static inline void mpv_check_error(int status);
 static inline gchar *get_config_file_path(void);
+static gchar *get_path_from_uri(const gchar *uri);
+static gchar *get_name_from_path(const gchar *path);
 static gboolean update_seek_bar(gpointer data);
 static gboolean reset_control(gpointer data);
 static gboolean reset_playlist(gpointer data);
@@ -128,6 +131,15 @@ static void seek_handler(	GtkWidget *widget,
 				gdouble value,
 				gpointer data );
 
+static void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
+						GtkTreePath *path,
+						GtkTreeIter *iter,
+						gpointer data );
+
+static void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
+						GtkTreePath *path,
+						gpointer data );
+
 static gboolean key_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
@@ -172,6 +184,34 @@ static inline gchar *get_config_file_path(void)
 				"/",
 				CONFIG_FILE,
 				NULL );
+}
+
+static gchar *get_path_from_uri(const gchar *uri)
+{
+	GFile *file = g_vfs_get_file_for_uri(g_vfs_get_default(), uri);
+	gchar *path = g_file_get_path(file);
+
+	if(file)
+	{
+		g_object_unref(file);
+	}
+
+	return path?path:g_strdup(uri);
+}
+
+static gchar *get_name_from_path(const gchar *path)
+{
+	const gchar *scheme = g_uri_parse_scheme(path);
+	gchar *basename = NULL;
+
+	/* If scheme is NULL then the uri is probably a local
+	 * path */
+	if(!scheme || path)
+	{
+		basename = g_path_get_basename(path);
+	}
+
+	return basename?basename:g_strdup(path);
 }
 
 static gboolean update_seek_bar(gpointer data)
@@ -412,86 +452,87 @@ static void mpv_load(	context_t *ctx,
 			gboolean update )
 {
 	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
-	GPtrArray *uri_list;
-	guint uri_list_len;
+	GtkListStore *playlist_store;
 
 	load_cmd[2] = append?"append":"replace";
 
 	pthread_mutex_lock(ctx->mpv_event_mutex);
 
-	uri_list = ctx->uri_list;
-	uri_list_len = uri_list->len;
+	playlist_store = GTK_LIST_STORE(ctx->playlist_store);
 
 	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
-	if(!append)
+	if(!append && uri && update)
 	{
+		playlist_widget_clear
+			(PLAYLIST_WIDGET(ctx->gui->playlist));
+
 		pthread_mutex_lock(ctx->mpv_event_mutex);
 
-		playlist_widget_clear(PLAYLIST_WIDGET(ctx->gui->playlist));
-
-		if(uri && update)
-		{
-			g_ptr_array_set_size(ctx->uri_list, 0);
-
-			ctx->new_file = TRUE;
-		}
+		ctx->new_file = TRUE;
 
 		pthread_mutex_unlock(ctx->mpv_event_mutex);
 	}
 
 	if(!uri)
 	{
-		guint i;
+		GtkTreeIter iter;
+		gboolean rc;
+		gboolean append;
 
-		for(i = 0; i < uri_list_len; i++)
+		rc = gtk_tree_model_get_iter_first
+			(GTK_TREE_MODEL(playlist_store), &iter);
+
+		append = FALSE;
+
+		while(rc)
 		{
-			mpv_load(	ctx,
-					g_ptr_array_index(uri_list, i),
-					(i != 0),
-					FALSE);
+			gchar *uri;
+
+			gtk_tree_model_get(	GTK_TREE_MODEL(playlist_store),
+						&iter,
+						PLAYLIST_URI_COLUMN,
+						&uri,
+						-1 );
+
+			/* append = FALSE only on first iteration */
+			mpv_load(ctx, uri, append, FALSE);
+
+			append = TRUE;
+
+			rc = gtk_tree_model_iter_next
+				(GTK_TREE_MODEL(playlist_store), &iter);
+
+			g_free(uri);
 		}
 	}
 
-	if(uri && uri_list)
+	if(uri && playlist_store)
 	{
-		GFile *file;
-		gchar *path;
-		gchar *basename;
-		const gchar *scheme;
+		gchar *path = get_path_from_uri(uri);
 
-		pthread_mutex_lock(ctx->mpv_event_mutex);
+		load_cmd[1] = path;
 
 		if(!append)
 		{
+			pthread_mutex_lock(ctx->mpv_event_mutex);
+
 			ctx->loaded = FALSE;
+
+			pthread_mutex_unlock(ctx->mpv_event_mutex);
 		}
 
 		if(update)
 		{
-			g_ptr_array_add(uri_list, g_strdup(uri));
+			gchar *name = get_name_from_path(path);
+
+			playlist_widget_append
+				(	PLAYLIST_WIDGET(ctx->gui->playlist),
+					name,
+					uri );
+
+			g_free(name);
 		}
-
-		pthread_mutex_unlock(ctx->mpv_event_mutex);
-
-		scheme = g_uri_parse_scheme(uri);
-		file = g_vfs_get_file_for_uri(g_vfs_get_default(), uri);
-		path = g_file_get_path(file);
-
-		/* If scheme is NULL then the uri is probably a local path */
-		if(!scheme || path)
-		{
-			basename = g_path_get_basename(path?path:uri);
-		}
-		else
-		{
-			basename = NULL;
-		}
-
-		load_cmd[1] = path?path:uri;
-
-		playlist_widget_append(	PLAYLIST_WIDGET(ctx->gui->playlist),
-					basename?basename:uri );
 
 		main_window_set_control_enabled(ctx->gui, TRUE);
 
@@ -510,13 +551,7 @@ static void mpv_load(	context_t *ctx,
 							MPV_EVENT_END_FILE,
 							1 ));
 
-		if(file)
-		{
-			g_object_unref(file);
-		}
-
 		g_free(path);
-		g_free(basename);
 	}
 }
 
@@ -929,7 +964,7 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 		pthread_mutex_unlock(ctx->mpv_event_mutex);
 
-		if(ctx->uri_list)
+		if(ctx->playlist_store)
 		{
 			gint rc;
 
@@ -990,11 +1025,13 @@ static void play_handler(GtkWidget *widget, gpointer data)
 	{
 		mpv_load(ctx, NULL, FALSE, TRUE);
 	}
-
-	mpv_check_error(mpv_set_property(	ctx->mpv_ctx,
-						"pause",
-						MPV_FORMAT_FLAG,
-						&ctx->paused ));
+	else
+	{
+		mpv_check_error(mpv_set_property(	ctx->mpv_ctx,
+							"pause",
+							MPV_FORMAT_FLAG,
+							&ctx->paused ));
+	}
 
 	icon = gtk_image_new_from_icon_name(	ctx->paused
 						?"media-playback-start"
@@ -1214,6 +1251,54 @@ static void seek_handler(	GtkWidget *widget,
 	g_free(value_str);
 }
 
+static void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
+						GtkTreePath *path,
+						GtkTreeIter *iter,
+						gpointer data )
+{
+	context_t *ctx = data;
+
+	pthread_mutex_lock(ctx->mpv_event_mutex);
+
+	ctx->playlist_move_dest = gtk_tree_path_get_indices(path)[0];
+
+	pthread_mutex_unlock(ctx->mpv_event_mutex);
+}
+
+static void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
+						GtkTreePath *path,
+						gpointer data )
+{
+	context_t *ctx = data;
+	const gchar *cmd[] = {"playlist_move", NULL, NULL, NULL};
+	gchar *src_str;
+	gchar *dest_str;
+	gint src;
+	gint dest;
+
+	pthread_mutex_lock(ctx->mpv_event_mutex);
+
+	src = gtk_tree_path_get_indices(path)[0];
+	dest = ctx->playlist_move_dest;
+
+	pthread_mutex_unlock(ctx->mpv_event_mutex);
+
+	if(dest >= 0)
+	{
+		src_str = g_strdup_printf("%d", (src > dest)?--src:src);
+		dest_str = g_strdup_printf("%d", dest);
+		dest = -1;
+
+		cmd[1] = src_str;
+		cmd[2] = dest_str;
+
+		mpv_command(ctx->mpv_ctx, cmd);
+
+		g_free(src_str);
+		g_free(dest_str);
+	}
+}
+
 static gboolean key_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data )
@@ -1355,10 +1440,10 @@ int main(int argc, char **argv)
 	ctx.loaded = FALSE;
 	ctx.new_file = TRUE;
 	ctx.sub_visible = TRUE;
-	ctx.uri_list = g_ptr_array_new_with_free_func((GDestroyNotify)g_free);
 	ctx.log_buffer = NULL;
 	ctx.config_file = g_key_file_new();
 	ctx.gui = MAIN_WINDOW(main_window_new());
+	ctx.playlist_store = PLAYLIST_WIDGET(ctx.gui->playlist)->list_store;
 	ctx.mpv_event_handler_thread = &mpv_event_handler_thread;
 	ctx.mpv_ctx_init_cv = &mpv_ctx_init_cv;
 	ctx.mpv_ctx_destroy_cv = &mpv_ctx_destroy_cv;
@@ -1501,6 +1586,16 @@ int main(int argc, char **argv)
 				G_CALLBACK(about_handler),
 				&ctx );
 
+	g_signal_connect(	PLAYLIST_WIDGET(ctx.gui->playlist)->list_store,
+				"row-inserted",
+				G_CALLBACK(playlist_row_inserted_handler),
+				&ctx );
+
+	g_signal_connect(	PLAYLIST_WIDGET(ctx.gui->playlist)->list_store,
+				"row-deleted",
+				G_CALLBACK(playlist_row_deleted_handler),
+				&ctx );
+
 	g_signal_connect(	ctx.gui->volume_button,
 				"value-changed",
 				G_CALLBACK(volume_handler),
@@ -1531,12 +1626,19 @@ int main(int argc, char **argv)
 
 		ctx.paused = FALSE;
 
+		pthread_mutex_unlock(ctx.mpv_event_mutex);
+
 		for(i = 1; i < argc; i++)
 		{
-			g_ptr_array_add(ctx.uri_list, g_strdup(argv[i]));
-		}
+			gchar *path = get_name_from_path(argv[i]);
 
-		pthread_mutex_unlock(ctx.mpv_event_mutex);
+			playlist_widget_append
+				(	PLAYLIST_WIDGET(ctx.gui->playlist),
+					path,
+					argv[i] );
+
+			g_free(path);
+		}
 
 		g_idle_add((GSourceFunc)mpv_load_from_ctx, &ctx);
 	}
