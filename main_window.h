@@ -97,6 +97,7 @@ void main_window_reset_control(MainWindow *wnd);
 void main_window_set_seek_bar_length(MainWindow *wnd, gint length);
 void main_window_set_control_enabled(MainWindow *wnd, gboolean enabled);
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible);
+gboolean main_window_get_playlist_visible(MainWindow *wnd);
 void main_window_show_chapter_control(MainWindow *wnd);
 void main_window_hide_chapter_control(MainWindow *wnd);
 

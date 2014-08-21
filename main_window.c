@@ -640,6 +640,11 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 				height );
 }
 
+gboolean main_window_get_playlist_visible(MainWindow *wnd)
+{
+	return gtk_widget_get_visible(GTK_WIDGET(wnd->playlist));
+}
+
 void main_window_show_chapter_control(MainWindow *wnd)
 {
 	gtk_widget_show_all(wnd->previous_button);

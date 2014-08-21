@@ -106,6 +106,25 @@ void playlist_widget_append(	PlaylistWidget *wgt,
 				-1 );
 }
 
+void playlist_widget_remove(PlaylistWidget *wgt, gint pos)
+{
+	gboolean rc;
+
+	rc = gtk_tree_model_get_iter_first(	GTK_TREE_MODEL(wgt->list_store),
+						&wgt->tree_iter );
+
+	while(rc && --pos >= 0)
+	{
+		rc = gtk_tree_model_iter_next(	GTK_TREE_MODEL(wgt->list_store),
+						&wgt->tree_iter );
+	}
+
+	if(rc)
+	{
+		gtk_list_store_remove(wgt->list_store, &wgt->tree_iter);
+	}
+}
+
 void playlist_widget_clear(PlaylistWidget *wgt)
 {
 	gtk_list_store_clear(wgt->list_store);

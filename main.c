@@ -1330,6 +1330,49 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		{
 			fullscreen_handler(NULL, ctx);
 		}
+		else if(keyval == GDK_KEY_Delete
+		&& main_window_get_playlist_visible(ctx->gui))
+		{
+			const gchar *cmd[] = {"playlist_remove", NULL, NULL};
+			PlaylistWidget *playlist;
+			GtkTreePath *path;
+			gchar *index_str;
+			gint index;
+
+			playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
+
+			gtk_tree_view_get_cursor
+				(	GTK_TREE_VIEW(playlist->tree_view),
+					&path,
+					NULL );
+
+			index = gtk_tree_path_get_indices(path)[0];
+			index_str = g_strdup_printf("%d", index);
+			cmd[1] = index_str;
+
+			g_signal_handlers_block_matched
+				(	playlist->list_store,
+					G_SIGNAL_MATCH_DATA,
+					0,
+					0,
+					NULL,
+					NULL,
+					ctx );
+
+			playlist_widget_remove(playlist, index);
+			mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+
+			g_signal_handlers_unblock_matched
+				(	playlist->list_store,
+					G_SIGNAL_MATCH_DATA,
+					0,
+					0,
+					NULL,
+					NULL,
+					ctx );
+
+			g_free(index_str);
+		}
 		else if(keyval == GDK_KEY_v)
 		{
 			const gchar *cmd[] = {	"osd-msg",
