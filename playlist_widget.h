@@ -41,7 +41,6 @@ G_BEGIN_DECLS
 struct _PlaylistWidget
 {
 	GtkScrolledWindow scrolled_window;
-	GtkTreeIter tree_iter;
 	GtkWidget *tree_view;
 	GtkListStore *list_store;
 	GtkTreeViewColumn *indicator_column;

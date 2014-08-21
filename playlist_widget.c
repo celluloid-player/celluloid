@@ -91,37 +91,34 @@ void playlist_widget_append(	PlaylistWidget *wgt,
 				const gchar *name,
 				const gchar *uri )
 {
-	gtk_list_store_append(wgt->list_store, &wgt->tree_iter);
+	GtkTreeIter iter;
 
-	gtk_list_store_set(	wgt->list_store,
-				&wgt->tree_iter,
-				PLAYLIST_NAME_COLUMN,
-				name,
-				-1 );
+	gtk_list_store_append(wgt->list_store, &iter);
 
-	gtk_list_store_set(	wgt->list_store,
-				&wgt->tree_iter,
-				PLAYLIST_URI_COLUMN,
-				uri,
-				-1 );
+	gtk_list_store_set
+		(wgt->list_store, &iter, PLAYLIST_NAME_COLUMN, name, -1);
+
+	gtk_list_store_set
+		(wgt->list_store, &iter, PLAYLIST_URI_COLUMN, uri, -1);
 }
 
 void playlist_widget_remove(PlaylistWidget *wgt, gint pos)
 {
+	GtkTreeIter iter;
 	gboolean rc;
 
-	rc = gtk_tree_model_get_iter_first(	GTK_TREE_MODEL(wgt->list_store),
-						&wgt->tree_iter );
+	rc = gtk_tree_model_get_iter_first
+		(GTK_TREE_MODEL(wgt->list_store), &iter);
 
 	while(rc && --pos >= 0)
 	{
-		rc = gtk_tree_model_iter_next(	GTK_TREE_MODEL(wgt->list_store),
-						&wgt->tree_iter );
+		rc = gtk_tree_model_iter_next
+			(GTK_TREE_MODEL(wgt->list_store), &iter);
 	}
 
 	if(rc)
 	{
-		gtk_list_store_remove(wgt->list_store, &wgt->tree_iter);
+		gtk_list_store_remove(wgt->list_store, &iter);
 	}
 }
 
@@ -135,8 +132,8 @@ void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos)
 	GtkTreeIter iter;
 	gboolean rc;
 
-	rc = gtk_tree_model_get_iter_first(	GTK_TREE_MODEL(wgt->list_store),
-						&iter );
+	rc = gtk_tree_model_get_iter_first
+		(GTK_TREE_MODEL(wgt->list_store), &iter);
 
 	while(rc)
 	{
@@ -153,7 +150,7 @@ void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos)
 			gtk_list_store_set(wgt->list_store, &iter, 0, "", -1);
 		}
 
-		rc = gtk_tree_model_iter_next(	GTK_TREE_MODEL(wgt->list_store),
-						&iter );
+		rc = gtk_tree_model_iter_next
+			(GTK_TREE_MODEL(wgt->list_store), &iter);
 	}
 }
