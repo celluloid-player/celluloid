@@ -147,6 +147,7 @@ static void main_window_init(MainWindow *wnd)
 	GtkWidget *fullscreen_icon;
 
 	wnd->fullscreen = FALSE;
+	wnd->playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->seek_bar_length = -1;
 	wnd->settings = gtk_settings_get_default();
@@ -543,6 +544,11 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_widget_reparent(wnd->control_box, wnd->main_box);
 		gtk_widget_hide(wnd->fs_control);
 		gtk_widget_show(wnd->menu_bar);
+
+		if(wnd->playlist_visible)
+		{
+			gtk_widget_show(wnd->playlist);
+		}
 	}
 	else
 	{
@@ -565,6 +571,11 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_widget_hide(wnd->menu_bar);
 		gtk_widget_show(wnd->fs_control);
 		gtk_widget_set_opacity(wnd->fs_control, 0);
+
+		if(wnd->playlist_visible)
+		{
+			gtk_widget_hide(wnd->playlist);
+		}
 
 		gtk_window_get_size(	GTK_WINDOW(wnd->fs_control),
 					NULL,
@@ -628,10 +639,12 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
-	if(!visible && gtk_widget_get_visible(wnd->playlist))
+	if(!visible && wnd->playlist_visible)
 	{
 		wnd->playlist_width = width-handle_pos;
 	}
+
+	wnd->playlist_visible = visible;
 
 	gtk_widget_set_visible(wnd->playlist, visible);
 

@@ -42,6 +42,7 @@ struct _MainWindow
 {
 	GtkWindow window;
 	gboolean fullscreen;
+	gboolean playlist_visible;
 	gint playlist_width;
 	gint seek_bar_length;
 	GtkSettings* settings;
