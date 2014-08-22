@@ -453,14 +453,19 @@ static void mpv_load(	context_t *ctx,
 {
 	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
 	GtkListStore *playlist_store;
-
-	load_cmd[2] = append?"append":"replace";
+	GtkTreeIter iter;
+	gboolean empty;
 
 	pthread_mutex_lock(ctx->mpv_event_mutex);
 
 	playlist_store = GTK_LIST_STORE(ctx->playlist_store);
 
 	pthread_mutex_unlock(ctx->mpv_event_mutex);
+
+	empty = !gtk_tree_model_get_iter_first
+			(GTK_TREE_MODEL(playlist_store), &iter);
+
+	load_cmd[2] = (append && !empty)?"append":"replace";
 
 	if(!append && uri && update)
 	{
@@ -476,7 +481,6 @@ static void mpv_load(	context_t *ctx,
 
 	if(!uri)
 	{
-		GtkTreeIter iter;
 		gboolean rc;
 		gboolean append;
 
@@ -1202,6 +1206,8 @@ static void drag_data_handler(	GtkWidget *widget,
 				guint time,
 				gpointer data)
 {
+	gboolean append = (widget == ((context_t *)data)->gui->playlist);
+
 	if(sel_data && gtk_selection_data_get_length(sel_data) > 0)
 	{
 		context_t *ctx = data;
@@ -1215,7 +1221,10 @@ static void drag_data_handler(	GtkWidget *widget,
 
 			for(i = 0; uri_list[i]; i++)
 			{
-				mpv_load(ctx, uri_list[i], (i != 0), TRUE);
+				mpv_load(	ctx,
+						uri_list[i],
+						(append || i != 0),
+						TRUE );
 			}
 
 			g_strfreev(uri_list);
@@ -1225,7 +1234,7 @@ static void drag_data_handler(	GtkWidget *widget,
 			const guchar *raw_data
 				= gtk_selection_data_get_data(sel_data);
 
-			mpv_load(ctx, (const gchar *)raw_data, FALSE, TRUE);
+			mpv_load(ctx, (const gchar *)raw_data, append, TRUE);
 		}
 	}
 }
@@ -1510,16 +1519,28 @@ int main(int argc, char **argv)
 	pthread_cond_init(ctx.mpv_ctx_init_cv, NULL);
 	pthread_cond_init(ctx.mpv_ctx_destroy_cv, NULL);
 
-	gtk_drag_dest_set(	GTK_WIDGET(ctx.gui),
+	gtk_drag_dest_set(	GTK_WIDGET(ctx.gui->vid_area),
+				GTK_DEST_DEFAULT_ALL,
+				target_entry,
+				3,
+				GDK_ACTION_LINK );
+
+	gtk_drag_dest_set(	GTK_WIDGET(ctx.gui->playlist),
 				GTK_DEST_DEFAULT_ALL,
 				target_entry,
 				3,
 				GDK_ACTION_COPY );
 
-	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui));
+	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->vid_area));
+	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->playlist));
 	gtk_range_set_increments(GTK_RANGE(ctx.gui->seek_bar), 10, 10);
 
-	g_signal_connect(	ctx.gui,
+	g_signal_connect(	ctx.gui->vid_area,
+				"drag-data-received",
+				G_CALLBACK(drag_data_handler),
+				&ctx );
+
+	g_signal_connect(	ctx.gui->playlist,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
 				&ctx );
