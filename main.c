@@ -808,6 +808,7 @@ static void destroy_handler(GtkWidget *widget, gpointer data)
 static void open_handler(GtkWidget *widget, gpointer data)
 {
 	context_t *ctx = (context_t*)data;
+	GtkFileChooser *file_chooser;
 	GtkWidget *open_dialog;
 
 	open_dialog
@@ -820,16 +821,25 @@ static void open_handler(GtkWidget *widget, gpointer data)
 						GTK_RESPONSE_ACCEPT,
 						NULL );
 
+	file_chooser = GTK_FILE_CHOOSER(open_dialog);
+
+	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
+
 	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		GtkFileChooser *chooser = GTK_FILE_CHOOSER(open_dialog);
-		gchar *uri = gtk_file_chooser_get_filename(chooser);
+		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
+		GSList *uri = uri_list;
 
 		ctx->paused = FALSE;
 
-		mpv_load(ctx, uri, FALSE, TRUE);
+		while(uri)
+		{
+			mpv_load(ctx, uri->data, (uri != uri_list), TRUE);
 
-		g_free(uri);
+			uri = g_slist_next(uri);
+		}
+
+		g_slist_free_full(uri_list, g_free);
 	}
 
 	gtk_widget_destroy(open_dialog);
