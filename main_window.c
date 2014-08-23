@@ -15,6 +15,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "def.h"
+#include "playlist_widget.h"
 #include "main_window.h"
 
 static gboolean focus_in_handler(	GtkWidget *widget,
@@ -145,10 +147,13 @@ static void main_window_init(MainWindow *wnd)
 	GtkWidget *fullscreen_icon;
 
 	wnd->fullscreen = FALSE;
+	wnd->playlist_visible = FALSE;
+	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->seek_bar_length = -1;
 	wnd->settings = gtk_settings_get_default();
 	wnd->accel_group = gtk_accel_group_new();
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
 	wnd->vid_area = gtk_drawing_area_new();
 	wnd->control_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	wnd->fs_control = gtk_window_new(GTK_WINDOW_POPUP);
@@ -173,9 +178,14 @@ static void main_window_init(MainWindow *wnd)
 	wnd->previous_button = gtk_button_new_with_label(NULL);
 	wnd->fullscreen_button = gtk_button_new_with_label(NULL);
 	wnd->volume_button = gtk_volume_button_new();
+	wnd->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+	wnd->playlist = playlist_widget_new();
 
 	wnd->open_loc_menu_item
 		= gtk_menu_item_new_with_mnemonic("Open _Location");
+
+	wnd->playlist_menu_item
+		= gtk_menu_item_new_with_mnemonic("_Playlist");
 
 	wnd->fullscreen_menu_item
 		= gtk_menu_item_new_with_mnemonic("_Fullscreen");
@@ -242,6 +252,10 @@ static void main_window_init(MainWindow *wnd)
 
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 
+	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
+				MAIN_WINDOW_DEFAULT_WIDTH
+				-PLAYLIST_DEFAULT_WIDTH );
+
 	gtk_window_set_default_size(	GTK_WINDOW(wnd),
 					MAIN_WINDOW_DEFAULT_WIDTH,
 					MAIN_WINDOW_DEFAULT_HEIGHT );
@@ -279,6 +293,13 @@ static void main_window_init(MainWindow *wnd)
 					wnd->accel_group,
 					GDK_KEY_p,
 					GDK_CONTROL_MASK,
+					GTK_ACCEL_VISIBLE );
+
+	gtk_widget_add_accelerator(	wnd->playlist_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_F9,
+					(GdkModifierType)0,
 					GTK_ACCEL_VISIBLE );
 
 	gtk_widget_add_accelerator(	wnd->fullscreen_menu_item,
@@ -359,6 +380,12 @@ static void main_window_init(MainWindow *wnd)
 		(GTK_MENU_SHELL(wnd->edit_menu), wnd->pref_menu_item);
 
 	gtk_menu_shell_append
+		(GTK_MENU_SHELL(wnd->view_menu), wnd->playlist_menu_item);
+
+	gtk_menu_shell_append
+		(GTK_MENU_SHELL(wnd->view_menu), gtk_separator_menu_item_new());
+
+	gtk_menu_shell_append
 		(GTK_MENU_SHELL(wnd->view_menu), wnd->fullscreen_menu_item);
 
 	gtk_menu_shell_append
@@ -401,7 +428,13 @@ static void main_window_init(MainWindow *wnd)
 		(GTK_CONTAINER(wnd->main_box), wnd->menu_bar);
 
 	gtk_box_pack_start
-		(GTK_BOX(wnd->main_box), wnd->vid_area, TRUE, TRUE, 0);
+		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
+
+	gtk_paned_pack1
+		(GTK_PANED(wnd->vid_area_paned), wnd->vid_area, TRUE, TRUE);
+
+	gtk_paned_pack2
+		(GTK_PANED(wnd->vid_area_paned), wnd->playlist, FALSE, TRUE);
 
 	gtk_container_add
 		(GTK_CONTAINER(wnd->main_box), wnd->control_box);
@@ -462,6 +495,7 @@ static void main_window_init(MainWindow *wnd)
 				wnd );
 
 	gtk_widget_show_all(GTK_WIDGET(wnd));
+	gtk_widget_hide(wnd->playlist);
 	main_window_hide_chapter_control(wnd);
 }
 
@@ -510,6 +544,11 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_widget_reparent(wnd->control_box, wnd->main_box);
 		gtk_widget_hide(wnd->fs_control);
 		gtk_widget_show(wnd->menu_bar);
+
+		if(wnd->playlist_visible)
+		{
+			gtk_widget_show(wnd->playlist);
+		}
 	}
 	else
 	{
@@ -532,6 +571,11 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_widget_hide(wnd->menu_bar);
 		gtk_widget_show(wnd->fs_control);
 		gtk_widget_set_opacity(wnd->fs_control, 0);
+
+		if(wnd->playlist_visible)
+		{
+			gtk_widget_hide(wnd->playlist);
+		}
 
 		gtk_window_get_size(	GTK_WINDOW(wnd->fs_control),
 					NULL,
@@ -561,7 +605,7 @@ void main_window_reset_control(MainWindow *wnd)
 	fullscreen_icon = gtk_image_new_from_icon_name(	"view-fullscreen",
 							GTK_ICON_SIZE_BUTTON );
 
-	gtk_range_set_value(GTK_RANGE(wnd->seek_bar), 0);
+	main_window_set_seek_bar_length(wnd, 0);
 	gtk_button_set_image(GTK_BUTTON(wnd->play_button), play_icon);
 
 	gtk_button_set_image(	GTK_BUTTON(wnd->fullscreen_button),
@@ -583,6 +627,35 @@ void main_window_set_control_enabled(MainWindow *wnd, gboolean enabled)
 	gtk_widget_set_sensitive(wnd->play_button, enabled);
 	gtk_widget_set_sensitive(wnd->forward_button, enabled);
 	gtk_widget_set_sensitive(wnd->next_button, enabled);
+}
+
+void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
+{
+	gint handle_pos;
+	gint width;
+	gint height;
+
+	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
+
+	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
+
+	if(!visible && wnd->playlist_visible)
+	{
+		wnd->playlist_width = width-handle_pos;
+	}
+
+	wnd->playlist_visible = visible;
+
+	gtk_widget_set_visible(wnd->playlist, visible);
+
+	gtk_window_resize(	GTK_WINDOW(wnd),
+				visible?width+wnd->playlist_width:handle_pos,
+				height );
+}
+
+gboolean main_window_get_playlist_visible(MainWindow *wnd)
+{
+	return gtk_widget_get_visible(GTK_WIDGET(wnd->playlist));
 }
 
 void main_window_show_chapter_control(MainWindow *wnd)

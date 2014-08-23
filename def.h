@@ -23,6 +23,7 @@
 #define APP_DESC "A GTK frontend for MPV"
 #define ICON_NAME "gnome-mpv"
 #define CONFIG_FILE "gnome-mpv.conf"
+#define PLAYLIST_DEFAULT_WIDTH 200
 #define MAIN_WINDOW_DEFAULT_WIDTH 400
 #define MAIN_WINDOW_DEFAULT_HEIGHT 300
 #define VID_AREA_BG_COLOR "#000000"

@@ -31,7 +31,10 @@ AC_CHECK_LIB(	[pthread],
 
 # Checks for header files.
 AC_PATH_X
-AC_CHECK_HEADERS([fcntl.h inttypes.h limits.h locale.h mach/mach.h malloc.h stddef.h stdint.h stdlib.h string.h strings.h sys/ioctl.h sys/mount.h sys/param.h sys/time.h sys/vfs.h termios.h unistd.h wchar.h])
+AC_CHECK_HEADERS([	fcntl.h inttypes.h limits.h locale.h mach/mach.h \
+			malloc.h stddef.h stdint.h stdlib.h string.h strings.h \
+			sys/ioctl.h sys/mount.h sys/param.h sys/time.h \
+			sys/vfs.h termios.h unistd.h wchar.h ])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
@@ -63,7 +66,11 @@ AC_FUNC_REALLOC
 AC_FUNC_STRCOLL
 AC_FUNC_STRNLEN
 AC_FUNC_STRTOD
-AC_CHECK_FUNCS([atexit clock_gettime dup2 floor ftruncate getcwd gettimeofday memchr memmove memset mkdir munmap pow putenv rint select setlocale sqrt strcasecmp strchr strcspn strdup strerror strncasecmp strpbrk strrchr strspn strstr strtol strtoul])
+AC_CHECK_FUNCS([	atexit clock_gettime dup2 floor ftruncate getcwd \
+			gettimeofday memchr memmove memset mkdir munmap pow \
+			putenv rint select setlocale sqrt strcasecmp strchr \
+			strcspn strdup strerror strncasecmp strpbrk strrchr \
+			strspn strstr strtol strtoul ])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

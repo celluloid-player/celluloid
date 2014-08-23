@@ -42,10 +42,13 @@ struct _MainWindow
 {
 	GtkWindow window;
 	gboolean fullscreen;
+	gboolean playlist_visible;
+	gint playlist_width;
 	gint seek_bar_length;
 	GtkSettings* settings;
 	GtkAccelGroup *accel_group;
 	GtkWidget *main_box;
+	GtkWidget *vid_area_paned;
 	GtkWidget *vid_area;
 	GtkWidget *control_box;
 	GtkWidget *fs_control;
@@ -60,6 +63,7 @@ struct _MainWindow
 	GtkWidget *pref_menu_item;
 	GtkWidget *view_menu;
 	GtkWidget *view_menu_item;
+	GtkWidget *playlist_menu_item;
 	GtkWidget *fullscreen_menu_item;
 	GtkWidget *normal_size_menu_item;
 	GtkWidget *double_size_menu_item;
@@ -76,6 +80,7 @@ struct _MainWindow
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
+	GtkWidget *playlist;
 };
 
 struct _MainWindowClass
@@ -92,6 +97,8 @@ void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset_control(MainWindow *wnd);
 void main_window_set_seek_bar_length(MainWindow *wnd, gint length);
 void main_window_set_control_enabled(MainWindow *wnd, gboolean enabled);
+void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible);
+gboolean main_window_get_playlist_visible(MainWindow *wnd);
 void main_window_show_chapter_control(MainWindow *wnd);
 void main_window_hide_chapter_control(MainWindow *wnd);
 
