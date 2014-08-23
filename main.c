@@ -204,9 +204,8 @@ static gchar *get_name_from_path(const gchar *path)
 	const gchar *scheme = g_uri_parse_scheme(path);
 	gchar *basename = NULL;
 
-	/* If scheme is NULL then the uri is probably a local
-	 * path */
-	if(!scheme || path)
+	/* Check whether the given path is likely to be a local path */
+	if(!scheme && path)
 	{
 		basename = g_path_get_basename(path);
 	}
