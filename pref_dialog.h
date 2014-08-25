@@ -15,8 +15,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PREF_DIALOG_H__
-#define __PREF_DIALOG_H__
+#ifndef PREF_DIALOG_H
+#define PREF_DIALOG_H
 
 #include <gtk/gtk.h>
 

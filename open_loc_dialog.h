@@ -15,8 +15,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __OPEN_LOC_DIALOG_H__
-#define __OPEN_LOC_DIALOG_H__
+#ifndef OPEN_LOC_DIALOG_H
+#define OPEN_LOC_DIALOG_H
 
 #include <gtk/gtk.h>
 

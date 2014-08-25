@@ -15,8 +15,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PLAYLIST_WIDGET_H__
-#define __PLAYLIST_WIDGET_H__
+#ifndef PLAYLIST_WIDGET_H
+#define PLAYLIST_WIDGET_H
 
 #include <gtk/gtk.h>
 

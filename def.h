@@ -15,8 +15,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MACRO_H
-#define MACRO_H
+#ifndef DEF_H
+#define DEF_H
 
 #define APP_NAME "GNOME MPV"
 #define APP_VERSION "0.1"

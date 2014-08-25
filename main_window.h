@@ -15,8 +15,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __MAIN_WINDOW_H__
-#define __MAIN_WINDOW_H__
+#ifndef MAIN_WINDOW_H
+#define MAIN_WINDOW_H
 
 #include <gtk/gtk.h>
 
