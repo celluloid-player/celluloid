@@ -28,6 +28,7 @@
 
 #include "def.h"
 #include "main_window.h"
+#include "main_menu_bar.h"
 #include "playlist_widget.h"
 #include "pref_dialog.h"
 #include "open_loc_dialog.h"
@@ -1484,6 +1485,8 @@ static gboolean key_press_handler(	GtkWidget *widget,
 int main(int argc, char **argv)
 {
 	context_t ctx;
+	MainMenuBar *menu;
+	PlaylistWidget *playlist;
 	GtkTargetEntry target_entry[3];
 	pthread_t mpv_event_handler_thread;
 	pthread_mutex_t mpv_event_mutex;
@@ -1513,6 +1516,9 @@ int main(int argc, char **argv)
 
 	ctx.vid_area_wid = gdk_x11_window_get_xid
 				(gtk_widget_get_window(ctx.gui->vid_area));
+
+	menu = MAIN_MENU(ctx.gui->menu);
+	playlist = PLAYLIST_WIDGET(ctx.gui->playlist);
 
 	target_entry[0].target = "text/uri-list";
 	target_entry[0].flags = 0;
@@ -1609,62 +1615,62 @@ int main(int argc, char **argv)
 				G_CALLBACK(fullscreen_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->open_menu_item,
+	g_signal_connect(	menu->open_menu_item,
 				"activate",
 				G_CALLBACK(open_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->open_loc_menu_item,
+	g_signal_connect(	menu->open_loc_menu_item,
 				"activate",
 				G_CALLBACK(open_loc_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->quit_menu_item,
+	g_signal_connect(	menu->quit_menu_item,
 				"activate",
 				G_CALLBACK(destroy_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->pref_menu_item,
+	g_signal_connect(	menu->pref_menu_item,
 				"activate",
 				G_CALLBACK(pref_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->playlist_menu_item,
+	g_signal_connect(	menu->playlist_menu_item,
 				"activate",
 				G_CALLBACK(playlist_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->fullscreen_menu_item,
+	g_signal_connect(	menu->fullscreen_menu_item,
 				"activate",
 				G_CALLBACK(fullscreen_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->normal_size_menu_item,
+	g_signal_connect(	menu->normal_size_menu_item,
 				"activate",
 				G_CALLBACK(normal_size_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->double_size_menu_item,
+	g_signal_connect(	menu->double_size_menu_item,
 				"activate",
 				G_CALLBACK(double_size_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->half_size_menu_item,
+	g_signal_connect(	menu->half_size_menu_item,
 				"activate",
 				G_CALLBACK(half_size_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->about_menu_item,
+	g_signal_connect(	menu->about_menu_item,
 				"activate",
 				G_CALLBACK(about_handler),
 				&ctx );
 
-	g_signal_connect(	PLAYLIST_WIDGET(ctx.gui->playlist)->list_store,
+	g_signal_connect(	playlist->list_store,
 				"row-inserted",
 				G_CALLBACK(playlist_row_inserted_handler),
 				&ctx );
 
-	g_signal_connect(	PLAYLIST_WIDGET(ctx.gui->playlist)->list_store,
+	g_signal_connect(	playlist->list_store,
 				"row-deleted",
 				G_CALLBACK(playlist_row_deleted_handler),
 				&ctx );

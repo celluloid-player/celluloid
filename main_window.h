@@ -20,8 +20,6 @@
 
 #include <gtk/gtk.h>
 
-#include "def.h"
-
 G_BEGIN_DECLS
 
 #define MAIN_WINDOW_TYPE (main_window_get_type ())
@@ -52,25 +50,7 @@ struct _MainWindow
 	GtkWidget *vid_area;
 	GtkWidget *control_box;
 	GtkWidget *fs_control;
-	GtkWidget *menu_bar;
-	GtkWidget *file_menu;
-	GtkWidget *file_menu_item;
-	GtkWidget *open_menu_item;
-	GtkWidget *open_loc_menu_item;
-	GtkWidget *quit_menu_item;
-	GtkWidget *edit_menu;
-	GtkWidget *edit_menu_item;
-	GtkWidget *pref_menu_item;
-	GtkWidget *view_menu;
-	GtkWidget *view_menu_item;
-	GtkWidget *playlist_menu_item;
-	GtkWidget *fullscreen_menu_item;
-	GtkWidget *normal_size_menu_item;
-	GtkWidget *double_size_menu_item;
-	GtkWidget *half_size_menu_item;
-	GtkWidget *help_menu;
-	GtkWidget *help_menu_item;
-	GtkWidget *about_menu_item;
+	GtkWidget *menu;
 	GtkWidget *play_button;
 	GtkWidget *stop_button;
 	GtkWidget *forward_button;

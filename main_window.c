@@ -18,6 +18,7 @@
 #include "def.h"
 #include "playlist_widget.h"
 #include "main_window.h"
+#include "main_menu_bar.h"
 
 static gboolean focus_in_handler(	GtkWidget *widget,
 					GtkDirectionType direction,
@@ -138,6 +139,7 @@ static gchar *seekbar_format_handler(	GtkScale *scale,
 static void main_window_init(MainWindow *wnd)
 {
 	GdkRGBA vid_area_bg_color;
+	MainMenuBar *menu;
 	GtkWidget *play_icon;
 	GtkWidget *stop_icon;
 	GtkWidget *forward_icon;
@@ -157,19 +159,7 @@ static void main_window_init(MainWindow *wnd)
 	wnd->vid_area = gtk_drawing_area_new();
 	wnd->control_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	wnd->fs_control = gtk_window_new(GTK_WINDOW_POPUP);
-	wnd->menu_bar = gtk_menu_bar_new();
-	wnd->file_menu = gtk_menu_new();
-	wnd->file_menu_item = gtk_menu_item_new_with_mnemonic("_File");
-	wnd->open_menu_item = gtk_menu_item_new_with_mnemonic("_Open");
-	wnd->quit_menu_item = gtk_menu_item_new_with_mnemonic("_Quit");
-	wnd->edit_menu = gtk_menu_new();
-	wnd->edit_menu_item = gtk_menu_item_new_with_mnemonic("_Edit");
-	wnd->pref_menu_item = gtk_menu_item_new_with_mnemonic("_Preferences");
-	wnd->view_menu = gtk_menu_new();
-	wnd->view_menu_item = gtk_menu_item_new_with_mnemonic("_View");
-	wnd->help_menu = gtk_menu_new();
-	wnd->help_menu_item = gtk_menu_item_new_with_mnemonic("_Help");
-	wnd->about_menu_item = gtk_menu_item_new_with_mnemonic("_About");
+	wnd->menu = main_menu_bar_new();
 	wnd->play_button = gtk_button_new_with_label(NULL);
 	wnd->stop_button = gtk_button_new_with_label(NULL);
 	wnd->forward_button = gtk_button_new_with_label(NULL);
@@ -180,24 +170,6 @@ static void main_window_init(MainWindow *wnd)
 	wnd->volume_button = gtk_volume_button_new();
 	wnd->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 	wnd->playlist = playlist_widget_new();
-
-	wnd->open_loc_menu_item
-		= gtk_menu_item_new_with_mnemonic("Open _Location");
-
-	wnd->playlist_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Playlist");
-
-	wnd->fullscreen_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Fullscreen");
-
-	wnd->normal_size_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Normal Size");
-
-	wnd->double_size_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Double Size");
-
-	wnd->half_size_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Half Size");
 
 	play_icon
 		= gtk_image_new_from_icon_name(	"media-playback-start",
@@ -228,6 +200,8 @@ static void main_window_init(MainWindow *wnd)
 						GTK_ICON_SIZE_BUTTON );
 
 	wnd->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+
+	menu = MAIN_MENU(wnd->menu);
 
 	gdk_rgba_parse(&vid_area_bg_color, VID_AREA_BG_COLOR);
 
@@ -260,75 +234,9 @@ static void main_window_init(MainWindow *wnd)
 					MAIN_WINDOW_DEFAULT_WIDTH,
 					MAIN_WINDOW_DEFAULT_HEIGHT );
 
-	gtk_window_add_accel_group(	GTK_WINDOW(wnd),
-					wnd->accel_group );
-
 	gtk_widget_override_background_color(	wnd->vid_area,
 						GTK_STATE_NORMAL,
 						&vid_area_bg_color);
-
-	gtk_widget_add_accelerator(	wnd->open_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_o,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	wnd->open_loc_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_l,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	wnd->quit_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_q,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	wnd->pref_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_p,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	wnd->playlist_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_F9,
-					(GdkModifierType)0,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	wnd->fullscreen_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_F11,
-					(GdkModifierType)0,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	wnd->normal_size_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_1,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	wnd->double_size_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_2,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	wnd->half_size_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_3,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
 
 	gtk_widget_set_can_focus(wnd->previous_button, FALSE);
 	gtk_widget_set_can_focus(wnd->rewind_button, FALSE);
@@ -340,68 +248,71 @@ static void main_window_init(MainWindow *wnd)
 	gtk_widget_set_can_focus(wnd->volume_button, FALSE);
 	gtk_widget_set_can_focus(wnd->fullscreen_button, FALSE);
 
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->menu_bar), wnd->file_menu_item);
+	gtk_window_add_accel_group(	GTK_WINDOW(wnd),
+					wnd->accel_group );
 
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->menu_bar), wnd->edit_menu_item);
+	gtk_widget_add_accelerator(	menu->open_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_o,
+					GDK_CONTROL_MASK,
+					GTK_ACCEL_VISIBLE );
 
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->menu_bar), wnd->view_menu_item);
+	gtk_widget_add_accelerator(	menu->open_loc_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_l,
+					GDK_CONTROL_MASK,
+					GTK_ACCEL_VISIBLE );
 
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->menu_bar), wnd->help_menu_item);
+	gtk_widget_add_accelerator(	menu->quit_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_q,
+					GDK_CONTROL_MASK,
+					GTK_ACCEL_VISIBLE );
 
-	gtk_menu_item_set_submenu
-		(GTK_MENU_ITEM(wnd->file_menu_item), wnd->file_menu);
+	gtk_widget_add_accelerator(	menu->pref_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_p,
+					GDK_CONTROL_MASK,
+					GTK_ACCEL_VISIBLE );
 
-	gtk_menu_item_set_submenu
-		(GTK_MENU_ITEM(wnd->edit_menu_item), wnd->edit_menu);
+	gtk_widget_add_accelerator(	menu->playlist_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_F9,
+					(GdkModifierType)0,
+					GTK_ACCEL_VISIBLE );
 
-	gtk_menu_item_set_submenu
-		(GTK_MENU_ITEM(wnd->view_menu_item), wnd->view_menu);
+	gtk_widget_add_accelerator(	menu->fullscreen_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_F11,
+					(GdkModifierType)0,
+					GTK_ACCEL_VISIBLE );
 
-	gtk_menu_item_set_submenu
-		(GTK_MENU_ITEM(wnd->help_menu_item), wnd->help_menu);
+	gtk_widget_add_accelerator(	menu->normal_size_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_1,
+					GDK_CONTROL_MASK,
+					GTK_ACCEL_VISIBLE );
 
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->file_menu), wnd->open_menu_item);
+	gtk_widget_add_accelerator(	menu->double_size_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_2,
+					GDK_CONTROL_MASK,
+					GTK_ACCEL_VISIBLE );
 
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->file_menu), wnd->open_loc_menu_item);
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->file_menu), gtk_separator_menu_item_new());
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->file_menu), wnd->quit_menu_item);
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->edit_menu), wnd->pref_menu_item);
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->view_menu), wnd->playlist_menu_item);
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->view_menu), gtk_separator_menu_item_new());
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->view_menu), wnd->fullscreen_menu_item);
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->view_menu), gtk_separator_menu_item_new());
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->view_menu), wnd->normal_size_menu_item);
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->view_menu), wnd->double_size_menu_item);
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->view_menu), wnd->half_size_menu_item);
-
-	gtk_menu_shell_append
-		(GTK_MENU_SHELL(wnd->help_menu), wnd->about_menu_item);
+	gtk_widget_add_accelerator(	menu->half_size_menu_item,
+					"activate",
+					wnd->accel_group,
+					GDK_KEY_3,
+					GDK_CONTROL_MASK,
+					GTK_ACCEL_VISIBLE );
 
 	gtk_button_set_image
 		(GTK_BUTTON(wnd->play_button), play_icon);
@@ -425,7 +336,7 @@ static void main_window_init(MainWindow *wnd)
 		(GTK_BUTTON(wnd->fullscreen_button), fullscreen_icon);
 
 	gtk_container_add
-		(GTK_CONTAINER(wnd->main_box), wnd->menu_bar);
+		(GTK_CONTAINER(wnd->main_box), wnd->menu);
 
 	gtk_box_pack_start
 		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
@@ -543,7 +454,7 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_window_unfullscreen(GTK_WINDOW(wnd));
 		gtk_widget_reparent(wnd->control_box, wnd->main_box);
 		gtk_widget_hide(wnd->fs_control);
-		gtk_widget_show(wnd->menu_bar);
+		gtk_widget_show(wnd->menu);
 
 		if(wnd->playlist_visible)
 		{
@@ -568,7 +479,7 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_window_fullscreen(GTK_WINDOW(wnd));
 		gtk_window_set_screen(GTK_WINDOW(wnd->fs_control), screen);
 		gtk_widget_reparent(wnd->control_box, wnd->fs_control);
-		gtk_widget_hide(wnd->menu_bar);
+		gtk_widget_hide(wnd->menu);
 		gtk_widget_show(wnd->fs_control);
 		gtk_widget_set_opacity(wnd->fs_control, 0);
 

@@ -7,8 +7,8 @@ UPDATE_DESKTOP = update-desktop-database -q || :
 
 bin_PROGRAMS = gnome-mpv
 
-gnome_mpv_SOURCES =	main.c main_window.c pref_dialog.c open_loc_dialog.c \
-			playlist_widget.c
+gnome_mpv_SOURCES =	main.c main_window.c main_menu_bar.c pref_dialog.c \
+			open_loc_dialog.c playlist_widget.c
 
 desktopdir = $(datadir)/applications
 desktop_DATA = gnome-mpv.desktop
