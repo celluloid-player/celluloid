@@ -34,7 +34,9 @@
 #include "pref_dialog.h"
 #include "open_loc_dialog.h"
 
-typedef struct gmpv_handle
+typedef struct gmpv_handle gmpv_handle;
+
+struct gmpv_handle
 {
 	mpv_handle *mpv_ctx;
 	volatile gboolean exit_flag;
@@ -55,8 +57,7 @@ typedef struct gmpv_handle
 	pthread_mutex_t *mpv_event_mutex;
 	pthread_cond_t *mpv_ctx_init_cv;
 	pthread_cond_t *mpv_ctx_destroy_cv;
-}
-gmpv_handle;
+};
 
 static inline void mpv_check_error(int status);
 static inline gchar *get_config_file_path(void);
