@@ -38,7 +38,7 @@ G_BEGIN_DECLS
 #define	IS_PLAYLIST_WIDGET_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), PLAYLIST_WIDGET_TYPE))
 
-enum _PlaylistStoreColumn
+enum PlaylistStoreColumn
 {
 	PLAYLIST_INDICATOR_COLUMN,
 	PLAYLIST_NAME_COLUMN,
@@ -46,11 +46,11 @@ enum _PlaylistStoreColumn
 	PLAYLIST_N_COLUMNS
 };
 
-typedef struct _PlaylistWidget PlaylistWidget;
-typedef struct _PlaylistWidgetClass PlaylistWidgetClass;
-typedef enum _PlaylistStoreColumn PlaylistStoreColumn;
+typedef struct PlaylistWidget PlaylistWidget;
+typedef struct PlaylistWidgetClass PlaylistWidgetClass;
+typedef enum PlaylistStoreColumn PlaylistStoreColumn;
 
-struct _PlaylistWidget
+struct PlaylistWidget
 {
 	GtkScrolledWindow scrolled_window;
 	GtkWidget *tree_view;
@@ -61,7 +61,7 @@ struct _PlaylistWidget
 	GtkCellRenderer *title_renderer;
 };
 
-struct _PlaylistWidgetClass
+struct PlaylistWidgetClass
 {
 	GtkScrolledWindowClass parent_class;
 };

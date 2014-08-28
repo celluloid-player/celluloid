@@ -37,10 +37,10 @@ G_BEGIN_DECLS
 #define	IS_OPEN_LOC_DIALOG_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), OPEN_LOC_DIALOG_TYPE))
 
-typedef struct _OpenLocDialog OpenLocDialog;
-typedef struct _OpenLocDialogClass OpenLocDialogClass;
+typedef struct OpenLocDialog OpenLocDialog;
+typedef struct OpenLocDialogClass OpenLocDialogClass;
 
-struct _OpenLocDialog
+struct OpenLocDialog
 {
 	GtkDialog dialog;
 	GtkWidget *content_area;
@@ -49,7 +49,7 @@ struct _OpenLocDialog
 	GtkWidget *loc_entry;
 };
 
-struct _OpenLocDialogClass
+struct OpenLocDialogClass
 {
 	GtkDialogClass parent_class;
 };
