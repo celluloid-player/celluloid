@@ -38,6 +38,9 @@ G_BEGIN_DECLS
 #define	IS_MAIN_MENU_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), MAIN_MENU_TYPE))
 
+typedef struct _MainMenuBar MainMenuBar;
+typedef struct _MainMenuBarClass MainMenuBarClass;
+
 struct _MainMenuBar
 {
 	GtkMenuBar menu_bar;
@@ -65,9 +68,6 @@ struct _MainMenuBarClass
 {
 	GtkMenuBarClass parent_class;
 };
-
-typedef struct _MainMenuBar MainMenuBar;
-typedef struct _MainMenuBarClass MainMenuBarClass;
 
 GtkWidget *main_menu_bar_new(void);
 GType main_menu_bar_get_type(void);

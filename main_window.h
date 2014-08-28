@@ -36,6 +36,9 @@ G_BEGIN_DECLS
 #define	IS_MAIN_WINDOW_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), MAIN_WINDOW_TYPE))
 
+typedef struct _MainWindow MainWindow;
+typedef struct _MainWindowClass MainWindowClass;
+
 struct _MainWindow
 {
 	GtkWindow window;
@@ -57,9 +60,6 @@ struct _MainWindowClass
 {
 	GtkWindowClass parent_class;
 };
-
-typedef struct _MainWindow MainWindow;
-typedef struct _MainWindowClass MainWindowClass;
 
 GtkWidget *main_window_new(void);
 GType main_window_get_type(void);

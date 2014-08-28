@@ -36,6 +36,9 @@ G_BEGIN_DECLS
 #define	IS_PREF_DIALOG_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), PREF_DIALOG_TYPE))
 
+typedef struct _PrefDialog PrefDialog;
+typedef struct _PrefDialogClass PrefDialogClass;
+
 struct _PrefDialog
 {
 	GtkDialog dialog;
@@ -49,9 +52,6 @@ struct _PrefDialogClass
 {
 	GtkDialogClass parent_class;
 };
-
-typedef struct _PrefDialog PrefDialog;
-typedef struct _PrefDialogClass PrefDialogClass;
 
 GtkWidget *pref_dialog_new(GtkWindow *parent);
 GType pref_dialog_get_type(void);
