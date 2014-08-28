@@ -19,6 +19,7 @@
 #include "playlist_widget.h"
 #include "main_window.h"
 #include "main_menu_bar.h"
+#include "control_box.h"
 
 static gboolean focus_in_handler(	GtkWidget *widget,
 					GtkDirectionType direction,
@@ -35,10 +36,6 @@ static gboolean fs_control_enter_handler(	GtkWidget *widget,
 static gboolean fs_control_leave_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data );
-
-static gchar *seekbar_format_handler(	GtkScale *scale,
-					gdouble value,
-					gpointer data );
 
 static void main_window_init(MainWindow *wnd);
 
@@ -99,107 +96,23 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
-static gchar *seekbar_format_handler(	GtkScale *scale,
-					gdouble value,
-					gpointer data )
-{
-	gint sec = value;
-	gint length = ((MainWindow *)data)->seek_bar_length;
-	char *output = NULL;
-
-	/* Longer than one hour */
-	if(length > 3600 && sec >= 0)
-	{
-		output = g_strdup_printf(	"%02d:%02d:%02d/"
-						"%02d:%02d:%02d",
-						sec/3600,
-						(sec%3600)/60,
-						sec%60,
-						length/3600,
-						(length%3600)/60,
-						length%60 );
-	}
-	else
-	{
-		/* Set variable to 0 if the value is negative */
-		length *= (length >= 0);
-		sec *= (sec >= 0);
-
-		output = g_strdup_printf(	"%02d:%02d/"
-						"%02d:%02d",
-						(sec%3600)/60,
-						sec%60,
-						(length%3600)/60,
-						length%60 );
-	}
-
-	return output;
-}
-
 static void main_window_init(MainWindow *wnd)
 {
 	GdkRGBA vid_area_bg_color;
 	MainMenuBar *menu;
-	GtkWidget *play_icon;
-	GtkWidget *stop_icon;
-	GtkWidget *forward_icon;
-	GtkWidget *rewind_icon;
-	GtkWidget *previous_icon;
-	GtkWidget *next_icon;
-	GtkWidget *fullscreen_icon;
 
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
-	wnd->seek_bar_length = -1;
 	wnd->settings = gtk_settings_get_default();
 	wnd->accel_group = gtk_accel_group_new();
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
 	wnd->vid_area = gtk_drawing_area_new();
-	wnd->control_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	wnd->fs_control = gtk_window_new(GTK_WINDOW_POPUP);
+	wnd->control_box = control_box_new();
 	wnd->menu = main_menu_bar_new();
-	wnd->play_button = gtk_button_new_with_label(NULL);
-	wnd->stop_button = gtk_button_new_with_label(NULL);
-	wnd->forward_button = gtk_button_new_with_label(NULL);
-	wnd->rewind_button = gtk_button_new_with_label(NULL);
-	wnd->next_button = gtk_button_new_with_label(NULL);
-	wnd->previous_button = gtk_button_new_with_label(NULL);
-	wnd->fullscreen_button = gtk_button_new_with_label(NULL);
-	wnd->volume_button = gtk_volume_button_new();
-	wnd->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 	wnd->playlist = playlist_widget_new();
-
-	play_icon
-		= gtk_image_new_from_icon_name(	"media-playback-start",
-						GTK_ICON_SIZE_BUTTON );
-
-	stop_icon
-		= gtk_image_new_from_icon_name(	"media-playback-stop",
-						GTK_ICON_SIZE_BUTTON );
-
-	forward_icon
-		= gtk_image_new_from_icon_name(	"media-seek-forward",
-						GTK_ICON_SIZE_BUTTON );
-
-	rewind_icon
-		= gtk_image_new_from_icon_name(	"media-seek-backward",
-						GTK_ICON_SIZE_BUTTON );
-
-	next_icon
-		= gtk_image_new_from_icon_name(	"media-skip-forward",
-						GTK_ICON_SIZE_BUTTON );
-
-	previous_icon
-		= gtk_image_new_from_icon_name(	"media-skip-backward",
-						GTK_ICON_SIZE_BUTTON );
-
-	fullscreen_icon
-		= gtk_image_new_from_icon_name(	"view-fullscreen",
-						GTK_ICON_SIZE_BUTTON );
-
-	wnd->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 
 	menu = MAIN_MENU(wnd->menu);
 
@@ -214,16 +127,6 @@ static void main_window_init(MainWindow *wnd)
 			TRUE,
 			NULL );
 
-	g_object_set(wnd->play_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(wnd->stop_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(wnd->forward_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(wnd->rewind_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(wnd->next_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(wnd->previous_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(wnd->fullscreen_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(wnd->seek_bar, "value-pos", GTK_POS_RIGHT, NULL);
-	g_object_set(wnd->seek_bar, "digits", 2, NULL);
-
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 
 	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
@@ -237,16 +140,6 @@ static void main_window_init(MainWindow *wnd)
 	gtk_widget_override_background_color(	wnd->vid_area,
 						GTK_STATE_NORMAL,
 						&vid_area_bg_color);
-
-	gtk_widget_set_can_focus(wnd->previous_button, FALSE);
-	gtk_widget_set_can_focus(wnd->rewind_button, FALSE);
-	gtk_widget_set_can_focus(wnd->play_button, FALSE);
-	gtk_widget_set_can_focus(wnd->stop_button, FALSE);
-	gtk_widget_set_can_focus(wnd->forward_button, FALSE);
-	gtk_widget_set_can_focus(wnd->next_button, FALSE);
-	gtk_widget_set_can_focus(wnd->seek_bar, FALSE);
-	gtk_widget_set_can_focus(wnd->volume_button, FALSE);
-	gtk_widget_set_can_focus(wnd->fullscreen_button, FALSE);
 
 	gtk_window_add_accel_group(	GTK_WINDOW(wnd),
 					wnd->accel_group );
@@ -314,27 +207,6 @@ static void main_window_init(MainWindow *wnd)
 					GDK_CONTROL_MASK,
 					GTK_ACCEL_VISIBLE );
 
-	gtk_button_set_image
-		(GTK_BUTTON(wnd->play_button), play_icon);
-
-	gtk_button_set_image
-		(GTK_BUTTON(wnd->stop_button), stop_icon);
-
-	gtk_button_set_image
-		(GTK_BUTTON(wnd->forward_button), forward_icon);
-
-	gtk_button_set_image
-		(GTK_BUTTON(wnd->rewind_button), rewind_icon);
-
-	gtk_button_set_image
-		(GTK_BUTTON(wnd->next_button), next_icon);
-
-	gtk_button_set_image
-		(GTK_BUTTON(wnd->previous_button), previous_icon);
-
-	gtk_button_set_image
-		(GTK_BUTTON(wnd->fullscreen_button), fullscreen_icon);
-
 	gtk_container_add
 		(GTK_CONTAINER(wnd->main_box), wnd->menu);
 
@@ -349,33 +221,6 @@ static void main_window_init(MainWindow *wnd)
 
 	gtk_container_add
 		(GTK_CONTAINER(wnd->main_box), wnd->control_box);
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->control_box), wnd->previous_button);
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->control_box), wnd->rewind_button);
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->control_box), wnd->play_button);
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->control_box), wnd->stop_button);
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->control_box), wnd->forward_button);
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->control_box), wnd->next_button);
-
-	gtk_box_pack_start
-		(GTK_BOX(wnd->control_box), wnd->seek_bar, TRUE, TRUE, 0);
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->control_box), wnd->volume_button);
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->control_box), wnd->fullscreen_button);
 
 	gtk_container_add
 		(GTK_CONTAINER(wnd), wnd->main_box);
@@ -400,14 +245,9 @@ static void main_window_init(MainWindow *wnd)
 				G_CALLBACK(fs_control_leave_handler),
 				wnd->fs_control );
 
-	g_signal_connect(	wnd->seek_bar,
-				"format-value",
-				G_CALLBACK(seekbar_format_handler),
-				wnd );
-
 	gtk_widget_show_all(GTK_WIDGET(wnd));
 	gtk_widget_hide(wnd->playlist);
-	main_window_hide_chapter_control(wnd);
+	control_box_set_chapter_enabled(CONTROL_BOX(wnd->control_box), FALSE);
 }
 
 GtkWidget *main_window_new()
@@ -443,14 +283,11 @@ GType main_window_get_type()
 
 void main_window_toggle_fullscreen(MainWindow *wnd)
 {
-	GtkWidget *icon;
+	ControlBox *control_box = CONTROL_BOX(wnd->control_box);
 
 	if(wnd->fullscreen)
 	{
-		icon = gtk_image_new_from_icon_name(	"view-fullscreen",
-							GTK_ICON_SIZE_BUTTON );
-
-		gtk_button_set_image(GTK_BUTTON(wnd->fullscreen_button), icon);
+		control_box_set_fullscreen_state(control_box, FALSE);
 		gtk_window_unfullscreen(GTK_WINDOW(wnd));
 		gtk_widget_reparent(wnd->control_box, wnd->main_box);
 		gtk_widget_hide(wnd->fs_control);
@@ -470,12 +307,7 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		screen = gtk_window_get_screen(GTK_WINDOW(wnd));
 		width = gdk_screen_width()/2;
 
-		icon = gtk_image_new_from_icon_name(	"view-restore",
-							GTK_ICON_SIZE_BUTTON );
-
-		gtk_button_set_image(	GTK_BUTTON(wnd->fullscreen_button),
-					icon );
-
+		control_box_set_fullscreen_state(control_box, TRUE);
 		gtk_window_fullscreen(GTK_WINDOW(wnd));
 		gtk_window_set_screen(GTK_WINDOW(wnd->fs_control), screen);
 		gtk_widget_reparent(wnd->control_box, wnd->fs_control);
@@ -505,39 +337,10 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 	}
 }
 
-void main_window_reset_control(MainWindow *wnd)
+void main_window_reset(MainWindow *wnd)
 {
-	GtkWidget *play_icon;
-	GtkWidget *fullscreen_icon;
-
-	play_icon = gtk_image_new_from_icon_name(	"media-playback-start",
-							GTK_ICON_SIZE_BUTTON );
-
-	fullscreen_icon = gtk_image_new_from_icon_name(	"view-fullscreen",
-							GTK_ICON_SIZE_BUTTON );
-
-	main_window_set_seek_bar_length(wnd, 0);
-	gtk_button_set_image(GTK_BUTTON(wnd->play_button), play_icon);
-
-	gtk_button_set_image(	GTK_BUTTON(wnd->fullscreen_button),
-				fullscreen_icon );
-}
-
-void main_window_set_seek_bar_length(MainWindow *wnd, gint length)
-{
-	wnd->seek_bar_length = length;
-
-	gtk_range_set_range(GTK_RANGE(wnd->seek_bar), 0, length);
-}
-
-void main_window_set_control_enabled(MainWindow *wnd, gboolean enabled)
-{
-	gtk_widget_set_sensitive(wnd->previous_button, enabled);
-	gtk_widget_set_sensitive(wnd->rewind_button, enabled);
-	gtk_widget_set_sensitive(wnd->stop_button, enabled);
-	gtk_widget_set_sensitive(wnd->play_button, enabled);
-	gtk_widget_set_sensitive(wnd->forward_button, enabled);
-	gtk_widget_set_sensitive(wnd->next_button, enabled);
+	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
+	control_box_reset_control(CONTROL_BOX(wnd->control_box));
 }
 
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
@@ -567,16 +370,4 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 gboolean main_window_get_playlist_visible(MainWindow *wnd)
 {
 	return gtk_widget_get_visible(GTK_WIDGET(wnd->playlist));
-}
-
-void main_window_show_chapter_control(MainWindow *wnd)
-{
-	gtk_widget_show_all(wnd->previous_button);
-	gtk_widget_show_all(wnd->next_button);
-}
-
-void main_window_hide_chapter_control(MainWindow *wnd)
-{
-	gtk_widget_hide(wnd->previous_button);
-	gtk_widget_hide(wnd->next_button);
 }

@@ -29,6 +29,7 @@
 #include "def.h"
 #include "main_window.h"
 #include "main_menu_bar.h"
+#include "control_box.h"
 #include "playlist_widget.h"
 #include "pref_dialog.h"
 #include "open_loc_dialog.h"
@@ -240,8 +241,12 @@ static gboolean update_seek_bar(gpointer data)
 
 		if(rc >= 0)
 		{
-			gtk_range_set_value(	GTK_RANGE(ctx->gui->seek_bar),
-						time_pos );
+			ControlBox *control_box
+				= CONTROL_BOX(ctx->gui->control_box);
+
+			gtk_range_set_value
+				(	GTK_RANGE(control_box->seek_bar),
+					time_pos );
 		}
 	}
 
@@ -250,10 +255,7 @@ static gboolean update_seek_bar(gpointer data)
 
 static gboolean reset_control(gpointer data)
 {
-	context_t* ctx = data;
-
-	gtk_window_set_title(GTK_WINDOW(ctx->gui), g_get_application_name());
-	main_window_reset_control(ctx->gui);
+	main_window_reset(((context_t *)data)->gui);
 
 	return FALSE;
 }
@@ -271,7 +273,7 @@ static gboolean reset_playlist(gpointer data)
 static gboolean mpv_load_gui_update(gpointer data)
 {
 	context_t* ctx = data;
-	GtkWidget *icon;
+	ControlBox *control_box;
 	gchar* title;
 	gint64 chapter_count;
 	gint64 playlist_pos;
@@ -279,14 +281,10 @@ static gboolean mpv_load_gui_update(gpointer data)
 	gdouble length;
 	gdouble volume;
 
+	control_box = CONTROL_BOX(ctx->gui->control_box);
 	title = mpv_get_property_string(ctx->mpv_ctx, "media-title");
 
-	icon = gtk_image_new_from_icon_name(	ctx->paused
-						?"media-playback-start"
-						:"media-playback-pause",
-						GTK_ICON_SIZE_BUTTON );
-
-	gtk_button_set_image(GTK_BUTTON(ctx->gui->play_button), icon);
+	control_box_set_playing_state(control_box, !ctx->paused);
 
 	if(title)
 	{
@@ -309,14 +307,8 @@ static gboolean mpv_load_gui_update(gpointer data)
 				MPV_FORMAT_INT64,
 				&chapter_count) >= 0)
 	{
-		if(chapter_count > 1)
-		{
-			main_window_show_chapter_control(ctx->gui);
-		}
-		else
-		{
-			main_window_hide_chapter_control(ctx->gui);
-		}
+		control_box_set_chapter_enabled(	control_box,
+							(chapter_count > 1) );
 	}
 
 	if(mpv_get_property(	ctx->mpv_ctx,
@@ -324,8 +316,7 @@ static gboolean mpv_load_gui_update(gpointer data)
 				MPV_FORMAT_DOUBLE,
 				&volume) >= 0)
 	{
-		gtk_scale_button_set_value
-			(GTK_SCALE_BUTTON(ctx->gui->volume_button), volume/100);
+		control_box_set_volume(control_box, volume/100);
 	}
 
 	if(mpv_get_property(	ctx->mpv_ctx,
@@ -333,7 +324,7 @@ static gboolean mpv_load_gui_update(gpointer data)
 				MPV_FORMAT_DOUBLE,
 				&length) >= 0)
 	{
-		main_window_set_seek_bar_length(ctx->gui, length);
+		control_box_set_seek_bar_length(control_box, length);
 	}
 
 	pthread_mutex_lock(ctx->mpv_event_mutex);
@@ -538,7 +529,8 @@ static void mpv_load(	context_t *ctx,
 			g_free(name);
 		}
 
-		main_window_set_control_enabled(ctx->gui, TRUE);
+		control_box_set_enabled
+			(CONTROL_BOX(ctx->gui->control_box), TRUE);
 
 		mpv_check_error(mpv_request_event(	ctx->mpv_ctx,
 							MPV_EVENT_END_FILE,
@@ -1025,7 +1017,6 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 static void play_handler(GtkWidget *widget, gpointer data)
 {
 	context_t *ctx = data;
-	GtkWidget *icon;
 	gboolean loaded;
 
 	pthread_mutex_lock(ctx->mpv_event_mutex);
@@ -1047,12 +1038,8 @@ static void play_handler(GtkWidget *widget, gpointer data)
 							&ctx->paused ));
 	}
 
-	icon = gtk_image_new_from_icon_name(	ctx->paused
-						?"media-playback-start"
-						:"media-playback-pause",
-						GTK_ICON_SIZE_BUTTON );
-
-	gtk_button_set_image(GTK_BUTTON(ctx->gui->play_button), icon);
+	control_box_set_playing_state
+		(CONTROL_BOX(ctx->gui->control_box), !ctx->paused);
 }
 
 static void stop_handler(GtkWidget *widget, gpointer data)
@@ -1486,6 +1473,7 @@ int main(int argc, char **argv)
 {
 	context_t ctx;
 	MainMenuBar *menu;
+	ControlBox *control_box;
 	PlaylistWidget *playlist;
 	GtkTargetEntry target_entry[3];
 	pthread_t mpv_event_handler_thread;
@@ -1518,6 +1506,7 @@ int main(int argc, char **argv)
 				(gtk_widget_get_window(ctx.gui->vid_area));
 
 	menu = MAIN_MENU(ctx.gui->menu);
+	control_box = CONTROL_BOX(ctx.gui->control_box);
 	playlist = PLAYLIST_WIDGET(ctx.gui->playlist);
 
 	target_entry[0].target = "text/uri-list";
@@ -1548,7 +1537,6 @@ int main(int argc, char **argv)
 
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->vid_area));
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->playlist));
-	gtk_range_set_increments(GTK_RANGE(ctx.gui->seek_bar), 10, 10);
 
 	g_signal_connect(	ctx.gui->vid_area,
 				"drag-data-received",
@@ -1575,44 +1563,44 @@ int main(int argc, char **argv)
 				G_CALLBACK(key_press_handler),
 				&ctx );
 
-	g_signal_connect(	PLAYLIST_WIDGET(ctx.gui->playlist)->tree_view,
-				"row-activated",
-				G_CALLBACK(playlist_row_handler),
-				&ctx );
-
-	g_signal_connect(	ctx.gui->play_button,
+	g_signal_connect(	control_box->play_button,
 				"clicked",
 				G_CALLBACK(play_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->stop_button,
+	g_signal_connect(	control_box->stop_button,
 				"clicked",
 				G_CALLBACK(stop_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->forward_button,
+	g_signal_connect(	control_box->forward_button,
 				"clicked",
 				G_CALLBACK(forward_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->rewind_button,
+	g_signal_connect(	control_box->rewind_button,
 				"clicked",
 				G_CALLBACK(rewind_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->previous_button,
+	g_signal_connect(	control_box->previous_button,
 				"clicked",
 				G_CALLBACK(chapter_previous_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->next_button,
+	g_signal_connect(	control_box->next_button,
 				"clicked",
 				G_CALLBACK(chapter_next_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->fullscreen_button,
+	g_signal_connect(	control_box->fullscreen_button,
 				"clicked",
 				G_CALLBACK(fullscreen_handler),
+				&ctx );
+
+	g_signal_connect(	control_box->volume_button,
+				"value-changed",
+				G_CALLBACK(volume_handler),
 				&ctx );
 
 	g_signal_connect(	menu->open_menu_item,
@@ -1665,6 +1653,11 @@ int main(int argc, char **argv)
 				G_CALLBACK(about_handler),
 				&ctx );
 
+	g_signal_connect(	playlist->tree_view,
+				"row-activated",
+				G_CALLBACK(playlist_row_handler),
+				&ctx );
+
 	g_signal_connect(	playlist->list_store,
 				"row-inserted",
 				G_CALLBACK(playlist_row_inserted_handler),
@@ -1675,12 +1668,7 @@ int main(int argc, char **argv)
 				G_CALLBACK(playlist_row_deleted_handler),
 				&ctx );
 
-	g_signal_connect(	ctx.gui->volume_button,
-				"value-changed",
-				G_CALLBACK(volume_handler),
-				&ctx );
-
-	g_signal_connect(	ctx.gui->seek_bar,
+	g_signal_connect(	control_box->seek_bar,
 				"change-value",
 				G_CALLBACK(seek_handler),
 				&ctx );
@@ -1723,7 +1711,7 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		main_window_set_control_enabled(ctx.gui, FALSE);
+		control_box_set_enabled(control_box, FALSE);
 	}
 
 	gtk_main();
