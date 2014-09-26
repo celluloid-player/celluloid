@@ -84,8 +84,6 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 				TRUE,
 				TRUE,
 				0 );
-
-	gtk_widget_show_all(GTK_WIDGET(dlg));
 }
 
 GtkWidget *open_loc_dialog_new(GtkWindow *parent)
@@ -93,6 +91,7 @@ GtkWidget *open_loc_dialog_new(GtkWindow *parent)
 	OpenLocDialog *dlg = g_object_new(open_loc_dialog_get_type(), NULL);
 
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
+	gtk_widget_show_all(GTK_WIDGET(dlg));
 
 	return GTK_WIDGET(dlg);
 }

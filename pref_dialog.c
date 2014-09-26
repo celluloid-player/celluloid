@@ -79,8 +79,6 @@ static void pref_dialog_init(PrefDialog *dlg)
 				TRUE,
 				TRUE,
 				0 );
-
-	gtk_widget_show_all(GTK_WIDGET(dlg));
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)
@@ -88,6 +86,7 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 	PrefDialog *dlg = g_object_new(pref_dialog_get_type(), NULL);
 
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
+	gtk_widget_show_all(GTK_WIDGET(dlg));
 
 	return GTK_WIDGET(dlg);
 }
