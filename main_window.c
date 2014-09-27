@@ -102,6 +102,8 @@ static void main_window_init(MainWindow *wnd)
 {
 	GdkRGBA vid_area_bg_color;
 	MainMenuBar *menu;
+	GtkBin *fullscreen_menu_item_bin;
+	GtkAccelLabel *fullscreen_accel_label;
 
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
@@ -181,13 +183,6 @@ static void main_window_init(MainWindow *wnd)
 					(GdkModifierType)0,
 					GTK_ACCEL_VISIBLE );
 
-	gtk_widget_add_accelerator(	menu->fullscreen_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_F11,
-					(GdkModifierType)0,
-					GTK_ACCEL_VISIBLE );
-
 	gtk_widget_add_accelerator(	menu->normal_size_menu_item,
 					"activate",
 					wnd->accel_group,
@@ -208,6 +203,15 @@ static void main_window_init(MainWindow *wnd)
 					GDK_KEY_3,
 					GDK_CONTROL_MASK,
 					GTK_ACCEL_VISIBLE );
+
+	fullscreen_menu_item_bin = GTK_BIN(menu->fullscreen_menu_item);
+
+	fullscreen_accel_label
+		= GTK_ACCEL_LABEL(gtk_bin_get_child(fullscreen_menu_item_bin));
+
+	gtk_accel_label_set_accel(	fullscreen_accel_label,
+					GDK_KEY_F11,
+					(GdkModifierType)0 );
 
 	gtk_container_add
 		(GTK_CONTAINER(wnd->main_box), wnd->menu);
@@ -286,12 +290,18 @@ GType main_window_get_type()
 void main_window_toggle_fullscreen(MainWindow *wnd)
 {
 	ControlBox *control_box = CONTROL_BOX(wnd->control_box);
+	GtkContainer* main_box = GTK_CONTAINER(wnd->main_box);
+	GtkContainer* fs_control = GTK_CONTAINER(wnd->fs_control);
 
 	if(wnd->fullscreen)
 	{
+		g_object_ref(wnd->control_box);
+		gtk_container_remove(fs_control, wnd->control_box);
+		gtk_container_add(main_box, wnd->control_box);
+		g_object_unref(wnd->control_box);
+
 		control_box_set_fullscreen_state(control_box, FALSE);
 		gtk_window_unfullscreen(GTK_WINDOW(wnd));
-		gtk_widget_reparent(wnd->control_box, wnd->main_box);
 		gtk_widget_hide(wnd->fs_control);
 		gtk_widget_show(wnd->menu);
 
@@ -299,6 +309,8 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		{
 			gtk_widget_show(wnd->playlist);
 		}
+
+		wnd->fullscreen = FALSE;
 	}
 	else
 	{
@@ -309,10 +321,14 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		screen = gtk_window_get_screen(GTK_WINDOW(wnd));
 		width = gdk_screen_width()/2;
 
+		g_object_ref(wnd->control_box);
+		gtk_container_remove(main_box, wnd->control_box);
+		gtk_container_add(fs_control, wnd->control_box);
+		g_object_unref(wnd->control_box);
+
 		control_box_set_fullscreen_state(control_box, TRUE);
 		gtk_window_fullscreen(GTK_WINDOW(wnd));
 		gtk_window_set_screen(GTK_WINDOW(wnd->fs_control), screen);
-		gtk_widget_reparent(wnd->control_box, wnd->fs_control);
 		gtk_widget_hide(wnd->menu);
 		gtk_widget_show(wnd->fs_control);
 		gtk_widget_set_opacity(wnd->fs_control, 0);
@@ -336,6 +352,8 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 
 		gtk_window_set_transient_for(	GTK_WINDOW(wnd->fs_control),
 						GTK_WINDOW(wnd) );
+
+		wnd->fullscreen = TRUE;
 	}
 }
 

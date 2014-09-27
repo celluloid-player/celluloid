@@ -49,10 +49,6 @@ static void half_size_handler(GtkWidget *widget, gpointer data);
 static void about_handler(GtkWidget *widget, gpointer data);
 static void volume_handler(GtkWidget *widget, gpointer data);
 
-static void window_state_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data );
-
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -403,17 +399,6 @@ static void volume_handler(GtkWidget *widget, gpointer data)
 	mpv_set_property(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
 }
 
-static void window_state_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data )
-{
-	GdkWindowState window_state
-		= ((GdkEventWindowState *)event)->new_window_state;
-
-	*((gint *)data)
-		= ((window_state&GDK_WINDOW_STATE_FULLSCREEN) != 0);
-}
-
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -498,12 +483,11 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	 */
 	if((state&mod_mask) == 0)
 	{
-		/* Accept F11 (via accelerator) and f for entering/exiting
-		 * fullscreen mode. ESC is only used for exiting fullscreen
-		 * mode.
+		/* Accept F11 and f for entering/exiting fullscreen mode. ESC is
+		 * only used for exiting fullscreen mode.
 		 */
-		if((ctx->gui->fullscreen
-		&& (keyval == GDK_KEY_F11 || keyval == GDK_KEY_Escape))
+		if((ctx->gui->fullscreen && keyval == GDK_KEY_Escape)
+		|| keyval == GDK_KEY_F11
 		|| keyval == GDK_KEY_f)
 		{
 			fullscreen_handler(NULL, ctx);
@@ -724,11 +708,6 @@ int main(int argc, char **argv)
 				"destroy",
 				G_CALLBACK(destroy_handler),
 				&ctx );
-
-	g_signal_connect(	ctx.gui,
-				"window-state-event",
-				G_CALLBACK(window_state_handler),
-				&ctx.gui->fullscreen );
 
 	g_signal_connect(	ctx.gui,
 				"key-press-event",
