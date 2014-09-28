@@ -36,12 +36,8 @@ static void pref_dialog_init(PrefDialog *dlg)
 
 	geom.max_width = G_MAXINT;
 	geom.max_height = 0;
-
 	dlg->content_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-
-	dlg->content_area
-		= gtk_dialog_get_content_area(GTK_DIALOG(dlg));
-
+	dlg->content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
 	dlg->opt_label = gtk_label_new("MPV Options:");
 	dlg->opt_entry = gtk_entry_new();
 

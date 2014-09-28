@@ -137,8 +137,7 @@ static void open_loc_handler(GtkWidget *widget, gpointer data)
 	open_loc_dialog
 		= OPEN_LOC_DIALOG(open_loc_dialog_new(GTK_WINDOW(ctx->gui)));
 
-	if(	gtk_dialog_run(GTK_DIALOG(open_loc_dialog))
-		== GTK_RESPONSE_ACCEPT )
+	if(gtk_dialog_run(GTK_DIALOG(open_loc_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		const gchar *loc_str;
 
@@ -172,8 +171,7 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 		g_free(buffer);
 	}
 
-	if(gtk_dialog_run(GTK_DIALOG(pref_dialog))
-	== GTK_RESPONSE_ACCEPT)
+	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		gint64 playlist_pos;
 		gdouble time_pos;

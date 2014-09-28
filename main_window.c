@@ -117,7 +117,6 @@ static void main_window_init(MainWindow *wnd)
 	wnd->control_box = control_box_new();
 	wnd->menu = main_menu_bar_new();
 	wnd->playlist = playlist_widget_new();
-
 	menu = MAIN_MENU(wnd->menu);
 
 	gdk_rgba_parse(&vid_area_bg_color, VID_AREA_BG_COLOR);

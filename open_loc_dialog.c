@@ -36,12 +36,8 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 
 	geom.max_width = G_MAXINT;
 	geom.max_height = 0;
-
 	dlg->content_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-
-	dlg->content_area
-		= gtk_dialog_get_content_area(GTK_DIALOG(dlg));
-
+	dlg->content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
 	dlg->loc_label = gtk_label_new("Location:");
 	dlg->loc_entry = gtk_entry_new();
 

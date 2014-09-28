@@ -101,11 +101,9 @@ void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 
 	buffer = ctx->log_buffer;
 
-	message_complete
-		= (text && text[strlen(text)-1] == '\n');
+	message_complete = (text && text[strlen(text)-1] == '\n');
 
-	log_complete
-		= (buffer && buffer[strlen(buffer)-1] == '\n');
+	log_complete = (buffer && buffer[strlen(buffer)-1] == '\n');
 
 	/* If the buffer is not empty, new log messages will be ignored
 	 * until the buffer is cleared by show_error_dialog().
@@ -258,13 +256,11 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 			&& (*opt_end == ' ' || *opt_end == '\n') );
 
 		token_size = opt_end-opt_begin;
-
 		token = g_malloc(token_size);
 
 		strncpy(token, opt_begin+2, token_size-1);
 
 		token[token_size-1] = '\0';
-
 		token_arg = strpbrk(token, "= ");
 
 		if(token_arg)
@@ -351,9 +347,9 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 }
 
 void mpv_load(	gmpv_handle *ctx,
-			const gchar *uri,
-			gboolean append,
-			gboolean update )
+		const gchar *uri,
+		gboolean append,
+		gboolean update )
 {
 	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
 	GtkListStore *playlist_store;
