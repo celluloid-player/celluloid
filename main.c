@@ -32,6 +32,7 @@
 #include "pref_dialog.h"
 #include "open_loc_dialog.h"
 
+static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static void destroy_handler(GtkWidget *widget, gpointer data);
 static void open_handler(GtkWidget *widget, gpointer data);
 static void open_loc_handler(GtkWidget *widget, gpointer data);
@@ -66,6 +67,24 @@ static void seek_handler(	GtkWidget *widget,
 static gboolean key_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+
+static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
+{
+	guint signal_id = g_signal_lookup("draw", MAIN_WINDOW_TYPE);
+
+	g_signal_handlers_disconnect_matched(	widget,
+						G_SIGNAL_MATCH_ID
+						|G_SIGNAL_MATCH_DATA,
+						signal_id,
+						0,
+						0,
+						NULL,
+						data );
+
+	g_idle_add((GSourceFunc)mpv_load_from_ctx, data);
+
+	return FALSE;
+}
 
 static void destroy_handler(GtkWidget *widget, gpointer data)
 {
@@ -703,6 +722,11 @@ int main(int argc, char **argv)
 				&ctx );
 
 	g_signal_connect(	ctx.gui,
+				"draw",
+				G_CALLBACK(draw_handler),
+				&ctx );
+
+	g_signal_connect(	ctx.gui,
 				"destroy",
 				G_CALLBACK(destroy_handler),
 				&ctx );
@@ -855,8 +879,6 @@ int main(int argc, char **argv)
 
 			g_free(path);
 		}
-
-		g_idle_add((GSourceFunc)mpv_load_from_ctx, &ctx);
 	}
 	else
 	{
