@@ -1,8 +1,5 @@
 AUTOMAKE_OPTIONS = foreign
 
-AM_CFLAGS=$(GTK_CFLAGS)
-AM_LDFLAGS=$(GTK_LIBS)
-
 UPDATE_DESKTOP = update-desktop-database -q || :
 
 bin_PROGRAMS = gnome-mpv
@@ -10,6 +7,9 @@ bin_PROGRAMS = gnome-mpv
 gnome_mpv_SOURCES =	main.c common.c mpv.c playlist.c main_window.c \
 			main_menu_bar.c control_box.c pref_dialog.c \
 			open_loc_dialog.c playlist_widget.c
+
+gnome_mpv_CFLAGS = $(GTK_CFLAGS)
+gnome_mpv_LDADD = $(GTK_LIBS)
 
 desktopdir = $(datadir)/applications
 desktop_DATA = gnome-mpv.desktop
