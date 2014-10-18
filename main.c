@@ -454,8 +454,6 @@ static gboolean key_press_handler(	GtkWidget *widget,
 			const gchar *cmd[] = {"playlist_remove", NULL, NULL};
 			PlaylistWidget *playlist;
 			GtkTreePath *path;
-			gchar *index_str;
-			gint index;
 
 			playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
 
@@ -464,32 +462,38 @@ static gboolean key_press_handler(	GtkWidget *widget,
 					&path,
 					NULL );
 
-			index = gtk_tree_path_get_indices(path)[0];
-			index_str = g_strdup_printf("%d", index);
-			cmd[1] = index_str;
+			if(path)
+			{
+				gint index;
+				gchar *index_str;
 
-			g_signal_handlers_block_matched
-				(	playlist->list_store,
-					G_SIGNAL_MATCH_DATA,
-					0,
-					0,
-					NULL,
-					NULL,
-					ctx );
+				index = gtk_tree_path_get_indices(path)[0];
+				index_str = g_strdup_printf("%d", index);
+				cmd[1] = index_str;
 
-			playlist_widget_remove(playlist, index);
-			mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+				g_signal_handlers_block_matched
+					(	playlist->list_store,
+						G_SIGNAL_MATCH_DATA,
+						0,
+						0,
+						NULL,
+						NULL,
+						ctx );
 
-			g_signal_handlers_unblock_matched
-				(	playlist->list_store,
-					G_SIGNAL_MATCH_DATA,
-					0,
-					0,
-					NULL,
-					NULL,
-					ctx );
+				playlist_widget_remove(playlist, index);
+				mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 
-			g_free(index_str);
+				g_signal_handlers_unblock_matched
+					(	playlist->list_store,
+						G_SIGNAL_MATCH_DATA,
+						0,
+						0,
+						NULL,
+						NULL,
+						ctx );
+
+				g_free(index_str);
+			}
 		}
 		else if(keyval == GDK_KEY_v)
 		{
