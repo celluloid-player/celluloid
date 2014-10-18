@@ -292,44 +292,20 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 static void play_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = data;
-	gboolean loaded;
-
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
-	ctx->paused = !ctx->paused;
-	loaded = ctx->loaded;
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
-
-	if(!loaded)
-	{
-		mpv_load(ctx, NULL, FALSE, TRUE);
-	}
-	else
-	{
-		mpv_check_error(mpv_set_property(	ctx->mpv_ctx,
-							"pause",
-							MPV_FORMAT_FLAG,
-							&ctx->paused ));
-	}
-
-	control_box_set_playing_state
-		(CONTROL_BOX(ctx->gui->control_box), !ctx->paused);
+	toggle_play(data);
 }
 
 static void stop_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = (gmpv_handle *)data;
-	const gchar *seek_cmd[] = {"seek", "0", "absolute", NULL};
+	stop(data);
+}
 
-	mpv_check_error(mpv_set_property_string(ctx->mpv_ctx, "pause", "yes"));
-	mpv_check_error(mpv_command(ctx->mpv_ctx, seek_cmd));
-
-	ctx->paused = TRUE;
-
-	control_reset(ctx);
-	update_seek_bar(ctx);
+static void seek_handler(	GtkWidget *widget,
+				GtkScrollType scroll,
+				gdouble value,
+				gpointer data )
+{
+	seek_absolute(data, value);
 }
 
 static void forward_handler(GtkWidget *widget, gpointer data)
@@ -344,28 +320,12 @@ static void rewind_handler(GtkWidget *widget, gpointer data)
 
 static void chapter_previous_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = (gmpv_handle *)data;
-	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
-
-	if(!ctx->loaded)
-	{
-		mpv_load(ctx, NULL, FALSE, TRUE);
-	}
-
-	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+	previous_chapter(data);
 }
 
 static void chapter_next_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = (gmpv_handle *)data;
-	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
-
-	if(!ctx->loaded)
-	{
-		mpv_load(ctx, NULL, FALSE, TRUE);
-	}
-
-	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+	next_chapter(data);
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)
@@ -456,27 +416,6 @@ static void drag_data_handler(	GtkWidget *widget,
 			mpv_load(ctx, (const gchar *)raw_data, append, TRUE);
 		}
 	}
-}
-
-static void seek_handler(	GtkWidget *widget,
-				GtkScrollType scroll,
-				gdouble value,
-				gpointer data )
-{
-	gmpv_handle *ctx = data;
-	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
-	gchar *value_str = g_strdup_printf("%.2f", value);
-
-	cmd[1] = value_str;
-
-	if(!ctx->loaded)
-	{
-		mpv_load(ctx, NULL, FALSE, TRUE);
-	}
-
-	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
-
-	g_free(value_str);
 }
 
 static gboolean key_press_handler(	GtkWidget *widget,

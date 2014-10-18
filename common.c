@@ -180,12 +180,55 @@ gboolean show_error_dialog(gpointer data)
 	return FALSE;
 }
 
-void seek_relative(gmpv_handle *ctx, gint offset)
+void toggle_play(gmpv_handle *ctx)
 {
-	const gchar *cmd[] = {"seek", NULL, NULL};
-	gchar *offset_str = g_strdup_printf("%d", offset);
+	gboolean loaded;
 
-	cmd[1] = offset_str;
+	pthread_mutex_lock(ctx->mpv_event_mutex);
+
+	ctx->paused = !ctx->paused;
+	loaded = ctx->loaded;
+
+	pthread_mutex_unlock(ctx->mpv_event_mutex);
+
+	if(!loaded)
+	{
+		mpv_load(ctx, NULL, FALSE, TRUE);
+	}
+	else
+	{
+		mpv_check_error(mpv_set_property(	ctx->mpv_ctx,
+							"pause",
+							MPV_FORMAT_FLAG,
+							&ctx->paused ));
+	}
+
+	control_box_set_playing_state
+		(CONTROL_BOX(ctx->gui->control_box), !ctx->paused);
+}
+
+void stop(gmpv_handle *ctx)
+{
+	const gchar *seek_cmd[] = {"seek", "0", "absolute", NULL};
+
+	if(ctx->loaded)
+	{
+		mpv_check_error
+			(mpv_set_property_string(ctx->mpv_ctx, "pause", "yes"));
+
+		mpv_check_error
+			(mpv_command(ctx->mpv_ctx, seek_cmd));
+	}
+
+	ctx->paused = TRUE;
+
+	control_reset(ctx);
+	update_seek_bar(ctx);
+}
+
+void previous_chapter(gmpv_handle *ctx)
+{
+	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
 	if(!ctx->loaded)
 	{
@@ -193,10 +236,60 @@ void seek_relative(gmpv_handle *ctx, gint offset)
 	}
 
 	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+}
 
-	g_free(offset_str);
+void next_chapter(gmpv_handle *ctx)
+{
+	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
-	update_seek_bar(ctx);
+	if(!ctx->loaded)
+	{
+		mpv_load(ctx, NULL, FALSE, TRUE);
+	}
+
+	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+}
+
+void seek_absolute(gmpv_handle *ctx, gdouble time)
+{
+	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
+
+	if(!ctx->loaded)
+	{
+		mpv_load(ctx, NULL, FALSE, TRUE);
+	}
+	else
+	{
+		gchar *value_str = g_strdup_printf("%.2f", time);
+
+		cmd[1] = value_str;
+
+		mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+		update_seek_bar(ctx);
+
+		g_free(value_str);
+	}
+}
+
+void seek_relative(gmpv_handle *ctx, gint offset)
+{
+	const gchar *cmd[] = {"seek", NULL, NULL};
+
+	if(!ctx->loaded)
+	{
+		mpv_load(ctx, NULL, FALSE, TRUE);
+	}
+	else
+	{
+		gchar *offset_str = g_strdup_printf("%d", offset);
+
+		cmd[1] = offset_str;
+
+		mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+		update_seek_bar(ctx);
+
+		g_free(offset_str);
+	}
 }
 
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)

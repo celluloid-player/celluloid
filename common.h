@@ -66,6 +66,11 @@ gchar *get_name_from_path(const gchar *path);
 gboolean update_seek_bar(gpointer data);
 gboolean control_reset(gpointer data);
 gboolean show_error_dialog(gpointer data);
+void toggle_play(gmpv_handle *ctx);
+void stop(gmpv_handle *ctx);
+void previous_chapter(gmpv_handle *ctx);
+void next_chapter(gmpv_handle *ctx);
+void seek_absolute(gmpv_handle *ctx, gdouble time);
 void seek_relative(gmpv_handle *ctx, gint offset);
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);
 
