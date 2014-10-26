@@ -23,11 +23,38 @@ static void response_handler(	GtkDialog *dialog,
 				gint response_id,
 				gpointer data );
 
+static gboolean key_press_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data );
+
 static void open_loc_dialog_init(OpenLocDialog *dlg);
 
 static void response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 {
 	gtk_widget_hide(GTK_WIDGET(dialog));
+}
+
+static gboolean key_press_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data )
+{
+	guint keyval = ((GdkEventKey*)event)->keyval;
+	guint state = ((GdkEventKey*)event)->state;
+
+	const guint mod_mask =	GDK_MODIFIER_MASK
+				&~(GDK_SHIFT_MASK
+				|GDK_LOCK_MASK
+				|GDK_MOD2_MASK
+				|GDK_MOD3_MASK
+				|GDK_MOD4_MASK
+				|GDK_MOD5_MASK);
+
+	if((state&mod_mask) == 0 && keyval == GDK_KEY_Return)
+	{
+		gtk_dialog_response(GTK_DIALOG(widget), GTK_RESPONSE_ACCEPT);
+	}
+
+	return FALSE;
 }
 
 static void open_loc_dialog_init(OpenLocDialog *dlg)
@@ -65,6 +92,11 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 	g_signal_connect(	dlg,
 				"response",
 				G_CALLBACK(response_handler),
+				NULL );
+
+	g_signal_connect(	dlg,
+				"key-press-event",
+				G_CALLBACK(key_press_handler),
 				NULL );
 
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->content_box);
