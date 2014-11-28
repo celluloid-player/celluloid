@@ -32,11 +32,26 @@ inline gchar *get_config_string(	gmpv_handle *ctx,
 }
 
 inline void set_config_string(	gmpv_handle *ctx,
-					const gchar *group,
-					const gchar *key,
-					const gchar *value)
+				const gchar *group,
+				const gchar *key,
+				const gchar *value)
 {
 	g_key_file_set_string(ctx->config_file, group, key, value);
+}
+
+inline gboolean get_config_boolean(	gmpv_handle *ctx,
+					const gchar *group,
+					const gchar *key )
+{
+	return g_key_file_get_boolean(ctx->config_file, group, key, NULL);
+}
+
+inline void set_config_boolean(	gmpv_handle *ctx,
+				const gchar *group,
+				const gchar *key,
+				gboolean value)
+{
+	g_key_file_set_boolean(ctx->config_file, group, key, value);
 }
 
 inline gchar *get_config_file_path(void)

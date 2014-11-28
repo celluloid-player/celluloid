@@ -44,10 +44,13 @@ typedef struct PrefDialogClass PrefDialogClass;
 struct PrefDialog
 {
 	GtkDialog dialog;
+	GtkWidget *grid;
 	GtkWidget *content_area;
-	GtkWidget *content_box;
-	GtkWidget *opt_label;
-	GtkWidget *opt_entry;
+	GtkWidget *mpvconf_enable_check;
+	GtkWidget *mpvconf_label;
+	GtkWidget *mpvconf_button;
+	GtkWidget *mpvopt_label;
+	GtkWidget *mpvopt_entry;
 };
 
 struct PrefDialogClass
@@ -57,9 +60,12 @@ struct PrefDialogClass
 
 GtkWidget *pref_dialog_new(GtkWindow *parent);
 GType pref_dialog_get_type(void);
-void pref_dialog_set_string(PrefDialog *dlg, gchar *buffer);
-const gchar *pref_dialog_get_string(PrefDialog *dlg);
-guint64 pref_dialog_get_string_length(PrefDialog *dlg);
+void pref_dialog_set_mpvconf_enable(PrefDialog *dlg, gboolean value);
+gboolean pref_dialog_get_mpvconf_enable(PrefDialog *dlg);
+void pref_dialog_set_mpvconf(PrefDialog *dlg, const gchar *buffer);
+gchar *pref_dialog_get_mpvconf(PrefDialog *dlg);
+void pref_dialog_set_mpvopt(PrefDialog *dlg, gchar *buffer);
+const gchar *pref_dialog_get_mpvopt(PrefDialog *dlg);
 
 G_END_DECLS
 

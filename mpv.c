@@ -302,7 +302,9 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 
 void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 {
-	gchar *buffer = NULL;
+	gboolean mpvconf_enable = FALSE;
+	gchar *mpvconf = NULL;
+	gchar *mpvopt = NULL;
 	gchar *screenshot_template = NULL;
 
 	screenshot_template
@@ -329,10 +331,17 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 
 	load_config(ctx);
 
-	buffer = get_config_string(ctx, "main", "mpv-options");
+	mpvconf_enable = get_config_boolean(ctx, "main", "mpv-config-enable");
+	mpvconf = get_config_string(ctx, "main", "mpv-config-file");
+	mpvopt = get_config_string(ctx, "main", "mpv-options");
+
+	if(mpvconf_enable)
+	{
+		mpv_load_config_file(ctx->mpv_ctx, mpvconf);
+	}
 
 	/* Apply extra options */
-	if(mpv_apply_args(ctx->mpv_ctx, buffer) < 0)
+	if(mpv_apply_args(ctx->mpv_ctx, mpvopt) < 0)
 	{
 		ctx->log_buffer
 			= g_strdup("Failed to apply one or more MPV options.");
@@ -342,7 +351,8 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 
 	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
 
-	g_free(buffer);
+	g_free(mpvconf);
+	g_free(mpvopt);
 	g_free(screenshot_template);
 }
 

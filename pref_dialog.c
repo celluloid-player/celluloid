@@ -63,10 +63,31 @@ static void pref_dialog_init(PrefDialog *dlg)
 
 	geom.max_width = G_MAXINT;
 	geom.max_height = 0;
-	dlg->content_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+
+	dlg->grid = gtk_grid_new();
 	dlg->content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
-	dlg->opt_label = gtk_label_new("MPV Options:");
-	dlg->opt_entry = gtk_entry_new();
+	dlg->mpvopt_label = gtk_label_new("Extra MPV options:");
+	dlg->mpvopt_entry = gtk_entry_new();
+	dlg->mpvconf_label = gtk_label_new("MPV configuration file:");
+
+	dlg->mpvconf_button
+		= gtk_file_chooser_button_new(	"MPV configuration file",
+						GTK_FILE_CHOOSER_ACTION_OPEN );
+
+	dlg->mpvconf_enable_check
+		= gtk_check_button_new_with_label("Load MPV configuration file");
+
+	gtk_widget_set_margin_bottom(dlg->grid, 5);
+	gtk_grid_set_row_homogeneous(GTK_GRID(dlg->grid), TRUE);
+	gtk_grid_set_row_spacing(GTK_GRID(dlg->grid), 5);
+	gtk_grid_set_column_spacing(GTK_GRID(dlg->grid), 5);
+
+	gtk_widget_set_halign(dlg->mpvconf_label, GTK_ALIGN_START);
+	gtk_widget_set_halign(dlg->mpvopt_label, GTK_ALIGN_START);
+	gtk_widget_set_hexpand(dlg->mpvconf_label, FALSE);
+	gtk_widget_set_hexpand(dlg->mpvopt_label, FALSE);
+	gtk_widget_set_hexpand(dlg->mpvconf_button, TRUE);
+	gtk_widget_set_hexpand(dlg->mpvopt_entry, TRUE);
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				"_Save",
@@ -77,7 +98,6 @@ static void pref_dialog_init(PrefDialog *dlg)
 
 	gtk_window_set_modal(GTK_WINDOW(dlg), 1);
 	gtk_window_set_title(GTK_WINDOW(dlg), "Preferences");
-	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_box), 5);
 
 	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
 					GTK_WIDGET(dlg),
@@ -94,19 +114,16 @@ static void pref_dialog_init(PrefDialog *dlg)
 				G_CALLBACK(key_press_handler),
 				NULL );
 
-	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->content_box);
+	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 5);
+	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->grid);
 
-	gtk_box_pack_start(	GTK_BOX(dlg->content_box),
-				dlg->opt_label,
-				FALSE,
-				FALSE,
-				0 );
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 0, 2, 1);
 
-	gtk_box_pack_start(	GTK_BOX(dlg->content_box),
-				dlg->opt_entry,
-				TRUE,
-				TRUE,
-				0 );
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_label, 0, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_label, 0, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 1, 2, 1, 1);
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)
@@ -145,17 +162,40 @@ GType pref_dialog_get_type()
 	return dlg_type;
 }
 
-void pref_dialog_set_string(PrefDialog *dlg, gchar *buffer)
+void pref_dialog_set_mpvconf_enable(PrefDialog *dlg, gboolean value)
 {
-	gtk_entry_set_text(GTK_ENTRY(dlg->opt_entry), buffer);
+	GtkToggleButton *button = GTK_TOGGLE_BUTTON(dlg->mpvconf_enable_check);
+
+	gtk_toggle_button_set_active(button, value);
 }
 
-const gchar *pref_dialog_get_string(PrefDialog *dlg)
+gboolean pref_dialog_get_mpvconf_enable(PrefDialog *dlg)
 {
-	return gtk_entry_get_text(GTK_ENTRY(dlg->opt_entry));
+	GtkToggleButton *button = GTK_TOGGLE_BUTTON(dlg->mpvconf_enable_check);
+
+	return gtk_toggle_button_get_active(button);
 }
 
-guint64 pref_dialog_get_string_length(PrefDialog *dlg)
+void pref_dialog_set_mpvconf(PrefDialog *dlg, const gchar *buffer)
 {
-	return gtk_entry_get_text_length(GTK_ENTRY(dlg->opt_entry));
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvconf_button);
+
+	gtk_file_chooser_set_filename(chooser, buffer);
+}
+
+gchar *pref_dialog_get_mpvconf(PrefDialog *dlg)
+{
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvconf_button);
+
+	return gtk_file_chooser_get_filename(chooser);
+}
+
+void pref_dialog_set_mpvopt(PrefDialog *dlg, gchar *buffer)
+{
+	gtk_entry_set_text(GTK_ENTRY(dlg->mpvopt_entry), buffer);
+}
+
+const gchar *pref_dialog_get_mpvopt(PrefDialog *dlg)
+{
+	return gtk_entry_get_text(GTK_ENTRY(dlg->mpvopt_entry));
 }

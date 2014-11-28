@@ -174,33 +174,66 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 {
 	gmpv_handle *ctx = data;
 	PrefDialog *pref_dialog;
-	gchar *buffer;
+	gboolean mpvconf_enable_buffer;
+	gchar *mpvconf_buffer;
+	gchar *mpvopt_buffer;
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 
 	load_config(ctx);
 
-	buffer = get_config_string(ctx, "main", "mpv-options");
+	mpvconf_enable_buffer
+		= get_config_boolean(ctx, "main", "mpv-config-enable");
+
+	mpvconf_buffer
+		= get_config_string(ctx, "main", "mpv-config-file");
+
+	mpvopt_buffer
+		= get_config_string(ctx, "main", "mpv-options");
 
 	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
-	if(buffer)
+	if(mpvconf_enable_buffer)
 	{
-		pref_dialog_set_string(pref_dialog, buffer);
+		pref_dialog_set_mpvconf_enable
+			(pref_dialog, mpvconf_enable_buffer);
+	}
 
-		g_free(buffer);
+	if(mpvconf_buffer)
+	{
+		pref_dialog_set_mpvconf(pref_dialog, mpvconf_buffer);
+
+		g_free(mpvconf_buffer);
+	}
+
+	if(mpvopt_buffer)
+	{
+		pref_dialog_set_mpvopt(pref_dialog, mpvopt_buffer);
+
+		g_free(mpvopt_buffer);
 	}
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
+		gboolean mpvconf_enable;
+		const gchar* mpvconf;
+		const gchar* mpvopt;
 		gint64 playlist_pos;
 		gdouble time_pos;
 		gint playlist_pos_rc;
 		gint time_pos_rc;
 
-		set_config_string(	ctx,
-					"main",
-					"mpv-options",
-					pref_dialog_get_string(pref_dialog) );
+		mpvconf_enable = pref_dialog_get_mpvconf_enable(pref_dialog);
+		mpvconf = pref_dialog_get_mpvconf(pref_dialog);
+		mpvopt = pref_dialog_get_mpvopt(pref_dialog);
+
+		set_config_boolean
+			(ctx, "main", "mpv-config-enable", mpvconf_enable);
+
+		set_config_string
+			(ctx, "main", "mpv-config-file", mpvconf);
+
+		set_config_string
+			(ctx, "main", "mpv-options", mpvopt);
 
 		save_config(ctx);
 
