@@ -58,6 +58,15 @@ inline void set_config_string(	gmpv_handle *ctx,
 				const gchar *key,
 				const gchar *value );
 
+inline gboolean get_config_boolean(	gmpv_handle *ctx,
+					const gchar *group,
+					const gchar *key );
+
+inline void set_config_boolean(	gmpv_handle *ctx,
+				const gchar *group,
+				const gchar *key,
+				gboolean value);
+
 inline gchar *get_config_file_path(void);
 gboolean load_config(gmpv_handle *ctx);
 gboolean save_config(gmpv_handle *ctx);
