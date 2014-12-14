@@ -153,6 +153,7 @@ gboolean mpv_load_gui_update(gpointer data)
 	gmpv_handle* ctx = data;
 	ControlBox *control_box;
 	gchar* title;
+	gint paused;
 	gint64 chapter_count;
 	gint64 playlist_pos;
 	gboolean new_file;
@@ -162,14 +163,17 @@ gboolean mpv_load_gui_update(gpointer data)
 	control_box = CONTROL_BOX(ctx->gui->control_box);
 	title = mpv_get_property_string(ctx->mpv_ctx, "media-title");
 
-	control_box_set_playing_state(control_box, !ctx->paused);
-
 	if(title)
 	{
 		gtk_window_set_title(GTK_WINDOW(ctx->gui), title);
 
 		mpv_free(title);
 	}
+
+	mpv_check_error(mpv_get_property(	ctx->mpv_ctx,
+						"pause",
+						MPV_FORMAT_FLAG,
+						&paused));
 
 	if(mpv_get_property(	ctx->mpv_ctx,
 				"playlist-pos",
@@ -209,8 +213,11 @@ gboolean mpv_load_gui_update(gpointer data)
 
 	new_file = ctx->new_file;
 	ctx->new_file = FALSE;
+	ctx->paused = paused;
 
 	pthread_mutex_unlock(ctx->mpv_event_mutex);
+
+	control_box_set_playing_state(control_box, !paused);
 
 	if(new_file)
 	{
@@ -317,6 +324,10 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"softvol-max",
 						"100" ));
+
+	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
+						"config",
+						"yes" ));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"screenshot-template",

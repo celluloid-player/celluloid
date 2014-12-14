@@ -88,6 +88,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 
 static void destroy_handler(GtkWidget *widget, gpointer data)
 {
+	const gchar *cmd[] = {"quit", NULL};
 	gmpv_handle *ctx = data;
 
 	pthread_mutex_lock(ctx->mpv_event_mutex);
@@ -102,6 +103,7 @@ static void destroy_handler(GtkWidget *widget, gpointer data)
 	pthread_cond_destroy(ctx->mpv_ctx_init_cv);
 	pthread_cond_destroy(ctx->mpv_ctx_destroy_cv);
 
+	mpv_command(ctx->mpv_ctx, cmd);
 	mpv_terminate_destroy(ctx->mpv_ctx);
 	g_key_file_free(ctx->config_file);
 
@@ -494,6 +496,19 @@ static gboolean key_press_handler(	GtkWidget *widget,
 						NULL };
 
 			mpv_command(ctx->mpv_ctx, cmd);
+		}
+		else if(keyval == GDK_KEY_Q)
+		{
+			const gchar *cmd[] = {	"write_watch_later_config",
+						NULL };
+
+			gint rc = mpv_set_property_string(	ctx->mpv_ctx,
+								"pause",
+								"yes" );
+
+			mpv_check_error(rc);
+			mpv_command(ctx->mpv_ctx, cmd);
+			gtk_widget_destroy(GTK_WIDGET(ctx->gui));
 		}
 		else if(keyval == GDK_KEY_s)
 		{
