@@ -774,7 +774,7 @@ int main(int argc, char **argv)
 
 	g_signal_connect(	menu->playlist_menu_item,
 				"activate",
-				G_CALLBACK(playlist_handler),
+				G_CALLBACK(playlist_toggle_handler),
 				&ctx );
 
 	g_signal_connect(	menu->fullscreen_menu_item,

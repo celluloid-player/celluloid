@@ -22,7 +22,7 @@
 
 #include <gtk/gtk.h>
 
-void playlist_handler(GtkWidget *widget, gpointer data);
+void playlist_toggle_handler(GtkWidget *widget, gpointer data);
 void playlist_previous_handler(GtkWidget *widget, gpointer data);
 void playlist_next_handler(GtkWidget *widget, gpointer data);
 
