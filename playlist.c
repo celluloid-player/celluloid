@@ -100,7 +100,7 @@ void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
 	{
 		src_str = g_strdup_printf("%d", (src > dest)?--src:src);
 		dest_str = g_strdup_printf("%d", dest);
-		dest = -1;
+		ctx->playlist_move_dest = -1;
 
 		cmd[1] = src_str;
 		cmd[2] = dest_str;
