@@ -502,11 +502,13 @@ static gboolean key_press_handler(	GtkWidget *widget,
 			const gchar *cmd[] = {	"write_watch_later_config",
 						NULL };
 
-			gint rc = mpv_set_property_string(	ctx->mpv_ctx,
-								"pause",
-								"yes" );
+			gint rc;
 
 			mpv_command(ctx->mpv_ctx, cmd);
+
+			rc = mpv_set_property_string(	ctx->mpv_ctx,
+							"pause",
+							"yes" );
 
 			mpv_check_error(rc);
 			gtk_widget_destroy(GTK_WIDGET(ctx->gui));
