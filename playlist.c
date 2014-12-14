@@ -46,9 +46,9 @@ void playlist_next_handler(GtkWidget *widget, gpointer data)
 }
 
 void playlist_row_handler(	GtkTreeView *tree_view,
-					GtkTreePath *path,
-					GtkTreeViewColumn *column,
-					gpointer data )
+				GtkTreePath *path,
+				GtkTreeViewColumn *column,
+				gpointer data )
 {
 	gmpv_handle *ctx = data;
 	gint *indices = gtk_tree_path_get_indices(path);
@@ -65,9 +65,9 @@ void playlist_row_handler(	GtkTreeView *tree_view,
 }
 
 void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
-						GtkTreePath *path,
-						GtkTreeIter *iter,
-						gpointer data )
+					GtkTreePath *path,
+					GtkTreeIter *iter,
+					gpointer data )
 {
 	gmpv_handle *ctx = data;
 
@@ -79,8 +79,8 @@ void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
 }
 
 void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
-						GtkTreePath *path,
-						gpointer data )
+					GtkTreePath *path,
+					gpointer data )
 {
 	gmpv_handle *ctx = data;
 	const gchar *cmd[] = {"playlist_move", NULL, NULL, NULL};
