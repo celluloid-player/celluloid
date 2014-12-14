@@ -70,6 +70,7 @@ struct PlaylistWidgetClass
 
 GtkWidget *playlist_widget_new(void);
 GType playlist_widget_get_type(void);
+gboolean playlist_widget_empty(PlaylistWidget *wgt);
 void playlist_widget_clear(PlaylistWidget *wgt);
 void playlist_widget_get_iter_first(PlaylistWidget *wgt, GtkTreeIter *iter);
 void playlist_widget_iter_next(PlaylistWidget *wgt, GtkTreeIter *iter);

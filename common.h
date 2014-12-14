@@ -75,6 +75,7 @@ gchar *get_name_from_path(const gchar *path);
 gboolean update_seek_bar(gpointer data);
 gboolean control_reset(gpointer data);
 gboolean show_error_dialog(gpointer data);
+void remove_current_playlist_entry(gmpv_handle *ctx);
 void toggle_play(gmpv_handle *ctx);
 void stop(gmpv_handle *ctx);
 void previous_chapter(gmpv_handle *ctx);

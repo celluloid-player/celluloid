@@ -23,6 +23,7 @@
 #include "def.h"
 #include "mpv.h"
 #include "control_box.h"
+#include "playlist_widget.h"
 
 inline gchar *get_config_string(	gmpv_handle *ctx,
 					const gchar *group,
@@ -193,6 +194,59 @@ gboolean show_error_dialog(gpointer data)
 	}
 
 	return FALSE;
+}
+
+void remove_current_playlist_entry(gmpv_handle *ctx)
+{
+	const gchar *cmd[] = {"playlist_remove", NULL, NULL};
+	PlaylistWidget *playlist;
+	GtkTreePath *path;
+
+	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
+
+	gtk_tree_view_get_cursor
+		(	GTK_TREE_VIEW(playlist->tree_view),
+			&path,
+			NULL );
+
+	if(path)
+	{
+		gint index;
+		gchar *index_str;
+
+		index = gtk_tree_path_get_indices(path)[0];
+		index_str = g_strdup_printf("%d", index);
+		cmd[1] = index_str;
+
+		g_signal_handlers_block_matched
+			(	playlist->list_store,
+				G_SIGNAL_MATCH_DATA,
+				0,
+				0,
+				NULL,
+				NULL,
+				ctx );
+
+		playlist_widget_remove(playlist, index);
+		mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+
+		if(playlist_widget_empty(playlist))
+		{
+			control_box_set_enabled
+				(CONTROL_BOX(ctx->gui->control_box), FALSE);
+		}
+
+		g_signal_handlers_unblock_matched
+			(	playlist->list_store,
+				G_SIGNAL_MATCH_DATA,
+				0,
+				0,
+				NULL,
+				NULL,
+				ctx );
+
+		g_free(index_str);
+	}
 }
 
 void toggle_play(gmpv_handle *ctx)

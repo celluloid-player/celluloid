@@ -129,6 +129,17 @@ void playlist_widget_clear(PlaylistWidget *wgt)
 	gtk_list_store_clear(wgt->list_store);
 }
 
+gboolean playlist_widget_empty(PlaylistWidget *wgt)
+{
+	GtkTreeIter iter;
+	int rc;
+
+	rc = gtk_tree_model_get_iter_first
+		(GTK_TREE_MODEL(wgt->list_store), &iter);
+
+	return !rc;
+}
+
 void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos)
 {
 	GtkTreeIter iter;

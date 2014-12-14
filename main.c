@@ -484,49 +484,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		else if(keyval == GDK_KEY_Delete
 		&& main_window_get_playlist_visible(ctx->gui))
 		{
-			const gchar *cmd[] = {"playlist_remove", NULL, NULL};
-			PlaylistWidget *playlist;
-			GtkTreePath *path;
-
-			playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
-
-			gtk_tree_view_get_cursor
-				(	GTK_TREE_VIEW(playlist->tree_view),
-					&path,
-					NULL );
-
-			if(path)
-			{
-				gint index;
-				gchar *index_str;
-
-				index = gtk_tree_path_get_indices(path)[0];
-				index_str = g_strdup_printf("%d", index);
-				cmd[1] = index_str;
-
-				g_signal_handlers_block_matched
-					(	playlist->list_store,
-						G_SIGNAL_MATCH_DATA,
-						0,
-						0,
-						NULL,
-						NULL,
-						ctx );
-
-				playlist_widget_remove(playlist, index);
-				mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
-
-				g_signal_handlers_unblock_matched
-					(	playlist->list_store,
-						G_SIGNAL_MATCH_DATA,
-						0,
-						0,
-						NULL,
-						NULL,
-						ctx );
-
-				g_free(index_str);
-			}
+			remove_current_playlist_entry(ctx);
 		}
 		else if(keyval == GDK_KEY_v)
 		{
