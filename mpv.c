@@ -153,7 +153,6 @@ gboolean mpv_load_gui_update(gpointer data)
 	gmpv_handle* ctx = data;
 	ControlBox *control_box;
 	gchar* title;
-	gint paused;
 	gint64 chapter_count;
 	gint64 playlist_pos;
 	gboolean new_file;
@@ -170,10 +169,10 @@ gboolean mpv_load_gui_update(gpointer data)
 		mpv_free(title);
 	}
 
-	mpv_check_error(mpv_get_property(	ctx->mpv_ctx,
+	mpv_check_error(mpv_set_property(	ctx->mpv_ctx,
 						"pause",
 						MPV_FORMAT_FLAG,
-						&paused));
+						&ctx->paused));
 
 	if(mpv_get_property(	ctx->mpv_ctx,
 				"playlist-pos",
@@ -213,11 +212,10 @@ gboolean mpv_load_gui_update(gpointer data)
 
 	new_file = ctx->new_file;
 	ctx->new_file = FALSE;
-	ctx->paused = paused;
 
 	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
-	control_box_set_playing_state(control_box, !paused);
+	control_box_set_playing_state(control_box, !ctx->paused);
 
 	if(new_file)
 	{
