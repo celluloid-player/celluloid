@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -24,6 +24,7 @@
 #include "def.h"
 #include "common.h"
 #include "mpv.h"
+#include "keybind.h"
 #include "playlist.h"
 #include "main_window.h"
 #include "main_menu_bar.h"
@@ -177,7 +178,9 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 	gmpv_handle *ctx = data;
 	PrefDialog *pref_dialog;
 	gboolean mpvconf_enable_buffer;
+	gboolean mpvinput_enable_buffer;
 	gchar *mpvconf_buffer;
+	gchar *mpvinput_buffer;
 	gchar *mpvopt_buffer;
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 
@@ -186,25 +189,36 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 	mpvconf_enable_buffer
 		= get_config_boolean(ctx, "main", "mpv-config-enable");
 
+	mpvinput_enable_buffer
+		= get_config_boolean(ctx, "main", "mpv-input-config-enable");
+
 	mpvconf_buffer
 		= get_config_string(ctx, "main", "mpv-config-file");
+
+	mpvinput_buffer
+		= get_config_string(ctx, "main", "mpv-input-config-file");
 
 	mpvopt_buffer
 		= get_config_string(ctx, "main", "mpv-options");
 
 	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
-	if(mpvconf_enable_buffer)
-	{
-		pref_dialog_set_mpvconf_enable
-			(pref_dialog, mpvconf_enable_buffer);
-	}
+	/* Boolean keys default to FALSE if not specified */
+	pref_dialog_set_mpvconf_enable(pref_dialog, mpvconf_enable_buffer);
+	pref_dialog_set_mpvinput_enable(pref_dialog, mpvinput_enable_buffer);
 
 	if(mpvconf_buffer)
 	{
 		pref_dialog_set_mpvconf(pref_dialog, mpvconf_buffer);
 
 		g_free(mpvconf_buffer);
+	}
+
+	if(mpvinput_buffer)
+	{
+		pref_dialog_set_mpvinput(pref_dialog, mpvinput_buffer);
+
+		g_free(mpvinput_buffer);
 	}
 
 	if(mpvopt_buffer)
@@ -217,15 +231,20 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		gboolean mpvconf_enable;
+		gboolean mpvinput_enable;
 		const gchar* mpvconf;
+		const gchar* mpvinput;
 		const gchar* mpvopt;
+		gboolean has_ignore;
 		gint64 playlist_pos;
 		gdouble time_pos;
 		gint playlist_pos_rc;
 		gint time_pos_rc;
 
 		mpvconf_enable = pref_dialog_get_mpvconf_enable(pref_dialog);
+		mpvinput_enable = pref_dialog_get_mpvinput_enable(pref_dialog);
 		mpvconf = pref_dialog_get_mpvconf(pref_dialog);
+		mpvinput = pref_dialog_get_mpvinput(pref_dialog);
 		mpvopt = pref_dialog_get_mpvopt(pref_dialog);
 
 		set_config_boolean
@@ -235,7 +254,15 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 			(ctx, "main", "mpv-config-file", mpvconf);
 
 		set_config_string
+			(ctx, "main", "mpv-input-config-file", mpvinput);
+
+		set_config_string
 			(ctx, "main", "mpv-options", mpvopt);
+
+		set_config_boolean(	ctx,
+					"main",
+					"mpv-input-config-enable",
+					mpvinput_enable );
 
 		save_config(ctx);
 
@@ -319,6 +346,26 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 						"pause",
 						MPV_FORMAT_FLAG,
 						&ctx->paused );
+		}
+
+		if(mpvinput_enable)
+		{
+			ctx->keybind_list = keybind_load(mpvinput, &has_ignore);
+
+			if(has_ignore)
+			{
+				ctx->log_buffer
+					= g_strdup(	"Keybindings that "
+							"require Property "
+							"Expansion are not "
+							"supported and have "
+							"been ignored." );
+
+				/* ctx->log_buffer will be freed by
+				 * show_error_dialog().
+				 */
+				show_error_dialog(ctx);
+			}
 		}
 	}
 
@@ -460,6 +507,8 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	gmpv_handle *ctx = data;
 	guint keyval = ((GdkEventKey*)event)->keyval;
 	guint state = ((GdkEventKey*)event)->state;
+	GSList *iter = ctx->keybind_list;
+	keybind *keybind = iter?iter->data:NULL;
 
 	const guint mod_mask =	GDK_MODIFIER_MASK
 				&~(GDK_SHIFT_MASK
@@ -469,10 +518,22 @@ static gboolean key_press_handler(	GtkWidget *widget,
 				|GDK_MOD4_MASK
 				|GDK_MOD5_MASK);
 
-	/* Make sure that no modifier key is active except certain keys like
-	 * caps lock.
-	 */
-	if((state&mod_mask) == 0)
+	/* Ignore insignificant modifiers (eg. numlock) */
+	state &= mod_mask;
+
+	while(	keybind
+		&& (keybind->modifier != state || keybind->keyval != keyval) )
+	{
+		iter = g_slist_next(iter);
+		keybind = iter?iter->data:NULL;
+	}
+
+	/* Try user-specified keys first, then fallback to hard-coded keys */
+	if(keybind)
+	{
+		mpv_command(ctx->mpv_ctx, (const char **)keybind->command);
+	}
+	else if((state&mod_mask) == 0)
 	{
 		/* Accept F11 and f for entering/exiting fullscreen mode. ESC is
 		 * only used for exiting fullscreen mode.
@@ -487,67 +548,6 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		&& main_window_get_playlist_visible(ctx->gui))
 		{
 			remove_current_playlist_entry(ctx);
-		}
-		else if(keyval == GDK_KEY_v)
-		{
-			const gchar *cmd[] = {	"osd-msg",
-						"cycle",
-						"sub-visibility",
-						NULL };
-
-			mpv_command(ctx->mpv_ctx, cmd);
-		}
-		else if(keyval == GDK_KEY_Q)
-		{
-			const gchar *cmd[] = {	"write_watch_later_config",
-						NULL };
-
-			gint rc;
-
-			mpv_command(ctx->mpv_ctx, cmd);
-
-			rc = mpv_set_property_string(	ctx->mpv_ctx,
-							"pause",
-							"yes" );
-
-			mpv_check_error(rc);
-			gtk_widget_destroy(GTK_WIDGET(ctx->gui));
-		}
-		else if(keyval == GDK_KEY_s)
-		{
-			const gchar *cmd[] = {	"osd-msg",
-						"screenshot",
-						NULL };
-
-			mpv_command(ctx->mpv_ctx, cmd);
-		}
-		else if(keyval == GDK_KEY_S)
-		{
-			const gchar *cmd[] = {	"osd-msg",
-						"screenshot",
-						"video",
-						NULL };
-
-			mpv_command(ctx->mpv_ctx, cmd);
-		}
-		else if(keyval == GDK_KEY_j)
-		{
-			const gchar *cmd[] = {	"osd-msg",
-						"cycle",
-						"sub",
-						NULL };
-
-			mpv_command(ctx->mpv_ctx, cmd);
-		}
-		else if(keyval == GDK_KEY_J)
-		{
-			const gchar *cmd[] = {	"osd-msg",
-						"cycle",
-						"sub",
-						"down",
-						NULL };
-
-			mpv_command(ctx->mpv_ctx, cmd);
 		}
 		else if(keyval == GDK_KEY_Left)
 		{
@@ -798,7 +798,18 @@ int main(int argc, char **argv)
 				G_CALLBACK(seek_handler),
 				&ctx );
 
+	load_config(&ctx);
 	mpv_init(&ctx, ctx.vid_area_wid);
+
+	if(get_config_boolean(&ctx, "main", "mpv-input-config-enable"))
+	{
+		gchar *mpvinput
+			= get_config_string(	&ctx,
+						"main",
+						"mpv-input-config-file");
+
+		ctx.keybind_list = keybind_load (mpvinput, NULL);
+	}
 
 	pthread_create(	&mpv_event_handler_thread,
 			NULL,

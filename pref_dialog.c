@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -60,34 +60,79 @@ static gboolean key_press_handler(	GtkWidget *widget,
 static void pref_dialog_init(PrefDialog *dlg)
 {
 	GdkGeometry geom;
+	GtkWidget *mpvconf_label;
+	GtkWidget *mpvinput_label;
+	GtkWidget *mpvopt_label;
+	GtkWidget *mpvconf_group_label;
+	GtkWidget *mpvinput_group_label;
+	GtkWidget *misc_group_label;
 
+	mpvconf_label = gtk_label_new("MPV configuration file:");
+	mpvinput_label = gtk_label_new("MPV input configuration file:");
+	mpvopt_label = gtk_label_new("Extra MPV options:");
+	mpvconf_group_label = gtk_label_new("<b>MPV Configuration</b>");
+	mpvinput_group_label = gtk_label_new("<b>Keybindings</b>");
+	misc_group_label = gtk_label_new("<b>Miscellaneous</b>");
+
+	/* This 'locks' the height of the dialog while allowing the width to be
+	 * freely adjusted.
+	 */
 	geom.max_width = G_MAXINT;
 	geom.max_height = 0;
 
+	gtk_label_set_use_markup(GTK_LABEL(mpvconf_group_label), TRUE);
+	gtk_label_set_use_markup(GTK_LABEL(mpvinput_group_label), TRUE);
+	gtk_label_set_use_markup(GTK_LABEL(misc_group_label), TRUE);
+
 	dlg->grid = gtk_grid_new();
 	dlg->content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
-	dlg->mpvopt_label = gtk_label_new("Extra MPV options:");
 	dlg->mpvopt_entry = gtk_entry_new();
-	dlg->mpvconf_label = gtk_label_new("MPV configuration file:");
 
 	dlg->mpvconf_button
 		= gtk_file_chooser_button_new(	"MPV configuration file",
 						GTK_FILE_CHOOSER_ACTION_OPEN );
 
-	dlg->mpvconf_enable_check
-		= gtk_check_button_new_with_label("Load MPV configuration file");
+	dlg->mpvinput_button
+		= gtk_file_chooser_button_new(	"MPV input configuration file",
+						GTK_FILE_CHOOSER_ACTION_OPEN );
 
+	dlg->mpvconf_enable_check
+		= gtk_check_button_new_with_label
+			("Load MPV configuration file");
+
+	dlg->mpvinput_enable_check
+		= gtk_check_button_new_with_label
+			("Load MPV input configuration file");
+
+	gtk_widget_set_margin_top(mpvinput_group_label, 10);
+	gtk_widget_set_margin_top(misc_group_label, 10);
 	gtk_widget_set_margin_bottom(dlg->grid, 5);
-	gtk_grid_set_row_homogeneous(GTK_GRID(dlg->grid), TRUE);
 	gtk_grid_set_row_spacing(GTK_GRID(dlg->grid), 5);
 	gtk_grid_set_column_spacing(GTK_GRID(dlg->grid), 5);
 
-	gtk_widget_set_halign(dlg->mpvconf_label, GTK_ALIGN_START);
-	gtk_widget_set_halign(dlg->mpvopt_label, GTK_ALIGN_START);
-	gtk_widget_set_hexpand(dlg->mpvconf_label, FALSE);
-	gtk_widget_set_hexpand(dlg->mpvopt_label, FALSE);
+	gtk_widget_set_halign(mpvconf_label, GTK_ALIGN_START);
+	gtk_widget_set_halign(mpvinput_label, GTK_ALIGN_START);
+	gtk_widget_set_halign(mpvopt_label, GTK_ALIGN_START);
+	gtk_widget_set_halign(mpvconf_group_label, GTK_ALIGN_START);
+	gtk_widget_set_halign(mpvinput_group_label, GTK_ALIGN_START);
+	gtk_widget_set_halign(misc_group_label, GTK_ALIGN_START);
+
+	gtk_widget_set_hexpand(mpvconf_label, FALSE);
+	gtk_widget_set_hexpand(mpvinput_label, FALSE);
+	gtk_widget_set_hexpand(mpvopt_label, FALSE);
 	gtk_widget_set_hexpand(dlg->mpvconf_button, TRUE);
+	gtk_widget_set_hexpand(dlg->mpvinput_button, TRUE);
 	gtk_widget_set_hexpand(dlg->mpvopt_entry, TRUE);
+
+	gtk_widget_set_margin_start(mpvconf_label, 10);
+	gtk_widget_set_margin_start(mpvinput_label, 10);
+	gtk_widget_set_margin_start(mpvopt_label, 10);
+	gtk_widget_set_margin_start(dlg->mpvconf_enable_check, 10);
+	gtk_widget_set_margin_start(dlg->mpvinput_enable_check, 10);
+	gtk_widget_set_margin_start(dlg->mpvopt_entry, 10);
+
+	gtk_widget_set_size_request(dlg->mpvconf_button, 100, -1);
+	gtk_widget_set_size_request(dlg->mpvinput_button, 100, -1);
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				"_Save",
@@ -117,13 +162,25 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 5);
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->grid);
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 0, 2, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 0, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_label, 0, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_label, 0, 2, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 1, 2, 1, 1);
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 1, 2, 1);
+
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_label, 0, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 2, 1, 1);
+
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 3, 1, 1);
+
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvinput_enable_check, 0, 4, 2, 1);
+
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_label, 0, 5, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 5, 1, 1);
+
+	gtk_grid_attach(GTK_GRID(dlg->grid), misc_group_label, 0, 6, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvopt_label, 0, 7, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 8, 2, 1);
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)
@@ -186,6 +243,34 @@ void pref_dialog_set_mpvconf(PrefDialog *dlg, const gchar *buffer)
 gchar *pref_dialog_get_mpvconf(PrefDialog *dlg)
 {
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvconf_button);
+
+	return gtk_file_chooser_get_filename(chooser);
+}
+
+void pref_dialog_set_mpvinput_enable(PrefDialog *dlg, gboolean value)
+{
+	GtkToggleButton *button = GTK_TOGGLE_BUTTON(dlg->mpvinput_enable_check);
+
+	gtk_toggle_button_set_active(button, value);
+}
+
+gboolean pref_dialog_get_mpvinput_enable(PrefDialog *dlg)
+{
+	GtkToggleButton *button = GTK_TOGGLE_BUTTON(dlg->mpvinput_enable_check);
+
+	return gtk_toggle_button_get_active(button);
+}
+
+void pref_dialog_set_mpvinput(PrefDialog *dlg, const gchar *buffer)
+{
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvinput_button);
+
+	gtk_file_chooser_set_filename(chooser, buffer);
+}
+
+gchar *pref_dialog_get_mpvinput(PrefDialog *dlg)
+{
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvinput_button);
 
 	return gtk_file_chooser_get_filename(chooser);
 }
