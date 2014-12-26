@@ -39,6 +39,11 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data );
 
+static gboolean motion_notify_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data );
+
+static gboolean hide_cursor(gpointer data);
 static void main_window_init(MainWindow *wnd);
 
 static gboolean focus_in_handler(	GtkWidget *widget,
@@ -98,6 +103,48 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
+static gboolean motion_notify_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data )
+{
+	MainWindow *wnd;
+	GdkCursor *cursor;
+
+	wnd = data;
+	cursor = gdk_cursor_new_for_display(	gdk_display_get_default(),
+						GDK_ARROW );
+
+	gdk_window_set_cursor
+		(gtk_widget_get_window(GTK_WIDGET(wnd->vid_area)), cursor);
+
+	if(wnd->timeout_tag > 0)
+	{
+		g_source_remove(wnd->timeout_tag);
+	}
+
+	wnd->timeout_tag
+		= g_timeout_add_seconds(CURSOR_HIDE_DELAY, hide_cursor, data);
+
+	return FALSE;
+}
+
+static gboolean hide_cursor(gpointer data)
+{
+	MainWindow *wnd;
+	GdkCursor *cursor;
+
+	wnd = data;
+	cursor = gdk_cursor_new_for_display(	gdk_display_get_default(),
+						GDK_BLANK_CURSOR );
+
+	gdk_window_set_cursor
+		(gtk_widget_get_window(GTK_WIDGET(wnd->vid_area)), cursor);
+
+	wnd->timeout_tag = 0;
+
+	return FALSE;
+}
+
 static void main_window_init(MainWindow *wnd)
 {
 	GdkRGBA vid_area_bg_color;
@@ -108,6 +155,7 @@ static void main_window_init(MainWindow *wnd)
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
+	wnd->timeout_tag = 0;
 	wnd->settings = gtk_settings_get_default();
 	wnd->accel_group = gtk_accel_group_new();
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -249,6 +297,11 @@ static void main_window_init(MainWindow *wnd)
 				"leave-notify-event",
 				G_CALLBACK(fs_control_leave_handler),
 				wnd->fs_control );
+
+	g_signal_connect(	wnd,
+				"motion-notify-event",
+				G_CALLBACK(motion_notify_handler),
+				wnd );
 
 	gtk_widget_show_all(GTK_WIDGET(wnd));
 	gtk_widget_hide(wnd->playlist);

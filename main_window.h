@@ -47,6 +47,7 @@ struct MainWindow
 	gboolean fullscreen;
 	gboolean playlist_visible;
 	gint playlist_width;
+	gint timeout_tag;
 	GtkSettings* settings;
 	GtkAccelGroup *accel_group;
 	GtkWidget *main_box;
