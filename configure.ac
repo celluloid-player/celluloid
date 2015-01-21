@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([gnome-mpv], [0.1], [jdoe@example.com])
+AC_INIT([gnome-mpv], [0.2], [jdoe@example.com])
 AC_CONFIG_SRCDIR([main_window.h])
 AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE

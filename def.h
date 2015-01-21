@@ -21,7 +21,7 @@
 #define DEF_H
 
 #define APP_NAME "GNOME MPV"
-#define APP_VERSION "0.1"
+#define APP_VERSION VERSION
 #define APP_DESC "A GTK frontend for MPV"
 #define ICON_NAME "gnome-mpv"
 #define CONFIG_FILE "gnome-mpv.conf"
