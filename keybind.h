@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,27 +17,25 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DEF_H
-#define DEF_H
+#ifndef KEYBIND_H
+#define KEYBIND_H
 
-#define APP_NAME "GNOME MPV"
-#define APP_VERSION "0.1"
-#define APP_DESC "A GTK frontend for MPV"
-#define ICON_NAME "gnome-mpv"
-#define CONFIG_FILE "gnome-mpv.conf"
-#define PLAYLIST_DEFAULT_WIDTH 200
-#define MAIN_WINDOW_DEFAULT_WIDTH 400
-#define MAIN_WINDOW_DEFAULT_HEIGHT 300
-#define VID_AREA_BG_COLOR "#000000"
-#define SEEK_BAR_UPDATE_INTERVAL 250
-#define CURSOR_HIDE_DELAY 1
+#include <gdk/gdkx.h>
 
-#define DEFAULT_KEYBINDS	{	"v osd-msg cycle sub-visibility",\
-					"s osd-msg screenshot",\
-					"S osd-msg screenshot video",\
-					"j osd-msg cycle sub",\
-					"j osd-msg cycle sub down",\
-					"Q quit_watch_later",\
-					NULL }
+#include "common.h"
+
+struct keybind
+{
+	gint modifier;
+	gint keyval;
+	gchar **command;
+};
+
+typedef struct keybind keybind;
+
+keybind *keybind_parse_config_line(const gchar *line);
+GSList *keybind_parse_config(const gchar *config_path, gboolean *has_ignore);
+gchar **keybind_get_command(gmpv_handle *ctx, gint modifier, gint keyval);
+GSList *keybind_load(const gchar *config_path, gboolean *has_ignore);
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -37,7 +37,8 @@ inline void set_config_string(	gmpv_handle *ctx,
 				const gchar *key,
 				const gchar *value)
 {
-	g_key_file_set_string(ctx->config_file, group, key, value);
+	/* Use "" as value if the given value is NULL */
+	g_key_file_set_string(ctx->config_file, group, key, value?value:"");
 }
 
 inline gboolean get_config_boolean(	gmpv_handle *ctx,
@@ -121,6 +122,13 @@ gchar *get_name_from_path(const gchar *path)
 	}
 
 	return basename?basename:g_strdup(path);
+}
+
+gboolean quit(gpointer data)
+{
+	gtk_window_close(GTK_WINDOW(((gmpv_handle *)data)->gui));
+
+	return FALSE;
 }
 
 gboolean update_seek_bar(gpointer data)

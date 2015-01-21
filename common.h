@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -40,6 +40,7 @@ struct gmpv_handle
 	gchar *log_buffer;
 	gchar *mpv_options;
 	GtkListStore *playlist_store;
+	GSList *keybind_list;
 	GKeyFile *config_file;
 	GtkWidget *fs_control;
 	MainWindow *gui;
@@ -72,6 +73,7 @@ gboolean load_config(gmpv_handle *ctx);
 gboolean save_config(gmpv_handle *ctx);
 gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
+gboolean quit(gpointer data);
 gboolean update_seek_bar(gpointer data);
 gboolean control_reset(gpointer data);
 gboolean show_error_dialog(gpointer data);

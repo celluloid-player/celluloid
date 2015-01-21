@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -46,10 +46,10 @@ struct PrefDialog
 	GtkDialog dialog;
 	GtkWidget *grid;
 	GtkWidget *content_area;
+	GtkWidget *mpvinput_enable_check;
+	GtkWidget *mpvinput_button;
 	GtkWidget *mpvconf_enable_check;
-	GtkWidget *mpvconf_label;
 	GtkWidget *mpvconf_button;
-	GtkWidget *mpvopt_label;
 	GtkWidget *mpvopt_entry;
 };
 
@@ -64,6 +64,10 @@ void pref_dialog_set_mpvconf_enable(PrefDialog *dlg, gboolean value);
 gboolean pref_dialog_get_mpvconf_enable(PrefDialog *dlg);
 void pref_dialog_set_mpvconf(PrefDialog *dlg, const gchar *buffer);
 gchar *pref_dialog_get_mpvconf(PrefDialog *dlg);
+void pref_dialog_set_mpvinput_enable(PrefDialog *dlg, gboolean value);
+gboolean pref_dialog_get_mpvinput_enable(PrefDialog *dlg);
+void pref_dialog_set_mpvinput(PrefDialog *dlg, const gchar *buffer);
+gchar *pref_dialog_get_mpvinput(PrefDialog *dlg);
 void pref_dialog_set_mpvopt(PrefDialog *dlg, gchar *buffer);
 const gchar *pref_dialog_get_mpvopt(PrefDialog *dlg);
 
