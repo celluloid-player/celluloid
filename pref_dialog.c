@@ -124,12 +124,12 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_hexpand(dlg->mpvinput_button, TRUE);
 	gtk_widget_set_hexpand(dlg->mpvopt_entry, TRUE);
 
-	gtk_widget_set_margin_start(mpvconf_label, 10);
-	gtk_widget_set_margin_start(mpvinput_label, 10);
-	gtk_widget_set_margin_start(mpvopt_label, 10);
-	gtk_widget_set_margin_start(dlg->mpvconf_enable_check, 10);
-	gtk_widget_set_margin_start(dlg->mpvinput_enable_check, 10);
-	gtk_widget_set_margin_start(dlg->mpvopt_entry, 10);
+	gtk_widget_set_margin_left(mpvconf_label, 10);
+	gtk_widget_set_margin_left(mpvinput_label, 10);
+	gtk_widget_set_margin_left(mpvopt_label, 10);
+	gtk_widget_set_margin_left(dlg->mpvconf_enable_check, 10);
+	gtk_widget_set_margin_left(dlg->mpvinput_enable_check, 10);
+	gtk_widget_set_margin_left(dlg->mpvopt_entry, 10);
 
 	gtk_widget_set_size_request(dlg->mpvconf_button, 100, -1);
 	gtk_widget_set_size_request(dlg->mpvinput_button, 100, -1);
