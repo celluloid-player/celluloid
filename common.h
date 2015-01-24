@@ -38,12 +38,11 @@ struct gmpv_handle
 	gint64 vid_area_wid;
 	gint playlist_move_dest;
 	gchar *log_buffer;
-	gchar *mpv_options;
-	GtkListStore *playlist_store;
 	GSList *keybind_list;
 	GKeyFile *config_file;
-	GtkWidget *fs_control;
 	MainWindow *gui;
+	GtkWidget *fs_control;
+	GtkListStore *playlist_store;
 	pthread_t *mpv_event_handler_thread;
 	pthread_mutex_t *mpv_event_mutex;
 	pthread_cond_t *mpv_ctx_init_cv;

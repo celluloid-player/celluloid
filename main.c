@@ -617,9 +617,12 @@ int main(int argc, char **argv)
 	ctx.loaded = FALSE;
 	ctx.new_file = TRUE;
 	ctx.sub_visible = TRUE;
+	ctx.playlist_move_dest = -1;
 	ctx.log_buffer = NULL;
+	ctx.keybind_list = NULL;
 	ctx.config_file = g_key_file_new();
 	ctx.gui = MAIN_WINDOW(main_window_new());
+	ctx.fs_control = NULL;
 	ctx.playlist_store = PLAYLIST_WIDGET(ctx.gui->playlist)->list_store;
 	ctx.mpv_event_handler_thread = &mpv_event_handler_thread;
 	ctx.mpv_ctx_init_cv = &mpv_ctx_init_cv;
