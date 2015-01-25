@@ -1,6 +1,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 UPDATE_DESKTOP = update-desktop-database -q || :
+UPDATE_ICON = gtk-update-icon-cache -q $(datadir)/icons/hicolor/ || :
 
 bin_PROGRAMS = gnome-mpv
 
@@ -14,11 +15,13 @@ gnome_mpv_LDADD = $(GTK_LIBS)
 desktopdir = $(datadir)/applications
 desktop_DATA = gnome-mpv.desktop
 
-icondir = $(datadir)/pixmaps
+icondir = $(datadir)/icons/hicolor/scalable/apps
 icon_DATA = gnome-mpv.svg
 
 install-data-hook:
 	$(UPDATE_DESKTOP)
+	$(UPDATE_ICON)
 
 uninstall-hook:
 	$(UPDATE_DESKTOP)
+	$(UPDATE_ICON)
