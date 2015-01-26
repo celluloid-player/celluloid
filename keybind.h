@@ -36,6 +36,8 @@ typedef struct keybind keybind;
 keybind *keybind_parse_config_line(const gchar *line);
 GSList *keybind_parse_config(const gchar *config_path, gboolean *has_ignore);
 gchar **keybind_get_command(gmpv_handle *ctx, gint modifier, gint keyval);
-GSList *keybind_load(const gchar *config_path, gboolean *has_ignore);
+
+GSList *keybind_parse_config_with_defaults(	const gchar *config_path,
+						gboolean *has_ignore );
 
 #endif

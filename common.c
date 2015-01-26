@@ -22,6 +22,7 @@
 #include "common.h"
 #include "def.h"
 #include "mpv.h"
+#include "keybind.h"
 #include "control_box.h"
 #include "playlist_widget.h"
 
@@ -406,4 +407,29 @@ void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
 	}
 
 	mpv_free(video);
+}
+
+void load_keybind(	gmpv_handle *ctx,
+			const gchar *config_path,
+			gboolean notify_ignore )
+{
+	gboolean has_ignore;
+
+	ctx->keybind_list
+		= keybind_parse_config_with_defaults(config_path, &has_ignore);
+
+	if(notify_ignore && has_ignore)
+	{
+		ctx->log_buffer
+			= g_strdup(	"Keybindings that "
+					"require Property "
+					"Expansion are not "
+					"supported and have "
+					"been ignored." );
+
+		/* ctx->log_buffer will be freed by
+		 * show_error_dialog().
+		 */
+		show_error_dialog(ctx);
+	}
 }

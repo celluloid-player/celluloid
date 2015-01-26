@@ -85,4 +85,8 @@ void seek_absolute(gmpv_handle *ctx, gdouble time);
 void seek_relative(gmpv_handle *ctx, gint offset);
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);
 
+void load_keybind(	gmpv_handle *ctx,
+			const gchar *config_path,
+			gboolean notify_ignore );
+
 #endif

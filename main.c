@@ -235,7 +235,6 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 		const gchar* mpvconf;
 		const gchar* mpvinput;
 		const gchar* mpvopt;
-		gboolean has_ignore;
 		gint64 playlist_pos;
 		gdouble time_pos;
 		gint playlist_pos_rc;
@@ -348,25 +347,9 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 						&ctx->paused );
 		}
 
-		if(mpvinput_enable)
-		{
-			ctx->keybind_list = keybind_load(mpvinput, &has_ignore);
-
-			if(has_ignore)
-			{
-				ctx->log_buffer
-					= g_strdup(	"Keybindings that "
-							"require Property "
-							"Expansion are not "
-							"supported and have "
-							"been ignored." );
-
-				/* ctx->log_buffer will be freed by
-				 * show_error_dialog().
-				 */
-				show_error_dialog(ctx);
-			}
-		}
+		load_keybind(	ctx,
+				mpvinput_enable?mpvinput:NULL,
+				mpvinput_enable );
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(pref_dialog));
@@ -601,6 +584,8 @@ int main(int argc, char **argv)
 	ControlBox *control_box;
 	PlaylistWidget *playlist;
 	GtkTargetEntry target_entry[3];
+	gboolean mpvinput_enable;
+	gchar *mpvinput;
 	pthread_t mpv_event_handler_thread;
 	pthread_mutex_t mpv_event_mutex;
 	pthread_cond_t mpv_ctx_init_cv;
@@ -804,15 +789,14 @@ int main(int argc, char **argv)
 	load_config(&ctx);
 	mpv_init(&ctx, ctx.vid_area_wid);
 
-	if(get_config_boolean(&ctx, "main", "mpv-input-config-enable"))
-	{
-		gchar *mpvinput
-			= get_config_string(	&ctx,
-						"main",
-						"mpv-input-config-file");
+	mpvinput_enable
+		= get_config_boolean(&ctx, "main", "mpv-input-config-enable");
 
-		ctx.keybind_list = keybind_load (mpvinput, NULL);
-	}
+	mpvinput = get_config_string(	&ctx,
+					"main",
+					"mpv-input-config-file");
+
+	load_keybind(&ctx, mpvinput_enable?mpvinput:NULL, FALSE);
 
 	pthread_create(	&mpv_event_handler_thread,
 			NULL,

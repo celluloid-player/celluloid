@@ -207,7 +207,8 @@ gchar **keybind_get_command(gmpv_handle *ctx, gint modifier, gint keyval)
 	return kb?kb->command:NULL;
 }
 
-GSList *keybind_load(const gchar *config_path, gboolean *has_ignore)
+GSList *keybind_parse_config_with_defaults(	const gchar *config_path,
+						gboolean *has_ignore )
 {
 	const gchar *default_kb[] = DEFAULT_KEYBINDS;
 	gint index;
@@ -216,7 +217,10 @@ GSList *keybind_load(const gchar *config_path, gboolean *has_ignore)
 
 	index = -1;
 	default_kb_list = NULL;
-	config_kb_list = keybind_parse_config(config_path, has_ignore);
+
+	config_kb_list =	config_path?
+				keybind_parse_config(config_path, has_ignore):
+				NULL;
 
 	while(default_kb[++index])
 	{
@@ -235,5 +239,7 @@ GSList *keybind_load(const gchar *config_path, gboolean *has_ignore)
 
 	/* Key bindings from configuration file gets prority over default ones
 	 */
-	return g_slist_concat(config_kb_list, default_kb_list);
+	return	config_kb_list?
+		g_slist_concat(config_kb_list, default_kb_list):
+		default_kb_list;
 }
