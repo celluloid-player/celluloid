@@ -17,7 +17,6 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define rpl_malloc malloc
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -62,7 +61,7 @@ keybind *keybind_parse_config_line(const gchar *line)
 
 			g_free(old_linebuf);
 
-			result = malloc(sizeof(keybind));
+			result = g_malloc(sizeof(keybind));
 			tokens = g_strsplit_set(linebuf, " \t", -1);
 			keys = g_strsplit(tokens[0], "+", -1);
 
