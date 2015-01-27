@@ -20,6 +20,7 @@
 #include <gdk/gdkx.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <locale.h>
 
 #include "def.h"
 #include "common.h"
@@ -592,6 +593,7 @@ int main(int argc, char **argv)
 	pthread_cond_t mpv_ctx_destroy_cv;
 
 	gtk_init(&argc, &argv);
+	setlocale(LC_NUMERIC, "C");
 	g_set_application_name(APP_NAME);
 	gtk_window_set_default_icon_name(ICON_NAME);
 
