@@ -24,11 +24,6 @@ AC_CHECK_LIB(	[mpv],
 		[],
 		[echo "libmpv is missing. Aborting..."; exit -1;] )
 
-AC_CHECK_LIB(	[pthread],
-		[pthread_create],
-		[],
-		[echo "libpthread is missing. Aborting..."; exit -1;] )
-
 # Checks for header files.
 AC_PATH_X
 AC_CHECK_HEADERS([	fcntl.h inttypes.h limits.h locale.h mach/mach.h \

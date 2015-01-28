@@ -70,14 +70,10 @@ gboolean load_config(gmpv_handle *ctx)
 	gboolean result;
 	gchar *path = get_config_file_path();
 
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
 	result = g_key_file_load_from_file(	ctx->config_file,
 						path,
 						G_KEY_FILE_KEEP_COMMENTS,
 						NULL );
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
 	g_free(path);
 
@@ -89,11 +85,7 @@ gboolean save_config(gmpv_handle *ctx)
 	gboolean result;
 	gchar *path = get_config_file_path();
 
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
 	result = g_key_file_save_to_file(ctx->config_file, path, NULL);
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
 	return result;
 }
@@ -127,7 +119,19 @@ gchar *get_name_from_path(const gchar *path)
 
 gboolean quit(gpointer data)
 {
-	gtk_window_close(GTK_WINDOW(((gmpv_handle *)data)->gui));
+	const gchar *cmd[] = {"quit", NULL};
+	gmpv_handle *ctx = data;
+
+	if(ctx->mpv_ctx)
+	{
+		mpv_command(ctx->mpv_ctx, cmd);
+		mpv_terminate_destroy(ctx->mpv_ctx);
+		g_key_file_free(ctx->config_file);
+
+		ctx->mpv_ctx = NULL;
+
+		gtk_main_quit();
+	}
 
 	return FALSE;
 }
@@ -135,52 +139,29 @@ gboolean quit(gpointer data)
 gboolean update_seek_bar(gpointer data)
 {
 	gmpv_handle* ctx = data;
-	gboolean exit_flag;
 	gdouble time_pos;
 	gint rc;
 
-	pthread_mutex_lock(ctx->mpv_event_mutex);
+	rc = mpv_get_property(	ctx->mpv_ctx,
+				"time-pos",
+				MPV_FORMAT_DOUBLE,
+				&time_pos );
 
-	exit_flag = ctx->exit_flag;
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
-
-	if(!exit_flag)
+	if(rc >= 0)
 	{
-		pthread_mutex_lock(ctx->mpv_event_mutex);
+		ControlBox *control_box
+			= CONTROL_BOX(ctx->gui->control_box);
 
-		rc = mpv_get_property(	ctx->mpv_ctx,
-					"time-pos",
-					MPV_FORMAT_DOUBLE,
-					&time_pos );
-
-		pthread_mutex_unlock(ctx->mpv_event_mutex);
-
-		if(rc >= 0)
-		{
-			ControlBox *control_box
-				= CONTROL_BOX(ctx->gui->control_box);
-
-			gtk_range_set_value
-				(	GTK_RANGE(control_box->seek_bar),
-					time_pos );
-		}
+		gtk_range_set_value
+			(	GTK_RANGE(control_box->seek_bar),
+				time_pos );
 	}
 
-	return !exit_flag;
+	return TRUE;
 }
 
-gboolean control_reset(gpointer data)
+void show_error_dialog(gmpv_handle *ctx)
 {
-	main_window_reset(((gmpv_handle *)data)->gui);
-
-	return FALSE;
-}
-
-gboolean show_error_dialog(gpointer data)
-{
-	gmpv_handle* ctx = data;
-
 	if(ctx->log_buffer)
 	{
 		GtkWidget *dialog
@@ -201,8 +182,6 @@ gboolean show_error_dialog(gpointer data)
 
 		ctx->log_buffer = NULL;
 	}
-
-	return FALSE;
 }
 
 void remove_current_playlist_entry(gmpv_handle *ctx)
@@ -262,12 +241,8 @@ void toggle_play(gmpv_handle *ctx)
 {
 	gboolean loaded;
 
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
 	ctx->paused = !ctx->paused;
 	loaded = ctx->loaded;
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
 	if(!loaded)
 	{
@@ -300,7 +275,7 @@ void stop(gmpv_handle *ctx)
 
 	ctx->paused = TRUE;
 
-	control_reset(ctx);
+	main_window_reset(ctx->gui);
 	update_seek_bar(ctx);
 }
 

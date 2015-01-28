@@ -20,6 +20,8 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
+#include "common.h"
+
 #include <gtk/gtk.h>
 
 void playlist_toggle_handler(GtkWidget *widget, gpointer data);
@@ -40,6 +42,6 @@ void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
  					GtkTreePath *path,
  					gpointer data );
 
-gboolean playlist_reset(gpointer data);
+void playlist_reset(gmpv_handle *ctx);
 
 #endif

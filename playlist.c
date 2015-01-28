@@ -71,11 +71,7 @@ void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
 {
 	gmpv_handle *ctx = data;
 
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
 	ctx->playlist_move_dest = gtk_tree_path_get_indices(path)[0];
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
 }
 
 void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
@@ -89,12 +85,8 @@ void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
 	gint src;
 	gint dest;
 
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
 	src = gtk_tree_path_get_indices(path)[0];
 	dest = ctx->playlist_move_dest;
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
 	if(dest >= 0)
 	{
@@ -112,13 +104,9 @@ void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
 	}
 }
 
-gboolean playlist_reset(gpointer data)
+void playlist_reset(gmpv_handle *ctx)
 {
-	gmpv_handle *ctx = data;
 	PlaylistWidget *playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
 
 	playlist_widget_set_indicator_pos(playlist, 0);
-
-	return FALSE;
 }
-

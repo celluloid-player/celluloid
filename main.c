@@ -18,7 +18,6 @@
  */
 
 #include <gdk/gdkx.h>
-#include <pthread.h>
 #include <stdlib.h>
 #include <locale.h>
 
@@ -83,33 +82,14 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						NULL,
 						data );
 
-	g_idle_add((GSourceFunc)mpv_load_from_ctx, data);
+	mpv_load(data, NULL, FALSE, FALSE);
 
 	return FALSE;
 }
 
 static void destroy_handler(GtkWidget *widget, gpointer data)
 {
-	const gchar *cmd[] = {"quit", NULL};
-	gmpv_handle *ctx = data;
-
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
-	ctx->exit_flag = TRUE;
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
-
-	pthread_join(*(ctx->mpv_event_handler_thread), NULL);
-
-	pthread_mutex_destroy(ctx->mpv_event_mutex);
-	pthread_cond_destroy(ctx->mpv_ctx_init_cv);
-	pthread_cond_destroy(ctx->mpv_ctx_destroy_cv);
-
-	mpv_command(ctx->mpv_ctx, cmd);
-	mpv_terminate_destroy(ctx->mpv_ctx);
-	g_key_file_free(ctx->config_file);
-
-	gtk_main_quit();
+	quit(data);
 }
 
 static void open_handler(GtkWidget *widget, gpointer data)
@@ -280,16 +260,6 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 						MPV_FORMAT_DOUBLE,
 						&time_pos );
 
-		/* Suspend mpv_event_handler loop */
-		pthread_mutex_lock(ctx->mpv_event_mutex);
-
-		ctx->mpv_ctx_reset = TRUE;
-
-		pthread_cond_wait(	ctx->mpv_ctx_destroy_cv,
-					ctx->mpv_event_mutex );
-
-		pthread_mutex_unlock(ctx->mpv_event_mutex);
-
 		/* Reset ctx->mpv_ctx */
 		mpv_check_error(mpv_command(ctx->mpv_ctx, quit_cmd));
 
@@ -298,15 +268,6 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 		ctx->mpv_ctx = mpv_create();
 
 		mpv_init(ctx, ctx->vid_area_wid);
-
-		/* Wake up mpv_event_handler loop */
-		pthread_mutex_lock(ctx->mpv_event_mutex);
-
-		ctx->mpv_ctx_reset = FALSE;
-
-		pthread_cond_signal(ctx->mpv_ctx_init_cv);
-
-		pthread_mutex_unlock(ctx->mpv_event_mutex);
 
 		if(ctx->playlist_store)
 		{
@@ -587,10 +548,6 @@ int main(int argc, char **argv)
 	GtkTargetEntry target_entry[3];
 	gboolean mpvinput_enable;
 	gchar *mpvinput;
-	pthread_t mpv_event_handler_thread;
-	pthread_mutex_t mpv_event_mutex;
-	pthread_cond_t mpv_ctx_init_cv;
-	pthread_cond_t mpv_ctx_destroy_cv;
 
 	gtk_init(&argc, &argv);
 	setlocale(LC_NUMERIC, "C");
@@ -598,7 +555,6 @@ int main(int argc, char **argv)
 	gtk_window_set_default_icon_name(ICON_NAME);
 
 	ctx.mpv_ctx = mpv_create();
-	ctx.exit_flag = FALSE;
 	ctx.mpv_ctx_reset = FALSE;
 	ctx.paused = TRUE;
 	ctx.loaded = FALSE;
@@ -611,11 +567,6 @@ int main(int argc, char **argv)
 	ctx.gui = MAIN_WINDOW(main_window_new());
 	ctx.fs_control = NULL;
 	ctx.playlist_store = PLAYLIST_WIDGET(ctx.gui->playlist)->list_store;
-	ctx.mpv_event_handler_thread = &mpv_event_handler_thread;
-	ctx.mpv_ctx_init_cv = &mpv_ctx_init_cv;
-	ctx.mpv_ctx_destroy_cv = &mpv_ctx_destroy_cv;
-	ctx.mpv_event_mutex = &mpv_event_mutex;
-	ctx.mpv_event_mutex = &mpv_event_mutex;
 
 	ctx.vid_area_wid = gdk_x11_window_get_xid
 				(gtk_widget_get_window(ctx.gui->vid_area));
@@ -633,10 +584,6 @@ int main(int argc, char **argv)
 	target_entry[2].target = "STRING";
 	target_entry[2].flags = 0;
 	target_entry[2].info = 1;
-
-	pthread_mutex_init(ctx.mpv_event_mutex, NULL);
-	pthread_cond_init(ctx.mpv_ctx_init_cv, NULL);
-	pthread_cond_init(ctx.mpv_ctx_destroy_cv, NULL);
 
 	gtk_drag_dest_set(	GTK_WIDGET(ctx.gui->vid_area),
 				GTK_DEST_DEFAULT_ALL,
@@ -800,10 +747,7 @@ int main(int argc, char **argv)
 
 	load_keybind(&ctx, mpvinput_enable?mpvinput:NULL, FALSE);
 
-	pthread_create(	&mpv_event_handler_thread,
-			NULL,
-			mpv_event_handler,
-			&ctx );
+	g_idle_add((GSourceFunc)mpv_handle_event, &ctx);
 
 	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
 			(GSourceFunc)update_seek_bar,
@@ -814,11 +758,7 @@ int main(int argc, char **argv)
 	{
 		gint i = 0;
 
-		pthread_mutex_lock(ctx.mpv_event_mutex);
-
 		ctx.paused = FALSE;
-
-		pthread_mutex_unlock(ctx.mpv_event_mutex);
 
 		for(i = 1; i < argc; i++)
 		{

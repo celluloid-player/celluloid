@@ -29,7 +29,6 @@ typedef struct gmpv_handle gmpv_handle;
 struct gmpv_handle
 {
 	mpv_handle *mpv_ctx;
-	volatile gboolean exit_flag;
 	volatile gboolean mpv_ctx_reset;
 	gboolean paused;
 	gboolean loaded;
@@ -43,10 +42,6 @@ struct gmpv_handle
 	MainWindow *gui;
 	GtkWidget *fs_control;
 	GtkListStore *playlist_store;
-	pthread_t *mpv_event_handler_thread;
-	pthread_mutex_t *mpv_event_mutex;
-	pthread_cond_t *mpv_ctx_init_cv;
-	pthread_cond_t *mpv_ctx_destroy_cv;
 };
 
 inline gchar *get_config_string(	gmpv_handle *ctx,
@@ -74,8 +69,7 @@ gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
 gboolean quit(gpointer data);
 gboolean update_seek_bar(gpointer data);
-gboolean control_reset(gpointer data);
-gboolean show_error_dialog(gpointer data);
+void show_error_dialog(gmpv_handle *ctx);
 void remove_current_playlist_entry(gmpv_handle *ctx);
 void toggle_play(gmpv_handle *ctx);
 void stop(gmpv_handle *ctx);

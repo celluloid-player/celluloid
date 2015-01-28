@@ -27,113 +27,12 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
-void *mpv_event_handler(void *data)
-{
-	gmpv_handle *ctx = data;
-	gint exit_flag = FALSE;
-	mpv_event *event;
-
-	while(!exit_flag)
-	{
-		event = mpv_wait_event(ctx->mpv_ctx, 1);
-
-		if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
-		{
-			mpv_event_property *prop = event->data;
-
-			if(g_strcmp0(prop->name, "pause") == 0)
-			{
-				pthread_mutex_lock(ctx->mpv_event_mutex);
-
-				ctx->paused = *((int *)prop->data);
-
-				pthread_mutex_unlock(ctx->mpv_event_mutex);
-
-				g_idle_add(	(GSourceFunc)
-						mpv_load_gui_update,
-						ctx );
-			}
-			else if(g_strcmp0(prop->name, "eof-reached") == 0
-			&& prop->data
-			&& *((int *)prop->data) == 1)
-			{
-				pthread_mutex_lock(ctx->mpv_event_mutex);
-
-				ctx->paused = TRUE;
-				ctx->loaded = FALSE;
-
-				g_idle_add((GSourceFunc)control_reset, ctx);
-				g_idle_add((GSourceFunc)playlist_reset, ctx);
-
-				pthread_mutex_unlock(ctx->mpv_event_mutex);
-			}
-		}
-		else if(event->event_id == MPV_EVENT_IDLE)
-		{
-			pthread_mutex_lock(ctx->mpv_event_mutex);
-
-			if(ctx->loaded)
-			{
-				ctx->paused = TRUE;
-				ctx->loaded = FALSE;
-
-				g_idle_add((GSourceFunc)control_reset, ctx);
-				g_idle_add((GSourceFunc)playlist_reset, ctx);
-			}
-
-			pthread_mutex_unlock(ctx->mpv_event_mutex);
-		}
-		else if(event->event_id == MPV_EVENT_FILE_LOADED)
-		{
-			pthread_mutex_lock(ctx->mpv_event_mutex);
-
-			ctx->loaded = TRUE;
-
-			g_idle_add(	(GSourceFunc)
-					mpv_load_gui_update,
-					ctx );
-
-			pthread_mutex_unlock(ctx->mpv_event_mutex);
-		}
-		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
-		{
-			g_idle_add((GSourceFunc)mpv_load_gui_update, ctx);
-		}
-		else if(event->event_id == MPV_EVENT_SHUTDOWN)
-		{
-			g_idle_add((GSourceFunc)quit, ctx);
-		}
-		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
-		{
-			mpv_log_handler(ctx, event->data);
-		}
-
-		pthread_mutex_lock(ctx->mpv_event_mutex);
-
-		if(ctx->mpv_ctx_reset)
-		{
-			pthread_cond_signal(ctx->mpv_ctx_destroy_cv);
-
-			pthread_cond_wait(	ctx->mpv_ctx_init_cv,
-						ctx->mpv_event_mutex );
-		}
-
-		exit_flag = ctx->exit_flag;
-
-		pthread_mutex_unlock(ctx->mpv_event_mutex);
-	}
-
-	return NULL;
-}
-
 void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 {
 	const gchar *text = message->text;
 	gchar *buffer;
 	gboolean message_complete;
 	gboolean log_complete;
-
-	pthread_mutex_lock(ctx->mpv_event_mutex);
 
 	buffer = ctx->log_buffer;
 
@@ -155,13 +54,11 @@ void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 		ctx->log_buffer = g_strdup(text);
 	}
 
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
-
 	if(!log_complete && message_complete)
 	{
 		/* ctx->log_buffer will be freed by show_error_dialog().
 		 */
-		g_idle_add((GSourceFunc)show_error_dialog, ctx);
+		show_error_dialog(ctx);
 	}
 }
 
@@ -184,9 +81,79 @@ void mpv_check_error(int status)
 	}
 }
 
-gboolean mpv_load_gui_update(gpointer data)
+gboolean mpv_handle_event(gpointer data)
 {
-	gmpv_handle* ctx = data;
+	gmpv_handle *ctx = data;
+	mpv_event *event = NULL;
+	gboolean done = FALSE;
+
+	while(!done)
+	{
+		event = mpv_wait_event(ctx->mpv_ctx, 0);
+
+		if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
+		{
+			mpv_event_property *prop = event->data;
+
+			if(g_strcmp0(prop->name, "pause") == 0)
+			{
+				ctx->paused = *((int *)prop->data);
+
+				mpv_load_gui_update(ctx);
+			}
+			else if(g_strcmp0(prop->name, "eof-reached") == 0
+			&& prop->data
+			&& *((int *)prop->data) == 1)
+			{
+				ctx->paused = TRUE;
+				ctx->loaded = FALSE;
+
+				main_window_reset(ctx->gui);
+				playlist_reset(ctx);
+			}
+		}
+		else if(event->event_id == MPV_EVENT_IDLE)
+		{
+			if(ctx->loaded)
+			{
+				ctx->paused = TRUE;
+				ctx->loaded = FALSE;
+
+				main_window_reset(ctx->gui);
+				playlist_reset(ctx);
+			}
+		}
+		else if(event->event_id == MPV_EVENT_FILE_LOADED)
+		{
+			ctx->loaded = TRUE;
+
+			mpv_load_gui_update(ctx);
+		}
+		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
+		{
+			mpv_load_gui_update(ctx);
+		}
+		else if(event->event_id == MPV_EVENT_SHUTDOWN)
+		{
+			quit(ctx);
+
+			done = TRUE;
+		}
+		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
+		{
+			mpv_log_handler(ctx, event->data);
+		}
+		else if(event->event_id == MPV_EVENT_NONE)
+		{
+			done = TRUE;
+		}
+	}
+
+	return TRUE;
+}
+
+void mpv_load_gui_update(gmpv_handle *ctx)
+{
 	ControlBox *control_box;
 	gchar* title;
 	gint64 chapter_count;
@@ -244,12 +211,8 @@ gboolean mpv_load_gui_update(gpointer data)
 		control_box_set_seek_bar_length(control_box, length);
 	}
 
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
 	new_file = ctx->new_file;
 	ctx->new_file = FALSE;
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
 	control_box_set_playing_state(control_box, !ctx->paused);
 
@@ -257,17 +220,6 @@ gboolean mpv_load_gui_update(gpointer data)
 	{
 		resize_window_to_fit(ctx, 1);
 	}
-
-	return FALSE;
-}
-
-gboolean mpv_load_from_ctx(gpointer data)
-{
-	gmpv_handle* ctx = data;
-
-	mpv_load(ctx, NULL, FALSE, FALSE);
-
-	return FALSE;
 }
 
 gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
@@ -427,11 +379,7 @@ void mpv_load(	gmpv_handle *ctx,
 	GtkTreeIter iter;
 	gboolean empty;
 
-	pthread_mutex_lock(ctx->mpv_event_mutex);
-
 	playlist_store = GTK_LIST_STORE(ctx->playlist_store);
-
-	pthread_mutex_unlock(ctx->mpv_event_mutex);
 
 	empty = !gtk_tree_model_get_iter_first
 			(GTK_TREE_MODEL(playlist_store), &iter);
@@ -443,11 +391,7 @@ void mpv_load(	gmpv_handle *ctx,
 		playlist_widget_clear
 			(PLAYLIST_WIDGET(ctx->gui->playlist));
 
-		pthread_mutex_lock(ctx->mpv_event_mutex);
-
 		ctx->new_file = TRUE;
-
-		pthread_mutex_unlock(ctx->mpv_event_mutex);
 	}
 
 	if(!uri)
@@ -490,11 +434,7 @@ void mpv_load(	gmpv_handle *ctx,
 
 		if(!append)
 		{
-			pthread_mutex_lock(ctx->mpv_event_mutex);
-
 			ctx->loaded = FALSE;
-
-			pthread_mutex_unlock(ctx->mpv_event_mutex);
 		}
 
 		if(update)
