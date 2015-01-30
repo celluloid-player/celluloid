@@ -129,6 +129,20 @@ gboolean mpv_handle_event(gpointer data)
 
 			mpv_load_gui_update(ctx);
 		}
+		else if(event->event_id == MPV_EVENT_END_FILE)
+		{
+			if(ctx->loaded)
+			{
+				ctx->new_file = FALSE;
+			}
+		}
+		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
+		{
+			if(ctx->new_file)
+			{
+				resize_window_to_fit(ctx, 1);
+			}
+		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
 		{
 			mpv_load_gui_update(ctx);
@@ -158,7 +172,6 @@ void mpv_load_gui_update(gmpv_handle *ctx)
 	gchar* title;
 	gint64 chapter_count;
 	gint64 playlist_pos;
-	gboolean new_file;
 	gdouble length;
 	gdouble volume;
 
@@ -211,15 +224,7 @@ void mpv_load_gui_update(gmpv_handle *ctx)
 		control_box_set_seek_bar_length(control_box, length);
 	}
 
-	new_file = ctx->new_file;
-	ctx->new_file = FALSE;
-
 	control_box_set_playing_state(control_box, !ctx->paused);
-
-	if(new_file)
-	{
-		resize_window_to_fit(ctx, 1);
-	}
 }
 
 gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
@@ -392,6 +397,7 @@ void mpv_load(	gmpv_handle *ctx,
 			(PLAYLIST_WIDGET(ctx->gui->playlist));
 
 		ctx->new_file = TRUE;
+		ctx->loaded = FALSE;
 	}
 
 	if(!uri)
