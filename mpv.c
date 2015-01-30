@@ -163,7 +163,7 @@ gboolean mpv_handle_event(gpointer data)
 		}
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 void mpv_load_gui_update(gmpv_handle *ctx)

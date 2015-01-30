@@ -33,6 +33,7 @@
 #include "pref_dialog.h"
 #include "open_loc_dialog.h"
 
+static void mpv_wakeup_callback(void *data);
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static void destroy_handler(GtkWidget *widget, gpointer data);
 static void open_handler(GtkWidget *widget, gpointer data);
@@ -68,6 +69,11 @@ static void seek_handler(	GtkWidget *widget,
 static gboolean key_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+
+static void mpv_wakeup_callback(void *data)
+{
+	g_idle_add((GSourceFunc)mpv_handle_event, data);
+}
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
@@ -746,8 +752,7 @@ int main(int argc, char **argv)
 					"mpv-input-config-file");
 
 	load_keybind(&ctx, mpvinput_enable?mpvinput:NULL, FALSE);
-
-	g_idle_add((GSourceFunc)mpv_handle_event, &ctx);
+	mpv_set_wakeup_callback(ctx.mpv_ctx, mpv_wakeup_callback, &ctx);
 
 	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
 			(GSourceFunc)update_seek_bar,
