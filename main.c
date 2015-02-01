@@ -269,11 +269,15 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 		/* Reset ctx->mpv_ctx */
 		mpv_check_error(mpv_command(ctx->mpv_ctx, quit_cmd));
 
-		mpv_detach_destroy(ctx->mpv_ctx);
+		mpv_terminate_destroy(ctx->mpv_ctx);
 
 		ctx->mpv_ctx = mpv_create();
 
 		mpv_init(ctx, ctx->vid_area_wid);
+
+		mpv_set_wakeup_callback(	ctx->mpv_ctx,
+						mpv_wakeup_callback,
+						ctx );
 
 		if(ctx->playlist_store)
 		{
