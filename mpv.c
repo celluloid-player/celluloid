@@ -127,6 +127,11 @@ gboolean mpv_handle_event(gpointer data)
 		{
 			ctx->loaded = TRUE;
 
+			if(ctx->new_file)
+			{
+				mpv_update_playlist(ctx);
+			}
+
 			mpv_load_gui_update(ctx);
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
@@ -164,6 +169,69 @@ gboolean mpv_handle_event(gpointer data)
 	}
 
 	return FALSE;
+}
+
+void mpv_update_playlist(gmpv_handle *ctx)
+{
+	/* The length of "playlist//filename" including null-terminator (19)
+	 * plus the number of digits in the maximum value of 64 bit int (19).
+	 */
+	const gsize filename_prop_str_size = 38;
+	PlaylistWidget *playlist;
+	mpv_node playlist_array;
+	gchar *filename_prop_str;
+	gint playlist_count;
+	gint i;
+
+	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
+	filename_prop_str = g_malloc(filename_prop_str_size);
+
+	mpv_check_error(mpv_get_property(	ctx->mpv_ctx,
+						"playlist",
+						MPV_FORMAT_NODE,
+						&playlist_array ));
+
+	playlist_count = playlist_array.u.list->num;
+
+	g_signal_handlers_block_matched
+		(	playlist->list_store,
+			G_SIGNAL_MATCH_DATA,
+			0,
+			0,
+			NULL,
+			NULL,
+			ctx );
+
+	playlist_widget_clear(playlist);
+
+	for(i = 0; i < playlist_count; i++)
+	{
+		gchar *path;
+		gchar *name;
+
+		path =	playlist_array.u.list
+			->values[i].u.list
+			->values[0].u.string;
+
+		name = get_name_from_path(path);
+
+		playlist_widget_append(playlist, name, path);
+
+		mpv_free(path);
+		g_free(name);
+	}
+
+	g_signal_handlers_unblock_matched
+		(	playlist->list_store,
+			G_SIGNAL_MATCH_DATA,
+			0,
+			0,
+			NULL,
+			NULL,
+			ctx );
+
+	g_free(filename_prop_str);
+	mpv_free_node_contents(&playlist_array);
 }
 
 void mpv_load_gui_update(gmpv_handle *ctx)
