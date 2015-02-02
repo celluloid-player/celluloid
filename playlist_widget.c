@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -102,6 +102,8 @@ void playlist_widget_append(	PlaylistWidget *wgt,
 
 	gtk_list_store_set
 		(wgt->list_store, &iter, PLAYLIST_URI_COLUMN, uri, -1);
+
+	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(wgt->tree_view));
 }
 
 void playlist_widget_remove(PlaylistWidget *wgt, gint pos)
@@ -121,6 +123,7 @@ void playlist_widget_remove(PlaylistWidget *wgt, gint pos)
 	if(rc)
 	{
 		gtk_list_store_remove(wgt->list_store, &iter);
+		gtk_tree_view_columns_autosize(GTK_TREE_VIEW(wgt->tree_view));
 	}
 }
 
