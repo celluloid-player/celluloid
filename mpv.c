@@ -127,11 +127,7 @@ gboolean mpv_handle_event(gpointer data)
 		{
 			ctx->loaded = TRUE;
 
-			if(ctx->new_file)
-			{
-				mpv_update_playlist(ctx);
-			}
-
+			mpv_update_playlist(ctx);
 			mpv_load_gui_update(ctx);
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
