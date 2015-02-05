@@ -7,6 +7,7 @@ GNOME MPV is a simple GTK+ frontend for MPV.
 - autotools (build)
 - pkg-config (build)
 - gcc (build)
+- intltool (build)
 - glib2
 - gtk3
 - libmpv
@@ -16,4 +17,4 @@ GNOME MPV is a simple GTK+ frontend for MPV.
 
 Run the following command to build and install:
 
-    $ autoreconf -sfi && ./configure && make && sudo make install
+    $ autoreconf -sfi && intltoolize -c --automake && ./configure && make && sudo make install

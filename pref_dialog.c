@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
+
 #include "pref_dialog.h"
 
 static void response_handler(	GtkDialog *dialog,
@@ -67,12 +69,12 @@ static void pref_dialog_init(PrefDialog *dlg)
 	GtkWidget *mpvinput_group_label;
 	GtkWidget *misc_group_label;
 
-	mpvconf_label = gtk_label_new("MPV configuration file:");
-	mpvinput_label = gtk_label_new("MPV input configuration file:");
-	mpvopt_label = gtk_label_new("Extra MPV options:");
-	mpvconf_group_label = gtk_label_new("<b>MPV Configuration</b>");
-	mpvinput_group_label = gtk_label_new("<b>Keybindings</b>");
-	misc_group_label = gtk_label_new("<b>Miscellaneous</b>");
+	mpvconf_label = gtk_label_new(_("MPV configuration file:"));
+	mpvinput_label = gtk_label_new(_("MPV input configuration file:"));
+	mpvopt_label = gtk_label_new(_("Extra MPV options:"));
+	mpvconf_group_label = gtk_label_new(_("<b>MPV Configuration</b>"));
+	mpvinput_group_label = gtk_label_new(_("<b>Keybindings</b>"));
+	misc_group_label = gtk_label_new(_("<b>Miscellaneous</b>"));
 
 	/* This 'locks' the height of the dialog while allowing the width to be
 	 * freely adjusted.
@@ -89,20 +91,21 @@ static void pref_dialog_init(PrefDialog *dlg)
 	dlg->mpvopt_entry = gtk_entry_new();
 
 	dlg->mpvconf_button
-		= gtk_file_chooser_button_new(	"MPV configuration file",
+		= gtk_file_chooser_button_new(	_("MPV configuration file"),
 						GTK_FILE_CHOOSER_ACTION_OPEN );
 
 	dlg->mpvinput_button
-		= gtk_file_chooser_button_new(	"MPV input configuration file",
-						GTK_FILE_CHOOSER_ACTION_OPEN );
+		= gtk_file_chooser_button_new
+			(	_("MPV input configuration file"),
+				GTK_FILE_CHOOSER_ACTION_OPEN );
 
 	dlg->mpvconf_enable_check
 		= gtk_check_button_new_with_label
-			("Load MPV configuration file");
+			(_("Load MPV configuration file"));
 
 	dlg->mpvinput_enable_check
 		= gtk_check_button_new_with_label
-			("Load MPV input configuration file");
+			(_("Load MPV input configuration file"));
 
 	gtk_widget_set_margin_top(mpvinput_group_label, 10);
 	gtk_widget_set_margin_top(misc_group_label, 10);
@@ -135,14 +138,14 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_size_request(dlg->mpvinput_button, 100, -1);
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
-				"_Save",
+				_("_Save"),
 				GTK_RESPONSE_ACCEPT,
-				"_Cancel",
+				_("_Cancel"),
 				GTK_RESPONSE_REJECT,
 				NULL );
 
 	gtk_window_set_modal(GTK_WINDOW(dlg), 1);
-	gtk_window_set_title(GTK_WINDOW(dlg), "Preferences");
+	gtk_window_set_title(GTK_WINDOW(dlg), _("Preferences"));
 
 	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
 					GTK_WIDGET(dlg),

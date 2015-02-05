@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
+
 #include "open_loc_dialog.h"
 
 static void response_handler(	GtkDialog *dialog,
@@ -65,13 +67,13 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 	geom.max_height = 0;
 	dlg->content_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	dlg->content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
-	dlg->loc_label = gtk_label_new("Location:");
+	dlg->loc_label = gtk_label_new(_("Location:"));
 	dlg->loc_entry = gtk_entry_new();
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
-				"_Open",
+				_("_Open"),
 				GTK_RESPONSE_ACCEPT,
-				"_Cancel",
+				_("_Cancel"),
 				GTK_RESPONSE_REJECT,
 				NULL );
 
@@ -81,7 +83,7 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 					GDK_HINT_MAX_SIZE );
 
 	gtk_window_set_modal(GTK_WINDOW(dlg), 1);
-	gtk_window_set_title(GTK_WINDOW(dlg), "Open Location");
+	gtk_window_set_title(GTK_WINDOW(dlg), _("Open Location"));
 	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_box), 5);
 
 	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),

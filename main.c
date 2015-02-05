@@ -17,6 +17,7 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
 #include <gdk/gdkx.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -393,9 +394,9 @@ static void about_handler(GtkWidget *widget, gpointer data)
 				"logo-icon-name",
 				ICON_NAME,
 				"version",
-				APP_VERSION,
+				VERSION,
 				"comments",
-				APP_DESC,
+				_("A GTK frontend for MPV"),
 				"license-type",
 				GTK_LICENSE_GPL_3_0,
 				NULL );
@@ -561,8 +562,12 @@ int main(int argc, char **argv)
 
 	gtk_init(&argc, &argv);
 	setlocale(LC_NUMERIC, "C");
-	g_set_application_name(APP_NAME);
+	g_set_application_name(_("GNOME MPV"));
 	gtk_window_set_default_icon_name(ICON_NAME);
+
+	bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
 
 	ctx.mpv_ctx = mpv_create();
 	ctx.mpv_ctx_reset = FALSE;

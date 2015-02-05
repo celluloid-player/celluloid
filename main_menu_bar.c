@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
+
 #include "main_menu_bar.h"
 
 static void main_menu_bar_init(MainMenuBar *menu);
@@ -24,35 +26,37 @@ static void main_menu_bar_init(MainMenuBar *menu);
 static void main_menu_bar_init(MainMenuBar *menu)
 {
 	menu->file_menu = gtk_menu_new();
-	menu->file_menu_item = gtk_menu_item_new_with_mnemonic("_File");
-	menu->open_menu_item = gtk_menu_item_new_with_mnemonic("_Open");
-	menu->quit_menu_item = gtk_menu_item_new_with_mnemonic("_Quit");
+	menu->file_menu_item = gtk_menu_item_new_with_mnemonic(_("_File"));
+	menu->open_menu_item = gtk_menu_item_new_with_mnemonic(_("_Open"));
+	menu->quit_menu_item = gtk_menu_item_new_with_mnemonic(_("_Quit"));
 	menu->edit_menu = gtk_menu_new();
-	menu->edit_menu_item = gtk_menu_item_new_with_mnemonic("_Edit");
-	menu->pref_menu_item = gtk_menu_item_new_with_mnemonic("_Preferences");
+	menu->edit_menu_item = gtk_menu_item_new_with_mnemonic(_("_Edit"));
 	menu->view_menu = gtk_menu_new();
-	menu->view_menu_item = gtk_menu_item_new_with_mnemonic("_View");
+	menu->view_menu_item = gtk_menu_item_new_with_mnemonic(_("_View"));
 	menu->help_menu = gtk_menu_new();
-	menu->help_menu_item = gtk_menu_item_new_with_mnemonic("_Help");
-	menu->about_menu_item = gtk_menu_item_new_with_mnemonic("_About");
+	menu->help_menu_item = gtk_menu_item_new_with_mnemonic(_("_Help"));
+	menu->about_menu_item = gtk_menu_item_new_with_mnemonic(_("_About"));
+
+	menu->pref_menu_item
+		= gtk_menu_item_new_with_mnemonic(_("_Preferences"));
 
 	menu->open_loc_menu_item
-		= gtk_menu_item_new_with_mnemonic("Open _Location");
+		= gtk_menu_item_new_with_mnemonic(_("Open _Location"));
 
 	menu->playlist_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Playlist");
+		= gtk_menu_item_new_with_mnemonic(_("_Playlist"));
 
 	menu->fullscreen_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Fullscreen");
+		= gtk_menu_item_new_with_mnemonic(_("_Fullscreen"));
 
 	menu->normal_size_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Normal Size");
+		= gtk_menu_item_new_with_mnemonic(_("_Normal Size"));
 
 	menu->double_size_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Double Size");
+		= gtk_menu_item_new_with_mnemonic(_("_Double Size"));
 
 	menu->half_size_menu_item
-		= gtk_menu_item_new_with_mnemonic("_Half Size");
+		= gtk_menu_item_new_with_mnemonic(_("_Half Size"));
 
 	gtk_menu_shell_append(	GTK_MENU_SHELL(menu),
 				menu->file_menu_item );

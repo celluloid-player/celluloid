@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
+
 #include "playlist_widget.h"
 
 static void playlist_widget_init(PlaylistWidget *wgt);
@@ -44,7 +46,7 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 
 	wgt->title_column
 		= gtk_tree_view_column_new_with_attributes
-			("Playlist", wgt->title_renderer, "text", 1, NULL);
+			(_("Playlist"), wgt->title_renderer, "text", 1, NULL);
 
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(wgt->tree_view), TRUE);
 

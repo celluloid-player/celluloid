@@ -7,6 +7,13 @@ AC_CONFIG_SRCDIR([main_window.h])
 AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE
 
+IT_PROG_INTLTOOL([0.40.6])
+GETTEXT_PACKAGE=gnome-mpv
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
+
+AM_GLIB_GNU_GETTEXT
+
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]))
 
 AS_IF(	[test "x$enable_debug" = "xyes"],
@@ -67,5 +74,5 @@ AC_CHECK_FUNCS([	atexit clock_gettime dup2 floor ftruncate getcwd \
 			strcspn strdup strerror strncasecmp strpbrk strrchr \
 			strspn strstr strtol strtoul ])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile po/Makefile.in])
 AC_OUTPUT
