@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([gnome-mpv], [0.2], [jdoe@example.com])
-AC_CONFIG_SRCDIR([main_window.h])
+AC_CONFIG_SRCDIR([src/main.c])
 AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE
 
@@ -74,5 +74,5 @@ AC_CHECK_FUNCS([	atexit clock_gettime dup2 floor ftruncate getcwd \
 			strcspn strdup strerror strncasecmp strpbrk strrchr \
 			strspn strstr strtol strtoul ])
 
-AC_CONFIG_FILES([Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in])
 AC_OUTPUT
