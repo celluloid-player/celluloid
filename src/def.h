@@ -34,7 +34,41 @@
 					"S osd-msg screenshot video",\
 					"j osd-msg cycle sub",\
 					"j osd-msg cycle sub down",\
+					"j osd-msg cycle sub down",\
 					"Q quit_watch_later",\
+					NULL }
+
+#define KEYSTRING_TRANSLATIONS	{	"<", "less",\
+					">", "greater",\
+					"PGUP", "Page_Up",\
+					"PGDWN", "Page_Down",\
+					"BS", "BackSpace",\
+					".", "period",\
+					",", "comma",\
+					"`", "grave",\
+					"~", "asciitilde",\
+					"!", "exclam",\
+					"@", "at",\
+					"SHARP", "numbersign",\
+					"$", "dollar",\
+					"%", "percent",\
+					"^", "caret",\
+					"&", "ampersand",\
+					"*", "asterisk",\
+					"-", "minus",\
+					"_", "underscore",\
+					"=", "equal",\
+					"+", "plus",\
+					";", "semicolon",\
+					":", "colon",\
+					"'", "apostrophe",\
+					"\"", "quotedbl",\
+					"/", "slash",\
+					"\\", "backslash",\
+					"(", "parenleft",\
+					")", "parenright",\
+					"[", "bracketleft",\
+					"]", "bracketright",\
 					NULL }
 
 #endif

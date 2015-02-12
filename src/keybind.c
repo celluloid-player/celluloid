@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "keybind.h"
 #include "def.h"
@@ -96,7 +97,29 @@ keybind *keybind_parse_config_line(const gchar *line)
 		}
 		else
 		{
-			keyval = gdk_keyval_from_name(keys[index]);
+			/* Translate key strings to GDK key name */
+			const gchar *keytrans[] = KEYSTRING_TRANSLATIONS;
+			const gint keystrlen = 256;
+			const gchar *match = NULL;
+			gint i;
+
+			/* Try the hard-coded list first */
+			for(i = 0; !match && keytrans[i]; i += 2)
+			{
+				gint rc = g_ascii_strncasecmp(	keys[index],
+								keytrans[i],
+								keystrlen );
+
+				if(rc == 0)
+				{
+					match = keytrans[i+1];
+				}
+			}
+
+			/* Then try passing the key string directly to
+			 * gdk_keyval_from_name()
+			 */
+			keyval = gdk_keyval_from_name(match?match:keys[index]);
 		}
 
 		/* Invalid key */
