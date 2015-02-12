@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -27,22 +27,6 @@ void playlist_toggle_handler(GtkWidget *widget, gpointer data)
 	gboolean visible = gtk_widget_get_visible(ctx->gui->playlist);
 
 	main_window_set_playlist_visible(ctx->gui, !visible);
-}
-
-void playlist_previous_handler(GtkWidget *widget, gpointer data)
-{
-	gmpv_handle *ctx = (gmpv_handle *)data;
-	const gchar *cmd[] = {"playlist_prev", NULL};
-
-	mpv_command(ctx->mpv_ctx, cmd);
-}
-
-void playlist_next_handler(GtkWidget *widget, gpointer data)
-{
-	gmpv_handle *ctx = (gmpv_handle *)data;
-	const gchar *cmd[] = {"playlist_next", NULL};
-
-	mpv_command(ctx->mpv_ctx, cmd);
 }
 
 void playlist_row_handler(	GtkTreeView *tree_view,

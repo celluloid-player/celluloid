@@ -99,6 +99,11 @@ gboolean mpv_handle_event(gpointer data)
 			{
 				ctx->paused = *((int *)prop->data);
 
+				if(!ctx->loaded && !ctx->paused)
+				{
+					mpv_load(ctx, NULL, FALSE, TRUE);
+				}
+
 				mpv_load_gui_update(ctx);
 			}
 			else if(g_strcmp0(prop->name, "eof-reached") == 0
@@ -116,9 +121,17 @@ gboolean mpv_handle_event(gpointer data)
 		{
 			if(ctx->loaded)
 			{
+				gint rc;
+
 				ctx->paused = TRUE;
 				ctx->loaded = FALSE;
 
+				rc = mpv_set_property(	ctx->mpv_ctx,
+							"pause",
+							MPV_FORMAT_FLAG,
+							&ctx->paused );
+
+				mpv_check_error(rc);
 				main_window_reset(ctx->gui);
 				playlist_reset(ctx);
 			}

@@ -330,12 +330,22 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 static void play_handler(GtkWidget *widget, gpointer data)
 {
-	toggle_play(data);
+	gmpv_handle *ctx = data;
+
+	ctx->paused = !ctx->paused;
+
+	mpv_check_error(mpv_set_property(	ctx->mpv_ctx,
+						"pause",
+						MPV_FORMAT_FLAG,
+						&ctx->paused ));
 }
 
 static void stop_handler(GtkWidget *widget, gpointer data)
 {
-	stop(data);
+	gmpv_handle *ctx = data;
+	const gchar *cmd[] = {"stop", NULL};
+
+	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 }
 
 static void seek_handler(	GtkWidget *widget,
@@ -343,27 +353,56 @@ static void seek_handler(	GtkWidget *widget,
 				gdouble value,
 				gpointer data )
 {
-	seek_absolute(data, value);
+	gmpv_handle *ctx = data;
+	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
+
+	if(!ctx->loaded)
+	{
+		mpv_load(ctx, NULL, FALSE, TRUE);
+	}
+	else
+	{
+		gchar *value_str = g_strdup_printf("%.2f", (gdouble)value);
+
+		cmd[1] = value_str;
+
+		mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+		update_seek_bar(ctx);
+
+		g_free(value_str);
+	}
 }
 
 static void forward_handler(GtkWidget *widget, gpointer data)
 {
-	seek_relative(data, 10);
+	gmpv_handle *ctx = data;
+	const gchar *cmd[] = {"seek", "10", NULL};
+
+	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 }
 
 static void rewind_handler(GtkWidget *widget, gpointer data)
 {
-	seek_relative(data, -10);
+	gmpv_handle *ctx = data;
+	const gchar *cmd[] = {"seek", "-10", NULL};
+
+	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 }
 
 static void chapter_previous_handler(GtkWidget *widget, gpointer data)
 {
-	previous_chapter(data);
+	gmpv_handle *ctx = data;
+	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
+
+	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 }
 
 static void chapter_next_handler(GtkWidget *widget, gpointer data)
 {
-	next_chapter(data);
+	gmpv_handle *ctx = data;
+	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
+
+	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)
@@ -504,46 +543,6 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		&& main_window_get_playlist_visible(ctx->gui))
 		{
 			remove_current_playlist_entry(ctx);
-		}
-		else if(keyval == GDK_KEY_Left)
-		{
-			seek_relative(ctx, -10);
-		}
-		else if(keyval == GDK_KEY_Right)
-		{
-			seek_relative(ctx, 10);
-		}
-		else if(keyval == GDK_KEY_Up)
-		{
-			seek_relative(ctx, 60);
-		}
-		else if(keyval == GDK_KEY_Down)
-		{
-			seek_relative(ctx, -60);
-		}
-		else if(keyval == GDK_KEY_space || keyval == GDK_KEY_p)
-		{
-			play_handler(NULL, ctx);
-		}
-		else if(keyval == GDK_KEY_U)
-		{
-			stop_handler(NULL, ctx);
-		}
-		else if(keyval == GDK_KEY_exclam)
-		{
-			chapter_previous_handler(NULL, ctx);
-		}
-		else if(keyval == GDK_KEY_at)
-		{
-			chapter_next_handler(NULL, ctx);
-		}
-		else if(keyval == GDK_KEY_less)
-		{
-			playlist_previous_handler(NULL, ctx);
-		}
-		else if(keyval == GDK_KEY_greater)
-		{
-			playlist_next_handler(NULL, ctx);
 		}
 	}
 

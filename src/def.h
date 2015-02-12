@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -28,47 +28,63 @@
 #define VID_AREA_BG_COLOR "#000000"
 #define SEEK_BAR_UPDATE_INTERVAL 250
 #define CURSOR_HIDE_DELAY 1
+#define KEYSTRING_MAX_LEN 8
 
-#define DEFAULT_KEYBINDS	{	"v osd-msg cycle sub-visibility",\
+#define DEFAULT_KEYBINDS	{	"SPACE cycle pause",\
+					"p cycle pause",\
+					"v osd-msg cycle sub-visibility",\
 					"s osd-msg screenshot",\
 					"S osd-msg screenshot video",\
 					"j osd-msg cycle sub",\
-					"j osd-msg cycle sub down",\
-					"j osd-msg cycle sub down",\
+					"J osd-msg cycle sub down",\
+					"@ osd-msg cycle chapter",\
+					"! osd-msg cycle chapter down",\
+					"< playlist_prev",\
+					"> playlist_next",\
+					"U stop",\
+					"RIGHT seek 10",\
+					"LEFT seek -10",\
+					"UP seek 60",\
+					"DOWN seek -60",\
 					"Q quit_watch_later",\
 					NULL }
 
-#define KEYSTRING_TRANSLATIONS	{	"<", "less",\
-					">", "greater",\
-					"PGUP", "Page_Up",\
-					"PGDWN", "Page_Down",\
-					"BS", "BackSpace",\
-					".", "period",\
-					",", "comma",\
-					"`", "grave",\
-					"~", "asciitilde",\
-					"!", "exclam",\
-					"@", "at",\
-					"SHARP", "numbersign",\
-					"$", "dollar",\
-					"%", "percent",\
-					"^", "caret",\
-					"&", "ampersand",\
-					"*", "asterisk",\
-					"-", "minus",\
-					"_", "underscore",\
-					"=", "equal",\
-					"+", "plus",\
-					";", "semicolon",\
-					":", "colon",\
-					"'", "apostrophe",\
-					"\"", "quotedbl",\
-					"/", "slash",\
-					"\\", "backslash",\
-					"(", "parenleft",\
-					")", "parenright",\
-					"[", "bracketleft",\
-					"]", "bracketright",\
-					NULL }
+#define KEYSTRING_MAP	{	"<", "less",\
+				">", "greater",\
+				"PGUP", "Page_Up",\
+				"PGDWN", "Page_Down",\
+				"BS", "BackSpace",\
+				"SPACE", "space",\
+				".", "period",\
+				",", "comma",\
+				"`", "grave",\
+				"~", "asciitilde",\
+				"!", "exclam",\
+				"@", "at",\
+				"SHARP", "numbersign",\
+				"$", "dollar",\
+				"%", "percent",\
+				"^", "caret",\
+				"&", "ampersand",\
+				"*", "asterisk",\
+				"-", "minus",\
+				"_", "underscore",\
+				"=", "equal",\
+				"+", "plus",\
+				";", "semicolon",\
+				":", "colon",\
+				"'", "apostrophe",\
+				"\"", "quotedbl",\
+				"/", "slash",\
+				"\\", "backslash",\
+				"(", "parenleft",\
+				")", "parenright",\
+				"[", "bracketleft",\
+				"]", "bracketright",\
+				"RIGHT", "Right",\
+				"LEFT", "Left",\
+				"UP", "Up",\
+				"DOWN", "Down",\
+				NULL }
 
 #endif

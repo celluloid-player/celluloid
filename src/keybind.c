@@ -97,28 +97,24 @@ keybind *keybind_parse_config_line(const gchar *line)
 		}
 		else
 		{
-			/* Translate key strings to GDK key name */
-			const gchar *keytrans[] = KEYSTRING_TRANSLATIONS;
-			const gint keystrlen = 256;
+			const gchar *keystrmap[] = KEYSTRING_MAP;
+			const gint keystrlen = KEYSTRING_MAX_LEN;
 			const gchar *match = NULL;
 			gint i;
 
-			/* Try the hard-coded list first */
-			for(i = 0; !match && keytrans[i]; i += 2)
+			/* Translate key string to GDK key name */
+			for(i = 0; !match && keystrmap[i]; i += 2)
 			{
 				gint rc = g_ascii_strncasecmp(	keys[index],
-								keytrans[i],
+								keystrmap[i],
 								keystrlen );
 
 				if(rc == 0)
 				{
-					match = keytrans[i+1];
+					match = keystrmap[i+1];
 				}
 			}
 
-			/* Then try passing the key string directly to
-			 * gdk_keyval_from_name()
-			 */
 			keyval = gdk_keyval_from_name(match?match:keys[index]);
 		}
 
