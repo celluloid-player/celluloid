@@ -62,13 +62,17 @@ keybind *keybind_parse_config_line(const gchar *line)
 
 			g_free(old_linebuf);
 
-			result = g_malloc(sizeof(keybind));
 			tokens = g_strsplit_set(linebuf, " \t", -1);
-			keys = g_strsplit(tokens[0], "+", -1);
+			keys = tokens?g_strsplit(tokens[0], "+", -1):NULL;
 
-			result->modifier = 0x0;
-			result->keyval = 0x0;
-			result->command = NULL;
+			if(keys)
+			{
+				result = g_malloc(sizeof(keybind));
+
+				result->modifier = 0x0;
+				result->keyval = 0x0;
+				result->command = NULL;
+			}
 		}
 		else
 		{
