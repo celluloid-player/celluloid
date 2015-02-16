@@ -687,7 +687,7 @@ int main(int argc, char **argv)
 				GDK_BUTTON1_MASK,
 				target_entry,
 				3,
-				GDK_ACTION_COPY );
+				GDK_ACTION_COPY|GDK_ACTION_LINK );
 
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->vid_area));
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->playlist));
