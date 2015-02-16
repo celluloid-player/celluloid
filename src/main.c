@@ -118,7 +118,8 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 	}
 	else
 	{
-		control_box_set_enabled(ctx->gui->control_box, FALSE);
+		control_box_set_enabled
+			(CONTROL_BOX(ctx->gui->control_box), FALSE);
 	}
 
 
