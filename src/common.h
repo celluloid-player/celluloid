@@ -29,6 +29,8 @@ typedef struct gmpv_handle gmpv_handle;
 struct gmpv_handle
 {
 	mpv_handle *mpv_ctx;
+	gint argc;
+	gchar **argv;
 	gboolean paused;
 	gboolean loaded;
 	gboolean new_file;

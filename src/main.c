@@ -85,6 +85,7 @@ static void mpv_wakeup_callback(void *data)
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
+	gmpv_handle *ctx = data;
 	guint signal_id = g_signal_lookup("draw", MAIN_WINDOW_TYPE);
 
 	g_signal_handlers_disconnect_matched(	widget,
@@ -94,9 +95,34 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						0,
 						0,
 						NULL,
-						data );
+						ctx );
 
-	mpv_load(data, NULL, FALSE, FALSE);
+	/* Start playing the file given as command line argument, if any */
+	if(ctx->argc >= 2)
+	{
+		gint i = 0;
+
+		ctx->paused = FALSE;
+
+		for(i = 1; i < ctx->argc; i++)
+		{
+			gchar *path = get_name_from_path(ctx->argv[i]);
+
+			playlist_widget_append
+				(	PLAYLIST_WIDGET(ctx->gui->playlist),
+					path,
+					ctx->argv[i] );
+
+			g_free(path);
+		}
+	}
+	else
+	{
+		control_box_set_enabled(ctx->gui->control_box, FALSE);
+	}
+
+
+	mpv_load(ctx, NULL, FALSE, FALSE);
 
 	return FALSE;
 }
@@ -613,6 +639,8 @@ int main(int argc, char **argv)
 	textdomain(GETTEXT_PACKAGE);
 
 	ctx.mpv_ctx = mpv_create();
+	ctx.argc = argc;
+	ctx.argv = argv;
 	ctx.paused = TRUE;
 	ctx.loaded = FALSE;
 	ctx.new_file = TRUE;
@@ -819,30 +847,6 @@ int main(int argc, char **argv)
 	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
 			(GSourceFunc)update_seek_bar,
 			&ctx );
-
-	/* Start playing the file given as command line argument, if any */
-	if(argc >= 2)
-	{
-		gint i = 0;
-
-		ctx.paused = FALSE;
-
-		for(i = 1; i < argc; i++)
-		{
-			gchar *path = get_name_from_path(argv[i]);
-
-			playlist_widget_append
-				(	PLAYLIST_WIDGET(ctx.gui->playlist),
-					path,
-					argv[i] );
-
-			g_free(path);
-		}
-	}
-	else
-	{
-		control_box_set_enabled(control_box, FALSE);
-	}
 
 	gtk_main();
 
