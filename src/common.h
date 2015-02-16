@@ -29,7 +29,6 @@ typedef struct gmpv_handle gmpv_handle;
 struct gmpv_handle
 {
 	mpv_handle *mpv_ctx;
-	volatile gboolean mpv_ctx_reset;
 	gboolean paused;
 	gboolean loaded;
 	gboolean new_file;

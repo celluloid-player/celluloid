@@ -613,7 +613,6 @@ int main(int argc, char **argv)
 	textdomain(GETTEXT_PACKAGE);
 
 	ctx.mpv_ctx = mpv_create();
-	ctx.mpv_ctx_reset = FALSE;
 	ctx.paused = TRUE;
 	ctx.loaded = FALSE;
 	ctx.new_file = TRUE;
