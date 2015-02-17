@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -43,28 +43,26 @@ typedef struct MainWindowClass MainWindowClass;
 
 struct MainWindow
 {
-	GtkWindow window;
+	GtkApplicationWindow window;
 	gboolean fullscreen;
 	gboolean playlist_visible;
 	gint playlist_width;
 	gint timeout_tag;
 	GtkSettings* settings;
-	GtkAccelGroup *accel_group;
 	GtkWidget *main_box;
 	GtkWidget *vid_area_paned;
 	GtkWidget *vid_area;
 	GtkWidget *fs_control;
 	GtkWidget *control_box;
-	GtkWidget *menu;
 	GtkWidget *playlist;
 };
 
 struct MainWindowClass
 {
-	GtkWindowClass parent_class;
+	GtkApplicationWindowClass parent_class;
 };
 
-GtkWidget *main_window_new(void);
+GtkWidget *main_window_new(GtkApplication *app);
 GType main_window_get_type(void);
 void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);

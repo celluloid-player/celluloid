@@ -19,7 +19,6 @@
 
 #include <glib/gi18n.h>
 #include <gdk/gdkx.h>
-#include <stdlib.h>
 #include <locale.h>
 
 #include "def.h"
@@ -28,7 +27,6 @@
 #include "keybind.h"
 #include "playlist.h"
 #include "main_window.h"
-#include "main_menu_bar.h"
 #include "control_box.h"
 #include "playlist_widget.h"
 #include "pref_dialog.h"
@@ -37,21 +35,59 @@
 static void mpv_wakeup_callback(void *data);
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static void destroy_handler(GtkWidget *widget, gpointer data);
-static void open_handler(GtkWidget *widget, gpointer data);
-static void open_loc_handler(GtkWidget *widget, gpointer data);
-static void pref_handler(GtkWidget *widget, gpointer data);
 static void play_handler(GtkWidget *widget, gpointer data);
 static void stop_handler(GtkWidget *widget, gpointer data);
 static void forward_handler(GtkWidget *widget, gpointer data);
 static void rewind_handler(GtkWidget *widget, gpointer data);
 static void chapter_previous_handler(GtkWidget *widget, gpointer data);
 static void chapter_next_handler(GtkWidget *widget, gpointer data);
-static void fullscreen_handler(GtkWidget *widget, gpointer data);
-static void normal_size_handler(GtkWidget *widget, gpointer data);
-static void double_size_handler(GtkWidget *widget, gpointer data);
-static void half_size_handler(GtkWidget *widget, gpointer data);
-static void about_handler(GtkWidget *widget, gpointer data);
 static void volume_handler(GtkWidget *widget, gpointer data);
+static void setup_dnd_targets(gmpv_handle *ctx);
+static void connect_signals(gmpv_handle *ctx);
+static void map_action_entries(gmpv_handle *ctx);
+static void setup_accelerators(gmpv_handle *ctx);
+static GMenu *build_menu(void);
+static void app_startup_handler(GApplication *app, gpointer data);
+
+static void open_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
+static void open_loc_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
+static void pref_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
+static void quit_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
+static void fullscreen_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
+static void normal_size_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
+
+static void double_size_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
+
+static void half_size_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
+static void about_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
+static void app_cmdline_handler(	GApplication *app,
+					GApplicationCommandLine *cmdline,
+					gpointer data );
 
 static void drag_data_recv_handler(	GtkWidget *widget,
 					GdkDragContext *context,
@@ -97,7 +133,6 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						NULL,
 						ctx );
 
-	/* Start playing the file given as command line argument, if any */
 	if(ctx->argc >= 2)
 	{
 		gint i = 0;
@@ -122,7 +157,6 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 			(CONTROL_BOX(ctx->gui->control_box), FALSE);
 	}
 
-
 	mpv_load(ctx, NULL, FALSE, FALSE);
 
 	return FALSE;
@@ -133,7 +167,9 @@ static void destroy_handler(GtkWidget *widget, gpointer data)
 	quit(data);
 }
 
-static void open_handler(GtkWidget *widget, gpointer data)
+static void open_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
 {
 	gmpv_handle *ctx = (gmpv_handle*)data;
 	GtkFileChooser *file_chooser;
@@ -173,7 +209,9 @@ static void open_handler(GtkWidget *widget, gpointer data)
 	gtk_widget_destroy(open_dialog);
 }
 
-static void open_loc_handler(GtkWidget *widget, gpointer data)
+static void open_loc_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
 {
 	gmpv_handle *ctx = (gmpv_handle*)data;
 	OpenLocDialog *open_loc_dialog;
@@ -195,7 +233,9 @@ static void open_loc_handler(GtkWidget *widget, gpointer data)
 	gtk_widget_destroy(GTK_WIDGET(open_loc_dialog));
 }
 
-static void pref_handler(GtkWidget *widget, gpointer data)
+static void pref_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
 {
 	gmpv_handle *ctx = data;
 	PrefDialog *pref_dialog;
@@ -362,6 +402,59 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 	gtk_widget_destroy(GTK_WIDGET(pref_dialog));
 }
 
+static void quit_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
+{
+	quit(data);
+}
+
+static void fullscreen_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
+{
+	main_window_toggle_fullscreen(((gmpv_handle *)data)->gui);
+}
+
+static void normal_size_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	resize_window_to_fit((gmpv_handle *)data, 1);
+}
+
+static void double_size_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	resize_window_to_fit((gmpv_handle *)data, 2);
+}
+
+static void half_size_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
+{
+	resize_window_to_fit((gmpv_handle *)data, 0.5);
+}
+
+static void about_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
+{
+	gmpv_handle *ctx = (gmpv_handle*)data;
+
+	gtk_show_about_dialog(	GTK_WINDOW(ctx->gui),
+				"logo-icon-name",
+				ICON_NAME,
+				"version",
+				VERSION,
+				"comments",
+				_("A GTK frontend for MPV"),
+				"license-type",
+				GTK_LICENSE_GPL_3_0,
+				NULL );
+}
+
 static void play_handler(GtkWidget *widget, gpointer data)
 {
 	gmpv_handle *ctx = data;
@@ -437,42 +530,6 @@ static void chapter_next_handler(GtkWidget *widget, gpointer data)
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
 	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
-}
-
-static void fullscreen_handler(GtkWidget *widget, gpointer data)
-{
-	main_window_toggle_fullscreen(((gmpv_handle *)data)->gui);
-}
-
-static void normal_size_handler(GtkWidget *widget, gpointer data)
-{
-	resize_window_to_fit((gmpv_handle *)data, 1);
-}
-
-static void double_size_handler(GtkWidget *widget, gpointer data)
-{
-	resize_window_to_fit((gmpv_handle *)data, 2);
-}
-
-static void half_size_handler(GtkWidget *widget, gpointer data)
-{
-	resize_window_to_fit((gmpv_handle *)data, 0.5);
-}
-
-static void about_handler(GtkWidget *widget, gpointer data)
-{
-	gmpv_handle *ctx = (gmpv_handle*)data;
-
-	gtk_show_about_dialog(	GTK_WINDOW(ctx->gui),
-				"logo-icon-name",
-				ICON_NAME,
-				"version",
-				VERSION,
-				"comments",
-				_("A GTK frontend for MPV"),
-				"license-type",
-				GTK_LICENSE_GPL_3_0,
-				NULL );
 }
 
 static void volume_handler(GtkWidget *widget, gpointer data)
@@ -602,13 +659,13 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	else if((state&mod_mask) == 0)
 	{
 		/* Accept F11 and f for entering/exiting fullscreen mode. ESC is
-		 * only used for exiting fullscreen mode.
+		 * only used for exiting fullscreen mode. F11 is handled via
+		 * accelrator.
 		 */
 		if((ctx->gui->fullscreen && keyval == GDK_KEY_Escape)
-		|| keyval == GDK_KEY_F11
 		|| keyval == GDK_KEY_f)
 		{
-			fullscreen_handler(NULL, ctx);
+			fullscreen_handler(NULL, NULL, ctx);
 		}
 		else if(keyval == GDK_KEY_Delete
 		&& main_window_get_playlist_visible(ctx->gui))
@@ -620,46 +677,22 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
-int main(int argc, char **argv)
+static void app_cmdline_handler(	GApplication *app,
+					GApplicationCommandLine *cmdline,
+					gpointer data )
 {
-	gmpv_handle ctx;
-	MainMenuBar *menu;
-	ControlBox *control_box;
+	gmpv_handle *ctx = data;
+
+	ctx->argv = g_application_command_line_get_arguments(	cmdline,
+								&ctx->argc );
+}
+
+static void setup_dnd_targets(gmpv_handle *ctx)
+{
 	PlaylistWidget *playlist;
 	GtkTargetEntry target_entry[3];
-	gboolean mpvinput_enable;
-	gchar *mpvinput;
 
-	gtk_init(&argc, &argv);
-	setlocale(LC_NUMERIC, "C");
-	g_set_application_name(_("GNOME MPV"));
-	gtk_window_set_default_icon_name(ICON_NAME);
-
-	bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALEDIR);
-	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-	textdomain(GETTEXT_PACKAGE);
-
-	ctx.mpv_ctx = mpv_create();
-	ctx.argc = argc;
-	ctx.argv = argv;
-	ctx.paused = TRUE;
-	ctx.loaded = FALSE;
-	ctx.new_file = TRUE;
-	ctx.sub_visible = TRUE;
-	ctx.playlist_move_dest = -1;
-	ctx.log_buffer = NULL;
-	ctx.keybind_list = NULL;
-	ctx.config_file = g_key_file_new();
-	ctx.gui = MAIN_WINDOW(main_window_new());
-	ctx.fs_control = NULL;
-	ctx.playlist_store = PLAYLIST_WIDGET(ctx.gui->playlist)->list_store;
-
-	ctx.vid_area_wid = gdk_x11_window_get_xid
-				(gtk_widget_get_window(ctx.gui->vid_area));
-
-	menu = MAIN_MENU(ctx.gui->menu);
-	control_box = CONTROL_BOX(ctx.gui->control_box);
-	playlist = PLAYLIST_WIDGET(ctx.gui->playlist);
+	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
 
 	target_entry[0].target = "text/uri-list";
 	target_entry[0].flags = 0;
@@ -671,13 +704,13 @@ int main(int argc, char **argv)
 	target_entry[2].flags = 0;
 	target_entry[2].info = 1;
 
-	gtk_drag_dest_set(	GTK_WIDGET(ctx.gui->vid_area),
+	gtk_drag_dest_set(	GTK_WIDGET(ctx->gui->vid_area),
 				GTK_DEST_DEFAULT_ALL,
 				target_entry,
 				3,
 				GDK_ACTION_LINK );
 
-	gtk_drag_dest_set(	GTK_WIDGET(ctx.gui->playlist),
+	gtk_drag_dest_set(	GTK_WIDGET(playlist),
 				GTK_DEST_DEFAULT_ALL,
 				target_entry,
 				3,
@@ -689,167 +722,323 @@ int main(int argc, char **argv)
 				3,
 				GDK_ACTION_COPY|GDK_ACTION_LINK );
 
-	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->vid_area));
-	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->playlist));
+	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx->gui->vid_area));
+	gtk_drag_dest_add_uri_targets(GTK_WIDGET(playlist));
+}
 
-	g_signal_connect(	ctx.gui->vid_area,
+static void connect_signals(gmpv_handle *ctx)
+{
+	ControlBox *control_box;
+	PlaylistWidget *playlist;
+
+	control_box = CONTROL_BOX(ctx->gui->control_box);
+	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
+
+	g_signal_connect(	ctx->gui->vid_area,
 				"drag-data-received",
 				G_CALLBACK(drag_data_recv_handler),
-				&ctx );
+				ctx );
 
-	g_signal_connect(	ctx.gui->playlist,
+	g_signal_connect(	ctx->gui->playlist,
 				"drag-data-received",
 				G_CALLBACK(drag_data_recv_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	playlist->tree_view,
 				"drag-data-get",
 				G_CALLBACK(drag_data_get_handler),
-				&ctx );
+				ctx );
 
-	g_signal_connect(	ctx.gui,
+	g_signal_connect(	ctx->gui,
 				"draw",
 				G_CALLBACK(draw_handler),
-				&ctx );
+				ctx );
 
-	g_signal_connect(	ctx.gui,
+	g_signal_connect(	ctx->gui,
 				"destroy",
 				G_CALLBACK(destroy_handler),
-				&ctx );
+				ctx );
 
-	g_signal_connect(	ctx.gui,
+	g_signal_connect(	ctx->gui,
 				"key-press-event",
 				G_CALLBACK(key_press_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->play_button,
 				"clicked",
 				G_CALLBACK(play_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->stop_button,
 				"clicked",
 				G_CALLBACK(stop_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->forward_button,
 				"clicked",
 				G_CALLBACK(forward_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->rewind_button,
 				"clicked",
 				G_CALLBACK(rewind_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->previous_button,
 				"clicked",
 				G_CALLBACK(chapter_previous_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->next_button,
 				"clicked",
 				G_CALLBACK(chapter_next_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->fullscreen_button,
 				"clicked",
 				G_CALLBACK(fullscreen_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->volume_button,
 				"value-changed",
 				G_CALLBACK(volume_handler),
-				&ctx );
-
-	g_signal_connect(	menu->open_menu_item,
-				"activate",
-				G_CALLBACK(open_handler),
-				&ctx );
-
-	g_signal_connect(	menu->open_loc_menu_item,
-				"activate",
-				G_CALLBACK(open_loc_handler),
-				&ctx );
-
-	g_signal_connect(	menu->quit_menu_item,
-				"activate",
-				G_CALLBACK(destroy_handler),
-				&ctx );
-
-	g_signal_connect(	menu->pref_menu_item,
-				"activate",
-				G_CALLBACK(pref_handler),
-				&ctx );
-
-	g_signal_connect(	menu->playlist_menu_item,
-				"activate",
-				G_CALLBACK(playlist_toggle_handler),
-				&ctx );
-
-	g_signal_connect(	menu->fullscreen_menu_item,
-				"activate",
-				G_CALLBACK(fullscreen_handler),
-				&ctx );
-
-	g_signal_connect(	menu->normal_size_menu_item,
-				"activate",
-				G_CALLBACK(normal_size_handler),
-				&ctx );
-
-	g_signal_connect(	menu->double_size_menu_item,
-				"activate",
-				G_CALLBACK(double_size_handler),
-				&ctx );
-
-	g_signal_connect(	menu->half_size_menu_item,
-				"activate",
-				G_CALLBACK(half_size_handler),
-				&ctx );
-
-	g_signal_connect(	menu->about_menu_item,
-				"activate",
-				G_CALLBACK(about_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	playlist->tree_view,
 				"row-activated",
 				G_CALLBACK(playlist_row_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	playlist->list_store,
 				"row-inserted",
 				G_CALLBACK(playlist_row_inserted_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	playlist->list_store,
 				"row-deleted",
 				G_CALLBACK(playlist_row_deleted_handler),
-				&ctx );
+				ctx );
 
 	g_signal_connect(	control_box->seek_bar,
 				"change-value",
 				G_CALLBACK(seek_handler),
-				&ctx );
+				ctx );
+}
 
-	load_config(&ctx);
-	mpv_init(&ctx, ctx.vid_area_wid);
+static void map_action_entries(gmpv_handle *ctx)
+{
+	const GActionEntry entries[]
+		= {	{"open", open_handler, NULL, NULL, NULL},
+			{"quit", quit_handler, NULL, NULL, NULL},
+			{"about", about_handler, NULL, NULL, NULL},
+			{"pref", pref_handler, NULL, NULL, NULL},
+			{"openloc", open_loc_handler, NULL, NULL, NULL},
+			{"playlist", playlist_toggle_handler, NULL, NULL, NULL},
+			{"fullscreen", fullscreen_handler, NULL, NULL, NULL},
+			{"normalsize", normal_size_handler, NULL, NULL, NULL},
+			{"doublesize", double_size_handler, NULL, NULL, NULL},
+			{"halfsize", half_size_handler, NULL, NULL, NULL} };
+
+	g_action_map_add_action_entries(	G_ACTION_MAP(ctx->app),
+						entries,
+						G_N_ELEMENTS(entries),
+						ctx );
+}
+
+static void setup_accelerators(gmpv_handle *ctx)
+{
+	gtk_application_add_accelerator(	ctx->app,
+						"<Control>o",
+						"app.open",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
+						"<Control>l" ,
+						"app.openloc",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
+						"<Control>q" ,
+						"app.quit",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
+						"<Control>p" ,
+						"app.pref",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
+						"F9" ,
+						"app.playlist",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
+						"<Control>1" ,
+						"app.normalsize",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
+						"<Control>2" ,
+						"app.doublesize",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
+						"<Control>3" ,
+						"app.halfsize",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
+						"F11" ,
+						"app.fullscreen",
+						NULL );
+}
+
+static GMenu *build_menu()
+{
+	GMenu *menu = g_menu_new();
+	GMenu *file_menu = g_menu_new();
+	GMenu *edit_menu = g_menu_new();
+	GMenu *view_menu = g_menu_new();
+	GMenu *help_menu = g_menu_new();
+
+	GMenuItem *file_menu_item
+		= g_menu_item_new_submenu(_("_File"), G_MENU_MODEL(file_menu));
+
+	GMenuItem *edit_menu_item
+		= g_menu_item_new_submenu(_("_Edit"), G_MENU_MODEL(edit_menu));
+
+	GMenuItem *view_menu_item
+		= g_menu_item_new_submenu(_("_View"), G_MENU_MODEL(view_menu));
+
+	GMenuItem *help_menu_item
+		= g_menu_item_new_submenu(_("_Help"), G_MENU_MODEL(help_menu));
+
+	GMenuItem *open_menu_item = g_menu_item_new(_("_Open"), "app.open");
+	GMenuItem *quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
+	GMenuItem *about_menu_item = g_menu_item_new(_("_About"), "app.about");
+
+	GMenuItem *pref_menu_item
+		= g_menu_item_new(_("_Preferences"), "app.pref");
+
+	GMenuItem *open_loc_menu_item
+		= g_menu_item_new(_("Open _Location"), "app.openloc");
+
+	GMenuItem *playlist_menu_item
+		= g_menu_item_new(_("_Playlist"), "app.playlist");
+
+	GMenuItem *fullscreen_menu_item
+		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen");
+
+	GMenuItem *normal_size_menu_item
+		= g_menu_item_new(_("_Normal Size"), "app.normalsize");
+
+	GMenuItem *double_size_menu_item
+		= g_menu_item_new(_("_Double Size"), "app.doublesize");
+
+	GMenuItem *half_size_menu_item
+		= g_menu_item_new(_("_Half Size"), "app.halfsize");
+
+	g_menu_append_item(menu, file_menu_item);
+	g_menu_append_item(menu, edit_menu_item);
+	g_menu_append_item(menu, view_menu_item);
+	g_menu_append_item(menu, help_menu_item);
+
+	g_menu_append_item(file_menu, open_menu_item);
+	g_menu_append_item(file_menu, open_loc_menu_item);
+	g_menu_append_item(file_menu, quit_menu_item);
+	g_menu_append_item(edit_menu, pref_menu_item);
+	g_menu_append_item(view_menu, playlist_menu_item);
+	g_menu_append_item(view_menu, fullscreen_menu_item);
+	g_menu_append_item(view_menu, normal_size_menu_item);
+	g_menu_append_item(view_menu, double_size_menu_item);
+	g_menu_append_item(view_menu, half_size_menu_item);
+	g_menu_append_item(help_menu, about_menu_item);
+
+	return menu;
+}
+
+static void app_startup_handler(GApplication *app, gpointer data)
+{
+	gmpv_handle *ctx = data;
+	gboolean mpvinput_enable;
+	gchar *mpvinput;
+
+	setlocale(LC_NUMERIC, "C");
+	g_set_application_name(_("GNOME MPV"));
+	gtk_window_set_default_icon_name(ICON_NAME);
+
+	bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
+
+	ctx->mpv_ctx = mpv_create();
+	ctx->paused = TRUE;
+	ctx->loaded = FALSE;
+	ctx->new_file = TRUE;
+	ctx->sub_visible = TRUE;
+	ctx->playlist_move_dest = -1;
+	ctx->log_buffer = NULL;
+	ctx->keybind_list = NULL;
+	ctx->config_file = g_key_file_new();
+	ctx->app = GTK_APPLICATION(app);
+	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app));
+	ctx->fs_control = NULL;
+	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
+
+	gtk_application_set_menubar(ctx->app, G_MENU_MODEL(build_menu()));
+	gtk_widget_show_all(GTK_WIDGET(ctx->gui));
+	main_window_set_playlist_visible(ctx->gui, FALSE);
+
+	control_box_set_chapter_enabled
+		(CONTROL_BOX(ctx->gui->control_box), FALSE);
+
+	ctx->vid_area_wid = gdk_x11_window_get_xid
+				(gtk_widget_get_window(ctx->gui->vid_area));
+
+	setup_accelerators(ctx);
+	setup_dnd_targets(ctx);
+	map_action_entries(ctx);
+	connect_signals(ctx);
+	load_config(ctx);
+	mpv_init(ctx, ctx->vid_area_wid);
 
 	mpvinput_enable
-		= get_config_boolean(&ctx, "main", "mpv-input-config-enable");
+		= get_config_boolean(ctx, "main", "mpv-input-config-enable");
 
-	mpvinput = get_config_string(	&ctx,
+	mpvinput = get_config_string(	ctx,
 					"main",
 					"mpv-input-config-file");
 
-	load_keybind(&ctx, mpvinput_enable?mpvinput:NULL, FALSE);
-	mpv_set_wakeup_callback(ctx.mpv_ctx, mpv_wakeup_callback, &ctx);
+	load_keybind(ctx, mpvinput_enable?mpvinput:NULL, FALSE);
+	mpv_set_wakeup_callback(ctx->mpv_ctx, mpv_wakeup_callback, ctx);
 
 	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
 			(GSourceFunc)update_seek_bar,
-			&ctx );
+			ctx );
+}
 
-	gtk_main();
+int main(int argc, char **argv)
+{
+	GtkApplication *app;
+	gmpv_handle *ctx;
+	gint status;
 
-	return EXIT_SUCCESS;
+	app = gtk_application_new(APP_ID, G_APPLICATION_HANDLES_COMMAND_LINE);
+	ctx = g_malloc(sizeof(gmpv_handle));
+
+	g_signal_connect(	app,
+				"startup",
+				G_CALLBACK(app_startup_handler),
+				ctx );
+
+	g_signal_connect(	app,
+				"command-line",
+				G_CALLBACK(app_cmdline_handler),
+				ctx );
+
+	status = g_application_run(G_APPLICATION(app), argc, argv);
+
+	g_object_unref(app);
+
+	return status;
 }

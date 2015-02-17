@@ -21,7 +21,9 @@
 #include "common.h"
 #include "playlist_widget.h"
 
-void playlist_toggle_handler(GtkWidget *widget, gpointer data)
+void playlist_toggle_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
 {
 	gmpv_handle *ctx = data;
 	gboolean visible = gtk_widget_get_visible(ctx->gui->playlist);

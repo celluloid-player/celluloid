@@ -40,6 +40,7 @@ struct gmpv_handle
 	gchar *log_buffer;
 	GSList *keybind_list;
 	GKeyFile *config_file;
+	GtkApplication *app;
 	MainWindow *gui;
 	GtkWidget *fs_control;
 	GtkListStore *playlist_store;

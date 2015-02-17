@@ -130,7 +130,7 @@ gboolean quit(gpointer data)
 
 		ctx->mpv_ctx = NULL;
 
-		gtk_main_quit();
+		g_application_quit(G_APPLICATION(ctx->app));
 	}
 
 	return FALSE;

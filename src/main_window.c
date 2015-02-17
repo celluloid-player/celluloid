@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -20,7 +20,6 @@
 #include "def.h"
 #include "playlist_widget.h"
 #include "main_window.h"
-#include "main_menu_bar.h"
 #include "control_box.h"
 
 static gboolean focus_in_handler(	GtkWidget *widget,
@@ -148,24 +147,18 @@ static gboolean hide_cursor(gpointer data)
 static void main_window_init(MainWindow *wnd)
 {
 	GdkRGBA vid_area_bg_color;
-	MainMenuBar *menu;
-	GtkBin *fullscreen_menu_item_bin;
-	GtkAccelLabel *fullscreen_accel_label;
 
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
 	wnd->settings = gtk_settings_get_default();
-	wnd->accel_group = gtk_accel_group_new();
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
 	wnd->vid_area = gtk_drawing_area_new();
 	wnd->fs_control = gtk_window_new(GTK_WINDOW_POPUP);
 	wnd->control_box = control_box_new();
-	wnd->menu = main_menu_bar_new();
 	wnd->playlist = playlist_widget_new();
-	menu = MAIN_MENU(wnd->menu);
 
 	gdk_rgba_parse(&vid_area_bg_color, VID_AREA_BG_COLOR);
 
@@ -191,77 +184,6 @@ static void main_window_init(MainWindow *wnd)
 	gtk_widget_override_background_color(	wnd->vid_area,
 						GTK_STATE_NORMAL,
 						&vid_area_bg_color);
-
-	gtk_window_add_accel_group(	GTK_WINDOW(wnd),
-					wnd->accel_group );
-
-	gtk_widget_add_accelerator(	menu->open_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_o,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	menu->open_loc_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_l,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	menu->quit_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_q,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	menu->pref_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_p,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	menu->playlist_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_F9,
-					(GdkModifierType)0,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	menu->normal_size_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_1,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	menu->double_size_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_2,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	gtk_widget_add_accelerator(	menu->half_size_menu_item,
-					"activate",
-					wnd->accel_group,
-					GDK_KEY_3,
-					GDK_CONTROL_MASK,
-					GTK_ACCEL_VISIBLE );
-
-	fullscreen_menu_item_bin = GTK_BIN(menu->fullscreen_menu_item);
-
-	fullscreen_accel_label
-		= GTK_ACCEL_LABEL(gtk_bin_get_child(fullscreen_menu_item_bin));
-
-	gtk_accel_label_set_accel(	fullscreen_accel_label,
-					GDK_KEY_F11,
-					(GdkModifierType)0 );
-
-	gtk_container_add
-		(GTK_CONTAINER(wnd->main_box), wnd->menu);
 
 	gtk_box_pack_start
 		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
@@ -302,15 +224,13 @@ static void main_window_init(MainWindow *wnd)
 				"motion-notify-event",
 				G_CALLBACK(motion_notify_handler),
 				wnd );
-
-	gtk_widget_show_all(GTK_WIDGET(wnd));
-	gtk_widget_hide(wnd->playlist);
-	control_box_set_chapter_enabled(CONTROL_BOX(wnd->control_box), FALSE);
 }
 
-GtkWidget *main_window_new()
+GtkWidget *main_window_new(GtkApplication *app)
 {
-	return GTK_WIDGET(g_object_new(main_window_get_type(), NULL));
+	return GTK_WIDGET(g_object_new(	main_window_get_type(),
+					"application", app,
+					NULL ));
 }
 
 GType main_window_get_type()
@@ -330,10 +250,11 @@ GType main_window_get_type()
 				0,
 				(GInstanceInitFunc)main_window_init };
 
-		wnd_type = g_type_register_static(	GTK_TYPE_WINDOW,
-							"MainWindow",
-							&wnd_info,
-							0 );
+		wnd_type = g_type_register_static
+				(	GTK_TYPE_APPLICATION_WINDOW,
+					"MainWindow",
+					&wnd_info,
+					0 );
 	}
 
 	return wnd_type;
@@ -352,10 +273,12 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_container_add(main_box, wnd->control_box);
 		g_object_unref(wnd->control_box);
 
+		gtk_application_window_set_show_menubar
+			(GTK_APPLICATION_WINDOW(wnd), TRUE);
+
 		control_box_set_fullscreen_state(control_box, FALSE);
 		gtk_window_unfullscreen(GTK_WINDOW(wnd));
 		gtk_widget_hide(wnd->fs_control);
-		gtk_widget_show(wnd->menu);
 
 		if(wnd->playlist_visible)
 		{
@@ -378,10 +301,12 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_container_add(fs_control, wnd->control_box);
 		g_object_unref(wnd->control_box);
 
+		gtk_application_window_set_show_menubar
+			(GTK_APPLICATION_WINDOW(wnd), FALSE);
+
 		control_box_set_fullscreen_state(control_box, TRUE);
 		gtk_window_fullscreen(GTK_WINDOW(wnd));
 		gtk_window_set_screen(GTK_WINDOW(wnd->fs_control), screen);
-		gtk_widget_hide(wnd->menu);
 		gtk_widget_show(wnd->fs_control);
 		gtk_widget_set_opacity(wnd->fs_control, 0);
 
