@@ -426,7 +426,9 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 
 	mpv_check_error(mpv_request_log_messages(ctx->mpv_ctx, "error"));
 
-	mpvconf_enable = get_config_boolean(ctx, "main", "mpv-config-enable");
+	mpvconf_enable
+		= get_config_boolean(ctx, "main", "mpv-config-enable", NULL);
+
 	mpvconf = get_config_string(ctx, "main", "mpv-config-file");
 	mpvopt = get_config_string(ctx, "main", "mpv-options");
 

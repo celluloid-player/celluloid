@@ -44,9 +44,23 @@ inline void set_config_string(	gmpv_handle *ctx,
 
 inline gboolean get_config_boolean(	gmpv_handle *ctx,
 					const gchar *group,
-					const gchar *key )
+					const gchar *key,
+					gboolean *error )
 {
-	return g_key_file_get_boolean(ctx->config_file, group, key, NULL);
+	GError *keyfile_error = NULL;
+	gboolean result;
+
+	result = g_key_file_get_boolean(	ctx->config_file,
+						group,
+						key,
+						&keyfile_error );
+
+	if(error)
+	{
+		*error = (keyfile_error != NULL);
+	}
+
+	return result;
 }
 
 inline void set_config_boolean(	gmpv_handle *ctx,

@@ -173,11 +173,6 @@ static void main_window_init(MainWindow *wnd)
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
 
-	g_object_set(	wnd->settings,
-			"gtk-application-prefer-dark-theme",
-			TRUE,
-			NULL );
-
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 
 	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),

@@ -199,6 +199,8 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 {
 	gmpv_handle *ctx = data;
 	PrefDialog *pref_dialog;
+	gboolean dark_theme_enable_error;
+	gboolean dark_theme_enable_buffer;
 	gboolean mpvconf_enable_buffer;
 	gboolean mpvinput_enable_buffer;
 	gchar *mpvconf_buffer;
@@ -208,11 +210,19 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 	load_config(ctx);
 
+	dark_theme_enable_buffer
+		= get_config_boolean(	ctx,
+					"main",
+					"dark-theme-enable",
+					&dark_theme_enable_error );
+
 	mpvconf_enable_buffer
-		= get_config_boolean(ctx, "main", "mpv-config-enable");
+		= get_config_boolean
+			(ctx, "main", "mpv-config-enable", NULL);
 
 	mpvinput_enable_buffer
-		= get_config_boolean(ctx, "main", "mpv-input-config-enable");
+		= get_config_boolean
+			(ctx, "main", "mpv-input-config-enable", NULL);
 
 	mpvconf_buffer
 		= get_config_string(ctx, "main", "mpv-config-file");
@@ -225,7 +235,14 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
-	/* Boolean keys default to FALSE if not specified */
+	/* defaults to TRUE */
+	pref_dialog_set_dark_theme_enable
+		(	pref_dialog,
+			!dark_theme_enable_error
+			?dark_theme_enable_buffer
+			:TRUE	);
+
+	/* defaults to FALSE */
 	pref_dialog_set_mpvconf_enable(pref_dialog, mpvconf_enable_buffer);
 	pref_dialog_set_mpvinput_enable(pref_dialog, mpvinput_enable_buffer);
 
@@ -252,6 +269,7 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
+		gboolean dark_theme_enable;
 		gboolean mpvconf_enable;
 		gboolean mpvinput_enable;
 		const gchar* mpvconf;
@@ -262,11 +280,17 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 		gint playlist_pos_rc;
 		gint time_pos_rc;
 
+		dark_theme_enable
+			= pref_dialog_get_dark_theme_enable(pref_dialog);
+
 		mpvconf_enable = pref_dialog_get_mpvconf_enable(pref_dialog);
 		mpvinput_enable = pref_dialog_get_mpvinput_enable(pref_dialog);
 		mpvconf = pref_dialog_get_mpvconf(pref_dialog);
 		mpvinput = pref_dialog_get_mpvinput(pref_dialog);
 		mpvopt = pref_dialog_get_mpvopt(pref_dialog);
+
+		set_config_boolean
+			(ctx, "main", "dark-theme-enable", dark_theme_enable);
 
 		set_config_boolean
 			(ctx, "main", "mpv-config-enable", mpvconf_enable);
@@ -286,6 +310,11 @@ static void pref_handler(GtkWidget *widget, gpointer data)
 					mpvinput_enable );
 
 		save_config(ctx);
+
+		g_object_set(	ctx->gui->settings,
+				"gtk-application-prefer-dark-theme",
+				dark_theme_enable,
+				NULL );
 
 		mpv_check_error(mpv_set_property_string(	ctx->mpv_ctx,
 								"pause",
@@ -628,6 +657,8 @@ int main(int argc, char **argv)
 	PlaylistWidget *playlist;
 	GtkTargetEntry target_entry[3];
 	gboolean mpvinput_enable;
+	gboolean dark_theme_enable;
+	gboolean dark_theme_error;
 	gchar *mpvinput;
 
 	gtk_init(&argc, &argv);
@@ -835,12 +866,24 @@ int main(int argc, char **argv)
 	load_config(&ctx);
 	mpv_init(&ctx, ctx.vid_area_wid);
 
-	mpvinput_enable
-		= get_config_boolean(&ctx, "main", "mpv-input-config-enable");
+	dark_theme_enable = get_config_boolean(	&ctx,
+						"main",
+						"dark-theme-enable",
+						&dark_theme_error );
+
+	mpvinput_enable = get_config_boolean(	&ctx,
+						"main",
+						"mpv-input-config-enable",
+						NULL );
 
 	mpvinput = get_config_string(	&ctx,
 					"main",
 					"mpv-input-config-file");
+
+	g_object_set(	ctx.gui->settings,
+			"gtk-application-prefer-dark-theme",
+			!dark_theme_error?dark_theme_enable:TRUE,
+			NULL );
 
 	load_keybind(&ctx, mpvinput_enable?mpvinput:NULL, FALSE);
 	mpv_set_wakeup_callback(ctx.mpv_ctx, mpv_wakeup_callback, &ctx);

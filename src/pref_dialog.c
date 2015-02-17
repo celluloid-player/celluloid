@@ -65,6 +65,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	GtkWidget *mpvconf_label;
 	GtkWidget *mpvinput_label;
 	GtkWidget *mpvopt_label;
+	GtkWidget *general_group_label;
 	GtkWidget *mpvconf_group_label;
 	GtkWidget *mpvinput_group_label;
 	GtkWidget *misc_group_label;
@@ -72,6 +73,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	mpvconf_label = gtk_label_new(_("MPV configuration file:"));
 	mpvinput_label = gtk_label_new(_("MPV input configuration file:"));
 	mpvopt_label = gtk_label_new(_("Extra MPV options:"));
+	general_group_label = gtk_label_new(_("<b>General</b>"));
 	mpvconf_group_label = gtk_label_new(_("<b>MPV Configuration</b>"));
 	mpvinput_group_label = gtk_label_new(_("<b>Keybindings</b>"));
 	misc_group_label = gtk_label_new(_("<b>Miscellaneous</b>"));
@@ -82,13 +84,12 @@ static void pref_dialog_init(PrefDialog *dlg)
 	geom.max_width = G_MAXINT;
 	geom.max_height = 0;
 
-	gtk_label_set_use_markup(GTK_LABEL(mpvconf_group_label), TRUE);
-	gtk_label_set_use_markup(GTK_LABEL(mpvinput_group_label), TRUE);
-	gtk_label_set_use_markup(GTK_LABEL(misc_group_label), TRUE);
-
 	dlg->grid = gtk_grid_new();
 	dlg->content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
 	dlg->mpvopt_entry = gtk_entry_new();
+
+	dlg->dark_theme_enable_check
+		= gtk_check_button_new_with_label(_("Enable dark theme"));
 
 	dlg->mpvconf_button
 		= gtk_file_chooser_button_new(	_("MPV configuration file"),
@@ -107,6 +108,12 @@ static void pref_dialog_init(PrefDialog *dlg)
 		= gtk_check_button_new_with_label
 			(_("Load MPV input configuration file"));
 
+	gtk_label_set_use_markup(GTK_LABEL(general_group_label), TRUE);
+	gtk_label_set_use_markup(GTK_LABEL(mpvconf_group_label), TRUE);
+	gtk_label_set_use_markup(GTK_LABEL(mpvinput_group_label), TRUE);
+	gtk_label_set_use_markup(GTK_LABEL(misc_group_label), TRUE);
+
+	gtk_widget_set_margin_top(mpvconf_group_label, 10);
 	gtk_widget_set_margin_top(mpvinput_group_label, 10);
 	gtk_widget_set_margin_top(misc_group_label, 10);
 	gtk_widget_set_margin_bottom(dlg->grid, 5);
@@ -116,6 +123,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_halign(mpvconf_label, GTK_ALIGN_START);
 	gtk_widget_set_halign(mpvinput_label, GTK_ALIGN_START);
 	gtk_widget_set_halign(mpvopt_label, GTK_ALIGN_START);
+	gtk_widget_set_halign(general_group_label, GTK_ALIGN_START);
 	gtk_widget_set_halign(mpvconf_group_label, GTK_ALIGN_START);
 	gtk_widget_set_halign(mpvinput_group_label, GTK_ALIGN_START);
 	gtk_widget_set_halign(misc_group_label, GTK_ALIGN_START);
@@ -130,6 +138,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_margin_left(mpvconf_label, 10);
 	gtk_widget_set_margin_left(mpvinput_label, 10);
 	gtk_widget_set_margin_left(mpvopt_label, 10);
+	gtk_widget_set_margin_left(dlg->dark_theme_enable_check, 10);
 	gtk_widget_set_margin_left(dlg->mpvconf_enable_check, 10);
 	gtk_widget_set_margin_left(dlg->mpvinput_enable_check, 10);
 	gtk_widget_set_margin_left(dlg->mpvopt_entry, 10);
@@ -165,25 +174,30 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 5);
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->grid);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), general_group_label, 0, 0, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 1, 2, 1);
+		(GTK_GRID(dlg->grid), dlg->dark_theme_enable_check, 0, 1, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_label, 0, 2, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 2, 1, 1);
-
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 3, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 2, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvinput_enable_check, 0, 4, 2, 1);
+		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 3, 2, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_label, 0, 5, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 5, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_label, 0, 4, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 4, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), misc_group_label, 0, 6, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvopt_label, 0, 7, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 8, 2, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 5, 1, 1);
+
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvinput_enable_check, 0, 6, 2, 1);
+
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_label, 0, 7, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 7, 1, 1);
+
+	gtk_grid_attach(GTK_GRID(dlg->grid), misc_group_label, 0, 8, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvopt_label, 0, 9, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 10, 2, 1);
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)
@@ -220,6 +234,22 @@ GType pref_dialog_get_type()
 	}
 
 	return dlg_type;
+}
+
+void pref_dialog_set_dark_theme_enable(PrefDialog *dlg, gboolean value)
+{
+	GtkToggleButton *button
+		= GTK_TOGGLE_BUTTON(dlg->dark_theme_enable_check);
+
+	gtk_toggle_button_set_active(button, value);
+}
+
+gboolean pref_dialog_get_dark_theme_enable(PrefDialog *dlg)
+{
+	GtkToggleButton *button
+		= GTK_TOGGLE_BUTTON(dlg->dark_theme_enable_check);
+
+	return gtk_toggle_button_get_active(button);
 }
 
 void pref_dialog_set_mpvconf_enable(PrefDialog *dlg, gboolean value)
