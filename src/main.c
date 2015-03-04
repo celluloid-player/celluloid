@@ -53,21 +53,14 @@ static void half_size_handler(GtkWidget *widget, gpointer data);
 static void about_handler(GtkWidget *widget, gpointer data);
 static void volume_handler(GtkWidget *widget, gpointer data);
 
-static void drag_data_recv_handler(	GtkWidget *widget,
-					GdkDragContext *context,
-					gint x,
-					gint y,
-					GtkSelectionData *sel_data,
-					guint info,
-					guint time,
-					gpointer data );
-
-static void drag_data_get_handler(	GtkWidget *widget,
-					GdkDragContext *context,
-					GtkSelectionData *sel_data,
-					guint info,
-					guint time,
-					gpointer data );
+static void drag_data_handler(	GtkWidget *widget,
+				GdkDragContext *context,
+				gint x,
+				gint y,
+				GtkSelectionData *sel_data,
+				guint info,
+				guint time,
+				gpointer data);
 
 static void seek_handler(	GtkWidget *widget,
 				GtkScrollType scroll,
@@ -516,14 +509,14 @@ static void volume_handler(GtkWidget *widget, gpointer data)
 	mpv_set_property(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
 }
 
-static void drag_data_recv_handler(	GtkWidget *widget,
-					GdkDragContext *context,
-					gint x,
-					gint y,
-					GtkSelectionData *sel_data,
-					guint info,
-					guint time,
-					gpointer data )
+static void drag_data_handler(	GtkWidget *widget,
+				GdkDragContext *context,
+				gint x,
+				gint y,
+				GtkSelectionData *sel_data,
+				guint info,
+				guint time,
+				gpointer data)
 {
 	gboolean append = (widget == ((gmpv_handle *)data)->gui->playlist);
 
@@ -555,43 +548,6 @@ static void drag_data_recv_handler(	GtkWidget *widget,
 
 			mpv_load(ctx, (const gchar *)raw_data, append, TRUE);
 		}
-	}
-}
-
-static void drag_data_get_handler(	GtkWidget *widget,
-					GdkDragContext *context,
-					GtkSelectionData *sel_data,
-					guint info,
-					guint time,
-					gpointer data )
-{
-	if(sel_data)
-	{
-		GdkAtom type;
-		GtkTreeSelection *tree_sel;
-		GList *sel_rows;
-		GtkTreeView *tree_view;
-		GtkTreeModel *tree_model;
-		GtkTreeIter iter;
-		gchar *entry;
-
-		tree_view = GTK_TREE_VIEW(widget);
-		type = gtk_selection_data_get_target(sel_data);
-		tree_sel = gtk_tree_view_get_selection(tree_view);
-		sel_rows = gtk_tree_selection_get_selected_rows(tree_sel, NULL);
-		tree_model = gtk_tree_view_get_model(tree_view);
-
-		/* Only one entry can be selected at a time */
-		gtk_tree_model_get_iter(tree_model, &iter, sel_rows->data);
-		gtk_tree_model_get(tree_model, &iter, 2, &entry, -1);
-
-		gtk_selection_data_set(	sel_data,
-					type,
-					8,
-					(guchar *)entry,
-					strlen(entry) );
-
-		g_free(entry);
 	}
 }
 
@@ -714,28 +670,17 @@ int main(int argc, char **argv)
 				3,
 				GDK_ACTION_COPY );
 
-	gtk_drag_source_set(	playlist->tree_view,
-				GDK_BUTTON1_MASK,
-				target_entry,
-				3,
-				GDK_ACTION_COPY|GDK_ACTION_LINK );
-
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->vid_area));
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx.gui->playlist));
 
 	g_signal_connect(	ctx.gui->vid_area,
 				"drag-data-received",
-				G_CALLBACK(drag_data_recv_handler),
+				G_CALLBACK(drag_data_handler),
 				&ctx );
 
 	g_signal_connect(	ctx.gui->playlist,
 				"drag-data-received",
-				G_CALLBACK(drag_data_recv_handler),
-				&ctx );
-
-	g_signal_connect(	playlist->tree_view,
-				"drag-data-get",
-				G_CALLBACK(drag_data_get_handler),
+				G_CALLBACK(drag_data_handler),
 				&ctx );
 
 	g_signal_connect(	ctx.gui,
