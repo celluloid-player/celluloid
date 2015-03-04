@@ -46,7 +46,7 @@ static void setup_dnd_targets(gmpv_handle *ctx);
 static void connect_signals(gmpv_handle *ctx);
 static void map_action_entries(gmpv_handle *ctx);
 static void setup_accelerators(gmpv_handle *ctx);
-static GMenu *build_menu(void);
+static GMenu *build_app_menu(void);
 static void app_startup_handler(GApplication *app, gpointer data);
 
 static void open_handler(	GSimpleAction *action,
@@ -893,66 +893,27 @@ static void setup_accelerators(gmpv_handle *ctx)
 						NULL );
 }
 
-static GMenu *build_menu()
+static GMenu *build_app_menu()
 {
-	GMenu *menu = g_menu_new();
-	GMenu *file_menu = g_menu_new();
-	GMenu *edit_menu = g_menu_new();
-	GMenu *view_menu = g_menu_new();
-	GMenu *help_menu = g_menu_new();
+	GMenu *menu;
+	GMenu *top_section;
+	GMenu *bottom_section;
+	GMenuItem *pref_menu_item;
+	GMenuItem *about_menu_item;
+	GMenuItem *quit_menu_item;
 
-	GMenuItem *file_menu_item
-		= g_menu_item_new_submenu(_("_File"), G_MENU_MODEL(file_menu));
+	menu = g_menu_new();
+	top_section = g_menu_new();
+	bottom_section = g_menu_new();
+	pref_menu_item = g_menu_item_new(_("_Preferences"), "app.pref");
+	about_menu_item = g_menu_item_new(_("_About"), "app.about");
+	quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
 
-	GMenuItem *edit_menu_item
-		= g_menu_item_new_submenu(_("_Edit"), G_MENU_MODEL(edit_menu));
-
-	GMenuItem *view_menu_item
-		= g_menu_item_new_submenu(_("_View"), G_MENU_MODEL(view_menu));
-
-	GMenuItem *help_menu_item
-		= g_menu_item_new_submenu(_("_Help"), G_MENU_MODEL(help_menu));
-
-	GMenuItem *open_menu_item = g_menu_item_new(_("_Open"), "app.open");
-	GMenuItem *quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
-	GMenuItem *about_menu_item = g_menu_item_new(_("_About"), "app.about");
-
-	GMenuItem *pref_menu_item
-		= g_menu_item_new(_("_Preferences"), "app.pref");
-
-	GMenuItem *open_loc_menu_item
-		= g_menu_item_new(_("Open _Location"), "app.openloc");
-
-	GMenuItem *playlist_menu_item
-		= g_menu_item_new(_("_Playlist"), "app.playlist");
-
-	GMenuItem *fullscreen_menu_item
-		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen");
-
-	GMenuItem *normal_size_menu_item
-		= g_menu_item_new(_("_Normal Size"), "app.normalsize");
-
-	GMenuItem *double_size_menu_item
-		= g_menu_item_new(_("_Double Size"), "app.doublesize");
-
-	GMenuItem *half_size_menu_item
-		= g_menu_item_new(_("_Half Size"), "app.halfsize");
-
-	g_menu_append_item(menu, file_menu_item);
-	g_menu_append_item(menu, edit_menu_item);
-	g_menu_append_item(menu, view_menu_item);
-	g_menu_append_item(menu, help_menu_item);
-
-	g_menu_append_item(file_menu, open_menu_item);
-	g_menu_append_item(file_menu, open_loc_menu_item);
-	g_menu_append_item(file_menu, quit_menu_item);
-	g_menu_append_item(edit_menu, pref_menu_item);
-	g_menu_append_item(view_menu, playlist_menu_item);
-	g_menu_append_item(view_menu, fullscreen_menu_item);
-	g_menu_append_item(view_menu, normal_size_menu_item);
-	g_menu_append_item(view_menu, double_size_menu_item);
-	g_menu_append_item(view_menu, half_size_menu_item);
-	g_menu_append_item(help_menu, about_menu_item);
+	g_menu_append_section(menu, NULL, G_MENU_MODEL(top_section));
+	g_menu_append_section(menu, NULL, G_MENU_MODEL(bottom_section));
+	g_menu_append_item(top_section, pref_menu_item);
+	g_menu_append_item(bottom_section, about_menu_item);
+	g_menu_append_item(bottom_section, quit_menu_item);
 
 	return menu;
 }
@@ -985,7 +946,10 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->fs_control = NULL;
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
 
-	gtk_application_set_menubar(ctx->app, G_MENU_MODEL(build_menu()));
+	gtk_application_set_app_menu
+		(ctx->app, G_MENU_MODEL(build_app_menu()));
+
+	main_window_enable_csd(ctx->gui);
 	gtk_widget_show_all(GTK_WIDGET(ctx->gui));
 	main_window_set_playlist_visible(ctx->gui, FALSE);
 

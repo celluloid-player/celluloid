@@ -17,7 +17,10 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
+
 #include "def.h"
+#include "common.h"
 #include "playlist_widget.h"
 #include "main_window.h"
 #include "control_box.h"
@@ -43,6 +46,8 @@ static gboolean motion_notify_handler(	GtkWidget *widget,
 					gpointer data );
 
 static gboolean hide_cursor(gpointer data);
+static GMenu *menu_btn_build_menu();
+static GMenu *open_btn_build_menu();
 static void main_window_init(MainWindow *wnd);
 
 static gboolean focus_in_handler(	GtkWidget *widget,
@@ -144,6 +149,60 @@ static gboolean hide_cursor(gpointer data)
 	return FALSE;
 }
 
+static GMenu *menu_btn_build_menu()
+{
+	GMenu *menu;
+	GMenuItem *playlist_menu_item;
+	GMenuItem *fullscreen_menu_item;
+	GMenuItem *normal_size_menu_item;
+	GMenuItem *double_size_menu_item;
+	GMenuItem *half_size_menu_item;
+
+	menu = g_menu_new();
+
+	playlist_menu_item
+		= g_menu_item_new(_("_Playlist"), "app.playlist");
+
+	fullscreen_menu_item
+		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen");
+
+	normal_size_menu_item
+		= g_menu_item_new(_("_Normal Size"), "app.normalsize");
+
+	double_size_menu_item
+		= g_menu_item_new(_("_Double Size"), "app.doublesize");
+
+	half_size_menu_item
+		= g_menu_item_new(_("_Half Size"), "app.halfsize");
+
+	g_menu_append_item(menu, playlist_menu_item);
+	g_menu_append_item(menu, fullscreen_menu_item);
+	g_menu_append_item(menu, normal_size_menu_item);
+	g_menu_append_item(menu, double_size_menu_item);
+	g_menu_append_item(menu, half_size_menu_item);
+
+	return menu;
+}
+
+static GMenu *open_btn_build_menu()
+{
+	GMenu *menu;
+	GMenuItem *open_menu_item;
+	GMenuItem *open_loc_menu_item;
+
+	menu = g_menu_new();
+
+	open_menu_item = g_menu_item_new(_("_Open"), "app.open");
+
+	open_loc_menu_item
+		= g_menu_item_new(_("Open _Location"), "app.openloc");
+
+	g_menu_append_item(menu, open_menu_item);
+	g_menu_append_item(menu, open_loc_menu_item);
+
+	return menu;
+}
+
 static void main_window_init(MainWindow *wnd)
 {
 	GdkRGBA vid_area_bg_color;
@@ -153,6 +212,10 @@ static void main_window_init(MainWindow *wnd)
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
 	wnd->settings = gtk_settings_get_default();
+	wnd->header_bar = gtk_header_bar_new();
+	wnd->open_hdr_btn = NULL;
+	wnd->fullscreen_hdr_btn = NULL;
+	wnd->menu_hdr_btn = NULL;
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
 	wnd->vid_area = gtk_drawing_area_new();
@@ -170,6 +233,9 @@ static void main_window_init(MainWindow *wnd)
 			"gtk-application-prefer-dark-theme",
 			TRUE,
 			NULL );
+
+	gtk_header_bar_set_show_close_button(	GTK_HEADER_BAR(wnd->header_bar),
+						TRUE );
 
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 
@@ -199,6 +265,8 @@ static void main_window_init(MainWindow *wnd)
 
 	gtk_container_add
 		(GTK_CONTAINER(wnd), wnd->main_box);
+
+	/* TODO: Handle meu button */
 
 	g_signal_connect(	wnd,
 				"focus-in-event",
@@ -273,9 +341,6 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_container_add(main_box, wnd->control_box);
 		g_object_unref(wnd->control_box);
 
-		gtk_application_window_set_show_menubar
-			(GTK_APPLICATION_WINDOW(wnd), TRUE);
-
 		control_box_set_fullscreen_state(control_box, FALSE);
 		gtk_window_unfullscreen(GTK_WINDOW(wnd));
 		gtk_widget_hide(wnd->fs_control);
@@ -300,9 +365,6 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_container_remove(main_box, wnd->control_box);
 		gtk_container_add(fs_control, wnd->control_box);
 		g_object_unref(wnd->control_box);
-
-		gtk_application_window_set_show_menubar
-			(GTK_APPLICATION_WINDOW(wnd), FALSE);
 
 		control_box_set_fullscreen_state(control_box, TRUE);
 		gtk_window_fullscreen(GTK_WINDOW(wnd));
@@ -338,6 +400,68 @@ void main_window_reset(MainWindow *wnd)
 {
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 	control_box_reset_control(CONTROL_BOX(wnd->control_box));
+}
+
+void main_window_enable_csd(MainWindow *wnd)
+{
+	GIcon *open_icon;
+	GIcon *fullscreen_icon;
+	GIcon *menu_icon;
+
+	open_icon = g_themed_icon_new_with_default_fallbacks
+				("list-add-symbolic");
+
+	fullscreen_icon = g_themed_icon_new_with_default_fallbacks
+				("view-fullscreen-symbolic");
+
+	menu_icon = g_themed_icon_new_with_default_fallbacks
+				("view-list-symbolic");
+
+	wnd->open_hdr_btn = gtk_menu_button_new();
+	wnd->fullscreen_hdr_btn = gtk_button_new();
+	wnd->menu_hdr_btn = gtk_menu_button_new();
+
+	gtk_widget_set_can_focus(wnd->open_hdr_btn, FALSE);
+	gtk_widget_set_can_focus(wnd->fullscreen_hdr_btn, FALSE);
+	gtk_widget_set_can_focus(wnd->menu_hdr_btn, FALSE);
+
+	gtk_button_set_image
+		(	GTK_BUTTON(wnd->fullscreen_hdr_btn),
+			gtk_image_new_from_gicon
+				(fullscreen_icon, GTK_ICON_SIZE_MENU ));
+
+	gtk_button_set_image
+		(	GTK_BUTTON(wnd->open_hdr_btn),
+			gtk_image_new_from_gicon
+				(open_icon, GTK_ICON_SIZE_MENU ));
+
+	gtk_button_set_image
+		(	GTK_BUTTON(wnd->menu_hdr_btn),
+			gtk_image_new_from_gicon
+				(menu_icon, GTK_ICON_SIZE_MENU ));
+
+	gtk_menu_button_set_menu_model
+		(	GTK_MENU_BUTTON(wnd->open_hdr_btn),
+			G_MENU_MODEL(open_btn_build_menu()) );
+
+	gtk_menu_button_set_menu_model
+		(	GTK_MENU_BUTTON(wnd->menu_hdr_btn),
+			G_MENU_MODEL(menu_btn_build_menu()) );
+
+	gtk_header_bar_pack_start
+		(GTK_HEADER_BAR(wnd->header_bar), wnd->open_hdr_btn);
+
+	gtk_header_bar_pack_end
+		(GTK_HEADER_BAR(wnd->header_bar), wnd->menu_hdr_btn);
+
+	gtk_header_bar_pack_end
+		(GTK_HEADER_BAR(wnd->header_bar), wnd->fullscreen_hdr_btn);
+
+	gtk_actionable_set_action_name
+		(GTK_ACTIONABLE(wnd->fullscreen_hdr_btn), "app.fullscreen");
+
+	gtk_window_set_titlebar(GTK_WINDOW(wnd), wnd->header_bar);
+	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 }
 
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
