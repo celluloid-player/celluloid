@@ -229,11 +229,6 @@ static void main_window_init(MainWindow *wnd)
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
 
-	g_object_set(	wnd->settings,
-			"gtk-application-prefer-dark-theme",
-			TRUE,
-			NULL );
-
 	gtk_header_bar_set_show_close_button(	GTK_HEADER_BAR(wnd->header_bar),
 						TRUE );
 

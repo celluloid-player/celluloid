@@ -57,7 +57,8 @@ inline void set_config_string(	gmpv_handle *ctx,
 
 inline gboolean get_config_boolean(	gmpv_handle *ctx,
 					const gchar *group,
-					const gchar *key );
+					const gchar *key,
+					gboolean *error );
 
 inline void set_config_boolean(	gmpv_handle *ctx,
 				const gchar *group,

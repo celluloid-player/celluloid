@@ -89,21 +89,14 @@ static void app_cmdline_handler(	GApplication *app,
 					GApplicationCommandLine *cmdline,
 					gpointer data );
 
-static void drag_data_recv_handler(	GtkWidget *widget,
-					GdkDragContext *context,
-					gint x,
-					gint y,
-					GtkSelectionData *sel_data,
-					guint info,
-					guint time,
-					gpointer data );
-
-static void drag_data_get_handler(	GtkWidget *widget,
-					GdkDragContext *context,
-					GtkSelectionData *sel_data,
-					guint info,
-					guint time,
-					gpointer data );
+static void drag_data_handler(	GtkWidget *widget,
+				GdkDragContext *context,
+				gint x,
+				gint y,
+				GtkSelectionData *sel_data,
+				guint info,
+				guint time,
+				gpointer data);
 
 static void seek_handler(	GtkWidget *widget,
 				GtkScrollType scroll,
@@ -239,6 +232,8 @@ static void pref_handler(	GSimpleAction *action,
 {
 	gmpv_handle *ctx = data;
 	PrefDialog *pref_dialog;
+	gboolean dark_theme_enable_error;
+	gboolean dark_theme_enable_buffer;
 	gboolean mpvconf_enable_buffer;
 	gboolean mpvinput_enable_buffer;
 	gchar *mpvconf_buffer;
@@ -248,11 +243,19 @@ static void pref_handler(	GSimpleAction *action,
 
 	load_config(ctx);
 
+	dark_theme_enable_buffer
+		= get_config_boolean(	ctx,
+					"main",
+					"dark-theme-enable",
+					&dark_theme_enable_error );
+
 	mpvconf_enable_buffer
-		= get_config_boolean(ctx, "main", "mpv-config-enable");
+		= get_config_boolean
+			(ctx, "main", "mpv-config-enable", NULL);
 
 	mpvinput_enable_buffer
-		= get_config_boolean(ctx, "main", "mpv-input-config-enable");
+		= get_config_boolean
+			(ctx, "main", "mpv-input-config-enable", NULL);
 
 	mpvconf_buffer
 		= get_config_string(ctx, "main", "mpv-config-file");
@@ -265,7 +268,14 @@ static void pref_handler(	GSimpleAction *action,
 
 	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
-	/* Boolean keys default to FALSE if not specified */
+	/* defaults to TRUE */
+	pref_dialog_set_dark_theme_enable
+		(	pref_dialog,
+			!dark_theme_enable_error
+			?dark_theme_enable_buffer
+			:TRUE	);
+
+	/* defaults to FALSE */
 	pref_dialog_set_mpvconf_enable(pref_dialog, mpvconf_enable_buffer);
 	pref_dialog_set_mpvinput_enable(pref_dialog, mpvinput_enable_buffer);
 
@@ -292,6 +302,7 @@ static void pref_handler(	GSimpleAction *action,
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
+		gboolean dark_theme_enable;
 		gboolean mpvconf_enable;
 		gboolean mpvinput_enable;
 		const gchar* mpvconf;
@@ -302,11 +313,17 @@ static void pref_handler(	GSimpleAction *action,
 		gint playlist_pos_rc;
 		gint time_pos_rc;
 
+		dark_theme_enable
+			= pref_dialog_get_dark_theme_enable(pref_dialog);
+
 		mpvconf_enable = pref_dialog_get_mpvconf_enable(pref_dialog);
 		mpvinput_enable = pref_dialog_get_mpvinput_enable(pref_dialog);
 		mpvconf = pref_dialog_get_mpvconf(pref_dialog);
 		mpvinput = pref_dialog_get_mpvinput(pref_dialog);
 		mpvopt = pref_dialog_get_mpvopt(pref_dialog);
+
+		set_config_boolean
+			(ctx, "main", "dark-theme-enable", dark_theme_enable);
 
 		set_config_boolean
 			(ctx, "main", "mpv-config-enable", mpvconf_enable);
@@ -326,6 +343,11 @@ static void pref_handler(	GSimpleAction *action,
 					mpvinput_enable );
 
 		save_config(ctx);
+
+		g_object_set(	ctx->gui->settings,
+				"gtk-application-prefer-dark-theme",
+				dark_theme_enable,
+				NULL );
 
 		mpv_check_error(mpv_set_property_string(	ctx->mpv_ctx,
 								"pause",
@@ -544,14 +566,14 @@ static void volume_handler(GtkWidget *widget, gpointer data)
 	mpv_set_property(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
 }
 
-static void drag_data_recv_handler(	GtkWidget *widget,
-					GdkDragContext *context,
-					gint x,
-					gint y,
-					GtkSelectionData *sel_data,
-					guint info,
-					guint time,
-					gpointer data )
+static void drag_data_handler(	GtkWidget *widget,
+				GdkDragContext *context,
+				gint x,
+				gint y,
+				GtkSelectionData *sel_data,
+				guint info,
+				guint time,
+				gpointer data)
 {
 	gboolean append = (widget == ((gmpv_handle *)data)->gui->playlist);
 
@@ -583,43 +605,6 @@ static void drag_data_recv_handler(	GtkWidget *widget,
 
 			mpv_load(ctx, (const gchar *)raw_data, append, TRUE);
 		}
-	}
-}
-
-static void drag_data_get_handler(	GtkWidget *widget,
-					GdkDragContext *context,
-					GtkSelectionData *sel_data,
-					guint info,
-					guint time,
-					gpointer data )
-{
-	if(sel_data)
-	{
-		GdkAtom type;
-		GtkTreeSelection *tree_sel;
-		GList *sel_rows;
-		GtkTreeView *tree_view;
-		GtkTreeModel *tree_model;
-		GtkTreeIter iter;
-		gchar *entry;
-
-		tree_view = GTK_TREE_VIEW(widget);
-		type = gtk_selection_data_get_target(sel_data);
-		tree_sel = gtk_tree_view_get_selection(tree_view);
-		sel_rows = gtk_tree_selection_get_selected_rows(tree_sel, NULL);
-		tree_model = gtk_tree_view_get_model(tree_view);
-
-		/* Only one entry can be selected at a time */
-		gtk_tree_model_get_iter(tree_model, &iter, sel_rows->data);
-		gtk_tree_model_get(tree_model, &iter, 2, &entry, -1);
-
-		gtk_selection_data_set(	sel_data,
-					type,
-					8,
-					(guchar *)entry,
-					strlen(entry) );
-
-		g_free(entry);
 	}
 }
 
@@ -716,12 +701,6 @@ static void setup_dnd_targets(gmpv_handle *ctx)
 				3,
 				GDK_ACTION_COPY );
 
-	gtk_drag_source_set(	playlist->tree_view,
-				GDK_BUTTON1_MASK,
-				target_entry,
-				3,
-				GDK_ACTION_COPY|GDK_ACTION_LINK );
-
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx->gui->vid_area));
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(playlist));
 }
@@ -736,17 +715,12 @@ static void connect_signals(gmpv_handle *ctx)
 
 	g_signal_connect(	ctx->gui->vid_area,
 				"drag-data-received",
-				G_CALLBACK(drag_data_recv_handler),
+				G_CALLBACK(drag_data_handler),
 				ctx );
 
 	g_signal_connect(	ctx->gui->playlist,
 				"drag-data-received",
-				G_CALLBACK(drag_data_recv_handler),
-				ctx );
-
-	g_signal_connect(	playlist->tree_view,
-				"drag-data-get",
-				G_CALLBACK(drag_data_get_handler),
+				G_CALLBACK(drag_data_handler),
 				ctx );
 
 	g_signal_connect(	ctx->gui,
@@ -922,6 +896,8 @@ static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
 	gboolean mpvinput_enable;
+	gboolean dark_theme_enable;
+	gboolean dark_theme_error;
 	gchar *mpvinput;
 
 	setlocale(LC_NUMERIC, "C");
@@ -966,12 +942,24 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	load_config(ctx);
 	mpv_init(ctx, ctx->vid_area_wid);
 
-	mpvinput_enable
-		= get_config_boolean(ctx, "main", "mpv-input-config-enable");
+	dark_theme_enable = get_config_boolean(	ctx,
+						"main",
+						"dark-theme-enable",
+						&dark_theme_error );
+
+	mpvinput_enable = get_config_boolean(	ctx,
+						"main",
+						"mpv-input-config-enable",
+						NULL );
 
 	mpvinput = get_config_string(	ctx,
 					"main",
 					"mpv-input-config-file");
+
+	g_object_set(	ctx->gui->settings,
+			"gtk-application-prefer-dark-theme",
+			!dark_theme_error?dark_theme_enable:TRUE,
+			NULL );
 
 	load_keybind(ctx, mpvinput_enable?mpvinput:NULL, FALSE);
 	mpv_set_wakeup_callback(ctx->mpv_ctx, mpv_wakeup_callback, ctx);
