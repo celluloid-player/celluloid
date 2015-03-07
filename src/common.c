@@ -291,6 +291,105 @@ void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
 	mpv_free(video);
 }
 
+GMenu *build_full_menu()
+{
+	GMenu *menu;
+	GMenu *file_menu;
+	GMenu *edit_menu;
+	GMenu *view_menu;
+	GMenu *help_menu;
+	GMenuItem *file_menu_item;
+	GMenuItem *open_menu_item;
+	GMenuItem *quit_menu_item;
+	GMenuItem *open_loc_menu_item;
+	GMenuItem *edit_menu_item;
+	GMenuItem *pref_menu_item;
+	GMenuItem *view_menu_item;
+	GMenuItem *playlist_menu_item;
+	GMenuItem *fullscreen_menu_item;
+	GMenuItem *normal_size_menu_item;
+	GMenuItem *double_size_menu_item;
+	GMenuItem *half_size_menu_item;
+	GMenuItem *help_menu_item;
+	GMenuItem *about_menu_item;
+
+	menu = g_menu_new();
+
+	/* File */
+	file_menu = g_menu_new();
+
+	file_menu_item
+		= g_menu_item_new_submenu
+			(_("_File"), G_MENU_MODEL(file_menu));
+
+	open_menu_item = g_menu_item_new(_("_Open"), "app.open");
+	quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
+
+	open_loc_menu_item
+		= g_menu_item_new(_("Open _Location"), "app.openloc");
+
+	/* Edit */
+	edit_menu = g_menu_new();
+
+	edit_menu_item
+		= g_menu_item_new_submenu
+			(_("_Edit"), G_MENU_MODEL(edit_menu));
+
+	pref_menu_item
+		= g_menu_item_new(_("_Preferences"), "app.pref");
+
+	/* View */
+	view_menu = g_menu_new();
+
+	view_menu_item
+		= g_menu_item_new_submenu
+			(_("_View"), G_MENU_MODEL(view_menu));
+
+	playlist_menu_item
+		= g_menu_item_new(_("_Playlist"), "app.playlist");
+
+	fullscreen_menu_item
+		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen");
+
+	normal_size_menu_item
+		= g_menu_item_new(_("_Normal Size"), "app.normalsize");
+
+	double_size_menu_item
+		= g_menu_item_new(_("_Double Size"), "app.doublesize");
+
+	half_size_menu_item
+		= g_menu_item_new(_("_Half Size"), "app.halfsize");
+
+	/* Help */
+	help_menu = g_menu_new();
+
+	help_menu_item
+		= g_menu_item_new_submenu
+			(_("_Help"), G_MENU_MODEL(help_menu));
+
+	about_menu_item = g_menu_item_new(_("_About"), "app.about");
+
+	g_menu_append_item(menu, file_menu_item);
+	g_menu_append_item(file_menu, open_menu_item);
+	g_menu_append_item(file_menu, open_loc_menu_item);
+	g_menu_append_item(file_menu, quit_menu_item);
+
+	g_menu_append_item(menu, edit_menu_item);
+	g_menu_append_item(edit_menu, pref_menu_item);
+
+	g_menu_append_item(menu, view_menu_item);
+	g_menu_append_item(view_menu, playlist_menu_item);
+	g_menu_append_item(view_menu, fullscreen_menu_item);
+	g_menu_append_item(view_menu, normal_size_menu_item);
+	g_menu_append_item(view_menu, double_size_menu_item);
+	g_menu_append_item(view_menu, half_size_menu_item);
+
+	g_menu_append_item(menu, help_menu_item);
+	g_menu_append_item(help_menu, about_menu_item);
+
+	return menu;
+}
+
 void load_keybind(	gmpv_handle *ctx,
 			const gchar *config_path,
 			gboolean notify_ignore )

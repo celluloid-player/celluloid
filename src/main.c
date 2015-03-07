@@ -232,6 +232,8 @@ static void pref_handler(	GSimpleAction *action,
 {
 	gmpv_handle *ctx = data;
 	PrefDialog *pref_dialog;
+	gboolean csd_enable_error;
+	gboolean csd_enable_buffer;
 	gboolean dark_theme_enable_error;
 	gboolean dark_theme_enable_buffer;
 	gboolean mpvconf_enable_buffer;
@@ -242,6 +244,12 @@ static void pref_handler(	GSimpleAction *action,
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 
 	load_config(ctx);
+
+	csd_enable_buffer
+		= get_config_boolean(	ctx,
+					"main",
+					"csd-enable",
+					&csd_enable_error );
 
 	dark_theme_enable_buffer
 		= get_config_boolean(	ctx,
@@ -269,6 +277,12 @@ static void pref_handler(	GSimpleAction *action,
 	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
 	/* defaults to TRUE */
+	pref_dialog_set_csd_enable
+		(	pref_dialog,
+			!csd_enable_error
+			?csd_enable_buffer
+			:TRUE	);
+
 	pref_dialog_set_dark_theme_enable
 		(	pref_dialog,
 			!dark_theme_enable_error
@@ -302,6 +316,7 @@ static void pref_handler(	GSimpleAction *action,
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
+		gboolean csd_enable;
 		gboolean dark_theme_enable;
 		gboolean mpvconf_enable;
 		gboolean mpvinput_enable;
@@ -316,11 +331,15 @@ static void pref_handler(	GSimpleAction *action,
 		dark_theme_enable
 			= pref_dialog_get_dark_theme_enable(pref_dialog);
 
+		csd_enable = pref_dialog_get_csd_enable(pref_dialog);
 		mpvconf_enable = pref_dialog_get_mpvconf_enable(pref_dialog);
 		mpvinput_enable = pref_dialog_get_mpvinput_enable(pref_dialog);
 		mpvconf = pref_dialog_get_mpvconf(pref_dialog);
 		mpvinput = pref_dialog_get_mpvinput(pref_dialog);
 		mpvopt = pref_dialog_get_mpvopt(pref_dialog);
+
+		set_config_boolean
+			(ctx, "main", "csd-enable", csd_enable);
 
 		set_config_boolean
 			(ctx, "main", "dark-theme-enable", dark_theme_enable);
@@ -343,6 +362,26 @@ static void pref_handler(	GSimpleAction *action,
 					mpvinput_enable );
 
 		save_config(ctx);
+
+		if(csd_enable_buffer != csd_enable)
+		{
+			const gchar * msg
+				= _(	"Enabling or disabling client-side "
+					"decorations requires restarting %s to "
+					"take effect." );
+
+			GtkWidget *dialog
+				= gtk_message_dialog_new
+					(	GTK_WINDOW(ctx->gui),
+						GTK_DIALOG_DESTROY_WITH_PARENT,
+						GTK_MESSAGE_INFO,
+						GTK_BUTTONS_OK,
+						msg,
+						g_get_application_name() );
+
+			gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+		}
 
 		g_object_set(	ctx->gui->settings,
 				"gtk-application-prefer-dark-theme",
@@ -896,6 +935,8 @@ static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
 	gboolean mpvinput_enable;
+	gboolean csd_enable;
+	gboolean csd_error;
 	gboolean dark_theme_enable;
 	gboolean dark_theme_error;
 	gchar *mpvinput;
@@ -922,25 +963,12 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->fs_control = NULL;
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
 
-	gtk_application_set_app_menu
-		(ctx->app, G_MENU_MODEL(build_app_menu()));
-
-	main_window_enable_csd(ctx->gui);
-	gtk_widget_show_all(GTK_WIDGET(ctx->gui));
-	main_window_set_playlist_visible(ctx->gui, FALSE);
-
-	control_box_set_chapter_enabled
-		(CONTROL_BOX(ctx->gui->control_box), FALSE);
-
-	ctx->vid_area_wid = gdk_x11_window_get_xid
-				(gtk_widget_get_window(ctx->gui->vid_area));
-
-	setup_accelerators(ctx);
-	setup_dnd_targets(ctx);
-	map_action_entries(ctx);
-	connect_signals(ctx);
 	load_config(ctx);
-	mpv_init(ctx, ctx->vid_area_wid);
+
+	csd_enable = get_config_boolean(	ctx,
+						"main",
+						"csd-enable",
+						&csd_error );
 
 	dark_theme_enable = get_config_boolean(	ctx,
 						"main",
@@ -955,6 +983,34 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	mpvinput = get_config_string(	ctx,
 					"main",
 					"mpv-input-config-file");
+
+	if(csd_enable || csd_error)
+	{
+		gtk_application_set_app_menu
+			(ctx->app, G_MENU_MODEL(build_app_menu()));
+
+		main_window_enable_csd(ctx->gui);
+	}
+	else
+	{
+		gtk_application_set_menubar
+			(ctx->app, G_MENU_MODEL(build_full_menu()));
+	}
+
+	gtk_widget_show_all(GTK_WIDGET(ctx->gui));
+	main_window_set_playlist_visible(ctx->gui, FALSE);
+
+	control_box_set_chapter_enabled
+		(CONTROL_BOX(ctx->gui->control_box), FALSE);
+
+	ctx->vid_area_wid = gdk_x11_window_get_xid
+				(gtk_widget_get_window(ctx->gui->vid_area));
+
+	setup_accelerators(ctx);
+	setup_dnd_targets(ctx);
+	map_action_entries(ctx);
+	connect_signals(ctx);
+	mpv_init(ctx, ctx->vid_area_wid);
 
 	g_object_set(	ctx->gui->settings,
 			"gtk-application-prefer-dark-theme",
