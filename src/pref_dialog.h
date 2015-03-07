@@ -47,6 +47,7 @@ struct PrefDialog
 	GtkWidget *grid;
 	GtkWidget *content_area;
 	GtkWidget *dark_theme_enable_check;
+	GtkWidget *csd_enable_check;
 	GtkWidget *mpvinput_enable_check;
 	GtkWidget *mpvinput_button;
 	GtkWidget *mpvconf_enable_check;
@@ -63,6 +64,8 @@ GtkWidget *pref_dialog_new(GtkWindow *parent);
 GType pref_dialog_get_type(void);
 void pref_dialog_set_dark_theme_enable(PrefDialog *dlg, gboolean value);
 gboolean pref_dialog_get_dark_theme_enable(PrefDialog *dlg);
+void pref_dialog_set_csd_enable(PrefDialog *dlg, gboolean value);
+gboolean pref_dialog_get_csd_enable(PrefDialog *dlg);
 void pref_dialog_set_mpvconf_enable(PrefDialog *dlg, gboolean value);
 gboolean pref_dialog_get_mpvconf_enable(PrefDialog *dlg);
 void pref_dialog_set_mpvconf(PrefDialog *dlg, const gchar *buffer);

@@ -88,6 +88,10 @@ static void pref_dialog_init(PrefDialog *dlg)
 	dlg->content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
 	dlg->mpvopt_entry = gtk_entry_new();
 
+	dlg->csd_enable_check
+		= gtk_check_button_new_with_label
+			(_("Enable client-side decorations"));
+
 	dlg->dark_theme_enable_check
 		= gtk_check_button_new_with_label(_("Enable dark theme"));
 
@@ -138,6 +142,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_margin_left(mpvconf_label, 10);
 	gtk_widget_set_margin_left(mpvinput_label, 10);
 	gtk_widget_set_margin_left(mpvopt_label, 10);
+	gtk_widget_set_margin_left(dlg->csd_enable_check, 10);
 	gtk_widget_set_margin_left(dlg->dark_theme_enable_check, 10);
 	gtk_widget_set_margin_left(dlg->mpvconf_enable_check, 10);
 	gtk_widget_set_margin_left(dlg->mpvinput_enable_check, 10);
@@ -177,27 +182,30 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_grid_attach(GTK_GRID(dlg->grid), general_group_label, 0, 0, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->dark_theme_enable_check, 0, 1, 1, 1);
-
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 2, 1, 1);
+		(GTK_GRID(dlg->grid), dlg->csd_enable_check, 0, 1, 2, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 3, 2, 1);
+		(GTK_GRID(dlg->grid), dlg->dark_theme_enable_check, 0, 2, 2, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_label, 0, 4, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 4, 1, 1);
-
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 5, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 3, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvinput_enable_check, 0, 6, 2, 1);
+		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 4, 2, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_label, 0, 7, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 7, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_label, 0, 5, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 5, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), misc_group_label, 0, 8, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvopt_label, 0, 9, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 10, 2, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 6, 1, 1);
+
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvinput_enable_check, 0, 7, 2, 1);
+
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_label, 0, 8, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 8, 1, 1);
+
+	gtk_grid_attach(GTK_GRID(dlg->grid), misc_group_label, 0, 9, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), mpvopt_label, 0, 10, 1, 1);
+	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 11, 2, 1);
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)
@@ -252,6 +260,20 @@ gboolean pref_dialog_get_dark_theme_enable(PrefDialog *dlg)
 	return gtk_toggle_button_get_active(button);
 }
 
+void pref_dialog_set_csd_enable(PrefDialog *dlg, gboolean value)
+{
+	GtkToggleButton *button = GTK_TOGGLE_BUTTON(dlg->csd_enable_check);
+
+	gtk_toggle_button_set_active(button, value);
+}
+
+gboolean pref_dialog_get_csd_enable(PrefDialog *dlg)
+{
+	GtkToggleButton *button = GTK_TOGGLE_BUTTON(dlg->csd_enable_check);
+
+	return gtk_toggle_button_get_active(button);
+}
+
 void pref_dialog_set_mpvconf_enable(PrefDialog *dlg, gboolean value)
 {
 	GtkToggleButton *button = GTK_TOGGLE_BUTTON(dlg->mpvconf_enable_check);
@@ -270,7 +292,10 @@ void pref_dialog_set_mpvconf(PrefDialog *dlg, const gchar *buffer)
 {
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvconf_button);
 
-	gtk_file_chooser_set_filename(chooser, buffer);
+	if(buffer)
+	{
+		gtk_file_chooser_set_filename(chooser, buffer);
+	}
 }
 
 gchar *pref_dialog_get_mpvconf(PrefDialog *dlg)
@@ -298,7 +323,10 @@ void pref_dialog_set_mpvinput(PrefDialog *dlg, const gchar *buffer)
 {
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvinput_button);
 
-	gtk_file_chooser_set_filename(chooser, buffer);
+	if(buffer)
+	{
+		gtk_file_chooser_set_filename(chooser, buffer);
+	}
 }
 
 gchar *pref_dialog_get_mpvinput(PrefDialog *dlg)
@@ -310,7 +338,10 @@ gchar *pref_dialog_get_mpvinput(PrefDialog *dlg)
 
 void pref_dialog_set_mpvopt(PrefDialog *dlg, gchar *buffer)
 {
-	gtk_entry_set_text(GTK_ENTRY(dlg->mpvopt_entry), buffer);
+	if(buffer)
+	{
+		gtk_entry_set_text(GTK_ENTRY(dlg->mpvopt_entry), buffer);
+	}
 }
 
 const gchar *pref_dialog_get_mpvopt(PrefDialog *dlg)

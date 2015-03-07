@@ -20,11 +20,12 @@
 #ifndef DEF_H
 #define DEF_H
 
+#define APP_ID "org.gnome-mpv"
 #define ICON_NAME "gnome-mpv"
 #define CONFIG_FILE "gnome-mpv.conf"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define MAIN_WINDOW_DEFAULT_WIDTH 400
-#define MAIN_WINDOW_DEFAULT_HEIGHT 300
+#define MAIN_WINDOW_DEFAULT_HEIGHT 400
 #define VID_AREA_BG_COLOR "#000000"
 #define SEEK_BAR_UPDATE_INTERVAL 250
 #define CURSOR_HIDE_DELAY 1

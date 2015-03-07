@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -24,7 +24,10 @@
 
 #include <gtk/gtk.h>
 
-void playlist_toggle_handler(GtkWidget *widget, gpointer data);
+void playlist_toggle_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
 void playlist_previous_handler(GtkWidget *widget, gpointer data);
 void playlist_next_handler(GtkWidget *widget, gpointer data);
 

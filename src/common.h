@@ -40,6 +40,7 @@ struct gmpv_handle
 	gchar *log_buffer;
 	GSList *keybind_list;
 	GKeyFile *config_file;
+	GtkApplication *app;
 	MainWindow *gui;
 	GtkWidget *fs_control;
 	GtkListStore *playlist_store;
@@ -57,7 +58,7 @@ inline void set_config_string(	gmpv_handle *ctx,
 inline gboolean get_config_boolean(	gmpv_handle *ctx,
 					const gchar *group,
 					const gchar *key,
-					gboolean *error );
+					gboolean defaultval );
 
 inline void set_config_boolean(	gmpv_handle *ctx,
 				const gchar *group,
@@ -80,6 +81,7 @@ void next_chapter(gmpv_handle *ctx);
 void seek_absolute(gmpv_handle *ctx, gdouble time);
 void seek_relative(gmpv_handle *ctx, gint offset);
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);
+GMenu *build_full_menu(void);
 
 void load_keybind(	gmpv_handle *ctx,
 			const gchar *config_path,
