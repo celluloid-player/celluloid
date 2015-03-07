@@ -292,7 +292,10 @@ void pref_dialog_set_mpvconf(PrefDialog *dlg, const gchar *buffer)
 {
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvconf_button);
 
-	gtk_file_chooser_set_filename(chooser, buffer);
+	if(buffer)
+	{
+		gtk_file_chooser_set_filename(chooser, buffer);
+	}
 }
 
 gchar *pref_dialog_get_mpvconf(PrefDialog *dlg)
@@ -320,7 +323,10 @@ void pref_dialog_set_mpvinput(PrefDialog *dlg, const gchar *buffer)
 {
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpvinput_button);
 
-	gtk_file_chooser_set_filename(chooser, buffer);
+	if(buffer)
+	{
+		gtk_file_chooser_set_filename(chooser, buffer);
+	}
 }
 
 gchar *pref_dialog_get_mpvinput(PrefDialog *dlg)
@@ -332,7 +338,10 @@ gchar *pref_dialog_get_mpvinput(PrefDialog *dlg)
 
 void pref_dialog_set_mpvopt(PrefDialog *dlg, gchar *buffer)
 {
-	gtk_entry_set_text(GTK_ENTRY(dlg->mpvopt_entry), buffer);
+	if(buffer)
+	{
+		gtk_entry_set_text(GTK_ENTRY(dlg->mpvopt_entry), buffer);
+	}
 }
 
 const gchar *pref_dialog_get_mpvopt(PrefDialog *dlg)

@@ -230,40 +230,32 @@ static void pref_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
+	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 	gmpv_handle *ctx = data;
 	PrefDialog *pref_dialog;
-	gboolean csd_enable_error;
 	gboolean csd_enable_buffer;
-	gboolean dark_theme_enable_error;
 	gboolean dark_theme_enable_buffer;
 	gboolean mpvconf_enable_buffer;
 	gboolean mpvinput_enable_buffer;
 	gchar *mpvconf_buffer;
 	gchar *mpvinput_buffer;
 	gchar *mpvopt_buffer;
-	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 
 	load_config(ctx);
 
 	csd_enable_buffer
-		= get_config_boolean(	ctx,
-					"main",
-					"csd-enable",
-					&csd_enable_error );
+		= get_config_boolean(ctx, "main", "csd-enable", TRUE);
 
 	dark_theme_enable_buffer
-		= get_config_boolean(	ctx,
-					"main",
-					"dark-theme-enable",
-					&dark_theme_enable_error );
+		= get_config_boolean(ctx, "main", "dark-theme-enable", TRUE);
 
 	mpvconf_enable_buffer
 		= get_config_boolean
-			(ctx, "main", "mpv-config-enable", NULL);
+			(ctx, "main", "mpv-config-enable", FALSE);
 
 	mpvinput_enable_buffer
 		= get_config_boolean
-			(ctx, "main", "mpv-input-config-enable", NULL);
+			(ctx, "main", "mpv-input-config-enable", FALSE);
 
 	mpvconf_buffer
 		= get_config_string(ctx, "main", "mpv-config-file");
@@ -276,43 +268,18 @@ static void pref_handler(	GSimpleAction *action,
 
 	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
-	/* defaults to TRUE */
-	pref_dialog_set_csd_enable
-		(	pref_dialog,
-			!csd_enable_error
-			?csd_enable_buffer
-			:TRUE	);
-
-	pref_dialog_set_dark_theme_enable
-		(	pref_dialog,
-			!dark_theme_enable_error
-			?dark_theme_enable_buffer
-			:TRUE	);
-
-	/* defaults to FALSE */
+	pref_dialog_set_csd_enable(pref_dialog, csd_enable_buffer);
+	pref_dialog_set_dark_theme_enable(pref_dialog, dark_theme_enable_buffer);
 	pref_dialog_set_mpvconf_enable(pref_dialog, mpvconf_enable_buffer);
 	pref_dialog_set_mpvinput_enable(pref_dialog, mpvinput_enable_buffer);
 
-	if(mpvconf_buffer)
-	{
-		pref_dialog_set_mpvconf(pref_dialog, mpvconf_buffer);
+	pref_dialog_set_mpvconf(pref_dialog, mpvconf_buffer);
+	pref_dialog_set_mpvinput(pref_dialog, mpvinput_buffer);
+	pref_dialog_set_mpvopt(pref_dialog, mpvopt_buffer);
 
-		g_free(mpvconf_buffer);
-	}
-
-	if(mpvinput_buffer)
-	{
-		pref_dialog_set_mpvinput(pref_dialog, mpvinput_buffer);
-
-		g_free(mpvinput_buffer);
-	}
-
-	if(mpvopt_buffer)
-	{
-		pref_dialog_set_mpvopt(pref_dialog, mpvopt_buffer);
-
-		g_free(mpvopt_buffer);
-	}
+	g_free(mpvconf_buffer);
+	g_free(mpvinput_buffer);
+	g_free(mpvopt_buffer);
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -936,9 +903,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	gmpv_handle *ctx = data;
 	gboolean mpvinput_enable;
 	gboolean csd_enable;
-	gboolean csd_error;
 	gboolean dark_theme_enable;
-	gboolean dark_theme_error;
 	gchar *mpvinput;
 
 	setlocale(LC_NUMERIC, "C");
@@ -965,26 +930,18 @@ static void app_startup_handler(GApplication *app, gpointer data)
 
 	load_config(ctx);
 
-	csd_enable = get_config_boolean(	ctx,
-						"main",
-						"csd-enable",
-						&csd_error );
+	csd_enable = get_config_boolean
+			(ctx, "main", "csd-enable", TRUE);
 
-	dark_theme_enable = get_config_boolean(	ctx,
-						"main",
-						"dark-theme-enable",
-						&dark_theme_error );
+	dark_theme_enable = get_config_boolean
+				(ctx, "main", "dark-theme-enable", TRUE);
 
-	mpvinput_enable = get_config_boolean(	ctx,
-						"main",
-						"mpv-input-config-enable",
-						NULL );
+	mpvinput_enable = get_config_boolean
+				(ctx, "main", "mpv-input-config-enable", FALSE);
 
-	mpvinput = get_config_string(	ctx,
-					"main",
-					"mpv-input-config-file");
+	mpvinput = get_config_string(ctx, "main", "mpv-input-config-file");
 
-	if(csd_enable || csd_error)
+	if(csd_enable)
 	{
 		gtk_application_set_app_menu
 			(ctx->app, G_MENU_MODEL(build_app_menu()));
@@ -1014,7 +971,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 
 	g_object_set(	ctx->gui->settings,
 			"gtk-application-prefer-dark-theme",
-			!dark_theme_error?dark_theme_enable:TRUE,
+			dark_theme_enable,
 			NULL );
 
 	load_keybind(ctx, mpvinput_enable?mpvinput:NULL, FALSE);

@@ -46,7 +46,7 @@ inline void set_config_string(	gmpv_handle *ctx,
 inline gboolean get_config_boolean(	gmpv_handle *ctx,
 					const gchar *group,
 					const gchar *key,
-					gboolean *error )
+					gboolean defaultval )
 {
 	GError *keyfile_error = NULL;
 	gboolean result;
@@ -56,12 +56,7 @@ inline gboolean get_config_boolean(	gmpv_handle *ctx,
 						key,
 						&keyfile_error );
 
-	if(error)
-	{
-		*error = (keyfile_error != NULL);
-	}
-
-	return result;
+	return !keyfile_error?result:defaultval;
 }
 
 inline void set_config_boolean(	gmpv_handle *ctx,
