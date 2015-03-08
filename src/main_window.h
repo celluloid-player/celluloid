@@ -71,6 +71,7 @@ GType main_window_get_type(void);
 void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);
 void main_window_enable_csd(MainWindow *wnd);
+gboolean main_window_get_csd_enabled(MainWindow *wnd);
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible);
 gboolean main_window_get_playlist_visible(MainWindow *wnd);
 

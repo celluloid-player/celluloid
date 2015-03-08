@@ -950,6 +950,9 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	}
 	else
 	{
+		gtk_application_set_app_menu
+			(ctx->app, NULL);
+
 		gtk_application_set_menubar
 			(ctx->app, G_MENU_MODEL(build_full_menu()));
 	}

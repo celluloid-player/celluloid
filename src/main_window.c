@@ -412,6 +412,7 @@ void main_window_enable_csd(MainWindow *wnd)
 	menu_icon = g_themed_icon_new_with_default_fallbacks
 				("view-list-symbolic");
 
+	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH+PLAYLIST_CSD_OFFSET;
 	wnd->open_hdr_btn = gtk_menu_button_new();
 	wnd->fullscreen_hdr_btn = gtk_button_new();
 	wnd->menu_hdr_btn = gtk_menu_button_new();
@@ -455,16 +456,30 @@ void main_window_enable_csd(MainWindow *wnd)
 	gtk_actionable_set_action_name
 		(GTK_ACTIONABLE(wnd->fullscreen_hdr_btn), "app.fullscreen");
 
+	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
+				MAIN_WINDOW_DEFAULT_WIDTH
+				-PLAYLIST_DEFAULT_WIDTH
+				-PLAYLIST_CSD_OFFSET );
+
 	gtk_window_set_titlebar(GTK_WINDOW(wnd), wnd->header_bar);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 }
 
+gboolean main_window_get_csd_enabled(MainWindow *wnd)
+{
+	return	wnd->open_hdr_btn &&
+		wnd->fullscreen_hdr_btn &&
+		wnd->menu_hdr_btn;
+}
+
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 {
+	gint offset;
 	gint handle_pos;
 	gint width;
 	gint height;
 
+	offset = main_window_get_csd_enabled(wnd)?PLAYLIST_CSD_OFFSET:0;
 	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
@@ -478,8 +493,13 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 
 	gtk_widget_set_visible(wnd->playlist, visible);
 
+	/* For some unknown reason, width needs to be adjusted by some offset
+	 * (50px) when CSD is enabled for the resulting size to be correct.
+	 */
 	gtk_window_resize(	GTK_WINDOW(wnd),
-				visible?width+wnd->playlist_width:handle_pos,
+				visible
+				?width+wnd->playlist_width-offset
+				:handle_pos+offset,
 				height );
 }
 
