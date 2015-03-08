@@ -991,7 +991,7 @@ int main(int argc, char **argv)
 	gmpv_handle *ctx;
 	gint status;
 
-	app = gtk_application_new(	APP_ID,
+	app = gtk_application_new(	NULL,
 					G_APPLICATION_NON_UNIQUE|
 					G_APPLICATION_HANDLES_COMMAND_LINE );
 
