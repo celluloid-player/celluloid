@@ -991,7 +991,10 @@ int main(int argc, char **argv)
 	gmpv_handle *ctx;
 	gint status;
 
-	app = gtk_application_new(APP_ID, G_APPLICATION_HANDLES_COMMAND_LINE);
+	app = gtk_application_new(	APP_ID,
+					G_APPLICATION_NON_UNIQUE|
+					G_APPLICATION_HANDLES_COMMAND_LINE );
+
 	ctx = g_malloc(sizeof(gmpv_handle));
 
 	g_signal_connect(	app,
