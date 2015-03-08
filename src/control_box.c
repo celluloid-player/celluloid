@@ -281,6 +281,11 @@ void control_box_set_fullscreen_state(ControlBox *box, gboolean fullscreen)
 				fullscreen_icon );
 }
 
+void control_box_set_fullscreen_btn_visible(ControlBox *box, gboolean value)
+{
+	gtk_widget_set_visible(box->fullscreen_button, value);
+}
+
 void control_box_reset_control(ControlBox *box)
 {
 	control_box_set_seek_bar_length(box, 0);

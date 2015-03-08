@@ -960,6 +960,12 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	gtk_widget_show_all(GTK_WIDGET(ctx->gui));
 	main_window_set_playlist_visible(ctx->gui, FALSE);
 
+	if(csd_enable)
+	{
+		control_box_set_fullscreen_btn_visible
+			(CONTROL_BOX(ctx->gui->control_box), FALSE);
+	}
+
 	control_box_set_chapter_enabled
 		(CONTROL_BOX(ctx->gui->control_box), FALSE);
 
