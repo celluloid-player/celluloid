@@ -345,6 +345,11 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 			control_box_set_fullscreen_btn_visible
 				(CONTROL_BOX(wnd->control_box), FALSE);
 		}
+		else
+		{
+			gtk_application_window_set_show_menubar
+				(GTK_APPLICATION_WINDOW(wnd), TRUE);
+		}
 
 		if(wnd->playlist_visible)
 		{
@@ -377,6 +382,11 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		{
 			control_box_set_fullscreen_btn_visible
 				(CONTROL_BOX(wnd->control_box), TRUE);
+		}
+		else
+		{
+			gtk_application_window_set_show_menubar
+				(GTK_APPLICATION_WINDOW(wnd), FALSE);
 		}
 
 		if(wnd->playlist_visible)
