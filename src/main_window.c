@@ -340,6 +340,12 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_window_unfullscreen(GTK_WINDOW(wnd));
 		gtk_widget_hide(wnd->fs_control);
 
+		if(main_window_get_csd_enabled(wnd))
+		{
+			control_box_set_fullscreen_btn_visible
+				(CONTROL_BOX(wnd->control_box), FALSE);
+		}
+
 		if(wnd->playlist_visible)
 		{
 			gtk_widget_show(wnd->playlist);
@@ -366,6 +372,12 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_window_set_screen(GTK_WINDOW(wnd->fs_control), screen);
 		gtk_widget_show(wnd->fs_control);
 		gtk_widget_set_opacity(wnd->fs_control, 0);
+
+		if(main_window_get_csd_enabled(wnd))
+		{
+			control_box_set_fullscreen_btn_visible
+				(CONTROL_BOX(wnd->control_box), TRUE);
+		}
 
 		if(wnd->playlist_visible)
 		{
