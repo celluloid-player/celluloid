@@ -446,7 +446,14 @@ static void fullscreen_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	main_window_toggle_fullscreen(((gmpv_handle *)data)->gui);
+	gmpv_handle *ctx = data;
+
+	main_window_toggle_fullscreen(ctx->gui);
+
+	mpv_set_property(	ctx->mpv_ctx,
+				"fullscreen",
+				MPV_FORMAT_FLAG,
+				&ctx->gui->fullscreen );
 }
 
 static void normal_size_handler(	GSimpleAction *action,
