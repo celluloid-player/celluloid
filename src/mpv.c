@@ -106,6 +106,16 @@ gboolean mpv_handle_event(gpointer data)
 
 				mpv_load_gui_update(ctx);
 			}
+			else if(g_strcmp0(prop->name, "fullscreen") == 0)
+			{
+				gint fullscreen = *((int *)prop->data);
+
+				if(fullscreen != ctx->gui->fullscreen)
+				{
+					main_window_toggle_fullscreen
+						(MAIN_WINDOW(ctx->gui));
+				}
+			}
 			else if(g_strcmp0(prop->name, "eof-reached") == 0
 			&& prop->data
 			&& *((int *)prop->data) == 1)
@@ -422,6 +432,11 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
 						0,
 						"eof-reached",
+						MPV_FORMAT_FLAG ));
+
+	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
+						0,
+						"fullscreen",
 						MPV_FORMAT_FLAG ));
 
 	mpv_check_error(mpv_request_log_messages(ctx->mpv_ctx, "error"));
