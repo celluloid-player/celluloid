@@ -108,9 +108,11 @@ gboolean mpv_handle_event(gpointer data)
 			}
 			else if(g_strcmp0(prop->name, "fullscreen") == 0)
 			{
-				gint fullscreen = *((int *)prop->data);
+				int *data = prop->data;
+				int fullscreen = data?*data:-1;
 
-				if(fullscreen != ctx->gui->fullscreen)
+				if(fullscreen != -1
+				&& fullscreen != ctx->gui->fullscreen)
 				{
 					main_window_toggle_fullscreen
 						(MAIN_WINDOW(ctx->gui));
