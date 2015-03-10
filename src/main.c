@@ -626,8 +626,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	gmpv_handle *ctx = data;
 	guint keyval = ((GdkEventKey*)event)->keyval;
 	guint state = ((GdkEventKey*)event)->state;
-	GSList *iter = ctx->keybind_list;
-	keybind *keybind = iter?iter->data:NULL;
+	gchar **command;
 
 	const guint mod_mask =	GDK_MODIFIER_MASK
 				&~(GDK_SHIFT_MASK
@@ -640,17 +639,12 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	/* Ignore insignificant modifiers (eg. numlock) */
 	state &= mod_mask;
 
-	while(	keybind
-		&& (keybind->modifier != state || keybind->keyval != keyval) )
-	{
-		iter = g_slist_next(iter);
-		keybind = iter?iter->data:NULL;
-	}
+	command = keybind_get_command(ctx, FALSE, state, keyval);
 
 	/* Try user-specified keys first, then fallback to hard-coded keys */
-	if(keybind)
+	if(command)
 	{
-		mpv_command(ctx->mpv_ctx, (const char **)keybind->command);
+		mpv_command(ctx->mpv_ctx, (const char **)command);
 	}
 	else if((state&mod_mask) == 0)
 	{
