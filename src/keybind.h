@@ -26,6 +26,7 @@
 
 struct keybind
 {
+	gboolean mouse;
 	gint modifier;
 	gint keyval;
 	gchar **command;
@@ -35,7 +36,11 @@ typedef struct keybind keybind;
 
 keybind *keybind_parse_config_line(const gchar *line);
 GSList *keybind_parse_config(const gchar *config_path, gboolean *has_ignore);
-gchar **keybind_get_command(gmpv_handle *ctx, gint modifier, gint keyval);
+
+gchar **keybind_get_command(	gmpv_handle *ctx,
+				gboolean mouse,
+				gint modifier,
+				gint keyval );
 
 GSList *keybind_parse_config_with_defaults(	const gchar *config_path,
 						gboolean *has_ignore );

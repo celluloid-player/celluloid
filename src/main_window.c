@@ -229,6 +229,8 @@ static void main_window_init(MainWindow *wnd)
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
 
+	gtk_widget_add_events(wnd->vid_area, GDK_BUTTON_PRESS_MASK);
+
 	gtk_header_bar_set_show_close_button(	GTK_HEADER_BAR(wnd->header_bar),
 						TRUE );
 

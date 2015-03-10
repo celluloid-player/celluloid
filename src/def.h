@@ -48,6 +48,8 @@
 					"UP seek 60",\
 					"DOWN seek -60",\
 					"Q quit_watch_later",\
+					"MOUSE_BTN0_DBL cycle fullscreen",\
+					"MOUSE_BTN2 cycle pause",\
 					NULL }
 
 #define KEYSTRING_MAP	{	"<", "less",\

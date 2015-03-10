@@ -69,6 +69,7 @@ keybind *keybind_parse_config_line(const gchar *line)
 			{
 				result = g_malloc(sizeof(keybind));
 
+				result->mouse = FALSE;
 				result->modifier = 0x0;
 				result->keyval = 0x0;
 				result->command = NULL;
@@ -87,6 +88,7 @@ keybind *keybind_parse_config_line(const gchar *line)
 	{
 		gint keyval;
 
+		/* Modifiers */
 		if(g_ascii_strncasecmp(keys[index], "shift", 5) == 0)
 		{
 			keyval = GDK_SHIFT_MASK;
@@ -99,6 +101,23 @@ keybind *keybind_parse_config_line(const gchar *line)
 		{
 			keyval = GDK_MOD1_MASK;
 		}
+		/* Mouse */
+		else if(g_regex_match_simple(	"MOUSE_BTN[0-9]*(_DBL)?",
+						keys[index],
+						0,
+						0 ))
+		{
+			/* Button number */
+			keyval = g_ascii_strtoll(keys[index]+9, NULL, 10)+1;
+			result->mouse = TRUE;
+
+			if(g_regex_match_simple("_DBL$", keys[index], 0, 0))
+			{
+				/* Set modifier to indicate double click */
+				result->modifier = 0x1;
+			}
+		}
+		/* Non-modifier keys */
 		else
 		{
 			const gchar *keystrmap[] = KEYSTRING_MAP;
@@ -129,9 +148,10 @@ keybind *keybind_parse_config_line(const gchar *line)
 
 			result = NULL;
 		}
-		else if(keyval == GDK_SHIFT_MASK
+		else if(!result->mouse
+		&& (keyval == GDK_SHIFT_MASK
 		|| keyval == GDK_CONTROL_MASK
-		|| keyval == GDK_MOD1_MASK)
+		|| keyval == GDK_MOD1_MASK))
 		{
 			result->modifier |= keyval;
 		}
@@ -211,7 +231,10 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* has_ignore)
 	return result;
 }
 
-gchar **keybind_get_command(gmpv_handle *ctx, gint modifier, gint keyval)
+gchar **keybind_get_command(	gmpv_handle *ctx,
+				gboolean mouse,
+				gint modifier,
+				gint keyval )
 {
 	GSList *iter = ctx->keybind_list;
 	keybind *kb = iter->data;
@@ -220,11 +243,6 @@ gchar **keybind_get_command(gmpv_handle *ctx, gint modifier, gint keyval)
 	{
 		iter = g_slist_next(iter);
 		kb = iter?iter->data:NULL;
-	}
-
-	if(kb)
-	{
-		mpv_command(ctx->mpv_ctx, (const gchar **)kb->command);
 	}
 
 	return kb?kb->command:NULL;
