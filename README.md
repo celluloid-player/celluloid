@@ -17,7 +17,12 @@ capabilities.
 
 ## Installation
 
-Run the following command to build and install:
+### GNU/Linux packages
+- Arch Linux: https://aur.archlinux.org/packages/gnome-mpv-git
+- Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
+
+### Source code
+Run the following command in the source code directory to build and install:
 
     $ autoreconf -sfi && intltoolize -c --automake && ./configure && make && sudo make install
 
