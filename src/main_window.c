@@ -421,6 +421,18 @@ void main_window_reset(MainWindow *wnd)
 	control_box_reset_control(CONTROL_BOX(wnd->control_box));
 }
 
+gint main_window_get_width_margin(MainWindow *wnd)
+{
+	return	gtk_widget_get_allocated_width(GTK_WIDGET(wnd))
+		- gtk_widget_get_allocated_width(wnd->vid_area);
+}
+
+gint main_window_get_height_margin(MainWindow *wnd)
+{
+	return	gtk_widget_get_allocated_height(GTK_WIDGET(wnd))
+		- gtk_widget_get_allocated_height(wnd->vid_area);
+}
+
 void main_window_enable_csd(MainWindow *wnd)
 {
 	GIcon *open_icon;

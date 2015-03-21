@@ -270,13 +270,8 @@ void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
 	&& mpv_width_rc >= 0
 	&& mpv_height_rc >= 0)
 	{
-		gint width_margin
-			= gtk_widget_get_allocated_width(GTK_WIDGET(ctx->gui))
-			- gtk_widget_get_allocated_width(ctx->gui->vid_area);
-
-		gint height_margin
-			= gtk_widget_get_allocated_height(GTK_WIDGET(ctx->gui))
-			- gtk_widget_get_allocated_height(ctx->gui->vid_area);
+		gint width_margin = main_window_get_width_margin(ctx->gui);
+		gint height_margin = main_window_get_height_margin(ctx->gui);
 
 		gtk_window_resize(	GTK_WINDOW(ctx->gui),
 					(multiplier*width)+width_margin,

@@ -35,6 +35,7 @@ struct gmpv_handle
 	gboolean loaded;
 	gboolean new_file;
 	gboolean sub_visible;
+	gboolean load_cmdline;
 	gint64 vid_area_wid;
 	gint playlist_move_dest;
 	gchar *log_buffer;

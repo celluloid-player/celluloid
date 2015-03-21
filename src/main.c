@@ -131,6 +131,9 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						NULL,
 						ctx );
 
+	mpv_init(ctx, ctx->vid_area_wid);
+	mpv_set_wakeup_callback(ctx->mpv_ctx, mpv_wakeup_callback, ctx);
+
 	if(ctx->argc >= 2)
 	{
 		gint i = 0;
@@ -154,8 +157,6 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 		control_box_set_enabled
 			(CONTROL_BOX(ctx->gui->control_box), FALSE);
 	}
-
-	mpv_load(ctx, NULL, FALSE, FALSE);
 
 	return FALSE;
 }
@@ -952,6 +953,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->loaded = FALSE;
 	ctx->new_file = TRUE;
 	ctx->sub_visible = TRUE;
+	ctx->load_cmdline = TRUE;
 	ctx->playlist_move_dest = -1;
 	ctx->log_buffer = NULL;
 	ctx->keybind_list = NULL;
@@ -1009,15 +1011,12 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	setup_dnd_targets(ctx);
 	map_action_entries(ctx);
 	connect_signals(ctx);
-	mpv_init(ctx, ctx->vid_area_wid);
+	load_keybind(ctx, mpvinput_enable?mpvinput:NULL, FALSE);
 
 	g_object_set(	ctx->gui->settings,
 			"gtk-application-prefer-dark-theme",
 			dark_theme_enable,
 			NULL );
-
-	load_keybind(ctx, mpvinput_enable?mpvinput:NULL, FALSE);
-	mpv_set_wakeup_callback(ctx->mpv_ctx, mpv_wakeup_callback, ctx);
 
 	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
 			(GSourceFunc)update_seek_bar,

@@ -27,6 +27,162 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
+static void parse_dim_string(	gmpv_handle *ctx,
+				const gchar *mpv_geom_str,
+				gint *width,
+				gint *height );
+
+static void handle_autofit_opt(gmpv_handle *ctx);
+
+static void parse_dim_string(	gmpv_handle *ctx,
+				const gchar *mpv_geom_str,
+				gint *width,
+				gint *height )
+{
+	GdkScreen *screen = NULL;
+	gint width_margin = main_window_get_width_margin(ctx->gui);
+	gint height_margin = main_window_get_height_margin(ctx->gui);
+	gint screen_width = -1;
+	gint screen_height = -1;
+	gchar **tokens = NULL;
+	gint i = -1;
+
+	screen = gdk_screen_get_default();
+	screen_width = gdk_screen_get_width(screen);
+	screen_height = gdk_screen_get_height(screen);
+	tokens = g_strsplit(mpv_geom_str, "x", 2);
+
+	*width = 0;
+	*height = 0;
+
+	while(tokens && tokens[++i] && i < 4)
+	{
+		gdouble multiplier = -1;
+		gint value = -1;
+
+		value = g_ascii_strtoll(tokens[i], NULL, 0);
+
+		if(tokens[i][strnlen(tokens[i], 256)-1] == '%')
+		{
+			multiplier = value/100.0;
+		}
+
+		if(i == 0)
+		{
+			if(multiplier == -1)
+			{
+				*width = value;
+			}
+			else
+			{
+				*width = multiplier*screen_width;
+			}
+		}
+		else if(i == 1)
+		{
+			if(multiplier == -1)
+			{
+				*height = value;
+			}
+			else
+			{
+				*height = multiplier*screen_height;
+			}
+		}
+	}
+
+	if(*width != 0 && *height == 0)
+	{
+		/* If height is not specified, set it to screen height. This
+		 * should correctly emulate vanilla mpv's behavior since we
+		 * always preserve aspect ratio when autofitting.
+		 */
+		*height = screen_height;
+	}
+
+	if(*width != 0 && *height != 0)
+	{
+		*width += width_margin;
+		*height += height_margin;
+	}
+	else
+	{
+		/* Keep width and height as-is. */
+		GtkWidget *vid_area = ctx->gui->vid_area;
+
+		*width =	gtk_widget_get_allocated_width(vid_area)+
+				width_margin;
+
+		*height =	gtk_widget_get_allocated_height(vid_area)+
+				height_margin;
+	}
+
+	g_strfreev(tokens);
+}
+
+static void handle_autofit_opt(gmpv_handle *ctx)
+{
+	gchar *optbuf = NULL;
+	gchar *geom = NULL;
+
+	optbuf = mpv_get_property_string(ctx->mpv_ctx, "options/autofit");
+
+	if(optbuf && strlen(optbuf) > 0)
+	{
+		gint autofit_width = 0;
+		gint autofit_height = 0;
+		gint64 vid_width = 0;
+		gint64 vid_height = 0;
+		gdouble width_ratio = -1;
+		gdouble height_ratio = -1;
+		gint rc = 0;
+
+		rc |= mpv_get_property(	ctx->mpv_ctx,
+					"dwidth",
+					MPV_FORMAT_INT64,
+					&vid_width );
+
+		rc |= mpv_get_property(	ctx->mpv_ctx,
+					"dheight",
+					MPV_FORMAT_INT64,
+					&vid_height );
+
+		if(rc >= 0)
+		{
+			parse_dim_string(	ctx,
+						optbuf,
+						&autofit_width,
+						&autofit_height );
+
+			width_ratio = (gdouble)autofit_width/vid_width;
+			height_ratio = (gdouble)autofit_height/vid_height;
+		}
+
+		if(rc >= 0 && width_ratio > 0 && height_ratio > 0)
+		{
+			if(width_ratio > 1 && height_ratio > 1)
+			{
+				resize_window_to_fit(ctx, 1);
+			}
+			else
+			{
+				/* Resize the window so that it is as big as
+				 * possible within the limits imposed by
+				 * 'autofit' while preseving the aspect ratio.
+				 */
+				resize_window_to_fit
+					(	ctx,
+						(width_ratio < height_ratio)
+						?width_ratio
+						:height_ratio );
+			}
+		}
+	}
+
+	mpv_free(optbuf);
+	g_free(geom);
+}
+
 void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 {
 	const gchar *text = message->text;
@@ -131,7 +287,13 @@ gboolean mpv_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
-			if(ctx->loaded)
+			if(ctx->load_cmdline)
+			{
+				ctx->load_cmdline = FALSE;
+
+				mpv_load(ctx, NULL, FALSE, FALSE);
+			}
+			else if(ctx->loaded)
 			{
 				gint rc;
 
@@ -166,7 +328,7 @@ gboolean mpv_handle_event(gpointer data)
 		{
 			if(ctx->new_file)
 			{
-				resize_window_to_fit(ctx, 1);
+				handle_autofit_opt(ctx);
 			}
 		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
