@@ -580,6 +580,10 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 						"yes" ));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
+						"config-dir",
+						get_config_dir_path() ));
+
+	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"screenshot-template",
 						screenshot_template ));
 

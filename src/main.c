@@ -935,6 +935,7 @@ static GMenu *build_app_menu()
 static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
+	gboolean config_migrated;
 	gboolean mpvinput_enable;
 	gboolean csd_enable;
 	gboolean dark_theme_enable;
@@ -962,6 +963,8 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app));
 	ctx->fs_control = NULL;
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
+
+	config_migrated = migrate_config();
 
 	load_config(ctx);
 
@@ -1021,6 +1024,25 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
 			(GSourceFunc)update_seek_bar,
 			ctx );
+
+	if(config_migrated)
+	{
+		const gchar * msg
+			= _(	"Your configuration file has been moved to "
+				"the new location at %s." );
+
+		GtkWidget *dialog
+			= gtk_message_dialog_new
+				(	GTK_WINDOW(ctx->gui),
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_INFO,
+					GTK_BUTTONS_OK,
+					msg,
+					get_config_file_path() );
+
+		gtk_dialog_run(GTK_DIALOG(dialog));
+		gtk_widget_destroy(dialog);
+	}
 }
 
 int main(int argc, char **argv)

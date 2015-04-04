@@ -66,6 +66,7 @@ inline void set_config_boolean(	gmpv_handle *ctx,
 				const gchar *key,
 				gboolean value);
 
+inline gchar *get_config_dir_path(void);
 inline gchar *get_config_file_path(void);
 gboolean load_config(gmpv_handle *ctx);
 gboolean save_config(gmpv_handle *ctx);
@@ -73,6 +74,7 @@ gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
 gboolean quit(gpointer data);
 gboolean update_seek_bar(gpointer data);
+gboolean migrate_config(void);
 void show_error_dialog(gmpv_handle *ctx);
 void remove_current_playlist_entry(gmpv_handle *ctx);
 void toggle_play(gmpv_handle *ctx);

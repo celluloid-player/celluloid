@@ -21,6 +21,7 @@
 #define DEF_H
 
 #define ICON_NAME "gnome-mpv"
+#define CONFIG_DIR "gnome-mpv"
 #define CONFIG_FILE "gnome-mpv.conf"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define PLAYLIST_CSD_OFFSET 52

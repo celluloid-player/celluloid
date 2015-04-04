@@ -67,10 +67,18 @@ inline void set_config_boolean(	gmpv_handle *ctx,
 	g_key_file_set_boolean(ctx->config_file, group, key, value);
 }
 
-inline gchar *get_config_file_path(void)
+inline gchar *get_config_dir_path(void)
 {
 	return g_strconcat(	g_get_user_config_dir(),
 				"/",
+				CONFIG_DIR,
+				NULL );
+}
+
+inline gchar *get_config_file_path(void)
+{
+	return g_strconcat(	get_config_dir_path(),
+				"/"
 				CONFIG_FILE,
 				NULL );
 }
@@ -168,6 +176,33 @@ gboolean update_seek_bar(gpointer data)
 	}
 
 	return TRUE;
+}
+
+gboolean migrate_config(void)
+{
+	gboolean result;
+	char *old_path;
+
+	result = FALSE;
+	old_path = g_strconcat(g_get_user_config_dir(), "/", CONFIG_FILE, NULL);
+
+	if(g_file_test(old_path, G_FILE_TEST_EXISTS))
+	{
+		GFile *src = g_file_new_for_path(old_path);
+		GFile *dest = g_file_new_for_path(get_config_file_path());
+
+		g_mkdir_with_parents(get_config_dir_path(), 0700);
+
+		result = g_file_move(	src,
+					dest,
+					G_FILE_COPY_NONE,
+					NULL,
+					NULL,
+					NULL,
+					NULL );
+	}
+
+	return result;
 }
 
 void show_error_dialog(gmpv_handle *ctx)
