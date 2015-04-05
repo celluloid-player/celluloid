@@ -28,23 +28,18 @@
 static gboolean focus_in_handler(	GtkWidget *widget,
 					GtkDirectionType direction,
 					gpointer data );
-
 static gboolean focus_out_handler(	GtkWidget *widget,
 					GtkDirectionType direction,
 					gpointer data );
-
 static gboolean fs_control_enter_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data );
-
 static gboolean fs_control_leave_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data );
-
 static gboolean motion_notify_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
-
 static gboolean hide_cursor(gpointer data);
 static GMenu *menu_btn_build_menu();
 static GMenu *open_btn_build_menu();

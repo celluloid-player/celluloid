@@ -31,7 +31,6 @@ static void parse_dim_string(	gmpv_handle *ctx,
 				const gchar *mpv_geom_str,
 				gint *width,
 				gint *height );
-
 static void handle_autofit_opt(gmpv_handle *ctx);
 
 static void parse_dim_string(	gmpv_handle *ctx,

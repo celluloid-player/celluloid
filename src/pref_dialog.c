@@ -24,11 +24,9 @@
 static void response_handler(	GtkDialog *dialog,
 				gint response_id,
 				gpointer data );
-
 static gboolean key_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
-
 static void pref_dialog_init(PrefDialog *dlg);
 
 static void response_handler(GtkDialog *dialog, gint response_id, gpointer data)

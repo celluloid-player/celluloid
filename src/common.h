@@ -50,22 +50,18 @@ struct gmpv_handle
 inline gchar *get_config_string(	gmpv_handle *ctx,
 					const gchar *group,
 					const gchar *key );
-
 inline void set_config_string(	gmpv_handle *ctx,
 				const gchar *group,
 				const gchar *key,
 				const gchar *value );
-
 inline gboolean get_config_boolean(	gmpv_handle *ctx,
 					const gchar *group,
 					const gchar *key,
 					gboolean defaultval );
-
 inline void set_config_boolean(	gmpv_handle *ctx,
 				const gchar *group,
 				const gchar *key,
 				gboolean value);
-
 inline gchar *get_config_dir_path(void);
 inline gchar *get_config_file_path(void);
 gboolean load_config(gmpv_handle *ctx);
@@ -85,7 +81,6 @@ void seek_absolute(gmpv_handle *ctx, gdouble time);
 void seek_relative(gmpv_handle *ctx, gint offset);
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);
 GMenu *build_full_menu(void);
-
 void load_keybind(	gmpv_handle *ctx,
 			const gchar *config_path,
 			gboolean notify_ignore );

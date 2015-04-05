@@ -77,7 +77,6 @@ void playlist_widget_iter_next(PlaylistWidget *wgt, GtkTreeIter *iter);
 void playlist_widget_get_uri(PlaylistWidget *wgt, gint pos);
 void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos);
 void playlist_widget_remove(PlaylistWidget *wgt, gint pos);
-
 void playlist_widget_append(	PlaylistWidget *wgt,
 				const gchar *name,
 				const gchar *uri );

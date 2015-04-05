@@ -27,24 +27,19 @@
 void playlist_toggle_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-
 void playlist_previous_handler(GtkWidget *widget, gpointer data);
 void playlist_next_handler(GtkWidget *widget, gpointer data);
-
 void playlist_row_handler(	GtkTreeView *tree_view,
  				GtkTreePath *path,
  				GtkTreeViewColumn *column,
  				gpointer data );
-
 void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
  					GtkTreePath *path,
  					GtkTreeIter *iter,
  					gpointer data );
-
 void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
  					GtkTreePath *path,
  					gpointer data );
-
 void playlist_reset(gmpv_handle *ctx);
 
 #endif

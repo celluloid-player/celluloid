@@ -22,7 +22,6 @@
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
 					gpointer data );
-
 static void control_box_init(ControlBox *box);
 
 static gchar *seek_bar_format_handler(	GtkScale *scale,

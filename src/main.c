@@ -48,48 +48,36 @@ static void map_action_entries(gmpv_handle *ctx);
 static void setup_accelerators(gmpv_handle *ctx);
 static GMenu *build_app_menu(void);
 static void app_startup_handler(GApplication *app, gpointer data);
-
-
 static void open_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-
 static void open_loc_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-
 static void pref_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-
 static void quit_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-
 static void fullscreen_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-
 static void normal_size_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
-
 static void double_size_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
-
 static void half_size_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-
 static void about_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-
 static void app_cmdline_handler(	GApplication *app,
 					GApplicationCommandLine *cmdline,
 					gpointer data );
-
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -98,16 +86,13 @@ static void drag_data_handler(	GtkWidget *widget,
 				guint info,
 				guint time,
 				gpointer data);
-
 static void seek_handler(	GtkWidget *widget,
 				GtkScrollType scroll,
 				gdouble value,
 				gpointer data );
-
 static gboolean key_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
-
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
