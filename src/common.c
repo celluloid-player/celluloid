@@ -24,6 +24,7 @@
 #include "def.h"
 #include "mpv.h"
 #include "keybind.h"
+#include "main_window.h"
 #include "control_box.h"
 #include "playlist_widget.h"
 
@@ -314,6 +315,16 @@ void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
 	}
 
 	mpv_free(video);
+}
+
+void toggle_fullscreen(gmpv_handle *ctx)
+{
+	main_window_toggle_fullscreen(ctx->gui);
+
+	mpv_set_property(	ctx->mpv_ctx,
+				"fullscreen",
+				MPV_FORMAT_FLAG,
+				&ctx->gui->fullscreen );
 }
 
 GMenu *build_full_menu()

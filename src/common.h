@@ -74,6 +74,7 @@ gboolean migrate_config(void);
 void show_error_dialog(gmpv_handle *ctx);
 void remove_current_playlist_entry(gmpv_handle *ctx);
 void toggle_play(gmpv_handle *ctx);
+void toggle_fullscreen(gmpv_handle *ctx);
 void stop(gmpv_handle *ctx);
 void previous_chapter(gmpv_handle *ctx);
 void next_chapter(gmpv_handle *ctx);

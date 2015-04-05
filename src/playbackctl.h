@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,12 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MPV_H
-#define MPV_H
+#ifndef PLAYBACKCTL_H
+#define PLAYBACKCTL_H
 
+#include "playbackctl.h"
 #include "common.h"
 
-void mpv_wakeup_callback(void *data);
-void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message);
-void mpv_check_error(int status);
-gboolean mpv_handle_event(gpointer data);
-void mpv_update_playlist(gmpv_handle *ctx);
-void mpv_load_gui_update(gmpv_handle *ctx);
-gint mpv_apply_args(mpv_handle *mpv_ctx, char *args);
-void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid);
-void mpv_load(	gmpv_handle *ctx,
-		const gchar *uri,
-		gboolean append,
-		gboolean update );
+void playbackctl_connect_signals(gmpv_handle *ctx);
 
 #endif

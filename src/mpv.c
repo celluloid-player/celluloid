@@ -182,6 +182,11 @@ static void handle_autofit_opt(gmpv_handle *ctx)
 	g_free(geom);
 }
 
+void mpv_wakeup_callback(void *data)
+{
+	g_idle_add((GSourceFunc)mpv_handle_event, data);
+}
+
 void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 {
 	const gchar *text = message->text;
