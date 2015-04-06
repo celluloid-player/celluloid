@@ -73,14 +73,8 @@ gboolean update_seek_bar(gpointer data);
 gboolean migrate_config(void);
 void show_error_dialog(gmpv_handle *ctx);
 void remove_current_playlist_entry(gmpv_handle *ctx);
-void toggle_play(gmpv_handle *ctx);
-void toggle_fullscreen(gmpv_handle *ctx);
-void stop(gmpv_handle *ctx);
-void previous_chapter(gmpv_handle *ctx);
-void next_chapter(gmpv_handle *ctx);
-void seek_absolute(gmpv_handle *ctx, gdouble time);
-void seek_relative(gmpv_handle *ctx, gint offset);
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);
+void toggle_fullscreen(gmpv_handle *ctx);
 GMenu *build_full_menu(void);
 void load_keybind(	gmpv_handle *ctx,
 			const gchar *config_path,
