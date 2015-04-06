@@ -438,11 +438,9 @@ void load_keybind(	gmpv_handle *ctx,
 	if(notify_ignore && has_ignore)
 	{
 		ctx->log_buffer
-			= g_strdup(	"Keybindings that "
-					"require Property "
-					"Expansion are not "
-					"supported and have "
-					"been ignored." );
+			= g_strdup(_(	"Keybindings that require Property "
+					"Expansion are not supported and have "
+					"been ignored." ));
 
 		/* ctx->log_buffer will be freed by
 		 * show_error_dialog().
