@@ -39,6 +39,9 @@ static void pref_handler(	GSimpleAction *action,
 static void quit_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
+static void load_sub_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
 static void fullscreen_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
@@ -332,6 +335,49 @@ static void quit_handler(	GSimpleAction *action,
 	quit(data);
 }
 
+static void load_sub_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
+{
+	gmpv_handle *ctx = (gmpv_handle*)data;
+	GtkFileChooser *file_chooser;
+	GtkWidget *open_dialog;
+
+	open_dialog
+		= gtk_file_chooser_dialog_new(	"Load Subtitle",
+						GTK_WINDOW(ctx->gui),
+						GTK_FILE_CHOOSER_ACTION_OPEN,
+						"_Cancel",
+						GTK_RESPONSE_CANCEL,
+						"_Open",
+						GTK_RESPONSE_ACCEPT,
+						NULL );
+
+	file_chooser = GTK_FILE_CHOOSER(open_dialog);
+
+	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
+
+	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		const gchar *cmd[] = {"sub_add", NULL, NULL};
+		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
+		GSList *uri = uri_list;
+
+		while(uri)
+		{
+			cmd[1] = uri->data;
+
+			mpv_command(ctx->mpv_ctx, cmd);
+
+			uri = g_slist_next(uri);
+		}
+
+		g_slist_free_full(uri_list, g_free);
+	}
+
+	gtk_widget_destroy(open_dialog);
+}
+
 static void fullscreen_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
@@ -387,6 +433,7 @@ void actionctl_map_actions(gmpv_handle *ctx)
 			{"pref", pref_handler, NULL, NULL, NULL},
 			{"openloc", open_loc_handler, NULL, NULL, NULL},
 			{"playlist", playlist_toggle_handler, NULL, NULL, NULL},
+			{"loadsub", load_sub_handler, NULL, NULL, NULL},
 			{"fullscreen", fullscreen_handler, NULL, NULL, NULL},
 			{"normalsize", normal_size_handler, NULL, NULL, NULL},
 			{"doublesize", double_size_handler, NULL, NULL, NULL},

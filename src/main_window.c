@@ -147,6 +147,13 @@ static gboolean hide_cursor(gpointer data)
 static GMenu *menu_btn_build_menu()
 {
 	GMenu *menu;
+	GMenu *playlist_submenu;
+	GMenu *sub_submenu;
+	GMenu *view_submenu;
+	GMenuItem *playlist_section;
+	GMenuItem *sub_section;
+	GMenuItem *view_section;
+	GMenuItem *load_sub_menu_item;
 	GMenuItem *playlist_menu_item;
 	GMenuItem *fullscreen_menu_item;
 	GMenuItem *normal_size_menu_item;
@@ -154,9 +161,24 @@ static GMenu *menu_btn_build_menu()
 	GMenuItem *half_size_menu_item;
 
 	menu = g_menu_new();
+	playlist_submenu = g_menu_new();
+	sub_submenu = g_menu_new();
+	view_submenu = g_menu_new();
+
+	playlist_section
+		= g_menu_item_new_section(NULL, G_MENU_MODEL(playlist_submenu));
+
+	sub_section
+		= g_menu_item_new_section(NULL, G_MENU_MODEL(sub_submenu));
+
+	view_section
+		= g_menu_item_new_section(NULL, G_MENU_MODEL(view_submenu));
 
 	playlist_menu_item
 		= g_menu_item_new(_("_Playlist"), "app.playlist");
+
+	load_sub_menu_item
+		= g_menu_item_new(_("_Load Subtitle"), "app.loadsub");
 
 	fullscreen_menu_item
 		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen");
@@ -170,11 +192,16 @@ static GMenu *menu_btn_build_menu()
 	half_size_menu_item
 		= g_menu_item_new(_("_Half Size"), "app.halfsize");
 
-	g_menu_append_item(menu, playlist_menu_item);
-	g_menu_append_item(menu, fullscreen_menu_item);
-	g_menu_append_item(menu, normal_size_menu_item);
-	g_menu_append_item(menu, double_size_menu_item);
-	g_menu_append_item(menu, half_size_menu_item);
+	g_menu_append_item(playlist_submenu, playlist_menu_item);
+	g_menu_append_item(sub_submenu, load_sub_menu_item);
+	g_menu_append_item(view_submenu, fullscreen_menu_item);
+	g_menu_append_item(view_submenu, normal_size_menu_item);
+	g_menu_append_item(view_submenu, double_size_menu_item);
+	g_menu_append_item(view_submenu, half_size_menu_item);
+
+	g_menu_append_item(menu, playlist_section);
+	g_menu_append_item(menu, sub_section);
+	g_menu_append_item(menu, view_section);
 
 	return menu;
 }
@@ -257,8 +284,6 @@ static void main_window_init(MainWindow *wnd)
 
 	gtk_container_add
 		(GTK_CONTAINER(wnd), wnd->main_box);
-
-	/* TODO: Handle meu button */
 
 	g_signal_connect(	wnd,
 				"focus-in-event",

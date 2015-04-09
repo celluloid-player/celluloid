@@ -339,6 +339,7 @@ GMenu *build_full_menu()
 	GMenuItem *quit_menu_item;
 	GMenuItem *open_loc_menu_item;
 	GMenuItem *edit_menu_item;
+	GMenuItem *load_sub_menu_item;
 	GMenuItem *pref_menu_item;
 	GMenuItem *view_menu_item;
 	GMenuItem *playlist_menu_item;
@@ -370,6 +371,9 @@ GMenu *build_full_menu()
 	edit_menu_item
 		= g_menu_item_new_submenu
 			(_("_Edit"), G_MENU_MODEL(edit_menu));
+
+	load_sub_menu_item
+		= g_menu_item_new(_("_Load Subtitle"), "app.loadsub");
 
 	pref_menu_item
 		= g_menu_item_new(_("_Preferences"), "app.pref");
@@ -411,6 +415,7 @@ GMenu *build_full_menu()
 	g_menu_append_item(file_menu, quit_menu_item);
 
 	g_menu_append_item(menu, edit_menu_item);
+	g_menu_append_item(edit_menu, load_sub_menu_item);
 	g_menu_append_item(edit_menu, pref_menu_item);
 
 	g_menu_append_item(menu, view_menu_item);
