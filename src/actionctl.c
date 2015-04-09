@@ -67,12 +67,12 @@ static void open_handler(	GSimpleAction *action,
 	GtkWidget *open_dialog;
 
 	open_dialog
-		= gtk_file_chooser_dialog_new(	"Open File",
+		= gtk_file_chooser_dialog_new(	_("Open File"),
 						GTK_WINDOW(ctx->gui),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
-						"_Cancel",
+						_("_Cancel"),
 						GTK_RESPONSE_CANCEL,
-						"_Open",
+						_("_Open"),
 						GTK_RESPONSE_ACCEPT,
 						NULL );
 
@@ -344,12 +344,12 @@ static void load_sub_handler(	GSimpleAction *action,
 	GtkWidget *open_dialog;
 
 	open_dialog
-		= gtk_file_chooser_dialog_new(	"Load Subtitle",
+		= gtk_file_chooser_dialog_new(	_("Load Subtitle"),
 						GTK_WINDOW(ctx->gui),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
-						"_Cancel",
+						_("_Cancel"),
 						GTK_RESPONSE_CANCEL,
-						"_Open",
+						_("_Open"),
 						GTK_RESPONSE_ACCEPT,
 						NULL );
 
