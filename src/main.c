@@ -332,6 +332,11 @@ static void setup_accelerators(gmpv_handle *ctx)
 						NULL );
 
 	gtk_application_add_accelerator(	ctx->app,
+						"<Control>S" ,
+						"app.playlist_save",
+						NULL );
+
+	gtk_application_add_accelerator(	ctx->app,
 						"<Control>q" ,
 						"app.quit",
 						NULL );
@@ -343,7 +348,7 @@ static void setup_accelerators(gmpv_handle *ctx)
 
 	gtk_application_add_accelerator(	ctx->app,
 						"F9" ,
-						"app.playlist",
+						"app.playlist_toggle",
 						NULL );
 
 	gtk_application_add_accelerator(	ctx->app,

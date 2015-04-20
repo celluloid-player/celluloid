@@ -154,7 +154,8 @@ static GMenu *menu_btn_build_menu()
 	GMenuItem *sub_section;
 	GMenuItem *view_section;
 	GMenuItem *load_sub_menu_item;
-	GMenuItem *playlist_menu_item;
+	GMenuItem *playlist_toggle_menu_item;
+	GMenuItem *playlist_save_menu_item;
 	GMenuItem *fullscreen_menu_item;
 	GMenuItem *normal_size_menu_item;
 	GMenuItem *double_size_menu_item;
@@ -174,8 +175,11 @@ static GMenu *menu_btn_build_menu()
 	view_section
 		= g_menu_item_new_section(NULL, G_MENU_MODEL(view_submenu));
 
-	playlist_menu_item
-		= g_menu_item_new(_("_Playlist"), "app.playlist");
+	playlist_toggle_menu_item
+		= g_menu_item_new(_("_Toggle Playlist"), "app.playlist_toggle");
+
+	playlist_save_menu_item
+		= g_menu_item_new(_("_Save Playlist"), "app.playlist_save");
 
 	load_sub_menu_item
 		= g_menu_item_new(_("_Load Subtitle"), "app.loadsub");
@@ -192,7 +196,8 @@ static GMenu *menu_btn_build_menu()
 	half_size_menu_item
 		= g_menu_item_new(_("_Half Size"), "app.halfsize");
 
-	g_menu_append_item(playlist_submenu, playlist_menu_item);
+	g_menu_append_item(playlist_submenu, playlist_toggle_menu_item);
+	g_menu_append_item(playlist_submenu, playlist_save_menu_item);
 	g_menu_append_item(sub_submenu, load_sub_menu_item);
 	g_menu_append_item(view_submenu, fullscreen_menu_item);
 	g_menu_append_item(view_submenu, normal_size_menu_item);

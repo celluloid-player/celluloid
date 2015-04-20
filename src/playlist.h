@@ -27,6 +27,9 @@
 void playlist_toggle_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
+void playlist_save_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
 void playlist_previous_handler(GtkWidget *widget, gpointer data);
 void playlist_next_handler(GtkWidget *widget, gpointer data);
 void playlist_row_handler(	GtkTreeView *tree_view,

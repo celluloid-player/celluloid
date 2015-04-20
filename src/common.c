@@ -340,6 +340,7 @@ GMenu *build_full_menu()
 	GMenuItem *open_menu_item;
 	GMenuItem *quit_menu_item;
 	GMenuItem *open_loc_menu_item;
+	GMenuItem *save_playlist_menu_item;
 	GMenuItem *edit_menu_item;
 	GMenuItem *load_sub_menu_item;
 	GMenuItem *pref_menu_item;
@@ -367,6 +368,9 @@ GMenu *build_full_menu()
 	open_loc_menu_item
 		= g_menu_item_new(_("Open _Location"), "app.openloc");
 
+	save_playlist_menu_item
+		= g_menu_item_new(_("_Save Playlist"), "app.playlist_save");
+
 	/* Edit */
 	edit_menu = g_menu_new();
 
@@ -388,7 +392,7 @@ GMenu *build_full_menu()
 			(_("_View"), G_MENU_MODEL(view_menu));
 
 	playlist_menu_item
-		= g_menu_item_new(_("_Playlist"), "app.playlist");
+		= g_menu_item_new(_("_Toggle Playlist"), "app.playlist_toggle");
 
 	fullscreen_menu_item
 		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen");
@@ -414,6 +418,7 @@ GMenu *build_full_menu()
 	g_menu_append_item(menu, file_menu_item);
 	g_menu_append_item(file_menu, open_menu_item);
 	g_menu_append_item(file_menu, open_loc_menu_item);
+	g_menu_append_item(file_menu, save_playlist_menu_item);
 	g_menu_append_item(file_menu, quit_menu_item);
 
 	g_menu_append_item(menu, edit_menu_item);
