@@ -175,9 +175,13 @@ keybind *keybind_parse_config_line(const gchar *line)
 GSList *keybind_parse_config(const gchar *config_path, gboolean* has_ignore)
 {
 	GSList *result;
-	FILE *config_file;
-	char *linebuf;
-	size_t linebuf_size;
+	GFile *config_file;
+	GError *error;
+	GFileInputStream *config_file_stream;
+	GInputStream *config_input_stream;
+	GDataInputStream *config_data_stream;
+	gchar *linebuf;
+	gsize linebuf_size;
 
 	if(has_ignore)
 	{
@@ -185,21 +189,36 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* has_ignore)
 	}
 
 	result = NULL;
-	config_file = fopen(config_path, "r");
-	linebuf = NULL;
+	error = NULL;
+	config_file = g_file_new_for_path(config_path);
+	config_file_stream = g_file_read(config_file, NULL, NULL);
+	config_input_stream = G_INPUT_STREAM(config_file_stream);
+	config_data_stream = g_data_input_stream_new(config_input_stream);
+	linebuf = (gchar *)0xdeadbeef;
 	linebuf_size = 0;
 
-	while(	config_file
-		&& getline(&linebuf, &linebuf_size, config_file) != -1 )
+	while(!error && linebuf)
 	{
 		gint offset = -1;
 
-		/* Ignore comments */
-		while(++offset < linebuf_size && linebuf[offset] != '#');
+		linebuf = g_data_input_stream_read_line
+				(	config_data_stream,
+					&linebuf_size,
+					NULL,
+					&error );
 
-		if(offset != 0)
+		/* Find the beginning of the comment, if any */
+		while(	linebuf &&
+			++offset < linebuf_size &&
+			linebuf[offset] != '#' );
+
+		if(offset > 0)
 		{
-			keybind *keybind = keybind_parse_config_line(linebuf);
+			keybind *keybind;
+
+			/* Ignore the comment */
+			linebuf[offset] = '\0';
+			keybind = keybind_parse_config_line(linebuf);
 
 			if(keybind)
 			{
@@ -212,12 +231,10 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* has_ignore)
 		}
 
 		g_free(linebuf);
-
-		linebuf = NULL;
-		linebuf_size = 0;
 	}
 
-	if(!config_file || !feof(config_file))
+	/* linebuf should be NULL if the read completes sucessfully */
+	if(linebuf || error)
 	{
 		perror("Failed to read mpv key bindings");
 
@@ -225,7 +242,8 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* has_ignore)
 	}
 	else
 	{
-		fclose(config_file);
+		g_input_stream_close(config_input_stream, NULL, NULL);
+		g_object_unref(config_file);
 	}
 
 	return result;
