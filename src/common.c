@@ -433,14 +433,14 @@ GMenu *build_full_menu()
 
 void load_keybind(	gmpv_handle *ctx,
 			const gchar *config_path,
-			gboolean notify_ignore )
+			gboolean notify_propexp )
 {
-	gboolean has_ignore;
+	gboolean propexp;
 
 	ctx->keybind_list
-		= keybind_parse_config_with_defaults(config_path, &has_ignore);
+		= keybind_parse_config_with_defaults(config_path, &propexp);
 
-	if(notify_ignore && has_ignore)
+	if(notify_propexp && propexp)
 	{
 		ctx->log_buffer
 			= g_strdup(_(	"Keybindings that require Property "

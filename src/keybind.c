@@ -24,7 +24,7 @@
 #include "keybind.h"
 #include "def.h"
 
-keybind *keybind_parse_config_line(const gchar *line)
+keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 {
 	keybind *result = NULL;
 	gchar **tokens;
@@ -34,6 +34,11 @@ keybind *keybind_parse_config_line(const gchar *line)
 	gint index;
 
 	linebuf = g_strdup(line);
+
+	if(propexp)
+	{
+		*propexp = FALSE;
+	}
 
 	if(linebuf)
 	{
@@ -77,6 +82,11 @@ keybind *keybind_parse_config_line(const gchar *line)
 		}
 		else
 		{
+			if(propexp)
+			{
+				*propexp = TRUE;
+			}
+
 			result = NULL;
 		}
 	}
@@ -172,7 +182,7 @@ keybind *keybind_parse_config_line(const gchar *line)
 	return result;
 }
 
-GSList *keybind_parse_config(const gchar *config_path, gboolean* has_ignore)
+GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 {
 	GSList *result;
 	GFile *config_file;
@@ -183,9 +193,9 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* has_ignore)
 	gchar *linebuf;
 	gsize linebuf_size;
 
-	if(has_ignore)
+	if(propexp)
 	{
-		*has_ignore = FALSE;
+		*propexp = FALSE;
 	}
 
 	result = NULL;
@@ -215,18 +225,22 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* has_ignore)
 		if(offset > 0)
 		{
 			keybind *keybind;
+			gboolean line_propexp;
 
 			/* Ignore the comment */
 			linebuf[offset] = '\0';
-			keybind = keybind_parse_config_line(linebuf);
+
+			keybind = keybind_parse_config_line(	linebuf,
+								&line_propexp );
 
 			if(keybind)
 			{
 				result = g_slist_append(result, keybind);
 			}
-			else if(has_ignore)
+
+			if(propexp && line_propexp)
 			{
-				*has_ignore = TRUE;
+				*propexp = TRUE;
 			}
 		}
 
@@ -267,7 +281,7 @@ gchar **keybind_get_command(	gmpv_handle *ctx,
 }
 
 GSList *keybind_parse_config_with_defaults(	const gchar *config_path,
-						gboolean *has_ignore )
+						gboolean *propexp )
 {
 	const gchar *default_kb[] = DEFAULT_KEYBINDS;
 	gint index;
@@ -278,21 +292,26 @@ GSList *keybind_parse_config_with_defaults(	const gchar *config_path,
 	default_kb_list = NULL;
 
 	config_kb_list =	config_path?
-				keybind_parse_config(config_path, has_ignore):
+				keybind_parse_config(config_path, propexp):
 				NULL;
 
 	while(default_kb[++index])
 	{
-		keybind *keybind = keybind_parse_config_line(default_kb[index]);
+		keybind *keybind;
+		gboolean line_propexp;
+
+		keybind = keybind_parse_config_line(	default_kb[index],
+							&line_propexp );
 
 		if(keybind)
 		{
 			default_kb_list
 				= g_slist_append(default_kb_list, keybind);
 		}
-		else if(has_ignore)
+
+		if(propexp && line_propexp)
 		{
-			*has_ignore = TRUE;
+			*propexp = TRUE;
 		}
 	}
 
