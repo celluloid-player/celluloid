@@ -54,7 +54,7 @@ static void stop_handler(GtkWidget *widget, gpointer data)
 	gmpv_handle *ctx = data;
 	const gchar *cmd[] = {"stop", NULL};
 
-	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+	mpv_command(ctx->mpv_ctx, cmd);
 }
 
 static void seek_handler(	GtkWidget *widget,
@@ -75,7 +75,7 @@ static void seek_handler(	GtkWidget *widget,
 
 		cmd[1] = value_str;
 
-		mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+		mpv_command(ctx->mpv_ctx, cmd);
 		update_seek_bar(ctx);
 
 		g_free(value_str);
@@ -87,7 +87,7 @@ static void forward_handler(GtkWidget *widget, gpointer data)
 	gmpv_handle *ctx = data;
 	const gchar *cmd[] = {"seek", "10", NULL};
 
-	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+	mpv_command(ctx->mpv_ctx, cmd);
 }
 
 static void rewind_handler(GtkWidget *widget, gpointer data)
@@ -95,7 +95,7 @@ static void rewind_handler(GtkWidget *widget, gpointer data)
 	gmpv_handle *ctx = data;
 	const gchar *cmd[] = {"seek", "-10", NULL};
 
-	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+	mpv_command(ctx->mpv_ctx, cmd);
 }
 
 static void chapter_previous_handler(GtkWidget *widget, gpointer data)
@@ -103,7 +103,7 @@ static void chapter_previous_handler(GtkWidget *widget, gpointer data)
 	gmpv_handle *ctx = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
-	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+	mpv_command(ctx->mpv_ctx, cmd);
 }
 
 static void chapter_next_handler(GtkWidget *widget, gpointer data)
@@ -111,7 +111,7 @@ static void chapter_next_handler(GtkWidget *widget, gpointer data)
 	gmpv_handle *ctx = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
-	mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+	mpv_command(ctx->mpv_ctx, cmd);
 }
 
 static void volume_handler(GtkWidget *widget, gpointer data)
