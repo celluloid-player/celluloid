@@ -104,6 +104,8 @@ gboolean save_config(gmpv_handle *ctx)
 	gboolean result;
 	gchar *path = get_config_file_path();
 
+	g_mkdir_with_parents(get_config_dir_path(), 0700);
+
 	result = g_key_file_save_to_file(ctx->config_file, path, NULL);
 
 	return result;
