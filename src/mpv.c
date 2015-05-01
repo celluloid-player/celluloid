@@ -23,6 +23,7 @@
 #include <execinfo.h>
 
 #include "mpv.h"
+#include "def.h"
 #include "playlist.h"
 #include "control_box.h"
 #include "playlist_widget.h"
@@ -566,6 +567,10 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 	/* Set default options */
 	mpv_check_error(mpv_set_option_string(ctx->mpv_ctx, "osd-level", "1"));
 	mpv_check_error(mpv_set_option_string(ctx->mpv_ctx, "softvol", "yes"));
+
+	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
+						"audio-client-name",
+						ICON_NAME ));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"input-cursor",
