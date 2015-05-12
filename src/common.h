@@ -21,6 +21,7 @@
 #define COMMON_H
 
 #include <mpv/client.h>
+#include <mpv/opengl_cb.h>
 
 #include "main_window.h"
 
@@ -37,6 +38,8 @@ struct gmpv_handle
 {
 	mpv_handle *mpv_ctx;
 	gchar **files;
+	mpv_opengl_cb_context *opengl_ctx;
+	gboolean opengl_ready;
 	gboolean paused;
 	gboolean loaded;
 	gboolean new_file;

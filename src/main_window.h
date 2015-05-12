@@ -38,9 +38,14 @@ G_BEGIN_DECLS
 #define	IS_MAIN_WINDOW_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), MAIN_WINDOW_TYPE))
 
+typedef struct _MainWindow MainWindow;
+typedef struct _MainWindowClass MainWindowClass;
+typedef struct _MainWindowPrivate MainWindowPrivate;
+
 struct _MainWindow
 {
 	GtkApplicationWindow parent_instance;
+	MainWindowPrivate *priv;
 	gboolean fullscreen;
 	gboolean playlist_visible;
 	gint playlist_width;
@@ -66,11 +71,7 @@ struct _MainWindowClass
 	GtkApplicationWindowClass parent_class;
 };
 
-typedef struct _MainWindow MainWindow;
-typedef struct _MainWindowClass MainWindowClass;
-
-
-GtkWidget *main_window_new(GtkApplication *app);
+GtkWidget *main_window_new(GtkApplication *app, gboolean use_opengl);
 GType main_window_get_type(void);
 void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);
@@ -78,6 +79,7 @@ void main_window_save_state(MainWindow *wnd);
 void main_window_load_state(MainWindow *wnd);
 gint main_window_get_width_margin(MainWindow *wnd);
 gint main_window_get_height_margin(MainWindow *wnd);
+gboolean main_window_get_use_opengl(MainWindow *wnd);
 void main_window_enable_csd(MainWindow *wnd);
 gboolean main_window_get_csd_enabled(MainWindow *wnd);
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible);

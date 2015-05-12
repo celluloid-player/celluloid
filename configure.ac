@@ -69,7 +69,7 @@ AC_PROG_CC
 AC_PROG_CC_STDC
 
 # Checks for libraries.
-PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.10 glib-2.0 >= 2.40 mpv >= 1.6])
+PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.10 glib-2.0 >= 2.40 mpv >= 1.16 gl])
 AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_40], [Dont warn using older APIs])
 AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_40], [Prevents using newer APIs])
 

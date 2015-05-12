@@ -37,6 +37,7 @@ static void handle_autofit_opt(gmpv_handle *ctx);
 static void handle_msg_level_opt(gmpv_handle *ctx);
 static void handle_property_change_event(	gmpv_handle *ctx,
 						mpv_event_property* prop);
+static void opengl_callback(void *cb_ctx);
 
 static void parse_dim_string(	gmpv_handle *ctx,
 				const gchar *mpv_geom_str,
@@ -335,6 +336,16 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 
 		main_window_reset(ctx->gui);
 		playlist_reset(ctx);
+	}
+}
+
+static void opengl_callback(void *cb_ctx)
+{
+	gmpv_handle *ctx = cb_ctx;
+
+	if(ctx->opengl_ctx)
+	{
+		gtk_gl_area_queue_render(GTK_GL_AREA(ctx->gui->vid_area));
 	}
 }
 
@@ -711,7 +722,7 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 	return fail_count*(-1);
 }
 
-void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
+void mpv_init(gmpv_handle *ctx)
 {
 	gboolean mpvconf_enable = FALSE;
 	gchar *config_dir = get_config_dir_path();
@@ -766,10 +777,13 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 						"screenshot-template",
 						screenshot_template ));
 
-	mpv_check_error(mpv_set_option(	ctx->mpv_ctx,
-					"wid",
-					MPV_FORMAT_INT64,
-					&vid_area_wid ));
+	if(!main_window_get_use_opengl(ctx->gui))
+	{
+		mpv_check_error(mpv_set_option(	ctx->mpv_ctx,
+						"wid",
+						MPV_FORMAT_INT64,
+						&ctx->vid_area_wid ));
+	}
 
 	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
 						0,
@@ -811,14 +825,42 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 		show_error_dialog(ctx, NULL, msg);
 	}
 
+	if(main_window_get_use_opengl(ctx->gui))
+	{
+		mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
+							"vo",
+							"opengl-cb" ));
+
+	}
+
 	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
 	handle_msg_level_opt(ctx);
 	g_signal_emit_by_name(ctx->gui, "mpv-init");
+
+	ctx->opengl_ctx = mpv_get_sub_api(ctx->mpv_ctx, MPV_SUB_API_OPENGL_CB);
+
+	mpv_opengl_cb_set_update_callback(	ctx->opengl_ctx,
+						opengl_callback,
+						ctx );
 
 	g_free(config_dir);
 	g_free(mpvconf);
 	g_free(mpvopt);
 	g_free(screenshot_template);
+}
+
+void mpv_quit(gmpv_handle *ctx)
+{
+	if(gtk_widget_get_realized(ctx->gui->vid_area)
+	&& main_window_get_use_opengl(ctx->gui))
+	{
+		gtk_gl_area_make_current(GTK_GL_AREA(ctx->gui->vid_area));
+		mpv_opengl_cb_uninit_gl(ctx->opengl_ctx);
+
+		ctx->opengl_ready = FALSE;
+	}
+
+	mpv_terminate_destroy(ctx->mpv_ctx);
 }
 
 void mpv_load(	gmpv_handle *ctx,

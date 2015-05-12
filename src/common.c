@@ -84,7 +84,7 @@ gboolean quit(gpointer data)
 	if(ctx->mpv_ctx)
 	{
 		mpv_command(ctx->mpv_ctx, cmd);
-		mpv_terminate_destroy(ctx->mpv_ctx);
+		mpv_quit(ctx);
 
 		ctx->mpv_ctx = NULL;
 	}

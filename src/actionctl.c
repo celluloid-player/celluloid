@@ -261,15 +261,17 @@ static void pref_handler(	GSimpleAction *action,
 		/* Reset ctx->mpv_ctx */
 		mpv_check_error(mpv_command(ctx->mpv_ctx, quit_cmd));
 
-		mpv_terminate_destroy(ctx->mpv_ctx);
+		mpv_quit(ctx);
 
 		ctx->mpv_ctx = mpv_create();
 
-		mpv_init(ctx, ctx->vid_area_wid);
+		mpv_init(ctx);
 
 		mpv_set_wakeup_callback(	ctx->mpv_ctx,
 						mpv_wakeup_callback,
 						ctx );
+
+		gtk_widget_queue_draw(GTK_WIDGET(ctx->gui));
 
 		if(ctx->playlist_store)
 		{

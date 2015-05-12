@@ -29,7 +29,8 @@ gboolean mpv_handle_event(gpointer data);
 void mpv_update_playlist(gmpv_handle *ctx);
 void mpv_load_gui_update(gmpv_handle *ctx);
 gint mpv_apply_args(mpv_handle *mpv_ctx, char *args);
-void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid);
+void mpv_init(gmpv_handle *ctx);
+void mpv_quit(gmpv_handle *ctx);
 void mpv_load(	gmpv_handle *ctx,
 		const gchar *uri,
 		gboolean append,

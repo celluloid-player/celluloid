@@ -26,12 +26,62 @@
 #include "main_window.h"
 #include "control_box.h"
 
+enum
+{
+	PROP_0,
+	PROP_USE_OPENGL,
+	N_PROPERTIES
+};
+
+struct _MainWindowPrivate
+{
+	gboolean use_opengl;
+};
+
+static void vid_area_init(MainWindow *wnd, gboolean use_opengl);
 static gboolean hide_cursor(gpointer data);
 static gboolean finalize_load_state(gpointer data);
 static GMenu *menu_btn_build_menu(void);
 static GMenu *open_btn_build_menu(void);
 
-G_DEFINE_TYPE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
+
+static void main_window_set_property(	GObject *object,
+					guint property_id,
+					const GValue *value,
+					GParamSpec *pspec )
+{
+	MainWindow *self = MAIN_WINDOW(object);
+
+	/* PROP_USE_OPENGL can only be set once during construction */
+	if(property_id == PROP_USE_OPENGL)
+	{
+		self->priv->use_opengl = g_value_get_boolean(value);
+
+		vid_area_init(self, self->priv->use_opengl);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
+
+static void main_window_get_property(	GObject *object,
+					guint property_id,
+					GValue *value,
+					GParamSpec *pspec )
+{
+	MainWindow *self = MAIN_WINDOW(object);
+
+	if(property_id == PROP_USE_OPENGL)
+	{
+		g_value_set_boolean(value, self->priv->use_opengl);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
 
 static gboolean focus_in_handler(GtkWidget *widget, GdkEventFocus *event)
 {
@@ -159,6 +209,31 @@ static gboolean configure_handler(	GtkWidget *widget,
 	}
 
 	return FALSE;
+}
+
+static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
+{
+	GdkRGBA vid_area_bg_color;
+
+	/* vid_area cannot be initialized more than once */
+	if(!wnd->vid_area)
+	{
+		wnd->vid_area =	use_opengl?
+				gtk_gl_area_new():
+				gtk_drawing_area_new();
+
+		gtk_widget_add_events(wnd->vid_area, GDK_BUTTON_PRESS_MASK);
+		gdk_rgba_parse(&vid_area_bg_color, VID_AREA_BG_COLOR);
+
+		gtk_widget_override_background_color(	wnd->vid_area,
+							GTK_STATE_FLAG_NORMAL,
+							&vid_area_bg_color);
+
+		gtk_paned_pack1(	GTK_PANED(wnd->vid_area_paned),
+					wnd->vid_area,
+					TRUE,
+					TRUE );
+	}
 }
 
 static gboolean hide_cursor(gpointer data)
@@ -365,11 +440,15 @@ void main_window_load_state(MainWindow *wnd)
 
 static void main_window_class_init(MainWindowClass *klass)
 {
-	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
+	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
+	GtkWidgetClass *wgt_class = GTK_WIDGET_CLASS(klass);
+	GParamSpec *pspec = NULL;
 
-	wid_class->focus_in_event = focus_in_handler;
-	wid_class->motion_notify_event = motion_notify_handler;
-	wid_class->focus_out_event = focus_out_handler;
+	obj_class->set_property = main_window_set_property;
+	obj_class->get_property = main_window_get_property;
+	wgt_class->focus_in_event = focus_in_handler;
+	wgt_class->motion_notify_event = motion_notify_handler;
+	wgt_class->focus_out_event = focus_out_handler;
 
 	g_signal_new(	"mpv-init",
 			G_TYPE_FROM_CLASS(klass),
@@ -401,12 +480,21 @@ static void main_window_class_init(MainWindowClass *klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
+
+	pspec = g_param_spec_boolean
+		(	"use-opengl",
+			"Use OpenGL",
+			"Whether or not to set up video area for opengl-cb",
+			FALSE,
+			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+
+	g_object_class_install_property(obj_class, PROP_USE_OPENGL, pspec);
 }
 
 static void main_window_init(MainWindow *wnd)
 {
-	GdkRGBA vid_area_bg_color;
-
+	/* wnd->vid_area will be initialized when use-opengl property is set */
+	wnd->priv = main_window_get_instance_private(wnd);
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
@@ -420,18 +508,13 @@ static void main_window_init(MainWindow *wnd)
 	wnd->menu_hdr_btn = NULL;
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
-	wnd->vid_area = gtk_drawing_area_new();
 	wnd->fs_control = gtk_window_new(GTK_WINDOW_POPUP);
 	wnd->control_box = control_box_new();
 	wnd->playlist = playlist_widget_new();
 
-	gdk_rgba_parse(&vid_area_bg_color, VID_AREA_BG_COLOR);
-
 	gtk_widget_add_events(	wnd->fs_control,
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
-
-	gtk_widget_add_events(wnd->vid_area, GDK_BUTTON_PRESS_MASK);
 
 	gtk_header_bar_set_show_close_button(	GTK_HEADER_BAR(wnd->header_bar),
 						TRUE );
@@ -446,15 +529,8 @@ static void main_window_init(MainWindow *wnd)
 					MAIN_WINDOW_DEFAULT_WIDTH,
 					MAIN_WINDOW_DEFAULT_HEIGHT );
 
-	gtk_widget_override_background_color(	wnd->vid_area,
-						GTK_STATE_FLAG_NORMAL,
-						&vid_area_bg_color);
-
 	gtk_box_pack_start
 		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
-
-	gtk_paned_pack1
-		(GTK_PANED(wnd->vid_area_paned), wnd->vid_area, TRUE, TRUE);
 
 	gtk_paned_pack2
 		(GTK_PANED(wnd->vid_area_paned), wnd->playlist, FALSE, TRUE);
@@ -476,10 +552,11 @@ static void main_window_init(MainWindow *wnd)
 				wnd );
 }
 
-GtkWidget *main_window_new(GtkApplication *app)
+GtkWidget *main_window_new(GtkApplication *app, gboolean use_opengl)
 {
 	return GTK_WIDGET(g_object_new(	main_window_get_type(),
 					"application", app,
+					"use-opengl", use_opengl,
 					NULL ));
 }
 
@@ -600,6 +677,11 @@ gint main_window_get_height_margin(MainWindow *wnd)
 {
 	return	gtk_widget_get_allocated_height(GTK_WIDGET(wnd))
 		- gtk_widget_get_allocated_height(wnd->vid_area);
+}
+
+gboolean main_window_get_use_opengl(MainWindow *wnd)
+{
+	return wnd->priv->use_opengl;
 }
 
 void main_window_enable_csd(MainWindow *wnd)

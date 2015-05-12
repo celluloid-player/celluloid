@@ -21,6 +21,8 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkx.h>
+#include <gdk/gdkwayland.h>
+#include <GL/glx.h>
 #include <locale.h>
 
 #include "def.h"
@@ -37,6 +39,11 @@
 #include "open_loc_dialog.h"
 #include "mpris/mpris.h"
 #include "media_keys/media_keys.h"
+
+struct _MainWindowPrivate
+{
+	gboolean use_opengl;
+};
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean load_files(gpointer data);
@@ -68,6 +75,10 @@ static gboolean key_press_handler(	GtkWidget *widget,
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+static void *get_proc_address(void *fn_ctx, const gchar *name);
+static gboolean vid_area_render_handler(	GtkGLArea *area,
+						GdkGLContext *context,
+						gpointer data );
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
@@ -83,7 +94,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						NULL,
 						ctx );
 
-	mpv_init(ctx, ctx->vid_area_wid);
+	mpv_init(ctx);
 	mpv_set_wakeup_callback(ctx->mpv_ctx, mpv_wakeup_callback, ctx);
 
 	if(!ctx->files)
@@ -265,6 +276,40 @@ static void app_activate_handler(GApplication *app, gpointer data)
 	gtk_window_present(GTK_WINDOW(((gmpv_handle *)data)->gui));
 }
 
+static void *get_proc_address(void *fn_ctx, const gchar *name)
+{
+	return (void *)(intptr_t)glXGetProcAddressARB((const GLubyte *)name);
+}
+
+static gboolean vid_area_render_handler(	GtkGLArea *area,
+						GdkGLContext *context,
+						gpointer data )
+{
+	gmpv_handle *ctx = data;
+	int width;
+	int height;
+	int fbo;
+
+	if(!ctx->opengl_ready)
+	{
+		mpv_check_error(mpv_opengl_cb_init_gl(	ctx->opengl_ctx,
+							NULL,
+							get_proc_address,
+							NULL ));
+
+		ctx->opengl_ready = TRUE;
+	}
+
+	width = gtk_widget_get_allocated_width(GTK_WIDGET(area));
+	height = (-1)*gtk_widget_get_allocated_height(GTK_WIDGET(area));
+	fbo = -1;
+
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
+	mpv_opengl_cb_draw(ctx->opengl_ctx, fbo, width, height);
+
+	return TRUE;
+}
+
 static void app_open_handler(	GApplication *app,
 				gpointer files,
 				gint n_files,
@@ -327,6 +372,14 @@ static void connect_signals(gmpv_handle *ctx)
 	PlaylistWidget *playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
 
 	playbackctl_connect_signals(ctx);
+
+	if(main_window_get_use_opengl(ctx->gui))
+	{
+		g_signal_connect(	ctx->gui->vid_area,
+					"render",
+					G_CALLBACK(vid_area_render_handler),
+					ctx );
+	}
 
 	g_signal_connect(	ctx->gui->vid_area,
 				"drag-data-received",
@@ -459,6 +512,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
 	GSettingsBackend *config_backend;
+	gboolean wayland;
 	gboolean config_migrated;
 	gboolean mpvinput_enable;
 	gboolean csd_enable;
@@ -481,8 +535,12 @@ static void app_startup_handler(GApplication *app, gpointer data)
 					CONFIG_ROOT_PATH,
 					CONFIG_ROOT_GROUP );
 
+	wayland = GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default());
+
 	ctx->mpv_ctx = mpv_create();
 	ctx->files = NULL;
+	ctx->opengl_ctx = NULL;
+	ctx->opengl_ready = FALSE;
 	ctx->paused = TRUE;
 	ctx->loaded = FALSE;
 	ctx->new_file = TRUE;
@@ -493,7 +551,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->keybind_list = NULL;
 	ctx->config = g_settings_new_with_backend(APP_ID, config_backend);
 	ctx->app = GTK_APPLICATION(app);
-	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app));
+	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app, wayland));
 	ctx->fs_control = NULL;
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
 
@@ -538,8 +596,12 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	control_box_set_chapter_enabled
 		(CONTROL_BOX(ctx->gui->control_box), FALSE);
 
-	ctx->vid_area_wid = (gint64)gdk_x11_window_get_xid
-				(gtk_widget_get_window(ctx->gui->vid_area));
+	if(!main_window_get_use_opengl(ctx->gui))
+	{
+		GdkWindow *window = gtk_widget_get_window(ctx->gui->vid_area);
+
+		ctx->vid_area_wid = (gint64)gdk_x11_window_get_xid(window);
+	}
 
 	main_window_load_state(ctx->gui);
 	setup_accelerators(ctx);
