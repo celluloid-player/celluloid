@@ -67,6 +67,7 @@ Default GUI-related keybindings are defined as following:
 |---------------|-----------------------|
 |Ctrl+O		|Open			|
 |Ctrl+L		|Open location		|
+|Ctrl+S		|Save playlist		|
 |Ctrl+Q		|Quit			|
 |Ctrl+P		|Preferences		|
 |F9		|Toggle playlist	|
