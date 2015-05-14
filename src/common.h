@@ -47,23 +47,23 @@ struct gmpv_handle
 	GtkListStore *playlist_store;
 };
 
-inline gchar *get_config_string(	gmpv_handle *ctx,
-					const gchar *group,
-					const gchar *key );
-inline void set_config_string(	gmpv_handle *ctx,
-				const gchar *group,
-				const gchar *key,
-				const gchar *value );
-inline gboolean get_config_boolean(	gmpv_handle *ctx,
-					const gchar *group,
-					const gchar *key,
-					gboolean defaultval );
-inline void set_config_boolean(	gmpv_handle *ctx,
+gchar *get_config_string(	gmpv_handle *ctx,
+ 				const gchar *group,
+ 				const gchar *key );
+void set_config_string(	gmpv_handle *ctx,
+ 			const gchar *group,
+ 			const gchar *key,
+ 			const gchar *value );
+gboolean get_config_boolean(	gmpv_handle *ctx,
+ 				const gchar *group,
+ 				const gchar *key,
+ 				gboolean defaultval );
+void set_config_boolean(	gmpv_handle *ctx,
 				const gchar *group,
 				const gchar *key,
 				gboolean value);
-inline gchar *get_config_dir_path(void);
-inline gchar *get_config_file_path(void);
+gchar *get_config_dir_path(void);
+gchar *get_config_file_path(void);
 gboolean load_config(gmpv_handle *ctx);
 gboolean save_config(gmpv_handle *ctx);
 gchar *get_path_from_uri(const gchar *uri);
