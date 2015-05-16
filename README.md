@@ -18,7 +18,8 @@ capabilities.
 ## Installation
 
 ### GNU/Linux packages
-- Arch Linux: https://aur.archlinux.org/packages/gnome-mpv-git
+- Arch Linux: https://aur.archlinux.org/packages/gnome-mpv
+- Arch Linux (Git): https://aur.archlinux.org/packages/gnome-mpv-git
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
 ### Source code
