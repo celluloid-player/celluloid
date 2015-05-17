@@ -17,6 +17,7 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gsettingsbackend.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkx.h>
 #include <locale.h>
@@ -400,6 +401,7 @@ static GMenu *build_app_menu()
 static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
+	GSettingsBackend *config_backend;
 	gboolean config_migrated;
 	gboolean mpvinput_enable;
 	gboolean csd_enable;
@@ -414,6 +416,11 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
 
+	config_backend = g_keyfile_settings_backend_new
+				(	get_config_file_path(),
+					CONFIG_ROOT_PATH,
+					CONFIG_ROOT_GROUP );
+
 	ctx->mpv_ctx = mpv_create();
 	ctx->paused = TRUE;
 	ctx->loaded = FALSE;
@@ -423,7 +430,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->playlist_move_dest = -1;
 	ctx->log_buffer = NULL;
 	ctx->keybind_list = NULL;
-	ctx->config_file = g_key_file_new();
+	ctx->config = g_settings_new_with_backend(APP_ID, config_backend);
 	ctx->app = GTK_APPLICATION(app);
 	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app));
 	ctx->fs_control = NULL;
@@ -431,18 +438,17 @@ static void app_startup_handler(GApplication *app, gpointer data)
 
 	config_migrated = migrate_config();
 
-	load_config(ctx);
+	csd_enable = g_settings_get_boolean
+				(ctx->config, "csd-enable");
 
-	csd_enable = get_config_boolean
-			(ctx, "main", "csd-enable", TRUE);
+	dark_theme_enable = g_settings_get_boolean
+				(ctx->config, "dark-theme-enable");
 
-	dark_theme_enable = get_config_boolean
-				(ctx, "main", "dark-theme-enable", TRUE);
+	mpvinput_enable = g_settings_get_boolean
+				(ctx->config, "mpv-input-config-enable");
 
-	mpvinput_enable = get_config_boolean
-				(ctx, "main", "mpv-input-config-enable", FALSE);
-
-	mpvinput = get_config_string(ctx, "main", "mpv-input-config-file");
+	mpvinput = g_settings_get_string
+				(ctx->config, "mpv-input-config-file");
 
 	if(csd_enable)
 	{
@@ -508,6 +514,8 @@ static void app_startup_handler(GApplication *app, gpointer data)
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 	}
+
+	g_free(mpvinput);
 }
 
 int main(int argc, char **argv)
@@ -516,7 +524,7 @@ int main(int argc, char **argv)
 	gmpv_handle *ctx;
 	gint status;
 
-	app = gtk_application_new(	NULL,
+	app = gtk_application_new(	APP_ID,
 					G_APPLICATION_NON_UNIQUE|
 					G_APPLICATION_HANDLES_COMMAND_LINE );
 

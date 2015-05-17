@@ -40,32 +40,15 @@ struct gmpv_handle
 	gint playlist_move_dest;
 	gchar *log_buffer;
 	GSList *keybind_list;
-	GKeyFile *config_file;
+	GSettings *config;
 	GtkApplication *app;
 	MainWindow *gui;
 	GtkWidget *fs_control;
 	GtkListStore *playlist_store;
 };
 
-gchar *get_config_string(	gmpv_handle *ctx,
- 				const gchar *group,
- 				const gchar *key );
-void set_config_string(	gmpv_handle *ctx,
- 			const gchar *group,
- 			const gchar *key,
- 			const gchar *value );
-gboolean get_config_boolean(	gmpv_handle *ctx,
- 				const gchar *group,
- 				const gchar *key,
- 				gboolean defaultval );
-void set_config_boolean(	gmpv_handle *ctx,
-				const gchar *group,
-				const gchar *key,
-				gboolean value);
 gchar *get_config_dir_path(void);
 gchar *get_config_file_path(void);
-gboolean load_config(gmpv_handle *ctx);
-gboolean save_config(gmpv_handle *ctx);
 gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
 gboolean quit(gpointer data);

@@ -139,30 +139,26 @@ static void pref_handler(	GSimpleAction *action,
 	gchar *mpvinput_buffer;
 	gchar *mpvopt_buffer;
 
-	load_config(ctx);
-
 	csd_enable_buffer
-		= get_config_boolean(ctx, "main", "csd-enable", TRUE);
+		= g_settings_get_boolean(ctx->config, "csd-enable");
 
 	dark_theme_enable_buffer
-		= get_config_boolean(ctx, "main", "dark-theme-enable", TRUE);
+		= g_settings_get_boolean(ctx->config, "dark-theme-enable");
 
 	mpvconf_enable_buffer
-		= get_config_boolean
-			(ctx, "main", "mpv-config-enable", FALSE);
+		= g_settings_get_boolean(ctx->config, "mpv-config-enable");
 
 	mpvinput_enable_buffer
-		= get_config_boolean
-			(ctx, "main", "mpv-input-config-enable", FALSE);
+		= g_settings_get_boolean(ctx->config, "mpv-input-config-enable");
 
 	mpvconf_buffer
-		= get_config_string(ctx, "main", "mpv-config-file");
+		= g_settings_get_string(ctx->config, "mpv-config-file");
 
 	mpvinput_buffer
-		= get_config_string(ctx, "main", "mpv-input-config-file");
+		= g_settings_get_string(ctx->config, "mpv-input-config-file");
 
 	mpvopt_buffer
-		= get_config_string(ctx, "main", "mpv-options");
+		= g_settings_get_string(ctx->config, "mpv-options");
 
 	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
@@ -203,30 +199,27 @@ static void pref_handler(	GSimpleAction *action,
 		mpvinput = pref_dialog_get_mpvinput(pref_dialog);
 		mpvopt = pref_dialog_get_mpvopt(pref_dialog);
 
-		set_config_boolean
-			(ctx, "main", "csd-enable", csd_enable);
+		g_settings_set_boolean
+			(ctx->config, "csd-enable", csd_enable);
 
-		set_config_boolean
-			(ctx, "main", "dark-theme-enable", dark_theme_enable);
+		g_settings_set_boolean
+			(ctx->config, "dark-theme-enable", dark_theme_enable);
 
-		set_config_boolean
-			(ctx, "main", "mpv-config-enable", mpvconf_enable);
+		g_settings_set_boolean
+			(ctx->config, "mpv-config-enable", mpvconf_enable);
 
-		set_config_string
-			(ctx, "main", "mpv-config-file", mpvconf);
+		g_settings_set_string
+			(ctx->config, "mpv-config-file", mpvconf);
 
-		set_config_string
-			(ctx, "main", "mpv-input-config-file", mpvinput);
+		g_settings_set_string
+			(ctx->config, "mpv-input-config-file", mpvinput);
 
-		set_config_string
-			(ctx, "main", "mpv-options", mpvopt);
+		g_settings_set_string
+			(ctx->config, "mpv-options", mpvopt);
 
-		set_config_boolean(	ctx,
-					"main",
+		g_settings_set_boolean(	ctx->config,
 					"mpv-input-config-enable",
 					mpvinput_enable );
-
-		save_config(ctx);
 
 		if(csd_enable_buffer != csd_enable)
 		{

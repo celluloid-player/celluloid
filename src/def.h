@@ -20,9 +20,12 @@
 #ifndef DEF_H
 #define DEF_H
 
+#define APP_ID "org.gnome-mpv"
 #define ICON_NAME "gnome-mpv"
 #define CONFIG_DIR "gnome-mpv"
 #define CONFIG_FILE "gnome-mpv.conf"
+#define CONFIG_ROOT_PATH "/apps/gnome-mpv/"
+#define CONFIG_ROOT_GROUP "main"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define PLAYLIST_CSD_OFFSET 52
 #define MAIN_WINDOW_DEFAULT_WIDTH 625

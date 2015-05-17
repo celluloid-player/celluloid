@@ -28,46 +28,6 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
-gchar *get_config_string(	gmpv_handle *ctx,
-					const gchar *group,
-					const gchar *key )
-{
-	return g_key_file_get_string(ctx->config_file, group, key, NULL);
-}
-
-void set_config_string(	gmpv_handle *ctx,
-				const gchar *group,
-				const gchar *key,
-				const gchar *value)
-{
-	/* Use "" as value if the given value is NULL */
-	g_key_file_set_string(ctx->config_file, group, key, value?value:"");
-}
-
-gboolean get_config_boolean(	gmpv_handle *ctx,
-					const gchar *group,
-					const gchar *key,
-					gboolean defaultval )
-{
-	GError *keyfile_error = NULL;
-	gboolean result;
-
-	result = g_key_file_get_boolean(	ctx->config_file,
-						group,
-						key,
-						&keyfile_error );
-
-	return !keyfile_error?result:defaultval;
-}
-
-void set_config_boolean(	gmpv_handle *ctx,
-				const gchar *group,
-				const gchar *key,
-				gboolean value)
-{
-	g_key_file_set_boolean(ctx->config_file, group, key, value);
-}
-
 gchar *get_config_dir_path(void)
 {
 	return g_strconcat(	g_get_user_config_dir(),
@@ -82,33 +42,6 @@ gchar *get_config_file_path(void)
 				"/"
 				CONFIG_FILE,
 				NULL );
-}
-
-gboolean load_config(gmpv_handle *ctx)
-{
-	gboolean result;
-	gchar *path = get_config_file_path();
-
-	result = g_key_file_load_from_file(	ctx->config_file,
-						path,
-						G_KEY_FILE_KEEP_COMMENTS,
-						NULL );
-
-	g_free(path);
-
-	return result;
-}
-
-gboolean save_config(gmpv_handle *ctx)
-{
-	gboolean result;
-	gchar *path = get_config_file_path();
-
-	g_mkdir_with_parents(get_config_dir_path(), 0700);
-
-	result = g_key_file_save_to_file(ctx->config_file, path, NULL);
-
-	return result;
 }
 
 gchar *get_path_from_uri(const gchar *uri)
@@ -147,7 +80,6 @@ gboolean quit(gpointer data)
 	{
 		mpv_command(ctx->mpv_ctx, cmd);
 		mpv_terminate_destroy(ctx->mpv_ctx);
-		g_key_file_free(ctx->config_file);
 
 		ctx->mpv_ctx = NULL;
 

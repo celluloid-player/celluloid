@@ -622,11 +622,11 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 
 	mpv_check_error(mpv_request_log_messages(ctx->mpv_ctx, "error"));
 
-	mpvconf_enable
-		= get_config_boolean(ctx, "main", "mpv-config-enable", FALSE);
+	mpvconf_enable = g_settings_get_boolean
+				(ctx->config, "mpv-config-enable");
 
-	mpvconf = get_config_string(ctx, "main", "mpv-config-file");
-	mpvopt = get_config_string(ctx, "main", "mpv-options");
+	mpvconf = g_settings_get_string (ctx->config, "mpv-config-file");
+	mpvopt = g_settings_get_string (ctx->config, "mpv-options");
 
 	if(mpvconf_enable)
 	{

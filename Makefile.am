@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS=src po
+SUBDIRS = src data po
 
 DISTCLEANFILES =	intltool-extract \
 			intltool-merge \

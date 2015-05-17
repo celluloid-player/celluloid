@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<schemalist>
+	<schema path="/apps/gnome-mpv/" id="org.gnome-mpv">
+		<key name='dark-theme-enable' type='b'>
+			<default>true</default>
+			<summary>Enable or disable dark theme</summary>
+			<description>
+			</description>
+		</key>
+		<key name='csd-enable' type='b'>
+			<default>true</default>
+			<summary>
+				Enable or disable client-side decorations
+			</summary>
+			<description>
+			</description>
+		</key>
+		<key name='mpv-options' type='s'>
+			<default>''</default>
+			<summary>Options to pass to mpv</summary>
+			<description>
+			</description>
+		</key>
+		<key name='mpv-config-file' type='s'>
+			<default>''</default>
+			<summary>Path to mpv configuration file</summary>
+			<description>
+			</description>
+		</key>
+		<key name='mpv-config-enable' type='b'>
+			<default>false</default>
+			<summary>
+				Load or don't load mpv configuration file
+			</summary>
+			<description>
+			</description>
+		</key>
+		<key name='mpv-input-config-file' type='s'>
+			<default>''</default>
+			<summary>Path to mpv inut configuration file</summary>
+			<description>
+			</description>
+		</key>
+		<key name='mpv-input-config-enable' type='b'>
+			<default>false</default>
+			<summary>
+				Load or don't load mpv input configuration file
+			</summary>
+			<description>
+			</description>
+		</key>
+	</schema>
+</schemalist>
