@@ -292,9 +292,9 @@ gboolean mpv_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
-			if(ctx->load_cmdline)
+			if(ctx->init_load)
 			{
-				ctx->load_cmdline = FALSE;
+				ctx->init_load = FALSE;
 
 				mpv_load(ctx, NULL, FALSE, FALSE);
 			}

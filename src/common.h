@@ -29,13 +29,12 @@ typedef struct gmpv_handle gmpv_handle;
 struct gmpv_handle
 {
 	mpv_handle *mpv_ctx;
-	gint argc;
-	gchar **argv;
+	gchar **files;
 	gboolean paused;
 	gboolean loaded;
 	gboolean new_file;
 	gboolean sub_visible;
-	gboolean load_cmdline;
+	gboolean init_load;
 	gint64 vid_area_wid;
 	gint playlist_move_dest;
 	gchar *log_buffer;

@@ -18,6 +18,7 @@
  */
 
 #include <gio/gsettingsbackend.h>
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkx.h>
 #include <locale.h>
@@ -36,15 +37,19 @@
 #include "open_loc_dialog.h"
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
+static gboolean load_files(gpointer data);
 static void destroy_handler(GtkWidget *widget, gpointer data);
 static void setup_dnd_targets(gmpv_handle *ctx);
 static void connect_signals(gmpv_handle *ctx);
 static void setup_accelerators(gmpv_handle *ctx);
 static GMenu *build_app_menu(void);
 static void app_startup_handler(GApplication *app, gpointer data);
-static void app_cmdline_handler(	GApplication *app,
-					GApplicationCommandLine *cmdline,
-					gpointer data );
+static void app_activate_handler(GApplication *app, gpointer data);
+static void app_open_handler(	GApplication *app,
+				gpointer files,
+				gint n_files,
+				gchar *hint,
+				gpointer data );
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -77,28 +82,51 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 	mpv_init(ctx, ctx->vid_area_wid);
 	mpv_set_wakeup_callback(ctx->mpv_ctx, mpv_wakeup_callback, ctx);
 
-	if(ctx->argc >= 2)
+	if(!ctx->files)
+	{
+		control_box_set_enabled
+			(CONTROL_BOX(ctx->gui->control_box), FALSE);
+	}
+
+	return FALSE;
+}
+
+static gboolean load_files(gpointer data)
+{
+	gmpv_handle *ctx = data;
+
+	if(ctx->files)
 	{
 		gint i = 0;
 
 		ctx->paused = FALSE;
 
-		for(i = 1; i < ctx->argc; i++)
+		playlist_widget_clear(PLAYLIST_WIDGET(ctx->gui->playlist));
+
+		for(i = 0; ctx->files[i]; i++)
 		{
-			gchar *path = get_name_from_path(ctx->argv[i]);
+			gchar *uri = get_name_from_path(ctx->files[i]);
 
-			playlist_widget_append
-				(	PLAYLIST_WIDGET(ctx->gui->playlist),
-					path,
-					ctx->argv[i] );
+			if(ctx->init_load)
+			{
+				playlist_widget_append
+					(	PLAYLIST_WIDGET
+						(ctx->gui->playlist),
+						uri,
+						ctx->files[i] );
+			}
+			else
+			{
+				mpv_load(	ctx,
+						uri,
+						!ctx->files[i+1],
+						TRUE );
+			}
 
-			g_free(path);
+			g_free(uri);
 		}
-	}
-	else
-	{
-		control_box_set_enabled
-			(CONTROL_BOX(ctx->gui->control_box), FALSE);
+
+		g_strfreev(ctx->files);
 	}
 
 	return FALSE;
@@ -225,14 +253,33 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	return TRUE;
 }
 
-static void app_cmdline_handler(	GApplication *app,
-					GApplicationCommandLine *cmdline,
-					gpointer data )
+static void app_activate_handler(GApplication *app, gpointer data)
+{
+	gtk_window_present(GTK_WINDOW(((gmpv_handle *)data)->gui));
+}
+
+static void app_open_handler(	GApplication *app,
+				gpointer files,
+				gint n_files,
+				gchar *hint,
+				gpointer data )
 {
 	gmpv_handle *ctx = data;
+	gint i;
 
-	ctx->argv = g_application_command_line_get_arguments(	cmdline,
-								&ctx->argc );
+	if(n_files > 0)
+	{
+		ctx->files = g_malloc(sizeof(GFile *)*(n_files+1));
+
+		for(i = 0; i < n_files; i++)
+		{
+			ctx->files[i] = g_file_get_uri(((GFile **)files)[i]);
+		}
+
+		ctx->files[i] = NULL;
+
+		g_idle_add(load_files, ctx);
+	}
 }
 
 static void setup_dnd_targets(gmpv_handle *ctx)
@@ -422,11 +469,12 @@ static void app_startup_handler(GApplication *app, gpointer data)
 					CONFIG_ROOT_GROUP );
 
 	ctx->mpv_ctx = mpv_create();
+	ctx->files = NULL;
 	ctx->paused = TRUE;
 	ctx->loaded = FALSE;
 	ctx->new_file = TRUE;
 	ctx->sub_visible = TRUE;
-	ctx->load_cmdline = TRUE;
+	ctx->init_load = TRUE;
 	ctx->playlist_move_dest = -1;
 	ctx->log_buffer = NULL;
 	ctx->keybind_list = NULL;
@@ -524,10 +572,7 @@ int main(int argc, char **argv)
 	gmpv_handle *ctx;
 	gint status;
 
-	app = gtk_application_new(	APP_ID,
-					G_APPLICATION_NON_UNIQUE|
-					G_APPLICATION_HANDLES_COMMAND_LINE );
-
+	app = gtk_application_new(APP_ID, G_APPLICATION_HANDLES_OPEN);
 	ctx = g_malloc(sizeof(gmpv_handle));
 
 	g_signal_connect(	app,
@@ -536,8 +581,13 @@ int main(int argc, char **argv)
 				ctx );
 
 	g_signal_connect(	app,
-				"command-line",
-				G_CALLBACK(app_cmdline_handler),
+				"activate",
+				G_CALLBACK(app_activate_handler),
+				ctx );
+
+	g_signal_connect(	app,
+				"open",
+				G_CALLBACK(app_open_handler),
 				ctx );
 
 	status = g_application_run(G_APPLICATION(app), argc, argv);
