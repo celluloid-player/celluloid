@@ -53,7 +53,7 @@ gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
 gboolean quit(gpointer data);
 gboolean update_seek_bar(gpointer data);
-gboolean migrate_config(void);
+gboolean migrate_config(gmpv_handle *ctx);
 void show_error_dialog(gmpv_handle *ctx);
 void remove_current_playlist_entry(gmpv_handle *ctx);
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);

@@ -113,14 +113,18 @@ gboolean update_seek_bar(gpointer data)
 	return TRUE;
 }
 
-gboolean migrate_config(void)
+gboolean migrate_config(gmpv_handle *ctx)
 {
 	gboolean result;
 	char *old_path;
+	GInputStream* in_stream;
+	GKeyFile *key_config;
+	gchar *keybuf;
 
 	result = FALSE;
 	old_path = g_strconcat(g_get_user_config_dir(), "/", CONFIG_FILE, NULL);
 
+	/* Move config file to the new location if it is at the old location */
 	if(g_file_test(old_path, G_FILE_TEST_EXISTS))
 	{
 		GFile *src = g_file_new_for_path(old_path);
@@ -135,7 +139,51 @@ gboolean migrate_config(void)
 					NULL,
 					NULL,
 					NULL );
+
+		g_object_unref(src);
+		g_object_unref(dest);
 	}
+
+	key_config = g_key_file_new();
+
+	g_key_file_load_from_file(	key_config,
+					get_config_file_path(),
+					G_KEY_FILE_NONE,
+					NULL );
+
+	keybuf = g_key_file_get_string(	key_config,
+					"main",
+					"mpv-options",
+					NULL );
+
+	/* If config file is in the old format, convert it to the new format */
+	if(keybuf && keybuf[0] != '\'' && keybuf[0] != '\"')
+	{
+		const gchar *opts[] = {	"mpv-options",
+					"mpv-config-file",
+					"mpv-input-config-file",
+					NULL };
+
+		const gchar **current = opts;
+
+		while(*current)
+		{
+			keybuf = g_key_file_get_string(	key_config,
+							"main",
+							*current,
+							NULL );
+
+			g_settings_set_string(	ctx->config,
+						*current,
+						keybuf );
+
+			g_free(keybuf);
+
+			current++;
+		}
+	}
+
+	g_key_file_free(key_config);
 
 	return result;
 }

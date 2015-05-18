@@ -436,7 +436,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->fs_control = NULL;
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
 
-	config_migrated = migrate_config();
+	config_migrated = migrate_config(ctx);
 
 	csd_enable = g_settings_get_boolean
 				(ctx->config, "csd-enable");
