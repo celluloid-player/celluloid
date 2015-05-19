@@ -24,10 +24,12 @@
 #define ICON_NAME "gnome-mpv"
 #define CONFIG_DIR "gnome-mpv"
 #define CONFIG_FILE "gnome-mpv.conf"
+#define CONFIG_ROOT APP_ID
+#define CONFIG_WIN_STATE APP_ID".window-state"
 #define CONFIG_ROOT_PATH "/apps/gnome-mpv/"
 #define CONFIG_ROOT_GROUP "main"
 #define PLAYLIST_DEFAULT_WIDTH 200
-#define PLAYLIST_CSD_OFFSET 52
+#define PLAYLIST_CSD_WIDTH_OFFSET 52
 #define MAIN_WINDOW_DEFAULT_WIDTH 625
 #define MAIN_WINDOW_DEFAULT_HEIGHT 400
 #define VID_AREA_BG_COLOR "#000000"

@@ -38,7 +38,7 @@
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean load_files(gpointer data);
-static void destroy_handler(GtkWidget *widget, gpointer data);
+static void delete_handler(GtkWidget *widget, GdkEvent* event, gpointer data);
 static void setup_dnd_targets(gmpv_handle *ctx);
 static void connect_signals(gmpv_handle *ctx);
 static void setup_accelerators(gmpv_handle *ctx);
@@ -132,7 +132,7 @@ static gboolean load_files(gpointer data)
 	return FALSE;
 }
 
-static void destroy_handler(GtkWidget *widget, gpointer data)
+static void delete_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	quit(data);
 }
@@ -198,7 +198,6 @@ static gboolean key_press_handler(	GtkWidget *widget,
 
 	/* Ignore insignificant modifiers (eg. numlock) */
 	state &= mod_mask;
-
 	command = keybind_get_command(ctx, FALSE, state, keyval);
 
 	/* Try user-specified keys first, then fallback to hard-coded keys */
@@ -337,8 +336,8 @@ static void connect_signals(gmpv_handle *ctx)
 				ctx );
 
 	g_signal_connect(	ctx->gui,
-				"destroy",
-				G_CALLBACK(destroy_handler),
+				"delete-event",
+				G_CALLBACK(delete_handler),
 				ctx );
 
 	g_signal_connect(	ctx->gui,
@@ -515,7 +514,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	}
 
 	gtk_widget_show_all(GTK_WIDGET(ctx->gui));
-	main_window_set_playlist_visible(ctx->gui, FALSE);
 
 	if(csd_enable)
 	{
@@ -529,6 +527,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->vid_area_wid = gdk_x11_window_get_xid
 				(gtk_widget_get_window(ctx->gui->vid_area));
 
+	main_window_load_state(ctx->gui);
 	setup_accelerators(ctx);
 	setup_dnd_targets(ctx);
 	actionctl_map_actions(ctx);

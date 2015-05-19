@@ -2,6 +2,8 @@
 
 <schemalist>
 	<schema path="/apps/gnome-mpv/" id="org.gnome-mpv">
+		<child schema="org.gnome-mpv.window-state" name="window-state"/>
+
 		<key name='dark-theme-enable' type='b'>
 			<default>true</default>
 			<summary>Enable or disable dark theme</summary>
@@ -46,6 +48,42 @@
 			<default>false</default>
 			<summary>
 				Load or don't load mpv input configuration file
+			</summary>
+			<description>
+			</description>
+		</key>
+	</schema>
+
+	<schema	path="/apps/gnome-mpv/window-state/"
+		id="org.gnome-mpv.window-state">
+		<key name='width' type='i'>
+			<default>640</default>
+			<summary>
+				Width of the window
+			</summary>
+			<description>
+			</description>
+		</key>
+		<key name='height' type='i'>
+			<default>480</default>
+			<summary>
+				Height of the window
+			</summary>
+			<description>
+			</description>
+		</key>
+		<key name='playlist-width' type='i'>
+			<default>250</default>
+			<summary>
+				Width of the playlist
+			</summary>
+			<description>
+			</description>
+		</key>
+		<key name='show-playlist' type='b'>
+			<default>false</default>
+			<summary>
+				Show or not show the playlist
 			</summary>
 			<description>
 			</description>

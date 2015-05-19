@@ -17,6 +17,7 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gsettingsbackend.h>
 #include <glib/gi18n.h>
 
 #include "def.h"
@@ -40,7 +41,11 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 static gboolean motion_notify_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+static gboolean configure_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data );
 static gboolean hide_cursor(gpointer data);
+static gboolean finalize_load_state(gpointer data);
 static GMenu *menu_btn_build_menu();
 static GMenu *open_btn_build_menu();
 static void main_window_init(MainWindow *wnd);
@@ -127,6 +132,24 @@ static gboolean motion_notify_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
+static gboolean configure_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data )
+{
+	MainWindow *wnd = data;
+	GdkEventConfigure *conf_event = (GdkEventConfigure *)event;
+
+	if(wnd->init_width == conf_event->width)
+	{
+		g_signal_handlers_disconnect_by_func
+			(wnd, G_CALLBACK(configure_handler), data);
+
+		g_idle_add((GSourceFunc)finalize_load_state, data);
+	}
+
+	return FALSE;
+}
+
 static gboolean hide_cursor(gpointer data)
 {
 	MainWindow *wnd;
@@ -140,6 +163,24 @@ static gboolean hide_cursor(gpointer data)
 		(gtk_widget_get_window(GTK_WIDGET(wnd->vid_area)), cursor);
 
 	wnd->timeout_tag = 0;
+
+	return FALSE;
+}
+
+static gboolean finalize_load_state(gpointer data)
+{
+	MainWindow *wnd = data;
+
+	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
+				wnd->init_width-wnd->playlist_width );
+
+	if(wnd->init_playlist_visible != main_window_get_playlist_visible(wnd))
+	{
+		wnd->playlist_visible = wnd->init_playlist_visible;
+
+		gtk_widget_set_visible(	wnd->playlist,
+					wnd->init_playlist_visible);
+	}
 
 	return FALSE;
 }
@@ -230,6 +271,81 @@ static GMenu *open_btn_build_menu()
 	return menu;
 }
 
+void main_window_save_state(MainWindow *wnd)
+{
+	GSettingsBackend *config_backend;
+	GSettings *config;
+	gint width;
+	gint height;
+	gint handle_pos;
+
+	config_backend = g_keyfile_settings_backend_new
+				(	get_config_file_path(),
+					CONFIG_ROOT_PATH,
+					CONFIG_ROOT_GROUP );
+
+	config = g_settings_new_with_backend(CONFIG_WIN_STATE, config_backend);
+	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
+
+	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
+
+	g_settings_set_int(config, "width", width);
+	g_settings_set_int(config, "height", height);
+
+	if(main_window_get_playlist_visible(wnd))
+	{
+		g_settings_set_int(	config,
+					"playlist-width",
+					width-handle_pos );
+	}
+	else
+	{
+		g_settings_set_int(	config,
+					"playlist-width",
+					wnd->playlist_width );
+	}
+
+	g_settings_set_boolean(	config,
+				"show-playlist",
+				wnd->playlist_visible );
+}
+
+void main_window_load_state(MainWindow *wnd)
+{
+	GSettingsBackend *config_backend;
+	GSettings *config;
+	gint handle_pos;
+	gboolean show_playlist;
+	GValue resize1 = G_VALUE_INIT;
+	GValue resize2 = G_VALUE_INIT;
+
+	config_backend = g_keyfile_settings_backend_new
+				(	get_config_file_path(),
+					CONFIG_ROOT_PATH,
+					CONFIG_ROOT_GROUP );
+
+	config = g_settings_new_with_backend(CONFIG_WIN_STATE, config_backend);
+	wnd->init_width = g_settings_get_int(config, "width");
+	wnd->init_height = g_settings_get_int(config, "height");
+
+	wnd->init_playlist_visible
+		= g_settings_get_boolean(config, "show-playlist");
+
+	g_signal_connect(	wnd,
+				"configure-event",
+				G_CALLBACK(configure_handler),
+				wnd );
+
+	/* This is needed even when show_playlist==false to initialize some
+	 * internal variables.
+	 */
+	main_window_set_playlist_visible(wnd, TRUE);
+
+	wnd->playlist_width = g_settings_get_int(config, "playlist-width");
+
+	gtk_window_resize(GTK_WINDOW(wnd), wnd->init_width, wnd->init_height);
+}
+
 static void main_window_init(MainWindow *wnd)
 {
 	GdkRGBA vid_area_bg_color;
@@ -238,6 +354,8 @@ static void main_window_init(MainWindow *wnd)
 	wnd->playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
+	wnd->init_width = MAIN_WINDOW_DEFAULT_WIDTH;
+	wnd->init_height = MAIN_WINDOW_DEFAULT_HEIGHT;
 	wnd->settings = gtk_settings_get_default();
 	wnd->header_bar = gtk_header_bar_new();
 	wnd->open_hdr_btn = NULL;
@@ -473,7 +591,7 @@ void main_window_enable_csd(MainWindow *wnd)
 	menu_icon = g_themed_icon_new_with_default_fallbacks
 				("view-list-symbolic");
 
-	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH+PLAYLIST_CSD_OFFSET;
+	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH+PLAYLIST_CSD_WIDTH_OFFSET;
 	wnd->open_hdr_btn = gtk_menu_button_new();
 	wnd->fullscreen_hdr_btn = gtk_button_new();
 	wnd->menu_hdr_btn = gtk_menu_button_new();
@@ -520,7 +638,7 @@ void main_window_enable_csd(MainWindow *wnd)
 	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
 				MAIN_WINDOW_DEFAULT_WIDTH
 				-PLAYLIST_DEFAULT_WIDTH
-				-PLAYLIST_CSD_OFFSET );
+				-PLAYLIST_CSD_WIDTH_OFFSET );
 
 	gtk_window_set_titlebar(GTK_WINDOW(wnd), wnd->header_bar);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
@@ -540,7 +658,7 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 	gint width;
 	gint height;
 
-	offset = main_window_get_csd_enabled(wnd)?PLAYLIST_CSD_OFFSET:0;
+	offset = main_window_get_csd_enabled(wnd)?PLAYLIST_CSD_WIDTH_OFFSET:0;
 	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);

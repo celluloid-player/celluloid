@@ -48,6 +48,9 @@ struct MainWindow
 	gboolean playlist_visible;
 	gint playlist_width;
 	gint timeout_tag;
+	gint init_width;
+	gint init_height;
+	gint init_playlist_visible;
 	GtkSettings* settings;
 	GtkWidget *header_bar;
 	GtkWidget *open_hdr_btn;
@@ -70,6 +73,8 @@ GtkWidget *main_window_new(GtkApplication *app);
 GType main_window_get_type(void);
 void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);
+void main_window_save_state(MainWindow *wnd);
+void main_window_load_state(MainWindow *wnd);
 gint main_window_get_width_margin(MainWindow *wnd);
 gint main_window_get_height_margin(MainWindow *wnd);
 void main_window_enable_csd(MainWindow *wnd);

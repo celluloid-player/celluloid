@@ -82,9 +82,10 @@ gboolean quit(gpointer data)
 		mpv_terminate_destroy(ctx->mpv_ctx);
 
 		ctx->mpv_ctx = NULL;
-
-		g_application_quit(G_APPLICATION(ctx->app));
 	}
+
+	main_window_save_state(ctx->gui);
+	g_application_quit(G_APPLICATION(ctx->app));
 
 	return FALSE;
 }
