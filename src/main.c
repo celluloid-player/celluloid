@@ -105,25 +105,25 @@ static gboolean load_files(gpointer data)
 
 		for(i = 0; ctx->files[i]; i++)
 		{
-			gchar *uri = get_name_from_path(ctx->files[i]);
+			gchar *name = get_name_from_path(ctx->files[i]);
 
 			if(ctx->init_load)
 			{
 				playlist_widget_append
 					(	PLAYLIST_WIDGET
 						(ctx->gui->playlist),
-						uri,
+						name,
 						ctx->files[i] );
 			}
 			else
 			{
 				mpv_load(	ctx,
-						uri,
-						!ctx->files[i+1],
+						ctx->files[i],
+						(i != 0),
 						TRUE );
 			}
 
-			g_free(uri);
+			g_free(name);
 		}
 
 		g_strfreev(ctx->files);
