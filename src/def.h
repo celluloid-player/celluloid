@@ -29,6 +29,8 @@
 #define CONFIG_ROOT_PATH "/apps/gnome-mpv/"
 #define CONFIG_ROOT_GROUP "main"
 #define DEFAULT_LOG_LEVEL MPV_LOG_LEVEL_ERROR
+#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.gnome-mpv"
+#define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define PLAYLIST_CSD_WIDTH_OFFSET 52
 #define MAIN_WINDOW_DEFAULT_WIDTH 625
@@ -96,5 +98,126 @@
 				"UP", "Up",\
 				"DOWN", "Down",\
 				NULL }
+
+#define SUPPORTED_PROTOCOLS	{	"cdda",\
+					"rtmp",\
+					"rtsp",\
+					"http",\
+					"https",\
+					"mms",\
+					"mmst",\
+					"mmsh",\
+					"mmshttp",\
+					"rtp",\
+					"httpproxy",\
+					"hls",\
+					"rtmpe",\
+					"rtmps",\
+					"rtmpt",\
+					"rtmpte",\
+					"rtmpts",\
+					"srtp",\
+					"lavf",\
+					"ffmpeg",\
+					"udp",\
+					"ftp",\
+					"tcp",\
+					"tls",\
+					"unix",\
+					"sftp",\
+					"md5",\
+					"concat",\
+					"avdevice",\
+					"av",\
+					"dvb",\
+					"tv",\
+					"pvr",\
+					"smb",\
+					"file",\
+					"dvdread",\
+					"dvd",\
+					"dvdnav",\
+					"bd",\
+					"br",\
+					"bluray",\
+					"bdnav",\
+					"brnav",\
+					"bluraynav",\
+					"memory",\
+					"null",\
+					"mf",\
+					"edl",\
+					"rar",\
+					NULL }
+
+#define SUPPORTED_MIME_TYPES	{	"application/ogg",\
+					"application/x-ogg",\
+					"application/sdp",\
+					"application/smil",\
+					"application/x-smil",\
+					"application/streamingmedia",\
+					"application/x-streamingmedia",\
+					"application/vnd.rn-realmedia",\
+					"application/vnd.rn-realmedia-vbr",\
+					"audio/aac",\
+					"audio/x-aac",\
+					"audio/m4a",\
+					"audio/x-m4a",\
+					"audio/mp1",\
+					"audio/x-mp1",\
+					"audio/mp2",\
+					"audio/x-mp2",\
+					"audio/mp3",\
+					"audio/x-mp3",\
+					"audio/mpeg",\
+					"audio/x-mpeg",\
+					"audio/mpegurl",\
+					"audio/x-mpegurl",\
+					"audio/mpg",\
+					"audio/x-mpg",\
+					"audio/rn-mpeg",\
+					"audio/ogg",\
+					"audio/scpls",\
+					"audio/x-scpls",\
+					"audio/vnd.rn-realaudio",\
+					"audio/wav",\
+					"audio/x-pn-windows-pcm",\
+					"audio/x-realaudio",\
+					"audio/x-pn-realaudio",\
+					"audio/x-ms-wma",\
+					"audio/x-pls",\
+					"audio/x-wav",\
+					"video/mpeg",\
+					"video/x-mpeg",\
+					"video/x-mpeg2",\
+					"video/mp4",\
+					"video/msvideo",\
+					"video/x-msvideo",\
+					"video/ogg",\
+					"video/quicktime",\
+					"video/vnd.rn-realvideo",\
+					"video/x-ms-afs",\
+					"video/x-ms-asf",\
+					"video/x-ms-wmv",\
+					"video/x-ms-wmx",\
+					"video/x-ms-wvxvideo",\
+					"video/x-avi",\
+					"video/x-fli",\
+					"video/x-flv",\
+					"video/x-theora",\
+					"video/x-matroska",\
+					"video/webm",\
+					"audio/x-flac",\
+					"audio/x-vorbis+ogg",\
+					"video/x-ogm+ogg",\
+					"audio/x-shorten",\
+					"audio/x-ape",\
+					"audio/x-wavpack",\
+					"audio/x-tta",\
+					"audio/AMR",\
+					"audio/ac3",\
+					"video/mp2t",\
+					"audio/flac",\
+					NULL }
 
 #endif

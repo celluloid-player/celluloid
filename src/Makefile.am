@@ -2,15 +2,28 @@ AUTOMAKE_OPTIONS = foreign
 
 bin_PROGRAMS = gnome-mpv
 
+mpris_generated = mpris/mpris_gdbus.c mpris/mpris_gdbus.h
+
+$(mpris_generated): $(top_srcdir)/data/mpris_gdbus.xml
+	gdbus-codegen --c-namespace mpris --generate-c-code mpris/mpris_gdbus $<
+
+mpris_files =	mpris/mpris.c mpris/mpris.h mpris/mpris_base.c \
+		mpris/mpris_base.h $(mpris_generated)
+
+BUILT_SOURCES = $(mpris_generated)
+
 gnome_mpv_SOURCES =	main.c def.h common.c common.h mpv.c mpv.h keybind.c \
 			keybind.h actionctl.c actionctl.h playbackctl.c \
 			playbackctl.h playlist.c playlist.h main_window.c \
 			main_window.h control_box.c control_box.h \
 			pref_dialog.c pref_dialog.h open_loc_dialog.c \
-			open_loc_dialog.h playlist_widget.c playlist_widget.h
+			open_loc_dialog.h playlist_widget.c playlist_widget.h \
+			$(mpris_files)
 
 gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \
 			-DG_SETTINGS_ENABLE_BACKEND \
 			-DPACKAGE_LOCALEDIR=\""$(localedir)"\"
 
 gnome_mpv_LDADD = $(DEPS_LIBS)
+
+CLEANFILES = $(mpris_generated)

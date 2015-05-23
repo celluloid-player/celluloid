@@ -10,6 +10,7 @@ capabilities.
 - pkg-config (build)
 - gcc (build)
 - intltool (build)
+- python2 (build)
 - glib2
 - gtk3
 - libmpv

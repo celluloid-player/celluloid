@@ -543,6 +543,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	actionctl_map_actions(ctx);
 	connect_signals(ctx);
 	load_keybind(ctx, mpvinput_enable?mpvinput:NULL, FALSE);
+	mpris_init(ctx);
 
 	g_object_set(	ctx->gui->settings,
 			"gtk-application-prefer-dark-theme",
