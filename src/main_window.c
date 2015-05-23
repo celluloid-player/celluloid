@@ -48,6 +48,7 @@ static gboolean hide_cursor(gpointer data);
 static gboolean finalize_load_state(gpointer data);
 static GMenu *menu_btn_build_menu();
 static GMenu *open_btn_build_menu();
+static void main_window_class_init(MainWindow *wnd);
 static void main_window_init(MainWindow *wnd);
 
 static gboolean focus_in_handler(	GtkWidget *widget,
@@ -359,6 +360,40 @@ void main_window_load_state(MainWindow *wnd)
 	g_free(config_file);
 }
 
+static void main_window_class_init(MainWindow *wnd)
+{
+	g_signal_new(	"mpv-init",
+			MAIN_WINDOW_TYPE,
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+
+	g_signal_new(	"mpv-playback-restart",
+			MAIN_WINDOW_TYPE,
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+
+	g_signal_new(	"mpv-prop-change",
+			MAIN_WINDOW_TYPE,
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
+}
+
 static void main_window_init(MainWindow *wnd)
 {
 	GdkRGBA vid_area_bg_color;
@@ -464,7 +499,7 @@ GType main_window_get_type()
 			= {	sizeof(MainWindowClass),
 				NULL,
 				NULL,
-				NULL,
+				(GClassInitFunc)main_window_class_init,
 				NULL,
 				NULL,
 				sizeof(MainWindow),

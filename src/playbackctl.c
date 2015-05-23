@@ -62,24 +62,7 @@ static void seek_handler(	GtkWidget *widget,
 				gdouble value,
 				gpointer data )
 {
-	gmpv_handle *ctx = data;
-	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
-
-	if(!ctx->loaded)
-	{
-		mpv_load(ctx, NULL, FALSE, TRUE);
-	}
-	else
-	{
-		gchar *value_str = g_strdup_printf("%.2f", (gdouble)value);
-
-		cmd[1] = value_str;
-
-		mpv_command(ctx->mpv_ctx, cmd);
-		update_seek_bar(ctx);
-
-		g_free(value_str);
-	}
+	seek(data, value);
 }
 
 static void forward_handler(GtkWidget *widget, gpointer data)

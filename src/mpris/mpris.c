@@ -23,6 +23,7 @@
 
 #include "mpris.h"
 #include "mpris_base.h"
+#include "mpris_player.h"
 #include "mpris_gdbus.h" /* auto-generated */
 #include "def.h"
 
@@ -39,11 +40,49 @@ static void bus_acquired_handler(	GDBusConnection *connection,
 
 	inst->session_bus_conn = connection;
 	inst->base_reg_id = mpris_base_register(inst, connection);
+	inst->player_reg_id = mpris_player_register(inst, connection);
 }
 
 static void shutdown_handler(GtkApplication *application, gpointer data)
 {
 	g_bus_unown_name(((mpris *) data)->name_id);
+}
+
+void mpris_emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list)
+{
+	const mpris_prop_val_pair *current;
+	GDBusInterfaceInfo *iface;
+	GVariantBuilder builder;
+	GVariant *sig_args;
+
+	current = prop_list;
+	iface = mpris_org_mpris_media_player2_interface_info();
+
+	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
+
+	while(current && current->name != NULL)
+	{
+		g_variant_builder_add(	&builder,
+					"{sv}",
+					current->name,
+					current->value );
+
+		current++;
+	}
+
+	sig_args = g_variant_new(	"(sa{sv}as)",
+					iface->name,
+					&builder,
+					NULL );
+
+	g_dbus_connection_emit_signal
+		(	inst->session_bus_conn,
+			NULL,
+			MPRIS_OBJ_ROOT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"PropertiesChanged",
+			sig_args,
+			NULL );
 }
 
 GVariant *mpris_build_g_variant_string_array(const gchar** list)
@@ -66,9 +105,16 @@ void mpris_init(gmpv_handle *gmpv_ctx)
 	mpris *inst = g_malloc(sizeof(mpris));
 
 	inst->gmpv_ctx = gmpv_ctx;
+	inst->name_id = -1;
+	inst->base_reg_id = -1;
+	inst->player_reg_id = -1;
+	inst->pending_seek = -1;
 	inst->base_prop_table = g_hash_table_new(g_str_hash, g_str_equal);
+	inst->player_prop_table = g_hash_table_new(g_str_hash, g_str_equal);
+	inst->session_bus_conn = NULL;
 
 	mpris_base_prop_table_init(inst);
+	mpris_player_prop_table_init(inst);
 
 	g_signal_connect(	inst->gmpv_ctx->app,
 				"shutdown",

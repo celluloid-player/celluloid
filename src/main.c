@@ -35,6 +35,7 @@
 #include "playlist_widget.h"
 #include "pref_dialog.h"
 #include "open_loc_dialog.h"
+#include "mpris/mpris.h"
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean load_files(gpointer data);

@@ -275,7 +275,7 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 {
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
-		ctx->paused = *((int *)prop->data);
+		ctx->paused = prop->data?*((int *)prop->data):TRUE;
 
 		if(!ctx->loaded && !ctx->paused)
 		{
@@ -283,6 +283,34 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 		}
 
 		mpv_load_gui_update(ctx);
+	}
+	else if(g_strcmp0(prop->name, "volume") == 0)
+	{
+		ControlBox *control_box;
+		gdouble volume;
+
+		control_box = CONTROL_BOX(ctx->gui->control_box);
+		volume = prop->data?*((double *)prop->data)/100.0:0;
+
+		g_signal_handlers_block_matched
+			(	control_box->volume_button,
+				G_SIGNAL_MATCH_DATA,
+				0,
+				0,
+				NULL,
+				NULL,
+				ctx );
+
+		control_box_set_volume(control_box, volume);
+
+		g_signal_handlers_unblock_matched
+			(	control_box->volume_button,
+				G_SIGNAL_MATCH_DATA,
+				0,
+				0,
+				NULL,
+				NULL,
+				ctx );
 	}
 	else if(g_strcmp0(prop->name, "fullscreen") == 0)
 	{
@@ -353,7 +381,7 @@ void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 	/* If the buffer is not empty, new log messages will be ignored
 	 * until the buffer is cleared by show_error_dialog().
 	 */
-	if(!ctx->log_buffer && !iter || message->log_level <= level->level)
+	if((!ctx->log_buffer && !iter) || (message->log_level <= level->level))
 	{
 		ctx->log_buffer = g_strdup(message->text);
 
@@ -394,7 +422,13 @@ gboolean mpv_handle_event(gpointer data)
 
 		if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
 		{
-			handle_property_change_event(ctx, event->data);
+			mpv_event_property *prop = event->data;
+
+			handle_property_change_event(ctx, prop);
+
+			g_signal_emit_by_name(	ctx->gui,
+						"mpv-prop-change",
+						g_strdup(prop->name) );
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
@@ -445,6 +479,9 @@ gboolean mpv_handle_event(gpointer data)
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
 		{
 			mpv_load_gui_update(ctx);
+
+			g_signal_emit_by_name(	ctx->gui,
+						"mpv-playback-restart" );
 		}
 		else if(event->event_id == MPV_EVENT_SHUTDOWN)
 		{
@@ -731,6 +768,11 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 						"fullscreen",
 						MPV_FORMAT_FLAG ));
 
+	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
+						0,
+						"volume",
+						MPV_FORMAT_DOUBLE ));
+
 	mpvconf_enable = g_settings_get_boolean
 				(ctx->config, "mpv-config-enable");
 
@@ -753,6 +795,7 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 
 	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
 	handle_msg_level_opt(ctx);
+	g_signal_emit_by_name(ctx->gui, "mpv-init");
 
 	g_free(config_dir);
 	g_free(mpvconf);

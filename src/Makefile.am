@@ -8,7 +8,8 @@ $(mpris_generated): $(top_srcdir)/data/mpris_gdbus.xml
 	gdbus-codegen --c-namespace mpris --generate-c-code mpris/mpris_gdbus $<
 
 mpris_files =	mpris/mpris.c mpris/mpris.h mpris/mpris_base.c \
-		mpris/mpris_base.h $(mpris_generated)
+		mpris/mpris_base.h mpris/mpris_player.c mpris/mpris_player.h \
+		$(mpris_generated)
 
 BUILT_SOURCES = $(mpris_generated)
 

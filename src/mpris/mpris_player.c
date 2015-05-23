@@ -1,0 +1,688 @@
+/*
+ * Copyright (c) 2015 gnome-mpv
+ *
+ * This file is part of GNOME MPV.
+ *
+ * GNOME MPV is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * GNOME MPV is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <string.h>
+
+#include "mpris_player.h"
+#include "mpris_gdbus.h"
+#include "mpv.h"
+#include "def.h"
+
+static void set_paused(gmpv_handle *ctx, gboolean paused);
+static void method_handler(	GDBusConnection *connection,
+				const gchar *sender,
+				const gchar *object_path,
+				const gchar *interface_name,
+				const gchar *method_name,
+				GVariant *parameters,
+				GDBusMethodInvocation *invocation,
+				gpointer data );
+static GVariant *get_prop_handler(	GDBusConnection *connection,
+					const gchar *sender,
+					const gchar *object_path,
+					const gchar *interface_name,
+					const gchar *property_name,
+					GError **error,
+					gpointer data );
+static gboolean set_prop_handler(	GDBusConnection *connection,
+					const gchar *sender,
+					const gchar *object_path,
+					const gchar *interface_name,
+					const gchar *property_name,
+					GVariant *value,
+					GError **error,
+					gpointer data );
+static void playback_status_update_handler(mpris *inst);
+static void playlist_update_handler(mpris *inst);
+static void speed_update_handler(mpris *inst);
+static void metadata_update_handler(mpris *inst);
+static void volume_update_handler(mpris *inst);
+static void mpv_init_handler(MainWindow *wnd, gpointer data);
+static void mpv_playback_restart_handler(MainWindow *wnd, gpointer data);
+static void mpv_prop_change_handler(	MainWindow *wnd,
+					gchar *name,
+					gpointer data );
+
+static void set_paused(gmpv_handle *ctx, gboolean paused)
+{
+	ctx->paused = paused;
+
+	mpv_set_property(	ctx->mpv_ctx,
+				"pause",
+				MPV_FORMAT_FLAG,
+				&ctx->paused );
+}
+
+static void method_handler(	GDBusConnection *connection,
+				const gchar *sender,
+				const gchar *object_path,
+				const gchar *interface_name,
+				const gchar *method_name,
+				GVariant *parameters,
+				GDBusMethodInvocation *invocation,
+				gpointer data )
+{
+	mpris *inst = data;
+
+	if(g_strcmp0(method_name, "Next") == 0)
+	{
+		const gchar *cmd[] = {"playlist_next", "weak", NULL};
+
+		mpv_command(inst->gmpv_ctx->mpv_ctx, cmd);
+	}
+	else if(g_strcmp0(method_name, "Previous") == 0)
+	{
+		const gchar *cmd[] = {"playlist_prev", "weak", NULL};
+
+		mpv_command(inst->gmpv_ctx->mpv_ctx, cmd);
+	}
+	else if(g_strcmp0(method_name, "Pause") == 0)
+	{
+		set_paused(inst->gmpv_ctx, TRUE);
+	}
+	else if(g_strcmp0(method_name, "PlayPause") == 0)
+	{
+		set_paused(inst->gmpv_ctx, !inst->gmpv_ctx->paused);
+	}
+	else if(g_strcmp0(method_name, "Stop") == 0)
+	{
+		const gchar *cmd[] = {"stop", NULL};
+
+		mpv_command(inst->gmpv_ctx->mpv_ctx, cmd);
+	}
+	else if(g_strcmp0(method_name, "Play") == 0)
+	{
+		set_paused(inst->gmpv_ctx, FALSE);
+	}
+	else if(g_strcmp0(method_name, "Seek") == 0)
+	{
+		gint64 offset_us;
+		gdouble position;
+
+		g_variant_get(parameters, "(x)", &offset_us);
+
+		mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
+
+		position += offset_us/1.0e6;
+
+		mpv_set_property(	inst->gmpv_ctx->mpv_ctx,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
+
+		g_dbus_connection_emit_signal
+			(	inst->session_bus_conn,
+				NULL,
+				MPRIS_OBJ_ROOT_PATH,
+				interface_name,
+				"Seeked",
+				g_variant_new("(x)", (gint64)(position*1e6)),
+				NULL );
+	}
+	else if(g_strcmp0(method_name, "SetPosition") == 0)
+	{
+		const gchar *prefix = MPRIS_TRACK_ID_PREFIX;
+		const gsize prefix_len = strlen(prefix);
+		gint64 index;
+		gint64 old_index;
+		gint64 time_us;
+		const gchar *track_id;
+
+		g_variant_get(parameters, "(&ox)", &track_id, &time_us);
+
+		if(strncmp(track_id, prefix, prefix_len) == 0)
+		{
+			inst->pending_seek = time_us/1.0e6;
+			index = g_ascii_strtoll(track_id+prefix_len, NULL, 0);
+
+			mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&old_index );
+
+			if(index != old_index)
+			{
+				mpv_set_property(	inst->gmpv_ctx->mpv_ctx,
+							"playlist-pos",
+							MPV_FORMAT_INT64,
+							&index );
+			}
+			else
+			{
+				mpv_playback_restart_handler
+					(inst->gmpv_ctx->gui, inst);
+			}
+		}
+	}
+	else if(g_strcmp0(method_name, "OpenUri") == 0)
+	{
+		const gchar *uri;
+
+		g_variant_get(parameters, "(&s)", &uri);
+		mpv_load(inst->gmpv_ctx, uri, FALSE, TRUE);
+	}
+
+	g_dbus_method_invocation_return_value
+		(invocation, g_variant_new("()", NULL));
+}
+
+static GVariant *get_prop_handler(	GDBusConnection *connection,
+					const gchar *sender,
+					const gchar *object_path,
+					const gchar *interface_name,
+					const gchar *property_name,
+					GError **error,
+					gpointer data )
+{
+	mpris *inst = data;
+	GVariant *value;
+
+	if(g_strcmp0(property_name, "Position") == 0)
+	{
+		gdouble position;
+		gint rc;
+
+		rc = mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
+
+		value = g_variant_new_int64((rc >= 0)*position*1e6);
+	}
+	else
+	{
+		value = g_hash_table_lookup(	inst->player_prop_table,
+						property_name );
+	}
+
+	return value?g_variant_ref(value):NULL;
+}
+
+static gboolean set_prop_handler(	GDBusConnection *connection,
+					const gchar *sender,
+					const gchar *object_path,
+					const gchar *interface_name,
+					const gchar *property_name,
+					GVariant *value,
+					GError **error,
+					gpointer data )
+{
+	mpris *inst = data;
+
+	if(g_strcmp0(property_name, "Rate") == 0)
+	{
+		gdouble rate = g_variant_get_double(value);
+
+		mpv_set_property(	inst->gmpv_ctx->mpv_ctx,
+					"speed",
+					MPV_FORMAT_DOUBLE,
+					&rate );
+	}
+	else if(g_strcmp0(property_name, "Volume") == 0)
+	{
+		gdouble volume = 100*g_variant_get_double(value);
+
+		mpv_set_property(	inst->gmpv_ctx->mpv_ctx,
+					"volume",
+					MPV_FORMAT_DOUBLE,
+					&volume );
+	}
+
+	g_hash_table_replace(	inst->player_prop_table,
+				g_strdup(property_name),
+				g_variant_ref(value) );
+
+	return TRUE; /* This function should always succeed */
+}
+
+static void playback_status_update_handler(mpris *inst)
+{
+	const gchar *state;
+	mpris_prop_val_pair *prop_list;
+	GVariant *state_value;
+	GVariant *can_seek_value;
+	gint idle;
+	gint core_idle;
+	gboolean can_seek;
+
+	mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+				"idle",
+				MPV_FORMAT_FLAG,
+				&idle );
+
+	mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+				"core-idle",
+				MPV_FORMAT_FLAG,
+				&core_idle );
+
+	if(!core_idle && !idle)
+	{
+		state = "Playing";
+		can_seek = TRUE;
+
+		mpv_playback_restart_handler(inst->gmpv_ctx->gui, inst);
+	}
+	else if(core_idle && idle)
+	{
+		state = "Stopped";
+		can_seek = FALSE;
+	}
+	else
+	{
+		state = "Paused";
+		can_seek = TRUE;
+	}
+
+	state_value = g_variant_new_string(state);
+	can_seek_value = g_variant_new_boolean(can_seek);
+
+	g_hash_table_replace(	inst->player_prop_table,
+				"PlaybackStatus",
+				g_variant_ref(state_value) );
+
+	g_hash_table_replace(	inst->player_prop_table,
+				"CanSeek",
+				g_variant_ref(can_seek_value) );
+
+	prop_list =	(mpris_prop_val_pair[])
+			{	{"PlaybackStatus", state_value},
+				{"CanSeek", can_seek_value},
+				{NULL, NULL} };
+
+	mpris_emit_prop_changed(inst, prop_list);
+}
+
+static void playlist_update_handler(mpris *inst)
+{
+	mpris_prop_val_pair *prop_list;
+	GVariant *can_prev_value;
+	GVariant *can_next_value;
+	gboolean can_prev;
+	gboolean can_next;
+	gint64 playlist_count;
+	gint64 playlist_pos;
+	gint rc = 0;
+
+	rc |= mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+				"playlist-count",
+				MPV_FORMAT_INT64,
+				&playlist_count );
+
+	rc |= mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+				"playlist-pos",
+				MPV_FORMAT_INT64,
+				&playlist_pos );
+
+	can_prev = (rc >= 0 && playlist_pos > 0);
+	can_next = (rc >= 0 && playlist_pos < playlist_count-1);
+	can_prev_value = g_variant_new_boolean(can_prev);
+	can_next_value = g_variant_new_boolean(can_next);
+
+	g_hash_table_replace (	inst->player_prop_table,
+				"CanGoPrevious",
+				g_variant_ref(can_prev_value) );
+
+	g_hash_table_replace (	inst->player_prop_table,
+				"CanGoNext",
+				g_variant_ref(can_next_value) );
+
+	prop_list =	(mpris_prop_val_pair[])
+			{	{"CanGoPrevious", can_prev_value},
+				{"CanGoNext", can_next_value},
+				{NULL, NULL} };
+
+	mpris_emit_prop_changed(inst, prop_list);
+}
+
+static void speed_update_handler(mpris *inst)
+{
+	gdouble speed;
+	GVariant *value;
+	mpris_prop_val_pair *prop_list;
+
+	mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+				"speed",
+				MPV_FORMAT_DOUBLE,
+				&speed );
+
+	value = g_variant_new_double(speed);
+
+	g_hash_table_replace (	inst->player_prop_table,
+				"Rate",
+				g_variant_ref(value) );
+
+	prop_list =	(mpris_prop_val_pair[])
+			{{"Rate", value}, {NULL, NULL}};
+
+	mpris_emit_prop_changed(inst, prop_list);
+}
+
+static void metadata_update_handler(mpris *inst)
+{
+	const struct
+	{
+		const gchar *mpv_name;
+		const gchar *xesam_name;
+		const gboolean is_array;
+	}
+	tag_map[] = {	{"Album", "xesam:album", FALSE},
+			{"Album_Artist", "xesam:albumArtist", TRUE},
+			{"Artist", "xesam:artist", TRUE},
+			{"Comment", "xesam:comment", TRUE},
+			{"Composer", "xesam:composer", FALSE},
+			{"Genre", "xesam:genre", TRUE},
+			{"Title", "xesam:title", FALSE},
+			{NULL, NULL, FALSE} };
+
+	mpris_prop_val_pair *prop_list;
+	GVariantBuilder builder;
+	GVariant *value;
+	gdouble duration;
+	gint64 playlist_pos;
+	gint rc;
+	gint i;
+
+	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
+
+	rc = mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+				"duration",
+				MPV_FORMAT_DOUBLE,
+				&duration );
+
+	if(rc >= 0)
+	{
+		g_variant_builder_add(	&builder,
+					"{sv}",
+					"mpris:length",
+					g_variant_new_int64(duration*1e6) );
+	}
+
+	rc = mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+				"playlist-pos",
+				MPV_FORMAT_INT64,
+				&playlist_pos );
+
+	if(rc >= 0)
+	{
+		gchar *playlist_pos_str;
+		gchar *trackid;
+
+		playlist_pos_str = g_strdup_printf("%ld", playlist_pos);
+
+		trackid = g_strconcat(	MPRIS_TRACK_ID_PREFIX,
+					playlist_pos_str,
+					NULL );
+
+		g_variant_builder_add(	&builder,
+					"{sv}",
+					"mpris:trackid",
+					g_variant_new_object_path(trackid) );
+
+		g_free(playlist_pos_str);
+		g_free(trackid);
+	}
+
+	for(i = 0; tag_map[i].mpv_name; i++)
+	{
+		gchar *mpv_prop;
+		gchar *value_buf;
+
+		mpv_prop = g_strconcat(	"metadata/by-key/",
+					tag_map[i].mpv_name,
+					NULL );
+
+		value_buf = mpv_get_property_string
+				(inst->gmpv_ctx->mpv_ctx, mpv_prop);
+
+		if(value_buf)
+		{
+			GVariantBuilder tag_builder;
+			GVariant *tag_value;
+
+			tag_value = g_variant_new_string(value_buf);
+
+			if(tag_map[i].is_array)
+			{
+				g_variant_builder_init
+					(&tag_builder, G_VARIANT_TYPE("as"));
+
+				g_variant_builder_add_value
+					(&tag_builder, tag_value);
+			}
+
+			g_variant_builder_add
+				(	&builder,
+					"{sv}",
+					tag_map[i].xesam_name,
+					tag_map[i].is_array?
+					g_variant_new("as", &tag_builder):
+					tag_value );
+		}
+
+		mpv_free(value_buf);
+		g_free(mpv_prop);
+	}
+
+	value = g_variant_new("a{sv}", &builder);
+
+	g_hash_table_replace (	inst->player_prop_table,
+				"Metadata",
+				g_variant_ref(value) );
+
+	prop_list =	(mpris_prop_val_pair[])
+			{{"Metadata", value}, {NULL, NULL}};
+
+	mpris_emit_prop_changed(inst, prop_list);
+	mpv_playback_restart_handler(inst->gmpv_ctx->gui, inst);
+}
+
+static void volume_update_handler(mpris *inst)
+{
+	mpris_prop_val_pair *prop_list;
+	gdouble volume;
+	GVariant *value;
+
+	mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+				"volume",
+				MPV_FORMAT_DOUBLE,
+				&volume );
+
+	value = g_variant_new_double(volume/100.0);
+
+	g_hash_table_replace (	inst->player_prop_table,
+				"Volume",
+				g_variant_ref(value) );
+
+	prop_list =	(mpris_prop_val_pair[])
+			{{"Volume", value}, {NULL, NULL}};
+
+	mpris_emit_prop_changed(inst, prop_list);
+}
+
+static void mpv_init_handler(MainWindow *wnd, gpointer data)
+{
+	mpris *inst = data;
+
+	mpv_observe_property(	inst->gmpv_ctx->mpv_ctx,
+				0,
+				"idle",
+				MPV_FORMAT_FLAG );
+
+	mpv_observe_property(	inst->gmpv_ctx->mpv_ctx,
+				0,
+				"core-idle",
+				MPV_FORMAT_FLAG );
+
+	mpv_observe_property(	inst->gmpv_ctx->mpv_ctx,
+				0,
+				"speed",
+				MPV_FORMAT_DOUBLE );
+
+	mpv_observe_property(	inst->gmpv_ctx->mpv_ctx,
+				0,
+				"metadata",
+				MPV_FORMAT_NODE );
+
+	mpv_observe_property(	inst->gmpv_ctx->mpv_ctx,
+				0,
+				"volume",
+				MPV_FORMAT_DOUBLE );
+
+	mpv_observe_property(	inst->gmpv_ctx->mpv_ctx,
+				0,
+				"playlist-pos",
+				MPV_FORMAT_INT64 );
+
+	mpv_observe_property(	inst->gmpv_ctx->mpv_ctx,
+				0,
+				"playlist-count",
+				MPV_FORMAT_INT64 );
+}
+
+static void mpv_playback_restart_handler(MainWindow *wnd, gpointer data)
+{
+	mpris *inst = data;
+	GDBusInterfaceInfo *iface;
+	gdouble position;
+
+	if(inst->pending_seek > 0)
+	{
+		position = inst->pending_seek;
+		inst->pending_seek = -1;
+
+		mpv_set_property(	inst->gmpv_ctx->mpv_ctx,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
+	}
+	else
+	{
+		mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
+	}
+
+	iface = mpris_org_mpris_media_player2_player_interface_info();
+
+	g_dbus_connection_emit_signal
+		(	inst->session_bus_conn,
+			NULL,
+			MPRIS_OBJ_ROOT_PATH,
+			iface->name,
+			"Seeked",
+			g_variant_new("(x)", (gint64)(position*1e6)),
+			NULL );
+}
+
+static void mpv_prop_change_handler(	MainWindow *wnd,
+					gchar *name,
+					gpointer data )
+{
+	mpris *inst = data;
+
+	if(g_strcmp0(name, "core-idle") == 0
+	|| g_strcmp0(name, "idle") == 0)
+	{
+		playback_status_update_handler(inst);
+	}
+	else if(g_strcmp0(name, "playlist-pos") == 0
+	|| g_strcmp0(name, "playlist-count") == 0)
+	{
+		playlist_update_handler(inst);
+	}
+	else if(g_strcmp0(name, "speed") == 0)
+	{
+		speed_update_handler(inst);
+	}
+	else if(g_strcmp0(name, "metadata") == 0)
+	{
+		metadata_update_handler(inst);
+	}
+	else if(g_strcmp0(name, "volume") == 0)
+	{
+		volume_update_handler(inst);
+	}
+}
+
+void mpris_player_prop_table_init(mpris *inst)
+{
+	/* Position is retrieved from mpv on-demand */
+	const gpointer default_values[]
+		= {	"PlaybackStatus", g_variant_new_string("Stopped"),
+			"Rate", g_variant_new_double(1.0),
+			"Metadata", g_variant_new("a{sv}", NULL),
+			"Volume", g_variant_new_double(1.0),
+			"MinimumRate", g_variant_new_double(0.01),
+			"MaximumRate", g_variant_new_double(100.0),
+			"CanGoNext", g_variant_new_boolean(FALSE),
+			"CanGoPrevious", g_variant_new_boolean(FALSE),
+			"CanPlay", g_variant_new_boolean(TRUE),
+			"CanPause", g_variant_new_boolean(TRUE),
+			"CanSeek", g_variant_new_boolean(FALSE),
+			"CanControl", g_variant_new_boolean(TRUE),
+			NULL };
+
+	gint i;
+
+	for(i = 0; default_values[i]; i += 2)
+	{
+		g_hash_table_insert(	inst->player_prop_table,
+					default_values[i],
+					default_values[i+1] );
+	}
+}
+
+gint mpris_player_register(mpris *inst, GDBusConnection *connection)
+{
+	GDBusInterfaceVTable vtable;
+
+	g_signal_connect(	inst->gmpv_ctx->gui,
+				"mpv-init",
+				G_CALLBACK(mpv_init_handler),
+				inst );
+
+	g_signal_connect(	inst->gmpv_ctx->gui,
+				"mpv-playback-restart",
+				G_CALLBACK(mpv_playback_restart_handler),
+				inst );
+
+	g_signal_connect(	inst->gmpv_ctx->gui,
+				"mpv-prop-change",
+				G_CALLBACK(mpv_prop_change_handler),
+				inst );
+
+	mpv_init_handler(inst->gmpv_ctx->gui, inst);
+
+	vtable.method_call = (GDBusInterfaceMethodCallFunc)method_handler;
+	vtable.get_property = (GDBusInterfaceGetPropertyFunc)get_prop_handler;
+	vtable.set_property = (GDBusInterfaceSetPropertyFunc)set_prop_handler;
+
+	return g_dbus_connection_register_object
+		(	connection,
+			MPRIS_OBJ_ROOT_PATH,
+			mpris_org_mpris_media_player2_player_interface_info(),
+			&vtable,
+			inst,
+			NULL,
+			NULL );
+}

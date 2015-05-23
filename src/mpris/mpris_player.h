@@ -17,34 +17,12 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MPRIS_H
-#define MPRIS_H
+#ifndef MPRIS_PLAYER_H
+#define MPRIS_PLAYER_H
 
-#include "common.h"
+#include "mpris.h"
 
-typedef struct mpris mpris;
-typedef struct mpris_prop_val_pair mpris_prop_val_pair;
-
-struct mpris
-{
-	gmpv_handle* gmpv_ctx;
-	guint name_id;
-	guint base_reg_id;
-	guint player_reg_id;
-	gdouble pending_seek;
-	GHashTable *base_prop_table;
-	GHashTable *player_prop_table;
-	GDBusConnection *session_bus_conn;
-};
-
-struct mpris_prop_val_pair
-{
-	gchar *name;
-	GVariant *value;
-};
-
-void mpris_emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list);
-GVariant *mpris_build_g_variant_string_array(const gchar** list);
-void mpris_init(gmpv_handle *gmpv_ctx);
+void mpris_player_prop_table_init(mpris *inst);
+gint mpris_player_register(mpris *inst, GDBusConnection *connection);
 
 #endif

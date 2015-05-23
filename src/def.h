@@ -29,6 +29,7 @@
 #define CONFIG_ROOT_PATH "/apps/gnome-mpv/"
 #define CONFIG_ROOT_GROUP "main"
 #define DEFAULT_LOG_LEVEL MPV_LOG_LEVEL_ERROR
+#define MPRIS_TRACK_ID_PREFIX "/org/gnome_mpv/Track/"
 #define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.gnome-mpv"
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
 #define PLAYLIST_DEFAULT_WIDTH 200

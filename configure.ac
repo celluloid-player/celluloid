@@ -22,11 +22,12 @@ GLIB_GSETTINGS
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]))
 
 AS_IF(	[test "x$enable_debug" = "xyes"],
-	[CFLAGS="-ansi -Wall -pedantic -g -fsanitize=address"],
+	[CFLAGS="-Wall -pedantic -g -fsanitize=address"],
 	[CFLAGS="-O2 -fomit-frame-pointer -Wno-deprecated-declarations"] )
 
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_CC_STDC
 
 # Checks for libraries.
 PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.10 glib-2.0 >= 2.32 mpv >= 1.6])

@@ -95,30 +95,6 @@ gboolean quit(gpointer data)
 	return FALSE;
 }
 
-gboolean update_seek_bar(gpointer data)
-{
-	gmpv_handle* ctx = data;
-	gdouble time_pos;
-	gint rc;
-
-	rc = mpv_get_property(	ctx->mpv_ctx,
-				"time-pos",
-				MPV_FORMAT_DOUBLE,
-				&time_pos );
-
-	if(rc >= 0)
-	{
-		ControlBox *control_box
-			= CONTROL_BOX(ctx->gui->control_box);
-
-		gtk_range_set_value
-			(	GTK_RANGE(control_box->seek_bar),
-				time_pos );
-	}
-
-	return TRUE;
-}
-
 gboolean migrate_config(gmpv_handle *ctx)
 {
 	gchar *config_dir = get_config_dir_path();
@@ -205,6 +181,52 @@ gboolean migrate_config(gmpv_handle *ctx)
 	g_free(old_path);
 
 	return result;
+}
+
+gboolean update_seek_bar(gpointer data)
+{
+	gmpv_handle *ctx = data;
+	gdouble time_pos;
+	gint rc;
+
+	rc = mpv_get_property(	ctx->mpv_ctx,
+				"time-pos",
+				MPV_FORMAT_DOUBLE,
+				&time_pos );
+
+	if(rc >= 0)
+	{
+		ControlBox *control_box
+			= CONTROL_BOX(ctx->gui->control_box);
+
+		gtk_range_set_value
+			(	GTK_RANGE(control_box->seek_bar),
+				time_pos );
+	}
+
+	return TRUE;
+}
+
+void seek(gmpv_handle *ctx, gdouble time)
+{
+	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
+
+	if(!ctx->loaded)
+	{
+		mpv_load(ctx, NULL, FALSE, TRUE);
+	}
+	else
+	{
+		gchar *value_str = g_strdup_printf("%.2f", time);
+
+		cmd[1] = value_str;
+
+		mpv_command(ctx->mpv_ctx, cmd);
+		update_seek_bar(ctx);
+
+		g_free(value_str);
+	}
+
 }
 
 void show_error_dialog(gmpv_handle *ctx)

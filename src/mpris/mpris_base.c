@@ -49,7 +49,6 @@ static gboolean window_state_handler(	GtkWidget *widget,
 					gpointer data );
 static GVariant *get_supported_uri_schemes(void);
 static GVariant *get_supported_mime_types(void);
-static void prop_table_init(GHashTable *table);
 
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
@@ -123,7 +122,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 					gpointer data )
 {
 	mpris *inst = data;
-	GdkEventWindowState *window_state_event = event;
+	GdkEventWindowState *window_state_event = (GdkEventWindowState *)event;
 
 	if(window_state_event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
 	{
