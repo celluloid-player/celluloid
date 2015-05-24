@@ -38,7 +38,9 @@
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean load_files(gpointer data);
-static void delete_handler(GtkWidget *widget, GdkEvent* event, gpointer data);
+static gboolean delete_handler(	GtkWidget *widget,
+				GdkEvent* event,
+				gpointer data );
 static void setup_dnd_targets(gmpv_handle *ctx);
 static void connect_signals(gmpv_handle *ctx);
 static void setup_accelerators(gmpv_handle *ctx);
@@ -132,9 +134,13 @@ static gboolean load_files(gpointer data)
 	return FALSE;
 }
 
-static void delete_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
+static gboolean delete_handler(	GtkWidget *widget,
+				GdkEvent *event,
+				gpointer data )
 {
 	quit(data);
+
+	return FALSE;
 }
 
 static void drag_data_handler(	GtkWidget *widget,
