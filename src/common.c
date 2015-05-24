@@ -118,7 +118,6 @@ gboolean migrate_config(gmpv_handle *ctx)
 {
 	gboolean result;
 	char *old_path;
-	GInputStream* in_stream;
 	GKeyFile *key_config;
 	gchar *keybuf;
 

@@ -314,10 +314,6 @@ void main_window_load_state(MainWindow *wnd)
 {
 	GSettingsBackend *config_backend;
 	GSettings *config;
-	gint handle_pos;
-	gboolean show_playlist;
-	GValue resize1 = G_VALUE_INIT;
-	GValue resize2 = G_VALUE_INIT;
 
 	config_backend = g_keyfile_settings_backend_new
 				(	get_config_file_path(),
