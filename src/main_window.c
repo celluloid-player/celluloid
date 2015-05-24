@@ -138,11 +138,18 @@ static gboolean configure_handler(	GtkWidget *widget,
 {
 	MainWindow *wnd = data;
 	GdkEventConfigure *conf_event = (GdkEventConfigure *)event;
+	guint signal_id = g_signal_lookup("configure-event", MAIN_WINDOW_TYPE);
 
 	if(wnd->init_width == conf_event->width)
 	{
-		g_signal_handlers_disconnect_by_func
-			(wnd, G_CALLBACK(configure_handler), data);
+		g_signal_handlers_disconnect_matched(	wnd,
+							G_SIGNAL_MATCH_ID
+							|G_SIGNAL_MATCH_DATA,
+							signal_id,
+							0,
+							0,
+							NULL,
+							data);
 
 		g_idle_add((GSourceFunc)finalize_load_state, data);
 	}
