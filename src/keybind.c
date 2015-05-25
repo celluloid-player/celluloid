@@ -66,6 +66,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 				(regex, old_linebuf, -1, 0, "$", 0, NULL);
 
 			g_free(old_linebuf);
+			g_regex_unref(regex);
 
 			tokens = g_strsplit_set(linebuf, " \t", -1);
 			keys = tokens?g_strsplit(tokens[0], "+", -1):NULL;
@@ -176,6 +177,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 		result->command = g_strdupv(tokens+1);
 
 		g_strfreev(tokens);
+		g_strfreev(keys);
 		g_free(linebuf);
 	}
 

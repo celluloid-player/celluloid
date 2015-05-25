@@ -282,12 +282,15 @@ void main_window_save_state(MainWindow *wnd)
 {
 	GSettingsBackend *config_backend;
 	GSettings *config;
+	gchar *config_file;
 	gint width;
 	gint height;
 	gint handle_pos;
 
+	config_file = get_config_file_path();
+
 	config_backend = g_keyfile_settings_backend_new
-				(	get_config_file_path(),
+				(	config_file,
 					CONFIG_ROOT_PATH,
 					CONFIG_ROOT_GROUP );
 
@@ -315,15 +318,20 @@ void main_window_save_state(MainWindow *wnd)
 	g_settings_set_boolean(	config,
 				"show-playlist",
 				wnd->playlist_visible );
+
+	g_free(config_file);
 }
 
 void main_window_load_state(MainWindow *wnd)
 {
 	GSettingsBackend *config_backend;
 	GSettings *config;
+	gchar *config_file;
+
+	config_file = get_config_file_path();
 
 	config_backend = g_keyfile_settings_backend_new
-				(	get_config_file_path(),
+				(	config_file,
 					CONFIG_ROOT_PATH,
 					CONFIG_ROOT_GROUP );
 
@@ -347,6 +355,8 @@ void main_window_load_state(MainWindow *wnd)
 	wnd->playlist_width = g_settings_get_int(config, "playlist-width");
 
 	gtk_window_resize(GTK_WINDOW(wnd), wnd->init_width, wnd->init_height);
+
+	g_free(config_file);
 }
 
 static void main_window_init(MainWindow *wnd)

@@ -557,6 +557,7 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 {
 	gboolean mpvconf_enable = FALSE;
+	gchar *config_dir = get_config_dir_path();
 	gchar *mpvconf = NULL;
 	gchar *mpvopt = NULL;
 	gchar *screenshot_template = NULL;
@@ -598,7 +599,7 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"config-dir",
-						get_config_dir_path() ));
+						config_dir ));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"screenshot-template",
@@ -648,6 +649,7 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 
 	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
 
+	g_free(config_dir);
 	g_free(mpvconf);
 	g_free(mpvopt);
 	g_free(screenshot_template);

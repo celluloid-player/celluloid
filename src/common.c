@@ -38,10 +38,15 @@ gchar *get_config_dir_path(void)
 
 gchar *get_config_file_path(void)
 {
-	return g_strconcat(	get_config_dir_path(),
-				"/"
-				CONFIG_FILE,
-				NULL );
+	gchar *config_dir;
+	gchar *result;
+
+	config_dir = get_config_dir_path();
+	result = g_strconcat(config_dir, "/" CONFIG_FILE, NULL);
+
+	g_free(config_dir);
+
+	return result;
 }
 
 gchar *get_path_from_uri(const gchar *uri)
@@ -116,6 +121,8 @@ gboolean update_seek_bar(gpointer data)
 
 gboolean migrate_config(gmpv_handle *ctx)
 {
+	gchar *config_dir = get_config_dir_path();
+	gchar *config_file = get_config_file_path();
 	gboolean result;
 	char *old_path;
 	GKeyFile *key_config;
@@ -128,9 +135,9 @@ gboolean migrate_config(gmpv_handle *ctx)
 	if(g_file_test(old_path, G_FILE_TEST_EXISTS))
 	{
 		GFile *src = g_file_new_for_path(old_path);
-		GFile *dest = g_file_new_for_path(get_config_file_path());
+		GFile *dest = g_file_new_for_path(config_file);
 
-		g_mkdir_with_parents(get_config_dir_path(), 0700);
+		g_mkdir_with_parents(config_dir, 0700);
 
 		result = g_file_move(	src,
 					dest,
@@ -147,7 +154,7 @@ gboolean migrate_config(gmpv_handle *ctx)
 	key_config = g_key_file_new();
 
 	g_key_file_load_from_file(	key_config,
-					get_config_file_path(),
+					config_file,
 					G_KEY_FILE_NONE,
 					NULL );
 
@@ -166,6 +173,8 @@ gboolean migrate_config(gmpv_handle *ctx)
 
 		const gchar **current = opts;
 
+		g_free(keybuf);
+
 		while(*current)
 		{
 			keybuf = g_key_file_get_string(	key_config,
@@ -181,9 +190,19 @@ gboolean migrate_config(gmpv_handle *ctx)
 
 			current++;
 		}
+
+		keybuf = NULL;
+	}
+
+	if(keybuf)
+	{
+		g_free(keybuf);
 	}
 
 	g_key_file_free(key_config);
+	g_free(config_dir);
+	g_free(config_file);
+	g_free(old_path);
 
 	return result;
 }

@@ -458,6 +458,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	gboolean mpvinput_enable;
 	gboolean csd_enable;
 	gboolean dark_theme_enable;
+	gchar *config_file;
 	gchar *mpvinput;
 
 	setlocale(LC_NUMERIC, "C");
@@ -468,8 +469,10 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
 
+	config_file = get_config_file_path();
+
 	config_backend = g_keyfile_settings_backend_new
-				(	get_config_file_path(),
+				(	config_file,
 					CONFIG_ROOT_PATH,
 					CONFIG_ROOT_GROUP );
 
@@ -562,12 +565,13 @@ static void app_startup_handler(GApplication *app, gpointer data)
 					GTK_MESSAGE_INFO,
 					GTK_BUTTONS_OK,
 					msg,
-					get_config_file_path() );
+					config_file );
 
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 	}
 
+	g_free(config_file);
 	g_free(mpvinput);
 }
 
