@@ -621,7 +621,7 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 						"fullscreen",
 						MPV_FORMAT_FLAG ));
 
-	mpv_check_error(mpv_request_log_messages(ctx->mpv_ctx, "error"));
+	mpv_check_error(mpv_request_log_messages(ctx->mpv_ctx, "fatal"));
 
 	mpvconf_enable = g_settings_get_boolean
 				(ctx->config, "mpv-config-enable");
