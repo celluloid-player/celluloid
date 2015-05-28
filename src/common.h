@@ -24,7 +24,14 @@
 
 #include "main_window.h"
 
+typedef struct module_log_level module_log_level;
 typedef struct gmpv_handle gmpv_handle;
+
+struct module_log_level
+{
+	gchar *prefix;
+	mpv_log_level level;
+};
 
 struct gmpv_handle
 {
@@ -38,6 +45,7 @@ struct gmpv_handle
 	gint64 vid_area_wid;
 	gint playlist_move_dest;
 	gchar *log_buffer;
+	GSList *log_level_list;
 	GSList *keybind_list;
 	GSettings *config;
 	GtkApplication *app;

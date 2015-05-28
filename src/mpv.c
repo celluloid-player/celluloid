@@ -33,6 +33,7 @@ static void parse_dim_string(	gmpv_handle *ctx,
 				gint *width,
 				gint *height );
 static void handle_autofit_opt(gmpv_handle *ctx);
+static void handle_msg_level_opt(gmpv_handle *ctx);
 
 static void parse_dim_string(	gmpv_handle *ctx,
 				const gchar *mpv_geom_str,
@@ -181,6 +182,91 @@ static void handle_autofit_opt(gmpv_handle *ctx)
 
 	mpv_free(optbuf);
 	g_free(geom);
+}
+
+static void handle_msg_level_opt(gmpv_handle *ctx)
+{
+	const struct
+	{
+		gchar *name;
+		mpv_log_level level;
+	}
+	level_map[] = {	{"no", MPV_LOG_LEVEL_NONE},
+			{"fatal", MPV_LOG_LEVEL_FATAL},
+			{"error", MPV_LOG_LEVEL_ERROR},
+			{"warn", MPV_LOG_LEVEL_WARN},
+			{"info", MPV_LOG_LEVEL_INFO},
+			{"v", MPV_LOG_LEVEL_V},
+			{"debug", MPV_LOG_LEVEL_DEBUG},
+			{"trace", MPV_LOG_LEVEL_TRACE},
+			{NULL, MPV_LOG_LEVEL_NONE} };
+
+	gchar *optbuf = NULL;
+	gchar **tokens = NULL;
+	mpv_log_level min_level = DEFAULT_LOG_LEVEL;
+	gint i;
+
+	optbuf = mpv_get_property_string(ctx->mpv_ctx, "options/msg-level");
+
+	if(optbuf)
+	{
+		tokens = g_strsplit(optbuf, ",", 0);
+	}
+
+	if(ctx->log_level_list)
+	{
+		g_slist_free_full(ctx->log_level_list, g_free);
+
+		ctx->log_level_list = NULL;
+	}
+
+	/* g_strsplit() never returns NULL */
+	for(i = 0; tokens[i]; i++)
+	{
+		gchar **pair = g_strsplit(tokens[i], "=", 2);
+		module_log_level *level = g_malloc(sizeof(module_log_level));
+		gboolean found = FALSE;
+		gint j;
+
+		level->prefix = g_strdup(pair[0]);
+
+		for(j = 0; level_map[j].name && !found; j++)
+		{
+			if(g_strcmp0(pair[1], level_map[j].name) == 0)
+			{
+				level->level = level_map[j].level;
+				found = TRUE;
+			}
+		}
+
+
+		/* Ignore if the given level is invalid */
+		if(found)
+		{
+			/* Lower log levels have higher values */
+			if(level->level < min_level)
+			{
+				min_level = level->level;
+			}
+
+			if(g_strcmp0(level->prefix, "all") != 0)
+			{
+				ctx->log_level_list
+					= g_slist_append
+						(ctx->log_level_list, level);
+			}
+		}
+
+		g_strfreev(pair);
+	}
+
+	for(i = 0; level_map[i].level != min_level; i++);
+
+	mpv_check_error
+		(mpv_request_log_messages(ctx->mpv_ctx, level_map[i].name));
+
+	mpv_free(optbuf);
+	g_strfreev(tokens);
 }
 
 void mpv_wakeup_callback(void *data)
@@ -348,7 +434,53 @@ gboolean mpv_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
 		{
-			mpv_log_handler(ctx, event->data);
+			mpv_event_log_message *log_event;
+			GSList *iter;
+			module_log_level *level;
+			gsize event_prefix_len;
+			gboolean found;
+
+			log_event = (mpv_event_log_message *)event->data;
+			event_prefix_len = strlen(log_event->prefix);
+			iter = ctx->log_level_list;
+			found = FALSE;
+
+			if(iter)
+			{
+				level = iter->data;
+			}
+
+			while(iter && !found)
+			{
+				gsize prefix_len;
+				gint cmp;
+
+				prefix_len = strlen(level->prefix);
+
+				cmp = strncmp(	level->prefix,
+						log_event->prefix,
+						(event_prefix_len < prefix_len)?
+						event_prefix_len:prefix_len );
+
+				/* Allow both exact match and prefix match */
+				if(cmp == 0
+				&& (prefix_len == event_prefix_len
+				|| (prefix_len < event_prefix_len
+				&& log_event->prefix[prefix_len] == '/')))
+				{
+					found = TRUE;
+				}
+				else
+				{
+					iter = g_slist_next(iter);
+					level = iter?iter->data:NULL;
+				}
+			}
+
+			if(!iter || log_event->log_level <= level->level)
+			{
+				mpv_log_handler(ctx, event->data);
+			}
 		}
 		else if(event->event_id == MPV_EVENT_NONE)
 		{
@@ -621,8 +753,6 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 						"fullscreen",
 						MPV_FORMAT_FLAG ));
 
-	mpv_check_error(mpv_request_log_messages(ctx->mpv_ctx, "error"));
-
 	mpvconf_enable = g_settings_get_boolean
 				(ctx->config, "mpv-config-enable");
 
@@ -644,6 +774,7 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 	}
 
 	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
+	handle_msg_level_opt(ctx);
 
 	g_free(config_dir);
 	g_free(mpvconf);

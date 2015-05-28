@@ -29,7 +29,7 @@ AS_IF(	[test "x$enable_debug" = "xyes"],
 AC_PROG_CC
 
 # Checks for libraries.
-PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.10 glib-2.0 >= 2.32 mpv >= 1.0])
+PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.10 glib-2.0 >= 2.32 mpv >= 1.6])
 
 # Checks for header files.
 AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h ctype.h execinfo.h])
