@@ -34,7 +34,7 @@ static void forward_handler(GtkWidget *widget, gpointer data);
 static void rewind_handler(GtkWidget *widget, gpointer data);
 static void chapter_previous_handler(GtkWidget *widget, gpointer data);
 static void chapter_next_handler(GtkWidget *widget, gpointer data);
-static void volume_handler(GtkWidget *widget, gpointer data);
+static void volume_handler(GtkWidget *widget, gdouble value, gpointer data);
 static void fullscreen_handler(GtkWidget *button, gpointer data);
 
 static void play_handler(GtkWidget *widget, gpointer data)
@@ -114,12 +114,9 @@ static void chapter_next_handler(GtkWidget *widget, gpointer data)
 	mpv_command(ctx->mpv_ctx, cmd);
 }
 
-static void volume_handler(GtkWidget *widget, gpointer data)
+static void volume_handler(GtkWidget *widget, gdouble value, gpointer data)
 {
 	gmpv_handle *ctx = data;
-	gdouble value;
-
-	g_object_get(widget, "value", &value, NULL);
 
 	value *= 100;
 
