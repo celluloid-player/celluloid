@@ -249,7 +249,7 @@ void control_box_set_seek_bar_length(ControlBox *box, gint length)
 	gtk_range_set_range(GTK_RANGE(box->seek_bar), 0, length);
 }
 
-void control_box_set_volume(ControlBox *box, gboolean volume)
+void control_box_set_volume(ControlBox *box, gdouble volume)
 {
 	gtk_scale_button_set_value
 		(GTK_SCALE_BUTTON(box->volume_button), volume);

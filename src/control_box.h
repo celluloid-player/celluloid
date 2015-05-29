@@ -66,7 +66,7 @@ GType control_box_get_type(void);
 void control_box_set_enabled(ControlBox *box, gboolean enabled);
 void control_box_set_chapter_enabled(ControlBox *box, gboolean enabled);
 void control_box_set_seek_bar_length(ControlBox *box, gint length);
-void control_box_set_volume(ControlBox *box, gboolean volume);
+void control_box_set_volume(ControlBox *box, gdouble volume);
 void control_box_set_playing_state(ControlBox *box, gboolean playing);
 void control_box_set_fullscreen_state(ControlBox *box, gboolean fullscreen);
 void control_box_set_fullscreen_btn_visible(ControlBox *box, gboolean value);
