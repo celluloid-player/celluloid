@@ -220,8 +220,7 @@ static void handle_msg_level_opt(gmpv_handle *ctx)
 		ctx->log_level_list = NULL;
 	}
 
-	/* g_strsplit() never returns NULL */
-	for(i = 0; tokens[i]; i++)
+	for(i = 0; tokens && tokens[i]; i++)
 	{
 		gchar **pair = g_strsplit(tokens[i], "=", 2);
 		module_log_level *level = g_malloc(sizeof(module_log_level));
