@@ -243,7 +243,7 @@ static void handle_msg_level_opt(gmpv_handle *ctx)
 		if(found)
 		{
 			/* Lower log levels have higher values */
-			if(level->level < min_level)
+			if(level->level > min_level)
 			{
 				min_level = level->level;
 			}
