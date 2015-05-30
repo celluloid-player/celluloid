@@ -275,33 +275,13 @@ void mpv_wakeup_callback(void *data)
 
 void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 {
-	const gchar *text = message->text;
-	gchar *buffer;
-	gboolean message_complete;
-	gboolean log_complete;
-
-	buffer = ctx->log_buffer;
-
-	message_complete = (text && text[strlen(text)-1] == '\n');
-
-	log_complete = (buffer && buffer[strlen(buffer)-1] == '\n');
-
 	/* If the buffer is not empty, new log messages will be ignored
 	 * until the buffer is cleared by show_error_dialog().
 	 */
-	if(buffer && !log_complete)
+	if(!ctx->log_buffer)
 	{
-		ctx->log_buffer = g_strconcat(buffer, text, NULL);
+		ctx->log_buffer = g_strdup(message->text);
 
-		g_free(buffer);
-	}
-	else if(!buffer)
-	{
-		ctx->log_buffer = g_strdup(text);
-	}
-
-	if(!log_complete && message_complete)
-	{
 		/* ctx->log_buffer will be freed by show_error_dialog().
 		 */
 		show_error_dialog(ctx);
