@@ -701,6 +701,10 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 	mpv_check_error(mpv_set_option_string(ctx->mpv_ctx, "softvol", "yes"));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
+						"msg-level",
+						"ffmpeg=fatal" ));
+
+	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"audio-client-name",
 						ICON_NAME ));
 
