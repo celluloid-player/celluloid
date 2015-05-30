@@ -34,6 +34,8 @@ static void parse_dim_string(	gmpv_handle *ctx,
 				gint *height );
 static void handle_autofit_opt(gmpv_handle *ctx);
 static void handle_msg_level_opt(gmpv_handle *ctx);
+static void handle_property_change_event(	gmpv_handle *ctx,
+						mpv_event_property* prop);
 
 static void parse_dim_string(	gmpv_handle *ctx,
 				const gchar *mpv_geom_str,
@@ -268,6 +270,42 @@ static void handle_msg_level_opt(gmpv_handle *ctx)
 	g_strfreev(tokens);
 }
 
+static void handle_property_change_event(	gmpv_handle *ctx,
+						mpv_event_property* prop)
+{
+	if(g_strcmp0(prop->name, "pause") == 0)
+	{
+		ctx->paused = *((int *)prop->data);
+
+		if(!ctx->loaded && !ctx->paused)
+		{
+			mpv_load(ctx, NULL, FALSE, TRUE);
+		}
+
+		mpv_load_gui_update(ctx);
+	}
+	else if(g_strcmp0(prop->name, "fullscreen") == 0)
+	{
+		int *data = prop->data;
+		int fullscreen = data?*data:-1;
+
+		if(fullscreen != -1 && fullscreen != ctx->gui->fullscreen)
+		{
+			main_window_toggle_fullscreen(MAIN_WINDOW(ctx->gui));
+		}
+	}
+	else if(g_strcmp0(prop->name, "eof-reached") == 0
+	&& prop->data
+	&& *((int *)prop->data) == 1)
+	{
+		ctx->paused = TRUE;
+		ctx->loaded = FALSE;
+
+		main_window_reset(ctx->gui);
+		playlist_reset(ctx);
+	}
+}
+
 void mpv_wakeup_callback(void *data)
 {
 	g_idle_add((GSourceFunc)mpv_handle_event, data);
@@ -275,10 +313,47 @@ void mpv_wakeup_callback(void *data)
 
 void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 {
+	GSList *iter = ctx->log_level_list;
+	module_log_level *level = NULL;
+	gsize event_prefix_len = strlen(message->prefix);
+	gboolean found = FALSE;
+
+	if(iter)
+	{
+		level = iter->data;
+	}
+
+	while(iter && !found)
+	{
+		gsize prefix_len;
+		gint cmp;
+
+		prefix_len = strlen(level->prefix);
+
+		cmp = strncmp(	level->prefix,
+				message->prefix,
+				(event_prefix_len < prefix_len)?
+				event_prefix_len:prefix_len );
+
+		/* Allow both exact match and prefix match */
+		if(cmp == 0
+		&& (prefix_len == event_prefix_len
+		|| (prefix_len < event_prefix_len
+		&& message->prefix[prefix_len] == '/')))
+		{
+			found = TRUE;
+		}
+		else
+		{
+			iter = g_slist_next(iter);
+			level = iter?iter->data:NULL;
+		}
+	}
+
 	/* If the buffer is not empty, new log messages will be ignored
 	 * until the buffer is cleared by show_error_dialog().
 	 */
-	if(!ctx->log_buffer)
+	if(!ctx->log_buffer && !iter || message->log_level <= level->level)
 	{
 		ctx->log_buffer = g_strdup(message->text);
 
@@ -319,41 +394,7 @@ gboolean mpv_handle_event(gpointer data)
 
 		if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
 		{
-			mpv_event_property *prop = event->data;
-
-			if(g_strcmp0(prop->name, "pause") == 0)
-			{
-				ctx->paused = *((int *)prop->data);
-
-				if(!ctx->loaded && !ctx->paused)
-				{
-					mpv_load(ctx, NULL, FALSE, TRUE);
-				}
-
-				mpv_load_gui_update(ctx);
-			}
-			else if(g_strcmp0(prop->name, "fullscreen") == 0)
-			{
-				int *data = prop->data;
-				int fullscreen = data?*data:-1;
-
-				if(fullscreen != -1
-				&& fullscreen != ctx->gui->fullscreen)
-				{
-					main_window_toggle_fullscreen
-						(MAIN_WINDOW(ctx->gui));
-				}
-			}
-			else if(g_strcmp0(prop->name, "eof-reached") == 0
-			&& prop->data
-			&& *((int *)prop->data) == 1)
-			{
-				ctx->paused = TRUE;
-				ctx->loaded = FALSE;
-
-				main_window_reset(ctx->gui);
-				playlist_reset(ctx);
-			}
+			handle_property_change_event(ctx, event->data);
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
@@ -413,53 +454,7 @@ gboolean mpv_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
 		{
-			mpv_event_log_message *log_event;
-			GSList *iter;
-			module_log_level *level;
-			gsize event_prefix_len;
-			gboolean found;
-
-			log_event = (mpv_event_log_message *)event->data;
-			event_prefix_len = strlen(log_event->prefix);
-			iter = ctx->log_level_list;
-			found = FALSE;
-
-			if(iter)
-			{
-				level = iter->data;
-			}
-
-			while(iter && !found)
-			{
-				gsize prefix_len;
-				gint cmp;
-
-				prefix_len = strlen(level->prefix);
-
-				cmp = strncmp(	level->prefix,
-						log_event->prefix,
-						(event_prefix_len < prefix_len)?
-						event_prefix_len:prefix_len );
-
-				/* Allow both exact match and prefix match */
-				if(cmp == 0
-				&& (prefix_len == event_prefix_len
-				|| (prefix_len < event_prefix_len
-				&& log_event->prefix[prefix_len] == '/')))
-				{
-					found = TRUE;
-				}
-				else
-				{
-					iter = g_slist_next(iter);
-					level = iter?iter->data:NULL;
-				}
-			}
-
-			if(!iter || log_event->log_level <= level->level)
-			{
-				mpv_log_handler(ctx, event->data);
-			}
+			mpv_log_handler(ctx, event->data);
 		}
 		else if(event->event_id == MPV_EVENT_NONE)
 		{
