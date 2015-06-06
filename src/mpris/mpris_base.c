@@ -21,6 +21,7 @@
 #include "mpris_gdbus.h"
 #include "def.h"
 
+static void prop_table_init(mpris *inst);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
 				const gchar *object_path,
@@ -49,6 +50,30 @@ static gboolean window_state_handler(	GtkWidget *widget,
 					gpointer data );
 static GVariant *get_supported_uri_schemes(void);
 static GVariant *get_supported_mime_types(void);
+
+static void prop_table_init(mpris *inst)
+{
+	const gpointer default_values[]
+		= {	"CanQuit", g_variant_new_boolean(TRUE),
+			"CanSetFullscreen", g_variant_new_boolean(TRUE),
+			"CanRaise", g_variant_new_boolean(TRUE),
+			"Fullscreen", g_variant_new_boolean(FALSE),
+			"HasTrackList", g_variant_new_boolean(FALSE),
+			"Identity", g_variant_new_string(g_get_application_name()),
+			"DesktopEntry", g_variant_new_string(ICON_NAME),
+			"SupportedUriSchemes", get_supported_uri_schemes(),
+			"SupportedMimeTypes", get_supported_mime_types(),
+			NULL };
+
+	gint i;
+
+	for(i = 0; default_values[i]; i += 2)
+	{
+		g_hash_table_insert(	inst->base_prop_table,
+					default_values[i],
+					default_values[i+1] );
+	}
+}
 
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
@@ -174,49 +199,63 @@ static GVariant *get_supported_mime_types(void)
 	return mpris_build_g_variant_string_array(mime_types);
 }
 
-void mpris_base_prop_table_init(mpris *inst)
-{
-	const gpointer default_values[]
-		= {	"CanQuit", g_variant_new_boolean(TRUE),
-			"CanSetFullscreen", g_variant_new_boolean(TRUE),
-			"CanRaise", g_variant_new_boolean(TRUE),
-			"Fullscreen", g_variant_new_boolean(FALSE),
-			"HasTrackList", g_variant_new_boolean(FALSE),
-			"Identity", g_variant_new_string(g_get_application_name()),
-			"DesktopEntry", g_variant_new_string(ICON_NAME),
-			"SupportedUriSchemes", get_supported_uri_schemes(),
-			"SupportedMimeTypes", get_supported_mime_types(),
-			NULL };
-
-	gint i;
-
-	for(i = 0; default_values[i]; i += 2)
-	{
-		g_hash_table_insert(	inst->base_prop_table,
-					default_values[i],
-					default_values[i+1] );
-	}
-}
-
-gint mpris_base_register(mpris *inst, GDBusConnection *connection)
+void mpris_base_register(mpris *inst)
 {
 	GDBusInterfaceVTable vtable;
+	GDBusInterfaceInfo *iface;
 
-	g_signal_connect(	GTK_WIDGET(inst->gmpv_ctx->gui),
-				"window-state-event",
-				G_CALLBACK(window_state_handler),
-				inst );
+	iface = mpris_org_mpris_media_player2_interface_info();
+
+	inst->base_prop_table = g_hash_table_new_full
+					(	g_str_hash,
+						g_str_equal,
+						NULL,
+						(GDestroyNotify)
+						g_variant_unref );
+
+	inst->base_sig_id_list = g_malloc(2*sizeof(guint));
+
+	inst->base_sig_id_list[0]
+		= g_signal_connect(	inst->gmpv_ctx->gui,
+					"window-state-event",
+					G_CALLBACK(window_state_handler),
+					inst );
+
+	inst->base_sig_id_list[1] = 0;
+
+	prop_table_init(inst);
 
 	vtable.method_call = (GDBusInterfaceMethodCallFunc)method_handler;
 	vtable.get_property = (GDBusInterfaceGetPropertyFunc)get_prop_handler;
 	vtable.set_property = (GDBusInterfaceSetPropertyFunc)set_prop_handler;
 
-	return g_dbus_connection_register_object
-		(	connection,
-			MPRIS_OBJ_ROOT_PATH,
-			mpris_org_mpris_media_player2_interface_info(),
-			&vtable,
-			inst,
-			NULL,
-			NULL );
+	inst->base_reg_id
+		= g_dbus_connection_register_object
+			(	inst->session_bus_conn,
+				MPRIS_OBJ_ROOT_PATH,
+				iface,
+				&vtable,
+				inst,
+				NULL,
+				NULL );
+}
+
+void mpris_base_unregister(mpris *inst)
+{
+	guint *current_sig_id = inst->base_sig_id_list;
+
+	while(current_sig_id && *current_sig_id > 0)
+	{
+		g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
+						*current_sig_id );
+
+		current_sig_id++;
+	}
+
+	g_dbus_connection_unregister_object(	inst->session_bus_conn,
+						inst->base_reg_id );
+
+	g_hash_table_remove_all(inst->base_prop_table);
+	g_hash_table_unref(inst->base_prop_table);
+	g_free(inst->base_sig_id_list);
 }

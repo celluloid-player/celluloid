@@ -30,7 +30,9 @@
 static void bus_acquired_handler(	GDBusConnection *connection,
 					const gchar *name,
 					gpointer data );
-static void shutdown_handler(GtkApplication *application, gpointer data);
+static gboolean delete_handler(	GtkWidget *widget,
+				GdkEvent *event,
+				gpointer data );
 
 static void bus_acquired_handler(	GDBusConnection *connection,
 					const gchar *name,
@@ -39,13 +41,34 @@ static void bus_acquired_handler(	GDBusConnection *connection,
 	mpris *inst = data;
 
 	inst->session_bus_conn = connection;
-	inst->base_reg_id = mpris_base_register(inst, connection);
-	inst->player_reg_id = mpris_player_register(inst, connection);
+
+	mpris_base_register(inst);
+	mpris_player_register(inst);
 }
 
-static void shutdown_handler(GtkApplication *application, gpointer data)
+static gboolean delete_handler(	GtkWidget *widget,
+				GdkEvent *event,
+				gpointer data )
 {
-	g_bus_unown_name(((mpris *) data)->name_id);
+	mpris *inst = data;
+
+	g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
+					inst->shutdown_sig_id );
+
+	if(inst->base_reg_id > 0)
+	{
+		mpris_base_unregister(inst);
+	}
+
+	if(inst->player_reg_id > 0)
+	{
+		mpris_player_unregister(inst);
+	}
+
+	g_bus_unown_name(inst->name_id);
+	g_free(inst);
+
+	return FALSE;
 }
 
 void mpris_emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list)
@@ -105,21 +128,22 @@ void mpris_init(gmpv_handle *gmpv_ctx)
 	mpris *inst = g_malloc(sizeof(mpris));
 
 	inst->gmpv_ctx = gmpv_ctx;
-	inst->name_id = -1;
-	inst->base_reg_id = -1;
-	inst->player_reg_id = -1;
+	inst->name_id = 0;
+	inst->base_reg_id = 0;
+	inst->player_reg_id = 0;
+	inst->shutdown_sig_id = 0;
+	inst->base_sig_id_list = NULL;
+	inst->player_sig_id_list = NULL;
 	inst->pending_seek = -1;
-	inst->base_prop_table = g_hash_table_new(g_str_hash, g_str_equal);
-	inst->player_prop_table = g_hash_table_new(g_str_hash, g_str_equal);
+	inst->base_prop_table = NULL;
+	inst->player_prop_table = NULL;
 	inst->session_bus_conn = NULL;
 
-	mpris_base_prop_table_init(inst);
-	mpris_player_prop_table_init(inst);
-
-	g_signal_connect(	inst->gmpv_ctx->app,
-				"shutdown",
-				G_CALLBACK(shutdown_handler),
-				inst );
+	inst->shutdown_sig_id
+		= g_signal_connect(	inst->gmpv_ctx->gui,
+					"delete-event",
+					G_CALLBACK(delete_handler),
+					inst );
 
 	inst->name_id = g_bus_own_name(	G_BUS_TYPE_SESSION,
 					MPRIS_BUS_NAME,

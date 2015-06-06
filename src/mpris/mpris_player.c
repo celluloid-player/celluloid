@@ -25,6 +25,7 @@
 #include "def.h"
 
 static void set_paused(gmpv_handle *ctx, gboolean paused);
+static void prop_table_init(mpris *inst);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
 				const gchar *object_path,
@@ -67,6 +68,34 @@ static void set_paused(gmpv_handle *ctx, gboolean paused)
 				"pause",
 				MPV_FORMAT_FLAG,
 				&ctx->paused );
+}
+
+static void prop_table_init(mpris *inst)
+{
+	/* Position is retrieved from mpv on-demand */
+	const gpointer default_values[]
+		= {	"PlaybackStatus", g_variant_new_string("Stopped"),
+			"Rate", g_variant_new_double(1.0),
+			"Metadata", g_variant_new("a{sv}", NULL),
+			"Volume", g_variant_new_double(1.0),
+			"MinimumRate", g_variant_new_double(0.01),
+			"MaximumRate", g_variant_new_double(100.0),
+			"CanGoNext", g_variant_new_boolean(FALSE),
+			"CanGoPrevious", g_variant_new_boolean(FALSE),
+			"CanPlay", g_variant_new_boolean(TRUE),
+			"CanPause", g_variant_new_boolean(TRUE),
+			"CanSeek", g_variant_new_boolean(FALSE),
+			"CanControl", g_variant_new_boolean(TRUE),
+			NULL };
+
+	gint i;
+
+	for(i = 0; default_values[i]; i += 2)
+	{
+		g_hash_table_insert(	inst->player_prop_table,
+					default_values[i],
+					default_values[i+1] );
+	}
 }
 
 static void method_handler(	GDBusConnection *connection,
@@ -624,65 +653,75 @@ static void mpv_prop_change_handler(	MainWindow *wnd,
 	}
 }
 
-void mpris_player_prop_table_init(mpris *inst)
+void mpris_player_register(mpris *inst)
 {
-	/* Position is retrieved from mpv on-demand */
-	const gpointer default_values[]
-		= {	"PlaybackStatus", g_variant_new_string("Stopped"),
-			"Rate", g_variant_new_double(1.0),
-			"Metadata", g_variant_new("a{sv}", NULL),
-			"Volume", g_variant_new_double(1.0),
-			"MinimumRate", g_variant_new_double(0.01),
-			"MaximumRate", g_variant_new_double(100.0),
-			"CanGoNext", g_variant_new_boolean(FALSE),
-			"CanGoPrevious", g_variant_new_boolean(FALSE),
-			"CanPlay", g_variant_new_boolean(TRUE),
-			"CanPause", g_variant_new_boolean(TRUE),
-			"CanSeek", g_variant_new_boolean(FALSE),
-			"CanControl", g_variant_new_boolean(TRUE),
-			NULL };
-
-	gint i;
-
-	for(i = 0; default_values[i]; i += 2)
-	{
-		g_hash_table_insert(	inst->player_prop_table,
-					default_values[i],
-					default_values[i+1] );
-	}
-}
-
-gint mpris_player_register(mpris *inst, GDBusConnection *connection)
-{
+	GDBusInterfaceInfo *iface;
 	GDBusInterfaceVTable vtable;
 
-	g_signal_connect(	inst->gmpv_ctx->gui,
-				"mpv-init",
-				G_CALLBACK(mpv_init_handler),
-				inst );
+	iface = mpris_org_mpris_media_player2_player_interface_info();
 
-	g_signal_connect(	inst->gmpv_ctx->gui,
-				"mpv-playback-restart",
-				G_CALLBACK(mpv_playback_restart_handler),
-				inst );
+	inst->player_prop_table = g_hash_table_new_full
+					(	g_str_hash,
+						g_str_equal,
+						NULL,
+						(GDestroyNotify)
+						g_variant_unref );
 
-	g_signal_connect(	inst->gmpv_ctx->gui,
-				"mpv-prop-change",
-				G_CALLBACK(mpv_prop_change_handler),
-				inst );
+	inst->player_sig_id_list = g_malloc(4*sizeof(guint));
+
+	inst->player_sig_id_list[0]
+		= g_signal_connect(	inst->gmpv_ctx->gui,
+					"mpv-init",
+					G_CALLBACK(mpv_init_handler),
+					inst );
+
+	inst->player_sig_id_list[1]
+		= g_signal_connect(	inst->gmpv_ctx->gui,
+					"mpv-playback-restart",
+					G_CALLBACK(mpv_playback_restart_handler),
+					inst );
+
+	inst->player_sig_id_list[2]
+		= g_signal_connect(	inst->gmpv_ctx->gui,
+					"mpv-prop-change",
+					G_CALLBACK(mpv_prop_change_handler),
+					inst );
+
+	inst->player_sig_id_list[3] = 0;
 
 	mpv_init_handler(inst->gmpv_ctx->gui, inst);
+	prop_table_init(inst);
 
 	vtable.method_call = (GDBusInterfaceMethodCallFunc)method_handler;
 	vtable.get_property = (GDBusInterfaceGetPropertyFunc)get_prop_handler;
 	vtable.set_property = (GDBusInterfaceSetPropertyFunc)set_prop_handler;
 
-	return g_dbus_connection_register_object
-		(	connection,
-			MPRIS_OBJ_ROOT_PATH,
-			mpris_org_mpris_media_player2_player_interface_info(),
-			&vtable,
-			inst,
-			NULL,
-			NULL );
+	inst->player_reg_id = g_dbus_connection_register_object
+				(	inst->session_bus_conn,
+					MPRIS_OBJ_ROOT_PATH,
+					iface,
+					&vtable,
+					inst,
+					NULL,
+					NULL );
+}
+
+void mpris_player_unregister(mpris *inst)
+{
+	guint *current_sig_id = inst->player_sig_id_list;
+
+	while(current_sig_id && *current_sig_id > 0)
+	{
+		g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
+						*current_sig_id );
+
+		current_sig_id++;
+	}
+
+	g_dbus_connection_unregister_object(	inst->session_bus_conn,
+						inst->player_reg_id );
+
+	g_hash_table_remove_all(inst->player_prop_table);
+	g_hash_table_unref(inst->player_prop_table);
+	g_free(inst->player_sig_id_list);
 }

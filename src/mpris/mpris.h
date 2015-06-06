@@ -31,6 +31,9 @@ struct mpris
 	guint name_id;
 	guint base_reg_id;
 	guint player_reg_id;
+	guint shutdown_sig_id;
+	guint *base_sig_id_list;
+	guint *player_sig_id_list;
 	gdouble pending_seek;
 	GHashTable *base_prop_table;
 	GHashTable *player_prop_table;

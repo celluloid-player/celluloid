@@ -22,7 +22,7 @@
 
 #include "mpris.h"
 
-void mpris_player_prop_table_init(mpris *inst);
-gint mpris_player_register(mpris *inst, GDBusConnection *connection);
+void mpris_player_register(mpris *inst);
+void mpris_player_unregister(mpris *inst);
 
 #endif
