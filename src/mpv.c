@@ -17,6 +17,7 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
@@ -378,16 +379,9 @@ void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 		}
 	}
 
-	/* If the buffer is not empty, new log messages will be ignored
-	 * until the buffer is cleared by show_error_dialog().
-	 */
-	if((!ctx->log_buffer && !iter) || (message->log_level <= level->level))
+	if(!iter || (message->log_level <= level->level))
 	{
-		ctx->log_buffer = g_strdup(message->text);
-
-		/* ctx->log_buffer will be freed by show_error_dialog().
-		 */
-		show_error_dialog(ctx);
+		show_error_dialog(ctx, message->prefix, message->text);
 	}
 }
 
@@ -787,10 +781,10 @@ void mpv_init(gmpv_handle *ctx, gint64 vid_area_wid)
 	/* Apply extra options */
 	if(mpv_apply_args(ctx->mpv_ctx, mpvopt) < 0)
 	{
-		ctx->log_buffer
-			= g_strdup("Failed to apply one or more MPV options.");
+		const gchar *msg
+			= _("Failed to apply one or more MPV options.");
 
-		show_error_dialog(ctx);
+		show_error_dialog(ctx, NULL, msg);
 	}
 
 	mpv_check_error(mpv_initialize(ctx->mpv_ctx));

@@ -229,28 +229,32 @@ void seek(gmpv_handle *ctx, gdouble time)
 
 }
 
-void show_error_dialog(gmpv_handle *ctx)
+void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg)
 {
-	if(ctx->log_buffer)
+	GtkWidget *dialog
+		= gtk_message_dialog_new
+			(	GTK_WINDOW(ctx->gui),
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_ERROR,
+				GTK_BUTTONS_OK,
+				"Error" );
+
+	if(prefix)
 	{
-		GtkWidget *dialog
-			= gtk_message_dialog_new
-				(	GTK_WINDOW(ctx->gui),
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_ERROR,
-					GTK_BUTTONS_OK,
-					"Error" );
-
-		gtk_message_dialog_format_secondary_text
-			(GTK_MESSAGE_DIALOG(dialog), "%s", ctx->log_buffer);
-
-		gtk_dialog_run(GTK_DIALOG(dialog));
-		gtk_widget_destroy(dialog);
-
-		g_free(ctx->log_buffer);
-
-		ctx->log_buffer = NULL;
+		gtk_message_dialog_format_secondary_markup
+			(	GTK_MESSAGE_DIALOG(dialog),
+				"<b>[%s]</b> %s",
+				prefix,
+				msg );
 	}
+	else
+	{
+		gtk_message_dialog_format_secondary_text
+			(GTK_MESSAGE_DIALOG(dialog), "%s", msg);
+	}
+
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
 }
 
 void remove_current_playlist_entry(gmpv_handle *ctx)
@@ -471,14 +475,10 @@ void load_keybind(	gmpv_handle *ctx,
 
 	if(notify_propexp && propexp)
 	{
-		ctx->log_buffer
-			= g_strdup(_(	"Keybindings that require Property "
+		const gchar *msg = _(	"Keybindings that require Property "
 					"Expansion are not supported and have "
-					"been ignored." ));
+					"been ignored." );
 
-		/* ctx->log_buffer will be freed by
-		 * show_error_dialog().
-		 */
-		show_error_dialog(ctx);
+		show_error_dialog(ctx, NULL, msg);
 	}
 }

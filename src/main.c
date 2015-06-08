@@ -485,7 +485,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->sub_visible = TRUE;
 	ctx->init_load = TRUE;
 	ctx->playlist_move_dest = -1;
-	ctx->log_buffer = NULL;
 	ctx->log_level_list = NULL;
 	ctx->keybind_list = NULL;
 	ctx->config = g_settings_new_with_backend(APP_ID, config_backend);

@@ -129,10 +129,9 @@ void playlist_save_handler(	GSimpleAction *action,
 
 	if(error)
 	{
-		ctx->log_buffer = g_strdup(error->message);
+		show_error_dialog(ctx, NULL, error->message);
 
 		g_error_free(error);
-		show_error_dialog(ctx);
 	}
 }
 
