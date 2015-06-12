@@ -36,6 +36,7 @@
 #include "pref_dialog.h"
 #include "open_loc_dialog.h"
 #include "mpris/mpris.h"
+#include "media_keys/media_keys.h"
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean load_files(gpointer data);
@@ -544,6 +545,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	connect_signals(ctx);
 	load_keybind(ctx, mpvinput_enable?mpvinput:NULL, FALSE);
 	mpris_init(ctx);
+	media_keys_init(ctx);
 
 	g_object_set(	ctx->gui->settings,
 			"gtk-application-prefer-dark-theme",

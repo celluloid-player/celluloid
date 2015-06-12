@@ -11,6 +11,8 @@ mpris_files =	mpris/mpris.c mpris/mpris.h mpris/mpris_base.c \
 		mpris/mpris_base.h mpris/mpris_player.c mpris/mpris_player.h \
 		$(mpris_generated)
 
+media_key_files = media_keys/media_keys.c media_keys/media_keys.h
+
 BUILT_SOURCES = $(mpris_generated)
 
 gnome_mpv_SOURCES =	main.c def.h common.c common.h mpv.c mpv.h keybind.c \
@@ -19,7 +21,7 @@ gnome_mpv_SOURCES =	main.c def.h common.c common.h mpv.c mpv.h keybind.c \
 			main_window.h control_box.c control_box.h \
 			pref_dialog.c pref_dialog.h open_loc_dialog.c \
 			open_loc_dialog.h playlist_widget.c playlist_widget.h \
-			$(mpris_files)
+			$(mpris_files) $(media_key_files)
 
 gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \
 			-DG_SETTINGS_ENABLE_BACKEND \
