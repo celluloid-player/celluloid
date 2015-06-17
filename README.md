@@ -21,6 +21,8 @@ capabilities.
 ### GNU/Linux packages
 - Arch Linux: https://aur.archlinux.org/packages/gnome-mpv
 - Arch Linux (Git): https://aur.archlinux.org/packages/gnome-mpv-git
+- Fedora/OpenSUSE: https://build.opensuse.org/package/show/home:mermoldy:multimedia/gnome-mpv
+- Gentoo: http://gpo.zugaina.org/media-video/gnome-mpv
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
 ### Source code
