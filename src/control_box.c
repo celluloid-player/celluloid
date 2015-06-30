@@ -63,20 +63,13 @@ static gchar *seek_bar_format_handler(	GtkScale *scale,
 
 static void control_box_init(ControlBox *box)
 {
-	GIcon *play_icon;
-	GIcon *stop_icon;
-	GIcon *forward_icon;
-	GIcon *rewind_icon;
-	GIcon *previous_icon;
-	GIcon *next_icon;
-	GIcon *fullscreen_icon;
-	GtkWidget *play_icon_image;
-	GtkWidget *stop_icon_image;
-	GtkWidget *forward_icon_image;
-	GtkWidget *rewind_icon_image;
-	GtkWidget *previous_icon_image;
-	GtkWidget *next_icon_image;
-	GtkWidget *fullscreen_icon_image;
+	GtkWidget *play_icon;
+	GtkWidget *stop_icon;
+	GtkWidget *forward_icon;
+	GtkWidget *rewind_icon;
+	GtkWidget *previous_icon;
+	GtkWidget *next_icon;
+	GtkWidget *fullscreen_icon;
 
 	box->seek_bar_length = -1;
 	box->play_button = gtk_button_new_with_label(NULL);
@@ -89,54 +82,33 @@ static void control_box_init(ControlBox *box)
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 
-	play_icon = g_themed_icon_new_with_default_fallbacks
-			("media-playback-start-symbolic");
+	play_icon
+		= gtk_image_new_from_icon_name(	"media-playback-start",
+						GTK_ICON_SIZE_BUTTON );
 
-	stop_icon = g_themed_icon_new_with_default_fallbacks
-			("media-playback-stop-symbolic");
+	stop_icon
+		= gtk_image_new_from_icon_name(	"media-playback-stop",
+						GTK_ICON_SIZE_BUTTON );
 
-	forward_icon = g_themed_icon_new_with_default_fallbacks
-			("media-seek-forward-symbolic");
+	forward_icon
+		= gtk_image_new_from_icon_name(	"media-seek-forward",
+						GTK_ICON_SIZE_BUTTON );
 
-	rewind_icon = g_themed_icon_new_with_default_fallbacks
-			("media-seek-backward-symbolic");
+	rewind_icon
+		= gtk_image_new_from_icon_name(	"media-seek-backward",
+						GTK_ICON_SIZE_BUTTON );
 
-	next_icon = g_themed_icon_new_with_default_fallbacks
-			("media-skip-forward-symbolic");
+	next_icon
+		= gtk_image_new_from_icon_name(	"media-skip-forward",
+						GTK_ICON_SIZE_BUTTON );
 
-	previous_icon = g_themed_icon_new_with_default_fallbacks
-			("media-skip-backward-symbolic");
+	previous_icon
+		= gtk_image_new_from_icon_name(	"media-skip-backward",
+						GTK_ICON_SIZE_BUTTON );
 
-	fullscreen_icon = g_themed_icon_new_with_default_fallbacks
-			("view-fullscreen-symbolic");
-
-	play_icon_image
-		= gtk_image_new_from_gicon
-			(play_icon, GTK_ICON_SIZE_BUTTON);
-
-	stop_icon_image
-		= gtk_image_new_from_gicon
-			(stop_icon, GTK_ICON_SIZE_BUTTON);
-
-	forward_icon_image
-		= gtk_image_new_from_gicon
-			(forward_icon, GTK_ICON_SIZE_BUTTON);
-
-	rewind_icon_image
-		= gtk_image_new_from_gicon
-			(rewind_icon, GTK_ICON_SIZE_BUTTON);
-
-	next_icon_image
-		= gtk_image_new_from_gicon
-			(next_icon, GTK_ICON_SIZE_BUTTON);
-
-	previous_icon_image
-		= gtk_image_new_from_gicon
-			(previous_icon, GTK_ICON_SIZE_BUTTON);
-
-	fullscreen_icon_image
-		= gtk_image_new_from_gicon
-			(fullscreen_icon, GTK_ICON_SIZE_BUTTON);
+	fullscreen_icon
+		= gtk_image_new_from_icon_name(	"view-fullscreen",
+						GTK_ICON_SIZE_BUTTON );
 
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
 
@@ -161,25 +133,25 @@ static void control_box_init(ControlBox *box)
 	gtk_widget_set_can_focus(box->fullscreen_button, FALSE);
 
 	gtk_button_set_image
-		(GTK_BUTTON(box->play_button), play_icon_image);
+		(GTK_BUTTON(box->play_button), play_icon);
 
 	gtk_button_set_image
-		(GTK_BUTTON(box->stop_button), stop_icon_image);
+		(GTK_BUTTON(box->stop_button), stop_icon);
 
 	gtk_button_set_image
-		(GTK_BUTTON(box->forward_button), forward_icon_image);
+		(GTK_BUTTON(box->forward_button), forward_icon);
 
 	gtk_button_set_image
-		(GTK_BUTTON(box->rewind_button), rewind_icon_image);
+		(GTK_BUTTON(box->rewind_button), rewind_icon);
 
 	gtk_button_set_image
-		(GTK_BUTTON(box->next_button), next_icon_image);
+		(GTK_BUTTON(box->next_button), next_icon);
 
 	gtk_button_set_image
-		(GTK_BUTTON(box->previous_button), previous_icon_image);
+		(GTK_BUTTON(box->previous_button), previous_icon);
 
 	gtk_button_set_image
-		(GTK_BUTTON(box->fullscreen_button), fullscreen_icon_image);
+		(GTK_BUTTON(box->fullscreen_button), fullscreen_icon);
 
 	gtk_container_add
 		(GTK_CONTAINER(box), box->previous_button);
