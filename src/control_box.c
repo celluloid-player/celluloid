@@ -83,31 +83,31 @@ static void control_box_init(ControlBox *box)
 	box->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 
 	play_icon
-		= gtk_image_new_from_icon_name(	"media-playback-start",
+		= gtk_image_new_from_icon_name(	"media-playback-start-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
 	stop_icon
-		= gtk_image_new_from_icon_name(	"media-playback-stop",
+		= gtk_image_new_from_icon_name(	"media-playback-stop-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
 	forward_icon
-		= gtk_image_new_from_icon_name(	"media-seek-forward",
+		= gtk_image_new_from_icon_name(	"media-seek-forward-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
 	rewind_icon
-		= gtk_image_new_from_icon_name(	"media-seek-backward",
+		= gtk_image_new_from_icon_name(	"media-seek-backward-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
 	next_icon
-		= gtk_image_new_from_icon_name(	"media-skip-forward",
+		= gtk_image_new_from_icon_name(	"media-skip-forward-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
 	previous_icon
-		= gtk_image_new_from_icon_name(	"media-skip-backward",
+		= gtk_image_new_from_icon_name(	"media-skip-backward-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
 	fullscreen_icon
-		= gtk_image_new_from_icon_name(	"view-fullscreen",
+		= gtk_image_new_from_icon_name(	"view-fullscreen-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
@@ -259,10 +259,11 @@ void control_box_set_playing_state(ControlBox *box, gboolean playing)
 {
 	GtkWidget *play_icon;
 
-	play_icon = gtk_image_new_from_icon_name( 	playing
-							?"media-playback-pause"
-							:"media-playback-start",
-							GTK_ICON_SIZE_BUTTON );
+	play_icon = gtk_image_new_from_icon_name
+			( 	playing
+				?"media-playback-pause-symbolic"
+				:"media-playback-start-symbolic",
+				GTK_ICON_SIZE_BUTTON );
 
 	gtk_button_set_image(GTK_BUTTON(box->play_button), play_icon);
 }
@@ -271,10 +272,11 @@ void control_box_set_fullscreen_state(ControlBox *box, gboolean fullscreen)
 {
 	GtkWidget *fullscreen_icon;
 
-	fullscreen_icon = gtk_image_new_from_icon_name(	fullscreen
-							?"view-restore"
-							:"view-fullscreen",
-							GTK_ICON_SIZE_BUTTON );
+	fullscreen_icon = gtk_image_new_from_icon_name
+				(	fullscreen
+					?"view-restore-symbolic"
+					:"view-fullscreen-symbolic",
+					GTK_ICON_SIZE_BUTTON );
 
 	gtk_button_set_image(	GTK_BUTTON(box->fullscreen_button),
 				fullscreen_icon );
