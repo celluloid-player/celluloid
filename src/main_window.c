@@ -94,7 +94,9 @@ static gboolean fs_control_enter_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data )
 {
-	gtk_widget_set_opacity(data, 1);
+	MainWindow *wnd = data;
+
+	gtk_widget_set_opacity(wnd->fs_control, 1);
 
 	return FALSE;
 }
@@ -103,7 +105,20 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data )
 {
-	gtk_widget_set_opacity(data, 0);
+	MainWindow *wnd;
+	ControlBox *control_box;
+	GtkScaleButton *button;
+	GtkWidget *popup;
+
+	wnd = data;
+	control_box = CONTROL_BOX(wnd->control_box);
+	button = GTK_SCALE_BUTTON(control_box->volume_button);
+	popup = gtk_scale_button_get_popup(button);
+
+	if(!gtk_widget_is_visible(popup))
+	{
+		gtk_widget_set_opacity(wnd->fs_control, 0);
+	}
 
 	return FALSE;
 }
@@ -469,12 +484,12 @@ static void main_window_init(MainWindow *wnd)
 	g_signal_connect(	wnd->fs_control,
 				"enter-notify-event",
 				G_CALLBACK(fs_control_enter_handler),
-				wnd->fs_control );
+				wnd );
 
 	g_signal_connect(	wnd->fs_control,
 				"leave-notify-event",
 				G_CALLBACK(fs_control_leave_handler),
-				wnd->fs_control );
+				wnd );
 
 	g_signal_connect(	wnd,
 				"motion-notify-event",
