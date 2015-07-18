@@ -531,16 +531,32 @@ void mpv_update_playlist(gmpv_handle *ctx)
 
 	for(i = 0; i < playlist_count; i++)
 	{
-		gchar *path;
-		gchar *name;
+		gint prop_count = 0;
+		gchar *path = NULL;
+		gchar *title = NULL;
+		gchar *name = NULL;
 
+		prop_count = playlist_array.u.list->values[i].u.list->num;
+
+		/* The first entry must always exist */
 		path =	playlist_array.u.list
 			->values[i].u.list
 			->values[0].u.string;
 
-		name = get_name_from_path(path);
+		/* Try retrieving the title from mpv playlist */
+		if(prop_count >= 4)
+		{
+			title = playlist_array.u.list
+				->values[i].u.list
+				->values[3].u.string;
+		}
 
-		playlist_widget_append(playlist, name, path);
+		if(!title)
+		{
+			name = get_name_from_path(path);
+		}
+
+		playlist_widget_append(playlist, title?title:name, path);
 
 		mpv_free(path);
 		g_free(name);
