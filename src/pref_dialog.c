@@ -199,18 +199,12 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 11, 2, 1);
 }
 
-GtkWidget *pref_dialog_new(GtkWindow *parent)
+static void pref_dialog_show(PrefDialog *dlg, gint csd)
 {
-	PrefDialog *dlg = g_object_new(pref_dialog_get_type(), NULL);
-
-	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
-	gtk_widget_show_all(GTK_WIDGET(dlg));
-
-	if (main_window_get_csd_enabled(parent) == 1) {
-		/* Create header-bar components with old method */
+	if (csd == 1)
+	{
 		GtkWidget *headerbar = gtk_header_bar_new();
 
-		/* cancel button on left-most */
 		GtkWidget *cancel_button = gtk_button_new_with_label
 							(_("_Cancel"));
 		gtk_button_set_use_underline(GTK_BUTTON(cancel_button), TRUE);
@@ -221,11 +215,10 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 		 * gtk_container_remove anyway on gtk-3.16.
 		 */
 		gtk_widget_reparent(cancel_button, headerbar);
-		gtk_container_child_set (GTK_CONTAINER(headerbar),
+		gtk_container_child_set(GTK_CONTAINER(headerbar),
 					 cancel_button,
 					"pack-type", GTK_PACK_START, NULL);
 
-		/* save button on right-most */
 		GtkWidget *save_button = gtk_button_new_with_label
 							(_("_Save"));
 		gtk_button_set_use_underline(GTK_BUTTON(save_button), TRUE);
@@ -233,28 +226,43 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 					     save_button,
 					     GTK_RESPONSE_ACCEPT);
 		gtk_widget_reparent(save_button, headerbar);
-		gtk_container_child_set (GTK_CONTAINER(headerbar),
-					 save_button,
-					 "pack-type", GTK_PACK_END, NULL);
+		gtk_container_child_set(GTK_CONTAINER(headerbar),
+					save_button,
+					"pack-type", GTK_PACK_END, NULL);
 
-		/* header-bar title */
 		gtk_header_bar_set_title(GTK_HEADER_BAR(headerbar),
 							_("Preferences"));
 		gtk_window_set_titlebar(GTK_WINDOW(dlg), headerbar);
 
 		gtk_widget_show_all(headerbar);
+
+		gtk_widget_show_all(GTK_WIDGET(dlg));
 	} else {
-		/* create traditional title-bar and action-area	*/
 		gtk_window_set_title(GTK_WINDOW(dlg), _("Preferences"));
-		/* left-most cancel button is for Gnome-HIG */
-		gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
-					_("_Cancel"),
-					GTK_RESPONSE_REJECT,
-					_("_Save"),
-					GTK_RESPONSE_ACCEPT,
-					NULL );
+		gtk_dialog_add_buttons(GTK_DIALOG(dlg),
+				       _("_Cancel"),
+				       GTK_RESPONSE_REJECT,
+				       _("_Save"),
+				       GTK_RESPONSE_ACCEPT,
+				       NULL );
+
+		gtk_widget_show_all(GTK_WIDGET(dlg));
 	}
-   
+}
+
+GtkWidget *pref_dialog_new(GtkWindow *parent)
+{
+	PrefDialog *dlg = g_object_new(pref_dialog_get_type(), NULL);
+
+	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
+
+	if (main_window_get_csd_enabled(parent) == 1)
+	{
+		pref_dialog_show(dlg, 1);
+	} else{
+		pref_dialog_show(dlg, 0);
+	}
+
 	return GTK_WIDGET(dlg);
 }
 
