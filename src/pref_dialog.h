@@ -53,9 +53,6 @@ struct PrefDialog
 	GtkWidget *mpvconf_enable_check;
 	GtkWidget *mpvconf_button;
 	GtkWidget *mpvopt_entry;
-	GtkWidget *headerbar;
-	GtkWidget *cancel_button;
-	GtkWidget *save_button;
 };
 
 struct PrefDialogClass

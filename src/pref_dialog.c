@@ -25,6 +25,8 @@
 static void response_handler(	GtkDialog *dialog,
 				gint response_id,
 				gpointer data );
+static void csd_save_button_handler(GtkButton *button, gpointer data);
+static void csd_cancel_button_handler(GtkButton *button, gpointer data);
 static gboolean key_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
@@ -33,6 +35,16 @@ static void pref_dialog_init(PrefDialog *dlg);
 static void response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 {
 	gtk_widget_hide(GTK_WIDGET(dialog));
+}
+
+static void csd_save_button_handler(GtkButton *button, gpointer data)
+{
+	gtk_dialog_response(GTK_DIALOG(data), GTK_RESPONSE_ACCEPT);
+}
+
+static void csd_cancel_button_handler(GtkButton *button, gpointer data)
+{
+	gtk_dialog_response(GTK_DIALOG(data), GTK_RESPONSE_REJECT);
 }
 
 static gboolean key_press_handler(	GtkWidget *widget,
@@ -201,53 +213,53 @@ static void pref_dialog_init(PrefDialog *dlg)
 
 static void pref_dialog_show(PrefDialog *dlg, gboolean csd)
 {
-	if (csd)
+	if(csd)
 	{
-		GtkWidget *headerbar = gtk_header_bar_new();
+		GtkWidget *headerbar;
+		GtkWidget *cancel_button;
+		GtkWidget *save_button;
 
-		GtkWidget *cancel_button = gtk_button_new_with_label
-							(_("_Cancel"));
+		headerbar = gtk_header_bar_new();
+		cancel_button = gtk_button_new_with_label(_("_Cancel"));
+		save_button = gtk_button_new_with_label(_("_Save"));
+
+		g_signal_connect(	save_button,
+					"clicked",
+					G_CALLBACK(csd_save_button_handler),
+					dlg );
+
+		g_signal_connect(	cancel_button,
+					"clicked",
+					G_CALLBACK(csd_cancel_button_handler),
+					dlg );
+
 		gtk_button_set_use_underline(GTK_BUTTON(cancel_button), TRUE);
-		gtk_dialog_add_action_widget(GTK_DIALOG(dlg),
-					     cancel_button,
-					     GTK_RESPONSE_REJECT);
-		/* FIXME - gtk_widget_reparent should be replaced to
-		 * gtk_container_remove anyway on gtk-3.16.
-		 */
-		gtk_widget_reparent(cancel_button, headerbar);
-		gtk_container_child_set(GTK_CONTAINER(headerbar),
-					 cancel_button,
-					"pack-type", GTK_PACK_START, NULL);
-
-		GtkWidget *save_button = gtk_button_new_with_label
-							(_("_Save"));
 		gtk_button_set_use_underline(GTK_BUTTON(save_button), TRUE);
-		gtk_dialog_add_action_widget(GTK_DIALOG(dlg),
-					     save_button,
-					     GTK_RESPONSE_ACCEPT);
-		gtk_widget_reparent(save_button, headerbar);
-		gtk_container_child_set(GTK_CONTAINER(headerbar),
-					save_button,
-					"pack-type", GTK_PACK_END, NULL);
 
-		gtk_header_bar_set_title(GTK_HEADER_BAR(headerbar),
-							_("Preferences"));
+		gtk_header_bar_pack_start(	GTK_HEADER_BAR(headerbar),
+						cancel_button );
+
+		gtk_header_bar_pack_end(	GTK_HEADER_BAR(headerbar),
+						save_button );
+
+		gtk_header_bar_set_title(	GTK_HEADER_BAR(headerbar),
+						_("Preferences") );
+
 		gtk_window_set_titlebar(GTK_WINDOW(dlg), headerbar);
-
-		gtk_widget_show_all(headerbar);
-
-		gtk_widget_show_all(GTK_WIDGET(dlg));
-	} else {
-		gtk_window_set_title(GTK_WINDOW(dlg), _("Preferences"));
-		gtk_dialog_add_buttons(GTK_DIALOG(dlg),
-				       _("_Cancel"),
-				       GTK_RESPONSE_REJECT,
-				       _("_Save"),
-				       GTK_RESPONSE_ACCEPT,
-				       NULL );
-
-		gtk_widget_show_all(GTK_WIDGET(dlg));
 	}
+	else
+	{
+		gtk_window_set_title(GTK_WINDOW(dlg), _("Preferences"));
+
+		gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
+					_("_Cancel"),
+					GTK_RESPONSE_REJECT,
+					_("_Save"),
+					GTK_RESPONSE_ACCEPT,
+					NULL );
+	}
+
+	gtk_widget_show_all(GTK_WIDGET(dlg));
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)
@@ -255,13 +267,7 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 	PrefDialog *dlg = g_object_new(pref_dialog_get_type(), NULL);
 
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
-
-	if (main_window_get_csd_enabled(MAIN_WINDOW(parent)))
-	{
-		pref_dialog_show(dlg, TRUE);
-	} else {
-		pref_dialog_show(dlg, FALSE);
-	}
+	pref_dialog_show(dlg, main_window_get_csd_enabled(MAIN_WINDOW(parent)));
 
 	return GTK_WIDGET(dlg);
 }
