@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 
 #include "pref_dialog.h"
+#include "main_window.h"
 
 static void response_handler(	GtkDialog *dialog,
 				gint response_id,
@@ -149,15 +150,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_size_request(dlg->mpvconf_button, 100, -1);
 	gtk_widget_set_size_request(dlg->mpvinput_button, 100, -1);
 
-	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
-				_("_Save"),
-				GTK_RESPONSE_ACCEPT,
-				_("_Cancel"),
-				GTK_RESPONSE_REJECT,
-				NULL );
-
 	gtk_window_set_modal(GTK_WINDOW(dlg), 1);
-	gtk_window_set_title(GTK_WINDOW(dlg), _("Preferences"));
 
 	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
 					GTK_WIDGET(dlg),
@@ -213,6 +206,55 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
 	gtk_widget_show_all(GTK_WIDGET(dlg));
 
+	if (main_window_get_csd_enabled(parent) == 1) {
+		/* Create header-bar components with old method */
+		GtkWidget *headerbar = gtk_header_bar_new();
+
+		/* cancel button on left-most */
+		GtkWidget *cancel_button = gtk_button_new_with_label
+							(_("_Cancel"));
+		gtk_button_set_use_underline(GTK_BUTTON(cancel_button), TRUE);
+		gtk_dialog_add_action_widget(GTK_DIALOG(dlg),
+					     cancel_button,
+					     GTK_RESPONSE_REJECT);
+		/* FIXME - gtk_widget_reparent should be replaced to
+		 * gtk_container_remove anyway on gtk-3.16.
+		 */
+		gtk_widget_reparent(cancel_button, headerbar);
+		gtk_container_child_set (GTK_CONTAINER(headerbar),
+					 cancel_button,
+					"pack-type", GTK_PACK_START, NULL);
+
+		/* save button on right-most */
+		GtkWidget *save_button = gtk_button_new_with_label
+							(_("_Save"));
+		gtk_button_set_use_underline(GTK_BUTTON(save_button), TRUE);
+		gtk_dialog_add_action_widget(GTK_DIALOG(dlg),
+					     save_button,
+					     GTK_RESPONSE_ACCEPT);
+		gtk_widget_reparent(save_button, headerbar);
+		gtk_container_child_set (GTK_CONTAINER(headerbar),
+					 save_button,
+					 "pack-type", GTK_PACK_END, NULL);
+
+		/* header-bar title */
+		gtk_header_bar_set_title(GTK_HEADER_BAR(headerbar),
+							_("Preferences"));
+		gtk_window_set_titlebar(GTK_WINDOW(dlg), headerbar);
+
+		gtk_widget_show_all(headerbar);
+	} else {
+		/* create traditional title-bar and action-area	*/
+		gtk_window_set_title(GTK_WINDOW(dlg), _("Preferences"));
+		/* left-most cancel button is for Gnome-HIG */
+		gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
+					_("_Cancel"),
+					GTK_RESPONSE_REJECT,
+					_("_Save"),
+					GTK_RESPONSE_ACCEPT,
+					NULL );
+	}
+   
 	return GTK_WIDGET(dlg);
 }
 
