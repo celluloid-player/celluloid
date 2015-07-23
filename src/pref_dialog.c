@@ -199,9 +199,9 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 11, 2, 1);
 }
 
-static void pref_dialog_show(PrefDialog *dlg, gint csd)
+static void pref_dialog_show(PrefDialog *dlg, gboolean csd)
 {
-	if (csd == 1)
+	if (csd)
 	{
 		GtkWidget *headerbar = gtk_header_bar_new();
 
@@ -256,11 +256,12 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
 
-	if (main_window_get_csd_enabled(parent) == 1)
+	/* FIXME - parent has 'struct GtkWindow' type */
+	if (main_window_get_csd_enabled(parent))
 	{
-		pref_dialog_show(dlg, 1);
-	} else{
-		pref_dialog_show(dlg, 0);
+		pref_dialog_show(dlg, TRUE);
+	} else {
+		pref_dialog_show(dlg, FALSE);
 	}
 
 	return GTK_WIDGET(dlg);
