@@ -256,8 +256,7 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
 
-	/* FIXME - parent has 'struct GtkWindow' type */
-	if (main_window_get_csd_enabled(parent))
+	if (main_window_get_csd_enabled(MAIN_WINDOW(parent)))
 	{
 		pref_dialog_show(dlg, TRUE);
 	} else {
