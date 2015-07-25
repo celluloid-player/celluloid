@@ -53,6 +53,7 @@ struct PrefDialog
 	GtkWidget *mpvconf_enable_check;
 	GtkWidget *mpvconf_button;
 	GtkWidget *mpvopt_entry;
+	GtkSizeGroup *button_size_group;
 };
 
 struct PrefDialogClass

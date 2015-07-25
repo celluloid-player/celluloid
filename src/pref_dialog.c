@@ -123,6 +123,8 @@ static void pref_dialog_init(PrefDialog *dlg)
 		= gtk_check_button_new_with_label
 			(_("Load MPV input configuration file"));
 
+	dlg->button_size_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+
 	gtk_label_set_use_markup(GTK_LABEL(general_group_label), TRUE);
 	gtk_label_set_use_markup(GTK_LABEL(mpvconf_group_label), TRUE);
 	gtk_label_set_use_markup(GTK_LABEL(mpvinput_group_label), TRUE);
@@ -232,6 +234,12 @@ static void pref_dialog_show(PrefDialog *dlg, gboolean csd)
 					"clicked",
 					G_CALLBACK(csd_cancel_button_handler),
 					dlg );
+
+		gtk_size_group_add_widget(	dlg->button_size_group,
+						save_button );
+
+		gtk_size_group_add_widget(	dlg->button_size_group,
+						cancel_button );
 
 		gtk_button_set_use_underline(GTK_BUTTON(cancel_button), TRUE);
 		gtk_button_set_use_underline(GTK_BUTTON(save_button), TRUE);
