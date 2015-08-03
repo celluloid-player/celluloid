@@ -244,6 +244,10 @@ static void pref_dialog_show(PrefDialog *dlg, gboolean csd)
 		gtk_button_set_use_underline(GTK_BUTTON(cancel_button), TRUE);
 		gtk_button_set_use_underline(GTK_BUTTON(save_button), TRUE);
 
+		gtk_style_context_add_class
+			(	gtk_widget_get_style_context(save_button),
+				"suggested-action" );
+
 		gtk_header_bar_pack_start(	GTK_HEADER_BAR(headerbar),
 						cancel_button );
 
