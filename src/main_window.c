@@ -61,14 +61,22 @@ static gboolean focus_in_handler(	GtkWidget *widget,
 	{
 		gint width;
 		gint height;
+		gint monitor;
+		GdkRectangle monitor_geometry;
+		GdkScreen *screen;
+
+		screen = gtk_window_get_screen(GTK_WINDOW(wnd));
+		monitor = gdk_screen_get_monitor_at_window(	screen,
+				gtk_widget_get_window(GTK_WIDGET(wnd)) );
+		gdk_screen_get_monitor_geometry(screen, monitor, &monitor_geometry);
 
 		gtk_window_get_size(	GTK_WINDOW(wnd->fs_control),
 					&width,
 					&height );
 
 		gtk_window_move(	GTK_WINDOW(wnd->fs_control),
-					(gdk_screen_width()/2)-(width/2),
-					gdk_screen_height()-height );
+					monitor_geometry.x+(width/2),
+					monitor_geometry.y+monitor_geometry.height-height );
 
 		gtk_widget_show_all(wnd->fs_control);
 	}
