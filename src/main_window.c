@@ -569,11 +569,17 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 	else
 	{
 		GdkScreen *screen;
+		GdkRectangle monitor_geometry;
 		gint width;
 		gint height;
+		gint monitor;
 
 		screen = gtk_window_get_screen(GTK_WINDOW(wnd));
-		width = gdk_screen_width()/2;
+		monitor = gdk_screen_get_monitor_at_window(	screen,
+				gtk_widget_get_window(GTK_WIDGET(wnd)) );
+		gdk_screen_get_monitor_geometry(screen, monitor, &monitor_geometry);
+
+		width = monitor_geometry.width/2;
 
 		g_object_ref(wnd->control_box);
 		gtk_container_remove(main_box, wnd->control_box);
@@ -611,8 +617,8 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 					height );
 
 		gtk_window_move(	GTK_WINDOW(wnd->fs_control),
-					(gdk_screen_width()/2)-(width/2),
-					gdk_screen_height()-height );
+					monitor_geometry.x+width/2,
+					monitor_geometry.y+monitor_geometry.height-height );
 
 		gtk_window_set_transient_for(	GTK_WINDOW(wnd->fs_control),
 						GTK_WINDOW(wnd) );
