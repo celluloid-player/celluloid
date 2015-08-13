@@ -590,10 +590,10 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gint monitor;
 
 		screen = gtk_window_get_screen(GTK_WINDOW(wnd));
-		window = gtk_widget_get_window(GTK_WIDGET(wnd))
+		window = gtk_widget_get_window(GTK_WIDGET(wnd));
 		monitor = gdk_screen_get_monitor_at_window(screen, window);
 
-		gdk_screen_get_monitor_geom(screen, monitor, &monitor_geom);
+		gdk_screen_get_monitor_geometry(screen, monitor, &monitor_geom);
 
 		width = monitor_geom.width/2;
 
