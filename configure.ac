@@ -8,7 +8,9 @@ AC_INIT(	[gnome-mpv],
 
 AC_CONFIG_SRCDIR([src/main.c])
 AC_USE_SYSTEM_EXTENSIONS
-AM_INIT_AUTOMAKE([subdir-objects])
+AM_INIT_AUTOMAKE([1.12 tar-pax dist-xz no-dist-gzip subdir-objects foreign -Wall -Wno-portability])
+AM_SILENT_RULES([yes])
+AM_MAINTAINER_MODE([enable])
 
 # i18n
 IT_PROG_INTLTOOL([0.40.6])
