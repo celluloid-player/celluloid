@@ -30,7 +30,9 @@ capabilities.
 ### Source code
 Run the following command in the source code directory to build and install:
 
-    $ autoreconf -sfi && intltoolize -c --automake && ./configure && make && sudo make install
+```sh
+./autogen.sh && make && sudo make install
+```
 
 ## Usage
 
