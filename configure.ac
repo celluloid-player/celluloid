@@ -23,9 +23,41 @@ GLIB_GSETTINGS
 
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]))
 
-AS_IF(	[test "x$enable_debug" = "xyes"],
-	[CFLAGS="-Wall -pedantic -g -fsanitize=address"],
-	[CFLAGS="-O2 -fomit-frame-pointer -Wno-deprecated-declarations"] )
+AS_IF([test "x$enable_debug" = "xyes"], [
+	AX_APPEND_COMPILE_FLAGS([-O0 -g -fsanitize=address])
+], [
+	AX_APPEND_COMPILE_FLAGS([-O2])
+])
+
+AX_APPEND_COMPILE_FLAGS([ \
+	-std=gnu99 \
+	-funsigned-char \
+	-fstack-protector-strong \
+	-fPIE \
+	-fPIC \
+	-Wall \
+	-Wextra \
+dnl	-Wconversion
+	-Wno-sign-compare \ dnl FIXME
+	-Winline \
+	-Wno-padded \
+	-Wno-unused-parameter \
+	-Wstrict-prototypes \
+	-Wmissing-prototypes \
+	-Werror=implicit-function-declaration \
+	-Werror=pointer-arith \
+	-Werror=init-self \
+	-Werror=format-security \
+	-Werror=format=2 \
+	-Werror=missing-include-dirs \
+	-Werror=date-time \
+])
+
+AX_APPEND_LINK_FLAGS([ \
+	-pie \
+	-Wl,-z,relro \
+	-Wl,-z,now \
+])
 
 # Checks for programs.
 AC_PROG_CC
