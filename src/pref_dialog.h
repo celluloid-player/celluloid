@@ -38,28 +38,8 @@ G_BEGIN_DECLS
 #define	IS_PREF_DIALOG_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), PREF_DIALOG_TYPE))
 
-typedef struct PrefDialog PrefDialog;
-typedef struct PrefDialogClass PrefDialogClass;
-
-struct PrefDialog
-{
-	GtkDialog dialog;
-	GtkWidget *grid;
-	GtkWidget *content_area;
-	GtkWidget *dark_theme_enable_check;
-	GtkWidget *csd_enable_check;
-	GtkWidget *mpvinput_enable_check;
-	GtkWidget *mpvinput_button;
-	GtkWidget *mpvconf_enable_check;
-	GtkWidget *mpvconf_button;
-	GtkWidget *mpvopt_entry;
-	GtkSizeGroup *button_size_group;
-};
-
-struct PrefDialogClass
-{
-	GtkDialogClass parent_class;
-};
+typedef struct _PrefDialog PrefDialog;
+typedef struct _PrefDialogClass PrefDialogClass;
 
 GtkWidget *pref_dialog_new(GtkWindow *parent);
 GType pref_dialog_get_type(void);

@@ -22,37 +22,31 @@
 #include "pref_dialog.h"
 #include "main_window.h"
 
-static void response_handler(	GtkDialog *dialog,
-				gint response_id,
-				gpointer data );
-static void csd_save_button_handler(GtkButton *button, gpointer data);
-static void csd_cancel_button_handler(GtkButton *button, gpointer data);
-static gboolean key_press_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data );
-static void pref_dialog_init(PrefDialog *dlg);
-
-static void response_handler(GtkDialog *dialog, gint response_id, gpointer data)
+struct _PrefDialog
 {
-	gtk_widget_hide(GTK_WIDGET(dialog));
-}
+	GtkDialog parent_instance;
+	GtkWidget *grid;
+	GtkWidget *content_area;
+	GtkWidget *dark_theme_enable_check;
+	GtkWidget *csd_enable_check;
+	GtkWidget *mpvinput_enable_check;
+	GtkWidget *mpvinput_button;
+	GtkWidget *mpvconf_enable_check;
+	GtkWidget *mpvconf_button;
+	GtkWidget *mpvopt_entry;
+};
 
-static void csd_save_button_handler(GtkButton *button, gpointer data)
+struct _PrefDialogClass
 {
-	gtk_dialog_response(GTK_DIALOG(data), GTK_RESPONSE_ACCEPT);
-}
+	GtkDialogClass parent_class;
+};
 
-static void csd_cancel_button_handler(GtkButton *button, gpointer data)
-{
-	gtk_dialog_response(GTK_DIALOG(data), GTK_RESPONSE_REJECT);
-}
+G_DEFINE_TYPE(PrefDialog, pref_dialog, GTK_TYPE_DIALOG)
 
-static gboolean key_press_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data )
+static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event)
 {
-	guint keyval = ((GdkEventKey*)event)->keyval;
-	guint state = ((GdkEventKey*)event)->state;
+	guint keyval = event->keyval;
+	guint state = event->state;
 
 	const guint mod_mask =	GDK_MODIFIER_MASK
 				&~(GDK_SHIFT_MASK
@@ -67,7 +61,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		gtk_dialog_response(GTK_DIALOG(widget), GTK_RESPONSE_ACCEPT);
 	}
 
-	return FALSE;
+	return GTK_WIDGET_CLASS(pref_dialog_parent_class)->key_press_event (widget, event);
 }
 
 static inline void set_margin_start(GtkWidget *widget, gint margin)
@@ -77,6 +71,13 @@ static inline void set_margin_start(GtkWidget *widget, gint margin)
 #else
 	gtk_widget_set_margin_left(widget, margin);
 #endif
+}
+
+static void pref_dialog_class_init(PrefDialogClass *klass)
+{
+	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
+
+	wid_class->key_press_event = key_press_handler;
 }
 
 static void pref_dialog_init(PrefDialog *dlg)
@@ -132,8 +133,6 @@ static void pref_dialog_init(PrefDialog *dlg)
 		= gtk_check_button_new_with_label
 			(_("Load MPV input configuration file"));
 
-	dlg->button_size_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
-
 	gtk_label_set_use_markup(GTK_LABEL(general_group_label), TRUE);
 	gtk_label_set_use_markup(GTK_LABEL(mpvconf_group_label), TRUE);
 	gtk_label_set_use_markup(GTK_LABEL(mpvinput_group_label), TRUE);
@@ -175,22 +174,10 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_size_request(dlg->mpvconf_button, 100, -1);
 	gtk_widget_set_size_request(dlg->mpvinput_button, 100, -1);
 
-	gtk_window_set_modal(GTK_WINDOW(dlg), 1);
-
 	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
 					GTK_WIDGET(dlg),
 					&geom,
 					GDK_HINT_MAX_SIZE );
-
-	g_signal_connect(	dlg,
-				"response",
-				G_CALLBACK(response_handler),
-				NULL );
-
-	g_signal_connect(	dlg,
-				"key-press-event",
-				G_CALLBACK(key_press_handler),
-				NULL );
 
 	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 5);
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->grid);
@@ -222,104 +209,38 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_grid_attach(GTK_GRID(dlg->grid), misc_group_label, 0, 9, 1, 1);
 	gtk_grid_attach(GTK_GRID(dlg->grid), mpvopt_label, 0, 10, 1, 1);
 	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 11, 2, 1);
-}
 
-static void pref_dialog_show(PrefDialog *dlg, gboolean csd)
-{
-	if(csd)
-	{
-		GtkWidget *headerbar;
-		GtkWidget *cancel_button;
-		GtkWidget *save_button;
-
-		headerbar = gtk_header_bar_new();
-		cancel_button = gtk_button_new_with_label(_("_Cancel"));
-		save_button = gtk_button_new_with_label(_("_Save"));
-
-		g_signal_connect(	save_button,
-					"clicked",
-					G_CALLBACK(csd_save_button_handler),
-					dlg );
-
-		g_signal_connect(	cancel_button,
-					"clicked",
-					G_CALLBACK(csd_cancel_button_handler),
-					dlg );
-
-		gtk_size_group_add_widget(	dlg->button_size_group,
-						save_button );
-
-		gtk_size_group_add_widget(	dlg->button_size_group,
-						cancel_button );
-
-		gtk_button_set_use_underline(GTK_BUTTON(cancel_button), TRUE);
-		gtk_button_set_use_underline(GTK_BUTTON(save_button), TRUE);
-
-		gtk_style_context_add_class
-			(	gtk_widget_get_style_context(save_button),
-				"suggested-action" );
-
-		gtk_header_bar_pack_start(	GTK_HEADER_BAR(headerbar),
-						cancel_button );
-
-		gtk_header_bar_pack_end(	GTK_HEADER_BAR(headerbar),
-						save_button );
-
-		gtk_header_bar_set_title(	GTK_HEADER_BAR(headerbar),
-						_("Preferences") );
-
-		gtk_window_set_titlebar(GTK_WINDOW(dlg), headerbar);
-	}
-	else
-	{
-		gtk_window_set_title(GTK_WINDOW(dlg), _("Preferences"));
-
-		gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
-					_("_Cancel"),
-					GTK_RESPONSE_REJECT,
-					_("_Save"),
-					GTK_RESPONSE_ACCEPT,
-					NULL );
-	}
-
-	gtk_widget_show_all(GTK_WIDGET(dlg));
+	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
+				_("_Cancel"),
+				GTK_RESPONSE_REJECT,
+				_("_Save"),
+				GTK_RESPONSE_ACCEPT,
+				NULL );
+	gtk_dialog_set_default_response (GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)
 {
-	PrefDialog *dlg = g_object_new(pref_dialog_get_type(), NULL);
+	GtkWidget *dlg = g_object_new(pref_dialog_get_type(),
+								"title", _("Preferences"),
+								"modal", TRUE,
+								"transient-for", parent,
+								"use-header-bar", main_window_get_csd_enabled(MAIN_WINDOW(parent)),
+								NULL);
 
-	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
-	pref_dialog_show(dlg, main_window_get_csd_enabled(MAIN_WINDOW(parent)));
+	gtk_widget_hide_on_delete (dlg);
+	gtk_widget_show_all (dlg);
 
-	return GTK_WIDGET(dlg);
-}
-
-GType pref_dialog_get_type()
-{
-	static GType dlg_type = 0;
-
-	if(dlg_type == 0)
+	GtkWidget *header_bar = gtk_dialog_get_header_bar (GTK_DIALOG(dlg));
+	if (header_bar)
 	{
-		const GTypeInfo dlg_info
-			= {	sizeof(PrefDialogClass),
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				sizeof(PrefDialog),
-				0,
-				(GInstanceInitFunc)pref_dialog_init,
-				NULL };
-
-		dlg_type = g_type_register_static(	GTK_TYPE_DIALOG,
-							"PrefDialog",
-							&dlg_info,
-							0 );
+		/* The defaults use PACK_END which is ugly with multiple buttons */
+		GtkWidget *save_btn = gtk_dialog_get_widget_for_response (GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
+		gtk_container_child_set (GTK_CONTAINER(header_bar), save_btn, "pack-type", GTK_PACK_START, NULL);
+		gtk_header_bar_set_show_close_button (GTK_HEADER_BAR(header_bar), FALSE);
 	}
 
-	return dlg_type;
+	return dlg;
 }
 
 void pref_dialog_set_dark_theme_enable(PrefDialog *dlg, gboolean value)
