@@ -19,12 +19,12 @@
 
 #include "control_box.h"
 
-G_DEFINE_TYPE(ControlBox, control_box, GTK_TYPE_BOX)
-
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
 					gpointer data );
 static void control_box_init(ControlBox *box);
+
+G_DEFINE_TYPE(ControlBox, control_box, GTK_TYPE_BOX)
 
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
@@ -272,4 +272,3 @@ void control_box_reset_control(ControlBox *box)
 	control_box_set_playing_state(box, FALSE);
 	control_box_set_fullscreen_state(box, FALSE);
 }
-

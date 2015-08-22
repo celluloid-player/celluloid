@@ -132,7 +132,8 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 	wnd->timeout_tag
 		= g_timeout_add_seconds(CURSOR_HIDE_DELAY, hide_cursor, wnd);
 
-	return GTK_WIDGET_CLASS(main_window_parent_class)->motion_notify_event(widget, event);
+	return	GTK_WIDGET_CLASS(main_window_parent_class)
+		->motion_notify_event(widget, event);
 }
 
 static gboolean configure_handler(	GtkWidget *widget,
@@ -189,7 +190,7 @@ static gboolean finalize_load_state(gpointer data)
 		wnd->playlist_visible = wnd->init_playlist_visible;
 
 		gtk_widget_set_visible(	wnd->playlist,
-					wnd->init_playlist_visible);
+					wnd->init_playlist_visible );
 	}
 
 	return FALSE;

@@ -160,8 +160,6 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_hexpand(dlg->mpvinput_button, TRUE);
 	gtk_widget_set_hexpand(dlg->mpvopt_entry, TRUE);
 
-
-
 	set_margin_start(mpvconf_label, 10);
 	set_margin_start(mpvinput_label, 10);
 	set_margin_start(mpvopt_label, 10);
@@ -234,10 +232,19 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 	GtkWidget *header_bar = gtk_dialog_get_header_bar (GTK_DIALOG(dlg));
 	if (header_bar)
 	{
-		/* The defaults use PACK_END which is ugly with multiple buttons */
-		GtkWidget *save_btn = gtk_dialog_get_widget_for_response (GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
-		gtk_container_child_set (GTK_CONTAINER(header_bar), save_btn, "pack-type", GTK_PACK_START, NULL);
-		gtk_header_bar_set_show_close_button (GTK_HEADER_BAR(header_bar), FALSE);
+		/* The defaults use PACK_END which is ugly with multiple buttons
+		 */
+		GtkWidget *save_btn = gtk_dialog_get_widget_for_response
+					(GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
+
+		gtk_container_child_set(	GTK_CONTAINER(header_bar),
+						save_btn,
+						"pack-type",
+						GTK_PACK_START,
+						NULL );
+
+		gtk_header_bar_set_show_close_button
+			(GTK_HEADER_BAR(header_bar), FALSE);
 	}
 
 	return dlg;
