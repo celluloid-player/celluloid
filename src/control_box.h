@@ -38,12 +38,9 @@ G_BEGIN_DECLS
 #define	IS_CONTROL_BOX_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), CONTROL_BOX_TYPE))
 
-typedef struct ControlBox ControlBox;
-typedef struct ControlBoxClass ControlBoxClass;
-
-struct ControlBox
+struct _ControlBox
 {
-	GtkBox box;
+	GtkBox parent_instance;
 	gint seek_bar_length;
 	GtkWidget *play_button;
 	GtkWidget *stop_button;
@@ -56,10 +53,14 @@ struct ControlBox
 	GtkWidget *seek_bar;
 };
 
-struct ControlBoxClass
+struct _ControlBoxClass
 {
 	GtkBoxClass parent_class;
 };
+
+typedef struct _ControlBox ControlBox;
+typedef struct _ControlBoxClass ControlBoxClass;
+
 
 GtkWidget *control_box_new(void);
 GType control_box_get_type(void);

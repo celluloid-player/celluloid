@@ -19,6 +19,8 @@
 
 #include "control_box.h"
 
+G_DEFINE_TYPE(ControlBox, control_box, GTK_TYPE_BOX)
+
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
 					gpointer data );
@@ -59,6 +61,10 @@ static gchar *seek_bar_format_handler(	GtkScale *scale,
 	}
 
 	return output;
+}
+
+static void control_box_class_init(ControlBoxClass *klass)
+{
 }
 
 static void control_box_init(ControlBox *box)
@@ -189,34 +195,6 @@ static void control_box_init(ControlBox *box)
 GtkWidget *control_box_new(void)
 {
 	return GTK_WIDGET(g_object_new(control_box_get_type(), NULL));
-}
-
-GType control_box_get_type(void)
-{
-	static GType box_type = 0;
-
-	if(box_type == 0)
-	{
-		const GTypeInfo box_info
-			= {	sizeof(ControlBoxClass),
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				sizeof(ControlBox),
-				0,
-				(GInstanceInitFunc)control_box_init,
-				NULL };
-
-		box_type = g_type_register_static(	GTK_TYPE_BOX,
-							"ControlBox",
-							&box_info,
-							0 );
-	}
-
-	return box_type;
-
 }
 
 void control_box_set_enabled(ControlBox *box, gboolean enabled)
