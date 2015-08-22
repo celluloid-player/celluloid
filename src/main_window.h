@@ -38,12 +38,9 @@ G_BEGIN_DECLS
 #define	IS_MAIN_WINDOW_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), MAIN_WINDOW_TYPE))
 
-typedef struct MainWindow MainWindow;
-typedef struct MainWindowClass MainWindowClass;
-
-struct MainWindow
+struct _MainWindow
 {
-	GtkApplicationWindow window;
+	GtkApplicationWindow parent_instance;
 	gboolean fullscreen;
 	gboolean playlist_visible;
 	gint playlist_width;
@@ -64,10 +61,14 @@ struct MainWindow
 	GtkWidget *playlist;
 };
 
-struct MainWindowClass
+struct _MainWindowClass
 {
 	GtkApplicationWindowClass parent_class;
 };
+
+typedef struct _MainWindow MainWindow;
+typedef struct _MainWindowClass MainWindowClass;
+
 
 GtkWidget *main_window_new(GtkApplication *app);
 GType main_window_get_type(void);

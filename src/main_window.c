@@ -26,36 +26,16 @@
 #include "main_window.h"
 #include "control_box.h"
 
-static gboolean focus_in_handler(	GtkWidget *widget,
-					GtkDirectionType direction,
-					gpointer data );
-static gboolean focus_out_handler(	GtkWidget *widget,
-					GtkDirectionType direction,
-					gpointer data );
-static gboolean fs_control_enter_handler(	GtkWidget *widget,
-						GdkEvent *event,
-						gpointer data );
-static gboolean fs_control_leave_handler(	GtkWidget *widget,
-						GdkEvent *event,
-						gpointer data );
-static gboolean motion_notify_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data );
-static gboolean configure_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data );
 static gboolean hide_cursor(gpointer data);
 static gboolean finalize_load_state(gpointer data);
 static GMenu *menu_btn_build_menu(void);
 static GMenu *open_btn_build_menu(void);
-static void main_window_class_init(MainWindow *wnd);
-static void main_window_init(MainWindow *wnd);
 
-static gboolean focus_in_handler(	GtkWidget *widget,
-					GtkDirectionType direction,
-					gpointer data )
+G_DEFINE_TYPE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
+
+static gboolean focus_in_handler(GtkWidget *widget, GdkEventFocus *event)
 {
-	MainWindow *wnd = data;
+	MainWindow *wnd = MAIN_WINDOW(widget);
 
 	if(wnd->fullscreen)
 	{
@@ -88,11 +68,9 @@ static gboolean focus_in_handler(	GtkWidget *widget,
 	return TRUE;
 }
 
-static gboolean focus_out_handler(	GtkWidget *widget,
-					GtkDirectionType direction,
-					gpointer data )
+static gboolean focus_out_handler(GtkWidget *widget, GdkEventFocus *event)
 {
-	MainWindow *wnd = data;
+	MainWindow *wnd = MAIN_WINDOW(widget);
 
 	if(wnd->fullscreen)
 	{
@@ -135,14 +113,11 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
-static gboolean motion_notify_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data )
+static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 {
-	MainWindow *wnd;
+	MainWindow *wnd = MAIN_WINDOW(widget);
 	GdkCursor *cursor;
 
-	wnd = data;
 	cursor = gdk_cursor_new_for_display(	gdk_display_get_default(),
 						GDK_ARROW );
 
@@ -155,9 +130,9 @@ static gboolean motion_notify_handler(	GtkWidget *widget,
 	}
 
 	wnd->timeout_tag
-		= g_timeout_add_seconds(CURSOR_HIDE_DELAY, hide_cursor, data);
+		= g_timeout_add_seconds(CURSOR_HIDE_DELAY, hide_cursor, wnd);
 
-	return FALSE;
+	return GTK_WIDGET_CLASS(main_window_parent_class)->motion_notify_event(widget, event);
 }
 
 static gboolean configure_handler(	GtkWidget *widget,
@@ -387,10 +362,16 @@ void main_window_load_state(MainWindow *wnd)
 	g_free(config_file);
 }
 
-static void main_window_class_init(MainWindow *wnd)
+static void main_window_class_init(MainWindowClass *klass)
 {
+	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
+
+	wid_class->focus_in_event = focus_in_handler;
+	wid_class->motion_notify_event = motion_notify_handler;
+	wid_class->focus_out_event = focus_out_handler;
+
 	g_signal_new(	"mpv-init",
-			MAIN_WINDOW_TYPE,
+			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
 			NULL,
@@ -400,7 +381,7 @@ static void main_window_class_init(MainWindow *wnd)
 			0 );
 
 	g_signal_new(	"mpv-playback-restart",
-			MAIN_WINDOW_TYPE,
+			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
 			NULL,
@@ -410,7 +391,7 @@ static void main_window_class_init(MainWindow *wnd)
 			0 );
 
 	g_signal_new(	"mpv-prop-change",
-			MAIN_WINDOW_TYPE,
+			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
 			NULL,
@@ -483,16 +464,6 @@ static void main_window_init(MainWindow *wnd)
 	gtk_container_add
 		(GTK_CONTAINER(wnd), wnd->main_box);
 
-	g_signal_connect(	wnd,
-				"focus-in-event",
-				G_CALLBACK(focus_in_handler),
-				wnd );
-
-	g_signal_connect(	wnd,
-				"focus-out-event",
-				G_CALLBACK(focus_out_handler),
-				wnd );
-
 	g_signal_connect(	wnd->fs_control,
 				"enter-notify-event",
 				G_CALLBACK(fs_control_enter_handler),
@@ -502,11 +473,6 @@ static void main_window_init(MainWindow *wnd)
 				"leave-notify-event",
 				G_CALLBACK(fs_control_leave_handler),
 				wnd );
-
-	g_signal_connect(	wnd,
-				"motion-notify-event",
-				G_CALLBACK(motion_notify_handler),
-				wnd );
 }
 
 GtkWidget *main_window_new(GtkApplication *app)
@@ -514,34 +480,6 @@ GtkWidget *main_window_new(GtkApplication *app)
 	return GTK_WIDGET(g_object_new(	main_window_get_type(),
 					"application", app,
 					NULL ));
-}
-
-GType main_window_get_type()
-{
-	static GType wnd_type = 0;
-
-	if(wnd_type == 0)
-	{
-		const GTypeInfo wnd_info
-			= {	sizeof(MainWindowClass),
-				NULL,
-				NULL,
-				(GClassInitFunc)main_window_class_init,
-				NULL,
-				NULL,
-				sizeof(MainWindow),
-				0,
-				(GInstanceInitFunc)main_window_init,
-				NULL };
-
-		wnd_type = g_type_register_static
-				(	GTK_TYPE_APPLICATION_WINDOW,
-					"MainWindow",
-					&wnd_info,
-					0 );
-	}
-
-	return wnd_type;
 }
 
 void main_window_toggle_fullscreen(MainWindow *wnd)
