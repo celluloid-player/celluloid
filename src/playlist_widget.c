@@ -21,7 +21,11 @@
 
 #include "playlist_widget.h"
 
-static void playlist_widget_init(PlaylistWidget *wgt);
+G_DEFINE_TYPE(PlaylistWidget, playlist_widget, GTK_TYPE_SCROLLED_WINDOW)
+
+static void playlist_widget_class_init(PlaylistWidgetClass *klass)
+{
+}
 
 static void playlist_widget_init(PlaylistWidget *wgt)
 {
@@ -62,34 +66,6 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 GtkWidget *playlist_widget_new()
 {
 	return GTK_WIDGET(g_object_new(playlist_widget_get_type(), NULL));
-}
-
-GType playlist_widget_get_type()
-{
-	static GType wgt_type = 0;
-
-	if(wgt_type == 0)
-	{
-		const GTypeInfo wgt_info
-			= {	sizeof(PlaylistWidgetClass),
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				sizeof(PlaylistWidget),
-				0,
-				(GInstanceInitFunc)playlist_widget_init,
-				NULL };
-
-		wgt_type = g_type_register_static
-				(	GTK_TYPE_SCROLLED_WINDOW,
-					"PlaylistWidget",
-					&wgt_info,
-					0 );
-	}
-
-	return wgt_type;
 }
 
 void playlist_widget_append(	PlaylistWidget *wgt,

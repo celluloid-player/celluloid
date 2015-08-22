@@ -48,13 +48,9 @@ enum PlaylistStoreColumn
 	PLAYLIST_N_COLUMNS
 };
 
-typedef struct PlaylistWidget PlaylistWidget;
-typedef struct PlaylistWidgetClass PlaylistWidgetClass;
-typedef enum PlaylistStoreColumn PlaylistStoreColumn;
-
-struct PlaylistWidget
+struct _PlaylistWidget
 {
-	GtkScrolledWindow scrolled_window;
+	GtkScrolledWindow parent_instance;
 	GtkWidget *tree_view;
 	GtkListStore *list_store;
 	GtkTreeViewColumn *indicator_column;
@@ -63,10 +59,14 @@ struct PlaylistWidget
 	GtkCellRenderer *title_renderer;
 };
 
-struct PlaylistWidgetClass
+struct _PlaylistWidgetClass
 {
 	GtkScrolledWindowClass parent_class;
 };
+
+typedef struct _PlaylistWidget PlaylistWidget;
+typedef struct _PlaylistWidgetClass PlaylistWidgetClass;
+typedef enum PlaylistStoreColumn PlaylistStoreColumn;
 
 GtkWidget *playlist_widget_new(void);
 GType playlist_widget_get_type(void);
