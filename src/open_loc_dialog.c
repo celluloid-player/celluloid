@@ -21,25 +21,26 @@
 
 #include "open_loc_dialog.h"
 
-static void response_handler(	GtkDialog *dialog,
-				gint response_id,
-				gpointer data );
-static gboolean key_press_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data );
-static void open_loc_dialog_init(OpenLocDialog *dlg);
-
-static void response_handler(GtkDialog *dialog, gint response_id, gpointer data)
+struct _OpenLocDialog
 {
-	gtk_widget_hide(GTK_WIDGET(dialog));
-}
+	GtkDialog parent_instance;
+	GtkWidget *content_area;
+	GtkWidget *content_box;
+	GtkWidget *loc_label;
+	GtkWidget *loc_entry;
+};
 
-static gboolean key_press_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data )
+struct _OpenLocDialogClass
 {
-	guint keyval = ((GdkEventKey*)event)->keyval;
-	guint state = ((GdkEventKey*)event)->state;
+	GtkDialogClass parent_class;
+};
+
+G_DEFINE_TYPE(OpenLocDialog, open_loc_dialog, GTK_TYPE_DIALOG)
+
+static gboolean key_press_handler (GtkWidget *widget, GdkEventKey *event)
+{
+	guint keyval = event->keyval;
+	guint state = event->state;
 
 	const guint mod_mask =	GDK_MODIFIER_MASK
 				&~(GDK_SHIFT_MASK
@@ -54,7 +55,14 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		gtk_dialog_response(GTK_DIALOG(widget), GTK_RESPONSE_ACCEPT);
 	}
 
-	return FALSE;
+	return GTK_WIDGET_CLASS(open_loc_dialog_parent_class)->key_press_event (widget, event);
+}
+
+static void open_loc_dialog_class_init(OpenLocDialogClass *klass)
+{
+	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
+
+	wid_class->key_press_event = key_press_handler;
 }
 
 static void open_loc_dialog_init(OpenLocDialog *dlg)
@@ -89,16 +97,6 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 					&geom,
 					GDK_HINT_MAX_SIZE );
 
-	g_signal_connect(	dlg,
-				"response",
-				G_CALLBACK(response_handler),
-				NULL );
-
-	g_signal_connect(	dlg,
-				"key-press-event",
-				G_CALLBACK(key_press_handler),
-				NULL );
-
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->content_box);
 
 	gtk_box_pack_start(	GTK_BOX(dlg->content_box),
@@ -116,39 +114,13 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 
 GtkWidget *open_loc_dialog_new(GtkWindow *parent)
 {
-	OpenLocDialog *dlg = g_object_new(open_loc_dialog_get_type(), NULL);
+	GtkWidget *dlg = g_object_new(open_loc_dialog_get_type(), NULL);
 
+	gtk_widget_hide_on_delete(dlg);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
-	gtk_widget_show_all(GTK_WIDGET(dlg));
+	gtk_widget_show_all(dlg);
 
-	return GTK_WIDGET(dlg);
-}
-
-GType open_loc_dialog_get_type()
-{
-	static GType dlg_type = 0;
-
-	if(dlg_type == 0)
-	{
-		const GTypeInfo dlg_info
-			= {	sizeof(OpenLocDialogClass),
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				sizeof(OpenLocDialog),
-				0,
-				(GInstanceInitFunc)open_loc_dialog_init,
-				NULL };
-
-		dlg_type = g_type_register_static(	GTK_TYPE_DIALOG,
-							"OpenLocDialog",
-							&dlg_info,
-							0 );
-	}
-
-	return dlg_type;
+	return dlg;
 }
 
 const gchar *open_loc_dialog_get_string(OpenLocDialog *dlg)
