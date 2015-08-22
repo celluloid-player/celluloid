@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include "control_box.h"
 
 static gchar *seek_bar_format_handler(	GtkScale *scale,

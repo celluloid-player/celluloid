@@ -7,8 +7,11 @@ AC_INIT(	[gnome-mpv],
 		[http://github.com/gnome-mpv/gnome-mpv] )
 
 AC_CONFIG_SRCDIR([src/main.c])
+AC_CONFIG_HEADERS([config.h])
 AC_USE_SYSTEM_EXTENSIONS
-AM_INIT_AUTOMAKE([subdir-objects])
+AM_INIT_AUTOMAKE([1.12 tar-pax dist-xz no-dist-gzip subdir-objects no-define foreign -Wall -Wno-portability])
+AM_SILENT_RULES([yes])
+AM_MAINTAINER_MODE([enable])
 
 # i18n
 IT_PROG_INTLTOOL([0.40.6])
@@ -31,6 +34,8 @@ AC_PROG_CC_STDC
 
 # Checks for libraries.
 PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.10 glib-2.0 >= 2.32 mpv >= 1.6])
+AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_32], [Dont warn using older APIs])
+AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_32], [Prevents using newer APIs])
 
 # Checks for header files.
 AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h ctype.h execinfo.h])

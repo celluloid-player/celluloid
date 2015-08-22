@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include "mpris_base.h"
 #include "mpris_gdbus.h"
 #include "def.h"

@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include <glib/gi18n.h>
 
 #include "actionctl.h"
@@ -409,7 +411,7 @@ static void about_handler(	GSimpleAction *action,
 				"logo-icon-name",
 				ICON_NAME,
 				"version",
-				VERSION,
+				PACKAGE_VERSION,
 				"comments",
 				_("A GTK frontend for MPV"),
 				"license-type",
