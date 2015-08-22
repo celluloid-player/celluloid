@@ -420,18 +420,18 @@ static void about_handler(	GSimpleAction *action,
 void actionctl_map_actions(gmpv_handle *ctx)
 {
 	const GActionEntry entries[]
-		= {	{"open", open_handler, NULL, NULL, NULL},
-			{"quit", quit_handler, NULL, NULL, NULL},
-			{"about", about_handler, NULL, NULL, NULL},
-			{"pref", pref_handler, NULL, NULL, NULL},
-			{"openloc", open_loc_handler, NULL, NULL, NULL},
-			{"playlist_toggle", playlist_toggle_handler, NULL, NULL, NULL},
-			{"playlist_save", playlist_save_handler, NULL, NULL, NULL},
-			{"loadsub", load_sub_handler, NULL, NULL, NULL},
-			{"fullscreen", fullscreen_handler, NULL, NULL, NULL},
-			{"normalsize", normal_size_handler, NULL, NULL, NULL},
-			{"doublesize", double_size_handler, NULL, NULL, NULL},
-			{"halfsize", half_size_handler, NULL, NULL, NULL} };
+		= {	{.name = "open",            .activate = open_handler},
+			{.name = "quit",            .activate = quit_handler},
+			{.name = "about",           .activate = about_handler},
+			{.name = "pref",            .activate = pref_handler},
+			{.name = "openloc",         .activate = open_loc_handler},
+			{.name = "playlist_toggle", .activate = playlist_toggle_handler},
+			{.name = "playlist_save",   .activate = playlist_save_handler},
+			{.name = "loadsub",         .activate = load_sub_handler},
+			{.name = "fullscreen",      .activate = fullscreen_handler},
+			{.name = "normalsize",      .activate = normal_size_handler},
+			{.name = "doublesize",      .activate = double_size_handler},
+			{.name = "halfsize",        .activate = half_size_handler} };
 
 	g_action_map_add_action_entries(	G_ACTION_MAP(ctx->app),
 						entries,

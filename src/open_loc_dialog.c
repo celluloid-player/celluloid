@@ -139,7 +139,8 @@ GType open_loc_dialog_get_type()
 				NULL,
 				sizeof(OpenLocDialog),
 				0,
-				(GInstanceInitFunc)open_loc_dialog_init };
+				(GInstanceInitFunc)open_loc_dialog_init,
+				NULL };
 
 		dlg_type = g_type_register_static(	GTK_TYPE_DIALOG,
 							"OpenLocDialog",

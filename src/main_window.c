@@ -46,8 +46,8 @@ static gboolean configure_handler(	GtkWidget *widget,
 					gpointer data );
 static gboolean hide_cursor(gpointer data);
 static gboolean finalize_load_state(gpointer data);
-static GMenu *menu_btn_build_menu();
-static GMenu *open_btn_build_menu();
+static GMenu *menu_btn_build_menu(void);
+static GMenu *open_btn_build_menu(void);
 static void main_window_class_init(MainWindow *wnd);
 static void main_window_init(MainWindow *wnd);
 
@@ -531,7 +531,8 @@ GType main_window_get_type()
 				NULL,
 				sizeof(MainWindow),
 				0,
-				(GInstanceInitFunc)main_window_init };
+				(GInstanceInitFunc)main_window_init,
+				NULL };
 
 		wnd_type = g_type_register_static
 				(	GTK_TYPE_APPLICATION_WINDOW,

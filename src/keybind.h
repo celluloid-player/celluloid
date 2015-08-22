@@ -27,8 +27,8 @@
 struct keybind
 {
 	gboolean mouse;
-	gint modifier;
-	gint keyval;
+	guint modifier;
+	guint keyval;
 	gchar **command;
 };
 
@@ -38,8 +38,8 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp);
 GSList *keybind_parse_config(const gchar *config_path, gboolean *propexp);
 gchar **keybind_get_command(	gmpv_handle *ctx,
 				gboolean mouse,
-				gint modifier,
-				gint keyval );
+				guint modifier,
+				guint keyval );
 GSList *keybind_parse_config_with_defaults(	const gchar *config_path,
 						gboolean *propexp );
 

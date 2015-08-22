@@ -376,6 +376,8 @@ static void connect_signals(gmpv_handle *ctx)
 
 static void setup_accelerators(gmpv_handle *ctx)
 {
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS // Deprecated in Gtk 3.14, TODO: gtk_application_set_accels_for_action
+
 	gtk_application_add_accelerator(	ctx->app,
 						"<Control>o",
 						"app.open",
@@ -425,6 +427,7 @@ static void setup_accelerators(gmpv_handle *ctx)
 						"F11" ,
 						"app.fullscreen",
 						NULL );
+G_GNUC_END_IGNORE_DEPRECATIONS
 }
 
 static GMenu *build_app_menu()
@@ -535,7 +538,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	control_box_set_chapter_enabled
 		(CONTROL_BOX(ctx->gui->control_box), FALSE);
 
-	ctx->vid_area_wid = gdk_x11_window_get_xid
+	ctx->vid_area_wid = (gint64)gdk_x11_window_get_xid
 				(gtk_widget_get_window(ctx->gui->vid_area));
 
 	main_window_load_state(ctx->gui);

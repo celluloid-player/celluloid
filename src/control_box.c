@@ -206,7 +206,8 @@ GType control_box_get_type(void)
 				NULL,
 				sizeof(ControlBox),
 				0,
-				(GInstanceInitFunc)control_box_init };
+				(GInstanceInitFunc)control_box_init,
+				NULL };
 
 		box_type = g_type_register_static(	GTK_TYPE_BOX,
 							"ControlBox",

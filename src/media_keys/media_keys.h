@@ -27,8 +27,8 @@ typedef struct media_keys media_keys;
 struct media_keys
 {
 	gmpv_handle *gmpv_ctx;
-	guint g_signal_sig_id;
-	guint shutdown_sig_id;
+	gulong g_signal_sig_id;
+	gulong shutdown_sig_id;
 	GDBusProxy *proxy;
 	GDBusConnection *session_bus_conn;
 };

@@ -213,7 +213,7 @@ void mpris_base_register(mpris *inst)
 						(GDestroyNotify)
 						g_variant_unref );
 
-	inst->base_sig_id_list = g_malloc(2*sizeof(guint));
+	inst->base_sig_id_list = g_malloc(2*sizeof(gulong));
 
 	inst->base_sig_id_list[0]
 		= g_signal_connect(	inst->gmpv_ctx->gui,
@@ -242,7 +242,7 @@ void mpris_base_register(mpris *inst)
 
 void mpris_base_unregister(mpris *inst)
 {
-	guint *current_sig_id = inst->base_sig_id_list;
+	gulong *current_sig_id = inst->base_sig_id_list;
 
 	while(current_sig_id && *current_sig_id > 0)
 	{

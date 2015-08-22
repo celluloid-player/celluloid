@@ -667,7 +667,7 @@ void mpris_player_register(mpris *inst)
 						(GDestroyNotify)
 						g_variant_unref );
 
-	inst->player_sig_id_list = g_malloc(4*sizeof(guint));
+	inst->player_sig_id_list = g_malloc(4*sizeof(gulong));
 
 	inst->player_sig_id_list[0]
 		= g_signal_connect(	inst->gmpv_ctx->gui,
@@ -708,7 +708,7 @@ void mpris_player_register(mpris *inst)
 
 void mpris_player_unregister(mpris *inst)
 {
-	guint *current_sig_id = inst->player_sig_id_list;
+	gulong *current_sig_id = inst->player_sig_id_list;
 
 	while(current_sig_id && *current_sig_id > 0)
 	{

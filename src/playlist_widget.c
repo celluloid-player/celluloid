@@ -79,7 +79,8 @@ GType playlist_widget_get_type()
 				NULL,
 				sizeof(PlaylistWidget),
 				0,
-				(GInstanceInitFunc)playlist_widget_init };
+				(GInstanceInitFunc)playlist_widget_init,
+				NULL };
 
 		wgt_type = g_type_register_static
 				(	GTK_TYPE_SCROLLED_WINDOW,

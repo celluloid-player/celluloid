@@ -267,8 +267,8 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 
 gchar **keybind_get_command(	gmpv_handle *ctx,
 				gboolean mouse,
-				gint modifier,
-				gint keyval )
+				guint modifier,
+				guint keyval )
 {
 	GSList *iter = ctx->keybind_list;
 	keybind *kb = iter->data;
