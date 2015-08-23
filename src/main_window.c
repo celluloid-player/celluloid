@@ -447,7 +447,7 @@ static void main_window_init(MainWindow *wnd)
 					MAIN_WINDOW_DEFAULT_HEIGHT );
 
 	gtk_widget_override_background_color(	wnd->vid_area,
-						GTK_STATE_NORMAL,
+						GTK_STATE_FLAG_NORMAL,
 						&vid_area_bg_color);
 
 	gtk_box_pack_start

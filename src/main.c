@@ -561,17 +561,14 @@ static void app_startup_handler(GApplication *app, gpointer data)
 
 	if(config_migrated)
 	{
-		const gchar * msg
-			= _(	"Your configuration file has been moved to "
-				"the new location at %s." );
-
 		GtkWidget *dialog
 			= gtk_message_dialog_new
 				(	GTK_WINDOW(ctx->gui),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					GTK_MESSAGE_INFO,
 					GTK_BUTTONS_OK,
-					msg,
+					_("Your configuration file has been "
+					"moved to the new location at %s."),
 					config_file );
 
 		gtk_dialog_run(GTK_DIALOG(dialog));

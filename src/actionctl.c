@@ -223,18 +223,16 @@ static void pref_handler(	GSimpleAction *action,
 
 		if(csd_enable_buffer != csd_enable)
 		{
-			const gchar * msg
-				= _(	"Enabling or disabling client-side "
-					"decorations requires restarting %s to "
-					"take effect." );
-
 			GtkWidget *dialog
 				= gtk_message_dialog_new
 					(	GTK_WINDOW(ctx->gui),
 						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_MESSAGE_INFO,
 						GTK_BUTTONS_OK,
-						msg,
+						_("Enabling or disabling "
+						"client-side decorations "
+						"requires restarting %s to "
+						"take effect." ),
 						g_get_application_name() );
 
 			gtk_dialog_run(GTK_DIALOG(dialog));
