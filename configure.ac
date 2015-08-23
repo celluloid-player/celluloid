@@ -38,7 +38,6 @@ AX_APPEND_COMPILE_FLAGS([ \
 	-Wall \
 	-Wextra \
 	-Wconversion \
-	-Wno-sign-compare \ dnl FIXME
 	-Winline \
 	-Wno-padded \
 	-Wno-unused-parameter \

@@ -223,7 +223,8 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 
 		/* Find the beginning of the comment, if any */
 		while(	linebuf &&
-			++offset < linebuf_size &&
+			/* ++offset can never be less than 0 */
+			(guint)(++offset) < linebuf_size &&
 			linebuf[offset] != '#' );
 
 		if(offset > 0)
