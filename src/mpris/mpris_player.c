@@ -455,7 +455,8 @@ static void metadata_update_handler(mpris *inst)
 		gchar *playlist_pos_str;
 		gchar *trackid;
 
-		playlist_pos_str = g_strdup_printf("%ld", playlist_pos);
+		playlist_pos_str = g_strdup_printf(	"%" G_GINT64_FORMAT,
+							playlist_pos );
 
 		trackid = g_strconcat(	MPRIS_TRACK_ID_PREFIX,
 					playlist_pos_str,
