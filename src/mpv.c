@@ -64,7 +64,7 @@ static void parse_dim_string(	gmpv_handle *ctx,
 		gdouble multiplier = -1;
 		gint value = -1;
 
-		value = g_ascii_strtoll(tokens[i], NULL, 0);
+		value = (gint)g_ascii_strtoll(tokens[i], NULL, 0);
 
 		if(tokens[i][strnlen(tokens[i], 256)-1] == '%')
 		{
@@ -79,7 +79,7 @@ static void parse_dim_string(	gmpv_handle *ctx,
 			}
 			else
 			{
-				*width = multiplier*screen_width;
+				*width = (gint)(multiplier*screen_width);
 			}
 		}
 		else if(i == 1)
@@ -90,7 +90,7 @@ static void parse_dim_string(	gmpv_handle *ctx,
 			}
 			else
 			{
-				*height = multiplier*screen_height;
+				*height = (gint)(multiplier*screen_height);
 			}
 		}
 	}
@@ -158,8 +158,11 @@ static void handle_autofit_opt(gmpv_handle *ctx)
 						&autofit_width,
 						&autofit_height );
 
-			width_ratio = (gdouble)autofit_width/vid_width;
-			height_ratio = (gdouble)autofit_height/vid_height;
+			width_ratio =	(gdouble)autofit_width/
+					(gdouble)vid_width;
+
+			height_ratio =	(gdouble)autofit_height/
+					(gdouble)vid_height;
 		}
 
 		if(rc >= 0 && width_ratio > 0 && height_ratio > 0)
@@ -392,13 +395,13 @@ void mpv_check_error(int status)
 
 	if(status < 0)
 	{
-		size = backtrace(array, 10);
+		size = (size_t)backtrace(array, 10);
 
 		fprintf(	stderr,
 				"MPV API error: %s\n",
 				mpv_error_string(status) );
 
-		backtrace_symbols_fd(array, size, STDERR_FILENO);
+		backtrace_symbols_fd(array, (int)size, STDERR_FILENO);
 
 		exit(EXIT_FAILURE);
 	}
@@ -605,7 +608,8 @@ void mpv_load_gui_update(gmpv_handle *ctx)
 				&playlist_pos) >= 0)
 	{
 		playlist_widget_set_indicator_pos
-			(PLAYLIST_WIDGET(ctx->gui->playlist), playlist_pos);
+			(	PLAYLIST_WIDGET(ctx->gui->playlist),
+				(gint)playlist_pos );
 	}
 
 	if(mpv_get_property(	ctx->mpv_ctx,
@@ -630,7 +634,7 @@ void mpv_load_gui_update(gmpv_handle *ctx)
 				MPV_FORMAT_DOUBLE,
 				&length) >= 0)
 	{
-		control_box_set_seek_bar_length(control_box, length);
+		control_box_set_seek_bar_length(control_box, (gint)length);
 	}
 
 	control_box_set_playing_state(control_box, !ctx->paused);
@@ -646,7 +650,7 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 		gchar *opt_end = strstr(opt_begin, " --");
 		gchar *token;
 		gchar *token_arg;
-		gint token_size;
+		gsize token_size;
 
 		/* Point opt_end to the end of the input string if the current
 		 * option is the last one.
@@ -662,7 +666,7 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 		while(	--opt_end != opt_begin
 			&& (*opt_end == ' ' || *opt_end == '\n') );
 
-		token_size = opt_end-opt_begin;
+		token_size = (gsize)(opt_end-opt_begin);
 		token = g_malloc(token_size);
 
 		strncpy(token, opt_begin+2, token_size-1);

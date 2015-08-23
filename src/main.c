@@ -276,7 +276,7 @@ static void app_open_handler(	GApplication *app,
 
 	if(n_files > 0)
 	{
-		ctx->files = g_malloc(sizeof(GFile *)*(n_files+1));
+		ctx->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
 
 		for(i = 0; i < n_files; i++)
 		{

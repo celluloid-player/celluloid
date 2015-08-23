@@ -44,10 +44,10 @@ struct _MainWindow
 	gboolean fullscreen;
 	gboolean playlist_visible;
 	gint playlist_width;
-	gint timeout_tag;
 	gint init_width;
 	gint init_height;
 	gint init_playlist_visible;
+	guint timeout_tag;
 	GtkSettings* settings;
 	GtkWidget *header_bar;
 	GtkWidget *open_hdr_btn;

@@ -30,7 +30,7 @@ static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
 					gpointer data )
 {
-	gint sec = value;
+	gint sec = (gint)value;
 	gint length = ((ControlBox *)data)->seek_bar_length;
 	char *output = NULL;
 

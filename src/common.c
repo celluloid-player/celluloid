@@ -337,12 +337,19 @@ void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
 	&& mpv_width_rc >= 0
 	&& mpv_height_rc >= 0)
 	{
-		gint width_margin = main_window_get_width_margin(ctx->gui);
-		gint height_margin = main_window_get_height_margin(ctx->gui);
+		gint width_margin;
+		gint height_margin;
+		gint new_width;
+		gint new_height;
+
+		width_margin = main_window_get_width_margin(ctx->gui);
+		height_margin = main_window_get_height_margin(ctx->gui);
+		new_width = (gint)(multiplier*(gdouble)width)+width_margin;
+		new_height = (gint)(multiplier*(gdouble)height)+height_margin;
 
 		gtk_window_resize(	GTK_WINDOW(ctx->gui),
-					(multiplier*width)+width_margin,
-					(multiplier*height)+height_margin );
+					new_width,
+					new_height );
 	}
 
 	mpv_free(video);

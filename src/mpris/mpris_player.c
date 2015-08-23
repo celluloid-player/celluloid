@@ -151,7 +151,7 @@ static void method_handler(	GDBusConnection *connection,
 					MPV_FORMAT_DOUBLE,
 					&position );
 
-		position += offset_us/1.0e6;
+		position += (gdouble)offset_us/1.0e6;
 
 		mpv_set_property(	inst->gmpv_ctx->mpv_ctx,
 					"time-pos",
@@ -180,7 +180,7 @@ static void method_handler(	GDBusConnection *connection,
 
 		if(strncmp(track_id, prefix, prefix_len) == 0)
 		{
-			inst->pending_seek = time_us/1.0e6;
+			inst->pending_seek = (gdouble)time_us/1.0e6;
 			index = g_ascii_strtoll(track_id+prefix_len, NULL, 0);
 
 			mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
@@ -235,7 +235,7 @@ static GVariant *get_prop_handler(	GDBusConnection *connection,
 					MPV_FORMAT_DOUBLE,
 					&position );
 
-		value = g_variant_new_int64((rc >= 0)*position*1e6);
+		value = g_variant_new_int64((gint64)((rc >= 0)*position*1e6));
 	}
 	else
 	{
@@ -439,10 +439,12 @@ static void metadata_update_handler(mpris *inst)
 
 	if(rc >= 0)
 	{
+		gint64 length = (gint64)(duration*1e6);
+
 		g_variant_builder_add(	&builder,
 					"{sv}",
 					"mpris:length",
-					g_variant_new_int64(duration*1e6) );
+					g_variant_new_int64(length) );
 	}
 
 	rc = mpv_get_property(	inst->gmpv_ctx->mpv_ctx,

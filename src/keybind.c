@@ -97,7 +97,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 	/* Parse key */
 	while(result && keys[++index])
 	{
-		gint keyval;
+		guint keyval;
 
 		/* Modifiers */
 		if(g_ascii_strncasecmp(keys[index], "shift", 5) == 0)
@@ -119,8 +119,10 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 						0 ))
 		{
 			/* Button number */
-			keyval = g_ascii_strtoll(keys[index]+9, NULL, 10)+1;
 			result->mouse = TRUE;
+
+			keyval = (guint)g_ascii_strtoull
+					(keys[index]+9, NULL, 10)+1;
 
 			if(g_regex_match_simple("_DBL$", keys[index], 0, 0))
 			{
@@ -132,7 +134,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 		else
 		{
 			const gchar *keystrmap[] = KEYSTRING_MAP;
-			const gint keystrlen = KEYSTRING_MAX_LEN;
+			const gsize keystrlen = KEYSTRING_MAX_LEN;
 			const gchar *match = NULL;
 			gint i;
 
