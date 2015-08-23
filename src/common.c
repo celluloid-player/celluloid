@@ -89,7 +89,11 @@ gboolean quit(gpointer data)
 		ctx->mpv_ctx = NULL;
 	}
 
-	main_window_save_state(ctx->gui);
+	if(!ctx->gui->fullscreen)
+	{
+		main_window_save_state(ctx->gui);
+	}
+
 	g_application_quit(G_APPLICATION(ctx->app));
 
 	return FALSE;
