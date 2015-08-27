@@ -49,6 +49,7 @@ struct _ControlBox
 	GtkWidget *next_button;
 	GtkWidget *previous_button;
 	GtkWidget *volume_button;
+	GtkWidget *fs_volume_widget;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
 };

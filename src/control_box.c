@@ -18,6 +18,7 @@
  */
 
 #include "control_box.h"
+#include "volume_widget.h"
 
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
@@ -86,6 +87,7 @@ static void control_box_init(ControlBox *box)
 	box->previous_button = gtk_button_new_with_label(NULL);
 	box->fullscreen_button = gtk_button_new_with_label(NULL);
 	box->volume_button = gtk_volume_button_new();
+	box->fs_volume_widget = volume_widget_new();
 	box->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 
 	play_icon
@@ -117,6 +119,7 @@ static void control_box_init(ControlBox *box)
 						GTK_ICON_SIZE_BUTTON );
 
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
+	gtk_widget_set_no_show_all(box->fs_volume_widget, TRUE);
 
 	g_object_set(box->play_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->stop_button, "relief", GTK_RELIEF_NONE, NULL);
@@ -184,6 +187,9 @@ static void control_box_init(ControlBox *box)
 		(GTK_CONTAINER(box), box->volume_button);
 
 	gtk_container_add
+		(GTK_CONTAINER(box), box->fs_volume_widget);
+
+	gtk_container_add
 		(GTK_CONTAINER(box), box->fullscreen_button);
 
 	g_signal_connect(	box->seek_bar,
@@ -230,6 +236,10 @@ void control_box_set_seek_bar_length(ControlBox *box, gint length)
 
 void control_box_set_volume(ControlBox *box, gdouble volume)
 {
+	VolumeWidget *wgt = VOLUME_WIDGET(box->fs_volume_widget);
+
+	gtk_range_set_value(GTK_RANGE(wgt->scale), volume);
+
 	gtk_scale_button_set_value
 		(GTK_SCALE_BUTTON(box->volume_button), volume);
 }
@@ -259,6 +269,17 @@ void control_box_set_fullscreen_state(ControlBox *box, gboolean fullscreen)
 
 	gtk_button_set_image(	GTK_BUTTON(box->fullscreen_button),
 				fullscreen_icon );
+
+	if(fullscreen)
+	{
+		gtk_widget_hide(box->volume_button);
+		gtk_widget_show(box->fs_volume_widget);
+	}
+	else
+	{
+		gtk_widget_show(box->volume_button);
+		gtk_widget_hide(box->fs_volume_widget);
+	}
 }
 
 void control_box_set_fullscreen_btn_visible(ControlBox *box, gboolean value)

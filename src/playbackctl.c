@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 
 #include "playbackctl.h"
+#include "volume_widget.h"
 #include "control_box.h"
 #include "common.h"
 #include "mpv.h"
@@ -35,6 +36,7 @@ static void rewind_handler(GtkWidget *widget, gpointer data);
 static void chapter_previous_handler(GtkWidget *widget, gpointer data);
 static void chapter_next_handler(GtkWidget *widget, gpointer data);
 static void volume_handler(GtkWidget *widget, gdouble value, gpointer data);
+static void fs_volume_handler(GtkWidget *widget, gpointer data);
 static void fullscreen_handler(GtkWidget *button, gpointer data);
 
 static void play_handler(GtkWidget *widget, gpointer data)
@@ -99,11 +101,27 @@ static void chapter_next_handler(GtkWidget *widget, gpointer data)
 
 static void volume_handler(GtkWidget *widget, gdouble value, gpointer data)
 {
-	gmpv_handle *ctx = data;
+	if(gtk_widget_is_visible(widget))
+	{
+		gmpv_handle *ctx = data;
 
-	value *= 100;
+		value *= 100;
 
-	mpv_set_property(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
+		mpv_set_property
+			(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
+	}
+}
+
+static void fs_volume_handler(GtkWidget *widget, gpointer data)
+{
+	if(gtk_widget_is_visible(widget))
+	{
+		gmpv_handle *ctx = data;
+		gdouble value = gtk_range_get_value(GTK_RANGE(widget))*100;
+
+		mpv_set_property
+			(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
+	}
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)
@@ -114,6 +132,7 @@ static void fullscreen_handler(GtkWidget *widget, gpointer data)
 void playbackctl_connect_signals(gmpv_handle *ctx)
 {
 	ControlBox *control_box = CONTROL_BOX(ctx->gui->control_box);
+	VolumeWidget *fs_vol_wgt = VOLUME_WIDGET(control_box->fs_volume_widget);
 
 	g_signal_connect(	control_box->play_button,
 				"clicked",
@@ -153,6 +172,11 @@ void playbackctl_connect_signals(gmpv_handle *ctx)
 	g_signal_connect(	control_box->volume_button,
 				"value-changed",
 				G_CALLBACK(volume_handler),
+				ctx );
+
+	g_signal_connect(	fs_vol_wgt->scale,
+				"value-changed",
+				G_CALLBACK(fs_volume_handler),
 				ctx );
 
 	g_signal_connect(	control_box->fullscreen_button,

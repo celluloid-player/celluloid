@@ -21,6 +21,7 @@
 
 #include "pref_dialog.h"
 #include "main_window.h"
+#include "common.h"
 
 struct _PrefDialog
 {
@@ -62,15 +63,6 @@ static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event)
 	}
 
 	return GTK_WIDGET_CLASS(pref_dialog_parent_class)->key_press_event (widget, event);
-}
-
-static inline void set_margin_start(GtkWidget *widget, gint margin)
-{
-#if GTK_CHECK_VERSION(3, 12, 0)
-	gtk_widget_set_margin_start(widget, margin);
-#else
-	gtk_widget_set_margin_left(widget, margin);
-#endif
 }
 
 static void pref_dialog_class_init(PrefDialogClass *klass)

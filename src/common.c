@@ -211,6 +211,15 @@ gboolean update_seek_bar(gpointer data)
 	return TRUE;
 }
 
+void set_margin_start(GtkWidget *widget, gint margin)
+{
+#if GTK_CHECK_VERSION(3, 12, 0)
+	gtk_widget_set_margin_start(widget, margin);
+#else
+	gtk_widget_set_margin_left(widget, margin);
+#endif
+}
+
 void seek(gmpv_handle *ctx, gdouble time)
 {
 	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
