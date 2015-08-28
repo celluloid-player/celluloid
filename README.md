@@ -7,6 +7,7 @@ capabilities.
 ## Dependencies
 
 - autotools (build)
+- autoconf-archive (build)
 - pkg-config (build)
 - gcc (build)
 - intltool (build)
