@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <schemalist>
-	<schema path="/apps/gnome-mpv/" id="org.gnome-mpv">
+	<schema path="/org/gnome-mpv/gnome-mpv/" id="org.gnome-mpv">
 		<child schema="org.gnome-mpv.window-state" name="window-state"/>
 
 		<key name='dark-theme-enable' type='b'>
@@ -54,7 +54,7 @@
 		</key>
 	</schema>
 
-	<schema	path="/apps/gnome-mpv/window-state/"
+	<schema	path="/org/gnome-mpv/gnome-mpv/window-state/"
 		id="org.gnome-mpv.window-state">
 		<key name='width' type='i'>
 			<default>640</default>

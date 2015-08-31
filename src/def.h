@@ -26,7 +26,7 @@
 #define CONFIG_FILE "gnome-mpv.conf"
 #define CONFIG_ROOT APP_ID
 #define CONFIG_WIN_STATE APP_ID".window-state"
-#define CONFIG_ROOT_PATH "/apps/gnome-mpv/"
+#define CONFIG_ROOT_PATH "/org/gnome-mpv/gnome-mpv/"
 #define CONFIG_ROOT_GROUP "main"
 #define DEFAULT_LOG_LEVEL MPV_LOG_LEVEL_ERROR
 #define MPRIS_TRACK_ID_PREFIX "/org/gnome_mpv/Track/"
