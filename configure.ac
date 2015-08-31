@@ -23,6 +23,12 @@ GLIB_GSETTINGS
 
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]))
 
+AC_DEFUN([GM_CHECK_AX_MACRO],
+	[m4_ifndef([$1], [m4_fatal($1[ is not defined. Is autoconf-archive installed?])])])
+
+GM_CHECK_AX_MACRO([AX_APPEND_COMPILE_FLAGS])
+GM_CHECK_AX_MACRO([AX_APPEND_LINK_FLAGS])
+
 AS_IF([test "x$enable_debug" = "xyes"], [
 	AX_APPEND_COMPILE_FLAGS([-O0 -g -fsanitize=address])
 ], [
