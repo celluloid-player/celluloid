@@ -254,11 +254,17 @@ void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg)
 
 	if(prefix)
 	{
+		gchar *prefix_escaped = g_markup_printf_escaped("%s", prefix);
+		gchar *msg_escaped = g_markup_printf_escaped("%s", msg);
+
 		gtk_message_dialog_format_secondary_markup
 			(	GTK_MESSAGE_DIALOG(dialog),
 				"<b>[%s]</b> %s",
-				prefix,
-				msg );
+				prefix_escaped,
+				msg_escaped );
+
+		g_free(prefix_escaped);
+		g_free(msg_escaped);
 	}
 	else
 	{
