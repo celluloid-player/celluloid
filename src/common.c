@@ -244,13 +244,36 @@ void seek(gmpv_handle *ctx, gdouble time)
 
 void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg)
 {
-	GtkWidget *dialog
-		= gtk_message_dialog_new
+	GtkWidget *dialog;
+	GtkWidget *msg_area;
+	GList *iter;
+
+	dialog = gtk_message_dialog_new
 			(	GTK_WINDOW(ctx->gui),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_ERROR,
 				GTK_BUTTONS_OK,
 				"Error" );
+
+	msg_area = gtk_message_dialog_get_message_area
+			(GTK_MESSAGE_DIALOG(dialog));
+
+	iter = gtk_container_get_children(GTK_CONTAINER(msg_area));
+
+	while(iter)
+	{
+		if(GTK_IS_LABEL(iter->data))
+		{
+			GtkLabel *label = iter->data;
+
+			gtk_label_set_line_wrap_mode
+				(label, PANGO_WRAP_WORD_CHAR);
+		}
+
+		iter = g_list_next(iter);
+	}
+
+	g_list_free(iter);
 
 	if(prefix)
 	{
