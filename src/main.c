@@ -585,6 +585,7 @@ int main(int argc, char **argv)
 	gmpv_handle *ctx;
 	gint status;
 
+	gdk_set_allowed_backends("x11");
 	app = gtk_application_new(APP_ID, G_APPLICATION_HANDLES_OPEN);
 	ctx = g_malloc(sizeof(gmpv_handle));
 
