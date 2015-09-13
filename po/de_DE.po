@@ -1,0 +1,199 @@
+# German (de_DE) translations for gnome-mpv package.
+# gnome-mpv
+# Copyright (C) 2015 THE gnome-mpv'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnone-mpv package.
+# Vincent Bermel <willovince@openmailbox.org>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-mpv 0.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-13 20:58+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Vincent Bermel <willovince@openmailbox.org>\n"
+"Language-Team: German Translations\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/main.c:445 ../src/common.c:460
+msgid "_Preferences"
+msgstr "_Einstellungen"
+
+#: ../src/main.c:446 ../src/common.c:491
+msgid "_About"
+msgstr "_Info"
+
+#: ../src/main.c:447 ../src/common.c:441
+msgid "_Quit"
+msgstr "_Beenden"
+
+#: ../src/main.c:470
+msgid "GNOME MPV"
+msgstr "GNOME MPV"
+
+#: ../src/main.c:570
+#, c-format
+msgid "Your configuration file has been moved to the new location at %s."
+msgstr "Die Konfigurationsdatei wurde am neuen Ort %s gespeichert."
+
+#: ../src/open_loc_dialog.c:76
+msgid "Location:"
+msgstr "Adresse:"
+
+#: ../src/open_loc_dialog.c:80 ../src/main_window.c:274 ../src/actionctl.c:75
+#: ../src/actionctl.c:343 ../src/common.c:440
+msgid "_Open"
+msgstr "Ö_ffnen"
+
+#: ../src/open_loc_dialog.c:82 ../src/pref_dialog.c:204 ../src/actionctl.c:73
+#: ../src/actionctl.c:341 ../src/playlist.c:60
+msgid "_Cancel"
+msgstr "_Abbrechen"
+
+#: ../src/open_loc_dialog.c:92
+msgid "Open Location"
+msgstr "Adresse öffnen"
+
+#: ../src/playlist_widget.c:53
+msgid "Playlist"
+msgstr "Wiedergabeliste"
+
+#: ../src/pref_dialog.c:86
+msgid "MPV configuration file:"
+msgstr "MPV-Konfigurationsdatei"
+
+#: ../src/pref_dialog.c:87
+msgid "MPV input configuration file:"
+msgstr "Datei mit MPV-Tastenbelegungen"
+
+#: ../src/pref_dialog.c:88
+msgid "Extra MPV options:"
+msgstr "Weitere Optionen für MPV"
+
+#: ../src/pref_dialog.c:89
+msgid "<b>General</b>"
+msgstr "<b>Allgemein</b>"
+
+#: ../src/pref_dialog.c:90
+msgid "<b>MPV Configuration</b>"
+msgstr "<b>MPV-Einstellungen</b>"
+
+#: ../src/pref_dialog.c:91
+msgid "<b>Keybindings</b>"
+msgstr "<b>Tastenbelegungen</b>"
+
+#: ../src/pref_dialog.c:92
+msgid "<b>Miscellaneous</b>"
+msgstr "<b>Sonstiges</b>"
+
+#: ../src/pref_dialog.c:106
+msgid "Enable client-side decorations"
+msgstr "Kombinierte Titel-/Menüleiste (CSD)"
+
+#: ../src/pref_dialog.c:109
+msgid "Enable dark theme"
+msgstr "Dunkles Thema verwenden"
+
+#: ../src/pref_dialog.c:112
+msgid "MPV configuration file"
+msgstr "MPV-Konfigurationsdatei"
+
+#: ../src/pref_dialog.c:117
+msgid "MPV input configuration file"
+msgstr "Datei mit MPV-Tastenbelegungen"
+
+#: ../src/pref_dialog.c:122
+msgid "Load MPV configuration file"
+msgstr "MPV-Konfiguration aus Datei laden"
+
+#: ../src/pref_dialog.c:126
+msgid "Load MPV input configuration file"
+msgstr "MPV-Tastenbelegung aus Datei laden"
+
+#: ../src/pref_dialog.c:206 ../src/playlist.c:62
+msgid "_Save"
+msgstr "_Speichern"
+
+#: ../src/pref_dialog.c:215
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#: ../src/main_window.c:231 ../src/common.c:470
+msgid "_Toggle Playlist"
+msgstr "_Wiedergabeliste ein/aus"
+
+#: ../src/main_window.c:234 ../src/common.c:447
+msgid "_Save Playlist"
+msgstr "Wiedergabeliste _speichern"
+
+#: ../src/main_window.c:237 ../src/common.c:457
+msgid "_Load Subtitle"
+msgstr "_Untertitel laden"
+
+#: ../src/main_window.c:240 ../src/common.c:473
+msgid "_Fullscreen"
+msgstr "_Vollbild"
+
+#: ../src/main_window.c:243 ../src/common.c:476
+msgid "_Normal Size"
+msgstr "_Normale Videogröße"
+
+#: ../src/main_window.c:246 ../src/common.c:479
+msgid "_Double Size"
+msgstr "_Doppelte Videogröße"
+
+#: ../src/main_window.c:249 ../src/common.c:482
+msgid "_Half Size"
+msgstr "_Halbe Videogröße"
+
+#: ../src/main_window.c:277 ../src/common.c:444
+msgid "Open _Location"
+msgstr "_Adresse öffnen"
+
+#: ../src/actionctl.c:70
+msgid "Open File"
+msgstr "Datei öffnen"
+
+#: ../src/actionctl.c:232
+#, c-format
+msgid ""
+"Enabling or disabling client-side decorations requires restarting %s to take "
+"effect."
+msgstr "Die Änderungen erfordern einen Neustart von %s."
+
+#: ../src/actionctl.c:338
+msgid "Load Subtitle"
+msgstr "Untertitel laden"
+
+#: ../src/actionctl.c:412
+msgid "A GTK frontend for MPV"
+msgstr "Eine GTK-Oberfläche für MPV"
+
+#: ../src/common.c:438
+msgid "_File"
+msgstr "_Datei"
+
+#: ../src/common.c:454
+msgid "_Edit"
+msgstr "_Bearbeiten"
+
+#: ../src/common.c:467
+msgid "_View"
+msgstr "_Ansicht"
+
+#: ../src/common.c:489
+msgid "_Help"
+msgstr "_Hilfe"
+
+#: ../src/common.c:527
+msgid ""
+"Keybindings that require Property Expansion are not supported and have been "
+"ignored."
+msgstr ""
+"Tastenbelegungen, die Property Expansion benötigen werden nicht unterstützt."
+
+#: ../src/playlist.c:57
+msgid "Save Playlist"
+msgstr "Wiedergabeliste speichern"
