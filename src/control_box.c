@@ -118,6 +118,10 @@ static void control_box_init(ControlBox *box)
 		= gtk_image_new_from_icon_name(	"view-fullscreen-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
+	gtk_style_context_add_class
+		(	gtk_widget_get_style_context(GTK_WIDGET(box)),
+			GTK_STYLE_CLASS_BACKGROUND );
+
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
 	gtk_widget_set_no_show_all(box->fs_volume_widget, TRUE);
 

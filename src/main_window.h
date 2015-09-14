@@ -48,6 +48,7 @@ struct _MainWindow
 	MainWindowPrivate *priv;
 	gboolean fullscreen;
 	gboolean playlist_visible;
+	gboolean fs_control_hover;
 	gint playlist_width;
 	gint init_width;
 	gint init_height;
@@ -61,9 +62,9 @@ struct _MainWindow
 	GtkWidget *main_box;
 	GtkWidget *vid_area_paned;
 	GtkWidget *vid_area;
-	GtkWidget *fs_control;
 	GtkWidget *control_box;
 	GtkWidget *playlist;
+	GtkWidget *overlay;
 };
 
 struct _MainWindowClass

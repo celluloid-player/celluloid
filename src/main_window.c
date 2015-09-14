@@ -39,7 +39,7 @@ struct _MainWindowPrivate
 };
 
 static void vid_area_init(MainWindow *wnd, gboolean use_opengl);
-static gboolean hide_cursor(gpointer data);
+static gboolean timeout_handler(gpointer data);
 static gboolean finalize_load_state(gpointer data);
 static GMenu *menu_btn_build_menu(void);
 static GMenu *open_btn_build_menu(void);
@@ -83,60 +83,11 @@ static void main_window_get_property(	GObject *object,
 	}
 }
 
-static gboolean focus_in_handler(GtkWidget *widget, GdkEventFocus *event)
-{
-	MainWindow *wnd = MAIN_WINDOW(widget);
-
-	if(wnd->fullscreen)
-	{
-		gint xpos;
-		gint ypos;
-		gint width;
-		gint height;
-		gint monitor;
-		GdkRectangle monitor_geom;
-		GdkScreen *screen;
-		GdkWindow *window;
-
-		screen = gtk_window_get_screen(GTK_WINDOW(wnd));
-		window = gtk_widget_get_window(GTK_WIDGET(wnd));
-		monitor = gdk_screen_get_monitor_at_window(screen, window);
-
-		gdk_screen_get_monitor_geometry(screen, monitor, &monitor_geom);
-
-		gtk_window_get_size(	GTK_WINDOW(wnd->fs_control),
-					&width,
-					&height );
-
-		xpos = monitor_geom.x+(width/2);
-		ypos = monitor_geom.y+monitor_geom.height-height;
-
-		gtk_window_move(GTK_WINDOW(wnd->fs_control), xpos, ypos);
-		gtk_widget_show_all(wnd->fs_control);
-	}
-
-	return TRUE;
-}
-
-static gboolean focus_out_handler(GtkWidget *widget, GdkEventFocus *event)
-{
-	MainWindow *wnd = MAIN_WINDOW(widget);
-
-	if(wnd->fullscreen)
-	{
-		gtk_widget_hide(wnd->fs_control);
-	}
-
-	return TRUE;
-}
-
 static gboolean fs_control_enter_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data )
 {
-	MainWindow *wnd = data;
-
-	gtk_widget_set_opacity(wnd->fs_control, 1);
+	MAIN_WINDOW(data)->fs_control_hover = TRUE;
 
 	return FALSE;
 }
@@ -145,20 +96,7 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data )
 {
-	MainWindow *wnd;
-	ControlBox *control_box;
-	GtkScaleButton *button;
-	GtkWidget *popup;
-
-	wnd = data;
-	control_box = CONTROL_BOX(wnd->control_box);
-	button = GTK_SCALE_BUTTON(control_box->volume_button);
-	popup = gtk_scale_button_get_popup(button);
-
-	if(!gtk_widget_is_visible(popup))
-	{
-		gtk_widget_set_opacity(wnd->fs_control, 0);
-	}
+	MAIN_WINDOW(data)->fs_control_hover = FALSE;
 
 	return FALSE;
 }
@@ -174,13 +112,19 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 	gdk_window_set_cursor
 		(gtk_widget_get_window(GTK_WIDGET(wnd->vid_area)), cursor);
 
+	if(wnd->fullscreen)
+	{
+		gtk_widget_show(wnd->control_box);
+	}
+
 	if(wnd->timeout_tag > 0)
 	{
 		g_source_remove(wnd->timeout_tag);
 	}
 
-	wnd->timeout_tag
-		= g_timeout_add_seconds(CURSOR_HIDE_DELAY, hide_cursor, wnd);
+	wnd->timeout_tag = g_timeout_add_seconds(	FS_CONTROL_HIDE_DELAY,
+							timeout_handler,
+							wnd );
 
 	return	GTK_WIDGET_CLASS(main_window_parent_class)
 		->motion_notify_event(widget, event);
@@ -229,24 +173,43 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 							GTK_STATE_FLAG_NORMAL,
 							&vid_area_bg_color);
 
+		gtk_container_add(GTK_CONTAINER(wnd->overlay), wnd->vid_area);
+
 		gtk_paned_pack1(	GTK_PANED(wnd->vid_area_paned),
-					wnd->vid_area,
+					wnd->overlay,
 					TRUE,
 					TRUE );
 	}
 }
 
-static gboolean hide_cursor(gpointer data)
+static gboolean timeout_handler(gpointer data)
 {
 	MainWindow *wnd;
-	GdkCursor *cursor;
+	ControlBox *control_box;
+	GtkScaleButton *button;
+	GtkWidget *popup;
 
 	wnd = data;
-	cursor = gdk_cursor_new_for_display(	gdk_display_get_default(),
-						GDK_BLANK_CURSOR );
+	control_box = CONTROL_BOX(wnd->control_box);
+	button = GTK_SCALE_BUTTON(control_box->volume_button);
+	popup = gtk_scale_button_get_popup(button);
 
-	gdk_window_set_cursor
-		(gtk_widget_get_window(GTK_WIDGET(wnd->vid_area)), cursor);
+
+	if(wnd->fullscreen
+	&& !wnd->fs_control_hover
+	&& !gtk_widget_is_visible(popup))
+	{
+		GdkWindow *window;
+		GdkCursor *cursor;
+
+		window = gtk_widget_get_window(GTK_WIDGET(wnd->vid_area));
+
+		cursor = gdk_cursor_new_for_display
+				(gdk_display_get_default(), GDK_BLANK_CURSOR);
+
+		gdk_window_set_cursor(window, cursor);
+		gtk_widget_hide(wnd->control_box);
+	}
 
 	wnd->timeout_tag = 0;
 
@@ -446,9 +409,7 @@ static void main_window_class_init(MainWindowClass *klass)
 
 	obj_class->set_property = main_window_set_property;
 	obj_class->get_property = main_window_get_property;
-	wgt_class->focus_in_event = focus_in_handler;
 	wgt_class->motion_notify_event = motion_notify_handler;
-	wgt_class->focus_out_event = focus_out_handler;
 
 	g_signal_new(	"mpv-init",
 			G_TYPE_FROM_CLASS(klass),
@@ -497,6 +458,7 @@ static void main_window_init(MainWindow *wnd)
 	wnd->priv = main_window_get_instance_private(wnd);
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
+	wnd->fs_control_hover = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
 	wnd->init_width = MAIN_WINDOW_DEFAULT_WIDTH;
@@ -508,11 +470,11 @@ static void main_window_init(MainWindow *wnd)
 	wnd->menu_hdr_btn = NULL;
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
-	wnd->fs_control = gtk_window_new(GTK_WINDOW_POPUP);
 	wnd->control_box = control_box_new();
 	wnd->playlist = playlist_widget_new();
+	wnd->overlay = gtk_overlay_new();
 
-	gtk_widget_add_events(	wnd->fs_control,
+	gtk_widget_add_events(	wnd->overlay,
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
 
@@ -541,12 +503,12 @@ static void main_window_init(MainWindow *wnd)
 	gtk_container_add
 		(GTK_CONTAINER(wnd), wnd->main_box);
 
-	g_signal_connect(	wnd->fs_control,
+	g_signal_connect(	wnd->overlay,
 				"enter-notify-event",
 				G_CALLBACK(fs_control_enter_handler),
 				wnd );
 
-	g_signal_connect(	wnd->fs_control,
+	g_signal_connect(	wnd->overlay,
 				"leave-notify-event",
 				G_CALLBACK(fs_control_leave_handler),
 				wnd );
@@ -564,18 +526,22 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 {
 	ControlBox *control_box = CONTROL_BOX(wnd->control_box);
 	GtkContainer* main_box = GTK_CONTAINER(wnd->main_box);
-	GtkContainer* fs_control = GTK_CONTAINER(wnd->fs_control);
+	GtkContainer *overlay = GTK_CONTAINER(wnd->overlay);
 
 	if(wnd->fullscreen)
 	{
+		gtk_widget_set_halign(wnd->control_box, GTK_ALIGN_FILL);
+		gtk_widget_set_valign(wnd->control_box, GTK_ALIGN_FILL);
+		gtk_widget_set_size_request(wnd->control_box, -1, -1);
+
 		g_object_ref(wnd->control_box);
-		gtk_container_remove(fs_control, wnd->control_box);
+		gtk_container_remove(overlay, wnd->control_box);
 		gtk_container_add(main_box, wnd->control_box);
 		g_object_unref(wnd->control_box);
 
 		control_box_set_fullscreen_state(control_box, FALSE);
 		gtk_window_unfullscreen(GTK_WINDOW(wnd));
-		gtk_widget_hide(wnd->fs_control);
+		gtk_widget_show(wnd->control_box);
 
 		if(main_window_get_csd_enabled(wnd))
 		{
@@ -600,10 +566,7 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		GdkScreen *screen;
 		GdkWindow *window;
 		GdkRectangle monitor_geom;
-		gint xpos;
-		gint ypos;
 		gint width;
-		gint height;
 		gint monitor;
 
 		screen = gtk_window_get_screen(GTK_WINDOW(wnd));
@@ -614,16 +577,19 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 
 		width = monitor_geom.width/2;
 
+		gtk_widget_set_halign(wnd->control_box, GTK_ALIGN_CENTER);
+		gtk_widget_set_valign(wnd->control_box, GTK_ALIGN_END);
+		gtk_widget_set_size_request(wnd->control_box, width, -1);
+
 		g_object_ref(wnd->control_box);
 		gtk_container_remove(main_box, wnd->control_box);
-		gtk_container_add(fs_control, wnd->control_box);
+		gtk_overlay_add_overlay(GTK_OVERLAY(overlay), wnd->control_box);
 		g_object_unref(wnd->control_box);
 
 		control_box_set_fullscreen_state(control_box, TRUE);
 		gtk_window_fullscreen(GTK_WINDOW(wnd));
-		gtk_window_set_screen(GTK_WINDOW(wnd->fs_control), screen);
-		gtk_widget_show(wnd->fs_control);
-		gtk_widget_set_opacity(wnd->fs_control, 0);
+		gtk_widget_hide(wnd->control_box);
+		timeout_handler(wnd);
 
 		if(main_window_get_csd_enabled(wnd))
 		{
@@ -640,22 +606,6 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		{
 			gtk_widget_hide(wnd->playlist);
 		}
-
-		gtk_window_get_size(	GTK_WINDOW(wnd->fs_control),
-					NULL,
-					&height );
-
-		gtk_window_resize(	GTK_WINDOW(wnd->fs_control),
-					width,
-					height );
-
-		xpos = monitor_geom.x+width/2;
-		ypos = monitor_geom.y+monitor_geom.height-height;
-
-		gtk_window_move(GTK_WINDOW(wnd->fs_control), xpos, ypos);
-
-		gtk_window_set_transient_for(	GTK_WINDOW(wnd->fs_control),
-						GTK_WINDOW(wnd) );
 
 		wnd->fullscreen = TRUE;
 	}
