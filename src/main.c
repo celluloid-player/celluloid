@@ -20,9 +20,20 @@
 #include <gio/gsettingsbackend.h>
 #include <gio/gio.h>
 #include <glib/gi18n.h>
+#include <gdk/gdk.h>
+#ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
+#include <epoxy/glx.h>
+#endif
+#ifdef GDK_WINDOWING_WAYLAND
 #include <gdk/gdkwayland.h>
-#include <GL/glx.h>
+#include <epoxy/egl.h>
+#endif
+#ifdef GDK_WINDOWING_WIN32
+#include <gdk/gdkwin32.h>
+#include <epoxy/wgl.h>
+#endif
+#include <epoxy/gl.h>
 #include <locale.h>
 
 #include "def.h"
@@ -278,7 +289,22 @@ static void app_activate_handler(GApplication *app, gpointer data)
 
 static void *get_proc_address(void *fn_ctx, const gchar *name)
 {
-	return (void *)(intptr_t)glXGetProcAddressARB((const GLubyte *)name);
+	GdkDisplay *display = gdk_display_get_default();
+
+#ifdef GDK_WINDOWING_WAYLAND
+	if (GDK_IS_WAYLAND_DISPLAY(display))
+		return eglGetProcAddress(name);
+#endif
+#ifdef GDK_WINDOWING_X11
+	if (GDK_IS_X11_DISPLAY(display))
+		return (void *)(intptr_t)glXGetProcAddressARB((const GLubyte *)name);
+#endif
+#ifdef GDK_WINDOWING_WIN32
+	if (GDK_IS_WIN32_DISPLAY(display))
+		return wglGetProcAddress(name);
+#endif
+
+	g_assert_not_reached();
 }
 
 static gboolean vid_area_render_handler(	GtkGLArea *area,
@@ -512,7 +538,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
 	GSettingsBackend *config_backend;
-	gboolean wayland;
+	gboolean use_opengl;
 	gboolean config_migrated;
 	gboolean mpvinput_enable;
 	gboolean csd_enable;
@@ -535,7 +561,13 @@ static void app_startup_handler(GApplication *app, gpointer data)
 					CONFIG_ROOT_PATH,
 					CONFIG_ROOT_GROUP );
 
-	wayland = GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default());
+#ifdef GDK_WINDOWING_X11
+	/* TODO: Add option to use opengl on X11 */
+	use_opengl = !GDK_IS_X11_DISPLAY(gdk_display_get_default());
+#else
+	/* In theory this can work on any backend supporting GtkGLArea */
+	use_opengl = TRUE;
+#endif
 
 	ctx->mpv_ctx = mpv_create();
 	ctx->files = NULL;
@@ -551,7 +583,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->keybind_list = NULL;
 	ctx->config = g_settings_new_with_backend(APP_ID, config_backend);
 	ctx->app = GTK_APPLICATION(app);
-	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app, wayland));
+	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app, use_opengl));
 	ctx->fs_control = NULL;
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
 
@@ -596,12 +628,16 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	control_box_set_chapter_enabled
 		(CONTROL_BOX(ctx->gui->control_box), FALSE);
 
+#ifdef GDK_WINDOWING_X11
 	if(!main_window_get_use_opengl(ctx->gui))
 	{
 		GdkWindow *window = gtk_widget_get_window(ctx->gui->vid_area);
 
 		ctx->vid_area_wid = (gint64)gdk_x11_window_get_xid(window);
 	}
+#else
+	g_assert(main_window_get_use_opengl(ctx->gui) == TRUE);
+#endif
 
 	main_window_load_state(ctx->gui);
 	setup_accelerators(ctx);
