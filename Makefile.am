@@ -11,16 +11,10 @@ INTLTOOL_FILES =	intltool-extract.in \
 			intltool-merge.in \
 			intltool-update.in
 
-EXTRA_DIST = gnome-mpv.svg gnome-mpv.desktop README.md
+EXTRA_DIST = README.md
 
 UPDATE_DESKTOP = update-desktop-database -q || :
 UPDATE_ICON = gtk-update-icon-cache -q $(datadir)/icons/hicolor/ || :
-
-desktopdir = $(datadir)/applications
-desktop_DATA = gnome-mpv.desktop
-
-icondir = $(datadir)/icons/hicolor/scalable/apps
-icon_DATA = gnome-mpv.svg
 
 install-data-hook:
 	$(UPDATE_DESKTOP)
