@@ -20,7 +20,7 @@
 #ifndef KEYBIND_H
 #define KEYBIND_H
 
-#include <gdk/gdkx.h>
+#include <gdk/gdk.h>
 
 #include "common.h"
 
