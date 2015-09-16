@@ -61,10 +61,10 @@ struct _MainWindow
 	GtkWidget *menu_hdr_btn;
 	GtkWidget *main_box;
 	GtkWidget *vid_area_paned;
+	GtkWidget *vid_area_overlay;
 	GtkWidget *vid_area;
 	GtkWidget *control_box;
 	GtkWidget *playlist;
-	GtkWidget *overlay;
 };
 
 struct _MainWindowClass

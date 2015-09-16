@@ -173,10 +173,11 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 							GTK_STATE_FLAG_NORMAL,
 							&vid_area_bg_color);
 
-		gtk_container_add(GTK_CONTAINER(wnd->overlay), wnd->vid_area);
+		gtk_container_add(	GTK_CONTAINER(wnd->vid_area_overlay),
+					wnd->vid_area );
 
 		gtk_paned_pack1(	GTK_PANED(wnd->vid_area_paned),
-					wnd->overlay,
+					wnd->vid_area_overlay,
 					TRUE,
 					TRUE );
 	}
@@ -470,11 +471,11 @@ static void main_window_init(MainWindow *wnd)
 	wnd->menu_hdr_btn = NULL;
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+	wnd->vid_area_overlay = gtk_overlay_new();
 	wnd->control_box = control_box_new();
 	wnd->playlist = playlist_widget_new();
-	wnd->overlay = gtk_overlay_new();
 
-	gtk_widget_add_events(	wnd->overlay,
+	gtk_widget_add_events(	wnd->vid_area_overlay,
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
 
@@ -503,12 +504,12 @@ static void main_window_init(MainWindow *wnd)
 	gtk_container_add
 		(GTK_CONTAINER(wnd), wnd->main_box);
 
-	g_signal_connect(	wnd->overlay,
+	g_signal_connect(	wnd->vid_area_overlay,
 				"enter-notify-event",
 				G_CALLBACK(fs_control_enter_handler),
 				wnd );
 
-	g_signal_connect(	wnd->overlay,
+	g_signal_connect(	wnd->vid_area_overlay,
 				"leave-notify-event",
 				G_CALLBACK(fs_control_leave_handler),
 				wnd );
@@ -526,7 +527,7 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 {
 	ControlBox *control_box = CONTROL_BOX(wnd->control_box);
 	GtkContainer* main_box = GTK_CONTAINER(wnd->main_box);
-	GtkContainer *overlay = GTK_CONTAINER(wnd->overlay);
+	GtkContainer *overlay = GTK_CONTAINER(wnd->vid_area_overlay);
 
 	if(wnd->fullscreen)
 	{
