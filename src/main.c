@@ -21,6 +21,9 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <gdk/gdk.h>
+#include <epoxy/gl.h>
+#include <locale.h>
+
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #include <epoxy/glx.h>
@@ -33,8 +36,6 @@
 #include <gdk/gdkwin32.h>
 #include <epoxy/wgl.h>
 #endif
-#include <epoxy/gl.h>
-#include <locale.h>
 
 #include "def.h"
 #include "common.h"
@@ -86,10 +87,12 @@ static gboolean key_press_handler(	GtkWidget *widget,
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
-static void *get_proc_address(void *fn_ctx, const gchar *name);
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
 						gpointer data );
+static void *get_proc_address(void *fn_ctx, const gchar *name);
+static gboolean get_use_opengl(void);
+static gint64 get_xid(GtkWidget *widget);
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
@@ -305,6 +308,26 @@ static void *get_proc_address(void *fn_ctx, const gchar *name)
 #endif
 
 	g_assert_not_reached();
+}
+
+static gboolean get_use_opengl(void)
+{
+#ifdef GDK_WINDOWING_X11
+	/* TODO: Add option to use opengl on X11 */
+	return !GDK_IS_X11_DISPLAY(gdk_display_get_default());
+#else
+	/* In theory this can work on any backend supporting GtkGLArea */
+	return TRUE;
+#endif
+}
+
+static gint64 get_xid(GtkWidget *widget)
+{
+#ifdef GDK_WINDOWING_X11
+	return (gint64)gdk_x11_window_get_xid(gtk_widget_get_window(widget));
+#else
+	return -1;
+#endif
 }
 
 static gboolean vid_area_render_handler(	GtkGLArea *area,
@@ -561,13 +584,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 					CONFIG_ROOT_PATH,
 					CONFIG_ROOT_GROUP );
 
-#ifdef GDK_WINDOWING_X11
-	/* TODO: Add option to use opengl on X11 */
-	use_opengl = !GDK_IS_X11_DISPLAY(gdk_display_get_default());
-#else
-	/* In theory this can work on any backend supporting GtkGLArea */
-	use_opengl = TRUE;
-#endif
+	use_opengl = get_use_opengl();
 
 	ctx->mpv_ctx = mpv_create();
 	ctx->files = NULL;
@@ -628,16 +645,13 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	control_box_set_chapter_enabled
 		(CONTROL_BOX(ctx->gui->control_box), FALSE);
 
-#ifdef GDK_WINDOWING_X11
 	if(!main_window_get_use_opengl(ctx->gui))
 	{
-		GdkWindow *window = gtk_widget_get_window(ctx->gui->vid_area);
-
-		ctx->vid_area_wid = (gint64)gdk_x11_window_get_xid(window);
+		ctx->vid_area_wid = get_xid(ctx->gui->vid_area);
 	}
-#else
-	g_assert(main_window_get_use_opengl(ctx->gui) == TRUE);
-#endif
+
+	g_assert(	main_window_get_use_opengl(ctx->gui) ||
+			ctx->vid_area_wid != -1 );
 
 	main_window_load_state(ctx->gui);
 	setup_accelerators(ctx);
