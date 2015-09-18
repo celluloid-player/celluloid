@@ -180,7 +180,8 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 5);
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->grid);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), general_group_label, 0, 0, 1, 1);
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), general_group_label, 0, 0, 1, 1);
 
 	gtk_grid_attach
 		(GTK_GRID(dlg->grid), dlg->csd_enable_check, 0, 1, 2, 1);
@@ -188,25 +189,38 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_grid_attach
 		(GTK_GRID(dlg->grid), dlg->dark_theme_enable_check, 0, 2, 2, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 3, 1, 1);
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 3, 1, 1);
 
 	gtk_grid_attach
 		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 4, 2, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvconf_label, 0, 5, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 5, 1, 1);
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), mpvconf_label, 0, 5, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 6, 1, 1);
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 5, 1, 1);
+
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 6, 1, 1);
 
 	gtk_grid_attach
 		(GTK_GRID(dlg->grid), dlg->mpvinput_enable_check, 0, 7, 2, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvinput_label, 0, 8, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 8, 1, 1);
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), mpvinput_label, 0, 8, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(dlg->grid), misc_group_label, 0, 9, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), mpvopt_label, 0, 10, 1, 1);
-	gtk_grid_attach(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 11, 2, 1);
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 8, 1, 1);
+
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), misc_group_label, 0, 9, 1, 1);
+
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), mpvopt_label, 0, 10, 1, 1);
+
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 11, 2, 1);
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				_("_Cancel"),
@@ -214,22 +228,30 @@ static void pref_dialog_init(PrefDialog *dlg)
 				_("_Save"),
 				GTK_RESPONSE_ACCEPT,
 				NULL );
+
 	gtk_dialog_set_default_response (GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)
 {
-	GtkWidget *dlg = g_object_new(pref_dialog_get_type(),
-								"title", _("Preferences"),
-								"modal", TRUE,
-								"transient-for", parent,
-								"use-header-bar", main_window_get_csd_enabled(MAIN_WINDOW(parent)),
-								NULL);
+	GtkWidget *dlg;
+	GtkWidget *header_bar;
+	gboolean csd_enabled;
+
+	csd_enabled = main_window_get_csd_enabled(MAIN_WINDOW(parent));
+
+	dlg = g_object_new(	pref_dialog_get_type(),
+				"title", _("Preferences"),
+				"modal", TRUE,
+				"transient-for", parent,
+				"use-header-bar", csd_enabled,
+				NULL );
+
+	header_bar = gtk_dialog_get_header_bar(GTK_DIALOG(dlg));
 
 	gtk_widget_hide_on_delete (dlg);
 	gtk_widget_show_all (dlg);
 
-	GtkWidget *header_bar = gtk_dialog_get_header_bar (GTK_DIALOG(dlg));
 	if (header_bar)
 	{
 		/* The defaults use PACK_END which is ugly with multiple buttons
