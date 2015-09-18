@@ -234,11 +234,11 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 	{
 		/* The defaults use PACK_END which is ugly with multiple buttons
 		 */
-		GtkWidget *save_btn = gtk_dialog_get_widget_for_response
-					(GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
+		GtkWidget *cancel_btn = gtk_dialog_get_widget_for_response
+					(GTK_DIALOG(dlg), GTK_RESPONSE_REJECT);
 
 		gtk_container_child_set(	GTK_CONTAINER(header_bar),
-						save_btn,
+						cancel_btn,
 						"pack-type",
 						GTK_PACK_START,
 						NULL );
