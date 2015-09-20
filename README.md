@@ -106,3 +106,19 @@ a separate copy of the file as GNOME MPV will not write to the file. The file
 has to be loaded via the preferences dialog under the "Keybindings" section. In
 case of conflict with default keybindings, keybindings defined in external file
 will be given priority.
+
+## License
+
+GNOME MPV is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+GNOME MPV is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
+
