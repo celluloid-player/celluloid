@@ -476,60 +476,55 @@ static void connect_signals(gmpv_handle *ctx)
 				ctx );
 }
 
+static inline void add_accelerator(GtkApplication *app,
+                                   const char *accel,
+                                   const char *action)
+{
+	const char * const accels[] = { accel, NULL };
+	gtk_application_set_accels_for_action(app, action, accels);
+}
+
 static void setup_accelerators(gmpv_handle *ctx)
 {
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS // Deprecated in Gtk 3.14, TODO: gtk_application_set_accels_for_action
-
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"<Control>o",
-						"app.open",
-						NULL );
+						"app.open" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"<Control>l" ,
-						"app.openloc",
-						NULL );
+						"app.openloc" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"<Control>S" ,
-						"app.playlist_save",
-						NULL );
+						"app.playlist_save" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"<Control>q" ,
-						"app.quit",
-						NULL );
+						"app.quit" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"<Control>p" ,
-						"app.pref",
-						NULL );
+						"app.pref" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"F9" ,
-						"app.playlist_toggle",
-						NULL );
+						"app.playlist_toggle" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"<Control>1" ,
-						"app.normalsize",
-						NULL );
+						"app.normalsize" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"<Control>2" ,
-						"app.doublesize",
-						NULL );
+						"app.doublesize" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"<Control>3" ,
-						"app.halfsize",
-						NULL );
+						"app.halfsize" );
 
-	gtk_application_add_accelerator(	ctx->app,
+	add_accelerator(	ctx->app,
 						"F11" ,
-						"app.fullscreen",
-						NULL );
-G_GNUC_END_IGNORE_DEPRECATIONS
+						"app.fullscreen" );
 }
 
 static GMenu *build_app_menu()
