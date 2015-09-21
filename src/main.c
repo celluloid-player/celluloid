@@ -52,11 +52,6 @@
 #include "mpris/mpris.h"
 #include "media_keys/media_keys.h"
 
-struct _MainWindowPrivate
-{
-	gboolean use_opengl;
-};
-
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean load_files(gpointer data);
 static gboolean delete_handler(	GtkWidget *widget,
@@ -64,6 +59,9 @@ static gboolean delete_handler(	GtkWidget *widget,
 				gpointer data );
 static void setup_dnd_targets(gmpv_handle *ctx);
 static void connect_signals(gmpv_handle *ctx);
+static void add_accelerator(	GtkApplication *app,
+				const char *accel,
+				const char *action );
 static void setup_accelerators(gmpv_handle *ctx);
 static GMenu *build_app_menu(void);
 static void app_startup_handler(GApplication *app, gpointer data);
@@ -476,55 +474,27 @@ static void connect_signals(gmpv_handle *ctx)
 				ctx );
 }
 
-static inline void add_accelerator(GtkApplication *app,
-                                   const char *accel,
-                                   const char *action)
+static inline void add_accelerator(	GtkApplication *app,
+					const char *accel,
+					const char *action )
 {
-	const char * const accels[] = { accel, NULL };
+	const char *const accels[] = {accel, NULL};
+
 	gtk_application_set_accels_for_action(app, action, accels);
 }
 
 static void setup_accelerators(gmpv_handle *ctx)
 {
-	add_accelerator(	ctx->app,
-						"<Control>o",
-						"app.open" );
-
-	add_accelerator(	ctx->app,
-						"<Control>l" ,
-						"app.openloc" );
-
-	add_accelerator(	ctx->app,
-						"<Control>S" ,
-						"app.playlist_save" );
-
-	add_accelerator(	ctx->app,
-						"<Control>q" ,
-						"app.quit" );
-
-	add_accelerator(	ctx->app,
-						"<Control>p" ,
-						"app.pref" );
-
-	add_accelerator(	ctx->app,
-						"F9" ,
-						"app.playlist_toggle" );
-
-	add_accelerator(	ctx->app,
-						"<Control>1" ,
-						"app.normalsize" );
-
-	add_accelerator(	ctx->app,
-						"<Control>2" ,
-						"app.doublesize" );
-
-	add_accelerator(	ctx->app,
-						"<Control>3" ,
-						"app.halfsize" );
-
-	add_accelerator(	ctx->app,
-						"F11" ,
-						"app.fullscreen" );
+	add_accelerator(ctx->app, "<Control>o", "app.open");
+	add_accelerator(ctx->app, "<Control>l", "app.openloc");
+	add_accelerator(ctx->app, "<Control>S", "app.playlist_save");
+	add_accelerator(ctx->app, "<Control>q", "app.quit");
+	add_accelerator(ctx->app, "<Control>p", "app.pref");
+	add_accelerator(ctx->app, "F9", "app.playlist_toggle");
+	add_accelerator(ctx->app, "<Control>1", "app.normalsize");
+	add_accelerator(ctx->app, "<Control>2", "app.doublesize");
+	add_accelerator(ctx->app, "<Control>3", "app.halfsize");
+	add_accelerator(ctx->app, "F11", "app.fullscreen");
 }
 
 static GMenu *build_app_menu()
@@ -555,8 +525,10 @@ static GMenu *build_app_menu()
 static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
+	const gchar *vid_area_style = ".gmpv-vid-area{background-color: black}";
 	GSettingsBackend *config_backend;
 	GtkCssProvider *style_provider;
+	gboolean css_loaded;
 	gboolean use_opengl;
 	gboolean config_migrated;
 	gboolean mpvinput_enable;
@@ -601,14 +573,21 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
 
 	config_migrated = migrate_config(ctx);
-
 	style_provider = gtk_css_provider_new();
-	if (!gtk_css_provider_load_from_data(style_provider,
-	                                   ".mpv-vidarea { background-color: black }", -1, NULL))
+
+	css_loaded = gtk_css_provider_load_from_data
+			(style_provider, vid_area_style, -1, NULL);
+
+	if(!css_loaded)
+	{
 		g_warning ("Failed to apply background color css");
-	gtk_style_context_add_provider_for_screen(gtk_window_get_screen(GTK_WINDOW(ctx->gui)),
-	                                          GTK_STYLE_PROVIDER(style_provider),
-	                                          GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	}
+
+	gtk_style_context_add_provider_for_screen
+		(	gtk_window_get_screen(GTK_WINDOW(ctx->gui)),
+			GTK_STYLE_PROVIDER(style_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
+
 	g_object_unref(style_provider);
 
 	csd_enable = g_settings_get_boolean

@@ -160,14 +160,16 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 	/* vid_area cannot be initialized more than once */
 	if(!wnd->vid_area)
 	{
+		GtkStyleContext *style_context;
+
 		wnd->vid_area =	use_opengl?
 				gtk_gl_area_new():
 				gtk_drawing_area_new();
 
-		gtk_widget_add_events(wnd->vid_area, GDK_BUTTON_PRESS_MASK);
+		style_context = gtk_widget_get_style_context(wnd->vid_area);
 
-		gtk_style_context_add_class(gtk_widget_get_style_context(wnd->vid_area),
-		                            "mpv-vidarea");
+		gtk_widget_add_events(wnd->vid_area, GDK_BUTTON_PRESS_MASK);
+		gtk_style_context_add_class(style_context, "gmpv-vid-area");
 
 		gtk_container_add(	GTK_CONTAINER(wnd->vid_area_overlay),
 					wnd->vid_area );
