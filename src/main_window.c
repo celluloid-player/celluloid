@@ -157,8 +157,6 @@ static gboolean configure_handler(	GtkWidget *widget,
 
 static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 {
-	GdkRGBA vid_area_bg_color;
-
 	/* vid_area cannot be initialized more than once */
 	if(!wnd->vid_area)
 	{
@@ -167,11 +165,9 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 				gtk_drawing_area_new();
 
 		gtk_widget_add_events(wnd->vid_area, GDK_BUTTON_PRESS_MASK);
-		gdk_rgba_parse(&vid_area_bg_color, VID_AREA_BG_COLOR);
 
-		gtk_widget_override_background_color(	wnd->vid_area,
-							GTK_STATE_FLAG_NORMAL,
-							&vid_area_bg_color);
+		gtk_style_context_add_class(gtk_widget_get_style_context(wnd->vid_area),
+		                            "mpv-vidarea");
 
 		gtk_container_add(	GTK_CONTAINER(wnd->vid_area_overlay),
 					wnd->vid_area );

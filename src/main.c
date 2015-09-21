@@ -561,6 +561,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
 	GSettingsBackend *config_backend;
+	GtkCssProvider *style_provider;
 	gboolean use_opengl;
 	gboolean config_migrated;
 	gboolean mpvinput_enable;
@@ -605,6 +606,15 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
 
 	config_migrated = migrate_config(ctx);
+
+	style_provider = gtk_css_provider_new();
+	if (!gtk_css_provider_load_from_data(style_provider,
+	                                   ".mpv-vidarea { background-color: black }", -1, NULL))
+		g_warning ("Failed to apply background color css");
+	gtk_style_context_add_provider_for_screen(gtk_window_get_screen(GTK_WINDOW(ctx->gui)),
+	                                          GTK_STYLE_PROVIDER(style_provider),
+	                                          GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_object_unref(style_provider);
 
 	csd_enable = g_settings_get_boolean
 				(ctx->config, "csd-enable");
