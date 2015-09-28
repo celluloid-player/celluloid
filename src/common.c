@@ -387,7 +387,6 @@ void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
 void toggle_fullscreen(gmpv_handle *ctx)
 {
 	main_window_toggle_fullscreen(ctx->gui);
-	gtk_window_present(GTK_WINDOW(ctx->gui));
 
 	mpv_set_property(	ctx->mpv_ctx,
 				"fullscreen",
