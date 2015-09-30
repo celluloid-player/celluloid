@@ -18,6 +18,7 @@
  */
 
 #include "control_box.h"
+#include "def.h"
 
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
@@ -76,6 +77,7 @@ static void control_box_init(ControlBox *box)
 	GtkWidget *previous_icon;
 	GtkWidget *next_icon;
 	GtkWidget *fullscreen_icon;
+	GSettings *settings;
 
 	box->seek_bar_length = -1;
 	box->play_button = gtk_button_new_with_label(NULL);
@@ -121,6 +123,10 @@ static void control_box_init(ControlBox *box)
 			GTK_STYLE_CLASS_BACKGROUND );
 
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
+
+	settings = g_settings_new(APP_ID);
+	g_settings_bind(settings, "volume", box->volume_button, "value", G_SETTINGS_BIND_DEFAULT);
+	g_clear_object(&settings);
 
 	g_object_set(box->play_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->stop_button, "relief", GTK_RELIEF_NONE, NULL);
