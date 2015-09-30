@@ -817,6 +817,8 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 
 void mpv_init(gmpv_handle *ctx)
 {
+	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
+	gdouble volume = g_settings_get_double(settings, "volume")*100;
 	gboolean mpvconf_enable = FALSE;
 	gchar *config_dir = get_config_dir_path();
 	gchar *mpvconf = NULL;
@@ -869,6 +871,11 @@ void mpv_init(gmpv_handle *ctx)
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"screenshot-template",
 						screenshot_template ));
+
+	mpv_check_error(mpv_set_option(	ctx->mpv_ctx,
+					"volume",
+					MPV_FORMAT_DOUBLE,
+					&volume ));
 
 	if(!main_window_get_use_opengl(ctx->gui))
 	{
@@ -936,6 +943,7 @@ void mpv_init(gmpv_handle *ctx)
 						opengl_callback,
 						ctx );
 
+	g_clear_object(&settings);
 	g_free(config_dir);
 	g_free(mpvconf);
 	g_free(mpvopt);

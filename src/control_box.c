@@ -238,6 +238,11 @@ void control_box_set_volume(ControlBox *box, gdouble volume)
 		(GTK_SCALE_BUTTON(box->volume_button), volume);
 }
 
+gdouble control_box_get_volume(ControlBox *box)
+{
+	return gtk_scale_button_get_value(GTK_SCALE_BUTTON(box->volume_button));
+}
+
 void control_box_set_playing_state(ControlBox *box, gboolean playing)
 {
 	GtkWidget *play_icon;

@@ -323,49 +323,51 @@ static GMenu *open_btn_build_menu()
 
 void main_window_save_state(MainWindow *wnd)
 {
-	GSettings *config;
+	GSettings *settings;
 	gint width;
 	gint height;
 	gint handle_pos;
+	gdouble volume;
 
-	config = g_settings_new(CONFIG_WIN_STATE);
+	settings = g_settings_new(CONFIG_WIN_STATE);
 	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
+	volume = control_box_get_volume(CONTROL_BOX(wnd->control_box));
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
-	g_settings_set_int(config, "width", width);
-	g_settings_set_int(config, "height", height);
+	g_settings_set_int(settings, "width", width);
+	g_settings_set_int(settings, "height", height);
+	g_settings_set_double(settings, "volume", volume);
+
+	g_settings_set_boolean(	settings,
+				"show-playlist",
+				wnd->playlist_visible );
 
 	if(main_window_get_playlist_visible(wnd))
 	{
-		g_settings_set_int(	config,
+		g_settings_set_int(	settings,
 					"playlist-width",
 					width-handle_pos );
 	}
 	else
 	{
-		g_settings_set_int(	config,
+		g_settings_set_int(	settings,
 					"playlist-width",
 					wnd->playlist_width );
 	}
 
-	g_settings_set_boolean(	config,
-				"show-playlist",
-				wnd->playlist_visible );
-
-	g_object_unref(config);
+	g_clear_object(&settings);
 }
 
 void main_window_load_state(MainWindow *wnd)
 {
-	GSettings *config;
+	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 
-	config = g_settings_new(CONFIG_WIN_STATE);
-	wnd->init_width = g_settings_get_int(config, "width");
-	wnd->init_height = g_settings_get_int(config, "height");
+	wnd->init_width = g_settings_get_int(settings, "width");
+	wnd->init_height = g_settings_get_int(settings, "height");
 
 	wnd->init_playlist_visible
-		= g_settings_get_boolean(config, "show-playlist");
+		= g_settings_get_boolean(settings, "show-playlist");
 
 	g_signal_connect(	wnd,
 				"configure-event",
@@ -377,11 +379,14 @@ void main_window_load_state(MainWindow *wnd)
 	 */
 	main_window_set_playlist_visible(wnd, TRUE);
 
-	wnd->playlist_width = g_settings_get_int(config, "playlist-width");
+	wnd->playlist_width = g_settings_get_int(settings, "playlist-width");
+
+	control_box_set_volume(	CONTROL_BOX(wnd->control_box),
+				g_settings_get_double(settings, "volume") );
 
 	gtk_window_resize(GTK_WINDOW(wnd), wnd->init_width, wnd->init_height);
 
-	g_object_unref(config);
+	g_clear_object(&settings);
 }
 
 static void main_window_class_init(MainWindowClass *klass)
