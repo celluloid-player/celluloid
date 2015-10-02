@@ -52,6 +52,7 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 		= gtk_tree_view_column_new_with_attributes
 			(_("Playlist"), wgt->title_renderer, "text", 1, NULL);
 
+	gtk_widget_set_can_focus(GTK_WIDGET(wgt->tree_view), FALSE);
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(wgt->tree_view), TRUE);
 
 	gtk_tree_view_append_column
