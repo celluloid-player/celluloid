@@ -425,12 +425,25 @@ static void metadata_update_handler(mpris *inst)
 	mpris_prop_val_pair *prop_list;
 	GVariantBuilder builder;
 	GVariant *value;
+	gchar *uri;
 	gdouble duration;
 	gint64 playlist_pos;
 	gint rc;
 	gint i;
 
 	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
+
+	uri = mpv_get_property_string(inst->gmpv_ctx->mpv_ctx, "path");
+
+	if(uri)
+	{
+		g_variant_builder_add(	&builder,
+					"{sv}",
+					"xesam:url",
+					g_variant_new_string(uri) );
+
+		mpv_free(uri);
+	}
 
 	rc = mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
 				"duration",
