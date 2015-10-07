@@ -693,9 +693,10 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 		}
 		else
 		{
-			/* Default to "yes" if option has no explicit argument
+			/* Default to empty string if there is no explicit
+			 * argument
 			 */
-			token_arg = "yes";
+			token_arg = "";
 		}
 
 		/* Failing to apply extra options is non-fatal */
