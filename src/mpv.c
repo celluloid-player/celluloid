@@ -408,9 +408,7 @@ void mpv_check_error(int status)
 	{
 		size = (size_t)backtrace(array, 10);
 
-		fprintf(	stderr,
-				"MPV API error: %s\n",
-				mpv_error_string(status) );
+		g_critical("MPV API error: %s\n", mpv_error_string(status));
 
 		backtrace_symbols_fd(array, (int)size, STDERR_FILENO);
 
@@ -704,8 +702,7 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 		{
 			fail_count++;
 
-			fprintf(	stderr,
-					"Failed to apply option: --%s=%s\n",
+			g_warning(	"Failed to apply option: --%s=%s\n",
 					token,
 					token_arg );
 		}
