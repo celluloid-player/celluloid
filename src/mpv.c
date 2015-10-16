@@ -399,7 +399,31 @@ void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 
 	if(!iter || (message->log_level <= level->level))
 	{
-		show_error_dialog(ctx, message->prefix, message->text);
+		if(g_settings_get_boolean(ctx->config, "mpv-msg-redir-enable"))
+		{
+			gchar *buf = g_strdup(message->text);
+			gsize len = strlen(buf);
+
+			if(len > 1)
+			{
+				/* g_message() automatically adds a newline
+				 * character when using the default log handler,
+				 * but log messages from mpv already come
+				 * terminated with a newline character so we
+				 * need to take it out.
+				 */
+				if(buf[len-1] == '\n')
+				{
+					buf[len-1] = '\0';
+				}
+
+				g_message("[%s] %s", message->prefix, buf);
+			}
+		}
+		else
+		{
+			show_error_dialog(ctx, message->prefix, message->text);
+		}
 	}
 }
 

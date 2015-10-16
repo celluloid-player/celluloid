@@ -34,6 +34,8 @@ VAR[] = {	{GTK_TOGGLE_BUTTON(DLG->csd_enable_check), \
 		&PREF->dark_theme_enable}, \
 		{GTK_TOGGLE_BUTTON(DLG->last_folder_enable_check), \
 		&PREF->last_folder_enable}, \
+		{GTK_TOGGLE_BUTTON(DLG->mpv_msg_redir_enable_check), \
+		&PREF->mpv_msg_redir_enable}, \
 		{GTK_TOGGLE_BUTTON(DLG->mpv_input_enable_check), \
 		&PREF->mpv_input_config_enable}, \
 		{GTK_TOGGLE_BUTTON(DLG->mpv_conf_enable_check), \
@@ -45,14 +47,15 @@ struct _PrefDialog
 	GtkDialog parent_instance;
 	GtkWidget *grid;
 	GtkWidget *content_area;
-	GtkWidget *dark_theme_enable_check;
 	GtkWidget *csd_enable_check;
+	GtkWidget *dark_theme_enable_check;
+	GtkWidget *last_folder_enable_check;
+	GtkWidget *mpv_msg_redir_enable_check;
 	GtkWidget *mpv_input_enable_check;
 	GtkWidget *mpv_input_button;
 	GtkWidget *mpv_conf_enable_check;
 	GtkWidget *mpv_conf_button;
 	GtkWidget *mpv_options_entry;
-	GtkWidget *last_folder_enable_check;
 };
 
 struct _PrefDialogClass
@@ -109,6 +112,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	GtkWidget *mpv_conf_group_label;
 	GtkWidget *mpv_input_group_label;
 	GtkWidget *misc_group_label;
+	gint grid_row;
 
 	mpv_conf_label = gtk_label_new(_("MPV configuration file:"));
 	mpv_input_label = gtk_label_new(_("MPV input configuration file:"));
@@ -117,6 +121,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	mpv_conf_group_label = gtk_label_new(_("<b>MPV Configuration</b>"));
 	mpv_input_group_label = gtk_label_new(_("<b>Keybindings</b>"));
 	misc_group_label = gtk_label_new(_("<b>Miscellaneous</b>"));
+	grid_row = 0;
 
 	/* This 'locks' the height of the dialog while allowing the width to be
 	 * freely adjusted.
@@ -133,14 +138,20 @@ static void pref_dialog_init(PrefDialog *dlg)
 			(_("Enable client-side decorations"));
 
 	dlg->dark_theme_enable_check
-		= gtk_check_button_new_with_label(_("Enable dark theme"));
+		= gtk_check_button_new_with_label
+			(_("Enable dark theme"));
+
+	dlg->mpv_msg_redir_enable_check
+		= gtk_check_button_new_with_label
+			(_("Redirect MPV log messages to console"));
 
 	dlg->last_folder_enable_check
 		= gtk_check_button_new_with_label(_("Remember last file's location"));
 
 	dlg->mpv_conf_button
-		= gtk_file_chooser_button_new(	_("MPV configuration file"),
-						GTK_FILE_CHOOSER_ACTION_OPEN );
+		= gtk_file_chooser_button_new
+			(	_("MPV configuration file"),
+				GTK_FILE_CHOOSER_ACTION_OPEN );
 
 	dlg->mpv_input_button
 		= gtk_file_chooser_button_new
@@ -190,6 +201,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	set_margin_start(dlg->last_folder_enable_check, 10);
 	set_margin_start(dlg->mpv_conf_enable_check, 10);
 	set_margin_start(dlg->mpv_input_enable_check, 10);
+	set_margin_start(dlg->mpv_msg_redir_enable_check, 10);
 	set_margin_start(dlg->mpv_options_entry, 10);
 
 	gtk_widget_set_size_request(dlg->mpv_conf_button, 100, -1);
@@ -203,50 +215,69 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 5);
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->grid);
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), general_group_label, 0, 0, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+				general_group_label,
+				0, grid_row++, 1, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->csd_enable_check, 0, 1, 2, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+				dlg->csd_enable_check,
+				0, grid_row++, 2, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->dark_theme_enable_check, 0, 2, 2, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			dlg->dark_theme_enable_check,
+				0, grid_row++, 2, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->last_folder_enable_check, 0, 3, 2, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			dlg->last_folder_enable_check,
+				0, grid_row++, 2, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpv_conf_group_label, 0, 4, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			dlg->mpv_msg_redir_enable_check,
+				0, grid_row++, 2, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpv_conf_enable_check, 0, 5, 2, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			mpv_conf_group_label,
+				0, grid_row++, 1, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpv_conf_label, 0, 6, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			dlg->mpv_conf_enable_check,
+				0, grid_row++, 2, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpv_conf_button, 1, 6, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			mpv_conf_label,
+				0, grid_row, 1, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpv_input_group_label, 0, 7, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			dlg->mpv_conf_button,
+				1, grid_row++, 1, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpv_input_enable_check, 0, 8, 2, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			mpv_input_group_label,
+				0, grid_row++, 1, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpv_input_label, 0, 9, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			dlg->mpv_input_enable_check,
+				0, grid_row++, 2, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpv_input_button, 1, 9, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			mpv_input_label,
+				0, grid_row, 1, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), misc_group_label, 0, 10, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			dlg->mpv_input_button,
+				1, grid_row++, 1, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpv_options_label, 0, 11, 1, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			misc_group_label,
+				0, grid_row++, 1, 1 );
 
-	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpv_options_entry, 0, 12, 2, 1);
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+	 			mpv_options_label,
+				0, grid_row++, 1, 1 );
+
+	gtk_grid_attach(	GTK_GRID(dlg->grid),
+				dlg->mpv_options_entry,
+				0, grid_row++, 2, 1 );
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				_("_Cancel"),

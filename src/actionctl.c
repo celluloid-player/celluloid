@@ -40,6 +40,8 @@ VAR[] = {	{G_TYPE_BOOLEAN, "csd-enable", \
 		&pref->dark_theme_enable}, \
 		{G_TYPE_BOOLEAN, "last-folder-enable", \
 		&pref->last_folder_enable}, \
+		{G_TYPE_BOOLEAN, "mpv-msg-redir-enable", \
+		&pref->mpv_msg_redir_enable}, \
 		{G_TYPE_BOOLEAN, "mpv-config-enable", \
 		&pref->mpv_config_enable}, \
 		{G_TYPE_BOOLEAN, "mpv-input-config-enable", \

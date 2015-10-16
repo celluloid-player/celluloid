@@ -26,6 +26,7 @@ pref_store *pref_store_new()
 	pref->dark_theme_enable = TRUE;
 	pref->csd_enable = TRUE;
 	pref->last_folder_enable = FALSE;
+	pref->mpv_msg_redir_enable = FALSE;
 	pref->mpv_input_config_enable = FALSE;
 	pref->mpv_config_enable = FALSE;
 	pref->mpv_input_config_file = NULL;
