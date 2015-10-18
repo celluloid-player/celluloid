@@ -30,9 +30,13 @@
 static void bus_acquired_handler(	GDBusConnection *connection,
 					const gchar *name,
 					gpointer data );
+static void name_lost_handler(	GDBusConnection *connection,
+				const gchar *name,
+				gpointer data );
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data );
+static void unregister(mpris *inst);
 
 static void bus_acquired_handler(	GDBusConnection *connection,
 					const gchar *name,
@@ -46,6 +50,13 @@ static void bus_acquired_handler(	GDBusConnection *connection,
 	mpris_player_register(inst);
 }
 
+static void name_lost_handler(	GDBusConnection *connection,
+				const gchar *name,
+				gpointer data )
+{
+	unregister(data);
+}
+
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data )
@@ -55,6 +66,15 @@ static gboolean delete_handler(	GtkWidget *widget,
 	g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
 					inst->shutdown_sig_id );
 
+	unregister(inst);
+	g_bus_unown_name(inst->name_id);
+	g_free(inst);
+
+	return FALSE;
+}
+
+static void unregister(mpris *inst)
+{
 	if(inst->base_reg_id > 0)
 	{
 		mpris_base_unregister(inst);
@@ -64,11 +84,6 @@ static gboolean delete_handler(	GtkWidget *widget,
 	{
 		mpris_player_unregister(inst);
 	}
-
-	g_bus_unown_name(inst->name_id);
-	g_free(inst);
-
-	return FALSE;
 }
 
 void mpris_emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list)
@@ -151,7 +166,8 @@ void mpris_init(gmpv_handle *gmpv_ctx)
 					(GBusAcquiredCallback)
 					bus_acquired_handler,
 					NULL,
-					NULL,
+					(GBusNameLostCallback)
+					name_lost_handler,
 					inst,
 					NULL );
 }
