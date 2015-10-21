@@ -45,6 +45,8 @@ GtkWidget *pref_dialog_new(GtkWindow *parent);
 GType pref_dialog_get_type(void);
 void pref_dialog_set_dark_theme_enable(PrefDialog *dlg, gboolean value);
 gboolean pref_dialog_get_dark_theme_enable(PrefDialog *dlg);
+void pref_dialog_set_last_folder_enable(PrefDialog *dlg, gboolean value);
+gboolean pref_dialog_get_last_folder_enable(PrefDialog *dlg);
 void pref_dialog_set_csd_enable(PrefDialog *dlg, gboolean value);
 gboolean pref_dialog_get_csd_enable(PrefDialog *dlg);
 void pref_dialog_set_mpvconf_enable(PrefDialog *dlg, gboolean value);

@@ -34,6 +34,7 @@ struct _PrefDialog
 	GtkWidget *mpvconf_enable_check;
 	GtkWidget *mpvconf_button;
 	GtkWidget *mpvopt_entry;
+	GtkWidget *last_folder_enable_check;
 };
 
 struct _PrefDialogClass
@@ -116,6 +117,9 @@ static void pref_dialog_init(PrefDialog *dlg)
 	dlg->dark_theme_enable_check
 		= gtk_check_button_new_with_label(_("Enable dark theme"));
 
+	dlg->last_folder_enable_check
+		= gtk_check_button_new_with_label(_("Remember last file's location"));
+
 	dlg->mpvconf_button
 		= gtk_file_chooser_button_new(	_("MPV configuration file"),
 						GTK_FILE_CHOOSER_ACTION_OPEN );
@@ -165,6 +169,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	set_margin_start(mpvopt_label, 10);
 	set_margin_start(dlg->csd_enable_check, 10);
 	set_margin_start(dlg->dark_theme_enable_check, 10);
+	set_margin_start(dlg->last_folder_enable_check, 10);
 	set_margin_start(dlg->mpvconf_enable_check, 10);
 	set_margin_start(dlg->mpvinput_enable_check, 10);
 	set_margin_start(dlg->mpvopt_entry, 10);
@@ -190,37 +195,40 @@ static void pref_dialog_init(PrefDialog *dlg)
 		(GTK_GRID(dlg->grid), dlg->dark_theme_enable_check, 0, 2, 2, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 3, 1, 1);
+		(GTK_GRID(dlg->grid), dlg->last_folder_enable_check, 0, 3, 2, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 4, 2, 1);
+		(GTK_GRID(dlg->grid), mpvconf_group_label, 0, 4, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpvconf_label, 0, 5, 1, 1);
+		(GTK_GRID(dlg->grid), dlg->mpvconf_enable_check, 0, 5, 2, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 5, 1, 1);
+		(GTK_GRID(dlg->grid), mpvconf_label, 0, 6, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 6, 1, 1);
+		(GTK_GRID(dlg->grid), dlg->mpvconf_button, 1, 6, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvinput_enable_check, 0, 7, 2, 1);
+		(GTK_GRID(dlg->grid), mpvinput_group_label, 0, 7, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpvinput_label, 0, 8, 1, 1);
+		(GTK_GRID(dlg->grid), dlg->mpvinput_enable_check, 0, 8, 2, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 8, 1, 1);
+		(GTK_GRID(dlg->grid), mpvinput_label, 0, 9, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), misc_group_label, 0, 9, 1, 1);
+		(GTK_GRID(dlg->grid), dlg->mpvinput_button, 1, 9, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), mpvopt_label, 0, 10, 1, 1);
+		(GTK_GRID(dlg->grid), misc_group_label, 0, 10, 1, 1);
 
 	gtk_grid_attach
-		(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 11, 2, 1);
+		(GTK_GRID(dlg->grid), mpvopt_label, 0, 11, 1, 1);
+
+	gtk_grid_attach
+		(GTK_GRID(dlg->grid), dlg->mpvopt_entry, 0, 12, 2, 1);
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				_("_Cancel"),
@@ -284,6 +292,22 @@ gboolean pref_dialog_get_dark_theme_enable(PrefDialog *dlg)
 {
 	GtkToggleButton *button
 		= GTK_TOGGLE_BUTTON(dlg->dark_theme_enable_check);
+
+	return gtk_toggle_button_get_active(button);
+}
+
+void pref_dialog_set_last_folder_enable(PrefDialog *dlg, gboolean value)
+{
+	GtkToggleButton *button
+		= GTK_TOGGLE_BUTTON(dlg->last_folder_enable_check);
+
+	gtk_toggle_button_set_active(button, value);
+}
+
+gboolean pref_dialog_get_last_folder_enable(PrefDialog *dlg)
+{
+	GtkToggleButton *button
+		= GTK_TOGGLE_BUTTON(dlg->last_folder_enable_check);
 
 	return gtk_toggle_button_get_active(button);
 }
