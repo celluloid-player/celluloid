@@ -17,7 +17,9 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gsettingsbackend.h>
 #include <glib/gi18n.h>
+#include <libgen.h>
 
 #include "actionctl.h"
 #include "def.h"
@@ -62,9 +64,21 @@ static void open_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
+	gchar *config_file = get_config_file_path();
+	gchar *filepath = NULL;
 	gmpv_handle *ctx = (gmpv_handle*)data;
 	GtkFileChooser *file_chooser;
 	GtkWidget *open_dialog;
+	GSettings *config;
+	GSettingsBackend *config_backend;
+
+	config_backend = g_keyfile_settings_backend_new
+				(	config_file,
+					CONFIG_ROOT_PATH,
+					CONFIG_ROOT_GROUP );
+
+	config = g_settings_new_with_backend(CONFIG_WIN_STATE, config_backend);
+	filepath = g_settings_get_string(config, "last-file");
 
 	open_dialog
 		= gtk_file_chooser_dialog_new(	_("Open File"),
@@ -78,6 +92,11 @@ static void open_handler(	GSimpleAction *action,
 
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
 
+	if(filepath)
+	{
+		gtk_file_chooser_set_current_folder(file_chooser, dirname(filepath));
+	}
+
 	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
 
 	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
@@ -89,6 +108,8 @@ static void open_handler(	GSimpleAction *action,
 
 		while(uri)
 		{
+			g_settings_set_string(config, "last-file", get_path_from_uri(uri->data));
+
 			mpv_load(ctx, uri->data, (uri != uri_list), TRUE);
 
 			uri = g_slist_next(uri);
@@ -98,6 +119,8 @@ static void open_handler(	GSimpleAction *action,
 	}
 
 	gtk_widget_destroy(open_dialog);
+	g_free(config_file);
+	g_free(filepath);
 }
 
 static void open_loc_handler(	GSimpleAction *action,
