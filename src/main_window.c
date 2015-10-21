@@ -17,7 +17,6 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <gio/gsettingsbackend.h>
 #include <glib/gi18n.h>
 
 #include "def.h"
@@ -316,21 +315,12 @@ static GMenu *open_btn_build_menu()
 
 void main_window_save_state(MainWindow *wnd)
 {
-	GSettingsBackend *config_backend;
 	GSettings *config;
-	gchar *config_file;
 	gint width;
 	gint height;
 	gint handle_pos;
 
-	config_file = get_config_file_path();
-
-	config_backend = g_keyfile_settings_backend_new
-				(	config_file,
-					CONFIG_ROOT_PATH,
-					CONFIG_ROOT_GROUP );
-
-	config = g_settings_new_with_backend(CONFIG_WIN_STATE, config_backend);
+	config = g_settings_new(CONFIG_WIN_STATE);
 	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
@@ -355,23 +345,14 @@ void main_window_save_state(MainWindow *wnd)
 				"show-playlist",
 				wnd->playlist_visible );
 
-	g_free(config_file);
+	g_object_unref(config);
 }
 
 void main_window_load_state(MainWindow *wnd)
 {
-	GSettingsBackend *config_backend;
 	GSettings *config;
-	gchar *config_file;
 
-	config_file = get_config_file_path();
-
-	config_backend = g_keyfile_settings_backend_new
-				(	config_file,
-					CONFIG_ROOT_PATH,
-					CONFIG_ROOT_GROUP );
-
-	config = g_settings_new_with_backend(CONFIG_WIN_STATE, config_backend);
+	config = g_settings_new(CONFIG_WIN_STATE);
 	wnd->init_width = g_settings_get_int(config, "width");
 	wnd->init_height = g_settings_get_int(config, "height");
 
@@ -392,7 +373,7 @@ void main_window_load_state(MainWindow *wnd)
 
 	gtk_window_resize(GTK_WINDOW(wnd), wnd->init_width, wnd->init_height);
 
-	g_free(config_file);
+	g_object_unref(config);
 }
 
 static void main_window_class_init(MainWindowClass *klass)

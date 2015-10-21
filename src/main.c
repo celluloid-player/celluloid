@@ -17,7 +17,6 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <gio/gsettingsbackend.h>
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <gdk/gdk.h>
@@ -526,7 +525,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
 	const gchar *vid_area_style = ".gmpv-vid-area{background-color: black}";
-	GSettingsBackend *config_backend;
 	GtkCssProvider *style_provider;
 	gboolean css_loaded;
 	gboolean use_opengl;
@@ -534,7 +532,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	gboolean mpvinput_enable;
 	gboolean csd_enable;
 	gboolean dark_theme_enable;
-	gchar *config_file;
 	gchar *mpvinput;
 
 	setlocale(LC_NUMERIC, "C");
@@ -544,13 +541,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALEDIR);
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
-
-	config_file = get_config_file_path();
-
-	config_backend = g_keyfile_settings_backend_new
-				(	config_file,
-					CONFIG_ROOT_PATH,
-					CONFIG_ROOT_GROUP );
 
 	use_opengl = get_use_opengl();
 
@@ -566,7 +556,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->playlist_move_dest = -1;
 	ctx->log_level_list = NULL;
 	ctx->keybind_list = NULL;
-	ctx->config = g_settings_new_with_backend(APP_ID, config_backend);
+	ctx->config = g_settings_new(CONFIG_ROOT);
 	ctx->app = GTK_APPLICATION(app);
 	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app, use_opengl));
 	ctx->fs_control = NULL;
@@ -657,21 +647,31 @@ static void app_startup_handler(GApplication *app, gpointer data)
 
 	if(config_migrated)
 	{
-		GtkWidget *dialog
-			= gtk_message_dialog_new
+		gchar *config_file;
+		gchar *backup_config_file;
+		GtkWidget *dialog;
+
+		config_file = get_config_file_path();
+		backup_config_file = g_strconcat(config_file, ".bak", NULL);
+
+		dialog = gtk_message_dialog_new
 				(	GTK_WINDOW(ctx->gui),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					GTK_MESSAGE_INFO,
 					GTK_BUTTONS_OK,
-					_("Your configuration file has been "
-					"moved to the new location at %s."),
-					config_file );
+					_("Preferences is now stored using "
+					"GSettings. Your preferences have been "
+					"migrated from the configuration file. "
+					"A backup copy of the configuration "
+					"file can be found at \"%s\"."),
+					backup_config_file );
 
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
+		g_free(config_file);
+		g_free(backup_config_file);
 	}
 
-	g_free(config_file);
 	g_free(mpvinput);
 }
 

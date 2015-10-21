@@ -17,7 +17,6 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <gio/gsettingsbackend.h>
 #include <glib/gi18n.h>
 
 #include "actionctl.h"
@@ -69,7 +68,6 @@ static void open_handler(	GSimpleAction *action,
 	GtkFileChooser *file_chooser;
 	GtkWidget *open_dialog;
 	GSettings *config = NULL;
-	GSettingsBackend *config_backend = NULL;
 
 	open_dialog
 		= gtk_file_chooser_dialog_new(	_("Open File"),
@@ -91,13 +89,7 @@ static void open_handler(	GSimpleAction *action,
 	{
 		gchar *last_folder_uri = NULL;
 
-		config_backend = g_keyfile_settings_backend_new
-					(	config_file,
-						CONFIG_ROOT_PATH,
-						CONFIG_ROOT_GROUP );
-
-		config = g_settings_new_with_backend
-				(CONFIG_WIN_STATE, config_backend);
+		config = g_settings_new(CONFIG_WIN_STATE);
 
 		last_folder_uri = g_settings_get_string
 					(config, "last-folder-uri");
@@ -145,7 +137,6 @@ static void open_handler(	GSimpleAction *action,
 
 	gtk_widget_destroy(open_dialog);
 	g_clear_object(&config);
-	g_clear_object(&config_backend);
 	g_free(config_file);
 }
 

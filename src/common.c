@@ -17,6 +17,7 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gsettingsbackend.h>
 #include <glib/gi18n.h>
 #include <string.h>
 
@@ -42,7 +43,7 @@ gchar *get_config_file_path(void)
 	gchar *result;
 
 	config_dir = get_config_dir_path();
-	result = g_strconcat(config_dir, "/" CONFIG_FILE, NULL);
+	result = g_strconcat(config_dir, "/gnome-mpv.conf", NULL);
 
 	g_free(config_dir);
 
@@ -99,25 +100,63 @@ gboolean quit(gpointer data)
 	return FALSE;
 }
 
+/* This only supports migrating from v0.5's config file */
 gboolean migrate_config(gmpv_handle *ctx)
 {
-	gchar *config_dir = get_config_dir_path();
 	gchar *config_file = get_config_file_path();
-	gboolean result;
-	char *old_path;
-	GKeyFile *key_config;
-	gchar *keybuf;
+	gboolean result = FALSE;
 
-	result = FALSE;
-	old_path = g_strconcat(g_get_user_config_dir(), "/", CONFIG_FILE, NULL);
-
-	/* Move config file to the new location if it is at the old location */
-	if(g_file_test(old_path, G_FILE_TEST_EXISTS))
+	if(g_file_test(config_file, G_FILE_TEST_EXISTS))
 	{
-		GFile *src = g_file_new_for_path(old_path);
-		GFile *dest = g_file_new_for_path(config_file);
+		const gchar *key_list[] = {	"csd-enable",
+						"dark-theme-enable",
+						"mpv-input-config-enable",
+						"mpv-config-enable",
+						"mpv-input-config-file",
+						"mpv-config-file",
+						"mpv-options",
+						NULL };
 
-		g_mkdir_with_parents(config_dir, 0700);
+		GSettingsBackend *backend;
+		GSettings *keyfile_settings;
+		GSettings *default_settings;
+		const gchar **iter;
+
+		backend = g_keyfile_settings_backend_new
+				(	config_file,
+					"/org/gnome-mpv/gnome-mpv/",
+					"main" );
+
+		keyfile_settings = g_settings_new_with_backend(	CONFIG_ROOT,
+								backend );
+
+		default_settings = g_settings_new(CONFIG_ROOT);
+		iter = key_list;
+
+		while(*iter)
+		{
+			GVariant *value;
+
+			value = g_settings_get_value(keyfile_settings, *iter);
+
+			g_settings_set_value(default_settings, *iter, value);
+
+			iter++;
+
+			g_variant_unref(value);
+		}
+
+		g_object_unref(backend);
+		g_object_unref(keyfile_settings);
+		g_object_unref(default_settings);
+
+		/* Rename the old config file */
+		gchar *backup_config_file = g_strconcat(	config_file,
+								".bak",
+								NULL );
+
+		GFile *src = g_file_new_for_path(config_file);
+		GFile *dest = g_file_new_for_path(backup_config_file);
 
 		result = g_file_move(	src,
 					dest,
@@ -127,62 +166,12 @@ gboolean migrate_config(gmpv_handle *ctx)
 					NULL,
 					NULL );
 
+		g_free(backup_config_file);
 		g_object_unref(src);
 		g_object_unref(dest);
 	}
 
-	key_config = g_key_file_new();
-
-	g_key_file_load_from_file(	key_config,
-					config_file,
-					G_KEY_FILE_NONE,
-					NULL );
-
-	keybuf = g_key_file_get_string(	key_config,
-					"main",
-					"mpv-options",
-					NULL );
-
-	/* If config file is in the old format, convert it to the new format */
-	if(keybuf && keybuf[0] != '\'' && keybuf[0] != '\"')
-	{
-		const gchar *opts[] = {	"mpv-options",
-					"mpv-config-file",
-					"mpv-input-config-file",
-					NULL };
-
-		const gchar **current = opts;
-
-		g_free(keybuf);
-
-		while(*current)
-		{
-			keybuf = g_key_file_get_string(	key_config,
-							"main",
-							*current,
-							NULL );
-
-			g_settings_set_string(	ctx->config,
-						*current,
-						keybuf );
-
-			g_free(keybuf);
-
-			current++;
-		}
-
-		keybuf = NULL;
-	}
-
-	if(keybuf)
-	{
-		g_free(keybuf);
-	}
-
-	g_key_file_free(key_config);
-	g_free(config_dir);
 	g_free(config_file);
-	g_free(old_path);
 
 	return result;
 }
