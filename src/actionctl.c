@@ -19,7 +19,6 @@
 
 #include <gio/gsettingsbackend.h>
 #include <glib/gi18n.h>
-#include <libgen.h>
 
 #include "actionctl.h"
 #include "def.h"
@@ -64,21 +63,14 @@ static void open_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
+	gboolean last_file_location_enable;
 	gchar *config_file = get_config_file_path();
 	gchar *filepath = NULL;
 	gmpv_handle *ctx = (gmpv_handle*)data;
 	GtkFileChooser *file_chooser;
 	GtkWidget *open_dialog;
-	GSettings *config;
-	GSettingsBackend *config_backend;
-
-	config_backend = g_keyfile_settings_backend_new
-				(	config_file,
-					CONFIG_ROOT_PATH,
-					CONFIG_ROOT_GROUP );
-
-	config = g_settings_new_with_backend(CONFIG_WIN_STATE, config_backend);
-	filepath = g_settings_get_string(config, "last-file");
+	GSettings *config = NULL;
+	GSettingsBackend *config_backend = NULL;
 
 	open_dialog
 		= gtk_file_chooser_dialog_new(	_("Open File"),
@@ -92,9 +84,27 @@ static void open_handler(	GSimpleAction *action,
 
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
 
-	if(filepath)
+	last_file_location_enable
+		= g_settings_get_boolean( 	ctx->config,
+						"last-file-location-enable" );
+	if(last_file_location_enable)
 	{
-		gtk_file_chooser_set_current_folder(file_chooser, dirname(filepath));
+		config_backend = g_keyfile_settings_backend_new
+					(	config_file,
+						CONFIG_ROOT_PATH,
+						CONFIG_ROOT_GROUP );
+
+		config = g_settings_new_with_backend(	CONFIG_WIN_STATE,
+							config_backend );
+		filepath = g_settings_get_string(config, "last-file");
+
+
+		if(filepath && strlen(filepath) > 0)
+		{
+			gtk_file_chooser_set_current_folder
+					(	file_chooser,
+						g_path_get_dirname(filepath) );
+		}
 	}
 
 	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
@@ -108,7 +118,13 @@ static void open_handler(	GSimpleAction *action,
 
 		while(uri)
 		{
-			g_settings_set_string(config, "last-file", get_path_from_uri(uri->data));
+			if(last_file_location_enable)
+			{
+				g_settings_set_string
+					(	config,
+						"last-file",
+						get_path_from_uri(uri->data) );
+			}
 
 			mpv_load(ctx, uri->data, (uri != uri_list), TRUE);
 
@@ -118,9 +134,14 @@ static void open_handler(	GSimpleAction *action,
 		g_slist_free_full(uri_list, g_free);
 	}
 
-	gtk_widget_destroy(open_dialog);
 	g_free(config_file);
 	g_free(filepath);
+	if(last_file_location_enable)
+	{
+		g_object_unref(config);
+		g_object_unref(config_backend);
+	}
+	gtk_widget_destroy(open_dialog);
 }
 
 static void open_loc_handler(	GSimpleAction *action,
@@ -156,6 +177,7 @@ static void pref_handler(	GSimpleAction *action,
 	PrefDialog *pref_dialog;
 	gboolean csd_enable_buffer;
 	gboolean dark_theme_enable_buffer;
+	gboolean last_file_location_enable_buffer;
 	gboolean mpvconf_enable_buffer;
 	gboolean mpvinput_enable_buffer;
 	gchar *mpvconf_buffer;
@@ -167,6 +189,9 @@ static void pref_handler(	GSimpleAction *action,
 
 	dark_theme_enable_buffer
 		= g_settings_get_boolean(ctx->config, "dark-theme-enable");
+
+	last_file_location_enable_buffer
+		= g_settings_get_boolean(ctx->config, "last-file-location-enable");
 
 	mpvconf_enable_buffer
 		= g_settings_get_boolean(ctx->config, "mpv-config-enable");
@@ -187,6 +212,7 @@ static void pref_handler(	GSimpleAction *action,
 
 	pref_dialog_set_csd_enable(pref_dialog, csd_enable_buffer);
 	pref_dialog_set_dark_theme_enable(pref_dialog, dark_theme_enable_buffer);
+	pref_dialog_set_last_file_location_enable(pref_dialog, last_file_location_enable_buffer);
 	pref_dialog_set_mpvconf_enable(pref_dialog, mpvconf_enable_buffer);
 	pref_dialog_set_mpvinput_enable(pref_dialog, mpvinput_enable_buffer);
 
@@ -202,6 +228,7 @@ static void pref_handler(	GSimpleAction *action,
 	{
 		gboolean csd_enable;
 		gboolean dark_theme_enable;
+		gboolean last_file_location_enable;
 		gboolean mpvconf_enable;
 		gboolean mpvinput_enable;
 		const gchar* mpvconf;
@@ -216,6 +243,10 @@ static void pref_handler(	GSimpleAction *action,
 			= pref_dialog_get_dark_theme_enable(pref_dialog);
 
 		csd_enable = pref_dialog_get_csd_enable(pref_dialog);
+
+		last_file_location_enable
+			= pref_dialog_get_last_file_location_enable(pref_dialog);
+
 		mpvconf_enable = pref_dialog_get_mpvconf_enable(pref_dialog);
 		mpvinput_enable = pref_dialog_get_mpvinput_enable(pref_dialog);
 		mpvconf = pref_dialog_get_mpvconf(pref_dialog);
@@ -227,6 +258,9 @@ static void pref_handler(	GSimpleAction *action,
 
 		g_settings_set_boolean
 			(ctx->config, "dark-theme-enable", dark_theme_enable);
+
+		g_settings_set_boolean
+			(ctx->config, "last-file-location-enable", last_file_location_enable);
 
 		g_settings_set_boolean
 			(ctx->config, "mpv-config-enable", mpvconf_enable);
