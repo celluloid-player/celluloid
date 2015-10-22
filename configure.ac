@@ -1,7 +1,7 @@
 AC_PREREQ([2.69])
 
 AC_INIT(	[gnome-mpv],
-		[0.5],
+		[0.6],
 		[http://github.com/gnome-mpv/gnome-mpv/issues],
 		[gnome-mpv],
 		[http://github.com/gnome-mpv/gnome-mpv] )
