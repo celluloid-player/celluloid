@@ -65,7 +65,7 @@ static void open_handler(	GSimpleAction *action,
 {
 	gboolean last_file_location_enable;
 	gchar *config_file = get_config_file_path();
-	gchar *filepath = NULL;
+	gchar *dirname = NULL;
 	gmpv_handle *ctx = (gmpv_handle*)data;
 	GtkFileChooser *file_chooser;
 	GtkWidget *open_dialog;
@@ -96,14 +96,14 @@ static void open_handler(	GSimpleAction *action,
 
 		config = g_settings_new_with_backend(	CONFIG_WIN_STATE,
 							config_backend );
-		filepath = g_settings_get_string(config, "last-file");
+		dirname = g_settings_get_string(config, "last-dir");
 
 
-		if(filepath && strlen(filepath) > 0)
+		if(dirname && strlen(dirname) > 0)
 		{
 			gtk_file_chooser_set_current_folder
 					(	file_chooser,
-						g_path_get_dirname(filepath) );
+						dirname );
 		}
 	}
 
@@ -120,10 +120,15 @@ static void open_handler(	GSimpleAction *action,
 		{
 			if(last_file_location_enable)
 			{
+				gchar *newdirname = g_path_get_dirname
+					( get_path_from_uri(uri->data) );
+
 				g_settings_set_string
 					(	config,
-						"last-file",
-						get_path_from_uri(uri->data) );
+						"last-dir",
+						newdirname );
+
+				g_free(newdirname);
 			}
 
 			mpv_load(ctx, uri->data, (uri != uri_list), TRUE);
@@ -135,12 +140,9 @@ static void open_handler(	GSimpleAction *action,
 	}
 
 	g_free(config_file);
-	g_free(filepath);
-	if(last_file_location_enable)
-	{
-		g_object_unref(config);
-		g_object_unref(config_backend);
-	}
+	g_free(dirname);
+	g_clear_object(&config);
+	g_clear_object(&config_backend);
 	gtk_widget_destroy(open_dialog);
 }
 
