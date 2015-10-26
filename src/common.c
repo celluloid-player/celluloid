@@ -322,7 +322,11 @@ void remove_current_playlist_entry(gmpv_handle *ctx)
 				ctx );
 
 		playlist_widget_remove(playlist, index);
-		mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+
+		if(ctx->loaded)
+		{
+			mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+		}
 
 		if(playlist_widget_empty(playlist))
 		{
