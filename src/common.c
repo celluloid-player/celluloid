@@ -31,10 +31,9 @@
 
 gchar *get_config_dir_path(void)
 {
-	return g_strconcat(	g_get_user_config_dir(),
-				"/",
-				CONFIG_DIR,
-				NULL );
+	return g_build_filename(	g_get_user_config_dir(),
+					CONFIG_DIR,
+					NULL );
 }
 
 gchar *get_config_file_path(void)
@@ -43,7 +42,7 @@ gchar *get_config_file_path(void)
 	gchar *result;
 
 	config_dir = get_config_dir_path();
-	result = g_strconcat(config_dir, "/gnome-mpv.conf", NULL);
+	result = g_build_filename(config_dir, "gnome-mpv.conf", NULL);
 
 	g_free(config_dir);
 
