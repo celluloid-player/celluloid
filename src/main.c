@@ -84,6 +84,11 @@ static gboolean key_press_handler(	GtkWidget *widget,
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+static void playlist_append_handler(	GtkMenuItem *menuitem,
+					gpointer data );
+static gboolean playlist_mouse_press_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data );
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
 						gpointer data );
@@ -282,6 +287,112 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	return TRUE;
 }
 
+static gboolean playlist_mouse_press_handler(	GtkWidget *widget,
+						GdkEvent *event,
+						gpointer data )
+{
+	GdkEventButton *btn_event = (GdkEventButton *)event;
+	GtkWidget *menu;
+	GtkWidget *menuitem;
+
+	if(btn_event->type == GDK_BUTTON_PRESS && btn_event->button == 3) {
+		menu = gtk_menu_new();
+		menuitem = gtk_menu_item_new_with_label("Append...");
+
+		g_signal_connect(menuitem, "activate", G_CALLBACK(playlist_append_handler), data);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
+
+		gtk_widget_show_all(menu);
+
+		gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL,
+					(btn_event != NULL) ? btn_event->button : 0, gdk_event_get_time(event));
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void playlist_append_handler(GtkMenuItem *menuitem, gpointer data)
+{
+	gboolean last_folder_enable;
+	gchar *config_file = get_config_file_path();
+	gmpv_handle *ctx = (gmpv_handle*)data;
+	GtkFileChooser *file_chooser;
+	GtkWidget *append_dialog;
+	GSettings *config = NULL;
+
+	append_dialog
+		= gtk_file_chooser_dialog_new(	_("Append File"),
+						GTK_WINDOW(ctx->gui),
+						GTK_FILE_CHOOSER_ACTION_OPEN,
+						_("_Cancel"),
+						GTK_RESPONSE_CANCEL,
+						_("_Open"),
+						GTK_RESPONSE_ACCEPT,
+						NULL );
+
+	file_chooser = GTK_FILE_CHOOSER(append_dialog);
+
+	last_folder_enable
+		= g_settings_get_boolean( 	ctx->config,
+						"last-folder-enable" );
+
+	if(last_folder_enable)
+	{
+		gchar *last_folder_uri = NULL;
+
+		config = g_settings_new(CONFIG_WIN_STATE);
+
+		last_folder_uri = g_settings_get_string
+					(config, "last-folder-uri");
+
+
+		if(last_folder_uri && strlen(last_folder_uri) > 0)
+		{
+			gtk_file_chooser_set_current_folder_uri
+				(file_chooser, last_folder_uri);
+		}
+
+		g_free(last_folder_uri);
+	}
+
+	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
+
+	if(gtk_dialog_run(GTK_DIALOG(append_dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
+		GSList *uri = uri_list;
+
+		ctx->paused = FALSE;
+
+		while(uri)
+		{
+			mpv_load(ctx, uri->data, TRUE, TRUE);
+
+			uri = g_slist_next(uri);
+		}
+
+		if(last_folder_enable)
+		{
+			gchar *last_folder_uri
+				= gtk_file_chooser_get_current_folder_uri
+					(file_chooser);
+
+			g_settings_set_string
+				(config, "last-folder-uri", last_folder_uri);
+
+			g_free(last_folder_uri);
+		}
+
+		g_slist_free_full(uri_list, g_free);
+	}
+
+	gtk_widget_destroy(append_dialog);
+	g_clear_object(&config);
+	g_free(config_file);
+}
+
 static void app_activate_handler(GApplication *app, gpointer data)
 {
 	gtk_window_present(GTK_WINDOW(((gmpv_handle *)data)->gui));
@@ -461,6 +572,11 @@ static void connect_signals(gmpv_handle *ctx)
 				"row-activated",
 				G_CALLBACK(playlist_row_handler),
 				ctx );
+
+	g_signal_connect(	playlist->tree_view,
+				"button-press-event",
+				G_CALLBACK(playlist_mouse_press_handler),
+				ctx	);
 
 	g_signal_connect(	playlist->list_store,
 				"row-inserted",
