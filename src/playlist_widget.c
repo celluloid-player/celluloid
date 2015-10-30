@@ -37,12 +37,15 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	{
 		GMenu *menu;
 		GMenuItem *add_menu_item;
+		GMenuItem *loop_menu_item;
 		GtkWidget *ctx_menu;
 
 		menu = g_menu_new();
 		add_menu_item = g_menu_item_new(_("_Add..."), "app.open(true)");
+		loop_menu_item = g_menu_item_new(_("Loop"), "app.loop");
 
 		g_menu_append_item(menu, add_menu_item);
+		g_menu_append_item(menu, loop_menu_item);
 		g_menu_freeze(menu);
 
 		ctx_menu = gtk_menu_new_from_model(G_MENU_MODEL(menu));

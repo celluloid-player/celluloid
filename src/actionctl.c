@@ -199,6 +199,20 @@ static void open_loc_handler(	GSimpleAction *action,
 	gtk_widget_destroy(GTK_WIDGET(open_loc_dialog));
 }
 
+static void loop_handler(	GSimpleAction *action,
+				GVariant *value,
+				gpointer data )
+{
+	gmpv_handle *ctx = data;
+	gboolean loop = g_variant_get_boolean(value);
+
+	g_simple_action_set_state(action, value);
+
+	mpv_check_error(mpv_set_property_string(	ctx->mpv_ctx,
+							"loop",
+							loop?"inf":"no" ));
+}
+
 static void pref_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
@@ -500,6 +514,9 @@ void actionctl_map_actions(gmpv_handle *ctx)
 		.activate = pref_handler},
 		{.name = "openloc",
 		.activate = open_loc_handler},
+		{.name = "loop",
+		.state = "false",
+		.change_state = loop_handler},
 		{.name = "playlist_toggle",
 		.activate = playlist_toggle_handler},
 		{.name = "playlist_save",
