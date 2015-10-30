@@ -302,7 +302,8 @@ static GMenu *open_btn_build_menu()
 
 	menu = g_menu_new();
 
-	open_menu_item = g_menu_item_new(_("_Open"), "app.open");
+	open_menu_item
+		= g_menu_item_new(_("_Open"), "app.open(false)");
 
 	open_loc_menu_item
 		= g_menu_item_new(_("Open _Location"), "app.openloc");

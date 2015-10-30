@@ -23,6 +23,40 @@
 
 G_DEFINE_TYPE(PlaylistWidget, playlist_widget, GTK_TYPE_SCROLLED_WINDOW)
 
+static gboolean mouse_press_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data )
+{
+	GdkEventButton *btn_event = (GdkEventButton *)event;
+	gboolean handled;
+
+	handled = (	btn_event->type == GDK_BUTTON_PRESS &&
+			btn_event->button == 3 );
+
+	if(handled)
+	{
+		GMenu *menu;
+		GMenuItem *add_menu_item;
+		GtkWidget *ctx_menu;
+
+		menu = g_menu_new();
+		add_menu_item = g_menu_item_new(_("_Add..."), "app.open(true)");
+
+		g_menu_append_item(menu, add_menu_item);
+		g_menu_freeze(menu);
+
+		ctx_menu = gtk_menu_new_from_model(G_MENU_MODEL(menu));
+
+		gtk_menu_attach_to_widget(GTK_MENU(ctx_menu), widget, NULL);
+		gtk_widget_show_all(ctx_menu);
+
+		gtk_menu_popup(	GTK_MENU(ctx_menu), NULL, NULL, NULL, NULL,
+				btn_event->button, btn_event->time );
+	}
+
+	return handled;
+}
+
 static void playlist_widget_class_init(PlaylistWidgetClass *klass)
 {
 }
@@ -51,6 +85,11 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 	wgt->title_column
 		= gtk_tree_view_column_new_with_attributes
 			(_("Playlist"), wgt->title_renderer, "text", 1, NULL);
+
+	g_signal_connect(	wgt->tree_view,
+				"button-press-event",
+				G_CALLBACK(mouse_press_handler),
+				NULL );
 
 	gtk_widget_set_can_focus(GTK_WIDGET(wgt->tree_view), FALSE);
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(wgt->tree_view), TRUE);

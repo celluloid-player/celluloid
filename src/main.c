@@ -484,7 +484,7 @@ static inline void add_accelerator(	GtkApplication *app,
 
 static void setup_accelerators(gmpv_handle *ctx)
 {
-	add_accelerator(ctx->app, "<Control>o", "app.open");
+	add_accelerator(ctx->app, "<Control>o", "app.open(false)");
 	add_accelerator(ctx->app, "<Control>l", "app.openloc");
 	add_accelerator(ctx->app, "<Control>S", "app.playlist_save");
 	add_accelerator(ctx->app, "<Control>q", "app.quit");

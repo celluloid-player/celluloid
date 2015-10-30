@@ -62,15 +62,19 @@ static void open_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	gboolean last_folder_enable;
-	gchar *config_file = get_config_file_path();
-	gmpv_handle *ctx = (gmpv_handle*)data;
+	gmpv_handle *ctx = data;
+	GSettings *config = NULL;
 	GtkFileChooser *file_chooser;
 	GtkWidget *open_dialog;
-	GSettings *config = NULL;
+	gboolean last_folder_enable;
+	gboolean append;
+
+	g_variant_get(param, "b", &append);
 
 	open_dialog
-		= gtk_file_chooser_dialog_new(	_("Open File"),
+		= gtk_file_chooser_dialog_new(	append?
+						_("Add File to Playlist"):
+						_("Open File"),
 						GTK_WINDOW(ctx->gui),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						_("_Cancel"),
@@ -87,7 +91,7 @@ static void open_handler(	GSimpleAction *action,
 
 	if(last_folder_enable)
 	{
-		gchar *last_folder_uri = NULL;
+		gchar *last_folder_uri;
 
 		config = g_settings_new(CONFIG_WIN_STATE);
 
@@ -115,7 +119,10 @@ static void open_handler(	GSimpleAction *action,
 
 		while(uri)
 		{
-			mpv_load(ctx, uri->data, (uri != uri_list), TRUE);
+			mpv_load(	ctx,
+					uri->data,
+					(append || uri != uri_list),
+					TRUE );
 
 			uri = g_slist_next(uri);
 		}
@@ -137,7 +144,6 @@ static void open_handler(	GSimpleAction *action,
 
 	gtk_widget_destroy(open_dialog);
 	g_clear_object(&config);
-	g_free(config_file);
 }
 
 static void open_loc_handler(	GSimpleAction *action,
@@ -473,18 +479,31 @@ static void about_handler(	GSimpleAction *action,
 void actionctl_map_actions(gmpv_handle *ctx)
 {
 	const GActionEntry entries[]
-		= {	{.name = "open",            .activate = open_handler},
-			{.name = "quit",            .activate = quit_handler},
-			{.name = "about",           .activate = about_handler},
-			{.name = "pref",            .activate = pref_handler},
-			{.name = "openloc",         .activate = open_loc_handler},
-			{.name = "playlist_toggle", .activate = playlist_toggle_handler},
-			{.name = "playlist_save",   .activate = playlist_save_handler},
-			{.name = "loadsub",         .activate = load_sub_handler},
-			{.name = "fullscreen",      .activate = fullscreen_handler},
-			{.name = "normalsize",      .activate = normal_size_handler},
-			{.name = "doublesize",      .activate = double_size_handler},
-			{.name = "halfsize",        .activate = half_size_handler} };
+	= {	{.name = "open",
+		.activate = open_handler,
+		.parameter_type = "b"},
+		{.name = "quit",
+		.activate = quit_handler},
+		{.name = "about",
+		.activate = about_handler},
+		{.name = "pref",
+		.activate = pref_handler},
+		{.name = "openloc",
+		.activate = open_loc_handler},
+		{.name = "playlist_toggle",
+		.activate = playlist_toggle_handler},
+		{.name = "playlist_save",
+		.activate = playlist_save_handler},
+		{.name = "loadsub",
+		.activate = load_sub_handler},
+		{.name = "fullscreen",
+		.activate = fullscreen_handler},
+		{.name = "normalsize",
+		.activate = normal_size_handler},
+		{.name = "doublesize",
+		.activate = double_size_handler},
+		{.name = "halfsize",
+		.activate = half_size_handler} };
 
 	g_action_map_add_action_entries(	G_ACTION_MAP(ctx->app),
 						entries,

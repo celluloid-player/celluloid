@@ -419,7 +419,7 @@ GMenu *build_full_menu()
 		= g_menu_item_new_submenu
 			(_("_File"), G_MENU_MODEL(file_menu));
 
-	open_menu_item = g_menu_item_new(_("_Open"), "app.open");
+	open_menu_item = g_menu_item_new(_("_Open"), "app.open(false)");
 	quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
 
 	open_loc_menu_item
