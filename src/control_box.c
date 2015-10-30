@@ -76,6 +76,7 @@ static void control_box_init(ControlBox *box)
 	GtkWidget *previous_icon;
 	GtkWidget *next_icon;
 	GtkWidget *fullscreen_icon;
+	GtkWidget *loop_icon;
 
 	box->seek_bar_length = -1;
 	box->play_button = gtk_button_new_with_label(NULL);
@@ -85,6 +86,7 @@ static void control_box_init(ControlBox *box)
 	box->next_button = gtk_button_new_with_label(NULL);
 	box->previous_button = gtk_button_new_with_label(NULL);
 	box->fullscreen_button = gtk_button_new_with_label(NULL);
+	box->loop_button = gtk_toggle_button_new_with_label(NULL);
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 
@@ -116,6 +118,10 @@ static void control_box_init(ControlBox *box)
 		= gtk_image_new_from_icon_name(	"view-fullscreen-symbolic",
 						GTK_ICON_SIZE_BUTTON );
 
+	loop_icon
+		= gtk_image_new_from_icon_name(	"media-playlist-repeat-symbolic",
+						GTK_ICON_SIZE_BUTTON );
+
 	gtk_style_context_add_class
 		(	gtk_widget_get_style_context(GTK_WIDGET(box)),
 			GTK_STYLE_CLASS_BACKGROUND );
@@ -128,6 +134,7 @@ static void control_box_init(ControlBox *box)
 	g_object_set(box->rewind_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->next_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->previous_button, "relief", GTK_RELIEF_NONE, NULL);
+	g_object_set(box->loop_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->fullscreen_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->seek_bar, "value-pos", GTK_POS_RIGHT, NULL);
 	g_object_set(box->seek_bar, "digits", 2, NULL);
@@ -141,6 +148,7 @@ static void control_box_init(ControlBox *box)
 	gtk_widget_set_can_focus(box->seek_bar, FALSE);
 	gtk_widget_set_can_focus(box->volume_button, FALSE);
 	gtk_widget_set_can_focus(box->fullscreen_button, FALSE);
+	gtk_widget_set_can_focus(box->loop_button, FALSE);
 
 	gtk_button_set_image
 		(GTK_BUTTON(box->play_button), play_icon);
@@ -159,6 +167,9 @@ static void control_box_init(ControlBox *box)
 
 	gtk_button_set_image
 		(GTK_BUTTON(box->previous_button), previous_icon);
+
+	gtk_button_set_image
+		(GTK_BUTTON(box->loop_button), loop_icon);
 
 	gtk_button_set_image
 		(GTK_BUTTON(box->fullscreen_button), fullscreen_icon);
@@ -180,6 +191,9 @@ static void control_box_init(ControlBox *box)
 
 	gtk_container_add
 		(GTK_CONTAINER(box), box->next_button);
+
+	gtk_container_add
+		(GTK_CONTAINER(box), box->loop_button);
 
 	gtk_box_pack_start
 		(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
@@ -209,6 +223,7 @@ void control_box_set_enabled(ControlBox *box, gboolean enabled)
 	gtk_widget_set_sensitive(box->play_button, enabled);
 	gtk_widget_set_sensitive(box->forward_button, enabled);
 	gtk_widget_set_sensitive(box->next_button, enabled);
+	gtk_widget_set_sensitive(box->loop_button, enabled);
 }
 
 void control_box_set_chapter_enabled(ControlBox *box, gboolean enabled)
