@@ -282,7 +282,7 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 	{
 		ctx->paused = prop->data?*((int *)prop->data):TRUE;
 
-		if(!ctx->loaded && !ctx->paused)
+		if(!ctx->init_load && !ctx->loaded && !ctx->paused)
 		{
 			mpv_load(ctx, NULL, FALSE, TRUE);
 		}
@@ -440,8 +440,6 @@ gboolean mpv_handle_event(gpointer data)
 		{
 			if(ctx->init_load)
 			{
-				ctx->init_load = FALSE;
-
 				mpv_load(ctx, NULL, FALSE, FALSE);
 			}
 			else if(ctx->loaded)
@@ -464,12 +462,15 @@ gboolean mpv_handle_event(gpointer data)
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{
 			ctx->loaded = TRUE;
+			ctx->init_load = FALSE;
 
 			mpv_update_playlist(ctx);
 			mpv_load_gui_update(ctx);
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
+			ctx->init_load = FALSE;
+
 			if(ctx->loaded)
 			{
 				ctx->new_file = FALSE;
