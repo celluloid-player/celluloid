@@ -522,12 +522,15 @@ void mpv_update_playlist(gmpv_handle *ctx)
 	 */
 	const gsize filename_prop_str_size = 38;
 	PlaylistWidget *playlist;
+	GtkListStore *store;
+	GtkTreeIter iter;
 	mpv_node playlist_array;
 	gchar *filename_prop_str;
 	gint playlist_count;
 	gint i;
 
 	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
+	store = playlist->list_store;
 	filename_prop_str = g_malloc(filename_prop_str_size);
 
 	mpv_check_error(mpv_get_property(	ctx->mpv_ctx,
@@ -546,19 +549,21 @@ void mpv_update_playlist(gmpv_handle *ctx)
 			NULL,
 			ctx );
 
-	playlist_widget_clear(playlist);
+	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
 
 	for(i = 0; i < playlist_count; i++)
 	{
 		gint prop_count = 0;
-		gchar *path = NULL;
+		gchar *uri = NULL;
 		gchar *title = NULL;
 		gchar *name = NULL;
+		gchar *old_name = NULL;
+		gchar *old_uri = NULL;
 
 		prop_count = playlist_array.u.list->values[i].u.list->num;
 
 		/* The first entry must always exist */
-		path =	playlist_array.u.list
+		uri =	playlist_array.u.list
 			->values[i].u.list
 			->values[0].u.string;
 
@@ -570,15 +575,30 @@ void mpv_update_playlist(gmpv_handle *ctx)
 				->values[3].u.string;
 		}
 
-		if(!title)
+		name = title?title:get_name_from_path(uri);
+
+		gtk_tree_model_get(	GTK_TREE_MODEL(store), &iter,
+					PLAYLIST_NAME_COLUMN, &old_name,
+					PLAYLIST_URI_COLUMN, &old_uri, -1 );
+
+		if(g_strcmp0(name, old_name) != 0)
 		{
-			name = get_name_from_path(path);
+			gtk_list_store_set
+				(store, &iter, PLAYLIST_NAME_COLUMN, name, -1);
 		}
 
-		playlist_widget_append(playlist, title?title:name, path);
+		if(g_strcmp0(uri, old_uri) != 0)
+		{
+			gtk_list_store_set
+				(store, &iter, PLAYLIST_URI_COLUMN, uri, -1);
+		}
 
-		mpv_free(path);
+		gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
+
+		mpv_free(uri);
 		g_free(name);
+		g_free(old_name);
+		g_free(old_uri);
 	}
 
 	g_signal_handlers_unblock_matched
