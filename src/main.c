@@ -369,11 +369,6 @@ static void app_open_handler(	GApplication *app,
 	{
 		ctx->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
 
-		if(!ctx->init_complete)
-		{
-			ctx->init_load = TRUE;
-		}
-
 		for(i = 0; i < n_files; i++)
 		{
 			ctx->files[i] = g_file_get_uri(((GFile **)files)[i]);
@@ -557,8 +552,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->loaded = FALSE;
 	ctx->new_file = TRUE;
 	ctx->sub_visible = TRUE;
-	ctx->init_complete = FALSE;
-	ctx->init_load = FALSE;
+	ctx->init_load = TRUE;
 	ctx->playlist_move_dest = -1;
 	ctx->log_level_list = NULL;
 	ctx->keybind_list = NULL;

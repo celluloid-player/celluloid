@@ -280,9 +280,13 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 {
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
+		gboolean idle;
+
 		ctx->paused = prop->data?*((int *)prop->data):TRUE;
 
-		if(!ctx->init_load && !ctx->loaded && !ctx->paused)
+		mpv_get_property(ctx->mpv_ctx, "idle", MPV_FORMAT_FLAG, &idle);
+
+		if(idle && !ctx->paused)
 		{
 			mpv_load(ctx, NULL, FALSE, TRUE);
 		}
@@ -438,8 +442,6 @@ gboolean mpv_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
-			ctx->init_complete = TRUE;
-
 			if(ctx->init_load)
 			{
 				mpv_load(ctx, NULL, FALSE, FALSE);
@@ -460,6 +462,8 @@ gboolean mpv_handle_event(gpointer data)
 				main_window_reset(ctx->gui);
 				playlist_reset(ctx);
 			}
+
+			ctx->init_load = FALSE;
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{

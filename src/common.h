@@ -44,7 +44,6 @@ struct gmpv_handle
 	gboolean loaded;
 	gboolean new_file;
 	gboolean sub_visible;
-	gboolean init_complete;
 	gboolean init_load;
 	gint64 vid_area_wid;
 	gint playlist_move_dest;
