@@ -524,21 +524,23 @@ void mpv_update_playlist(gmpv_handle *ctx)
 	PlaylistWidget *playlist;
 	GtkListStore *store;
 	GtkTreeIter iter;
-	mpv_node playlist_array;
+	mpv_node mpv_playlist;
 	gchar *filename_prop_str;
+	gboolean iter_end;
 	gint playlist_count;
 	gint i;
 
 	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
 	store = playlist->list_store;
 	filename_prop_str = g_malloc(filename_prop_str_size);
+	iter_end = FALSE;
 
 	mpv_check_error(mpv_get_property(	ctx->mpv_ctx,
 						"playlist",
 						MPV_FORMAT_NODE,
-						&playlist_array ));
+						&mpv_playlist ));
 
-	playlist_count = playlist_array.u.list->num;
+	playlist_count = mpv_playlist.u.list->num;
 
 	g_signal_handlers_block_matched
 		(	playlist->list_store,
@@ -560,46 +562,71 @@ void mpv_update_playlist(gmpv_handle *ctx)
 		gchar *old_name = NULL;
 		gchar *old_uri = NULL;
 
-		prop_count = playlist_array.u.list->values[i].u.list->num;
+		prop_count = mpv_playlist.u.list->values[i].u.list->num;
 
 		/* The first entry must always exist */
-		uri =	playlist_array.u.list
+		uri =	mpv_playlist.u.list
 			->values[i].u.list
 			->values[0].u.string;
 
 		/* Try retrieving the title from mpv playlist */
 		if(prop_count >= 4)
 		{
-			title = playlist_array.u.list
+			title = mpv_playlist.u.list
 				->values[i].u.list
 				->values[3].u.string;
 		}
 
 		name = title?title:get_name_from_path(uri);
 
-		gtk_tree_model_get(	GTK_TREE_MODEL(store), &iter,
+		if(!iter_end)
+		{
+			gtk_tree_model_get
+				(	GTK_TREE_MODEL(store), &iter,
 					PLAYLIST_NAME_COLUMN, &old_name,
 					PLAYLIST_URI_COLUMN, &old_uri, -1 );
 
-		if(g_strcmp0(name, old_name) != 0)
-		{
-			gtk_list_store_set
-				(store, &iter, PLAYLIST_NAME_COLUMN, name, -1);
-		}
+			if(g_strcmp0(name, old_name) != 0)
+			{
+				gtk_list_store_set
+					(	store, &iter,
+						PLAYLIST_NAME_COLUMN, name, -1 );
+			}
 
-		if(g_strcmp0(uri, old_uri) != 0)
-		{
-			gtk_list_store_set
-				(store, &iter, PLAYLIST_URI_COLUMN, uri, -1);
-		}
+			if(g_strcmp0(uri, old_uri) != 0)
+			{
+				gtk_list_store_set
+					(	store, &iter,
+						PLAYLIST_URI_COLUMN, uri, -1 );
+			}
 
-		gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
+			iter_end = !gtk_tree_model_iter_next
+					(GTK_TREE_MODEL(store), &iter);
+
+			g_free(old_name);
+			g_free(old_uri);
+		}
+		/* Append entries to the playlist if there are fewer entries in
+		 * the playlist widget than mpv's playlist.
+		 */
+		else
+		{
+			playlist_widget_append(playlist, name, uri);
+		}
 
 		mpv_free(uri);
 		g_free(name);
-		g_free(old_name);
-		g_free(old_uri);
 	}
+
+	/* If there are more entries in the playlist widget than mpv's playlist,
+	 * remove the excess entries from the playlist widget.
+	 */
+	if(!iter_end)
+	{
+		while(gtk_list_store_remove(store, &iter));
+	}
+
+	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(playlist->tree_view));
 
 	g_signal_handlers_unblock_matched
 		(	playlist->list_store,
@@ -611,7 +638,7 @@ void mpv_update_playlist(gmpv_handle *ctx)
 			ctx );
 
 	g_free(filename_prop_str);
-	mpv_free_node_contents(&playlist_array);
+	mpv_free_node_contents(&mpv_playlist);
 }
 
 void mpv_load_gui_update(gmpv_handle *ctx)
