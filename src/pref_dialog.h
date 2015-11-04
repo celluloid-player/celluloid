@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+#include "pref_store.h"
+
 G_BEGIN_DECLS
 
 #define PREF_DIALOG_TYPE (pref_dialog_get_type ())
@@ -43,22 +45,8 @@ typedef struct _PrefDialogClass PrefDialogClass;
 
 GtkWidget *pref_dialog_new(GtkWindow *parent);
 GType pref_dialog_get_type(void);
-void pref_dialog_set_dark_theme_enable(PrefDialog *dlg, gboolean value);
-gboolean pref_dialog_get_dark_theme_enable(PrefDialog *dlg);
-void pref_dialog_set_last_folder_enable(PrefDialog *dlg, gboolean value);
-gboolean pref_dialog_get_last_folder_enable(PrefDialog *dlg);
-void pref_dialog_set_csd_enable(PrefDialog *dlg, gboolean value);
-gboolean pref_dialog_get_csd_enable(PrefDialog *dlg);
-void pref_dialog_set_mpvconf_enable(PrefDialog *dlg, gboolean value);
-gboolean pref_dialog_get_mpvconf_enable(PrefDialog *dlg);
-void pref_dialog_set_mpvconf(PrefDialog *dlg, const gchar *buffer);
-gchar *pref_dialog_get_mpvconf(PrefDialog *dlg);
-void pref_dialog_set_mpvinput_enable(PrefDialog *dlg, gboolean value);
-gboolean pref_dialog_get_mpvinput_enable(PrefDialog *dlg);
-void pref_dialog_set_mpvinput(PrefDialog *dlg, const gchar *buffer);
-gchar *pref_dialog_get_mpvinput(PrefDialog *dlg);
-void pref_dialog_set_mpvopt(PrefDialog *dlg, gchar *buffer);
-const gchar *pref_dialog_get_mpvopt(PrefDialog *dlg);
+pref_store *pref_dialog_get_pref(PrefDialog *dlg);
+void pref_dialog_set_pref(PrefDialog *dlg, pref_store *pref);
 
 G_END_DECLS
 

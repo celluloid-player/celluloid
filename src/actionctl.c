@@ -27,6 +27,31 @@
 #include "pref_dialog.h"
 #include "common.h"
 
+#define G_SETTINGS_KEY_PREF_MAP(VAR, PREF) \
+const struct \
+{ \
+	GType type; \
+	const gchar *key; \
+	gpointer value; \
+} \
+VAR[] = {	{G_TYPE_BOOLEAN, "csd-enable", \
+		&pref->csd_enable}, \
+		{G_TYPE_BOOLEAN, "dark-theme-enable", \
+		&pref->dark_theme_enable}, \
+		{G_TYPE_BOOLEAN, "last-folder-enable", \
+		&pref->last_folder_enable}, \
+		{G_TYPE_BOOLEAN, "mpv-config-enable", \
+		&pref->mpv_config_enable}, \
+		{G_TYPE_BOOLEAN, "mpv-input-config-enable", \
+		&pref->mpv_input_config_enable}, \
+		{G_TYPE_STRING, "mpv-config-file", \
+		&pref->mpv_config_file}, \
+		{G_TYPE_STRING, "mpv-input-config-file", \
+		&pref->mpv_input_config_file}, \
+		{G_TYPE_STRING, "mpv-options", \
+		&pref->mpv_options}, \
+		{G_TYPE_INVALID, NULL, NULL} };
+
 static void open_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
@@ -57,6 +82,8 @@ static void half_size_handler(	GSimpleAction *action,
 static void about_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
+static pref_store *get_pref(GSettings *settings);
+static void set_pref(GSettings *settings, pref_store *pref);
 
 static void open_handler(	GSimpleAction *action,
 				GVariant *param,
@@ -176,111 +203,27 @@ static void pref_handler(	GSimpleAction *action,
 {
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 	gmpv_handle *ctx = data;
+	pref_store *old_pref;
+	pref_store *new_pref;
 	PrefDialog *pref_dialog;
-	gboolean csd_enable_buffer;
-	gboolean dark_theme_enable_buffer;
-	gboolean last_folder_enable_buffer;
-	gboolean mpvconf_enable_buffer;
-	gboolean mpvinput_enable_buffer;
-	gchar *mpvconf_buffer;
-	gchar *mpvinput_buffer;
-	gchar *mpvopt_buffer;
 
-	csd_enable_buffer
-		= g_settings_get_boolean(ctx->config, "csd-enable");
-
-	dark_theme_enable_buffer
-		= g_settings_get_boolean(ctx->config, "dark-theme-enable");
-
-	last_folder_enable_buffer
-		= g_settings_get_boolean(ctx->config, "last-folder-enable");
-
-	mpvconf_enable_buffer
-		= g_settings_get_boolean(ctx->config, "mpv-config-enable");
-
-	mpvinput_enable_buffer
-		= g_settings_get_boolean(ctx->config, "mpv-input-config-enable");
-
-	mpvconf_buffer
-		= g_settings_get_string(ctx->config, "mpv-config-file");
-
-	mpvinput_buffer
-		= g_settings_get_string(ctx->config, "mpv-input-config-file");
-
-	mpvopt_buffer
-		= g_settings_get_string(ctx->config, "mpv-options");
-
+	old_pref = get_pref(ctx->config);
 	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(ctx->gui)));
 
-	pref_dialog_set_csd_enable(pref_dialog, csd_enable_buffer);
-	pref_dialog_set_dark_theme_enable(pref_dialog, dark_theme_enable_buffer);
-	pref_dialog_set_last_folder_enable(pref_dialog, last_folder_enable_buffer);
-	pref_dialog_set_mpvconf_enable(pref_dialog, mpvconf_enable_buffer);
-	pref_dialog_set_mpvinput_enable(pref_dialog, mpvinput_enable_buffer);
-
-	pref_dialog_set_mpvconf(pref_dialog, mpvconf_buffer);
-	pref_dialog_set_mpvinput(pref_dialog, mpvinput_buffer);
-	pref_dialog_set_mpvopt(pref_dialog, mpvopt_buffer);
-
-	g_free(mpvconf_buffer);
-	g_free(mpvinput_buffer);
-	g_free(mpvopt_buffer);
+	pref_dialog_set_pref(pref_dialog, old_pref);
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		gboolean csd_enable;
-		gboolean dark_theme_enable;
-		gboolean last_folder_enable;
-		gboolean mpvconf_enable;
-		gboolean mpvinput_enable;
-		const gchar* mpvconf;
-		const gchar* mpvinput;
-		const gchar* mpvopt;
 		gint64 playlist_pos;
 		gdouble time_pos;
 		gint playlist_pos_rc;
 		gint time_pos_rc;
 
-		dark_theme_enable
-			= pref_dialog_get_dark_theme_enable(pref_dialog);
+		new_pref = pref_dialog_get_pref(pref_dialog);
 
-		csd_enable = pref_dialog_get_csd_enable(pref_dialog);
+		set_pref(ctx->config, new_pref);
 
-		last_folder_enable
-			= pref_dialog_get_last_folder_enable(pref_dialog);
-
-		mpvconf_enable = pref_dialog_get_mpvconf_enable(pref_dialog);
-		mpvinput_enable = pref_dialog_get_mpvinput_enable(pref_dialog);
-		mpvconf = pref_dialog_get_mpvconf(pref_dialog);
-		mpvinput = pref_dialog_get_mpvinput(pref_dialog);
-		mpvopt = pref_dialog_get_mpvopt(pref_dialog);
-
-		g_settings_set_boolean
-			(ctx->config, "csd-enable", csd_enable);
-
-		g_settings_set_boolean
-			(ctx->config, "dark-theme-enable", dark_theme_enable);
-
-		g_settings_set_boolean
-			(ctx->config, "last-folder-enable", last_folder_enable);
-
-		g_settings_set_boolean
-			(ctx->config, "mpv-config-enable", mpvconf_enable);
-
-		g_settings_set_string
-			(ctx->config, "mpv-config-file", mpvconf);
-
-		g_settings_set_string
-			(ctx->config, "mpv-input-config-file", mpvinput);
-
-		g_settings_set_string
-			(ctx->config, "mpv-options", mpvopt);
-
-		g_settings_set_boolean(	ctx->config,
-					"mpv-input-config-enable",
-					mpvinput_enable );
-
-		if(csd_enable_buffer != csd_enable)
+		if(old_pref->csd_enable != new_pref->csd_enable)
 		{
 			GtkWidget *dialog
 				= gtk_message_dialog_new
@@ -300,7 +243,7 @@ static void pref_handler(	GSimpleAction *action,
 
 		g_object_set(	ctx->gui->settings,
 				"gtk-application-prefer-dark-theme",
-				dark_theme_enable,
+				new_pref->dark_theme_enable,
 				NULL );
 
 		mpv_check_error(mpv_set_property_string(	ctx->mpv_ctx,
@@ -373,11 +316,15 @@ static void pref_handler(	GSimpleAction *action,
 		}
 
 		load_keybind(	ctx,
-				mpvinput_enable?mpvinput:NULL,
-				mpvinput_enable );
+				new_pref->mpv_input_config_enable?
+				new_pref->mpv_input_config_file:NULL,
+				new_pref->mpv_input_config_enable );
+
+		pref_store_free(new_pref);
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(pref_dialog));
+	pref_store_free(old_pref);
 }
 
 static void quit_handler(	GSimpleAction *action,
@@ -474,6 +421,67 @@ static void about_handler(	GSimpleAction *action,
 				"license-type",
 				GTK_LICENSE_GPL_3_0,
 				NULL );
+}
+
+static pref_store *get_pref(GSettings *settings)
+{
+	pref_store *pref = pref_store_new();
+
+	G_SETTINGS_KEY_PREF_MAP(map, pref)
+
+	for(gint i = 0; map[i].key; i++)
+	{
+		GVariant *value = g_settings_get_value(settings, map[i].key);
+
+		if(map[i].type == G_TYPE_BOOLEAN)
+		{
+			*((gboolean *)map[i].value)
+				= g_variant_get_boolean(value);
+		}
+		else if(map[i].type == G_TYPE_STRING)
+		{
+			*((gchar **)map[i].value)
+				= g_strdup(g_variant_get_string(value, NULL));
+		}
+		else
+		{
+			g_assert_not_reached();
+		}
+
+		g_variant_unref(value);
+	}
+
+	return pref;
+}
+
+static void set_pref(GSettings *settings, pref_store *pref)
+{
+	G_SETTINGS_KEY_PREF_MAP(map, pref)
+
+	for(gint i = 0; map[i].key; i++)
+	{
+		GVariant *value = NULL;
+
+		if(map[i].type == G_TYPE_BOOLEAN)
+		{
+			value = g_variant_new_boolean
+				(*((gboolean *)map[i].value));
+		}
+		else if(map[i].type == G_TYPE_STRING)
+		{
+			value = g_variant_new_string
+				(*((gchar **)map[i].value));
+		}
+		else
+		{
+			g_assert_not_reached();
+		}
+
+		if(!g_settings_set_value(settings, map[i].key, value))
+		{
+			g_warning("Failed to set GSettings key %s", map[i].key);
+		}
+	}
 }
 
 void actionctl_map_actions(gmpv_handle *ctx)
