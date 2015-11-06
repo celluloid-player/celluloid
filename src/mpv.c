@@ -419,6 +419,8 @@ void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 
 				g_message("[%s] %s", message->prefix, buf);
 			}
+
+			g_free(buf);
 		}
 		else
 		{
