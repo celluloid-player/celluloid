@@ -22,8 +22,9 @@ AM_GLIB_GNU_GETTEXT
 
 GLIB_GSETTINGS
 
-AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]))
-AC_ARG_ENABLE([opengl-cb], AS_HELP_STRING([--disable-opengl-cb], [disable support for opengl-cb, which is required to work on Wayland]))
+AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]), [enable_debug=$enableval], [enable_debug=no])
+AC_ARG_ENABLE([opengl-cb], AS_HELP_STRING([--disable-opengl-cb], [disable support for opengl-cb, which is required to work on Wayland]),
+              [enable_opengl_cb=$enableval], [enable_opengl_cb=yes])
 
 AC_DEFUN([GM_CHECK_AX_MACRO],
 	[m4_ifndef([$1], [m4_fatal($1[ is not defined. Is autoconf-archive installed?])])])
@@ -90,3 +91,11 @@ AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h ctype.h execinfo.h])
 AC_CHECK_FUNCS([setlocale backtrace backtrace_symbols_fd exit])
 AC_CONFIG_FILES([Makefile src/Makefile data/Makefile po/Makefile.in])
 AC_OUTPUT
+
+echo "
+	$PACKAGE $VERSION
+
+	prefix ........: $prefix
+	debug .........: $enable_debug
+	opengl-cb .....: $enable_opengl_cb
+"
