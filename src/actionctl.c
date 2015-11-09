@@ -163,7 +163,7 @@ static void open_handler(	GSimpleAction *action,
 					(file_chooser);
 
 			g_settings_set_string
-				(config, "last-folder-uri", last_folder_uri);
+				(config, "last-folder-uri", last_folder_uri ?: "" );
 
 			g_free(last_folder_uri);
 		}
