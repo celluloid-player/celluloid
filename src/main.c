@@ -39,6 +39,8 @@
 #else
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
+#else
+#error "X11 GDK backend is required when opengl-cb is disabled."
 #endif
 #endif
 
