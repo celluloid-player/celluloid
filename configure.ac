@@ -22,6 +22,7 @@ AM_GLIB_GNU_GETTEXT
 GLIB_GSETTINGS
 
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]))
+AC_ARG_ENABLE([opengl-cb], AS_HELP_STRING([--disable-opengl-cb], [disable support for opengl-cb, which is required to work on Wayland]))
 
 AC_DEFUN([GM_CHECK_AX_MACRO],
 	[m4_ifndef([$1], [m4_fatal($1[ is not defined. Is autoconf-archive installed?])])])
@@ -69,7 +70,13 @@ AC_PROG_CC
 AC_PROG_CC_STDC
 
 # Checks for libraries.
-PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.16 glib-2.0 >= 2.40 mpv >= 1.16 epoxy])
+AS_IF([test "x$enable_opengl_cb" != "xno"], [
+	AC_DEFINE([OPENGL_CB_ENABLED])
+	PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.16 glib-2.0 >= 2.40 mpv >= 1.16 epoxy])
+], [
+	PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.14 glib-2.0 >= 2.40 mpv >= 1.16])
+])
+
 AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_40], [Dont warn using older APIs])
 AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_40], [Prevents using newer APIs])
 

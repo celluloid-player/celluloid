@@ -38,6 +38,7 @@ static void handle_msg_level_opt(gmpv_handle *ctx);
 static void handle_property_change_event(	gmpv_handle *ctx,
 						mpv_event_property* prop);
 static void opengl_callback(void *cb_ctx);
+static void uninit_opengl_cb(gmpv_handle *ctx);
 
 static void parse_dim_string(	gmpv_handle *ctx,
 				const gchar *mpv_geom_str,
@@ -345,12 +346,22 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 
 static void opengl_callback(void *cb_ctx)
 {
+#ifdef OPENGL_CB_ENABLED
 	gmpv_handle *ctx = cb_ctx;
 
 	if(ctx->opengl_ctx)
 	{
 		gtk_gl_area_queue_render(GTK_GL_AREA(ctx->gui->vid_area));
 	}
+#endif
+}
+
+static void uninit_opengl_cb(gmpv_handle *ctx)
+{
+#ifdef OPENGL_CB_ENABLED
+	gtk_gl_area_make_current(GTK_GL_AREA(ctx->gui->vid_area));
+	mpv_opengl_cb_uninit_gl(ctx->opengl_ctx);
+#endif
 }
 
 void mpv_wakeup_callback(void *data)
@@ -932,8 +943,7 @@ void mpv_quit(gmpv_handle *ctx)
 	if(gtk_widget_get_realized(ctx->gui->vid_area)
 	&& main_window_get_use_opengl(ctx->gui))
 	{
-		gtk_gl_area_make_current(GTK_GL_AREA(ctx->gui->vid_area));
-		mpv_opengl_cb_uninit_gl(ctx->opengl_ctx);
+		uninit_opengl_cb(ctx);
 
 		ctx->opengl_ready = FALSE;
 	}

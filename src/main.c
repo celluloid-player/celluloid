@@ -20,9 +20,10 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <gdk/gdk.h>
-#include <epoxy/gl.h>
 #include <locale.h>
 
+#ifdef OPENGL_CB_ENABLED
+#include <epoxy/gl.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #include <epoxy/glx.h>
@@ -34,6 +35,11 @@
 #ifdef GDK_WINDOWING_WIN32
 #include <gdk/gdkwin32.h>
 #include <epoxy/wgl.h>
+#endif
+#else
+#ifdef GDK_WINDOWING_X11
+#include <gdk/gdkx.h>
+#endif
 #endif
 
 #include "def.h"
@@ -84,12 +90,64 @@ static gboolean key_press_handler(	GtkWidget *widget,
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+static gboolean get_use_opengl(void);
+static gint64 get_xid(GtkWidget *widget);
+
+#ifdef OPENGL_CB_ENABLED
+static void *get_proc_address(void *fn_ctx, const gchar *name);
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
 						gpointer data );
-static void *get_proc_address(void *fn_ctx, const gchar *name);
-static gboolean get_use_opengl(void);
-static gint64 get_xid(GtkWidget *widget);
+
+static void *get_proc_address(void *fn_ctx, const gchar *name)
+{
+	GdkDisplay *display = gdk_display_get_default();
+
+#ifdef GDK_WINDOWING_WAYLAND
+	if (GDK_IS_WAYLAND_DISPLAY(display))
+		return eglGetProcAddress(name);
+#endif
+#ifdef GDK_WINDOWING_X11
+	if (GDK_IS_X11_DISPLAY(display))
+		return (void *)(intptr_t)glXGetProcAddressARB((const GLubyte *)name);
+#endif
+#ifdef GDK_WINDOWING_WIN32
+	if (GDK_IS_WIN32_DISPLAY(display))
+		return wglGetProcAddress(name);
+#endif
+
+	g_assert_not_reached();
+}
+
+static gboolean vid_area_render_handler(	GtkGLArea *area,
+						GdkGLContext *context,
+						gpointer data )
+{
+	gmpv_handle *ctx = data;
+	int width;
+	int height;
+	int fbo;
+
+	if(!ctx->opengl_ready)
+	{
+		mpv_check_error(mpv_opengl_cb_init_gl(	ctx->opengl_ctx,
+							NULL,
+							get_proc_address,
+							NULL ));
+
+		ctx->opengl_ready = TRUE;
+	}
+
+	width = gtk_widget_get_allocated_width(GTK_WIDGET(area));
+	height = (-1)*gtk_widget_get_allocated_height(GTK_WIDGET(area));
+	fbo = -1;
+
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
+	mpv_opengl_cb_draw(ctx->opengl_ctx, fbo, width, height);
+
+	return TRUE;
+}
+#endif
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
@@ -287,31 +345,11 @@ static void app_activate_handler(GApplication *app, gpointer data)
 	gtk_window_present(GTK_WINDOW(((gmpv_handle *)data)->gui));
 }
 
-static void *get_proc_address(void *fn_ctx, const gchar *name)
-{
-	GdkDisplay *display = gdk_display_get_default();
-
-#ifdef GDK_WINDOWING_WAYLAND
-	if (GDK_IS_WAYLAND_DISPLAY(display))
-		return eglGetProcAddress(name);
-#endif
-#ifdef GDK_WINDOWING_X11
-	if (GDK_IS_X11_DISPLAY(display))
-		return (void *)(intptr_t)glXGetProcAddressARB((const GLubyte *)name);
-#endif
-#ifdef GDK_WINDOWING_WIN32
-	if (GDK_IS_WIN32_DISPLAY(display))
-		return wglGetProcAddress(name);
-#endif
-
-	g_assert_not_reached();
-}
-
 static gboolean get_use_opengl(void)
 {
-#ifdef GDK_WINDOWING_X11
+#if defined(OPENGL_CB_ENABLED) && defined(GDK_WINDOWING_X11)
 	/* TODO: Add option to use opengl on X11 */
-	return !GDK_IS_X11_DISPLAY(gdk_display_get_default());
+	return !GDK_IS_X11_DISPLAY(gdk_display_get_default()) ;
 #else
 	/* In theory this can work on any backend supporting GtkGLArea */
 	return TRUE;
@@ -325,35 +363,6 @@ static gint64 get_xid(GtkWidget *widget)
 #else
 	return -1;
 #endif
-}
-
-static gboolean vid_area_render_handler(	GtkGLArea *area,
-						GdkGLContext *context,
-						gpointer data )
-{
-	gmpv_handle *ctx = data;
-	int width;
-	int height;
-	int fbo;
-
-	if(!ctx->opengl_ready)
-	{
-		mpv_check_error(mpv_opengl_cb_init_gl(	ctx->opengl_ctx,
-							NULL,
-							get_proc_address,
-							NULL ));
-
-		ctx->opengl_ready = TRUE;
-	}
-
-	width = gtk_widget_get_allocated_width(GTK_WIDGET(area));
-	height = (-1)*gtk_widget_get_allocated_height(GTK_WIDGET(area));
-	fbo = -1;
-
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
-	mpv_opengl_cb_draw(ctx->opengl_ctx, fbo, width, height);
-
-	return TRUE;
 }
 
 static void app_open_handler(	GApplication *app,
@@ -419,6 +428,7 @@ static void connect_signals(gmpv_handle *ctx)
 
 	playbackctl_connect_signals(ctx);
 
+#ifdef OPENGL_CB_ENABLED
 	if(main_window_get_use_opengl(ctx->gui))
 	{
 		g_signal_connect(	ctx->gui->vid_area,
@@ -426,6 +436,7 @@ static void connect_signals(gmpv_handle *ctx)
 					G_CALLBACK(vid_area_render_handler),
 					ctx );
 	}
+#endif
 
 	g_signal_connect(	ctx->gui->vid_area,
 				"drag-data-received",
