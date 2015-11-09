@@ -38,7 +38,7 @@ struct _MainWindowPrivate
 };
 
 static void vid_area_init(MainWindow *wnd, gboolean use_opengl);
-static GtkWidget *vid_area_new(void);
+static GtkWidget *vid_area_new(gboolean use_opengl);
 static gboolean timeout_handler(gpointer data);
 static gboolean finalize_load_state(gpointer data);
 static GMenu *menu_btn_build_menu(void);
@@ -162,7 +162,7 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 	{
 		GtkStyleContext *style_context;
 
-		wnd->vid_area =	vid_area_new();
+		wnd->vid_area =	vid_area_new(use_opengl);
 		style_context = gtk_widget_get_style_context(wnd->vid_area);
 
 		gtk_widget_add_events(wnd->vid_area, GDK_BUTTON_PRESS_MASK);
@@ -178,7 +178,7 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 	}
 }
 
-static GtkWidget *vid_area_new()
+static GtkWidget *vid_area_new(gboolean use_opengl)
 {
 #ifdef OPENGL_CB_ENABLED
 	return use_opengl?gtk_gl_area_new():gtk_drawing_area_new();
