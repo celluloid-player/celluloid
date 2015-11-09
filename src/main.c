@@ -352,9 +352,11 @@ static gboolean get_use_opengl(void)
 #if defined(OPENGL_CB_ENABLED) && defined(GDK_WINDOWING_X11)
 	/* TODO: Add option to use opengl on X11 */
 	return !GDK_IS_X11_DISPLAY(gdk_display_get_default()) ;
-#else
+#elif defined(OPENGL_CB_ENABLED)
 	/* In theory this can work on any backend supporting GtkGLArea */
 	return TRUE;
+#else
+	return FALSE;
 #endif
 }
 
