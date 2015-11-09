@@ -788,8 +788,12 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 			token_arg = "";
 		}
 
+		/* Ignore --autofit since it triggers weird behavior in mpv when
+		 * running on Wayland and opengl-cb is disabled
+		 */
+		if(g_strcmp0(token, "autofit") != 0
 		/* Failing to apply extra options is non-fatal */
-		if(mpv_set_option_string(mpv_ctx, token, token_arg) < 0)
+		&& mpv_set_option_string(mpv_ctx, token, token_arg) < 0)
 		{
 			fail_count++;
 
