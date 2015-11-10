@@ -18,6 +18,7 @@
  */
 
 #include <gtk/gtk.h>
+#include <string.h>
 
 #include "playbackctl.h"
 #include "control_box.h"
@@ -36,6 +37,7 @@ static void chapter_previous_handler(GtkWidget *widget, gpointer data);
 static void chapter_next_handler(GtkWidget *widget, gpointer data);
 static void volume_handler(GtkWidget *widget, gdouble value, gpointer data);
 static void fullscreen_handler(GtkWidget *button, gpointer data);
+static void loop_handler(GtkWidget *button, gpointer data);
 
 static void play_handler(GtkWidget *widget, gpointer data)
 {
@@ -111,6 +113,29 @@ static void fullscreen_handler(GtkWidget *widget, gpointer data)
 	toggle_fullscreen(data);
 }
 
+static void loop_handler(GtkWidget *widget, gpointer data)
+{
+	GtkToggleButton *loop_button = (GtkToggleButton *)widget;
+	gmpv_handle *ctx = data;
+	gchar *loop = mpv_get_property_string(ctx->mpv_ctx, "loop");
+
+	if(loop) {
+		if(strcmp(loop, "no") == 0) {
+			mpv_check_error(mpv_set_property_string(ctx->mpv_ctx,
+								"loop",
+								"inf"	));
+		}
+		else if(strcmp(loop, "inf") == 0) {
+			mpv_check_error(mpv_set_property_string(ctx->mpv_ctx,
+								"loop",
+								"no"	));
+		}
+		gtk_toggle_button_toggled(loop_button);
+	}
+
+	mpv_free(loop);
+}
+
 void playbackctl_connect_signals(gmpv_handle *ctx)
 {
 	ControlBox *control_box = CONTROL_BOX(ctx->gui->control_box);
@@ -158,5 +183,10 @@ void playbackctl_connect_signals(gmpv_handle *ctx)
 	g_signal_connect(	control_box->fullscreen_button,
 				"clicked",
 				G_CALLBACK(fullscreen_handler),
+				ctx );
+
+	g_signal_connect(	control_box->loop_button,
+				"clicked",
+				G_CALLBACK(loop_handler),
 				ctx );
 }

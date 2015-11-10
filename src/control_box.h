@@ -51,6 +51,7 @@ struct _ControlBox
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
+	GtkWidget *loop_button;
 };
 
 struct _ControlBoxClass
