@@ -171,12 +171,12 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_label_set_use_markup(GTK_LABEL(mpv_input_group_label), TRUE);
 	gtk_label_set_use_markup(GTK_LABEL(misc_group_label), TRUE);
 
-	gtk_widget_set_margin_top(mpv_conf_group_label, 10);
-	gtk_widget_set_margin_top(mpv_input_group_label, 10);
-	gtk_widget_set_margin_top(misc_group_label, 10);
-	gtk_widget_set_margin_bottom(dlg->grid, 5);
-	gtk_grid_set_row_spacing(GTK_GRID(dlg->grid), 5);
-	gtk_grid_set_column_spacing(GTK_GRID(dlg->grid), 5);
+	gtk_widget_set_margin_top(mpv_conf_group_label, 12);
+	gtk_widget_set_margin_top(mpv_input_group_label, 12);
+	gtk_widget_set_margin_top(misc_group_label, 12);
+	gtk_widget_set_margin_bottom(dlg->grid, 6);
+	gtk_grid_set_row_spacing(GTK_GRID(dlg->grid), 6);
+	gtk_grid_set_column_spacing(GTK_GRID(dlg->grid), 12);
 
 	gtk_widget_set_halign(mpv_conf_label, GTK_ALIGN_START);
 	gtk_widget_set_halign(mpv_input_label, GTK_ALIGN_START);
@@ -193,16 +193,16 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_hexpand(dlg->mpv_input_button, TRUE);
 	gtk_widget_set_hexpand(dlg->mpv_options_entry, TRUE);
 
-	set_margin_start(mpv_conf_label, 10);
-	set_margin_start(mpv_input_label, 10);
-	set_margin_start(mpv_options_label, 10);
-	set_margin_start(dlg->csd_enable_check, 10);
-	set_margin_start(dlg->dark_theme_enable_check, 10);
-	set_margin_start(dlg->last_folder_enable_check, 10);
-	set_margin_start(dlg->mpv_conf_enable_check, 10);
-	set_margin_start(dlg->mpv_input_enable_check, 10);
-	set_margin_start(dlg->mpv_msg_redir_enable_check, 10);
-	set_margin_start(dlg->mpv_options_entry, 10);
+	set_margin_start(mpv_conf_label, 12);
+	set_margin_start(mpv_input_label, 12);
+	set_margin_start(mpv_options_label, 12);
+	set_margin_start(dlg->csd_enable_check, 12);
+	set_margin_start(dlg->dark_theme_enable_check, 12);
+	set_margin_start(dlg->last_folder_enable_check, 12);
+	set_margin_start(dlg->mpv_conf_enable_check, 12);
+	set_margin_start(dlg->mpv_input_enable_check, 12);
+	set_margin_start(dlg->mpv_msg_redir_enable_check, 12);
+	set_margin_start(dlg->mpv_options_entry, 12);
 
 	gtk_widget_set_size_request(dlg->mpv_conf_button, 100, -1);
 	gtk_widget_set_size_request(dlg->mpv_input_button, 100, -1);
@@ -212,7 +212,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 					&geom,
 					GDK_HINT_MAX_SIZE );
 
-	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 5);
+	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 12);
 	gtk_container_add(GTK_CONTAINER(dlg->content_area), dlg->grid);
 
 	gtk_grid_attach(	GTK_GRID(dlg->grid),
