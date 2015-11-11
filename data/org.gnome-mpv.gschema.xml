@@ -4,6 +4,12 @@
 	<schema path="/org/gnome-mpv/gnome-mpv/" id="org.gnome-mpv">
 		<child schema="org.gnome-mpv.window-state" name="window-state"/>
 
+		<key name='volume' type='d'>
+			<default>1.0</default>
+			<summary>Volume of player</summary>
+			<description>
+			</description>
+		</key>
 		<key name='dark-theme-enable' type='b'>
 			<default>true</default>
 			<summary>Enable or disable dark theme</summary>
