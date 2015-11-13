@@ -86,15 +86,6 @@ static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event)
 	return GTK_WIDGET_CLASS(pref_dialog_parent_class)->key_press_event (widget, event);
 }
 
-static inline void set_margin_start(GtkWidget *widget, gint margin)
-{
-#if GTK_CHECK_VERSION(3, 12, 0)
-	gtk_widget_set_margin_start(widget, margin);
-#else
-	gtk_widget_set_margin_left(widget, margin);
-#endif
-}
-
 static void pref_dialog_class_init(PrefDialogClass *klass)
 {
 	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
@@ -193,16 +184,16 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_hexpand(dlg->mpv_input_button, TRUE);
 	gtk_widget_set_hexpand(dlg->mpv_options_entry, TRUE);
 
-	set_margin_start(mpv_conf_label, 12);
-	set_margin_start(mpv_input_label, 12);
-	set_margin_start(mpv_options_label, 12);
-	set_margin_start(dlg->csd_enable_check, 12);
-	set_margin_start(dlg->dark_theme_enable_check, 12);
-	set_margin_start(dlg->last_folder_enable_check, 12);
-	set_margin_start(dlg->mpv_conf_enable_check, 12);
-	set_margin_start(dlg->mpv_input_enable_check, 12);
-	set_margin_start(dlg->mpv_msg_redir_enable_check, 12);
-	set_margin_start(dlg->mpv_options_entry, 12);
+	gtk_widget_set_margin_start(mpv_conf_label, 12);
+	gtk_widget_set_margin_start(mpv_input_label, 12);
+	gtk_widget_set_margin_start(mpv_options_label, 12);
+	gtk_widget_set_margin_start(dlg->csd_enable_check, 12);
+	gtk_widget_set_margin_start(dlg->dark_theme_enable_check, 12);
+	gtk_widget_set_margin_start(dlg->last_folder_enable_check, 12);
+	gtk_widget_set_margin_start(dlg->mpv_conf_enable_check, 12);
+	gtk_widget_set_margin_start(dlg->mpv_input_enable_check, 12);
+	gtk_widget_set_margin_start(dlg->mpv_msg_redir_enable_check, 12);
+	gtk_widget_set_margin_start(dlg->mpv_options_entry, 12);
 
 	gtk_widget_set_size_request(dlg->mpv_conf_button, 100, -1);
 	gtk_widget_set_size_request(dlg->mpv_input_button, 100, -1);
