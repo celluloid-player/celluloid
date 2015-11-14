@@ -294,7 +294,8 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 
 		mpv_load_gui_update(ctx);
 	}
-	else if(g_strcmp0(prop->name, "volume") == 0)
+	else if(g_strcmp0(prop->name, "volume") == 0
+	&& (ctx->init_load || ctx->loaded))
 	{
 		ControlBox *control_box;
 		gdouble volume;
