@@ -69,7 +69,6 @@ void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg);
 void remove_current_playlist_entry(gmpv_handle *ctx);
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);
 void toggle_fullscreen(gmpv_handle *ctx);
-GMenu *build_full_menu(void);
 void load_keybind(	gmpv_handle *ctx,
 			const gchar *config_path,
 			gboolean notify_ignore );

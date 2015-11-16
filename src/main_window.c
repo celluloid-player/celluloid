@@ -18,8 +18,10 @@
  */
 
 #include <glib/gi18n.h>
+#include <gio/gio.h>
 
 #include "def.h"
+#include "menu.h"
 #include "common.h"
 #include "playlist_widget.h"
 #include "main_window.h"
@@ -41,8 +43,6 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl);
 static GtkWidget *vid_area_new(gboolean use_opengl);
 static gboolean timeout_handler(gpointer data);
 static gboolean finalize_load_state(gpointer data);
-static GMenu *menu_btn_build_menu(void);
-static GMenu *open_btn_build_menu(void);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -239,88 +239,6 @@ static gboolean finalize_load_state(gpointer data)
 	return FALSE;
 }
 
-static GMenu *menu_btn_build_menu()
-{
-	GMenu *menu;
-	GMenu *playlist_submenu;
-	GMenu *sub_submenu;
-	GMenu *view_submenu;
-	GMenuItem *playlist_section;
-	GMenuItem *sub_section;
-	GMenuItem *view_section;
-	GMenuItem *load_sub_menu_item;
-	GMenuItem *playlist_toggle_menu_item;
-	GMenuItem *playlist_save_menu_item;
-	GMenuItem *normal_size_menu_item;
-	GMenuItem *double_size_menu_item;
-	GMenuItem *half_size_menu_item;
-
-	menu = g_menu_new();
-	playlist_submenu = g_menu_new();
-	sub_submenu = g_menu_new();
-	view_submenu = g_menu_new();
-
-	playlist_section
-		= g_menu_item_new_section(NULL, G_MENU_MODEL(playlist_submenu));
-
-	sub_section
-		= g_menu_item_new_section(NULL, G_MENU_MODEL(sub_submenu));
-
-	view_section
-		= g_menu_item_new_section(NULL, G_MENU_MODEL(view_submenu));
-
-	playlist_toggle_menu_item
-		= g_menu_item_new(_("_Toggle Playlist"), "app.playlist_toggle");
-
-	playlist_save_menu_item
-		= g_menu_item_new(_("_Save Playlist"), "app.playlist_save");
-
-	load_sub_menu_item
-		= g_menu_item_new(_("_Load Subtitle"), "app.loadsub");
-
-	normal_size_menu_item
-		= g_menu_item_new(_("_Normal Size"), "app.normalsize");
-
-	double_size_menu_item
-		= g_menu_item_new(_("_Double Size"), "app.doublesize");
-
-	half_size_menu_item
-		= g_menu_item_new(_("_Half Size"), "app.halfsize");
-
-	g_menu_append_item(playlist_submenu, playlist_toggle_menu_item);
-	g_menu_append_item(playlist_submenu, playlist_save_menu_item);
-	g_menu_append_item(sub_submenu, load_sub_menu_item);
-	g_menu_append_item(view_submenu, normal_size_menu_item);
-	g_menu_append_item(view_submenu, double_size_menu_item);
-	g_menu_append_item(view_submenu, half_size_menu_item);
-
-	g_menu_append_item(menu, playlist_section);
-	g_menu_append_item(menu, sub_section);
-	g_menu_append_item(menu, view_section);
-
-	return menu;
-}
-
-static GMenu *open_btn_build_menu()
-{
-	GMenu *menu;
-	GMenuItem *open_menu_item;
-	GMenuItem *open_loc_menu_item;
-
-	menu = g_menu_new();
-
-	open_menu_item
-		= g_menu_item_new(_("_Open"), "app.open(false)");
-
-	open_loc_menu_item
-		= g_menu_item_new(_("Open _Location"), "app.openloc");
-
-	g_menu_append_item(menu, open_menu_item);
-	g_menu_append_item(menu, open_loc_menu_item);
-
-	return menu;
-}
-
 void main_window_save_state(MainWindow *wnd)
 {
 	GSettings *settings;
@@ -387,6 +305,37 @@ void main_window_load_state(MainWindow *wnd)
 	gtk_window_resize(GTK_WINDOW(wnd), wnd->init_width, wnd->init_height);
 
 	g_clear_object(&settings);
+}
+
+void main_window_update_track_list(	MainWindow *wnd,
+					const GSList *audio_list,
+					const GSList *video_list,
+					const GSList *sub_list )
+{
+	if(main_window_get_csd_enabled(wnd))
+	{
+		GMenu *menu = g_menu_new();
+
+		menu_build_menu_btn(menu, audio_list, video_list, sub_list);
+
+		gtk_menu_button_set_menu_model
+			(	GTK_MENU_BUTTON(wnd->menu_hdr_btn),
+				G_MENU_MODEL(menu) );
+	}
+	else
+	{
+		GtkApplication *app;
+		GMenu *menu;
+
+		app = gtk_window_get_application(GTK_WINDOW(wnd));
+		menu = G_MENU(gtk_application_get_menubar(app));
+
+		if(menu)
+		{
+			g_menu_remove_all(menu);
+			menu_build_full(menu, audio_list, video_list, sub_list);
+		}
+	}
 }
 
 static void main_window_class_init(MainWindowClass *klass)
@@ -625,9 +574,14 @@ gboolean main_window_get_use_opengl(MainWindow *wnd)
 
 void main_window_enable_csd(MainWindow *wnd)
 {
+	GMenu *menu_btn_menu;
+	GMenu *open_btn_menu;
 	GIcon *open_icon;
 	GIcon *fullscreen_icon;
 	GIcon *menu_icon;
+
+	open_btn_menu = g_menu_new();
+	menu_btn_menu = g_menu_new();
 
 	open_icon = g_themed_icon_new_with_default_fallbacks
 				("list-add-symbolic");
@@ -642,6 +596,9 @@ void main_window_enable_csd(MainWindow *wnd)
 	wnd->open_hdr_btn = gtk_menu_button_new();
 	wnd->fullscreen_hdr_btn = gtk_button_new();
 	wnd->menu_hdr_btn = gtk_menu_button_new();
+
+	menu_build_open_btn(open_btn_menu);
+	menu_build_menu_btn(menu_btn_menu, NULL, NULL, NULL);
 
 	gtk_widget_set_can_focus(wnd->open_hdr_btn, FALSE);
 	gtk_widget_set_can_focus(wnd->fullscreen_hdr_btn, FALSE);
@@ -664,11 +621,11 @@ void main_window_enable_csd(MainWindow *wnd)
 
 	gtk_menu_button_set_menu_model
 		(	GTK_MENU_BUTTON(wnd->open_hdr_btn),
-			G_MENU_MODEL(open_btn_build_menu()) );
+			G_MENU_MODEL(open_btn_menu) );
 
 	gtk_menu_button_set_menu_model
 		(	GTK_MENU_BUTTON(wnd->menu_hdr_btn),
-			G_MENU_MODEL(menu_btn_build_menu()) );
+			G_MENU_MODEL(menu_btn_menu) );
 
 	gtk_header_bar_pack_start
 		(GTK_HEADER_BAR(wnd->header_bar), wnd->open_hdr_btn);

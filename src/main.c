@@ -46,6 +46,7 @@
 
 #include "def.h"
 #include "common.h"
+#include "menu.h"
 #include "mpv.h"
 #include "keybind.h"
 #include "playlist.h"
@@ -617,11 +618,11 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	}
 	else
 	{
-		gtk_application_set_app_menu
-			(ctx->app, NULL);
+		GMenu *full_menu = g_menu_new();
 
-		gtk_application_set_menubar
-			(ctx->app, G_MENU_MODEL(build_full_menu()));
+		menu_build_full(full_menu, NULL, NULL, NULL);
+		gtk_application_set_app_menu (ctx->app, NULL);
+		gtk_application_set_menubar(ctx->app, G_MENU_MODEL(full_menu));
 	}
 
 	gtk_widget_show_all(GTK_WIDGET(ctx->gui));

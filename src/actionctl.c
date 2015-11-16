@@ -66,7 +66,13 @@ static void pref_handler(	GSimpleAction *action,
 static void quit_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-static void load_sub_handler(	GSimpleAction *action,
+static void audio_select_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
+static void sub_select_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+static void load_track_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
 static void fullscreen_handler(	GSimpleAction *action,
@@ -350,16 +356,58 @@ static void quit_handler(	GSimpleAction *action,
 	quit(data);
 }
 
-static void load_sub_handler(	GSimpleAction *action,
+static void audio_select_handler(	GSimpleAction *action,
+					GVariant *value,
+					gpointer data )
+{
+	gmpv_handle *ctx = data;
+	gint64 id;
+
+	g_variant_get(value, "x", &id);
+	g_simple_action_set_state(action, value);
+
+	mpv_set_property(ctx->mpv_ctx, "aid", MPV_FORMAT_INT64, &id);
+}
+
+static void video_select_handler(	GSimpleAction *action,
+					GVariant *value,
+					gpointer data )
+{
+	gmpv_handle *ctx = data;
+	gint64 id;
+
+	g_variant_get(value, "x", &id);
+	g_simple_action_set_state(action, value);
+
+	mpv_set_property(ctx->mpv_ctx, "vid", MPV_FORMAT_INT64, &id);
+}
+
+static void sub_select_handler(	GSimpleAction *action,
+				GVariant *value,
+				gpointer data )
+{
+	gmpv_handle *ctx = data;
+	gint64 id;
+
+	g_variant_get(value, "x", &id);
+	g_simple_action_set_state(action, value);
+
+	mpv_set_property(ctx->mpv_ctx, "sub", MPV_FORMAT_INT64, &id);
+}
+
+static void load_track_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
 	gmpv_handle *ctx = (gmpv_handle*)data;
 	GtkFileChooser *file_chooser;
 	GtkWidget *open_dialog;
+	const gchar *cmd_name;
+
+	g_variant_get(param, "s", &cmd_name);
 
 	open_dialog
-		= gtk_file_chooser_dialog_new(	_("Load Subtitle"),
+		= gtk_file_chooser_dialog_new(	_("Load External..."),
 						GTK_WINDOW(ctx->gui),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						_("_Cancel"),
@@ -374,7 +422,7 @@ static void load_sub_handler(	GSimpleAction *action,
 
 	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		const gchar *cmd[] = {"sub_add", NULL, NULL};
+		const gchar *cmd[] = {cmd_name, NULL, NULL};
 		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
 		GSList *uri = uri_list;
 
@@ -389,6 +437,8 @@ static void load_sub_handler(	GSimpleAction *action,
 
 		g_slist_free_full(uri_list, g_free);
 	}
+
+	mpv_load_gui_update(ctx);
 
 	gtk_widget_destroy(open_dialog);
 }
@@ -521,8 +571,21 @@ void actionctl_map_actions(gmpv_handle *ctx)
 		.activate = playlist_toggle_handler},
 		{.name = "playlist_save",
 		.activate = playlist_save_handler},
-		{.name = "loadsub",
-		.activate = load_sub_handler},
+		{.name = "audio_select",
+		.change_state = audio_select_handler,
+		.state = "@x 1",
+		.parameter_type = "x"},
+		{.name = "video_select",
+		.change_state = video_select_handler,
+		.state = "@x 1",
+		.parameter_type = "x"},
+		{.name = "sub_select",
+		.change_state = sub_select_handler,
+		.state = "@x 1",
+		.parameter_type = "x"},
+		{.name = "load_track",
+		.activate = load_track_handler,
+		.parameter_type = "s"},
 		{.name = "fullscreen",
 		.activate = fullscreen_handler},
 		{.name = "normalsize",

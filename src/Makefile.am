@@ -16,13 +16,21 @@ media_key_files = media_keys/media_keys.c media_keys/media_keys.h
 
 BUILT_SOURCES = $(mpris_generated)
 
-gnome_mpv_SOURCES =	main.c def.h common.c common.h mpv.c mpv.h keybind.c \
-			keybind.h actionctl.c actionctl.h playbackctl.c \
-			playbackctl.h playlist.c playlist.h main_window.c \
-			main_window.h control_box.c control_box.h \
-			pref_dialog.c pref_dialog.h open_loc_dialog.c \
-			open_loc_dialog.h playlist_widget.c playlist_widget.h \
+gnome_mpv_SOURCES =	main.c def.h \
+			actionctl.c actionctl.h \
+			common.c common.h \
+			control_box.c control_box.h \
+			keybind.c keybind.h \
+			main_window.c main_window.h \
+			menu.c menu.h \
+			mpv.c mpv.h \
+			open_loc_dialog.c open_loc_dialog.h \
+			playbackctl.c playbackctl.h \
+			playlist.c playlist.h \
+			playlist_widget.c playlist_widget.h \
+			pref_dialog.c pref_dialog.h \
 			pref_store.c pref_store.h \
+			track.c track.h \
 			$(mpris_files) $(media_key_files)
 
 gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \

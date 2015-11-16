@@ -78,6 +78,10 @@ void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);
 void main_window_save_state(MainWindow *wnd);
 void main_window_load_state(MainWindow *wnd);
+void main_window_update_track_list(	MainWindow *wnd,
+					const GSList *audio_list,
+					const GSList *video_list,
+					const GSList *sub_list );
 gint main_window_get_width_margin(MainWindow *wnd);
 gint main_window_get_height_margin(MainWindow *wnd);
 gboolean main_window_get_use_opengl(MainWindow *wnd);

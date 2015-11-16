@@ -25,6 +25,7 @@
 
 #include "mpv.h"
 #include "def.h"
+#include "track.h"
 #include "playlist.h"
 #include "control_box.h"
 #include "playlist_widget.h"
@@ -39,6 +40,7 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 						mpv_event_property* prop);
 static void opengl_callback(void *cb_ctx);
 static void uninit_opengl_cb(gmpv_handle *ctx);
+static Track *parse_track_list(mpv_node_list *node);
 
 static void parse_dim_string(	gmpv_handle *ctx,
 				const gchar *mpv_geom_str,
@@ -380,6 +382,46 @@ static void uninit_opengl_cb(gmpv_handle *ctx)
 #endif
 }
 
+static Track *parse_track_list(mpv_node_list *node)
+{
+	Track *entry = track_new();
+
+	for(gint i = 0; i < node->num; i++)
+	{
+		if(g_strcmp0(node->keys[i], "type") == 0)
+		{
+			const gchar *type = node->values[i].u.string;
+
+			if(g_strcmp0(type, "audio") == 0)
+			{
+				entry->type = TRACK_TYPE_AUDIO;
+			}
+			else if(g_strcmp0(type, "video") == 0)
+			{
+				entry->type = TRACK_TYPE_VIDEO;
+			}
+			else if(g_strcmp0(type, "sub") == 0)
+			{
+				entry->type = TRACK_TYPE_SUBTITLE;
+			}
+		}
+		else if(g_strcmp0(node->keys[i], "title") == 0)
+		{
+			entry->title = g_strdup(node->values[i].u.string);
+		}
+		else if(g_strcmp0(node->keys[i], "lang") == 0)
+		{
+			entry->lang = g_strdup(node->values[i].u.string);
+		}
+		else if(g_strcmp0(node->keys[i], "id") == 0)
+		{
+			entry->id = node->values[i].u.int64;
+		}
+	}
+
+	return entry;
+}
+
 void mpv_wakeup_callback(void *data)
 {
 	g_idle_add((GSourceFunc)mpv_handle_event, data);
@@ -697,6 +739,7 @@ void mpv_update_playlist(gmpv_handle *ctx)
 void mpv_load_gui_update(gmpv_handle *ctx)
 {
 	ControlBox *control_box;
+	mpv_node track_list;
 	gchar* title;
 	gint64 chapter_count;
 	gint64 playlist_pos;
@@ -717,6 +760,86 @@ void mpv_load_gui_update(gmpv_handle *ctx)
 						"pause",
 						MPV_FORMAT_FLAG,
 						&ctx->paused));
+
+	if(mpv_get_property(	ctx->mpv_ctx,
+				"track-list",
+				MPV_FORMAT_NODE,
+				&track_list) >= 0)
+	{
+		mpv_node_list *org_list = track_list.u.list;
+		GSList *audio_list = NULL;
+		GSList *video_list = NULL;
+		GSList *sub_list = NULL;
+		GAction *action = NULL;
+		gint64 aid;
+		gint64 sid;
+
+		mpv_get_property(	ctx->mpv_ctx,
+					"aid",
+					MPV_FORMAT_INT64,
+					&aid );
+
+		mpv_get_property(	ctx->mpv_ctx,
+					"sid",
+					MPV_FORMAT_INT64,
+					&sid );
+
+		action = g_action_map_lookup_action
+				(G_ACTION_MAP(ctx->app), "audio_select");
+
+		g_simple_action_set_state
+			(G_SIMPLE_ACTION(action), g_variant_new_int64(aid));
+
+		action = g_action_map_lookup_action
+				(G_ACTION_MAP(ctx->app), "sub_select");
+
+		g_simple_action_set_state
+			(G_SIMPLE_ACTION(action), g_variant_new_int64(sid));
+
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			Track *entry;
+			GSList **list;
+
+			entry = parse_track_list
+				(org_list->values[i].u.list);
+
+			if(entry->type == TRACK_TYPE_AUDIO)
+			{
+				list = &audio_list;
+			}
+			else if(entry->type == TRACK_TYPE_VIDEO)
+			{
+				list = &video_list;
+			}
+			else if(entry->type == TRACK_TYPE_SUBTITLE)
+			{
+				list = &sub_list;
+			}
+			else
+			{
+				g_assert(FALSE);
+			}
+
+			*list = g_slist_prepend(*list, entry);
+		}
+
+		audio_list = g_slist_reverse(audio_list);
+		video_list = g_slist_reverse(video_list);
+		sub_list = g_slist_reverse(sub_list);
+
+		main_window_update_track_list
+			(ctx->gui, audio_list, video_list, sub_list);
+
+		g_slist_free_full
+			(audio_list, (GDestroyNotify)track_free);
+
+		g_slist_free_full
+			(video_list, (GDestroyNotify)track_free);
+
+		g_slist_free_full
+			(sub_list, (GDestroyNotify)track_free);
+	}
 
 	if(mpv_get_property(	ctx->mpv_ctx,
 				"playlist-pos",
