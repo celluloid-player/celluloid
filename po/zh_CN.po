@@ -3,33 +3,34 @@
 # Copyright (C) 2015 THE GNOME-MPV'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-mpv package.
 # sun <warmsun0220@gmail.com>, 2015.
+# Mingye Wang <arthur2e5@aosc.xyz>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 21:24+0800\n"
-"PO-Revision-Date: 2015-11-16 21:47+0800\n"
-"Language-Team: sun <warmsun0220@gmail.com>\n"
+"PO-Revision-Date: 2015-11-22 15:27-0500\n"
+"Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.5\n"
-"Last-Translator: \n"
+"X-Generator: Poedit 1.8.6\n"
+"Last-Translator: Mingye Wang (Arthur2e5) <arthur200126@gmail.com>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Language: zh_CN\n"
 
 #: ../src/main.c:526 ../src/common.c:442
 msgid "_Preferences"
-msgstr "_首选项"
+msgstr "首选项(_P)"
 
 #: ../src/main.c:527 ../src/common.c:473
 msgid "_About"
-msgstr "_关于"
+msgstr "关于(_A)"
 
 #: ../src/main.c:528 ../src/common.c:423
 msgid "_Quit"
-msgstr "_关闭"
+msgstr "退出(_Q)"
 
 #: ../src/main.c:553
 msgid "GNOME MPV"
@@ -42,8 +43,8 @@ msgid ""
 "migrated from the configuration file. A backup copy of the configuration "
 "file can be found at \"%s\"."
 msgstr ""
-"现在本软件使用GSettings存储首选项。您的首选项已从配置文件中迁移到GSettings"
-"中，配置文件的副本被保存在\"%s\"。"
+"现在本软件使用 GSettings 存储首选项。您的首选项已从配置文件中迁移到 "
+"GSettings 中，配置文件的副本被保存在“%s”。"
 
 #: ../src/open_loc_dialog.c:76
 msgid "Location:"
@@ -52,12 +53,12 @@ msgstr "位置："
 #: ../src/open_loc_dialog.c:80 ../src/main_window.c:313 ../src/actionctl.c:111
 #: ../src/actionctl.c:367 ../src/common.c:422
 msgid "_Open"
-msgstr "_打开"
+msgstr "打开(_O)"
 
 #: ../src/open_loc_dialog.c:82 ../src/pref_dialog.c:274 ../src/actionctl.c:109
 #: ../src/actionctl.c:365 ../src/playlist.c:60
 msgid "_Cancel"
-msgstr "_取消"
+msgstr "取消(_C)"
 
 #: ../src/open_loc_dialog.c:92
 msgid "Open Location"
@@ -65,7 +66,7 @@ msgstr "打开位置"
 
 #: ../src/playlist_widget.c:44
 msgid "_Add..."
-msgstr "_添加"
+msgstr "添加…(_A)"
 
 #: ../src/playlist_widget.c:45
 msgid "Loop"
@@ -77,15 +78,15 @@ msgstr "播放列表"
 
 #: ../src/pref_dialog.c:108
 msgid "MPV configuration file:"
-msgstr "MPV配置文件："
+msgstr "MPV 配置文件："
 
 #: ../src/pref_dialog.c:109
 msgid "MPV input configuration file:"
-msgstr "MPV输入配置文件："
+msgstr "MPV 输入配置文件："
 
 #: ../src/pref_dialog.c:110
 msgid "Extra MPV options:"
-msgstr "额外的MPV参数："
+msgstr "额外的 MPV 选项："
 
 #: ../src/pref_dialog.c:111
 msgid "<b>General</b>"
@@ -97,7 +98,7 @@ msgstr "<b>MPV 配置</b>"
 
 #: ../src/pref_dialog.c:113
 msgid "<b>Keybindings</b>"
-msgstr "<b>快捷键</b>"
+msgstr "<b>键绑定</b>"
 
 #: ../src/pref_dialog.c:114
 msgid "<b>Miscellaneous</b>"
@@ -109,11 +110,11 @@ msgstr "启用客户端装饰"
 
 #: ../src/pref_dialog.c:133
 msgid "Enable dark theme"
-msgstr "启用黑色主题"
+msgstr "启用暗色主题"
 
 #: ../src/pref_dialog.c:137
 msgid "Redirect MPV log messages to console"
-msgstr "将MPV的日志信息重定向到控制台"
+msgstr "将 MPV 的日志信息重定向到控制台"
 
 #: ../src/pref_dialog.c:140
 msgid "Remember last file's location"
@@ -121,23 +122,23 @@ msgstr "记住最后一次打开位置"
 
 #: ../src/pref_dialog.c:144
 msgid "MPV configuration file"
-msgstr "MPV配置文件"
+msgstr "MPV 配置文件"
 
 #: ../src/pref_dialog.c:149
 msgid "MPV input configuration file"
-msgstr "MPV输入配置文件"
+msgstr "MPV 输入配置文件"
 
 #: ../src/pref_dialog.c:154
 msgid "Load MPV configuration file"
-msgstr "加载MPV配置文件"
+msgstr "加载 MPV 配置文件"
 
 #: ../src/pref_dialog.c:158
 msgid "Load MPV input configuration file"
-msgstr "加载MPV输入配置文件"
+msgstr "加载 MPV 输入配置文件"
 
 #: ../src/pref_dialog.c:276 ../src/playlist.c:62
 msgid "_Save"
-msgstr "_保存"
+msgstr "保存(_S)"
 
 #: ../src/pref_dialog.c:292
 msgid "Preferences"
@@ -145,31 +146,31 @@ msgstr "首选项"
 
 #: ../src/main_window.c:273 ../src/common.c:452
 msgid "_Toggle Playlist"
-msgstr "_切换播放列表 "
+msgstr "切换播放列表(_T)"
 
 #: ../src/main_window.c:276 ../src/common.c:429
 msgid "_Save Playlist"
-msgstr "_保存播放列表"
+msgstr "保存播放列表(_S)"
 
 #: ../src/main_window.c:279 ../src/common.c:439
 msgid "_Load Subtitle"
-msgstr "加载字幕"
+msgstr "加载字幕(_L)"
 
 #: ../src/main_window.c:282 ../src/common.c:458
 msgid "_Normal Size"
-msgstr "_正常尺寸"
+msgstr "正常尺寸(_N)"
 
 #: ../src/main_window.c:285 ../src/common.c:461
 msgid "_Double Size"
-msgstr "_两倍尺寸"
+msgstr "两倍尺寸(_D)"
 
 #: ../src/main_window.c:288 ../src/common.c:464
 msgid "_Half Size"
-msgstr "_一半尺寸"
+msgstr "一半尺寸(_H)"
 
 #: ../src/main_window.c:316 ../src/common.c:426
 msgid "Open _Location"
-msgstr "打开_位置"
+msgstr "打开位置(_L)"
 
 #: ../src/actionctl.c:105
 msgid "Add File to Playlist"
@@ -191,33 +192,33 @@ msgstr "加载字幕"
 
 #: ../src/actionctl.c:436
 msgid "A GTK frontend for MPV"
-msgstr "基于GTK编写的MPV前端程序"
+msgstr "MPV 的 GTK 前端程序"
 
 #: ../src/common.c:420
 msgid "_File"
-msgstr "_文件"
+msgstr "文件(_F)"
 
 #: ../src/common.c:436
 msgid "_Edit"
-msgstr "_编辑"
+msgstr "编辑(_E)"
 
 #: ../src/common.c:449
 msgid "_View"
-msgstr "_查看"
+msgstr "视图(_V)"
 
 #: ../src/common.c:455
 msgid "_Fullscreen"
-msgstr "_全屏"
+msgstr "全屏(_F)"
 
 #: ../src/common.c:471
 msgid "_Help"
-msgstr "_帮助"
+msgstr "帮助(_F)"
 
 #: ../src/common.c:509
 msgid ""
 "Keybindings that require Property Expansion are not supported and have been "
 "ignored."
-msgstr "需要属性扩展的快捷键不被支持，已被忽略。"
+msgstr "需要属性扩展的键绑定不被支持，已被忽略。"
 
 #: ../src/playlist.c:57
 msgid "Save Playlist"
