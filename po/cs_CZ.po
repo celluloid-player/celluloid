@@ -8,184 +8,221 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-29 11:00+0800\n"
+"POT-Creation-Date: 2015-11-23 10:58-0500\n"
 "PO-Revision-Date: 2015-08-15 15:05+0100\n"
 "Last-Translator: Language-Team: Czech\n"
+"Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.7.5\n"
-"Language-Team: \n"
 
-#: ../src/main.c:440 ../src/common.c:384
+#: ../src/main.c:526 ../src/common.c:442
 msgid "_Preferences"
 msgstr "_Předvolby"
 
-#: ../src/main.c:441 ../src/common.c:415
+#: ../src/main.c:527 ../src/common.c:473
 msgid "_About"
 msgstr "_O programu"
 
-#: ../src/main.c:442 ../src/common.c:365
+#: ../src/main.c:528 ../src/common.c:423
 msgid "_Quit"
 msgstr "_Ukončit"
 
-#: ../src/main.c:465
+#: ../src/main.c:553
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
-#: ../src/main.c:559
+#: ../src/main.c:677
 #, c-format
-msgid "Your configuration file has been moved to the new location at %s."
-msgstr "Váš konfigurační soubor byl přesunut do nového umístění na %s."
+msgid ""
+"Preferences is now stored using GSettings. Your preferences have been "
+"migrated from the configuration file. A backup copy of the configuration "
+"file can be found at \"%s\"."
+msgstr ""
 
-#: ../src/open_loc_dialog.c:68
+#: ../src/open_loc_dialog.c:76
 msgid "Location:"
 msgstr "Umístění:"
 
-#: ../src/open_loc_dialog.c:72 ../src/main_window.c:270 ../src/actionctl.c:75
-#: ../src/actionctl.c:345 ../src/common.c:364
+#: ../src/open_loc_dialog.c:80 ../src/main_window.c:313 ../src/actionctl.c:111
+#: ../src/actionctl.c:367 ../src/common.c:422
 msgid "_Open"
 msgstr "_Otevřít"
 
-#: ../src/open_loc_dialog.c:74 ../src/pref_dialog.c:155 ../src/actionctl.c:73
-#: ../src/actionctl.c:343
+#: ../src/open_loc_dialog.c:82 ../src/pref_dialog.c:274 ../src/actionctl.c:109
+#: ../src/actionctl.c:365 ../src/playlist.c:60
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: ../src/open_loc_dialog.c:84
+#: ../src/open_loc_dialog.c:92
 msgid "Open Location"
 msgstr "Otevřít umístění"
 
-#: ../src/playlist_widget.c:49
+#: ../src/playlist_widget.c:44
+msgid "_Add..."
+msgstr ""
+
+#: ../src/playlist_widget.c:45
+msgid "Loop"
+msgstr ""
+
+#: ../src/playlist_widget.c:90
 msgid "Playlist"
 msgstr "Seznam skladeb"
 
-#: ../src/pref_dialog.c:71
+#: ../src/pref_dialog.c:108
 msgid "MPV configuration file:"
 msgstr "Konfigurační soubor MPV:"
 
-#: ../src/pref_dialog.c:72
+#: ../src/pref_dialog.c:109
 msgid "MPV input configuration file:"
 msgstr "Vstupní konfigurační soubor MPV:"
 
-#: ../src/pref_dialog.c:73
+#: ../src/pref_dialog.c:110
 msgid "Extra MPV options:"
 msgstr "Extra možnosti MPV:"
 
-#: ../src/pref_dialog.c:74
+#: ../src/pref_dialog.c:111
 msgid "<b>General</b>"
 msgstr "<b>Hlavní</b>"
 
-#: ../src/pref_dialog.c:75
+#: ../src/pref_dialog.c:112
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>Nastavení MPV</b>"
 
-#: ../src/pref_dialog.c:76
+#: ../src/pref_dialog.c:113
 msgid "<b>Keybindings</b>"
 msgstr "<b>Klávesové zkratky</b>"
 
-#: ../src/pref_dialog.c:77
+#: ../src/pref_dialog.c:114
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Různé</b>"
 
-#: ../src/pref_dialog.c:91
+#: ../src/pref_dialog.c:129
 msgid "Enable client-side decorations"
 msgstr "Povolit dekorace na straně klienta"
 
-#: ../src/pref_dialog.c:94
+#: ../src/pref_dialog.c:133
 msgid "Enable dark theme"
 msgstr "Povolit tmavý motiv"
 
-#: ../src/pref_dialog.c:97
+#: ../src/pref_dialog.c:137
+msgid "Redirect MPV log messages to console"
+msgstr ""
+
+#: ../src/pref_dialog.c:140
+msgid "Remember last file's location"
+msgstr ""
+
+#: ../src/pref_dialog.c:144
 msgid "MPV configuration file"
 msgstr "Konfigurační soubor MPV"
 
-#: ../src/pref_dialog.c:102
+#: ../src/pref_dialog.c:149
 msgid "MPV input configuration file"
 msgstr "Vstupní konfigurační soubor MPV"
 
-#: ../src/pref_dialog.c:107
+#: ../src/pref_dialog.c:154
 msgid "Load MPV configuration file"
 msgstr "Načíst konfigurační soubor MPV"
 
-#: ../src/pref_dialog.c:111
+#: ../src/pref_dialog.c:158
 msgid "Load MPV input configuration file"
 msgstr "Načíst vstupní konfigurační soubor MPV"
 
-#: ../src/pref_dialog.c:153
+#: ../src/pref_dialog.c:276 ../src/playlist.c:62
 msgid "_Save"
 msgstr "_Uložit"
 
-#: ../src/pref_dialog.c:160
+#: ../src/pref_dialog.c:292
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: ../src/main_window.c:227 ../src/common.c:394
+#: ../src/main_window.c:273 ../src/common.c:452
 msgid "_Toggle Playlist"
 msgstr "_Přepnout seznam skladeb"
 
-#: ../src/main_window.c:230 ../src/common.c:371
+#: ../src/main_window.c:276 ../src/common.c:429
 msgid "_Save Playlist"
 msgstr "_Uložit seznam skladeb"
 
-#: ../src/main_window.c:233 ../src/common.c:381
+#: ../src/main_window.c:279 ../src/common.c:439
 msgid "_Load Subtitle"
 msgstr "_Načíst titulky"
 
-#: ../src/main_window.c:236 ../src/common.c:397
-msgid "_Fullscreen"
-msgstr "_Celá obrazovka"
-
-#: ../src/main_window.c:239 ../src/common.c:400
+#: ../src/main_window.c:282 ../src/common.c:458
 msgid "_Normal Size"
 msgstr "_Normální velikost"
 
-#: ../src/main_window.c:242 ../src/common.c:403
+#: ../src/main_window.c:285 ../src/common.c:461
 msgid "_Double Size"
 msgstr "_Dvojnásobná velikost"
 
-#: ../src/main_window.c:245 ../src/common.c:406
+#: ../src/main_window.c:288 ../src/common.c:464
 msgid "_Half Size"
 msgstr "_Poloviční velikost"
 
-#: ../src/main_window.c:273 ../src/common.c:368
+#: ../src/main_window.c:316 ../src/common.c:426
 msgid "Open _Location"
 msgstr "_Otevřít umístění"
 
-#: ../src/actionctl.c:70
+#: ../src/actionctl.c:105
+#, fuzzy
+msgid "Add File to Playlist"
+msgstr "_Přepnout seznam skladeb"
+
+#: ../src/actionctl.c:106
 msgid "Open File"
 msgstr "Otevřít soubor"
 
-#: ../src/actionctl.c:227
+#: ../src/actionctl.c:250
 #, c-format
-msgid "Enabling or disabling client-side decorations requires restarting %s to take effect."
-msgstr "Povolení nebo zakázání dekorací na straně klienta vyžaduje restartování %s."
+msgid ""
+"Enabling or disabling client-side decorations requires restarting %s to take "
+"effect."
+msgstr ""
+"Povolení nebo zakázání dekorací na straně klienta vyžaduje restartování %s."
 
-#: ../src/actionctl.c:340
+#: ../src/actionctl.c:362
 msgid "Load Subtitle"
 msgstr "Načíst titulky"
 
-#: ../src/actionctl.c:414
+#: ../src/actionctl.c:436
 msgid "A GTK frontend for MPV"
 msgstr "GTK frontend pro MPV"
 
-#: ../src/common.c:362
+#: ../src/common.c:420
 msgid "_File"
 msgstr "_Soubor"
 
-#: ../src/common.c:378
+#: ../src/common.c:436
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/common.c:391
+#: ../src/common.c:449
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: ../src/common.c:413
+#: ../src/common.c:455
+msgid "_Fullscreen"
+msgstr "_Celá obrazovka"
+
+#: ../src/common.c:471
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: ../src/common.c:452
-msgid "Keybindings that require Property Expansion are not supported and have been ignored."
+#: ../src/common.c:509
+msgid ""
+"Keybindings that require Property Expansion are not supported and have been "
+"ignored."
 msgstr ""
+
+#: ../src/playlist.c:57
+#, fuzzy
+msgid "Save Playlist"
+msgstr "_Uložit seznam skladeb"
+
+#~ msgid "Your configuration file has been moved to the new location at %s."
+#~ msgstr "Váš konfigurační soubor byl přesunut do nového umístění na %s."

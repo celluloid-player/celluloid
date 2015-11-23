@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-11 11:55+0200\n"
+"POT-Creation-Date: 2015-11-23 10:58-0500\n"
 "PO-Revision-Date: 2015-08-11 15:19+0200\n"
 "Last-Translator: Harenome Ranaivoarivony Razanajato <harenome@hareno.me>\n"
 "Language-Team: Français\n"
@@ -21,128 +21,217 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: mpv.c\n"
 
+#: ../src/main.c:526 ../src/common.c:442
 msgid "_Preferences"
 msgstr "_Préférences"
 
+#: ../src/main.c:527 ../src/common.c:473
 msgid "_About"
 msgstr "_À propos"
 
+#: ../src/main.c:528 ../src/common.c:423
 msgid "_Quit"
 msgstr "_Quitter"
 
+#: ../src/main.c:553
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
-msgid "Your configuration file has been moved to the new location at %s."
-msgstr "Votre fichier de configuration a été déplacé au nouvel emplacement %s."
+#: ../src/main.c:677
+#, c-format
+msgid ""
+"Preferences is now stored using GSettings. Your preferences have been "
+"migrated from the configuration file. A backup copy of the configuration "
+"file can be found at \"%s\"."
+msgstr ""
 
+#: ../src/open_loc_dialog.c:76
 msgid "Location:"
 msgstr "Emplacement:"
 
+#: ../src/open_loc_dialog.c:80 ../src/main_window.c:313 ../src/actionctl.c:111
+#: ../src/actionctl.c:367 ../src/common.c:422
 msgid "_Open"
 msgstr "_Ouvrir"
 
+#: ../src/open_loc_dialog.c:82 ../src/pref_dialog.c:274 ../src/actionctl.c:109
+#: ../src/actionctl.c:365 ../src/playlist.c:60
 msgid "_Cancel"
 msgstr "_Annuler"
 
+#: ../src/open_loc_dialog.c:92
 msgid "Open Location"
 msgstr "Ouvrir un répertoire"
 
+#: ../src/playlist_widget.c:44
+msgid "_Add..."
+msgstr ""
+
+#: ../src/playlist_widget.c:45
+msgid "Loop"
+msgstr ""
+
+#: ../src/playlist_widget.c:90
 msgid "Playlist"
 msgstr "Liste de lecture"
 
+#: ../src/pref_dialog.c:108
 msgid "MPV configuration file:"
 msgstr "Fichier de configuration MPV:"
 
+#: ../src/pref_dialog.c:109
 msgid "MPV input configuration file:"
 msgstr "Fichier de configuration des raccourcis clavier MPV:"
 
+#: ../src/pref_dialog.c:110
 msgid "Extra MPV options:"
 msgstr "Options supplémentaires pour MPV"
 
+#: ../src/pref_dialog.c:111
 msgid "<b>General</b>"
 msgstr "<b>Général</b>"
 
+#: ../src/pref_dialog.c:112
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>Configuration MPV</b>"
 
+#: ../src/pref_dialog.c:113
 msgid "<b>Keybindings</b>"
 msgstr "<b>Raccourcis clavier</b>"
 
+#: ../src/pref_dialog.c:114
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Divers</b>"
 
+#: ../src/pref_dialog.c:129
 msgid "Enable client-side decorations"
 msgstr "Activer les décorations fenêtre"
 
+#: ../src/pref_dialog.c:133
 msgid "Enable dark theme"
 msgstr "Activer le thème sombre"
 
+#: ../src/pref_dialog.c:137
+msgid "Redirect MPV log messages to console"
+msgstr ""
+
+#: ../src/pref_dialog.c:140
+msgid "Remember last file's location"
+msgstr ""
+
+#: ../src/pref_dialog.c:144
 msgid "MPV configuration file"
 msgstr "Fichier de configuration MPV"
 
+#: ../src/pref_dialog.c:149
 msgid "MPV input configuration file"
 msgstr "Fichier de configuration MPV d'entrée"
 
+#: ../src/pref_dialog.c:154
 msgid "Load MPV configuration file"
 msgstr "Charger un fichier de configuration MPV"
 
+#: ../src/pref_dialog.c:158
 msgid "Load MPV input configuration file"
 msgstr "Charger un fichier de configuration des raccourcis clavier MPV"
 
+#: ../src/pref_dialog.c:276 ../src/playlist.c:62
 msgid "_Save"
 msgstr "_Enregistrer"
 
+#: ../src/pref_dialog.c:292
 msgid "Preferences"
 msgstr "Préférences"
 
+#: ../src/main_window.c:273 ../src/common.c:452
 msgid "_Toggle Playlist"
 msgstr "_Afficher la liste de lecture"
 
+#: ../src/main_window.c:276 ../src/common.c:429
 msgid "_Save Playlist"
 msgstr "_Enregistrer la liste de lecture"
 
+#: ../src/main_window.c:279 ../src/common.c:439
 msgid "_Load Subtitle"
 msgstr "_Charger les sous-titres"
 
-msgid "_Fullscreen"
-msgstr "_Plein écran"
-
+#: ../src/main_window.c:282 ../src/common.c:458
 msgid "_Normal Size"
 msgstr "Taille _Normale"
 
+#: ../src/main_window.c:285 ../src/common.c:461
 msgid "_Double Size"
 msgstr "Taille _Double"
 
+#: ../src/main_window.c:288 ../src/common.c:464
 msgid "_Half Size"
 msgstr "Taille _Moitié"
 
+#: ../src/main_window.c:316 ../src/common.c:426
 msgid "Open _Location"
 msgstr "Ouvrir un _répertoire"
 
+#: ../src/actionctl.c:105
+#, fuzzy
+#| msgid "_Toggle Playlist"
+msgid "Add File to Playlist"
+msgstr "_Afficher la liste de lecture"
+
+#: ../src/actionctl.c:106
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
-msgid "Enabling or disabling client-side decorations requires restarting %s to take effect."
-msgstr "L'activation ou la désactivation des décorations fenêtre prendra effet après un redémarrage de %s."
+#: ../src/actionctl.c:250
+#, c-format
+msgid ""
+"Enabling or disabling client-side decorations requires restarting %s to take "
+"effect."
+msgstr ""
+"L'activation ou la désactivation des décorations fenêtre prendra effet après "
+"un redémarrage de %s."
 
+#: ../src/actionctl.c:362
 msgid "Load Subtitle"
 msgstr "Charger les sous-titres"
 
+#: ../src/actionctl.c:436
 msgid "A GTK frontend for MPV"
 msgstr "Une interface GTK pour MPV"
 
+#: ../src/common.c:420
 msgid "_File"
 msgstr "_Fichier"
 
+#: ../src/common.c:436
 msgid "_Edit"
 msgstr "_Éditer"
 
+#: ../src/common.c:449
 msgid "_View"
 msgstr "_Vue"
 
+#: ../src/common.c:455
+msgid "_Fullscreen"
+msgstr "_Plein écran"
+
+#: ../src/common.c:471
 msgid "_Help"
 msgstr "_Aide"
 
-msgid "Keybindings that require Property Expansion are not supported and have been ignored."
-msgstr "Les raccourcis clavier qui reposent sur l'expansion de propriété sont ignorés car ils ne sont pas pris en charge."
+#: ../src/common.c:509
+msgid ""
+"Keybindings that require Property Expansion are not supported and have been "
+"ignored."
+msgstr ""
+"Les raccourcis clavier qui reposent sur l'expansion de propriété sont "
+"ignorés car ils ne sont pas pris en charge."
+
+#: ../src/playlist.c:57
+#, fuzzy
+#| msgid "_Save Playlist"
+msgid "Save Playlist"
+msgstr "_Enregistrer la liste de lecture"
+
+#~ msgid "Your configuration file has been moved to the new location at %s."
+#~ msgstr ""
+#~ "Votre fichier de configuration a été déplacé au nouvel emplacement %s."
