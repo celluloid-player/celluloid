@@ -281,6 +281,8 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 {
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
+		GtkWindow *wnd = GTK_WINDOW(ctx->gui);
+		GtkApplication *app = gtk_window_get_application(wnd);
 		gboolean idle;
 
 		ctx->paused = prop->data?*((int *)prop->data):TRUE;
@@ -290,6 +292,19 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 		if(idle && !ctx->paused)
 		{
 			mpv_load(ctx, NULL, FALSE, TRUE);
+		}
+
+		if(!ctx->paused)
+		{
+			ctx->inhibit_cookie
+				= gtk_application_inhibit
+					(	app, wnd,
+						GTK_APPLICATION_INHIBIT_IDLE,
+						_("Playing") );
+		}
+		else if(ctx->inhibit_cookie != 0)
+		{
+			gtk_application_uninhibit(app, ctx->inhibit_cookie);
 		}
 
 		mpv_load_gui_update(ctx);

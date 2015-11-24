@@ -568,6 +568,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->new_file = TRUE;
 	ctx->sub_visible = TRUE;
 	ctx->init_load = TRUE;
+	ctx->inhibit_cookie = 0;
 	ctx->playlist_move_dest = -1;
 	ctx->log_level_list = NULL;
 	ctx->keybind_list = NULL;

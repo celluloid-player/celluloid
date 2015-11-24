@@ -46,6 +46,7 @@ struct gmpv_handle
 	gboolean sub_visible;
 	gboolean init_load;
 	gint64 vid_area_wid;
+	guint inhibit_cookie;
 	gint playlist_move_dest;
 	GSList *log_level_list;
 	GSList *keybind_list;
