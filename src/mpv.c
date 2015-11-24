@@ -846,6 +846,10 @@ void mpv_init(gmpv_handle *ctx)
 						"${media-title}" ));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
+						"pause",
+						"yes" ));
+
+	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"ytdl",
 						"yes" ));
 
