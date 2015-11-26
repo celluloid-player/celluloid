@@ -159,7 +159,7 @@ gboolean migrate_config(gmpv_handle *ctx)
 
 		result = g_file_move(	src,
 					dest,
-					G_FILE_COPY_NONE,
+					G_FILE_COPY_OVERWRITE,
 					NULL,
 					NULL,
 					NULL,
