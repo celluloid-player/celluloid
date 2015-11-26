@@ -103,10 +103,30 @@ gboolean quit(gpointer data)
 gboolean migrate_config(gmpv_handle *ctx)
 {
 	gchar *config_file = get_config_file_path();
+	gchar *backup_config_file = g_strconcat(config_file, ".bak", NULL);
 	gboolean result = FALSE;
 
 	if(g_file_test(config_file, G_FILE_TEST_EXISTS))
 	{
+		/* Backup the old config file */
+		GFile *src = g_file_new_for_path(config_file);
+		GFile *dest = g_file_new_for_path(backup_config_file);
+
+		result = g_file_move(	src,
+					dest,
+					G_FILE_COPY_OVERWRITE,
+					NULL,
+					NULL,
+					NULL,
+					NULL );
+
+		g_object_unref(src);
+		g_object_unref(dest);
+	}
+
+	if(result)
+	{
+		/* Load settings from the backup file */
 		const gchar *key_list[] = {	"csd-enable",
 						"dark-theme-enable",
 						"mpv-input-config-enable",
@@ -122,7 +142,7 @@ gboolean migrate_config(gmpv_handle *ctx)
 		const gchar **iter;
 
 		backend = g_keyfile_settings_backend_new
-				(	config_file,
+				(	backup_config_file,
 					"/org/gnome-mpv/gnome-mpv/",
 					"main" );
 
@@ -148,29 +168,10 @@ gboolean migrate_config(gmpv_handle *ctx)
 		g_object_unref(backend);
 		g_object_unref(keyfile_settings);
 		g_object_unref(default_settings);
-
-		/* Rename the old config file */
-		gchar *backup_config_file = g_strconcat(	config_file,
-								".bak",
-								NULL );
-
-		GFile *src = g_file_new_for_path(config_file);
-		GFile *dest = g_file_new_for_path(backup_config_file);
-
-		result = g_file_move(	src,
-					dest,
-					G_FILE_COPY_OVERWRITE,
-					NULL,
-					NULL,
-					NULL,
-					NULL );
-
-		g_free(backup_config_file);
-		g_object_unref(src);
-		g_object_unref(dest);
 	}
 
 	g_free(config_file);
+	g_free(backup_config_file);
 
 	return result;
 }
