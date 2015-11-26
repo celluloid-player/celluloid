@@ -839,10 +839,6 @@ void mpv_init(gmpv_handle *ctx)
 	gchar *config_dir = get_config_dir_path();
 	gchar *mpvconf = NULL;
 	gchar *mpvopt = NULL;
-	gchar *screenshot_template = NULL;
-
-	screenshot_template
-		= g_build_filename(g_get_home_dir(), "screenshot-%n", NULL);
 
 	/* Set default options */
 	mpv_check_error(mpv_set_option_string(ctx->mpv_ctx, "osd-level", "1"));
@@ -885,12 +881,12 @@ void mpv_init(gmpv_handle *ctx)
 						"yes" ));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"config-dir",
-						config_dir ));
+						"screenshot-template",
+						"screenshot-%n" ));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"screenshot-template",
-						screenshot_template ));
+						"config-dir",
+						config_dir ));
 
 	mpv_check_error(mpv_set_option(	ctx->mpv_ctx,
 					"volume",
@@ -967,7 +963,6 @@ void mpv_init(gmpv_handle *ctx)
 	g_free(config_dir);
 	g_free(mpvconf);
 	g_free(mpvopt);
-	g_free(screenshot_template);
 }
 
 void mpv_quit(gmpv_handle *ctx)
