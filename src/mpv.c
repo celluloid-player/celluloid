@@ -882,7 +882,7 @@ void mpv_init(gmpv_handle *ctx)
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"screenshot-template",
-						"screenshot-%n" ));
+						"gnome-mpv-shot%n" ));
 
 	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
 						"config-dir",
