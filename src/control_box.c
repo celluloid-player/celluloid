@@ -279,5 +279,6 @@ void control_box_reset_control(ControlBox *box)
 {
 	control_box_set_seek_bar_length(box, 0);
 	control_box_set_playing_state(box, FALSE);
+	control_box_set_chapter_enabled(box, FALSE);
 	control_box_set_fullscreen_state(box, FALSE);
 }
