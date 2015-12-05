@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-23 10:58-0500\n"
-"PO-Revision-Date: 2015-10-27 00:55+0100\n"
+"POT-Creation-Date: 2015-12-05 22:12+0100\n"
+"PO-Revision-Date: 2015-12-05 22:33+0100\n"
 "Last-Translator: Vincent Bermel <willovince@openmailbox.org>\n"
 "Language-Team: German Translations\n"
 "Language: de_DE\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.c:526 ../src/common.c:442
+#: ../src/main.c:526 ../src/common.c:443
 msgid "_Preferences"
 msgstr "_Einstellungen"
 
-#: ../src/main.c:527 ../src/common.c:473
+#: ../src/main.c:527 ../src/common.c:474
 msgid "_About"
 msgstr "_Info"
 
-#: ../src/main.c:528 ../src/common.c:423
+#: ../src/main.c:528 ../src/common.c:424
 msgid "_Quit"
 msgstr "_Beenden"
 
@@ -34,20 +34,22 @@ msgstr "_Beenden"
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
-#: ../src/main.c:677
+#: ../src/main.c:678
 #, c-format
 msgid ""
 "Preferences is now stored using GSettings. Your preferences have been "
 "migrated from the configuration file. A backup copy of the configuration "
 "file can be found at \"%s\"."
-msgstr ""
+msgstr "Die Benutzereinstellungen werden fortan von GSettings verwaltet. "
+"Ihre Einstellungen wurden aus der Konfigurationsdatei übernommen. Eine "
+"Sicherheitskopie dieser Datei befindet sich unter \"%s\"."
 
 #: ../src/open_loc_dialog.c:76
 msgid "Location:"
 msgstr "Adresse:"
 
 #: ../src/open_loc_dialog.c:80 ../src/main_window.c:313 ../src/actionctl.c:111
-#: ../src/actionctl.c:367 ../src/common.c:422
+#: ../src/actionctl.c:367 ../src/common.c:423
 msgid "_Open"
 msgstr "Ö_ffnen"
 
@@ -62,11 +64,11 @@ msgstr "Adresse öffnen"
 
 #: ../src/playlist_widget.c:44
 msgid "_Add..."
-msgstr ""
+msgstr "_Hinzufügen"
 
 #: ../src/playlist_widget.c:45
 msgid "Loop"
-msgstr ""
+msgstr "Wiederholen"
 
 #: ../src/playlist_widget.c:90
 msgid "Playlist"
@@ -110,7 +112,7 @@ msgstr "Dunkles Thema verwenden"
 
 #: ../src/pref_dialog.c:137
 msgid "Redirect MPV log messages to console"
-msgstr ""
+msgstr "MPV-Log-Benachrichtigungen an die Konsole weiterleiten"
 
 #: ../src/pref_dialog.c:140
 msgid "Remember last file's location"
@@ -140,39 +142,38 @@ msgstr "_Speichern"
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: ../src/main_window.c:273 ../src/common.c:452
+#: ../src/main_window.c:273 ../src/common.c:453
 msgid "_Toggle Playlist"
 msgstr "_Wiedergabeliste ein/aus"
 
-#: ../src/main_window.c:276 ../src/common.c:429
+#: ../src/main_window.c:276 ../src/common.c:430
 msgid "_Save Playlist"
 msgstr "Wiedergabeliste _speichern"
 
-#: ../src/main_window.c:279 ../src/common.c:439
+#: ../src/main_window.c:279 ../src/common.c:440
 msgid "_Load Subtitle"
 msgstr "_Untertitel laden"
 
-#: ../src/main_window.c:282 ../src/common.c:458
+#: ../src/main_window.c:282 ../src/common.c:459
 msgid "_Normal Size"
 msgstr "_Normale Videogröße"
 
-#: ../src/main_window.c:285 ../src/common.c:461
+#: ../src/main_window.c:285 ../src/common.c:462
 msgid "_Double Size"
 msgstr "_Doppelte Videogröße"
 
-#: ../src/main_window.c:288 ../src/common.c:464
+#: ../src/main_window.c:288 ../src/common.c:465
 msgid "_Half Size"
 msgstr "_Halbe Videogröße"
 
-#: ../src/main_window.c:316 ../src/common.c:426
+#: ../src/main_window.c:316 ../src/common.c:427
 msgid "Open _Location"
 msgstr "_Adresse öffnen"
 
 #: ../src/actionctl.c:105
-#, fuzzy
-#| msgid "_Toggle Playlist"
 msgid "Add File to Playlist"
-msgstr "_Wiedergabeliste ein/aus"
+msgstr "Datei zur _Wiedergabeliste hinzufügen"
+#msgstr "_Wiedergabeliste ein/aus"
 
 #: ../src/actionctl.c:106
 msgid "Open File"
@@ -193,27 +194,27 @@ msgstr "Untertitel laden"
 msgid "A GTK frontend for MPV"
 msgstr "Eine GTK-Oberfläche für MPV"
 
-#: ../src/common.c:420
+#: ../src/common.c:421
 msgid "_File"
 msgstr "_Datei"
 
-#: ../src/common.c:436
+#: ../src/common.c:437
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: ../src/common.c:449
+#: ../src/common.c:450
 msgid "_View"
 msgstr "_Ansicht"
 
-#: ../src/common.c:455
+#: ../src/common.c:456
 msgid "_Fullscreen"
 msgstr "_Vollbild"
 
-#: ../src/common.c:471
+#: ../src/common.c:472
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: ../src/common.c:509
+#: ../src/common.c:510
 msgid ""
 "Keybindings that require Property Expansion are not supported and have been "
 "ignored."
