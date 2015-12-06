@@ -726,18 +726,21 @@ void mpris_player_unregister(mpris *inst)
 {
 	gulong *current_sig_id = inst->player_sig_id_list;
 
-	while(current_sig_id && *current_sig_id > 0)
+	if(current_sig_id)
 	{
-		g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
-						*current_sig_id );
+		while(current_sig_id && *current_sig_id > 0)
+		{
+			g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
+							*current_sig_id );
 
-		current_sig_id++;
+			current_sig_id++;
+		}
+
+		g_dbus_connection_unregister_object(	inst->session_bus_conn,
+							inst->player_reg_id );
+
+		g_hash_table_remove_all(inst->player_prop_table);
+		g_hash_table_unref(inst->player_prop_table);
+		g_clear_pointer(&inst->player_sig_id_list, g_free);
 	}
-
-	g_dbus_connection_unregister_object(	inst->session_bus_conn,
-						inst->player_reg_id );
-
-	g_hash_table_remove_all(inst->player_prop_table);
-	g_hash_table_unref(inst->player_prop_table);
-	g_free(inst->player_sig_id_list);
 }
