@@ -323,7 +323,8 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 pref_store *pref_dialog_get_pref(PrefDialog *dlg)
 {
 	pref_store *pref = g_malloc(sizeof(pref_store));
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpv_input_button);
+	GtkFileChooser *conf_chooser = GTK_FILE_CHOOSER(dlg->mpv_conf_button);
+	GtkFileChooser *input_chooser = GTK_FILE_CHOOSER(dlg->mpv_input_button);
 	GtkEntry *mpv_options_entry = GTK_ENTRY(dlg->mpv_options_entry);
 
 	TOGGLE_BTN_PREF_MAP(toggle_btn, dlg, pref)
@@ -334,16 +335,22 @@ pref_store *pref_dialog_get_pref(PrefDialog *dlg)
 			= gtk_toggle_button_get_active(toggle_btn[i].btn);
 	}
 
-	pref->mpv_input_config_file = gtk_file_chooser_get_filename(chooser);
-	pref->mpv_config_file = gtk_file_chooser_get_filename(chooser);
-	pref->mpv_options = g_strdup(gtk_entry_get_text(mpv_options_entry));
+	pref->mpv_config_file
+		= gtk_file_chooser_get_filename(conf_chooser);
+
+	pref->mpv_input_config_file
+		= gtk_file_chooser_get_filename(input_chooser);
+
+	pref->mpv_options
+		= g_strdup(gtk_entry_get_text(mpv_options_entry));
 
 	return pref;
 }
 
 void pref_dialog_set_pref(PrefDialog *dlg, pref_store *pref)
 {
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(dlg->mpv_input_button);
+	GtkFileChooser *conf_chooser = GTK_FILE_CHOOSER(dlg->mpv_conf_button);
+	GtkFileChooser *input_chooser = GTK_FILE_CHOOSER(dlg->mpv_input_button);
 	GtkEntry *mpv_options_entry = GTK_ENTRY(dlg->mpv_options_entry);
 
 	TOGGLE_BTN_PREF_MAP(toggle_btn, dlg, pref)
@@ -354,7 +361,12 @@ void pref_dialog_set_pref(PrefDialog *dlg, pref_store *pref)
 			(toggle_btn[i].btn, *(toggle_btn[i].value));
 	}
 
-	gtk_file_chooser_set_filename(chooser, pref->mpv_input_config_file);
-	gtk_file_chooser_set_filename(chooser, pref->mpv_config_file);
-	gtk_entry_set_text(mpv_options_entry, pref->mpv_options);
+	gtk_file_chooser_set_filename
+		(conf_chooser, pref->mpv_config_file);
+
+	gtk_file_chooser_set_filename
+		(input_chooser, pref->mpv_input_config_file);
+
+	gtk_entry_set_text
+		(mpv_options_entry, pref->mpv_options);
 }
