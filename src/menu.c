@@ -198,6 +198,24 @@ void menu_build_full(	GMenu *menu,
 
 	g_menu_append_item(menu, help_menu_item);
 	g_menu_append_item(help_menu, about_menu_item);
+
+	g_object_unref(file_menu_item);
+	g_object_unref(open_menu_item);
+	g_object_unref(open_loc_menu_item);
+	g_object_unref(save_playlist_menu_item);
+	g_object_unref(quit_menu_item);
+	g_object_unref(edit_menu_item);
+	g_object_unref(pref_menu_item);
+	g_object_unref(load_audio_menu_item);
+	g_object_unref(load_sub_menu_item);
+	g_object_unref(view_menu_item);
+	g_object_unref(playlist_menu_item);
+	g_object_unref(fullscreen_menu_item);
+	g_object_unref(normal_size_menu_item);
+	g_object_unref(double_size_menu_item);
+	g_object_unref(half_size_menu_item);
+	g_object_unref(help_menu_item);
+	g_object_unref(about_menu_item);
 }
 
 void menu_build_menu_btn(	GMenu *menu,
@@ -301,6 +319,19 @@ void menu_build_menu_btn(	GMenu *menu,
 	g_menu_append_item(menu, playlist_section);
 	g_menu_append_item(menu, track_section);
 	g_menu_append_item(menu, view_section);
+
+	g_object_unref(load_audio_menu_item);
+	g_object_unref(load_sub_menu_item);
+	g_object_unref(playlist_toggle_menu_item);
+	g_object_unref(playlist_save_menu_item);
+	g_object_unref(audio_menu_item);
+	g_object_unref(subtitle_menu_item);
+	g_object_unref(normal_size_menu_item);
+	g_object_unref(double_size_menu_item);
+	g_object_unref(half_size_menu_item);
+	g_object_unref(playlist_section);
+	g_object_unref(track_section);
+	g_object_unref(view_section);
 }
 
 void menu_build_open_btn(GMenu *menu)
@@ -316,5 +347,8 @@ void menu_build_open_btn(GMenu *menu)
 
 	g_menu_append_item(menu, open_menu_item);
 	g_menu_append_item(menu, open_loc_menu_item);
+
+	g_object_unref(open_menu_item);
+	g_object_unref(open_loc_menu_item);
 }
 
