@@ -20,8 +20,6 @@
 #ifndef KEYBIND_H
 #define KEYBIND_H
 
-#include <gdk/gdk.h>
-
 #include "common.h"
 
 struct keybind

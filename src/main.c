@@ -55,8 +55,6 @@
 #include "main_window.h"
 #include "control_box.h"
 #include "playlist_widget.h"
-#include "pref_dialog.h"
-#include "open_loc_dialog.h"
 #include "mpris/mpris.h"
 #include "media_keys/media_keys.h"
 

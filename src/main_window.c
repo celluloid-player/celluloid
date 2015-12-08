@@ -17,12 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <glib/gi18n.h>
-#include <gio/gio.h>
-
 #include "def.h"
 #include "menu.h"
-#include "common.h"
 #include "playlist_widget.h"
 #include "main_window.h"
 #include "control_box.h"
