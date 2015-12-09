@@ -240,8 +240,6 @@ void menu_build_menu_btn(	GMenu *menu,
 	GMenuItem *playlist_section;
 	GMenuItem *track_section;
 	GMenuItem *view_section;
-	GMenuItem *load_audio_menu_item;
-	GMenuItem *load_sub_menu_item;
 	GMenuItem *playlist_toggle_menu_item;
 	GMenuItem *playlist_save_menu_item;
 	GMenuItem *normal_size_menu_item;
@@ -268,14 +266,6 @@ void menu_build_menu_btn(	GMenu *menu,
 	playlist_save_menu_item
 		= g_menu_item_new
 			(_("_Save Playlist"), "app.playlist_save");
-
-	load_audio_menu_item
-		= g_menu_item_new
-			(_("_Load External..."), "app.load_track('audio-add')");
-
-	load_sub_menu_item
-		= g_menu_item_new
-			(_("_Load External..."), "app.load_track('sub-add')");
 
 	normal_size_menu_item
 		= g_menu_item_new
@@ -308,6 +298,8 @@ void menu_build_menu_btn(	GMenu *menu,
 		GMenu *subtitle = g_menu_new();
 		GMenuItem *audio_menu_item;
 		GMenuItem *subtitle_menu_item;
+		GMenuItem *load_audio_menu_item;
+		GMenuItem *load_sub_menu_item;
 
 		audio_menu_item
 			= g_menu_item_new_submenu
@@ -320,11 +312,25 @@ void menu_build_menu_btn(	GMenu *menu,
 		build_menu_from_track_list(audio, audio_list, "audio_select");
 		build_menu_from_track_list(subtitle, sub_list, "sub_select");
 
+		load_audio_menu_item
+			= g_menu_item_new
+				(	_("_Load External..."),
+					"app.load_track('audio-add')" );
+
+		load_sub_menu_item
+			= g_menu_item_new
+				(	_("_Load External..."),
+					"app.load_track('sub-add')" );
+
 		g_menu_append_item(track, audio_menu_item);
 		g_menu_append_item(track, subtitle_menu_item);
+		g_menu_append_item(audio, load_audio_menu_item);
+		g_menu_append_item(subtitle, load_sub_menu_item);
 
 		g_object_unref(audio_menu_item);
 		g_object_unref(subtitle_menu_item);
+		g_object_unref(load_audio_menu_item);
+		g_object_unref(load_sub_menu_item);
 	}
 
 	g_menu_append_item(playlist, playlist_toggle_menu_item);
@@ -336,8 +342,6 @@ void menu_build_menu_btn(	GMenu *menu,
 	g_menu_append_item(menu, track_section);
 	g_menu_append_item(menu, view_section);
 
-	g_object_unref(load_audio_menu_item);
-	g_object_unref(load_sub_menu_item);
 	g_object_unref(playlist_toggle_menu_item);
 	g_object_unref(playlist_save_menu_item);
 	g_object_unref(normal_size_menu_item);
