@@ -66,8 +66,6 @@ void menu_build_full(	GMenu *menu,
 {
 	GMenu *file_menu;
 	GMenu *edit_menu;
-	GMenu *audio_menu;
-	GMenu *sub_menu;
 	GMenu *view_menu;
 	GMenu *help_menu;
 	GMenuItem *file_menu_item;
@@ -110,9 +108,6 @@ void menu_build_full(	GMenu *menu,
 	edit_menu_item
 		= g_menu_item_new_submenu
 			(_("_Edit"), G_MENU_MODEL(edit_menu));
-
-	audio_menu = g_menu_new();
-	sub_menu = g_menu_new();
 
 	load_audio_menu_item
 		= g_menu_item_new
@@ -168,8 +163,33 @@ void menu_build_full(	GMenu *menu,
 					G_MENU_MODEL(video_menu) );
 	}
 
-	build_menu_from_track_list(audio_menu, audio_list, "audio_select");
-	build_menu_from_track_list(sub_menu, sub_list, "sub_select");
+	/* If there is no track, then no file is playing and we can just leave
+	 * out track-related menu items. However, if there is something playing,
+	 * show both menu items for audio and subtitle tracks even if they are
+	 * empty so that the users can load external ones if they want.
+	 */
+	if(video_list || audio_list || sub_list)
+	{
+		GMenu *audio_menu = g_menu_new();
+		GMenu *sub_menu = g_menu_new();
+
+		build_menu_from_track_list
+			(audio_menu, audio_list, "audio_select");
+
+		build_menu_from_track_list
+			(sub_menu, sub_list, "sub_select");
+
+		g_menu_append_submenu(	edit_menu,
+					_("_Audio Track"),
+					G_MENU_MODEL(audio_menu) );
+
+		g_menu_append_submenu(	edit_menu,
+					_("_Subtitle Track"),
+					G_MENU_MODEL(sub_menu) );
+
+		g_menu_append_item(audio_menu, load_audio_menu_item);
+		g_menu_append_item(sub_menu, load_sub_menu_item);
+	}
 
 	g_menu_append_item(menu, file_menu_item);
 	g_menu_append_item(file_menu, open_menu_item);
@@ -178,16 +198,7 @@ void menu_build_full(	GMenu *menu,
 	g_menu_append_item(file_menu, quit_menu_item);
 
 	g_menu_append_item(menu, edit_menu_item);
-
-	g_menu_append_submenu
-		(edit_menu, _("_Audio Track"), G_MENU_MODEL(audio_menu));
-
-	g_menu_append_submenu
-		(edit_menu, _("_Subtitle Track"), G_MENU_MODEL(sub_menu));
-
 	g_menu_append_item(edit_menu, pref_menu_item);
-	g_menu_append_item(audio_menu, load_audio_menu_item);
-	g_menu_append_item(sub_menu, load_sub_menu_item);
 
 	g_menu_append_item(menu, view_menu_item);
 	g_menu_append_item(view_menu, playlist_menu_item);
@@ -226,10 +237,6 @@ void menu_build_menu_btn(	GMenu *menu,
 	GMenu *playlist;
 	GMenu *track;
 	GMenu *view;
-	GMenu *audio;
-	GMenu *subtitle;
-	GMenuItem *audio_menu_item;
-	GMenuItem *subtitle_menu_item;
 	GMenuItem *playlist_section;
 	GMenuItem *track_section;
 	GMenuItem *view_section;
@@ -244,8 +251,6 @@ void menu_build_menu_btn(	GMenu *menu,
 	playlist = g_menu_new();
 	track = g_menu_new();
 	view = g_menu_new();
-	audio = g_menu_new();
-	subtitle = g_menu_new();
 
 	playlist_section
 		= g_menu_item_new_section(NULL, G_MENU_MODEL(playlist));
@@ -255,14 +260,6 @@ void menu_build_menu_btn(	GMenu *menu,
 
 	view_section
 		= g_menu_item_new_section(NULL, G_MENU_MODEL(view));
-
-	audio_menu_item
-		= g_menu_item_new_submenu
-			(_("Audio Track"), G_MENU_MODEL(audio));
-
-	subtitle_menu_item
-		= g_menu_item_new_submenu
-			(_("Subtitle Track"), G_MENU_MODEL(subtitle));
 
 	playlist_toggle_menu_item
 		= g_menu_item_new
@@ -302,17 +299,36 @@ void menu_build_menu_btn(	GMenu *menu,
 
 		build_menu_from_track_list(video, video_list, "video_select");
 		g_menu_append_item(track, video_menu_item);
+		g_object_unref(video_menu_item);
 	}
 
-	build_menu_from_track_list(audio, audio_list, "audio_select");
-	build_menu_from_track_list(subtitle, sub_list, "sub_select");
+	if(video_list || audio_list || sub_list)
+	{
+		GMenu *audio = g_menu_new();
+		GMenu *subtitle = g_menu_new();
+		GMenuItem *audio_menu_item;
+		GMenuItem *subtitle_menu_item;
 
-	g_menu_append_item(audio, load_audio_menu_item);
-	g_menu_append_item(subtitle, load_sub_menu_item);
+		audio_menu_item
+			= g_menu_item_new_submenu
+				(_("Audio Track"), G_MENU_MODEL(audio));
+
+		subtitle_menu_item
+			= g_menu_item_new_submenu
+				(_("Subtitle Track"), G_MENU_MODEL(subtitle));
+
+		build_menu_from_track_list(audio, audio_list, "audio_select");
+		build_menu_from_track_list(subtitle, sub_list, "sub_select");
+
+		g_menu_append_item(track, audio_menu_item);
+		g_menu_append_item(track, subtitle_menu_item);
+
+		g_object_unref(audio_menu_item);
+		g_object_unref(subtitle_menu_item);
+	}
+
 	g_menu_append_item(playlist, playlist_toggle_menu_item);
 	g_menu_append_item(playlist, playlist_save_menu_item);
-	g_menu_append_item(track, audio_menu_item);
-	g_menu_append_item(track, subtitle_menu_item);
 	g_menu_append_item(view, normal_size_menu_item);
 	g_menu_append_item(view, double_size_menu_item);
 	g_menu_append_item(view, half_size_menu_item);
@@ -324,8 +340,6 @@ void menu_build_menu_btn(	GMenu *menu,
 	g_object_unref(load_sub_menu_item);
 	g_object_unref(playlist_toggle_menu_item);
 	g_object_unref(playlist_save_menu_item);
-	g_object_unref(audio_menu_item);
-	g_object_unref(subtitle_menu_item);
 	g_object_unref(normal_size_menu_item);
 	g_object_unref(double_size_menu_item);
 	g_object_unref(half_size_menu_item);
