@@ -74,8 +74,6 @@ void menu_build_full(	GMenu *menu,
 	GMenuItem *open_loc_menu_item;
 	GMenuItem *save_playlist_menu_item;
 	GMenuItem *edit_menu_item;
-	GMenuItem *load_audio_menu_item;
-	GMenuItem *load_sub_menu_item;
 	GMenuItem *pref_menu_item;
 	GMenuItem *view_menu_item;
 	GMenuItem *playlist_menu_item;
@@ -108,14 +106,6 @@ void menu_build_full(	GMenu *menu,
 	edit_menu_item
 		= g_menu_item_new_submenu
 			(_("_Edit"), G_MENU_MODEL(edit_menu));
-
-	load_audio_menu_item
-		= g_menu_item_new
-			(_("_Load External..."), "app.load_track('audio-add')");
-
-	load_sub_menu_item
-		= g_menu_item_new
-			(_("_Load External..."), "app.load_track('sub-add')");
 
 	pref_menu_item
 		= g_menu_item_new(_("_Preferences"), "app.pref");
@@ -172,6 +162,16 @@ void menu_build_full(	GMenu *menu,
 	{
 		GMenu *audio_menu = g_menu_new();
 		GMenu *sub_menu = g_menu_new();
+		GMenuItem *load_audio_menu_item;
+		GMenuItem *load_sub_menu_item;
+
+		load_audio_menu_item
+			= g_menu_item_new(	_("_Load External..."),
+						"app.load_track('audio-add')" );
+
+		load_sub_menu_item
+			= g_menu_item_new(	_("_Load External..."),
+						"app.load_track('sub-add')" );
 
 		build_menu_from_track_list
 			(audio_menu, audio_list, "audio_select");
@@ -189,6 +189,9 @@ void menu_build_full(	GMenu *menu,
 
 		g_menu_append_item(audio_menu, load_audio_menu_item);
 		g_menu_append_item(sub_menu, load_sub_menu_item);
+
+		g_object_unref(load_audio_menu_item);
+		g_object_unref(load_sub_menu_item);
 	}
 
 	g_menu_append_item(menu, file_menu_item);
@@ -217,8 +220,6 @@ void menu_build_full(	GMenu *menu,
 	g_object_unref(quit_menu_item);
 	g_object_unref(edit_menu_item);
 	g_object_unref(pref_menu_item);
-	g_object_unref(load_audio_menu_item);
-	g_object_unref(load_sub_menu_item);
 	g_object_unref(view_menu_item);
 	g_object_unref(playlist_menu_item);
 	g_object_unref(fullscreen_menu_item);
