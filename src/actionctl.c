@@ -484,8 +484,12 @@ static void about_handler(	GSimpleAction *action,
 				VERSION,
 				"comments",
 				_("A GTK frontend for MPV"),
+				"website",
+				"https://github.com/gnome-mpv/gnome-mpv",
 				"license-type",
 				GTK_LICENSE_GPL_3_0,
+				"copyright",
+				"\u00A9 2014-2015 The GNOME MPV authors",
 				NULL );
 }
 
