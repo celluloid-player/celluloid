@@ -102,8 +102,8 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 	MainWindow *wnd = MAIN_WINDOW(widget);
 	GdkCursor *cursor;
 
-	cursor = gdk_cursor_new_for_display(	gdk_display_get_default(),
-						GDK_ARROW );
+	cursor = gdk_cursor_new_from_name(	gdk_display_get_default(),
+						"default" );
 
 	gdk_window_set_cursor
 		(gtk_widget_get_window(GTK_WIDGET(wnd->vid_area)), cursor);
