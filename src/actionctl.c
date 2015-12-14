@@ -66,12 +66,9 @@ static void pref_handler(	GSimpleAction *action,
 static void quit_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-static void audio_select_handler(	GSimpleAction *action,
+static void track_select_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
-static void sub_select_handler(	GSimpleAction *action,
-				GVariant *param,
-				gpointer data );
 static void load_track_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
@@ -356,63 +353,43 @@ static void quit_handler(	GSimpleAction *action,
 	quit(data);
 }
 
-static void audio_select_handler(	GSimpleAction *action,
+static void track_select_handler(	GSimpleAction *action,
 					GVariant *value,
 					gpointer data )
 {
 	gmpv_handle *ctx = data;
 	gint64 id;
+	gchar *name;
+	const gchar *mpv_prop;
 
+	g_object_get(action, "name", &name, NULL);
 	g_variant_get(value, "x", &id);
 	g_simple_action_set_state(action, value);
 
-	if(id >= 0)
+	if(g_strcmp0(name, "audio_select") == 0)
 	{
-		mpv_set_property(ctx->mpv_ctx, "aid", MPV_FORMAT_INT64, &id);
+		mpv_prop = "aid";
+	}
+	else if(g_strcmp0(name, "video_select") == 0)
+	{
+		mpv_prop = "vid";
+	}
+	else if(g_strcmp0(name, "sub_select") == 0)
+	{
+		mpv_prop = "sid";
 	}
 	else
 	{
-		mpv_set_property_string(ctx->mpv_ctx, "aid", "no");
+		g_assert_not_reached();
 	}
-}
-
-static void video_select_handler(	GSimpleAction *action,
-					GVariant *value,
-					gpointer data )
-{
-	gmpv_handle *ctx = data;
-	gint64 id;
-
-	g_variant_get(value, "x", &id);
-	g_simple_action_set_state(action, value);
 
 	if(id >= 0)
 	{
-		mpv_set_property(ctx->mpv_ctx, "vid", MPV_FORMAT_INT64, &id);
+		mpv_set_property(ctx->mpv_ctx, mpv_prop, MPV_FORMAT_INT64, &id);
 	}
 	else
 	{
-		mpv_set_property_string(ctx->mpv_ctx, "vid", "no");
-	}
-}
-
-static void sub_select_handler(	GSimpleAction *action,
-				GVariant *value,
-				gpointer data )
-{
-	gmpv_handle *ctx = data;
-	gint64 id;
-
-	g_variant_get(value, "x", &id);
-	g_simple_action_set_state(action, value);
-
-	if(id >= 0)
-	{
-		mpv_set_property(ctx->mpv_ctx, "sid", MPV_FORMAT_INT64, &id);
-	}
-	else
-	{
-		mpv_set_property_string(ctx->mpv_ctx, "sid", "no");
+		mpv_set_property_string(ctx->mpv_ctx, mpv_prop, "no");
 	}
 }
 
@@ -597,15 +574,15 @@ void actionctl_map_actions(gmpv_handle *ctx)
 		{.name = "playlist_save",
 		.activate = playlist_save_handler},
 		{.name = "audio_select",
-		.change_state = audio_select_handler,
+		.change_state = track_select_handler,
 		.state = "@x 1",
 		.parameter_type = "x"},
 		{.name = "video_select",
-		.change_state = video_select_handler,
+		.change_state = track_select_handler,
 		.state = "@x 1",
 		.parameter_type = "x"},
 		{.name = "sub_select",
-		.change_state = sub_select_handler,
+		.change_state = track_select_handler,
 		.state = "@x 1",
 		.parameter_type = "x"},
 		{.name = "load_track",
