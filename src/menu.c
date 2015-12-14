@@ -31,11 +31,16 @@ void build_menu_from_track_list(	GMenu *menu,
 					const gchar *action )
 {
 	const GSList *iter = list;
+	gchar *detailed_action;
+
+	detailed_action = g_strdup_printf("app.%s(@x -1)", action);
+
+	g_menu_append(menu, _("None"), detailed_action);
+	g_free(detailed_action);
 
 	while(iter)
 	{
 		Track *entry;
-		gchar *detailed_action;
 		gchar *title;
 
 		entry = iter->data;

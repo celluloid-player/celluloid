@@ -366,7 +366,14 @@ static void audio_select_handler(	GSimpleAction *action,
 	g_variant_get(value, "x", &id);
 	g_simple_action_set_state(action, value);
 
-	mpv_set_property(ctx->mpv_ctx, "aid", MPV_FORMAT_INT64, &id);
+	if(id >= 0)
+	{
+		mpv_set_property(ctx->mpv_ctx, "aid", MPV_FORMAT_INT64, &id);
+	}
+	else
+	{
+		mpv_set_property_string(ctx->mpv_ctx, "aid", "no");
+	}
 }
 
 static void video_select_handler(	GSimpleAction *action,
@@ -379,7 +386,14 @@ static void video_select_handler(	GSimpleAction *action,
 	g_variant_get(value, "x", &id);
 	g_simple_action_set_state(action, value);
 
-	mpv_set_property(ctx->mpv_ctx, "vid", MPV_FORMAT_INT64, &id);
+	if(id >= 0)
+	{
+		mpv_set_property(ctx->mpv_ctx, "vid", MPV_FORMAT_INT64, &id);
+	}
+	else
+	{
+		mpv_set_property_string(ctx->mpv_ctx, "vid", "no");
+	}
 }
 
 static void sub_select_handler(	GSimpleAction *action,
@@ -392,7 +406,14 @@ static void sub_select_handler(	GSimpleAction *action,
 	g_variant_get(value, "x", &id);
 	g_simple_action_set_state(action, value);
 
-	mpv_set_property(ctx->mpv_ctx, "sub", MPV_FORMAT_INT64, &id);
+	if(id >= 0)
+	{
+		mpv_set_property(ctx->mpv_ctx, "sid", MPV_FORMAT_INT64, &id);
+	}
+	else
+	{
+		mpv_set_property_string(ctx->mpv_ctx, "sid", "no");
+	}
 }
 
 static void load_track_handler(	GSimpleAction *action,

@@ -770,8 +770,8 @@ void mpv_load_gui_update(gmpv_handle *ctx)
 		GSList *video_list = NULL;
 		GSList *sub_list = NULL;
 		GAction *action = NULL;
-		gint64 aid;
-		gint64 sid;
+		gint64 aid = -1;
+		gint64 sid = -1;
 
 		mpv_get_property(	ctx->mpv_ctx,
 					"aid",
