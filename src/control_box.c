@@ -121,6 +121,7 @@ static void control_box_init(ControlBox *box)
 			GTK_STYLE_CLASS_BACKGROUND );
 
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
+	gtk_widget_set_sensitive(box->volume_button, FALSE);
 
 	g_object_set(box->play_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->stop_button, "relief", GTK_RELIEF_NONE, NULL);
