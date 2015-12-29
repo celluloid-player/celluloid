@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 
 #include "open_loc_dialog.h"
+#include "main_window.h"
 
 struct _OpenLocDialog
 {
@@ -91,7 +92,11 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 	gtk_window_set_modal(GTK_WINDOW(dlg), 1);
 	gtk_window_set_title(GTK_WINDOW(dlg), _("Open Location"));
 	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 12);
-	gtk_widget_set_margin_bottom(dlg->content_box, 6);
+
+	if(!gtk_dialog_get_header_bar(GTK_DIALOG(dlg)))
+	{
+		gtk_widget_set_margin_bottom(dlg->content_box, 6);
+	}
 
 	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
 					GTK_WIDGET(dlg),
@@ -111,11 +116,40 @@ static void open_loc_dialog_init(OpenLocDialog *dlg)
 				TRUE,
 				TRUE,
 				0 );
+
+	gtk_window_set_default_size(GTK_WINDOW(dlg), 350, -1);
+	gtk_dialog_set_default_response (GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
 }
 
 GtkWidget *open_loc_dialog_new(GtkWindow *parent)
 {
-	GtkWidget *dlg = g_object_new(open_loc_dialog_get_type(), NULL);
+	GtkWidget *dlg;
+	GtkWidget *header_bar;
+	gboolean csd_enabled;
+
+	csd_enabled = main_window_get_csd_enabled(MAIN_WINDOW(parent));
+
+	dlg = g_object_new(	open_loc_dialog_get_type(),
+				"use-header-bar", csd_enabled,
+				NULL );
+
+	header_bar = gtk_dialog_get_header_bar(GTK_DIALOG(dlg));
+
+	if(header_bar)
+	{
+		GtkWidget *cancel_btn = gtk_dialog_get_widget_for_response
+					(GTK_DIALOG(dlg), GTK_RESPONSE_REJECT);
+
+		gtk_container_child_set(	GTK_CONTAINER(header_bar),
+						cancel_btn,
+						"pack-type",
+						GTK_PACK_START,
+						NULL );
+
+		gtk_header_bar_set_show_close_button
+			(GTK_HEADER_BAR(header_bar), FALSE);
+
+	}
 
 	gtk_widget_hide_on_delete(dlg);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
