@@ -165,9 +165,13 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_margin_top(mpv_conf_group_label, 12);
 	gtk_widget_set_margin_top(mpv_input_group_label, 12);
 	gtk_widget_set_margin_top(misc_group_label, 12);
-	gtk_widget_set_margin_bottom(dlg->grid, 6);
 	gtk_grid_set_row_spacing(GTK_GRID(dlg->grid), 6);
 	gtk_grid_set_column_spacing(GTK_GRID(dlg->grid), 12);
+
+	if(!gtk_dialog_get_header_bar(GTK_DIALOG(dlg)))
+	{
+		gtk_widget_set_margin_bottom(dlg->grid, 6);
+	}
 
 	gtk_widget_set_halign(mpv_conf_label, GTK_ALIGN_START);
 	gtk_widget_set_halign(mpv_input_label, GTK_ALIGN_START);
