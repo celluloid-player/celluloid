@@ -2,6 +2,9 @@ gsettings_SCHEMAS = org.gnome-mpv.gschema.xml
 
 @GSETTINGS_RULES@
 
+appdatadir = $(datadir)/appdata
+appdata_DATA = gnome-mpv.appdata.xml
+
 desktopdir = $(datadir)/applications
 desktop_DATA = gnome-mpv.desktop
 
