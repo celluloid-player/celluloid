@@ -110,6 +110,12 @@ has to be loaded via the preferences dialog under the "Keybindings" section. In
 case of conflict with default keybindings, keybindings defined in external file
 will be given priority.
 
+## Contributing Translations
+
+GNOME MPV uses [Zanata](https://zanata.org) to coordinate
+translations. You can find GNOME MPV's page [here](https://translate.zanata.org/zanata/iteration/view/gnome-mpv/master).
+If you'd like to add a new language, open an issue on GitHub.
+
 ## License
 
 GNOME MPV is free software: you can redistribute it and/or modify
