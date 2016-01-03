@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -189,7 +189,7 @@ void menu_build_full(	GMenu *menu,
 					G_MENU_MODEL(audio_menu) );
 
 		g_menu_append_submenu(	edit_menu,
-					_("_Subtitle Track"),
+					_("S_ubtitle Track"),
 					G_MENU_MODEL(sub_menu) );
 
 		g_menu_append_item(audio_menu, load_audio_menu_item);
@@ -291,7 +291,8 @@ void menu_build_menu_btn(	GMenu *menu,
 		GMenuItem *video_menu_item;
 
 		video_menu_item = g_menu_item_new_submenu
-					(_("Video Track"), G_MENU_MODEL(video));
+					(	_("_Video Track"),
+						G_MENU_MODEL(video) );
 
 		build_menu_from_track_list(video, video_list, "video_select");
 		g_menu_append_item(track, video_menu_item);
@@ -309,11 +310,11 @@ void menu_build_menu_btn(	GMenu *menu,
 
 		audio_menu_item
 			= g_menu_item_new_submenu
-				(_("Audio Track"), G_MENU_MODEL(audio));
+				(_("_Audio Track"), G_MENU_MODEL(audio));
 
 		subtitle_menu_item
 			= g_menu_item_new_submenu
-				(_("Subtitle Track"), G_MENU_MODEL(subtitle));
+				(_("S_ubtitle Track"), G_MENU_MODEL(subtitle));
 
 		build_menu_from_track_list(audio, audio_list, "audio_select");
 		build_menu_from_track_list(subtitle, sub_list, "sub_select");
