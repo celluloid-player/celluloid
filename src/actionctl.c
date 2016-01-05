@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -487,7 +487,7 @@ static void about_handler(	GSimpleAction *action,
 				"license-type",
 				GTK_LICENSE_GPL_3_0,
 				"copyright",
-				"\u00A9 2014-2015 The GNOME MPV authors",
+				"\u00A9 2014-2016 The GNOME MPV authors",
 				NULL );
 }
 
