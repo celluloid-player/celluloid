@@ -4,35 +4,35 @@
 # This file is distributed under the same license as the gnome-mpv package.
 # sun <warmsun0220@gmail.com>, 2015.
 # Mingye Wang <arthur2e5@aosc.xyz>, 2015.
-#
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 21:24+0800\n"
-"PO-Revision-Date: 2015-11-22 15:58-0500\n"
+"PO-Revision-Date: 2015-11-22 03:58-0500\n"
 "Last-Translator: Mingye Wang (Arthur2e5) <arthur200126@gmail.com>\n"
 "Language-Team: zh_Hant <chinese-l10n@googlegroups.com>\n"
-"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"Language: zh-TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Zanata 3.7.3\n"
 
-#: ../src/main.c:526 ../src/common.c:442
+#: ../src/main.c:525 ../src/menu.c:116
 msgid "_Preferences"
 msgstr "偏好設定(_P)"
 
-#: ../src/main.c:527 ../src/common.c:473
+#: ../src/main.c:526 ../src/menu.c:147
 msgid "_About"
 msgstr "關於(_A)"
 
-#: ../src/main.c:528 ../src/common.c:423
+#: ../src/main.c:527 ../src/menu.c:100
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: ../src/main.c:553
+#: ../src/main.c:552
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -42,25 +42,91 @@ msgid ""
 "Preferences is now stored using GSettings. Your preferences have been "
 "migrated from the configuration file. A backup copy of the configuration "
 "file can be found at \"%s\"."
+msgstr "現在本軟體使用 GSettings 儲存偏好設定。您的偏好設定已從配置檔中遷移到 GSettings 中，配置檔的副本被儲存在「%s」。"
+
+#: ../src/menu.c:38
+msgid "None"
 msgstr ""
-"現在本軟體使用 GSettings 儲存偏好設定。您的偏好設定已從配置檔中遷移到 "
-"GSettings 中，配置檔的副本被儲存在「%s」。"
 
-#: ../src/open_loc_dialog.c:76
-msgid "Location:"
-msgstr "位置："
+#: ../src/menu.c:55
+msgid "Unknown"
+msgstr ""
 
-#: ../src/open_loc_dialog.c:80 ../src/main_window.c:313 ../src/actionctl.c:111
-#: ../src/actionctl.c:367 ../src/common.c:422
+#: ../src/menu.c:97
+msgid "_File"
+msgstr "檔案(_F)"
+
+#: ../src/menu.c:99 ../src/menu.c:368 ../src/open_loc_dialog.c:81
+#: ../src/actionctl.c:114 ../src/actionctl.c:413
 msgid "_Open"
 msgstr "開啟(_O)"
 
-#: ../src/open_loc_dialog.c:82 ../src/pref_dialog.c:274 ../src/actionctl.c:109
-#: ../src/actionctl.c:365 ../src/playlist.c:60
+#: ../src/menu.c:103 ../src/menu.c:371
+msgid "Open _Location"
+msgstr "開啟位置(_L)"
+
+#: ../src/menu.c:106 ../src/menu.c:274
+msgid "_Save Playlist"
+msgstr "儲存播放列表(_S)"
+
+#: ../src/menu.c:113
+msgid "_Edit"
+msgstr "編輯(_E)"
+
+#: ../src/menu.c:123
+msgid "_View"
+msgstr "檢視(_V)"
+
+#: ../src/menu.c:126 ../src/menu.c:270
+msgid "_Toggle Playlist"
+msgstr "切換播放列表(_T)"
+
+#: ../src/menu.c:129
+msgid "_Fullscreen"
+msgstr "全屏(_F)"
+
+#: ../src/menu.c:132 ../src/menu.c:278
+msgid "_Normal Size"
+msgstr "正常尺寸(_N)"
+
+#: ../src/menu.c:135 ../src/menu.c:282
+msgid "_Double Size"
+msgstr "兩倍尺寸(_D)"
+
+#: ../src/menu.c:138 ../src/menu.c:286
+msgid "_Half Size"
+msgstr "一半尺寸(_H)"
+
+#: ../src/menu.c:145
+msgid "_Help"
+msgstr "幫助(_F)"
+
+#: ../src/menu.c:157 ../src/menu.c:294
+msgid "_Video Track"
+msgstr ""
+
+#: ../src/menu.c:174 ../src/menu.c:178 ../src/menu.c:324 ../src/menu.c:329
+msgid "_Load External..."
+msgstr ""
+
+#: ../src/menu.c:188 ../src/menu.c:313
+msgid "_Audio Track"
+msgstr ""
+
+#: ../src/menu.c:192 ../src/menu.c:317
+msgid "S_ubtitle Track"
+msgstr ""
+
+#: ../src/open_loc_dialog.c:77
+msgid "Location:"
+msgstr "位置："
+
+#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:278 ../src/actionctl.c:112
+#: ../src/actionctl.c:411 ../src/playlist.c:60
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: ../src/open_loc_dialog.c:92
+#: ../src/open_loc_dialog.c:93
 msgid "Open Location"
 msgstr "開啟位置"
 
@@ -136,86 +202,38 @@ msgstr "載入 MPV 配置檔"
 msgid "Load MPV input configuration file"
 msgstr "載入 MPV 輸入配置檔"
 
-#: ../src/pref_dialog.c:276 ../src/playlist.c:62
+#: ../src/pref_dialog.c:280 ../src/playlist.c:62
 msgid "_Save"
 msgstr "儲存(_S)"
 
-#: ../src/pref_dialog.c:292
+#: ../src/pref_dialog.c:296
 msgid "Preferences"
 msgstr "偏好設定"
 
-#: ../src/main_window.c:273 ../src/common.c:452
-msgid "_Toggle Playlist"
-msgstr "切換播放列表(_T)"
-
-#: ../src/main_window.c:276 ../src/common.c:429
-msgid "_Save Playlist"
-msgstr "儲存播放列表(_S)"
-
-#: ../src/main_window.c:279 ../src/common.c:439
-msgid "_Load Subtitle"
-msgstr "載入字幕(_L)"
-
-#: ../src/main_window.c:282 ../src/common.c:458
-msgid "_Normal Size"
-msgstr "正常尺寸(_N)"
-
-#: ../src/main_window.c:285 ../src/common.c:461
-msgid "_Double Size"
-msgstr "兩倍尺寸(_D)"
-
-#: ../src/main_window.c:288 ../src/common.c:464
-msgid "_Half Size"
-msgstr "一半尺寸(_H)"
-
-#: ../src/main_window.c:316 ../src/common.c:426
-msgid "Open _Location"
-msgstr "開啟位置(_L)"
-
-#: ../src/actionctl.c:105
+#: ../src/actionctl.c:108
 msgid "Add File to Playlist"
 msgstr "新增檔案到播放列表"
 
-#: ../src/actionctl.c:106
+#: ../src/actionctl.c:109
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: ../src/actionctl.c:250
+#: ../src/actionctl.c:253
 #, c-format
 msgid ""
-"Enabling or disabling client-side decorations requires restarting %s to take "
-"effect."
+"Enabling or disabling client-side decorations requires restarting %s to take"
+" effect."
 msgstr "啟用或禁用客戶端裝飾需要重啟 %s 生效。"
 
-#: ../src/actionctl.c:362
-msgid "Load Subtitle"
-msgstr "載入字幕"
+#: ../src/actionctl.c:408
+msgid "Load External..."
+msgstr ""
 
-#: ../src/actionctl.c:436
+#: ../src/actionctl.c:484
 msgid "A GTK frontend for MPV"
 msgstr "MPV 的 GTK 前端程式"
 
-#: ../src/common.c:420
-msgid "_File"
-msgstr "檔案(_F)"
-
-#: ../src/common.c:436
-msgid "_Edit"
-msgstr "編輯(_E)"
-
-#: ../src/common.c:449
-msgid "_View"
-msgstr "檢視(_V)"
-
-#: ../src/common.c:455
-msgid "_Fullscreen"
-msgstr "全屏(_F)"
-
-#: ../src/common.c:471
-msgid "_Help"
-msgstr "幫助(_F)"
-
-#: ../src/common.c:509
+#: ../src/common.c:401
 msgid ""
 "Keybindings that require Property Expansion are not supported and have been "
 "ignored."

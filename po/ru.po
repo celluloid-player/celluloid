@@ -1,35 +1,30 @@
-# German (de_DE) translations for gnome-mpv package.
-# gnome-mpv
-# Copyright (C) 2015 THE gnome-mpv'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the gnone-mpv package.
-# Vincent Bermel <willovince@openmailbox.org>, 2015.
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
+# Maxim Orlov <murmansksity@gmail.com>, 2016. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mpv 0.6\n"
+"Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-23 10:58-0500\n"
-"PO-Revision-Date: 2015-10-26 07:55-0400\n"
-"Last-Translator: Vincent Bermel <willovince@openmailbox.org>\n"
-"Language-Team: German Translations\n"
+"POT-Creation-Date: 2016-01-04 00:00+0700\n"
+"PO-Revision-Date: 2016-01-06 03:25-0500\n"
+"Last-Translator: Maxim Orlov <murmansksity@gmail.com>\n"
+"Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de-DE\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "X-Generator: Zanata 3.7.3\n"
 
 #: ../src/main.c:525 ../src/menu.c:116
 msgid "_Preferences"
-msgstr "_Einstellungen"
+msgstr "_Настройки"
 
 #: ../src/main.c:526 ../src/menu.c:147
 msgid "_About"
-msgstr "_Info"
+msgstr "_О программе"
 
 #: ../src/main.c:527 ../src/menu.c:100
 msgid "_Quit"
-msgstr "_Beenden"
+msgstr "_Выйти"
 
 #: ../src/main.c:552
 msgid "GNOME MPV"
@@ -42,206 +37,208 @@ msgid ""
 "migrated from the configuration file. A backup copy of the configuration "
 "file can be found at \"%s\"."
 msgstr ""
-"Die Benutzereinstellungen werden fortan von GSettings verwaltet. Ihre "
-"Einstellungen wurden aus der Konfigurationsdatei übernommen. Eine "
-"Sicherheitskopie dieser Datei befindet sich unter \"%s\"."
+"Параметры настроек теперь хранятся посредством GSettings, которые были "
+"перенесены из файла конфигурации. Резервную копию файла конфигурации можно "
+"найти в \"%s\"."
 
 #: ../src/menu.c:38
 msgid "None"
-msgstr ""
+msgstr "Ничего"
 
 #: ../src/menu.c:55
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестный"
 
 #: ../src/menu.c:97
 msgid "_File"
-msgstr "_Datei"
+msgstr "_Файл"
 
 #: ../src/menu.c:99 ../src/menu.c:368 ../src/open_loc_dialog.c:81
 #: ../src/actionctl.c:114 ../src/actionctl.c:413
 msgid "_Open"
-msgstr "Ö_ffnen"
+msgstr "_Открыть"
 
 #: ../src/menu.c:103 ../src/menu.c:371
 msgid "Open _Location"
-msgstr "_Adresse öffnen"
+msgstr "Открыть _адрес"
 
 #: ../src/menu.c:106 ../src/menu.c:274
 msgid "_Save Playlist"
-msgstr "Wiedergabeliste _speichern"
+msgstr "_Сохранить список воспроизведения"
 
 #: ../src/menu.c:113
 msgid "_Edit"
-msgstr "_Bearbeiten"
+msgstr "_Правка"
 
 #: ../src/menu.c:123
 msgid "_View"
-msgstr "_Ansicht"
+msgstr "_Вид"
 
 #: ../src/menu.c:126 ../src/menu.c:270
 msgid "_Toggle Playlist"
-msgstr "_Wiedergabeliste ein/aus"
+msgstr "_Показать/Скрыть список воспроизведения"
 
 #: ../src/menu.c:129
 msgid "_Fullscreen"
-msgstr "_Vollbild"
+msgstr "_Полноэкранный режим"
 
 #: ../src/menu.c:132 ../src/menu.c:278
 msgid "_Normal Size"
-msgstr "_Normale Videogröße"
+msgstr "_Нормальный размер"
 
 #: ../src/menu.c:135 ../src/menu.c:282
 msgid "_Double Size"
-msgstr "_Doppelte Videogröße"
+msgstr "_Двойной размер"
 
 #: ../src/menu.c:138 ../src/menu.c:286
 msgid "_Half Size"
-msgstr "_Halbe Videogröße"
+msgstr "_Половинный размер"
 
 #: ../src/menu.c:145
 msgid "_Help"
-msgstr "_Hilfe"
+msgstr "_Справка"
 
 #: ../src/menu.c:157 ../src/menu.c:294
 msgid "_Video Track"
-msgstr ""
+msgstr "_Видео дорожка"
 
 #: ../src/menu.c:174 ../src/menu.c:178 ../src/menu.c:324 ../src/menu.c:329
 msgid "_Load External..."
-msgstr ""
+msgstr "_Загрузить внешние ..."
 
 #: ../src/menu.c:188 ../src/menu.c:313
 msgid "_Audio Track"
-msgstr ""
+msgstr "_Звуковая дорожка "
 
 #: ../src/menu.c:192 ../src/menu.c:317
 msgid "S_ubtitle Track"
-msgstr ""
+msgstr "С_убтитры"
 
 #: ../src/open_loc_dialog.c:77
 msgid "Location:"
-msgstr "Adresse:"
+msgstr "Адрес:"
 
 #: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:278 ../src/actionctl.c:112
 #: ../src/actionctl.c:411 ../src/playlist.c:60
 msgid "_Cancel"
-msgstr "_Abbrechen"
+msgstr "_Отмена"
 
 #: ../src/open_loc_dialog.c:93
 msgid "Open Location"
-msgstr "Adresse öffnen"
+msgstr "Открыть адрес"
 
 #: ../src/playlist_widget.c:44
 msgid "_Add..."
-msgstr "_Hinzufügen"
+msgstr "_Добавить..."
 
 #: ../src/playlist_widget.c:45
 msgid "Loop"
-msgstr "Wiederholen"
+msgstr "Повторить"
 
 #: ../src/playlist_widget.c:90
 msgid "Playlist"
-msgstr "Wiedergabeliste"
+msgstr "Список воспроизведения"
 
 #: ../src/pref_dialog.c:108
 msgid "MPV configuration file:"
-msgstr "MPV-Konfigurationsdatei"
+msgstr "Файл конфигурации MPV:"
 
 #: ../src/pref_dialog.c:109
 msgid "MPV input configuration file:"
-msgstr "Datei mit MPV-Tastenbelegungen"
+msgstr "Файл конфигурации ввода MPV:"
 
 #: ../src/pref_dialog.c:110
 msgid "Extra MPV options:"
-msgstr "Weitere Optionen für MPV"
+msgstr "Дополнительные опции MPV:"
 
 #: ../src/pref_dialog.c:111
 msgid "<b>General</b>"
-msgstr "<b>Allgemein</b>"
+msgstr "<b>Общие</b>"
 
 #: ../src/pref_dialog.c:112
 msgid "<b>MPV Configuration</b>"
-msgstr "<b>MPV-Einstellungen</b>"
+msgstr "<b>Конфигурация MPV</b>"
 
 #: ../src/pref_dialog.c:113
 msgid "<b>Keybindings</b>"
-msgstr "<b>Tastenbelegungen</b>"
+msgstr "<b>Комбинации клавиш</b>"
 
 #: ../src/pref_dialog.c:114
 msgid "<b>Miscellaneous</b>"
-msgstr "<b>Sonstiges</b>"
+msgstr "<b>Разное</b>"
 
 #: ../src/pref_dialog.c:129
 msgid "Enable client-side decorations"
-msgstr "Kombinierte Titel-/Menüleiste (CSD)"
+msgstr "Включить CSD"
 
 #: ../src/pref_dialog.c:133
 msgid "Enable dark theme"
-msgstr "Dunkles Thema verwenden"
+msgstr "Использовать темный вариант темы"
 
 #: ../src/pref_dialog.c:137
 msgid "Redirect MPV log messages to console"
-msgstr "MPV-Log-Benachrichtigungen an die Konsole weiterleiten"
+msgstr "Перенаправить выхлоп MPV в консоль"
 
 #: ../src/pref_dialog.c:140
 msgid "Remember last file's location"
-msgstr "Speicherort der zuletzt gespielten Datei merken"
+msgstr "Запомнить последнее расположение файла"
 
 #: ../src/pref_dialog.c:144
 msgid "MPV configuration file"
-msgstr "MPV-Konfigurationsdatei"
+msgstr "Файл конфигурации MPV"
 
 #: ../src/pref_dialog.c:149
 msgid "MPV input configuration file"
-msgstr "Datei mit MPV-Tastenbelegungen"
+msgstr "Файл конфигурации ввода MPV"
 
 #: ../src/pref_dialog.c:154
 msgid "Load MPV configuration file"
-msgstr "MPV-Konfiguration aus Datei laden"
+msgstr "Загрузить файл конфигурации MPV"
 
 #: ../src/pref_dialog.c:158
 msgid "Load MPV input configuration file"
-msgstr "MPV-Tastenbelegung aus Datei laden"
+msgstr "Загрузить файл конфигурации ввода MPV"
 
 #: ../src/pref_dialog.c:280 ../src/playlist.c:62
 msgid "_Save"
-msgstr "_Speichern"
+msgstr "_Сохранить"
 
 #: ../src/pref_dialog.c:296
 msgid "Preferences"
-msgstr "Einstellungen"
+msgstr "Настройки"
 
 #: ../src/actionctl.c:108
 msgid "Add File to Playlist"
-msgstr "Datei zur _Wiedergabeliste hinzufügen"
+msgstr "Добавить файл в список воспроизведения"
 
 #: ../src/actionctl.c:109
 msgid "Open File"
-msgstr "Datei öffnen"
+msgstr "Открыть файл"
 
 #: ../src/actionctl.c:253
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
 " effect."
-msgstr "Die Änderungen erfordern einen Neustart von %s."
+msgstr ""
+"Чтобы изменения вступили в силу, необходимо перезапустить приложение %s."
 
 #: ../src/actionctl.c:408
 msgid "Load External..."
-msgstr ""
+msgstr "Загрузить внешние ..."
 
 #: ../src/actionctl.c:484
 msgid "A GTK frontend for MPV"
-msgstr "Eine GTK-Oberfläche für MPV"
+msgstr "GTK интерфейс для MPV"
 
 #: ../src/common.c:401
 msgid ""
 "Keybindings that require Property Expansion are not supported and have been "
 "ignored."
 msgstr ""
-"Tastenbelegungen, die Property Expansion benötigen werden nicht unterstützt."
+"Комбинации клавиш, которым требуется расширенные возможности не "
+"поддерживаются и были проигнорированы."
 
 #: ../src/playlist.c:57
 msgid "Save Playlist"
-msgstr "Wiedergabeliste speichern"
+msgstr "Сохранить список воспроизведения"
