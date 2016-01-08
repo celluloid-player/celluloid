@@ -4,6 +4,7 @@
 # This file is distributed under the same license as the gnone-mpv package.
 # Vincent Bermel <willovince@openmailbox.org>, 2015.
 # gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
@@ -18,6 +19,50 @@ msgstr ""
 "Language: de-DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 3.7.3\n"
+
+#: ../src/actionctl.c:108
+msgid "Add File to Playlist"
+msgstr "Datei zur _Wiedergabeliste hinzufügen"
+
+#: ../src/actionctl.c:109
+msgid "Open File"
+msgstr "Datei öffnen"
+
+#: ../src/actionctl.c:112 ../src/actionctl.c:411 ../src/open_loc_dialog.c:83
+#: ../src/playlist.c:60 ../src/pref_dialog.c:278
+msgid "_Cancel"
+msgstr "_Abbrechen"
+
+#: ../src/actionctl.c:114 ../src/actionctl.c:413 ../src/menu.c:99
+#: ../src/menu.c:368 ../src/open_loc_dialog.c:81
+msgid "_Open"
+msgstr "Ö_ffnen"
+
+#: ../src/actionctl.c:253
+#, c-format
+msgid ""
+"Enabling or disabling client-side decorations requires restarting %s to take"
+" effect."
+msgstr "Die Änderungen erfordern einen Neustart von %s."
+
+#: ../src/actionctl.c:408
+msgid "Load External..."
+msgstr ""
+
+#: ../src/actionctl.c:484
+msgid "A GTK frontend for MPV"
+msgstr "Eine GTK-Oberfläche für MPV"
+
+#: ../src/common.c:236
+msgid "Error"
+msgstr ""
+
+#: ../src/common.c:401
+msgid ""
+"Keybindings that require Property Expansion are not supported and have been "
+"ignored."
+msgstr ""
+"Tastenbelegungen, die Property Expansion benötigen werden nicht unterstützt."
 
 #: ../src/main.c:525 ../src/menu.c:116
 msgid "_Preferences"
@@ -57,11 +102,6 @@ msgstr ""
 #: ../src/menu.c:97
 msgid "_File"
 msgstr "_Datei"
-
-#: ../src/menu.c:99 ../src/menu.c:368 ../src/open_loc_dialog.c:81
-#: ../src/actionctl.c:114 ../src/actionctl.c:413
-msgid "_Open"
-msgstr "Ö_ffnen"
 
 #: ../src/menu.c:103 ../src/menu.c:371
 msgid "Open _Location"
@@ -119,18 +159,29 @@ msgstr ""
 msgid "S_ubtitle Track"
 msgstr ""
 
+#: ../src/mpv.c:304
+msgid "Playing"
+msgstr ""
+
+#: ../src/mpv.c:1075
+msgid "Failed to apply one or more MPV options."
+msgstr ""
+
 #: ../src/open_loc_dialog.c:77
 msgid "Location:"
 msgstr "Adresse:"
 
-#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:278 ../src/actionctl.c:112
-#: ../src/actionctl.c:411 ../src/playlist.c:60
-msgid "_Cancel"
-msgstr "_Abbrechen"
-
 #: ../src/open_loc_dialog.c:93
 msgid "Open Location"
 msgstr "Adresse öffnen"
+
+#: ../src/playlist.c:57
+msgid "Save Playlist"
+msgstr "Wiedergabeliste speichern"
+
+#: ../src/playlist.c:62 ../src/pref_dialog.c:280
+msgid "_Save"
+msgstr "_Speichern"
 
 #: ../src/playlist_widget.c:44
 msgid "_Add..."
@@ -204,44 +255,6 @@ msgstr "MPV-Konfiguration aus Datei laden"
 msgid "Load MPV input configuration file"
 msgstr "MPV-Tastenbelegung aus Datei laden"
 
-#: ../src/pref_dialog.c:280 ../src/playlist.c:62
-msgid "_Save"
-msgstr "_Speichern"
-
 #: ../src/pref_dialog.c:296
 msgid "Preferences"
 msgstr "Einstellungen"
-
-#: ../src/actionctl.c:108
-msgid "Add File to Playlist"
-msgstr "Datei zur _Wiedergabeliste hinzufügen"
-
-#: ../src/actionctl.c:109
-msgid "Open File"
-msgstr "Datei öffnen"
-
-#: ../src/actionctl.c:253
-#, c-format
-msgid ""
-"Enabling or disabling client-side decorations requires restarting %s to take"
-" effect."
-msgstr "Die Änderungen erfordern einen Neustart von %s."
-
-#: ../src/actionctl.c:408
-msgid "Load External..."
-msgstr ""
-
-#: ../src/actionctl.c:484
-msgid "A GTK frontend for MPV"
-msgstr "Eine GTK-Oberfläche für MPV"
-
-#: ../src/common.c:401
-msgid ""
-"Keybindings that require Property Expansion are not supported and have been "
-"ignored."
-msgstr ""
-"Tastenbelegungen, die Property Expansion benötigen werden nicht unterstützt."
-
-#: ../src/playlist.c:57
-msgid "Save Playlist"
-msgstr "Wiedergabeliste speichern"

@@ -4,6 +4,7 @@
 # This file is distributed under the same license as the gnome-mpv package.
 # Tista <tista.gma500@gmail.com>, 2015.
 # gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
@@ -18,6 +19,50 @@ msgstr ""
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Zanata 3.7.3\n"
+
+#: ../src/actionctl.c:108
+#, fuzzy
+msgid "Add File to Playlist"
+msgstr "_プレイリストの表示・非表示"
+
+#: ../src/actionctl.c:109
+msgid "Open File"
+msgstr "ファイルを開く"
+
+#: ../src/actionctl.c:112 ../src/actionctl.c:411 ../src/open_loc_dialog.c:83
+#: ../src/playlist.c:60 ../src/pref_dialog.c:278
+msgid "_Cancel"
+msgstr "キャンセル(_C)"
+
+#: ../src/actionctl.c:114 ../src/actionctl.c:413 ../src/menu.c:99
+#: ../src/menu.c:368 ../src/open_loc_dialog.c:81
+msgid "_Open"
+msgstr "開く(_O)"
+
+#: ../src/actionctl.c:253
+#, c-format
+msgid ""
+"Enabling or disabling client-side decorations requires restarting %s to take"
+" effect."
+msgstr "CSDの有効・無効は %s の再起動が必要です。"
+
+#: ../src/actionctl.c:408
+msgid "Load External..."
+msgstr ""
+
+#: ../src/actionctl.c:484
+msgid "A GTK frontend for MPV"
+msgstr "MPVのGTKフロントエンド"
+
+#: ../src/common.c:236
+msgid "Error"
+msgstr ""
+
+#: ../src/common.c:401
+msgid ""
+"Keybindings that require Property Expansion are not supported and have been "
+"ignored."
+msgstr "拡張キーバインドはサポートされず、無効化されます。"
 
 #: ../src/main.c:525 ../src/menu.c:116
 msgid "_Preferences"
@@ -54,11 +99,6 @@ msgstr ""
 #: ../src/menu.c:97
 msgid "_File"
 msgstr "ファイル(_F)"
-
-#: ../src/menu.c:99 ../src/menu.c:368 ../src/open_loc_dialog.c:81
-#: ../src/actionctl.c:114 ../src/actionctl.c:413
-msgid "_Open"
-msgstr "開く(_O)"
 
 #: ../src/menu.c:103 ../src/menu.c:371
 msgid "Open _Location"
@@ -116,18 +156,30 @@ msgstr ""
 msgid "S_ubtitle Track"
 msgstr ""
 
+#: ../src/mpv.c:304
+msgid "Playing"
+msgstr ""
+
+#: ../src/mpv.c:1075
+msgid "Failed to apply one or more MPV options."
+msgstr ""
+
 #: ../src/open_loc_dialog.c:77
 msgid "Location:"
 msgstr "場所:"
 
-#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:278 ../src/actionctl.c:112
-#: ../src/actionctl.c:411 ../src/playlist.c:60
-msgid "_Cancel"
-msgstr "キャンセル(_C)"
-
 #: ../src/open_loc_dialog.c:93
 msgid "Open Location"
 msgstr "場所を開く"
+
+#: ../src/playlist.c:57
+#, fuzzy
+msgid "Save Playlist"
+msgstr "_プレイリストの保存"
+
+#: ../src/playlist.c:62 ../src/pref_dialog.c:280
+msgid "_Save"
+msgstr "保存(_S)"
 
 #: ../src/playlist_widget.c:44
 msgid "_Add..."
@@ -201,45 +253,6 @@ msgstr "MPV設定ファイルをロードする"
 msgid "Load MPV input configuration file"
 msgstr "MPV入力設定ファイルをロードする"
 
-#: ../src/pref_dialog.c:280 ../src/playlist.c:62
-msgid "_Save"
-msgstr "保存(_S)"
-
 #: ../src/pref_dialog.c:296
 msgid "Preferences"
 msgstr "設定"
-
-#: ../src/actionctl.c:108
-#, fuzzy
-msgid "Add File to Playlist"
-msgstr "_プレイリストの表示・非表示"
-
-#: ../src/actionctl.c:109
-msgid "Open File"
-msgstr "ファイルを開く"
-
-#: ../src/actionctl.c:253
-#, c-format
-msgid ""
-"Enabling or disabling client-side decorations requires restarting %s to take"
-" effect."
-msgstr "CSDの有効・無効は %s の再起動が必要です。"
-
-#: ../src/actionctl.c:408
-msgid "Load External..."
-msgstr ""
-
-#: ../src/actionctl.c:484
-msgid "A GTK frontend for MPV"
-msgstr "MPVのGTKフロントエンド"
-
-#: ../src/common.c:401
-msgid ""
-"Keybindings that require Property Expansion are not supported and have been "
-"ignored."
-msgstr "拡張キーバインドはサポートされず、無効化されます。"
-
-#: ../src/playlist.c:57
-#, fuzzy
-msgid "Save Playlist"
-msgstr "_プレイリストの保存"

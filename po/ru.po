@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-04 00:00+0700\n"
-"PO-Revision-Date: 2016-01-06 03:25-0500\n"
+"PO-Revision-Date: 2016-01-08 05:04-0500\n"
 "Last-Translator: Maxim Orlov <murmansksity@gmail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,52 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "X-Generator: Zanata 3.7.3\n"
+
+#: ../src/actionctl.c:108
+msgid "Add File to Playlist"
+msgstr "Добавить файл в список воспроизведения"
+
+#: ../src/actionctl.c:109
+msgid "Open File"
+msgstr "Открыть файл"
+
+#: ../src/actionctl.c:112 ../src/actionctl.c:411 ../src/open_loc_dialog.c:83
+#: ../src/playlist.c:60 ../src/pref_dialog.c:278
+msgid "_Cancel"
+msgstr "_Отмена"
+
+#: ../src/actionctl.c:114 ../src/actionctl.c:413 ../src/menu.c:99
+#: ../src/menu.c:368 ../src/open_loc_dialog.c:81
+msgid "_Open"
+msgstr "_Открыть"
+
+#: ../src/actionctl.c:253
+#, c-format
+msgid ""
+"Enabling or disabling client-side decorations requires restarting %s to take"
+" effect."
+msgstr ""
+"Чтобы изменения вступили в силу, необходимо перезапустить приложение %s."
+
+#: ../src/actionctl.c:408
+msgid "Load External..."
+msgstr "Загрузить внешние ..."
+
+#: ../src/actionctl.c:484
+msgid "A GTK frontend for MPV"
+msgstr "GTK интерфейс для MPV"
+
+#: ../src/common.c:236
+msgid "Error"
+msgstr "Ошибка"
+
+#: ../src/common.c:401
+msgid ""
+"Keybindings that require Property Expansion are not supported and have been "
+"ignored."
+msgstr ""
+"Комбинации клавиш, которым требуется расширенные возможности не "
+"поддерживаются и были проигнорированы."
 
 #: ../src/main.c:525 ../src/menu.c:116
 msgid "_Preferences"
@@ -53,11 +99,6 @@ msgstr "Неизвестный"
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/menu.c:99 ../src/menu.c:368 ../src/open_loc_dialog.c:81
-#: ../src/actionctl.c:114 ../src/actionctl.c:413
-msgid "_Open"
-msgstr "_Открыть"
-
 #: ../src/menu.c:103 ../src/menu.c:371
 msgid "Open _Location"
 msgstr "Открыть _адрес"
@@ -76,7 +117,7 @@ msgstr "_Вид"
 
 #: ../src/menu.c:126 ../src/menu.c:270
 msgid "_Toggle Playlist"
-msgstr "_Показать/Скрыть список воспроизведения"
+msgstr "_Показать | Скрыть список воспроизведения"
 
 #: ../src/menu.c:129
 msgid "_Fullscreen"
@@ -114,18 +155,29 @@ msgstr "_Звуковая дорожка "
 msgid "S_ubtitle Track"
 msgstr "С_убтитры"
 
+#: ../src/mpv.c:304
+msgid "Playing"
+msgstr "Воспроизведение"
+
+#: ../src/mpv.c:1075
+msgid "Failed to apply one or more MPV options."
+msgstr "Не удалось применить одну или несколько опций MPV."
+
 #: ../src/open_loc_dialog.c:77
 msgid "Location:"
 msgstr "Адрес:"
 
-#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:278 ../src/actionctl.c:112
-#: ../src/actionctl.c:411 ../src/playlist.c:60
-msgid "_Cancel"
-msgstr "_Отмена"
-
 #: ../src/open_loc_dialog.c:93
 msgid "Open Location"
 msgstr "Открыть адрес"
+
+#: ../src/playlist.c:57
+msgid "Save Playlist"
+msgstr "Сохранить список воспроизведения"
+
+#: ../src/playlist.c:62 ../src/pref_dialog.c:280
+msgid "_Save"
+msgstr "_Сохранить"
 
 #: ../src/playlist_widget.c:44
 msgid "_Add..."
@@ -169,11 +221,11 @@ msgstr "<b>Разное</b>"
 
 #: ../src/pref_dialog.c:129
 msgid "Enable client-side decorations"
-msgstr "Включить CSD"
+msgstr "Включить | Отключить CSD"
 
 #: ../src/pref_dialog.c:133
 msgid "Enable dark theme"
-msgstr "Использовать темный вариант темы"
+msgstr "Использовать тёмный вариант темы"
 
 #: ../src/pref_dialog.c:137
 msgid "Redirect MPV log messages to console"
@@ -199,46 +251,6 @@ msgstr "Загрузить файл конфигурации MPV"
 msgid "Load MPV input configuration file"
 msgstr "Загрузить файл конфигурации ввода MPV"
 
-#: ../src/pref_dialog.c:280 ../src/playlist.c:62
-msgid "_Save"
-msgstr "_Сохранить"
-
 #: ../src/pref_dialog.c:296
 msgid "Preferences"
 msgstr "Настройки"
-
-#: ../src/actionctl.c:108
-msgid "Add File to Playlist"
-msgstr "Добавить файл в список воспроизведения"
-
-#: ../src/actionctl.c:109
-msgid "Open File"
-msgstr "Открыть файл"
-
-#: ../src/actionctl.c:253
-#, c-format
-msgid ""
-"Enabling or disabling client-side decorations requires restarting %s to take"
-" effect."
-msgstr ""
-"Чтобы изменения вступили в силу, необходимо перезапустить приложение %s."
-
-#: ../src/actionctl.c:408
-msgid "Load External..."
-msgstr "Загрузить внешние ..."
-
-#: ../src/actionctl.c:484
-msgid "A GTK frontend for MPV"
-msgstr "GTK интерфейс для MPV"
-
-#: ../src/common.c:401
-msgid ""
-"Keybindings that require Property Expansion are not supported and have been "
-"ignored."
-msgstr ""
-"Комбинации клавиш, которым требуется расширенные возможности не "
-"поддерживаются и были проигнорированы."
-
-#: ../src/playlist.c:57
-msgid "Save Playlist"
-msgstr "Сохранить список воспроизведения"

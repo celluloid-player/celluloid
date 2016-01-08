@@ -5,6 +5,7 @@
 # sun <warmsun0220@gmail.com>, 2015.
 # Mingye Wang <arthur2e5@aosc.xyz>, 2015.
 # gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
@@ -19,6 +20,49 @@ msgstr ""
 "Language: zh-TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Zanata 3.7.3\n"
+
+#: ../src/actionctl.c:108
+msgid "Add File to Playlist"
+msgstr "新增檔案到播放列表"
+
+#: ../src/actionctl.c:109
+msgid "Open File"
+msgstr "開啟檔案"
+
+#: ../src/actionctl.c:112 ../src/actionctl.c:411 ../src/open_loc_dialog.c:83
+#: ../src/playlist.c:60 ../src/pref_dialog.c:278
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: ../src/actionctl.c:114 ../src/actionctl.c:413 ../src/menu.c:99
+#: ../src/menu.c:368 ../src/open_loc_dialog.c:81
+msgid "_Open"
+msgstr "開啟(_O)"
+
+#: ../src/actionctl.c:253
+#, c-format
+msgid ""
+"Enabling or disabling client-side decorations requires restarting %s to take"
+" effect."
+msgstr "啟用或禁用客戶端裝飾需要重啟 %s 生效。"
+
+#: ../src/actionctl.c:408
+msgid "Load External..."
+msgstr ""
+
+#: ../src/actionctl.c:484
+msgid "A GTK frontend for MPV"
+msgstr "MPV 的 GTK 前端程式"
+
+#: ../src/common.c:236
+msgid "Error"
+msgstr ""
+
+#: ../src/common.c:401
+msgid ""
+"Keybindings that require Property Expansion are not supported and have been "
+"ignored."
+msgstr "不支援需要屬性擴充的鍵綁定，已被忽略。"
 
 #: ../src/main.c:525 ../src/menu.c:116
 msgid "_Preferences"
@@ -55,11 +99,6 @@ msgstr ""
 #: ../src/menu.c:97
 msgid "_File"
 msgstr "檔案(_F)"
-
-#: ../src/menu.c:99 ../src/menu.c:368 ../src/open_loc_dialog.c:81
-#: ../src/actionctl.c:114 ../src/actionctl.c:413
-msgid "_Open"
-msgstr "開啟(_O)"
 
 #: ../src/menu.c:103 ../src/menu.c:371
 msgid "Open _Location"
@@ -117,18 +156,29 @@ msgstr ""
 msgid "S_ubtitle Track"
 msgstr ""
 
+#: ../src/mpv.c:304
+msgid "Playing"
+msgstr ""
+
+#: ../src/mpv.c:1075
+msgid "Failed to apply one or more MPV options."
+msgstr ""
+
 #: ../src/open_loc_dialog.c:77
 msgid "Location:"
 msgstr "位置："
 
-#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:278 ../src/actionctl.c:112
-#: ../src/actionctl.c:411 ../src/playlist.c:60
-msgid "_Cancel"
-msgstr "取消(_C)"
-
 #: ../src/open_loc_dialog.c:93
 msgid "Open Location"
 msgstr "開啟位置"
+
+#: ../src/playlist.c:57
+msgid "Save Playlist"
+msgstr "儲存播放列表"
+
+#: ../src/playlist.c:62 ../src/pref_dialog.c:280
+msgid "_Save"
+msgstr "儲存(_S)"
 
 #: ../src/playlist_widget.c:44
 msgid "_Add..."
@@ -202,43 +252,6 @@ msgstr "載入 MPV 配置檔"
 msgid "Load MPV input configuration file"
 msgstr "載入 MPV 輸入配置檔"
 
-#: ../src/pref_dialog.c:280 ../src/playlist.c:62
-msgid "_Save"
-msgstr "儲存(_S)"
-
 #: ../src/pref_dialog.c:296
 msgid "Preferences"
 msgstr "偏好設定"
-
-#: ../src/actionctl.c:108
-msgid "Add File to Playlist"
-msgstr "新增檔案到播放列表"
-
-#: ../src/actionctl.c:109
-msgid "Open File"
-msgstr "開啟檔案"
-
-#: ../src/actionctl.c:253
-#, c-format
-msgid ""
-"Enabling or disabling client-side decorations requires restarting %s to take"
-" effect."
-msgstr "啟用或禁用客戶端裝飾需要重啟 %s 生效。"
-
-#: ../src/actionctl.c:408
-msgid "Load External..."
-msgstr ""
-
-#: ../src/actionctl.c:484
-msgid "A GTK frontend for MPV"
-msgstr "MPV 的 GTK 前端程式"
-
-#: ../src/common.c:401
-msgid ""
-"Keybindings that require Property Expansion are not supported and have been "
-"ignored."
-msgstr "不支援需要屬性擴充的鍵綁定，已被忽略。"
-
-#: ../src/playlist.c:57
-msgid "Save Playlist"
-msgstr "儲存播放列表"
