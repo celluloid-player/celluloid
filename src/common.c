@@ -233,7 +233,7 @@ void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg)
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_ERROR,
 				GTK_BUTTONS_OK,
-				"Error" );
+				_("Error") );
 
 	msg_area = gtk_message_dialog_get_message_area
 			(GTK_MESSAGE_DIALOG(dialog));
