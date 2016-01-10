@@ -2,8 +2,11 @@ gsettings_SCHEMAS = org.gnome-mpv.gschema.xml
 
 @GSETTINGS_RULES@
 
-appdatadir = $(datadir)/appdata
-appdata_DATA = gnome-mpv.appdata.xml
+appstream_in_files = gnome-mpv.appdata.xml.in
+appstream_XML = $(appstream_in_files:.xml.in=.xml)
+
+@INTLTOOL_XML_RULE@
+@APPSTREAM_XML_RULES@
 
 desktopdir = $(datadir)/applications
 desktop_DATA = gnome-mpv.desktop
@@ -15,4 +18,4 @@ symicondir = $(datadir)/icons/hicolor/symbolic/apps
 symicon_DATA = gnome-mpv-symbolic.svg
 
 EXTRA_DIST =	$(gsettings_SCHEMAS) mpris_gdbus.xml gnome-mpv.svg \
-		gnome-mpv.desktop
+		gnome-mpv.desktop $(appstream_in_files)
