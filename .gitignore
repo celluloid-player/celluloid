@@ -7,6 +7,7 @@
 /config.*
 /depcomp
 /install-sh
+/intltool-*
 /ltmain.sh
 /missing
 /ar-lib
@@ -14,7 +15,8 @@
 /test-driver
 /stamp-h1
 /m4
-*.in
+Makefile.in.in
+Makefile.in
 Makefile
 config.*
 po/POTFILES
@@ -36,7 +38,9 @@ po/stamp-it
 .deps/
 .libs/
 data/*.valid
+data/gnome-mpv.appdata.xml
 po/*.gmo
+po/.intltool-merge-cache
 .dirstamp
 src/gnome-mpv
 src/mpris/mpris_gdbus.*
