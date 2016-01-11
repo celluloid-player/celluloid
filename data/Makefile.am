@@ -21,4 +21,5 @@ symicondir = $(datadir)/icons/hicolor/symbolic/apps
 symicon_DATA = gnome-mpv-symbolic.svg
 
 EXTRA_DIST =	$(gsettings_SCHEMAS) mpris_gdbus.xml gnome-mpv.svg \
-		gnome-mpv.desktop $(appstream_in_files) $(desktop_in_files)
+		gnome-mpv.desktop $(appstream_in_files) $(desktop_in_files) \
+		org.gnome-mpv.gschema.xml.in
