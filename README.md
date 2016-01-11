@@ -6,6 +6,7 @@ capabilities.
 
 ## Dependencies
 
+- appstream-glib (build)
 - autotools (build)
 - autoconf-archive (build)
 - pkg-config (build)
