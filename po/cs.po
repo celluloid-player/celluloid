@@ -1,0 +1,259 @@
+# Czech translations for gnome-mpv package
+# gnome-mpv
+# Copyright (C) 2015 THE gnome-mpv'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-mpv package.
+# Tomáš Marný, 2015.
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-mpv 0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-23 10:58-0500\n"
+"PO-Revision-Date: 2015-08-15 10:05-0400\n"
+"Last-Translator: Language-Team: Czech\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"X-Generator: Zanata 3.7.3\n"
+
+#: ../src/actionctl.c:108
+#, fuzzy
+msgid "Add File to Playlist"
+msgstr "_Přepnout seznam skladeb"
+
+#: ../src/actionctl.c:109
+msgid "Open File"
+msgstr "Otevřít soubor"
+
+#: ../src/actionctl.c:112 ../src/actionctl.c:411 ../src/open_loc_dialog.c:83
+#: ../src/playlist.c:60 ../src/pref_dialog.c:278
+msgid "_Cancel"
+msgstr "_Zrušit"
+
+#: ../src/actionctl.c:114 ../src/actionctl.c:413 ../src/menu.c:99
+#: ../src/menu.c:368 ../src/open_loc_dialog.c:81
+msgid "_Open"
+msgstr "_Otevřít"
+
+#: ../src/actionctl.c:253
+#, c-format
+msgid ""
+"Enabling or disabling client-side decorations requires restarting %s to take"
+" effect."
+msgstr ""
+"Povolení nebo zakázání dekorací na straně klienta vyžaduje restartování %s."
+
+#: ../src/actionctl.c:408
+msgid "Load External..."
+msgstr ""
+
+#: ../src/actionctl.c:484
+msgid "A GTK frontend for MPV"
+msgstr "GTK frontend pro MPV"
+
+#: ../src/common.c:236
+msgid "Error"
+msgstr ""
+
+#: ../src/common.c:401
+msgid ""
+"Keybindings that require Property Expansion are not supported and have been "
+"ignored."
+msgstr ""
+
+#: ../src/main.c:525 ../src/menu.c:116
+msgid "_Preferences"
+msgstr "_Předvolby"
+
+#: ../src/main.c:526 ../src/menu.c:147
+msgid "_About"
+msgstr "_O programu"
+
+#: ../src/main.c:527 ../src/menu.c:100
+msgid "_Quit"
+msgstr "_Ukončit"
+
+#: ../src/main.c:552
+msgid "GNOME MPV"
+msgstr "GNOME MPV"
+
+#: ../src/main.c:677
+#, c-format
+msgid ""
+"Preferences is now stored using GSettings. Your preferences have been "
+"migrated from the configuration file. A backup copy of the configuration "
+"file can be found at \"%s\"."
+msgstr ""
+
+#: ../src/menu.c:38
+msgid "None"
+msgstr ""
+
+#: ../src/menu.c:55
+msgid "Unknown"
+msgstr ""
+
+#: ../src/menu.c:97
+msgid "_File"
+msgstr "_Soubor"
+
+#: ../src/menu.c:103 ../src/menu.c:371
+msgid "Open _Location"
+msgstr "_Otevřít umístění"
+
+#: ../src/menu.c:106 ../src/menu.c:274
+msgid "_Save Playlist"
+msgstr "_Uložit seznam skladeb"
+
+#: ../src/menu.c:113
+msgid "_Edit"
+msgstr "_Upravit"
+
+#: ../src/menu.c:123
+msgid "_View"
+msgstr "_Zobrazit"
+
+#: ../src/menu.c:126 ../src/menu.c:270
+msgid "_Toggle Playlist"
+msgstr "_Přepnout seznam skladeb"
+
+#: ../src/menu.c:129
+msgid "_Fullscreen"
+msgstr "_Celá obrazovka"
+
+#: ../src/menu.c:132 ../src/menu.c:278
+msgid "_Normal Size"
+msgstr "_Normální velikost"
+
+#: ../src/menu.c:135 ../src/menu.c:282
+msgid "_Double Size"
+msgstr "_Dvojnásobná velikost"
+
+#: ../src/menu.c:138 ../src/menu.c:286
+msgid "_Half Size"
+msgstr "_Poloviční velikost"
+
+#: ../src/menu.c:145
+msgid "_Help"
+msgstr "_Nápověda"
+
+#: ../src/menu.c:157 ../src/menu.c:294
+msgid "_Video Track"
+msgstr ""
+
+#: ../src/menu.c:174 ../src/menu.c:178 ../src/menu.c:324 ../src/menu.c:329
+msgid "_Load External..."
+msgstr ""
+
+#: ../src/menu.c:188 ../src/menu.c:313
+msgid "_Audio Track"
+msgstr ""
+
+#: ../src/menu.c:192 ../src/menu.c:317
+msgid "S_ubtitle Track"
+msgstr ""
+
+#: ../src/mpv.c:304
+msgid "Playing"
+msgstr ""
+
+#: ../src/mpv.c:1075
+msgid "Failed to apply one or more MPV options."
+msgstr ""
+
+#: ../src/open_loc_dialog.c:77
+msgid "Location:"
+msgstr "Umístění:"
+
+#: ../src/open_loc_dialog.c:93
+msgid "Open Location"
+msgstr "Otevřít umístění"
+
+#: ../src/playlist.c:57
+#, fuzzy
+msgid "Save Playlist"
+msgstr "_Uložit seznam skladeb"
+
+#: ../src/playlist.c:62 ../src/pref_dialog.c:280
+msgid "_Save"
+msgstr "_Uložit"
+
+#: ../src/playlist_widget.c:44
+msgid "_Add..."
+msgstr ""
+
+#: ../src/playlist_widget.c:45
+msgid "Loop"
+msgstr ""
+
+#: ../src/playlist_widget.c:90
+msgid "Playlist"
+msgstr "Seznam skladeb"
+
+#: ../src/pref_dialog.c:108
+msgid "MPV configuration file:"
+msgstr "Konfigurační soubor MPV:"
+
+#: ../src/pref_dialog.c:109
+msgid "MPV input configuration file:"
+msgstr "Vstupní konfigurační soubor MPV:"
+
+#: ../src/pref_dialog.c:110
+msgid "Extra MPV options:"
+msgstr "Extra možnosti MPV:"
+
+#: ../src/pref_dialog.c:111
+msgid "<b>General</b>"
+msgstr "<b>Hlavní</b>"
+
+#: ../src/pref_dialog.c:112
+msgid "<b>MPV Configuration</b>"
+msgstr "<b>Nastavení MPV</b>"
+
+#: ../src/pref_dialog.c:113
+msgid "<b>Keybindings</b>"
+msgstr "<b>Klávesové zkratky</b>"
+
+#: ../src/pref_dialog.c:114
+msgid "<b>Miscellaneous</b>"
+msgstr "<b>Různé</b>"
+
+#: ../src/pref_dialog.c:129
+msgid "Enable client-side decorations"
+msgstr "Povolit dekorace na straně klienta"
+
+#: ../src/pref_dialog.c:133
+msgid "Enable dark theme"
+msgstr "Povolit tmavý motiv"
+
+#: ../src/pref_dialog.c:137
+msgid "Redirect MPV log messages to console"
+msgstr ""
+
+#: ../src/pref_dialog.c:140
+msgid "Remember last file's location"
+msgstr ""
+
+#: ../src/pref_dialog.c:144
+msgid "MPV configuration file"
+msgstr "Konfigurační soubor MPV"
+
+#: ../src/pref_dialog.c:149
+msgid "MPV input configuration file"
+msgstr "Vstupní konfigurační soubor MPV"
+
+#: ../src/pref_dialog.c:154
+msgid "Load MPV configuration file"
+msgstr "Načíst konfigurační soubor MPV"
+
+#: ../src/pref_dialog.c:158
+msgid "Load MPV input configuration file"
+msgstr "Načíst vstupní konfigurační soubor MPV"
+
+#: ../src/pref_dialog.c:296
+msgid "Preferences"
+msgstr "Předvolby"
