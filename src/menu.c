@@ -31,6 +31,7 @@ void build_menu_from_track_list(	GMenu *menu,
 					const gchar *action )
 {
 	const GSList *iter = list;
+	const glong max_len = 32;
 	gchar *detailed_action;
 
 	detailed_action = g_strdup_printf("app.%s(@x -1)", action);
@@ -41,11 +42,25 @@ void build_menu_from_track_list(	GMenu *menu,
 	while(iter)
 	{
 		Track *entry;
+		glong entry_title_len;
 		gchar *entry_title;
 		gchar *title;
 
 		entry = iter->data;
-		entry_title = entry->title?:_("Unknown");
+
+		/* For simplicity, also dup the default string used when the
+		 * track has no title.
+		 */
+		entry_title = g_strdup(entry->title?:_("Unknown"));
+
+		/* Maximum number of bytes per UTF-8 character is 4 */
+		entry_title_len = g_utf8_strlen(entry_title, 4*(max_len+1));
+
+		if(entry_title_len > max_len)
+		{
+			/* Truncate the string */
+			*(g_utf8_offset_to_pointer(entry_title, max_len)) = '\0';
+		}
 
 		detailed_action
 			= g_strdup_printf(	"app.%s"
@@ -53,11 +68,11 @@ void build_menu_from_track_list(	GMenu *menu,
 						action,
 						entry->id );
 
-		/* Ellipsize the title if it's more than 32 characters long */
+		/* Ellipsize the title if it's longer than max_len */
 		title = g_strdup_printf(	entry->lang?
-						"%.32s%s (%s)":"%.32s%s",
+						"%s%s (%s)":"%s%s",
 						entry_title,
-						(strlen(entry_title) > 32)?
+						(entry_title_len > max_len)?
 						"...":"",
 						entry->lang );
 
@@ -66,6 +81,7 @@ void build_menu_from_track_list(	GMenu *menu,
 		iter = g_slist_next(iter);
 
 		g_free(detailed_action);
+		g_free(entry_title);
 		g_free(title);
 	}
 }
