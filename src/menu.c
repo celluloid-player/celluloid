@@ -41,9 +41,11 @@ void build_menu_from_track_list(	GMenu *menu,
 	while(iter)
 	{
 		Track *entry;
+		gchar *entry_title;
 		gchar *title;
 
 		entry = iter->data;
+		entry_title = entry->title?:_("Unknown");
 
 		detailed_action
 			= g_strdup_printf(	"app.%s"
@@ -51,8 +53,12 @@ void build_menu_from_track_list(	GMenu *menu,
 						action,
 						entry->id );
 
-		title = g_strdup_printf(	entry->lang?"%s (%s)":"%s",
-						entry->title?:_("Unknown"),
+		/* Ellipsize the title if it's more than 32 characters long */
+		title = g_strdup_printf(	entry->lang?
+						"%.32s%s (%s)":"%.32s%s",
+						entry_title,
+						(strlen(entry_title) > 32)?
+						"...":"",
 						entry->lang );
 
 		g_menu_append(menu, title, detailed_action);
