@@ -73,7 +73,7 @@ void build_menu_from_track_list(	GMenu *menu,
 						"%s%s (%s)":"%s%s",
 						entry_title,
 						(entry_title_len > max_len)?
-						"...":"",
+						"…":"",
 						entry->lang );
 
 		g_menu_append(menu, title, detailed_action);

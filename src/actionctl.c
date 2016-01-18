@@ -405,7 +405,7 @@ static void load_track_handler(	GSimpleAction *action,
 	g_variant_get(param, "s", &cmd_name);
 
 	open_dialog
-		= gtk_file_chooser_dialog_new(	_("Load External..."),
+		= gtk_file_chooser_dialog_new(	_("Load External…"),
 						GTK_WINDOW(ctx->gui),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						_("_Cancel"),
