@@ -161,8 +161,14 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 		wnd->vid_area =	vid_area_new(use_opengl);
 		style_context = gtk_widget_get_style_context(wnd->vid_area);
 
-		gtk_widget_add_events(wnd->vid_area, GDK_BUTTON_PRESS_MASK);
 		gtk_style_context_add_class(style_context, "gmpv-vid-area");
+
+		/* GDK_BUTTON_RELEASE_MASK is needed so that GtkMenuButtons can
+		 * hide their menus when vid_area is clicked.
+		 */
+		gtk_widget_add_events(	wnd->vid_area,
+					GDK_BUTTON_PRESS_MASK|
+					GDK_BUTTON_RELEASE_MASK );
 
 		gtk_container_add(	GTK_CONTAINER(wnd->vid_area_overlay),
 					wnd->vid_area );
