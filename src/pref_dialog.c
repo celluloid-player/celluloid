@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -34,8 +34,6 @@ VAR[] = {	{GTK_TOGGLE_BUTTON(DLG->csd_enable_check), \
 		&PREF->dark_theme_enable}, \
 		{GTK_TOGGLE_BUTTON(DLG->last_folder_enable_check), \
 		&PREF->last_folder_enable}, \
-		{GTK_TOGGLE_BUTTON(DLG->mpv_msg_redir_enable_check), \
-		&PREF->mpv_msg_redir_enable}, \
 		{GTK_TOGGLE_BUTTON(DLG->mpv_input_enable_check), \
 		&PREF->mpv_input_config_enable}, \
 		{GTK_TOGGLE_BUTTON(DLG->mpv_conf_enable_check), \
@@ -50,7 +48,6 @@ struct _PrefDialog
 	GtkWidget *csd_enable_check;
 	GtkWidget *dark_theme_enable_check;
 	GtkWidget *last_folder_enable_check;
-	GtkWidget *mpv_msg_redir_enable_check;
 	GtkWidget *mpv_input_enable_check;
 	GtkWidget *mpv_input_button;
 	GtkWidget *mpv_conf_enable_check;
@@ -132,12 +129,9 @@ static void pref_dialog_init(PrefDialog *dlg)
 		= gtk_check_button_new_with_label
 			(_("Enable dark theme"));
 
-	dlg->mpv_msg_redir_enable_check
-		= gtk_check_button_new_with_label
-			(_("Redirect MPV log messages to console"));
-
 	dlg->last_folder_enable_check
-		= gtk_check_button_new_with_label(_("Remember last file's location"));
+		= gtk_check_button_new_with_label
+			(_("Remember last file's location"));
 
 	dlg->mpv_conf_button
 		= gtk_file_chooser_button_new
@@ -196,7 +190,6 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_margin_start(dlg->last_folder_enable_check, 12);
 	gtk_widget_set_margin_start(dlg->mpv_conf_enable_check, 12);
 	gtk_widget_set_margin_start(dlg->mpv_input_enable_check, 12);
-	gtk_widget_set_margin_start(dlg->mpv_msg_redir_enable_check, 12);
 	gtk_widget_set_margin_start(dlg->mpv_options_entry, 12);
 
 	gtk_widget_set_size_request(dlg->mpv_conf_button, 100, -1);
@@ -224,10 +217,6 @@ static void pref_dialog_init(PrefDialog *dlg)
 
 	gtk_grid_attach(	GTK_GRID(dlg->grid),
 	 			dlg->last_folder_enable_check,
-				0, grid_row++, 2, 1 );
-
-	gtk_grid_attach(	GTK_GRID(dlg->grid),
-	 			dlg->mpv_msg_redir_enable_check,
 				0, grid_row++, 2, 1 );
 
 	gtk_grid_attach(	GTK_GRID(dlg->grid),

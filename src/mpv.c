@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -481,33 +481,26 @@ void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message)
 
 	if(!iter || (message->log_level <= level->level))
 	{
-		if(g_settings_get_boolean(ctx->config, "mpv-msg-redir-enable"))
+		gchar *buf = g_strdup(message->text);
+		gsize len = strlen(buf);
+
+		if(len > 1)
 		{
-			gchar *buf = g_strdup(message->text);
-			gsize len = strlen(buf);
-
-			if(len > 1)
+			/* g_message() automatically adds a newline
+			 * character when using the default log handler,
+			 * but log messages from mpv already come
+			 * terminated with a newline character so we
+			 * need to take it out.
+			 */
+			if(buf[len-1] == '\n')
 			{
-				/* g_message() automatically adds a newline
-				 * character when using the default log handler,
-				 * but log messages from mpv already come
-				 * terminated with a newline character so we
-				 * need to take it out.
-				 */
-				if(buf[len-1] == '\n')
-				{
-					buf[len-1] = '\0';
-				}
-
-				g_message("[%s] %s", message->prefix, buf);
+				buf[len-1] = '\0';
 			}
 
-			g_free(buf);
+			g_message("[%s] %s", message->prefix, buf);
 		}
-		else
-		{
-			show_error_dialog(ctx, message->prefix, message->text);
-		}
+
+		g_free(buf);
 	}
 }
 
@@ -583,11 +576,30 @@ gboolean mpv_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
+			mpv_event_end_file *ef_event = event->data;
+
 			ctx->init_load = FALSE;
 
 			if(ctx->loaded)
 			{
 				ctx->new_file = FALSE;
+			}
+
+			if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
+			{
+				const gchar *err_str;
+				gchar *msg;
+
+				err_str = mpv_error_string(ef_event->error);
+
+				msg = g_strdup_printf
+					(	_("Playback was terminated "
+						"abnormally. Reason: %s."),
+						err_str );
+
+				show_error_dialog(ctx, NULL, msg);
+
+				g_free(msg);
 			}
 		}
 		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)

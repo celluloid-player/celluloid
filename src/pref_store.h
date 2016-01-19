@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -27,7 +27,6 @@ struct pref_store
 	gboolean dark_theme_enable;
 	gboolean csd_enable;
 	gboolean last_folder_enable;
-	gboolean mpv_msg_redir_enable;
 	gboolean mpv_input_config_enable;
 	gboolean mpv_config_enable;
 	gchar *mpv_input_config_file;
