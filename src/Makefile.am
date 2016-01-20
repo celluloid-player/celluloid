@@ -29,7 +29,6 @@ gnome_mpv_SOURCES =	main.c def.h \
 			playlist.c playlist.h \
 			playlist_widget.c playlist_widget.h \
 			pref_dialog.c pref_dialog.h \
-			pref_store.c pref_store.h \
 			track.c track.h \
 			$(mpris_files) $(media_key_files)
 
