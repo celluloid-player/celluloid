@@ -83,11 +83,26 @@ static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event)
 	return GTK_WIDGET_CLASS(pref_dialog_parent_class)->key_press_event (widget, event);
 }
 
+static void pref_dialog_constructed(GObject *obj)
+{
+	gboolean csd_enabled;
+
+	g_object_get(obj, "use-header-bar", &csd_enabled, NULL);
+
+	if(!csd_enabled)
+	{
+		gtk_widget_set_margin_bottom(PREF_DIALOG(obj)->grid, 12);
+	}
+
+	G_OBJECT_CLASS(pref_dialog_parent_class)->constructed(obj);
+}
+
 static void pref_dialog_class_init(PrefDialogClass *klass)
 {
 	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
 
 	wid_class->key_press_event = key_press_handler;
+	G_OBJECT_CLASS(wid_class)->constructed = pref_dialog_constructed;
 }
 
 static void pref_dialog_init(PrefDialog *dlg)
@@ -161,11 +176,6 @@ static void pref_dialog_init(PrefDialog *dlg)
 	gtk_widget_set_margin_top(misc_group_label, 12);
 	gtk_grid_set_row_spacing(GTK_GRID(dlg->grid), 6);
 	gtk_grid_set_column_spacing(GTK_GRID(dlg->grid), 12);
-
-	if(!gtk_dialog_get_header_bar(GTK_DIALOG(dlg)))
-	{
-		gtk_widget_set_margin_bottom(dlg->grid, 6);
-	}
 
 	gtk_widget_set_halign(mpv_conf_label, GTK_ALIGN_START);
 	gtk_widget_set_halign(mpv_input_label, GTK_ALIGN_START);
@@ -290,10 +300,7 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 
 	header_bar = gtk_dialog_get_header_bar(GTK_DIALOG(dlg));
 
-	gtk_widget_hide_on_delete (dlg);
-	gtk_widget_show_all (dlg);
-
-	if (header_bar)
+	if(header_bar)
 	{
 		/* The defaults use PACK_END which is ugly with multiple buttons
 		 */
@@ -309,6 +316,9 @@ GtkWidget *pref_dialog_new(GtkWindow *parent)
 		gtk_header_bar_set_show_close_button
 			(GTK_HEADER_BAR(header_bar), FALSE);
 	}
+
+	gtk_widget_hide_on_delete(dlg);
+	gtk_widget_show_all(dlg);
 
 	return dlg;
 }
