@@ -275,7 +275,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	gmpv_handle *ctx = data;
 	guint keyval = ((GdkEventKey*)event)->keyval;
 	guint state = ((GdkEventKey*)event)->state;
-	gchar **command;
+	gchar *command;
 
 	const guint mod_mask =	GDK_MODIFIER_MASK
 				&~(GDK_SHIFT_MASK
@@ -292,7 +292,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	/* Try user-specified keys first, then fallback to hard-coded keys */
 	if(command)
 	{
-		mpv_command(ctx->mpv_ctx, (const char **)command);
+		mpv_command_string(ctx->mpv_ctx, command);
 	}
 	else if((state&mod_mask) == 0)
 	{
@@ -326,7 +326,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 {
 	gmpv_handle *ctx = data;
 	GdkEventButton *btn_event = (GdkEventButton *)event;
-	gchar **command;
+	gchar *command;
 
 	command = keybind_get_command(	ctx,
 					TRUE,
@@ -335,7 +335,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 
 	if(command)
 	{
-		mpv_command(ctx->mpv_ctx, (const char **)command);
+		mpv_command_string(ctx->mpv_ctx, command);
 	}
 
 	return TRUE;

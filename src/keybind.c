@@ -58,8 +58,11 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 		 */
 		if(!g_regex_match_simple("\\$[^\\$]", linebuf, 0, 0))
 		{
-			GRegex *regex = g_regex_new("\\$\\$", 0, 0, NULL);
-			gchar *old_linebuf = linebuf;
+			gchar *old_linebuf;
+			GRegex *regex;
+
+			old_linebuf = linebuf;
+			regex = g_regex_new("\\$\\$", 0, 0, NULL);
 
 			linebuf = g_regex_replace_literal
 				(regex, old_linebuf, -1, 0, "$", 0, NULL);
@@ -67,7 +70,15 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 			g_free(old_linebuf);
 			g_regex_unref(regex);
 
-			tokens = g_strsplit_set(linebuf, " \t", -1);
+			regex = g_regex_new("\\s+", 0, 0, NULL);
+
+			tokens = g_regex_split_full(	regex,
+							linebuf,
+							-1, 0, 0, 2,
+							NULL );
+
+			g_regex_unref(regex);
+
 			keys = tokens?g_strsplit(tokens[0], "+", -1):NULL;
 
 			if(keys)
@@ -175,7 +186,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 
 	if(result)
 	{
-		result->command = g_strdupv(tokens+1);
+		result->command = g_strdup(tokens[1]);
 
 		g_strfreev(tokens);
 		g_strfreev(keys);
@@ -270,7 +281,7 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 	return g_slist_reverse(result);
 }
 
-gchar **keybind_get_command(	gmpv_handle *ctx,
+gchar *keybind_get_command(	gmpv_handle *ctx,
 				gboolean mouse,
 				guint modifier,
 				guint keyval )

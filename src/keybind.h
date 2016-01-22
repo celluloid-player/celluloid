@@ -27,14 +27,14 @@ struct keybind
 	gboolean mouse;
 	guint modifier;
 	guint keyval;
-	gchar **command;
+	gchar *command;
 };
 
 typedef struct keybind keybind;
 
 keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp);
 GSList *keybind_parse_config(const gchar *config_path, gboolean *propexp);
-gchar **keybind_get_command(	gmpv_handle *ctx,
+gchar *keybind_get_command(	gmpv_handle *ctx,
 				gboolean mouse,
 				guint modifier,
 				guint keyval );
