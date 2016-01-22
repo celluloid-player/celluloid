@@ -21,7 +21,9 @@
 #define DEF_H
 
 #define APP_ID "org.gnome-mpv"
+#define CLIENT_NAME "gnome_mpv"
 #define ICON_NAME "gnome-mpv"
+#define CONF_PREFIX "#GMPV#"
 #define CONFIG_DIR "gnome-mpv"
 #define CONFIG_ROOT APP_ID
 #define CONFIG_WIN_STATE APP_ID".window-state"

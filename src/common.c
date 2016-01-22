@@ -200,6 +200,31 @@ gboolean update_seek_bar(gpointer data)
 	return TRUE;
 }
 
+void activate_action_string(gmpv_handle *ctx, const gchar *str)
+{
+	GActionMap *map = G_ACTION_MAP(ctx->app);
+	GAction *action = NULL;
+	gchar *name = NULL;
+	GVariant *param = NULL;
+
+	g_action_parse_detailed_name(str, &name, &param, NULL);
+
+	if(name)
+	{
+		action = g_action_map_lookup_action(map, name);
+	}
+
+	if(action)
+	{
+		g_action_activate(action, param);
+	}
+	else
+	{
+		g_warning("Failed to activate action \"%s\"", str);
+	}
+
+}
+
 void seek(gmpv_handle *ctx, gdouble time)
 {
 	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};

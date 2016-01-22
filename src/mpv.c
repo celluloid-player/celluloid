@@ -616,6 +616,47 @@ gboolean mpv_handle_event(gpointer data)
 			g_signal_emit_by_name(	ctx->gui,
 						"mpv-playback-restart" );
 		}
+		else if(event->event_id == MPV_EVENT_CLIENT_MESSAGE)
+		{
+			mpv_event_client_message *event_cmsg = event->data;
+
+			if(event_cmsg->num_args == 2
+			&& g_strcmp0(event_cmsg->args[0], "gmpv-action") == 0)
+			{
+				activate_action_string
+					(ctx, event_cmsg->args[1]);
+
+				/* If 'quit' is activated, ctx->mpv_ctx will be
+				 * set to NULL.
+				 */
+				if(!ctx->mpv_ctx)
+				{
+					done = TRUE;
+				}
+			}
+			else
+			{
+				gint num_args;
+				gchar **args;
+				gchar *full_str;
+
+				num_args = event_cmsg->num_args;
+
+				args = g_malloc(	((gsize)num_args+1)*
+							sizeof(gchar *) );
+
+				memcpy(args, event_cmsg->args, (gsize)num_args);
+
+				args[num_args] = NULL;
+				full_str = g_strjoinv(" ", args);
+
+				g_warning(	"Invalid client message "
+						"received: %s",
+						full_str );
+
+				g_free(full_str);
+			}
+		}
 		else if(event->event_id == MPV_EVENT_SHUTDOWN)
 		{
 			quit(ctx);
@@ -979,6 +1020,55 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 	return fail_count*(-1);
 }
 
+gint mpv_command_string_ext(gmpv_handle *ctx, const char *str)
+{
+	gint len = 0;
+	gint rc = MPV_ERROR_SUCCESS;
+	gchar **raw_tokens;
+	gchar **tokens;
+
+	/* Tokenize the string and remove empty tokens. The number of non-empty
+	 * tokens is also recorded in len.
+	 */
+	raw_tokens = g_strsplit_set(str, " \t", -1);
+	tokens = g_malloc(4*sizeof(gchar **));
+
+	/* Only copy up to 3 elements to tokens. The only command provided by
+	 * gnome-mpv at this point is gmpv-action, which only takes one
+	 * argument, so 3 elements is sufficient to tell if the given command
+	 * matches the correct form.
+	 */
+	for(gint i = 0; raw_tokens[i] && len < 3; i++)
+	{
+		if(strnlen(raw_tokens[i], 1) > 0)
+		{
+			tokens[len++] = raw_tokens[i];
+		}
+		else
+		{
+			g_free(raw_tokens[i]);
+		}
+	}
+
+	tokens[len] = NULL;
+
+	g_free(raw_tokens);
+
+	/* gmpv-action <GAction name> */
+	if(len == 2 && g_strcmp0(tokens[0], "gmpv-action") == 0)
+	{
+		activate_action_string(ctx, tokens[1]);
+	}
+	else
+	{
+		rc = mpv_command_string(ctx->mpv_ctx, str);
+	}
+
+	g_strfreev(tokens);
+
+	return rc;
+}
+
 void mpv_init(gmpv_handle *ctx)
 {
 	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
@@ -1049,26 +1139,6 @@ void mpv_init(gmpv_handle *ctx)
 						&ctx->vid_area_wid ));
 	}
 
-	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
-						0,
-						"pause",
-						MPV_FORMAT_FLAG ));
-
-	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
-						0,
-						"eof-reached",
-						MPV_FORMAT_FLAG ));
-
-	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
-						0,
-						"fullscreen",
-						MPV_FORMAT_FLAG ));
-
-	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
-						0,
-						"volume",
-						MPV_FORMAT_DOUBLE ));
-
 	mpvconf_enable = g_settings_get_boolean
 				(ctx->config, "mpv-config-enable");
 
@@ -1098,14 +1168,36 @@ void mpv_init(gmpv_handle *ctx)
 	}
 
 	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
-	handle_msg_level_opt(ctx);
-	g_signal_emit_by_name(ctx->gui, "mpv-init");
 
+	ctx->mpv_ctx = mpv_create_client(ctx->mpv_ctx, CLIENT_NAME);
 	ctx->opengl_ctx = mpv_get_sub_api(ctx->mpv_ctx, MPV_SUB_API_OPENGL_CB);
 
 	mpv_opengl_cb_set_update_callback(	ctx->opengl_ctx,
 						opengl_callback,
 						ctx );
+
+	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
+						0,
+						"pause",
+						MPV_FORMAT_FLAG ));
+
+	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
+						0,
+						"eof-reached",
+						MPV_FORMAT_FLAG ));
+
+	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
+						0,
+						"fullscreen",
+						MPV_FORMAT_FLAG ));
+
+	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
+						0,
+						"volume",
+						MPV_FORMAT_DOUBLE ));
+
+	handle_msg_level_opt(ctx);
+	g_signal_emit_by_name(ctx->gui, "mpv-init");
 
 	g_clear_object(&settings);
 	g_free(config_dir);
