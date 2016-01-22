@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -264,7 +264,10 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 		g_object_unref(config_file);
 	}
 
-	return result;
+	/* Reverse the list so that bindings defined later in the file will have
+	 * priority over the ones defined earlier.
+	 */
+	return g_slist_reverse(result);
 }
 
 gchar **keybind_get_command(	gmpv_handle *ctx,
