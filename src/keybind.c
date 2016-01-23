@@ -92,7 +92,9 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 
 			g_regex_unref(regex);
 
-			keys = tokens?g_strsplit(tokens[0], "+", -1):NULL;
+			keys =	(tokens && tokens[0])?
+				g_strsplit(tokens[0], "+", -1):
+				NULL;
 
 			if(keys)
 			{
@@ -236,7 +238,8 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 
 	while(!error && linebuf)
 	{
-		gint offset = -1;
+		keybind *keybind;
+		gboolean line_propexp;
 
 		linebuf = g_data_input_stream_read_line
 				(	config_data_stream,
@@ -244,32 +247,17 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 					NULL,
 					&error );
 
-		/* Find the beginning of the comment, if any */
-		while(	linebuf &&
-			/* ++offset can never be less than 0 */
-			(guint)(++offset) < linebuf_size &&
-			linebuf[offset] != '#' );
+		keybind = keybind_parse_config_line(	linebuf,
+							&line_propexp );
 
-		if(offset > 0)
+		if(keybind)
 		{
-			keybind *keybind;
-			gboolean line_propexp;
+			result = g_slist_append(result, keybind);
+		}
 
-			/* Ignore the comment */
-			linebuf[offset] = '\0';
-
-			keybind = keybind_parse_config_line(	linebuf,
-								&line_propexp );
-
-			if(keybind)
-			{
-				result = g_slist_append(result, keybind);
-			}
-
-			if(propexp && line_propexp)
-			{
-				*propexp = TRUE;
-			}
+		if(propexp && line_propexp)
+		{
+			*propexp = TRUE;
 		}
 
 		g_free(linebuf);
