@@ -122,6 +122,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 	/* Parse key */
 	while(result && keys[++index])
 	{
+		gboolean mod = TRUE;
 		guint keyval;
 
 		/* Modifiers */
@@ -137,6 +138,11 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 		{
 			keyval = GDK_MOD1_MASK;
 		}
+		else if(g_ascii_strncasecmp(keys[index], "meta", 4) == 0)
+		{
+			/* In mpv, meta == super */
+			keyval = GDK_SUPER_MASK;
+		}
 		/* Mouse */
 		else if(g_regex_match_simple(	"MOUSE_BTN[0-9]*(_DBL)?",
 						keys[index],
@@ -145,6 +151,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 		{
 			/* Button number */
 			result->mouse = TRUE;
+			mod = FALSE;
 
 			keyval = (guint)g_ascii_strtoull
 					(keys[index]+9, NULL, 10)+1;
@@ -162,6 +169,8 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 			const gsize keystrlen = KEYSTRING_MAX_LEN;
 			const gchar *match = NULL;
 			gint i;
+
+			mod = FALSE;
 
 			/* Translate key string to GDK key name */
 			for(i = 0; !match && keystrmap[i]; i += 2)
@@ -186,10 +195,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 
 			result = NULL;
 		}
-		else if(!result->mouse
-		&& (keyval == GDK_SHIFT_MASK
-		|| keyval == GDK_CONTROL_MASK
-		|| keyval == GDK_MOD1_MASK))
+		else if(mod)
 		{
 			result->modifier |= keyval;
 		}
