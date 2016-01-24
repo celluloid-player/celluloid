@@ -529,7 +529,6 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_window_fullscreen(GTK_WINDOW(wnd));
 		gtk_window_present(GTK_WINDOW(wnd));
 		gtk_widget_hide(wnd->control_box);
-		timeout_handler(wnd);
 
 		if(main_window_get_csd_enabled(wnd))
 		{
@@ -548,6 +547,7 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		}
 
 		wnd->fullscreen = TRUE;
+		timeout_handler(wnd);
 	}
 }
 
