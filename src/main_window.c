@@ -469,6 +469,9 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 
 	if(wnd->fullscreen)
 	{
+		GdkCursor *cursor;
+		GdkWindow *vid_area;
+
 		gtk_widget_set_halign(wnd->control_box, GTK_ALIGN_FILL);
 		gtk_widget_set_valign(wnd->control_box, GTK_ALIGN_FILL);
 		gtk_widget_set_size_request(wnd->control_box, -1, -1);
@@ -497,6 +500,13 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		{
 			gtk_widget_show(wnd->playlist);
 		}
+
+		cursor =	gdk_cursor_new_from_name
+				(gdk_display_get_default(), "default");
+
+		vid_area = gtk_widget_get_window(GTK_WIDGET(wnd->vid_area));
+
+		gdk_window_set_cursor(vid_area, cursor);
 
 		wnd->fullscreen = FALSE;
 	}
