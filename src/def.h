@@ -49,10 +49,10 @@
 					"< playlist_prev",\
 					"> playlist_next",\
 					"U stop",\
-					"RIGHT seek 10",\
-					"LEFT seek -10",\
-					"UP seek 60",\
-					"DOWN seek -60",\
+					"RIGHT no-osd seek 10",\
+					"LEFT no-osd seek -10",\
+					"UP no-osd seek 60",\
+					"DOWN no-osd seek -60",\
 					"Q quit_watch_later",\
 					"MOUSE_BTN0_DBL cycle fullscreen",\
 					"MOUSE_BTN2 cycle pause",\
