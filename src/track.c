@@ -37,5 +37,6 @@ void track_free(Track *entry)
 	{
 		g_free(entry->title);
 		g_free(entry->lang);
+		g_free(entry);
 	}
 }
