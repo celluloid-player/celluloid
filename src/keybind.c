@@ -223,7 +223,6 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 	GFile *config_file;
 	GError *error;
 	GFileInputStream *config_file_stream;
-	GInputStream *config_input_stream;
 	GDataInputStream *config_data_stream;
 	gchar *linebuf;
 	gsize linebuf_size;
@@ -235,12 +234,17 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 
 	result = NULL;
 	error = NULL;
-	config_file = g_file_new_for_path(config_path);
-	config_file_stream = g_file_read(config_file, NULL, NULL);
-	config_input_stream = G_INPUT_STREAM(config_file_stream);
-	config_data_stream = g_data_input_stream_new(config_input_stream);
 	linebuf = (gchar *)0xdeadbeef;
 	linebuf_size = 0;
+	config_file = g_file_new_for_path(config_path);
+	config_file_stream = g_file_read(config_file, NULL, &error);
+
+	if(!error)
+	{
+		config_data_stream
+			= g_data_input_stream_new
+				(G_INPUT_STREAM(config_file_stream));
+	}
 
 	while(!error && linebuf)
 	{
@@ -272,13 +276,14 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 	/* linebuf should be NULL if the read completes sucessfully */
 	if(linebuf || error)
 	{
-		perror("Failed to read mpv key bindings");
+		g_warning("Failed to load input configuration file");
 
 		result = NULL;
 	}
 	else
 	{
-		g_input_stream_close(config_input_stream, NULL, NULL);
+		g_object_unref(config_file_stream);
+		g_object_unref(config_data_stream);
 		g_object_unref(config_file);
 	}
 
