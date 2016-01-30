@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Zanata 3.7.3\n"
+"X-Generator: Zanata 3.8.2\n"
 "X-Poedit-Basepath: ../src\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: mpv.c\n"
@@ -129,26 +129,26 @@ msgstr "GNOME MPV"
 msgid "GTK+ frontend for mpv"
 msgstr ""
 
-#: ../src/actionctl.c:108
+#: ../src/actionctl.c:106
 #, fuzzy
 msgid "Add File to Playlist"
 msgstr "_Afficher la liste de lecture"
 
-#: ../src/actionctl.c:109
+#: ../src/actionctl.c:107
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
-#: ../src/actionctl.c:112 ../src/actionctl.c:411 ../src/open_loc_dialog.c:83
-#: ../src/playlist.c:60 ../src/pref_dialog.c:278
+#: ../src/actionctl.c:110 ../src/actionctl.c:409 ../src/open_loc_dialog.c:83
+#: ../src/playlist.c:60 ../src/pref_dialog.c:267
 msgid "_Cancel"
 msgstr "_Annuler"
 
-#: ../src/actionctl.c:114 ../src/actionctl.c:413 ../src/menu.c:99
-#: ../src/menu.c:368 ../src/open_loc_dialog.c:81
+#: ../src/actionctl.c:112 ../src/actionctl.c:411 ../src/menu.c:121
+#: ../src/menu.c:390 ../src/open_loc_dialog.c:81
 msgid "_Open"
 msgstr "_Ouvrir"
 
-#: ../src/actionctl.c:253
+#: ../src/actionctl.c:251
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
@@ -157,11 +157,11 @@ msgstr ""
 "L'activation ou la désactivation des décorations fenêtre prendra effet après"
 " un redémarrage de %s."
 
-#: ../src/actionctl.c:408
-msgid "Load External..."
+#: ../src/actionctl.c:406
+msgid "Load External…"
 msgstr ""
 
-#: ../src/actionctl.c:484
+#: ../src/actionctl.c:482
 msgid "A GTK frontend for MPV"
 msgstr "Une interface GTK pour MPV"
 
@@ -177,15 +177,15 @@ msgstr ""
 "Les raccourcis clavier qui reposent sur l'expansion de propriété sont "
 "ignorés car ils ne sont pas pris en charge."
 
-#: ../src/main.c:525 ../src/menu.c:116
+#: ../src/main.c:525 ../src/menu.c:138
 msgid "_Preferences"
 msgstr "_Préférences"
 
-#: ../src/main.c:526 ../src/menu.c:147
+#: ../src/main.c:526 ../src/menu.c:169
 msgid "_About"
 msgstr "À _propos"
 
-#: ../src/main.c:527 ../src/menu.c:100
+#: ../src/main.c:527 ../src/menu.c:122
 msgid "_Quit"
 msgstr "_Quitter"
 
@@ -197,71 +197,73 @@ msgid ""
 "file can be found at \"%s\"."
 msgstr ""
 
-#: ../src/menu.c:38
+#: ../src/menu.c:39
 msgid "None"
 msgstr ""
 
-#: ../src/menu.c:55
+#. For simplicity, also dup the default string used when the
+#. * track has no title.
+#: ../src/menu.c:54
 msgid "Unknown"
 msgstr ""
 
-#: ../src/menu.c:97
+#: ../src/menu.c:119
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/menu.c:103 ../src/menu.c:371
+#: ../src/menu.c:125 ../src/menu.c:393
 msgid "Open _Location"
 msgstr "Ouvrir un _répertoire"
 
-#: ../src/menu.c:106 ../src/menu.c:274
+#: ../src/menu.c:128 ../src/menu.c:296
 msgid "_Save Playlist"
 msgstr "_Enregistrer la liste de lecture"
 
-#: ../src/menu.c:113
+#: ../src/menu.c:135
 msgid "_Edit"
 msgstr "É_diter"
 
-#: ../src/menu.c:123
+#: ../src/menu.c:145
 msgid "_View"
 msgstr "_Vue"
 
-#: ../src/menu.c:126 ../src/menu.c:270
+#: ../src/menu.c:148 ../src/menu.c:292
 msgid "_Toggle Playlist"
 msgstr "_Afficher la liste de lecture"
 
-#: ../src/menu.c:129
+#: ../src/menu.c:151
 msgid "_Fullscreen"
 msgstr "_Plein écran"
 
-#: ../src/menu.c:132 ../src/menu.c:278
+#: ../src/menu.c:154 ../src/menu.c:300
 msgid "_Normal Size"
 msgstr "Taille _Normale"
 
-#: ../src/menu.c:135 ../src/menu.c:282
+#: ../src/menu.c:157 ../src/menu.c:304
 msgid "_Double Size"
 msgstr "Taille _Double"
 
-#: ../src/menu.c:138 ../src/menu.c:286
+#: ../src/menu.c:160 ../src/menu.c:308
 msgid "_Half Size"
 msgstr "Taille _Moitié"
 
-#: ../src/menu.c:145
+#: ../src/menu.c:167
 msgid "_Help"
 msgstr "_Aide"
 
-#: ../src/menu.c:157 ../src/menu.c:294
+#: ../src/menu.c:179 ../src/menu.c:316
 msgid "_Video Track"
 msgstr ""
 
-#: ../src/menu.c:174 ../src/menu.c:178 ../src/menu.c:324 ../src/menu.c:329
+#: ../src/menu.c:196 ../src/menu.c:200 ../src/menu.c:346 ../src/menu.c:351
 msgid "_Load External..."
 msgstr ""
 
-#: ../src/menu.c:188 ../src/menu.c:313
+#: ../src/menu.c:210 ../src/menu.c:335
 msgid "_Audio Track"
 msgstr ""
 
-#: ../src/menu.c:192 ../src/menu.c:317
+#: ../src/menu.c:214 ../src/menu.c:339
 msgid "S_ubtitle Track"
 msgstr ""
 
@@ -269,7 +271,12 @@ msgstr ""
 msgid "Playing"
 msgstr ""
 
-#: ../src/mpv.c:1075
+#: ../src/mpv.c:596
+#, c-format
+msgid "Playback was terminated abnormally. Reason: %s."
+msgstr ""
+
+#: ../src/mpv.c:1087
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
@@ -286,12 +293,12 @@ msgstr "Ouvrir un répertoire"
 msgid "Save Playlist"
 msgstr "_Enregistrer la liste de lecture"
 
-#: ../src/playlist.c:62 ../src/pref_dialog.c:280
+#: ../src/playlist.c:62 ../src/pref_dialog.c:269
 msgid "_Save"
 msgstr "_Enregistrer"
 
 #: ../src/playlist_widget.c:44
-msgid "_Add..."
+msgid "_Add…"
 msgstr ""
 
 #: ../src/playlist_widget.c:45
@@ -302,66 +309,62 @@ msgstr ""
 msgid "Playlist"
 msgstr "Liste de lecture"
 
-#: ../src/pref_dialog.c:108
+#: ../src/pref_dialog.c:105
 msgid "MPV configuration file:"
 msgstr "Fichier de configuration MPV:"
 
-#: ../src/pref_dialog.c:109
+#: ../src/pref_dialog.c:106
 msgid "MPV input configuration file:"
 msgstr "Fichier de configuration des raccourcis clavier MPV:"
 
-#: ../src/pref_dialog.c:110
+#: ../src/pref_dialog.c:107
 msgid "Extra MPV options:"
 msgstr "Options supplémentaires pour MPV"
 
-#: ../src/pref_dialog.c:111
+#: ../src/pref_dialog.c:108
 msgid "<b>General</b>"
 msgstr "<b>Général</b>"
 
-#: ../src/pref_dialog.c:112
+#: ../src/pref_dialog.c:109
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>Configuration MPV</b>"
 
-#: ../src/pref_dialog.c:113
+#: ../src/pref_dialog.c:110
 msgid "<b>Keybindings</b>"
 msgstr "<b>Raccourcis clavier</b>"
 
-#: ../src/pref_dialog.c:114
+#: ../src/pref_dialog.c:111
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Divers</b>"
 
-#: ../src/pref_dialog.c:129
+#: ../src/pref_dialog.c:126
 msgid "Enable client-side decorations"
 msgstr "Activer les décorations fenêtre"
 
-#: ../src/pref_dialog.c:133
+#: ../src/pref_dialog.c:130
 msgid "Enable dark theme"
 msgstr "Activer le thème sombre"
 
-#: ../src/pref_dialog.c:137
-msgid "Redirect MPV log messages to console"
-msgstr ""
-
-#: ../src/pref_dialog.c:140
+#: ../src/pref_dialog.c:134
 msgid "Remember last file's location"
 msgstr ""
 
-#: ../src/pref_dialog.c:144
+#: ../src/pref_dialog.c:138
 msgid "MPV configuration file"
 msgstr "Fichier de configuration MPV"
 
-#: ../src/pref_dialog.c:149
+#: ../src/pref_dialog.c:143
 msgid "MPV input configuration file"
 msgstr "Fichier de configuration MPV d'entrée"
 
-#: ../src/pref_dialog.c:154
+#: ../src/pref_dialog.c:148
 msgid "Load MPV configuration file"
 msgstr "Charger un fichier de configuration MPV"
 
-#: ../src/pref_dialog.c:158
+#: ../src/pref_dialog.c:152
 msgid "Load MPV input configuration file"
 msgstr "Charger un fichier de configuration des raccourcis clavier MPV"
 
-#: ../src/pref_dialog.c:296
+#: ../src/pref_dialog.c:285
 msgid "Preferences"
 msgstr "Préférences"
