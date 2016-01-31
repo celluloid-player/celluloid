@@ -1078,6 +1078,10 @@ void mpv_init(gmpv_handle *ctx)
 	gchar *mpvconf = NULL;
 	gchar *mpvopt = NULL;
 
+	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
+
+	ctx->mpv_ctx = mpv_create_client(NULL, CLIENT_NAME);
+
 	/* Set default options */
 	mpv_check_error(mpv_set_option_string(ctx->mpv_ctx, "osd-level", "1"));
 	mpv_check_error(mpv_set_option_string(ctx->mpv_ctx, "softvol", "yes"));
@@ -1167,15 +1171,6 @@ void mpv_init(gmpv_handle *ctx)
 
 	}
 
-	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
-
-	ctx->mpv_ctx = mpv_create_client(ctx->mpv_ctx, CLIENT_NAME);
-	ctx->opengl_ctx = mpv_get_sub_api(ctx->mpv_ctx, MPV_SUB_API_OPENGL_CB);
-
-	mpv_opengl_cb_set_update_callback(	ctx->opengl_ctx,
-						opengl_callback,
-						ctx );
-
 	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
 						0,
 						"pause",
@@ -1195,6 +1190,14 @@ void mpv_init(gmpv_handle *ctx)
 						0,
 						"volume",
 						MPV_FORMAT_DOUBLE ));
+
+	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
+
+	ctx->opengl_ctx = mpv_get_sub_api(ctx->mpv_ctx, MPV_SUB_API_OPENGL_CB);
+
+	mpv_opengl_cb_set_update_callback(	ctx->opengl_ctx,
+						opengl_callback,
+						ctx );
 
 	handle_msg_level_opt(ctx);
 	g_signal_emit_by_name(ctx->gui, "mpv-init");
