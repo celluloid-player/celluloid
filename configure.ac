@@ -7,6 +7,7 @@ AC_INIT(	[gnome-mpv],
 		[http://github.com/gnome-mpv/gnome-mpv] )
 
 AC_CONFIG_SRCDIR([src/main.c])
+AC_CONFIG_MACRO_DIR([m4])
 AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE([1.12 tar-pax dist-xz no-dist-gzip subdir-objects foreign -Wall -Wno-portability])
 AM_SILENT_RULES([yes])
