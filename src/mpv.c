@@ -993,6 +993,8 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 			token_arg = "";
 		}
 
+		g_debug("Applying option --%s=%s", token, token_arg);
+
 		if(mpv_set_option_string(mpv_ctx, token, token_arg) < 0)
 		{
 			fail_count++;
@@ -1043,6 +1045,10 @@ void mpv_init(gmpv_handle *ctx)
 
 	for(gint i = 0; options[i].name; i++)
 	{
+		g_debug(	"Applying default option --%s=%s",
+				options[i].name,
+				options[i].value );
+
 		mpv_set_option_string(	ctx->mpv_ctx,
 					options[i].name,
 					options[i].value );
@@ -1050,17 +1056,22 @@ void mpv_init(gmpv_handle *ctx)
 
 	if(main_window_get_use_opengl(ctx->gui))
 	{
+		g_info("opengl-cb is enabled; forcing --vo=opengl-cb");
 		mpv_set_option_string(ctx->mpv_ctx, "vo", "opengl-cb");
 
 	}
 	else
 	{
+		g_debug(	"Attaching mpv window to wid %#x",
+				(guint)ctx->vid_area_wid );
+
 		mpv_set_option(	ctx->mpv_ctx,
 				"wid",
 				MPV_FORMAT_INT64,
 				&ctx->vid_area_wid );
 	}
 
+	g_debug("Setting volume to %f", volume);
 	mpv_set_option(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &volume);
 
 	if(g_settings_get_boolean(ctx->config, "mpv-config-enable"))
@@ -1068,12 +1079,15 @@ void mpv_init(gmpv_handle *ctx)
 		gchar *mpv_conf = g_settings_get_string
 					(ctx->config, "mpv-config-file");
 
+		g_info("Loading config file: %s", mpv_conf);
 		mpv_load_config_file(ctx->mpv_ctx, mpv_conf);
 
 		g_free(mpv_conf);
 	}
 
 	mpvopt = g_settings_get_string(ctx->config, "mpv-options");
+
+	g_debug("Applying extra mpv options: %s", mpvopt);
 
 	/* Apply extra options */
 	if(mpv_apply_args(ctx->mpv_ctx, mpvopt) < 0)
@@ -1122,9 +1136,12 @@ void mpv_init(gmpv_handle *ctx)
 
 void mpv_quit(gmpv_handle *ctx)
 {
+	g_info("Terminating mpv");
+
 	if(gtk_widget_get_realized(ctx->gui->vid_area)
 	&& main_window_get_use_opengl(ctx->gui))
 	{
+		g_debug("Uninitializing opengl-cb");
 		uninit_opengl_cb(ctx);
 
 		ctx->opengl_ready = FALSE;
@@ -1142,6 +1159,11 @@ void mpv_load(	gmpv_handle *ctx,
 	GtkListStore *playlist_store;
 	GtkTreeIter iter;
 	gboolean empty;
+
+	g_info(	"Loading file (append=%s, update=%s): %s",
+		append?"TRUE":"FALSE",
+		update?"TRUE":"FALSE",
+		uri?:"<PLAYLIST_ITEMS>" );
 
 	playlist_store = GTK_LIST_STORE(ctx->playlist_store);
 
