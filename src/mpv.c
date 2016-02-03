@@ -1015,55 +1015,6 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 	return fail_count*(-1);
 }
 
-gint mpv_command_string_ext(gmpv_handle *ctx, const char *str)
-{
-	gint len = 0;
-	gint rc = MPV_ERROR_SUCCESS;
-	gchar **raw_tokens;
-	gchar **tokens;
-
-	/* Tokenize the string and remove empty tokens. The number of non-empty
-	 * tokens is also recorded in len.
-	 */
-	raw_tokens = g_strsplit_set(str, " \t", -1);
-	tokens = g_malloc(4*sizeof(gchar **));
-
-	/* Only copy up to 3 elements to tokens. The only command provided by
-	 * gnome-mpv at this point is gmpv-action, which only takes one
-	 * argument, so 3 elements is sufficient to tell if the given command
-	 * matches the correct form.
-	 */
-	for(gint i = 0; raw_tokens[i] && len < 3; i++)
-	{
-		if(strnlen(raw_tokens[i], 1) > 0)
-		{
-			tokens[len++] = raw_tokens[i];
-		}
-		else
-		{
-			g_free(raw_tokens[i]);
-		}
-	}
-
-	tokens[len] = NULL;
-
-	g_free(raw_tokens);
-
-	/* gmpv-action <GAction name> */
-	if(len == 2 && g_strcmp0(tokens[0], "gmpv-action") == 0)
-	{
-		activate_action_string(ctx, tokens[1]);
-	}
-	else
-	{
-		rc = mpv_command_string(ctx->mpv_ctx, str);
-	}
-
-	g_strfreev(tokens);
-
-	return rc;
-}
-
 void mpv_init(gmpv_handle *ctx)
 {
 	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);

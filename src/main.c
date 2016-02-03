@@ -292,7 +292,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	/* Try user-specified keys first, then fallback to hard-coded keys */
 	if(command)
 	{
-		mpv_command_string_ext(ctx, command);
+		mpv_command_string(ctx->mpv_ctx, command);
 	}
 	else if((state&mod_mask) == 0)
 	{
@@ -335,7 +335,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 
 	if(command)
 	{
-		mpv_command_string_ext(ctx, command);
+		mpv_command_string(ctx->mpv_ctx, command);
 	}
 
 	return TRUE;
