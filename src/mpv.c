@@ -1019,86 +1019,61 @@ void mpv_init(gmpv_handle *ctx)
 {
 	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 	gdouble volume = g_settings_get_double(settings, "volume")*100;
-	gboolean mpvconf_enable = FALSE;
 	gchar *config_dir = get_config_dir_path();
-	gchar *mpvconf = NULL;
 	gchar *mpvopt = NULL;
 
-	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
-
-	ctx->mpv_ctx = mpv_create_client(NULL, CLIENT_NAME);
-
-	/* Set default options */
-	mpv_check_error(mpv_set_option_string(ctx->mpv_ctx, "osd-level", "1"));
-	mpv_check_error(mpv_set_option_string(ctx->mpv_ctx, "softvol", "yes"));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"msg-level",
-						"ffmpeg=fatal" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"audio-client-name",
-						ICON_NAME ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"title",
-						"${media-title}" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"pause",
-						"yes" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"ytdl",
-						"yes" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"input-cursor",
-						"no" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"cursor-autohide",
-						"no" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"softvol-max",
-						"100" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"config",
-						"yes" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"screenshot-template",
-						"gnome-mpv-shot%n" ));
-
-	mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-						"config-dir",
-						config_dir ));
-
-	mpv_check_error(mpv_set_option(	ctx->mpv_ctx,
-					"volume",
-					MPV_FORMAT_DOUBLE,
-					&volume ));
-
-	if(!main_window_get_use_opengl(ctx->gui))
+	const struct
 	{
-		mpv_check_error(mpv_set_option(	ctx->mpv_ctx,
-						"wid",
-						MPV_FORMAT_INT64,
-						&ctx->vid_area_wid ));
+		const gchar *name;
+		const gchar *value;
+	}
+	options[] = {	{"osd-level", "1"},
+			{"softvol", "yes"},
+			{"audio-client-name", ICON_NAME},
+			{"title", "${media-title}"},
+			{"pause", "yes"},
+			{"ytdl", "yes"},
+			{"input-cursor", "no"},
+			{"cursor-autohide", "no"},
+			{"softvol-max", "100"},
+			{"config", "yes"},
+			{"screenshot-template", "gnome-mpv-shot%n"},
+			{"config-dir", config_dir},
+			{NULL, NULL} };
+
+	for(gint i = 0; options[i].name; i++)
+	{
+		mpv_set_option_string(	ctx->mpv_ctx,
+					options[i].name,
+					options[i].value );
 	}
 
-	mpvconf_enable = g_settings_get_boolean
-				(ctx->config, "mpv-config-enable");
-
-	mpvconf = g_settings_get_string (ctx->config, "mpv-config-file");
-	mpvopt = g_settings_get_string (ctx->config, "mpv-options");
-
-	if(mpvconf_enable)
+	if(main_window_get_use_opengl(ctx->gui))
 	{
-		mpv_load_config_file(ctx->mpv_ctx, mpvconf);
+		mpv_set_option_string(ctx->mpv_ctx, "vo", "opengl-cb");
+
 	}
+	else
+	{
+		mpv_set_option(	ctx->mpv_ctx,
+				"wid",
+				MPV_FORMAT_INT64,
+				&ctx->vid_area_wid );
+	}
+
+	mpv_set_option(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &volume);
+
+	if(g_settings_get_boolean(ctx->config, "mpv-config-enable"))
+	{
+		gchar *mpv_conf = g_settings_get_string
+					(ctx->config, "mpv-config-file");
+
+		mpv_load_config_file(ctx->mpv_ctx, mpv_conf);
+
+		g_free(mpv_conf);
+	}
+
+	mpvopt = g_settings_get_string(ctx->config, "mpv-options");
 
 	/* Apply extra options */
 	if(mpv_apply_args(ctx->mpv_ctx, mpvopt) < 0)
@@ -1109,18 +1084,12 @@ void mpv_init(gmpv_handle *ctx)
 		show_error_dialog(ctx, NULL, msg);
 	}
 
-	if(main_window_get_use_opengl(ctx->gui))
-	{
-		mpv_check_error(mpv_set_option_string(	ctx->mpv_ctx,
-							"vo",
-							"opengl-cb" ));
-
-	}
-
 	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
 						0,
 						"pause",
 						MPV_FORMAT_FLAG ));
+
+	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
 
 	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
 						0,
@@ -1137,8 +1106,6 @@ void mpv_init(gmpv_handle *ctx)
 						"volume",
 						MPV_FORMAT_DOUBLE ));
 
-	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
-
 	ctx->opengl_ctx = mpv_get_sub_api(ctx->mpv_ctx, MPV_SUB_API_OPENGL_CB);
 
 	mpv_opengl_cb_set_update_callback(	ctx->opengl_ctx,
@@ -1150,7 +1117,6 @@ void mpv_init(gmpv_handle *ctx)
 
 	g_clear_object(&settings);
 	g_free(config_dir);
-	g_free(mpvconf);
 	g_free(mpvopt);
 }
 
