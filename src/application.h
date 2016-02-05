@@ -50,7 +50,6 @@ struct _Application
 	MpvObj *mpv;
 	gchar **files;
 	guint inhibit_cookie;
-	GSList *keybind_list;
 	GSettings *config;
 	MainWindow *gui;
 	GtkWidget *fs_control;

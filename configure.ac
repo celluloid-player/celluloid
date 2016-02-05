@@ -88,9 +88,9 @@ AS_IF([test "x$GLIB_GENMARSHAL" = "x"], [
 # Checks for libraries.
 AS_IF([test "x$enable_opengl_cb" != "xno"], [
 	AC_DEFINE([OPENGL_CB_ENABLED])
-	PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.16 glib-2.0 >= 2.40 mpv >= 1.16 epoxy])
+	PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.16 glib-2.0 >= 2.40 mpv >= 1.20 epoxy])
 ], [
-	PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.14 glib-2.0 >= 2.40 mpv >= 1.16])
+	PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.14 glib-2.0 >= 2.40 mpv >= 1.20])
 ])
 
 AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_40], [Dont warn using older APIs])

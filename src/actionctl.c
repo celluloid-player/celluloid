@@ -325,20 +325,12 @@ static void pref_handler(	GSimpleAction *action,
 	{
 		gboolean csd_enable;
 		gboolean dark_theme_enable;
-		gboolean input_config_enable;
-		gchar *input_config_file;
 
 		csd_enable = g_settings_get_boolean
 				(settings, "csd-enable");
 
 		dark_theme_enable = g_settings_get_boolean
 					(settings, "dark-theme-enable");
-
-		input_config_enable = g_settings_get_boolean
-					(settings, "mpv-input-config-enable");
-
-		input_config_file = g_settings_get_string
-					(settings, "mpv-input-config-file");
 
 		if(csd_enable_old != csd_enable)
 		{
@@ -365,12 +357,6 @@ static void pref_handler(	GSimpleAction *action,
 
 		mpv_obj_reset(app->mpv);
 		gtk_widget_queue_draw(GTK_WIDGET(app->gui));
-
-		load_keybind(	app,
-				input_config_enable?input_config_file:NULL,
-				input_config_enable );
-
-		g_free(input_config_file);
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(pref_dialog));

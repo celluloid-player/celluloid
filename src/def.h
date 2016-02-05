@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -65,7 +65,8 @@
 					"UP no-osd seek 60",\
 					"DOWN no-osd seek -60",\
 					"Q quit_watch_later",\
-					"MOUSE_BTN2 cycle pause",\
+					"MOUSE_BTN1_DBL cycle fullscreen",\
+					"MOUSE_BTN3 cycle pause",\
 					NULL }
 
 #define KEYSTRING_MAP	{	"<", "less",\

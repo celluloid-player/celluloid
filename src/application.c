@@ -48,7 +48,6 @@
 #include "actionctl.h"
 #include "playbackctl.h"
 #include "playlist_widget.h"
-#include "keybind.h"
 #include "track.h"
 #include "menu.h"
 #include "mpv_obj.h"
@@ -91,7 +90,11 @@ static void drag_data_handler(	GtkWidget *widget,
 				guint info,
 				guint time,
 				gpointer data);
+static gchar *get_full_keystr(guint keyval, guint state);
 static gboolean key_press_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data );
+static gboolean key_release_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
 static gboolean mouse_press_handler(	GtkWidget *widget,
@@ -148,7 +151,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	GtkCssProvider *style_provider;
 	gboolean css_loaded;
 	gboolean use_opengl;
-	gboolean mpvinput_enable;
 	gboolean csd_enable;
 	gboolean dark_theme_enable;
 	gchar *mpvinput;
@@ -165,7 +167,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	app->files = NULL;
 	app->inhibit_cookie = 0;
-	app->keybind_list = NULL;
 	app->config = g_settings_new(CONFIG_ROOT);
 	app->playlist_store = playlist_new();
 	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store, use_opengl));
@@ -193,8 +194,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 				(app->config, "csd-enable");
 	dark_theme_enable = g_settings_get_boolean
 				(app->config, "dark-theme-enable");
-	mpvinput_enable = g_settings_get_boolean
-				(app->config, "mpv-input-config-enable");
 	mpvinput = g_settings_get_string
 				(app->config, "mpv-input-config-file");
 
@@ -242,7 +241,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	setup_accelerators(app);
 	actionctl_map_actions(app);
 	connect_signals(app);
-	load_keybind(app, mpvinput_enable?mpvinput:NULL, FALSE);
 	mpris_init(app);
 	media_keys_init(app);
 
@@ -706,14 +704,62 @@ static void drag_data_handler(	GtkWidget *widget,
 	}
 }
 
+static gchar *get_full_keystr(guint keyval, guint state)
+{
+	/* strlen("Ctrl+Alt+Shift+Meta+")+1 == 21 */
+	const gsize max_modstr_len = 21;
+	gchar modstr[max_modstr_len];
+	gboolean found = FALSE;
+	const gchar *keystr = gdk_keyval_name(keyval);
+	const gchar *keystrmap[] = KEYSTRING_MAP;
+	modstr[0] = '\0';
+
+	if((state&GDK_SHIFT_MASK) != 0)
+	{
+		g_strlcat(modstr, "Shift+", max_modstr_len);
+	}
+
+	if((state&GDK_CONTROL_MASK) != 0)
+	{
+		g_strlcat(modstr, "Ctrl+", max_modstr_len);
+	}
+
+	if((state&GDK_MOD1_MASK) != 0)
+	{
+		g_strlcat(modstr, "Alt+", max_modstr_len);
+	}
+
+	if((state&GDK_META_MASK) != 0 || (state&GDK_SUPER_MASK) != 0)
+	{
+		g_strlcat(modstr, "Meta+", max_modstr_len);
+	}
+
+	/* Translate GDK key name to mpv key name */
+	for(gint i = 0; !found && keystrmap[i]; i += 2)
+	{
+		gint rc = g_ascii_strncasecmp(	keystr,
+						keystrmap[i+1],
+						KEYSTRING_MAX_LEN );
+
+		if(rc == 0)
+		{
+			keystr = keystrmap[i];
+			found = TRUE;
+		}
+	}
+
+	return g_strconcat(modstr, keystr, NULL);
+}
+
 static gboolean key_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data )
 {
+	const gchar *cmd[] = {"keydown", NULL, NULL};
 	Application *app = data;
 	guint keyval = ((GdkEventKey*)event)->keyval;
 	guint state = ((GdkEventKey*)event)->state;
-	gchar *command;
+	gchar *keystr = NULL;
 
 	const guint mod_mask =	GDK_MODIFIER_MASK
 				&~(GDK_SHIFT_MASK
@@ -723,16 +769,14 @@ static gboolean key_press_handler(	GtkWidget *widget,
 				|GDK_MOD4_MASK
 				|GDK_MOD5_MASK);
 
-	/* Ignore insignificant modifiers (eg. numlock) */
-	state &= mod_mask;
-	command = keybind_get_command(app, FALSE, state, keyval);
+	cmd[1] = keystr = get_full_keystr(keyval, state);
 
-	/* Try user-specified keys first, then fallback to hard-coded keys */
-	if(command)
-	{
-		mpv_obj_command_string(app->mpv, command);
-	}
-	else if((state&mod_mask) == 0)
+	g_debug("Sent '%s' key down to mpv", keystr);
+	mpv_obj_command(app->mpv, cmd);
+
+	g_free(keystr);
+
+	if((state&mod_mask) == 0)
 	{
 		/* Accept F11 and f for entering/exiting fullscreen mode. ESC is
 		 * only used for exiting fullscreen mode. F11 is handled via
@@ -758,24 +802,44 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
+static gboolean key_release_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data )
+{
+	Application *app = data;
+	guint keyval = ((GdkEventKey*)event)->keyval;
+	guint state = ((GdkEventKey*)event)->state;
+	gchar *keystr = NULL;
+	const gchar *cmd[] = {"keyup", NULL, NULL};
+
+	cmd[1] = keystr = get_full_keystr(keyval, state);
+
+	g_debug("Sent '%s' key up to mpv", keystr);
+	mpv_obj_command(app->mpv, cmd);
+
+	g_free(keystr);
+
+	return FALSE;
+}
+
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data )
 {
 	Application *app = data;
 	GdkEventButton *btn_event = (GdkEventButton *)event;
-	gchar *command;
+	gchar *x_str = g_strdup_printf("%d", (gint)btn_event->x);
+	gchar *y_str = g_strdup_printf("%d", (gint)btn_event->y);
+	gchar *btn_str = g_strdup_printf("%u", btn_event->button);
+	const gchar *type_str =	(btn_event->type == GDK_2BUTTON_PRESS)?
+				"double":"single";
 
-	command = keybind_get_command(	app,
-					TRUE,
-					btn_event->type == GDK_2BUTTON_PRESS,
-					btn_event->button );
+	const gchar *cmd[] = {"mouse", x_str, y_str, btn_str, type_str, NULL};
 
-	if(command)
-	{
-		mpv_obj_command_string(app->mpv, command);
-	}
-	else if(btn_event->button == 1 && btn_event->type == GDK_2BUTTON_PRESS)
+	g_debug(	"Sent %s button %s click at %sx%s to mpv",
+			type_str, btn_str, x_str, y_str );
+
+	if(btn_event->button == 1 && btn_event->type == GDK_2BUTTON_PRESS)
 	{
 		GAction *action;
 
@@ -783,6 +847,14 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 				(G_ACTION_MAP(app), "fullscreen");
 		g_action_activate(action, NULL);
 	}
+	else
+	{
+		mpv_obj_command(app->mpv, cmd);
+	}
+
+	g_free(x_str);
+	g_free(y_str);
+	g_free(btn_str);
 
 	return TRUE;
 }
@@ -903,6 +975,10 @@ static void connect_signals(Application *app)
 	g_signal_connect(	app->gui,
 				"key-press-event",
 				G_CALLBACK(key_press_handler),
+				app );
+	g_signal_connect(	app->gui,
+				"key-release-event",
+				G_CALLBACK(key_release_handler),
 				app );
 	g_signal_connect(	app->gui->vid_area,
 				"button-press-event",

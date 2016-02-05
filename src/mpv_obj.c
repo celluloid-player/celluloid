@@ -18,6 +18,7 @@
  */
 
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <gdk/gdk.h>
 #include <stdlib.h>
 #include <string.h>
@@ -91,6 +92,7 @@ static gboolean mpv_event_handler(gpointer data);
 static void mpv_obj_update_playlist(MpvObj *mpv);
 static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
+static void load_input_conf(MpvObj *mpv, const gchar *input_conf);
 static void uninit_opengl_cb(MpvObj *mpv);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
@@ -743,6 +745,73 @@ static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message)
 	}
 }
 
+static void load_input_conf(MpvObj *mpv, const gchar *input_conf)
+{
+	const gchar *default_keybinds[] = DEFAULT_KEYBINDS;
+	gchar *tmp_path;
+	FILE *tmp_file;
+	gint tmp_fd;
+
+	tmp_fd = g_file_open_tmp(NULL, &tmp_path, NULL);
+	tmp_file = fdopen(tmp_fd, "w");
+
+	if(!tmp_file)
+	{
+		g_error("Failed to open temporary input config file");
+	}
+
+	for(gint i = 0; default_keybinds[i]; i++)
+	{
+		const gsize len = strlen(default_keybinds[i]);
+		gsize write_size;
+		gint rc;
+
+		write_size = fwrite(default_keybinds[i], len, 1, tmp_file);
+		rc = fputc('\n', tmp_file);
+
+		if(write_size != 1 || rc != '\n')
+		{
+			g_error(	"Error writing default keybindings to "
+					"temporary input config file" );
+		}
+	}
+
+	g_debug("Using temporary input config file: %s", tmp_path);
+	mpv_set_option_string(mpv->mpv_ctx, "input-conf", tmp_path);
+
+	if(input_conf && strlen(input_conf) > 0)
+	{
+		const gsize buf_size = 65536;
+		void *buf = g_malloc(buf_size);
+		FILE *src_file = g_fopen(input_conf, "r");
+		gsize read_size = buf_size;
+
+		if(!src_file)
+		{
+			g_warning(	"Cannot open input config file: %s",
+					input_conf );
+		}
+
+		while(src_file && read_size == buf_size)
+		{
+			read_size = fread(buf, 1, buf_size, src_file);
+
+			if(read_size != fwrite(buf, 1, read_size, tmp_file))
+			{
+				g_error(	"Error writing requested input "
+						"config file to temporary "
+						"input config file" );
+			}
+		}
+
+		g_info("Loaded input config file: %s", input_conf);
+
+		g_free(buf);
+	}
+
+	fclose(tmp_file);
+}
+
 static void uninit_opengl_cb(MpvObj *mpv)
 {
 #ifdef OPENGL_CB_ENABLED
@@ -999,13 +1068,30 @@ void mpv_obj_initialize(MpvObj *mpv)
 
 	if(g_settings_get_boolean(main_settings, "mpv-config-enable"))
 	{
-		gchar *mpv_conf = g_settings_get_string
-					(main_settings, "mpv-config-file");
+		gchar *mpv_conf
+			= g_settings_get_string
+				(main_settings, "mpv-config-file");
 
 		g_info("Loading config file: %s", mpv_conf);
 		mpv_load_config_file(mpv->mpv_ctx, mpv_conf);
 
 		g_free(mpv_conf);
+	}
+
+	if(g_settings_get_boolean(main_settings, "mpv-input-config-enable"))
+	{
+		gchar *input_conf
+			= g_settings_get_string
+				(main_settings, "mpv-input-config-file");
+
+		g_info("Loading input config file: %s", input_conf);
+		load_input_conf(mpv, input_conf);
+
+		g_free(input_conf);
+	}
+	else
+	{
+		load_input_conf(mpv, NULL);
 	}
 
 	mpvopt = g_settings_get_string(main_settings, "mpv-options");

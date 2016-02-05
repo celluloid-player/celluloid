@@ -24,7 +24,6 @@
 #include "common.h"
 #include "def.h"
 #include "mpv_obj.h"
-#include "keybind.h"
 #include "main_window.h"
 #include "control_box.h"
 #include "playlist_widget.h"
@@ -279,23 +278,4 @@ void toggle_fullscreen(Application *app)
 				"fullscreen",
 				MPV_FORMAT_FLAG,
 				&app->gui->fullscreen );
-}
-
-void load_keybind(	Application *app,
-			const gchar *config_path,
-			gboolean notify_propexp )
-{
-	gboolean propexp;
-
-	app->keybind_list
-		= keybind_parse_config_with_defaults(config_path, &propexp);
-
-	if(notify_propexp && propexp)
-	{
-		const gchar *msg = _(	"Keybindings that require Property "
-					"Expansion are not supported and have "
-					"been ignored." );
-
-		show_error_dialog(app, NULL, msg);
-	}
 }

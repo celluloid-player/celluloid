@@ -27,7 +27,6 @@ gnome_mpv_SOURCES =	main.c def.h \
 			application.c application.h \
 			common.c common.h \
 			control_box.c control_box.h \
-			keybind.c keybind.h \
 			main_window.c main_window.h \
 			menu.c menu.h \
 			mpv_obj.c mpv_obj.h \
