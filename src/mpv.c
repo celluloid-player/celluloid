@@ -616,47 +616,6 @@ gboolean mpv_handle_event(gpointer data)
 			g_signal_emit_by_name(	ctx->gui,
 						"mpv-playback-restart" );
 		}
-		else if(event->event_id == MPV_EVENT_CLIENT_MESSAGE)
-		{
-			mpv_event_client_message *event_cmsg = event->data;
-
-			if(event_cmsg->num_args == 2
-			&& g_strcmp0(event_cmsg->args[0], "gmpv-action") == 0)
-			{
-				activate_action_string
-					(ctx, event_cmsg->args[1]);
-
-				/* If 'quit' is activated, ctx->mpv_ctx will be
-				 * set to NULL.
-				 */
-				if(!ctx->mpv_ctx)
-				{
-					done = TRUE;
-				}
-			}
-			else
-			{
-				gint num_args;
-				gchar **args;
-				gchar *full_str;
-
-				num_args = event_cmsg->num_args;
-
-				args = g_malloc(	((gsize)num_args+1)*
-							sizeof(gchar *) );
-
-				memcpy(args, event_cmsg->args, (gsize)num_args);
-
-				args[num_args] = NULL;
-				full_str = g_strjoinv(" ", args);
-
-				g_warning(	"Invalid client message "
-						"received: %s",
-						full_str );
-
-				g_free(full_str);
-			}
-		}
 		else if(event->event_id == MPV_EVENT_SHUTDOWN)
 		{
 			quit(ctx);
@@ -1098,27 +1057,11 @@ void mpv_init(gmpv_handle *ctx)
 		show_error_dialog(ctx, NULL, msg);
 	}
 
-	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
-						0,
-						"pause",
-						MPV_FORMAT_FLAG ));
-
+	mpv_observe_property(ctx->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
+	mpv_observe_property(ctx->mpv_ctx, 0, "eof-reached", MPV_FORMAT_FLAG);
+	mpv_observe_property(ctx->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
+	mpv_observe_property(ctx->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 	mpv_check_error(mpv_initialize(ctx->mpv_ctx));
-
-	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
-						0,
-						"eof-reached",
-						MPV_FORMAT_FLAG ));
-
-	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
-						0,
-						"fullscreen",
-						MPV_FORMAT_FLAG ));
-
-	mpv_check_error(mpv_observe_property(	ctx->mpv_ctx,
-						0,
-						"volume",
-						MPV_FORMAT_DOUBLE ));
 
 	ctx->opengl_ctx = mpv_get_sub_api(ctx->mpv_ctx, MPV_SUB_API_OPENGL_CB);
 

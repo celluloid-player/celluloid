@@ -19,7 +19,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "keybind.h"
 #include "def.h"
@@ -42,19 +41,7 @@ keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp)
 
 	if(linebuf)
 	{
-		const gchar *prefix = CONF_PREFIX;
-		gsize prefix_len = strlen(prefix);
-		gsize line_len = strlen(linebuf);
-
 		offset = -1;
-
-		/* Remove gnome-mpv prefix */
-		if(g_ascii_strncasecmp(linebuf, prefix, prefix_len) == 0)
-		{
-			memmove(	linebuf,
-					linebuf+prefix_len,
-					line_len-prefix_len+1 );
-		}
 
 		/* Remove comments */
 		while(linebuf[++offset] != '#' && linebuf[offset] != '\0');

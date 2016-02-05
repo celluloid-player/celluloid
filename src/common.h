@@ -64,7 +64,6 @@ gchar *get_name_from_path(const gchar *path);
 gboolean quit(gpointer data);
 gboolean migrate_config(gmpv_handle *ctx);
 gboolean update_seek_bar(gpointer data);
-void activate_action_string(gmpv_handle *ctx, const gchar *str);
 void seek(gmpv_handle *ctx, gdouble time);
 void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg);
 void remove_current_playlist_entry(gmpv_handle *ctx);
