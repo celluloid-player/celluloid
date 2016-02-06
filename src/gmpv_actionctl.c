@@ -79,20 +79,22 @@ static void open_handler(	GSimpleAction *action,
 	GSettings *main_config = NULL;
 	GSettings *win_config = NULL;
 	GtkFileChooser *file_chooser = NULL;
-	GtkWidget *open_dialog = NULL;
+	GmpvFileChooser *open_dialog = NULL;
 	gboolean last_folder_enable = FALSE;
 	gboolean append = FALSE;
 
 	g_variant_get(param, "b", &append);
 
 	wnd = gmpv_application_get_main_window(app);
-	open_dialog =	gtk_file_chooser_dialog_new
-			(	append?_("Add File to Playlist"):_("Open File"),
-				GTK_WINDOW(wnd),
-				GTK_FILE_CHOOSER_ACTION_OPEN,
-				_("_Cancel"), GTK_RESPONSE_CANCEL,
-				_("_Open"), GTK_RESPONSE_ACCEPT,
-				NULL );
+	open_dialog
+		= gmpv_file_chooser_new (	append?
+						_("Add File to Playlist"):
+						_("Open File"),
+						GTK_WINDOW(wnd),
+						GTK_FILE_CHOOSER_ACTION_OPEN,
+						_("_Open"),
+						_("_Cancel"));
+
 	main_config = g_settings_new(CONFIG_ROOT);
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
 	last_folder_enable =	g_settings_get_boolean
@@ -117,7 +119,7 @@ static void open_handler(	GSimpleAction *action,
 
 	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
 
-	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
+	if(gmpv_file_chooser_run(open_dialog) == GTK_RESPONSE_ACCEPT)
 	{
 		GSList *uri_slist = gtk_file_chooser_get_filenames(file_chooser);
 		GSList *uri = uri_slist;
@@ -158,7 +160,8 @@ static void open_handler(	GSimpleAction *action,
 		g_slist_free_full(uri_slist, g_free);
 	}
 
-	gtk_widget_destroy(open_dialog);
+
+	gmpv_file_chooser_destroy(open_dialog);
 	g_clear_object(&main_config);
 	g_clear_object(&win_config);
 }
@@ -237,7 +240,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 	GFile *dest_file;
 	GOutputStream *dest_stream;
 	GtkFileChooser *file_chooser;
-	GtkWidget *save_dialog;
+	GmpvFileChooser *save_dialog;
 	GError *error;
 	GtkTreeIter iter;
 	gboolean rc;
@@ -248,13 +251,12 @@ static void playlist_save_handler(	GSimpleAction *action,
 	model = GTK_TREE_MODEL(gmpv_playlist_get_store(playlist));
 	dest_file = NULL;
 	dest_stream = NULL;
-	save_dialog =	gtk_file_chooser_dialog_new
+	save_dialog =	gmpv_file_chooser_new
 			(	_("Save Playlist"),
 				GTK_WINDOW(wnd),
 				GTK_FILE_CHOOSER_ACTION_SAVE,
-				_("_Cancel"), GTK_RESPONSE_CANCEL,
-				_("_Save"), GTK_RESPONSE_ACCEPT,
-				NULL );
+				_("_Save"),
+				_("_Cancel")	);
 	file_chooser = GTK_FILE_CHOOSER(save_dialog);
 	error = NULL;
 	rc = FALSE;
@@ -262,13 +264,13 @@ static void playlist_save_handler(	GSimpleAction *action,
 	gtk_file_chooser_set_do_overwrite_confirmation(file_chooser, TRUE);
 	gtk_file_chooser_set_current_name(file_chooser, "playlist.m3u");
 
-	if(gtk_dialog_run(GTK_DIALOG(save_dialog)) == GTK_RESPONSE_ACCEPT)
+	if(gmpv_file_chooser_run(save_dialog) == GTK_RESPONSE_ACCEPT)
 	{
 		/* There should be only one file selected. */
 		dest_file = gtk_file_chooser_get_file(file_chooser);
 	}
 
-	gtk_widget_destroy(save_dialog);
+	gmpv_file_chooser_destroy(save_dialog);
 
 	if(dest_file)
 	{

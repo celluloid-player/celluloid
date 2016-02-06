@@ -43,6 +43,21 @@ void load_keybind(	GmpvApplication *app,
 			const gchar *config_path,
 			gboolean notify_ignore );
 
+#if GTK_CHECK_VERSION(3, 19, 7)
+#define GmpvFileChooser GtkFileChooserNative
+#define gmpv_file_chooser_destroy(x) gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(x))
+#define gmpv_file_chooser_run(x) gtk_native_dialog_run(GTK_NATIVE_DIALOG(x))
+#define gmpv_file_chooser_new(title,parent,action,accept,cancel) \
+	gtk_file_chooser_native_new(title,parent,action,accept,cancel)
+#else
+#define GmpvFileChooser GtkWidget
+#define gmpv_file_chooser_destroy(x) gtk_widget_destroy(GTK_WIDGET(x))
+#define gmpv_file_chooser_run(x) gtk_dialog_run(GTK_DIALOG(x))
+#define gmpv_file_chooser_new(title,parent,action,accept,cancel) \
+	gtk_file_chooser_dialog_new(title,parent,action,cancel,\
+				    GTK_RESPONSE_CANCEL,accept,GTK_RESPONSE_ACCEPT,NULL)
+#endif
+
 G_END_DECLS
 
 #endif
