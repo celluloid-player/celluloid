@@ -133,26 +133,23 @@ static void gmpv_plugins_manager_get_property(	GObject *object,
 static void add_handler(GtkButton *button, gpointer data)
 {
 	GmpvPluginsManager *pmgr = data;
-	GtkWidget *dialog = NULL;
+	GmpvFileChooser *dialog = NULL;
 	GFile *src = NULL;
 
-	dialog = gtk_file_chooser_dialog_new(	_("Add Lua Script"),
-						pmgr->parent_window,
-						GTK_FILE_CHOOSER_ACTION_OPEN,
-						_("Cancel"),
-						GTK_RESPONSE_CANCEL,
-						_("Open"),
-						GTK_RESPONSE_ACCEPT,
-						NULL );
+	dialog = gmpv_file_chooser_new(	_("Add Lua Script"),
+					pmgr->parent_window,
+					GTK_FILE_CHOOSER_ACTION_OPEN,
+					_("Open"),
+					_("Cancel")	);
 
-	if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	if(gmpv_file_chooser_run(dialog) == GTK_RESPONSE_ACCEPT)
 	{
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
 
 		src = gtk_file_chooser_get_file(chooser);
 	}
 
-	gtk_widget_destroy(dialog);
+	gmpv_file_chooser_destroy(dialog);
 
 	copy_file_to_directory(pmgr, src);
 
