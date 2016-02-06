@@ -54,7 +54,6 @@
 					"UP no-osd seek 60",\
 					"DOWN no-osd seek -60",\
 					"Q quit_watch_later",\
-					"MOUSE_BTN0_DBL cycle fullscreen",\
 					"MOUSE_BTN2 cycle pause",\
 					NULL }
 

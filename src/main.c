@@ -337,6 +337,15 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	{
 		mpv_command_string(ctx->mpv_ctx, command);
 	}
+	else if(btn_event->button == 1 && btn_event->type == GDK_2BUTTON_PRESS)
+	{
+		GAction *action;
+
+		action = g_action_map_lookup_action
+				(G_ACTION_MAP(ctx->app), "fullscreen");
+
+		g_action_activate(action, NULL);
+	}
 
 	return TRUE;
 }
