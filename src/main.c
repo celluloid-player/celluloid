@@ -564,7 +564,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	GtkCssProvider *style_provider;
 	gboolean css_loaded;
 	gboolean use_opengl;
-	gboolean config_migrated;
 	gboolean mpvinput_enable;
 	gboolean csd_enable;
 	gboolean dark_theme_enable;
@@ -599,7 +598,8 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->fs_control = NULL;
 	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
 
-	config_migrated = migrate_config(ctx);
+	migrate_config(ctx);
+
 	style_provider = gtk_css_provider_new();
 
 	css_loaded = gtk_css_provider_load_from_data
@@ -681,33 +681,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
 			(GSourceFunc)update_seek_bar,
 			ctx );
-
-	if(config_migrated)
-	{
-		gchar *config_file;
-		gchar *backup_config_file;
-		GtkWidget *dialog;
-
-		config_file = get_config_file_path();
-		backup_config_file = g_strconcat(config_file, ".bak", NULL);
-
-		dialog = gtk_message_dialog_new
-				(	GTK_WINDOW(ctx->gui),
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_INFO,
-					GTK_BUTTONS_OK,
-					_("Preferences is now stored using "
-					"GSettings. Your preferences have been "
-					"migrated from the configuration file. "
-					"A backup copy of the configuration "
-					"file can be found at \"%s\"."),
-					backup_config_file );
-
-		gtk_dialog_run(GTK_DIALOG(dialog));
-		gtk_widget_destroy(dialog);
-		g_free(config_file);
-		g_free(backup_config_file);
-	}
 
 	g_free(mpvinput);
 }

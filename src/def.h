@@ -20,7 +20,7 @@
 #ifndef DEF_H
 #define DEF_H
 
-#define APP_ID "org.gnome-mpv"
+#define APP_ID "io.github.GnomeMpv"
 #define ICON_NAME "gnome-mpv"
 #define CONFIG_DIR "gnome-mpv"
 #define CONFIG_ROOT APP_ID

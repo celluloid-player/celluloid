@@ -99,81 +99,33 @@ gboolean quit(gpointer data)
 	return FALSE;
 }
 
-/* This only supports migrating from v0.5's config file */
-gboolean migrate_config(gmpv_handle *ctx)
+void migrate_config(gmpv_handle *ctx)
 {
-	gchar *config_file = get_config_file_path();
-	gchar *backup_config_file = g_strconcat(config_file, ".bak", NULL);
-	gboolean result = FALSE;
+	const gchar *keys[] = {	"dark-theme-enable",
+				"csd-enable",
+				"last-folder-enable",
+				"mpv-options",
+				"mpv-config-file",
+				"mpv-config-enable",
+				"mpv-input-config-file",
+				"mpv-input-config-enable",
+				NULL };
 
-	if(g_file_test(config_file, G_FILE_TEST_EXISTS))
+	GSettings *old_settings = g_settings_new("org.gnome-mpv");
+	GSettings *new_settings = g_settings_new(CONFIG_ROOT);
+
+	if(!g_settings_get_boolean(new_settings, "settings-migrated"))
 	{
-		/* Backup the old config file */
-		GFile *src = g_file_new_for_path(config_file);
-		GFile *dest = g_file_new_for_path(backup_config_file);
+		g_settings_set_boolean(new_settings, "settings-migrated", TRUE);
 
-		result = g_file_move(	src,
-					dest,
-					G_FILE_COPY_OVERWRITE,
-					NULL,
-					NULL,
-					NULL,
-					NULL );
-
-		g_object_unref(src);
-		g_object_unref(dest);
-	}
-
-	if(result)
-	{
-		/* Load settings from the backup file */
-		const gchar *key_list[] = {	"csd-enable",
-						"dark-theme-enable",
-						"mpv-input-config-enable",
-						"mpv-config-enable",
-						"mpv-input-config-file",
-						"mpv-config-file",
-						"mpv-options",
-						NULL };
-
-		GSettingsBackend *backend;
-		GSettings *keyfile_settings;
-		GSettings *default_settings;
-		const gchar **iter;
-
-		backend = g_keyfile_settings_backend_new
-				(	backup_config_file,
-					"/org/gnome-mpv/gnome-mpv/",
-					"main" );
-
-		keyfile_settings = g_settings_new_with_backend(	CONFIG_ROOT,
-								backend );
-
-		default_settings = g_settings_new(CONFIG_ROOT);
-		iter = key_list;
-
-		while(*iter)
+		for(gint i = 0; keys[i]; i++)
 		{
-			GVariant *value;
+			GVariant *buf = g_settings_get_value(	old_settings,
+								keys[i] );
 
-			value = g_settings_get_value(keyfile_settings, *iter);
-
-			g_settings_set_value(default_settings, *iter, value);
-
-			iter++;
-
-			g_variant_unref(value);
+			g_settings_set_value(new_settings, keys[i], buf);
 		}
-
-		g_object_unref(backend);
-		g_object_unref(keyfile_settings);
-		g_object_unref(default_settings);
 	}
-
-	g_free(config_file);
-	g_free(backup_config_file);
-
-	return result;
 }
 
 gboolean update_seek_bar(gpointer data)
