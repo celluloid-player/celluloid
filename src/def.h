@@ -30,6 +30,7 @@
 #define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.gnome-mpv"
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
 #define PLAYLIST_DEFAULT_WIDTH 200
+#define PLAYLIST_MIN_WIDTH 20
 #define PLAYLIST_CSD_WIDTH_OFFSET 52
 #define MAIN_WINDOW_DEFAULT_WIDTH 625
 #define MAIN_WINDOW_DEFAULT_HEIGHT 400

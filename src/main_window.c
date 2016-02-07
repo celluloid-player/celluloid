@@ -434,7 +434,7 @@ static void main_window_init(MainWindow *wnd)
 		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
 
 	gtk_paned_pack2
-		(GTK_PANED(wnd->vid_area_paned), wnd->playlist, FALSE, TRUE);
+		(GTK_PANED(wnd->vid_area_paned), wnd->playlist, FALSE, FALSE);
 
 	gtk_container_add
 		(GTK_CONTAINER(wnd->main_box), wnd->control_box);

@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 
 #include "playlist_widget.h"
+#include "def.h"
 
 G_DEFINE_TYPE(PlaylistWidget, playlist_widget, GTK_TYPE_SCROLLED_WINDOW)
 
@@ -96,6 +97,9 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 
 	gtk_widget_set_can_focus(GTK_WIDGET(wgt->tree_view), FALSE);
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(wgt->tree_view), TRUE);
+
+	gtk_widget_set_size_request
+		(GTK_WIDGET(wgt), PLAYLIST_MIN_WIDTH, -1);
 
 	gtk_tree_view_append_column
 		(GTK_TREE_VIEW(wgt->tree_view), wgt->indicator_column);
