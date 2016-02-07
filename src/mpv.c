@@ -931,10 +931,7 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 			&& (*opt_end == ' ' || *opt_end == '\n') );
 
 		token_size = (gsize)(opt_end-opt_begin);
-		token = g_malloc(token_size);
-
-		g_strlcpy(token, opt_begin+2, token_size);
-
+		token = g_strndup(opt_begin+2, token_size-1);
 		token_arg = strpbrk(token, "= ");
 
 		if(token_arg)
