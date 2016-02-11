@@ -114,8 +114,11 @@ will be given priority.
 ## Contributing Translations
 
 GNOME MPV uses [Zanata](https://zanata.org) to coordinate
-translations. You can find GNOME MPV's page [here](https://translate.zanata.org/zanata/iteration/view/gnome-mpv/master).
-If you'd like to add a new language, open an issue on GitHub.
+translations. You can find GNOME MPV's page
+[here](https://translate.zanata.org/zanata/iteration/view/gnome-mpv/master). To
+start translating, folow the instructions
+[here](http://docs.zanata.org/en/release/user-guide/translator-guide/). If you'd
+like to add a new language, open an issue on GitHub.
 
 ## License
 
