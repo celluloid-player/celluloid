@@ -313,45 +313,36 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 	else if(g_strcmp0(prop->name, "volume") == 0
 	&& (ctx->init_load || ctx->loaded))
 	{
-		gchar *aid  = mpv_get_property_string(ctx->mpv_ctx, "aid");
+		ControlBox *control_box = CONTROL_BOX(ctx->gui->control_box);
+		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
+
+		g_signal_handlers_block_matched
+			(	control_box->volume_button,
+				G_SIGNAL_MATCH_DATA,
+				0,
+				0,
+				NULL,
+				NULL,
+				ctx );
+
+		control_box_set_volume(control_box, volume);
+
+		g_signal_handlers_unblock_matched
+			(	control_box->volume_button,
+				G_SIGNAL_MATCH_DATA,
+				0,
+				0,
+				NULL,
+				NULL,
+				ctx );
+	}
+	else if(g_strcmp0(prop->name, "aid") == 0)
+	{
 		ControlBox *control_box = CONTROL_BOX(ctx->gui->control_box);
 
-		if(g_strcmp0(aid, "no") == 0)
-		{
-			gtk_widget_set_sensitive
-				(control_box->volume_button, FALSE);
-		}
-		else
-		{
-			gdouble volume;
-
-			volume = prop->data?*((double *)prop->data)/100.0:0;
-
-			gtk_widget_set_sensitive
-				(control_box->volume_button, TRUE);
-
-			g_signal_handlers_block_matched
-				(	control_box->volume_button,
-					G_SIGNAL_MATCH_DATA,
-					0,
-					0,
-					NULL,
-					NULL,
-					ctx );
-
-			control_box_set_volume(control_box, volume);
-
-			g_signal_handlers_unblock_matched
-				(	control_box->volume_button,
-					G_SIGNAL_MATCH_DATA,
-					0,
-					0,
-					NULL,
-					NULL,
-					ctx );
-		}
-
-		mpv_free(aid);
+		/* prop->data == NULL iff there is no audio track */
+		gtk_widget_set_sensitive
+			(control_box->volume_button, !!prop->data);
 	}
 	else if(g_strcmp0(prop->name, "fullscreen") == 0)
 	{
@@ -1053,6 +1044,7 @@ void mpv_init(gmpv_handle *ctx)
 		show_error_dialog(ctx, NULL, msg);
 	}
 
+	mpv_observe_property(ctx->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);
 	mpv_observe_property(ctx->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
 	mpv_observe_property(ctx->mpv_ctx, 0, "eof-reached", MPV_FORMAT_FLAG);
 	mpv_observe_property(ctx->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
