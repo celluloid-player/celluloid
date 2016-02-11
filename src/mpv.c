@@ -47,8 +47,6 @@ static void parse_dim_string(	gmpv_handle *ctx,
 				gint *height )
 {
 	GdkScreen *screen = NULL;
-	gint width_margin = main_window_get_width_margin(ctx->gui);
-	gint height_margin = main_window_get_height_margin(ctx->gui);
 	gint screen_width = -1;
 	gint screen_height = -1;
 	gchar **tokens = NULL;
@@ -105,23 +103,6 @@ static void parse_dim_string(	gmpv_handle *ctx,
 		 * always preserve aspect ratio when autofitting.
 		 */
 		*height = screen_height;
-	}
-
-	if(*width != 0 && *height != 0)
-	{
-		*width += width_margin;
-		*height += height_margin;
-	}
-	else
-	{
-		/* Keep width and height as-is. */
-		GtkWidget *vid_area = ctx->gui->vid_area;
-
-		*width =	gtk_widget_get_allocated_width(vid_area)+
-				width_margin;
-
-		*height =	gtk_widget_get_allocated_height(vid_area)+
-				height_margin;
 	}
 
 	g_strfreev(tokens);
