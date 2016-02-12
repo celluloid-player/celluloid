@@ -460,7 +460,7 @@ static void connect_signals(gmpv_handle *ctx)
 				G_CALLBACK(drag_data_handler),
 				ctx );
 
-	g_signal_connect(	ctx->gui,
+	g_signal_connect_after(	ctx->gui,
 				"draw",
 				G_CALLBACK(draw_handler),
 				ctx );

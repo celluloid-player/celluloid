@@ -958,6 +958,7 @@ void mpv_init(gmpv_handle *ctx)
 	}
 	options[] = {	{"osd-level", "1"},
 			{"softvol", "yes"},
+			{"force-window", "yes"},
 			{"audio-client-name", ICON_NAME},
 			{"title", "${media-title}"},
 			{"pause", "yes"},
