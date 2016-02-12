@@ -179,13 +179,16 @@ gboolean migrate_config(gmpv_handle *ctx)
 gboolean update_seek_bar(gpointer data)
 {
 	gmpv_handle *ctx = data;
-	gdouble time_pos;
-	gint rc;
+	gdouble time_pos = -1;
+	gint rc = -1;
 
-	rc = mpv_get_property(	ctx->mpv_ctx,
-				"time-pos",
-				MPV_FORMAT_DOUBLE,
-				&time_pos );
+	if(ctx->mpv_ctx)
+	{
+		rc = mpv_get_property(	ctx->mpv_ctx,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&time_pos );
+	}
 
 	if(rc >= 0)
 	{
@@ -197,7 +200,7 @@ gboolean update_seek_bar(gpointer data)
 				time_pos );
 	}
 
-	return TRUE;
+	return !!ctx->mpv_ctx;
 }
 
 void seek(gmpv_handle *ctx, gdouble time)

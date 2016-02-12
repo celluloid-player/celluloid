@@ -501,9 +501,13 @@ gboolean mpv_handle_event(gpointer data)
 
 	while(!done)
 	{
-		event = mpv_wait_event(ctx->mpv_ctx, 0);
+		event = ctx->mpv_ctx?mpv_wait_event(ctx->mpv_ctx, 0):NULL;
 
-		if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
+		if(!event)
+		{
+			done = TRUE;
+		}
+		else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
 		{
 			mpv_event_property *prop = event->data;
 
