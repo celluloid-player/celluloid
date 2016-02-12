@@ -447,6 +447,18 @@ static void connect_signals(gmpv_handle *ctx)
 					"render",
 					G_CALLBACK(vid_area_render_handler),
 					ctx );
+
+		g_signal_connect(	ctx->gui,
+					"draw",
+					G_CALLBACK(draw_handler),
+					ctx );
+	}
+	else
+	{
+		g_signal_connect_after(	ctx->gui,
+					"draw",
+					G_CALLBACK(draw_handler),
+					ctx );
 	}
 #endif
 
@@ -458,11 +470,6 @@ static void connect_signals(gmpv_handle *ctx)
 	g_signal_connect(	ctx->gui->playlist,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
-				ctx );
-
-	g_signal_connect_after(	ctx->gui,
-				"draw",
-				G_CALLBACK(draw_handler),
 				ctx );
 
 	g_signal_connect(	ctx->gui,
