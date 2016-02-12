@@ -981,23 +981,6 @@ void mpv_init(gmpv_handle *ctx)
 					options[i].value );
 	}
 
-	if(main_window_get_use_opengl(ctx->gui))
-	{
-		g_info("opengl-cb is enabled; forcing --vo=opengl-cb");
-		mpv_set_option_string(ctx->mpv_ctx, "vo", "opengl-cb");
-
-	}
-	else
-	{
-		g_debug(	"Attaching mpv window to wid %#x",
-				(guint)ctx->vid_area_wid );
-
-		mpv_set_option(	ctx->mpv_ctx,
-				"wid",
-				MPV_FORMAT_INT64,
-				&ctx->vid_area_wid );
-	}
-
 	g_debug("Setting volume to %f", volume);
 	mpv_set_option(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &volume);
 
@@ -1023,6 +1006,23 @@ void mpv_init(gmpv_handle *ctx)
 			= _("Failed to apply one or more MPV options.");
 
 		show_error_dialog(ctx, NULL, msg);
+	}
+
+	if(main_window_get_use_opengl(ctx->gui))
+	{
+		g_info("opengl-cb is enabled; forcing --vo=opengl-cb");
+		mpv_set_option_string(ctx->mpv_ctx, "vo", "opengl-cb");
+
+	}
+	else
+	{
+		g_debug(	"Attaching mpv window to wid %#x",
+				(guint)ctx->vid_area_wid );
+
+		mpv_set_option(	ctx->mpv_ctx,
+				"wid",
+				MPV_FORMAT_INT64,
+				&ctx->vid_area_wid );
 	}
 
 	mpv_observe_property(ctx->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);
