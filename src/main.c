@@ -228,7 +228,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 {
 	quit(data);
 
-	return FALSE;
+	return TRUE;
 }
 
 static void drag_data_handler(	GtkWidget *widget,
