@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -145,6 +145,11 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
 	mpv_opengl_cb_draw(ctx->opengl_ctx, fbo, width, height);
+
+	while(gtk_events_pending())
+	{
+		gtk_main_iteration();
+	}
 
 	return TRUE;
 }
