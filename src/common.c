@@ -120,8 +120,8 @@ void migrate_config(gmpv_handle *ctx)
 
 		for(gint i = 0; keys[i]; i++)
 		{
-			GVariant *buf = g_settings_get_value(	old_settings,
-								keys[i] );
+			GVariant *buf = g_settings_get_user_value
+						(old_settings, keys[i]);
 
 			g_settings_set_value(new_settings, keys[i], buf);
 		}
