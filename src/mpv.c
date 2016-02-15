@@ -573,6 +573,14 @@ gboolean mpv_handle_event(gpointer data)
 						"abnormally. Reason: %s."),
 						err_str );
 
+				ctx->paused = TRUE;
+
+				mpv_set_property(	ctx->mpv_ctx,
+							"pause",
+							MPV_FORMAT_FLAG,
+							&ctx->paused );
+
+				main_window_reset(ctx->gui);
 				show_error_dialog(ctx, NULL, msg);
 
 				g_free(msg);
