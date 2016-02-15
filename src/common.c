@@ -127,9 +127,14 @@ void migrate_config(gmpv_handle *ctx)
 			{
 				g_settings_set_value
 					(new_settings, keys[i], buf);
+
+				g_variant_unref(buf);
 			}
 		}
 	}
+
+	g_object_unref(old_settings);
+	g_object_unref(new_settings);
 }
 
 gboolean update_seek_bar(gpointer data)
