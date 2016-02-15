@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -426,6 +426,8 @@ static void metadata_update_handler(mpris *inst)
 	GVariantBuilder builder;
 	GVariant *value;
 	gchar *uri;
+	gchar *playlist_pos_str;
+	gchar *trackid;
 	gdouble duration;
 	gint64 playlist_pos;
 	gint rc;
@@ -450,44 +452,33 @@ static void metadata_update_handler(mpris *inst)
 				MPV_FORMAT_DOUBLE,
 				&duration );
 
-	if(rc >= 0)
-	{
-		gint64 length = (gint64)(duration*1e6);
-
-		g_variant_builder_add(	&builder,
-					"{sv}",
-					"mpris:length",
-					g_variant_new_int64(length) );
-	}
+	g_variant_builder_add(	&builder,
+				"{sv}",
+				"mpris:length",
+				g_variant_new_int64
+				((gint64)((rc >= 0)*duration*1e6)) );
 
 	rc = mpv_get_property(	inst->gmpv_ctx->mpv_ctx,
 				"playlist-pos",
 				MPV_FORMAT_INT64,
 				&playlist_pos );
 
-	if(rc >= 0)
-	{
-		gchar *playlist_pos_str;
-		gchar *trackid;
+	playlist_pos_str = g_strdup_printf(	"%" G_GINT64_FORMAT,
+						(rc >= 0)*playlist_pos );
 
-		playlist_pos_str = g_strdup_printf(	"%" G_GINT64_FORMAT,
-							playlist_pos );
+	trackid = g_strconcat(	MPRIS_TRACK_ID_PREFIX,
+				playlist_pos_str,
+				NULL );
 
-		trackid = g_strconcat(	MPRIS_TRACK_ID_PREFIX,
-					playlist_pos_str,
-					NULL );
-
-		g_variant_builder_add(	&builder,
-					"{sv}",
-					"mpris:trackid",
-					g_variant_new_object_path(trackid) );
-
-		g_free(playlist_pos_str);
-		g_free(trackid);
-	}
+	g_variant_builder_add(	&builder,
+				"{sv}",
+				"mpris:trackid",
+				g_variant_new_object_path(trackid) );
 
 	for(i = 0; tag_map[i].mpv_name; i++)
 	{
+		GVariantBuilder tag_builder;
+		GVariant *tag_value;
 		gchar *mpv_prop;
 		gchar *value_buf;
 
@@ -498,30 +489,24 @@ static void metadata_update_handler(mpris *inst)
 		value_buf = mpv_get_property_string
 				(inst->gmpv_ctx->mpv_ctx, mpv_prop);
 
-		if(value_buf)
+		tag_value = g_variant_new_string(value_buf?:"");
+
+		if(tag_map[i].is_array)
 		{
-			GVariantBuilder tag_builder;
-			GVariant *tag_value;
+			g_variant_builder_init
+				(&tag_builder, G_VARIANT_TYPE("as"));
 
-			tag_value = g_variant_new_string(value_buf);
-
-			if(tag_map[i].is_array)
-			{
-				g_variant_builder_init
-					(&tag_builder, G_VARIANT_TYPE("as"));
-
-				g_variant_builder_add_value
-					(&tag_builder, tag_value);
-			}
-
-			g_variant_builder_add
-				(	&builder,
-					"{sv}",
-					tag_map[i].xesam_name,
-					tag_map[i].is_array?
-					g_variant_new("as", &tag_builder):
-					tag_value );
+			g_variant_builder_add_value
+				(&tag_builder, tag_value);
 		}
+
+		g_variant_builder_add
+			(	&builder,
+				"{sv}",
+				tag_map[i].xesam_name,
+				tag_map[i].is_array?
+				g_variant_new("as", &tag_builder):
+				tag_value );
 
 		mpv_free(value_buf);
 		g_free(mpv_prop);
@@ -538,6 +523,9 @@ static void metadata_update_handler(mpris *inst)
 
 	mpris_emit_prop_changed(inst, prop_list);
 	mpv_playback_restart_handler(inst->gmpv_ctx->gui, inst);
+
+	g_free(playlist_pos_str);
+	g_free(trackid);
 }
 
 static void volume_update_handler(mpris *inst)
@@ -553,7 +541,7 @@ static void volume_update_handler(mpris *inst)
 
 	value = g_variant_new_double(volume/100.0);
 
-	g_hash_table_replace (	inst->player_prop_table,
+	g_hash_table_replace(	inst->player_prop_table,
 				"Volume",
 				g_variant_ref(value) );
 
