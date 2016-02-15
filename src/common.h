@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -66,7 +66,6 @@ gboolean update_seek_bar(gpointer data);
 void migrate_config(gmpv_handle *ctx);
 void seek(gmpv_handle *ctx, gdouble time);
 void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg);
-void remove_current_playlist_entry(gmpv_handle *ctx);
 void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);
 void toggle_fullscreen(gmpv_handle *ctx);
 void load_keybind(	gmpv_handle *ctx,

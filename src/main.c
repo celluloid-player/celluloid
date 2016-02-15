@@ -318,7 +318,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		else if(keyval == GDK_KEY_Delete
 		&& main_window_get_playlist_visible(ctx->gui))
 		{
-			remove_current_playlist_entry(ctx);
+			playlist_remove_current_entry(ctx);
 		}
 	}
 

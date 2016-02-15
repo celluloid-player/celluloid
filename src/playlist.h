@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -43,6 +43,7 @@ void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
 void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
  					GtkTreePath *path,
  					gpointer data );
+void playlist_remove_current_entry(gmpv_handle *ctx);
 void playlist_reset(gmpv_handle *ctx);
 
 #endif
