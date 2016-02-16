@@ -36,19 +36,6 @@ gchar *get_config_dir_path(void)
 					NULL );
 }
 
-gchar *get_config_file_path(void)
-{
-	gchar *config_dir;
-	gchar *result;
-
-	config_dir = get_config_dir_path();
-	result = g_build_filename(config_dir, "gnome-mpv.conf", NULL);
-
-	g_free(config_dir);
-
-	return result;
-}
-
 gchar *get_path_from_uri(const gchar *uri)
 {
 	GFile *file = g_vfs_get_file_for_uri(g_vfs_get_default(), uri);
