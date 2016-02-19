@@ -24,6 +24,15 @@
 
 #include <gtk/gtk.h>
 
+enum PlaylistStoreColumn
+{
+	PLAYLIST_INDICATOR_COLUMN,
+	PLAYLIST_NAME_COLUMN,
+	PLAYLIST_URI_COLUMN,
+	PLAYLIST_N_COLUMNS
+};
+
+typedef enum PlaylistStoreColumn PlaylistStoreColumn;
 typedef GtkListStore playlist;
 
 playlist *playlist_new(void);
