@@ -87,63 +87,6 @@ void playlist_set_indicator_pos(playlist *pl, gint pos)
 	}
 }
 
-void playlist_remove_current_entry(gmpv_handle *ctx)
-{
-	const gchar *cmd[] = {"playlist_remove", NULL, NULL};
-	PlaylistWidget *playlist;
-	GtkTreePath *path;
-
-	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
-
-	gtk_tree_view_get_cursor
-		(	GTK_TREE_VIEW(playlist->tree_view),
-			&path,
-			NULL );
-
-	if(path)
-	{
-		gint index;
-		gchar *index_str;
-
-		index = gtk_tree_path_get_indices(path)[0];
-		index_str = g_strdup_printf("%d", index);
-		cmd[1] = index_str;
-
-		g_signal_handlers_block_matched
-			(	playlist->list_store,
-				G_SIGNAL_MATCH_DATA,
-				0,
-				0,
-				NULL,
-				NULL,
-				ctx );
-
-		playlist_remove(playlist->list_store, index);
-
-		if(ctx->loaded)
-		{
-			mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
-		}
-
-		if(playlist_empty(playlist->list_store))
-		{
-			control_box_set_enabled
-				(CONTROL_BOX(ctx->gui->control_box), FALSE);
-		}
-
-		g_signal_handlers_unblock_matched
-			(	playlist->list_store,
-				G_SIGNAL_MATCH_DATA,
-				0,
-				0,
-				NULL,
-				NULL,
-				ctx );
-
-		g_free(index_str);
-	}
-}
-
 void playlist_reset(playlist *pl)
 {
 	playlist_set_indicator_pos(pl, 0);

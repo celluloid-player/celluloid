@@ -287,6 +287,7 @@ static void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
 	src = gtk_tree_path_get_indices(path)[0];
 	dest = ctx->playlist_move_dest;
 
+	/* Reorder */
 	if(dest >= 0)
 	{
 		src_str = g_strdup_printf("%d", (src > dest)?--src:src);
@@ -300,6 +301,25 @@ static void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
 
 		g_free(src_str);
 		g_free(dest_str);
+	}
+	/* Delete */
+	else
+	{
+		if(ctx->loaded)
+		{
+			const gchar *cmd[] = {"playlist_remove", NULL, NULL};
+			const gchar *index_str = g_strdup_printf("%d", src);
+
+			cmd[1] = index_str;
+
+			mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+		}
+
+		if(playlist_empty(PLAYLIST_WIDGET(ctx->gui->playlist)->list_store))
+		{
+			control_box_set_enabled
+				(CONTROL_BOX(ctx->gui->control_box), FALSE);
+		}
 	}
 }
 
@@ -390,7 +410,8 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		else if(keyval == GDK_KEY_Delete
 		&& main_window_get_playlist_visible(ctx->gui))
 		{
-			playlist_remove_current_entry(ctx);
+			playlist_widget_remove_selected
+				(PLAYLIST_WIDGET(ctx->gui->playlist));
 		}
 	}
 

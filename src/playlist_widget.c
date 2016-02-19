@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 
 #include "playlist_widget.h"
+#include "playlist.h"
 #include "def.h"
 
 G_DEFINE_TYPE(PlaylistWidget, playlist_widget, GTK_TYPE_SCROLLED_WINDOW)
@@ -113,5 +114,28 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 GtkWidget *playlist_widget_new()
 {
 	return GTK_WIDGET(g_object_new(playlist_widget_get_type(), NULL));
+}
+
+void playlist_widget_remove_selected(PlaylistWidget *wgt)
+{
+	GtkTreePath *path;
+
+	gtk_tree_view_get_cursor
+		(	GTK_TREE_VIEW(wgt->tree_view),
+			&path,
+			NULL );
+
+	if(path)
+	{
+		gint index;
+		gchar *index_str;
+
+		index = gtk_tree_path_get_indices(path)[0];
+		index_str = g_strdup_printf("%d", index);
+
+		playlist_remove(wgt->list_store, index);
+
+		g_free(index_str);
+	}
 }
 

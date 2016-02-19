@@ -70,9 +70,7 @@ typedef enum PlaylistStoreColumn PlaylistStoreColumn;
 
 GtkWidget *playlist_widget_new(void);
 GType playlist_widget_get_type(void);
-void playlist_widget_get_iter_first(PlaylistWidget *wgt, GtkTreeIter *iter);
-void playlist_widget_iter_next(PlaylistWidget *wgt, GtkTreeIter *iter);
-void playlist_widget_get_uri(PlaylistWidget *wgt, gint pos);
+void playlist_widget_remove_selected(PlaylistWidget *wgt);
 
 G_END_DECLS
 

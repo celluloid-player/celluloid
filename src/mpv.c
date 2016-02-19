@@ -1187,6 +1187,8 @@ void mpv_load(	gmpv_handle *ctx,
 							MPV_EVENT_END_FILE,
 							1 ));
 
+		ctx->playlist_move_dest = -1;
+
 		g_free(path);
 	}
 }
