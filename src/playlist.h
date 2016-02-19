@@ -34,6 +34,6 @@ void playlist_remove(playlist *pl, gint pos);
 void playlist_clear(playlist *pl);
 gboolean playlist_empty(playlist *pl);
 void playlist_remove_current_entry(gmpv_handle *ctx);
-void playlist_reset(gmpv_handle *ctx);
+void playlist_reset(playlist *pl);
 
 #endif

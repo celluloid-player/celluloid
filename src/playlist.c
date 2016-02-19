@@ -144,9 +144,7 @@ void playlist_remove_current_entry(gmpv_handle *ctx)
 	}
 }
 
-void playlist_reset(gmpv_handle *ctx)
+void playlist_reset(playlist *pl)
 {
-	PlaylistWidget *playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
-
-	playlist_set_indicator_pos(playlist->list_store, 0);
+	playlist_set_indicator_pos(pl, 0);
 }

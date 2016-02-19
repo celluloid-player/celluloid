@@ -339,11 +339,15 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 	&& prop->data
 	&& *((int *)prop->data) == 1)
 	{
+		const PlaylistWidget *playlist;
+
+		playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
+
 		ctx->paused = TRUE;
 		ctx->loaded = FALSE;
 
 		main_window_reset(ctx->gui);
-		playlist_reset(ctx);
+		playlist_reset(playlist->list_store);
 	}
 }
 
@@ -526,6 +530,9 @@ gboolean mpv_handle_event(gpointer data)
 			else if(ctx->loaded)
 			{
 				gint rc;
+				const PlaylistWidget *playlist;
+
+				playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
 
 				ctx->paused = TRUE;
 				ctx->loaded = FALSE;
@@ -537,7 +544,7 @@ gboolean mpv_handle_event(gpointer data)
 
 				mpv_check_error(rc);
 				main_window_reset(ctx->gui);
-				playlist_reset(ctx);
+				playlist_reset(playlist->list_store);
 			}
 
 			ctx->init_load = FALSE;
