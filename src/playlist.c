@@ -25,65 +25,6 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
-void playlist_row_activated_handler(	GtkTreeView *tree_view,
-					GtkTreePath *path,
-					GtkTreeViewColumn *column,
-					gpointer data )
-{
-	gmpv_handle *ctx = data;
-	gint *indices = gtk_tree_path_get_indices(path);
-
-	if(indices)
-	{
-		gint64 index = indices[0];
-
-		mpv_set_property(	ctx->mpv_ctx,
-					"playlist-pos",
-					MPV_FORMAT_INT64,
-					&index );
-	}
-}
-
-void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
-					GtkTreePath *path,
-					GtkTreeIter *iter,
-					gpointer data )
-{
-	gmpv_handle *ctx = data;
-
-	ctx->playlist_move_dest = gtk_tree_path_get_indices(path)[0];
-}
-
-void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
-					GtkTreePath *path,
-					gpointer data )
-{
-	gmpv_handle *ctx = data;
-	const gchar *cmd[] = {"playlist_move", NULL, NULL, NULL};
-	gchar *src_str;
-	gchar *dest_str;
-	gint src;
-	gint dest;
-
-	src = gtk_tree_path_get_indices(path)[0];
-	dest = ctx->playlist_move_dest;
-
-	if(dest >= 0)
-	{
-		src_str = g_strdup_printf("%d", (src > dest)?--src:src);
-		dest_str = g_strdup_printf("%d", dest);
-		ctx->playlist_move_dest = -1;
-
-		cmd[1] = src_str;
-		cmd[2] = dest_str;
-
-		mpv_command(ctx->mpv_ctx, cmd);
-
-		g_free(src_str);
-		g_free(dest_str);
-	}
-}
-
 void playlist_append(	GtkListStore *pl,
 			const gchar *name,
 			const gchar *uri )

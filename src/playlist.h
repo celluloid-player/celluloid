@@ -24,19 +24,6 @@
 
 #include <gtk/gtk.h>
 
-void playlist_previous_handler(GtkWidget *widget, gpointer data);
-void playlist_next_handler(GtkWidget *widget, gpointer data);
-void playlist_row_activated_handler(	GtkTreeView *tree_view,
-					GtkTreePath *path,
-					GtkTreeViewColumn *column,
-					gpointer data );
-void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
- 					GtkTreePath *path,
- 					GtkTreeIter *iter,
- 					gpointer data );
-void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
- 					GtkTreePath *path,
- 					gpointer data );
 void playlist_set_indicator_pos(GtkListStore *wgt, gint pos);
 void playlist_append(	GtkListStore *wgt,
 				const gchar *name,
