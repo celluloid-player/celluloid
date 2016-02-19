@@ -26,6 +26,7 @@
 
 typedef GtkListStore playlist;
 
+playlist *playlist_new(void);
 void playlist_set_indicator_pos(playlist *pl, gint pos);
 void playlist_append(	playlist *pl,
 			const gchar *name,

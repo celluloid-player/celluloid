@@ -70,14 +70,10 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 {
 	wgt->indicator_renderer = gtk_cell_renderer_text_new();
 	wgt->title_renderer = gtk_cell_renderer_text_new();
-
-	wgt->list_store = gtk_list_store_new(	3,
-						G_TYPE_STRING,
-						G_TYPE_STRING,
-						G_TYPE_STRING );
+	wgt->store = playlist_new();
 
 	wgt->tree_view
-		= gtk_tree_view_new_with_model(GTK_TREE_MODEL(wgt->list_store));
+		= gtk_tree_view_new_with_model(GTK_TREE_MODEL(wgt->store));
 
 	wgt->indicator_column
 		= gtk_tree_view_column_new_with_attributes
@@ -133,7 +129,7 @@ void playlist_widget_remove_selected(PlaylistWidget *wgt)
 		index = gtk_tree_path_get_indices(path)[0];
 		index_str = g_strdup_printf("%d", index);
 
-		playlist_remove(wgt->list_store, index);
+		playlist_remove(wgt->store, index);
 
 		g_free(index_str);
 	}

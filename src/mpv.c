@@ -347,7 +347,7 @@ static void handle_property_change_event(	gmpv_handle *ctx,
 		ctx->loaded = FALSE;
 
 		main_window_reset(ctx->gui);
-		playlist_reset(playlist->list_store);
+		playlist_reset(playlist->store);
 	}
 }
 
@@ -544,7 +544,7 @@ gboolean mpv_handle_event(gpointer data)
 
 				mpv_check_error(rc);
 				main_window_reset(ctx->gui);
-				playlist_reset(playlist->list_store);
+				playlist_reset(playlist->store);
 			}
 
 			ctx->init_load = FALSE;
@@ -642,7 +642,7 @@ void mpv_update_playlist(gmpv_handle *ctx)
 	gint i;
 
 	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
-	store = playlist->list_store;
+	store = playlist->store;
 	filename_prop_str = g_malloc(filename_prop_str_size);
 	iter_end = FALSE;
 
@@ -654,7 +654,7 @@ void mpv_update_playlist(gmpv_handle *ctx)
 	playlist_count = mpv_playlist.u.list->num;
 
 	g_signal_handlers_block_matched
-		(	playlist->list_store,
+		(	playlist->store,
 			G_SIGNAL_MATCH_DATA,
 			0,
 			0,
@@ -722,7 +722,7 @@ void mpv_update_playlist(gmpv_handle *ctx)
 		 */
 		else
 		{
-			playlist_append(playlist->list_store, name, uri);
+			playlist_append(playlist->store, name, uri);
 		}
 
 		mpv_free(uri);
@@ -740,7 +740,7 @@ void mpv_update_playlist(gmpv_handle *ctx)
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(playlist->tree_view));
 
 	g_signal_handlers_unblock_matched
-		(	playlist->list_store,
+		(	playlist->store,
 			G_SIGNAL_MATCH_DATA,
 			0,
 			0,
@@ -863,7 +863,7 @@ void mpv_load_gui_update(gmpv_handle *ctx)
 				&playlist_pos) >= 0)
 	{
 		playlist_set_indicator_pos
-			(	PLAYLIST_WIDGET(ctx->gui->playlist)->list_store,
+			(	PLAYLIST_WIDGET(ctx->gui->playlist)->store,
 				(gint)playlist_pos );
 	}
 
@@ -1107,7 +1107,7 @@ void mpv_load(	gmpv_handle *ctx,
 	if(!append && uri && update)
 	{
 		playlist_clear
-			(PLAYLIST_WIDGET(ctx->gui->playlist)->list_store);
+			(PLAYLIST_WIDGET(ctx->gui->playlist)->store);
 
 		ctx->new_file = TRUE;
 		ctx->loaded = FALSE;
@@ -1162,7 +1162,7 @@ void mpv_load(	gmpv_handle *ctx,
 
 			playlist_append
 				(	PLAYLIST_WIDGET(ctx->gui->playlist)
-					->list_store,
+					->store,
 					name,
 					uri );
 

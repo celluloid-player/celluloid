@@ -203,7 +203,7 @@ static gboolean load_files(gpointer data)
 		ctx->paused = FALSE;
 
 		playlist_clear
-			(PLAYLIST_WIDGET(ctx->gui->playlist)->list_store);
+			(PLAYLIST_WIDGET(ctx->gui->playlist)->store);
 
 		for(i = 0; ctx->files[i]; i++)
 		{
@@ -214,7 +214,7 @@ static gboolean load_files(gpointer data)
 				playlist_append
 					(	PLAYLIST_WIDGET
 						(ctx->gui->playlist)
-						->list_store,
+						->store,
 						name,
 						ctx->files[i] );
 			}
@@ -315,7 +315,7 @@ static void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
 			mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 		}
 
-		if(playlist_empty(PLAYLIST_WIDGET(ctx->gui->playlist)->list_store))
+		if(playlist_empty(PLAYLIST_WIDGET(ctx->gui->playlist)->store))
 		{
 			control_box_set_enabled
 				(CONTROL_BOX(ctx->gui->control_box), FALSE);
@@ -591,12 +591,12 @@ static void connect_signals(gmpv_handle *ctx)
 				G_CALLBACK(playlist_row_activated_handler),
 				ctx );
 
-	g_signal_connect(	playlist->list_store,
+	g_signal_connect(	playlist->store,
 				"row-inserted",
 				G_CALLBACK(playlist_row_inserted_handler),
 				ctx );
 
-	g_signal_connect(	playlist->list_store,
+	g_signal_connect(	playlist->store,
 				"row-deleted",
 				G_CALLBACK(playlist_row_deleted_handler),
 				ctx );
@@ -689,7 +689,7 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->app = GTK_APPLICATION(app);
 	ctx->gui = MAIN_WINDOW(main_window_new(ctx->app, use_opengl));
 	ctx->fs_control = NULL;
-	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->list_store;
+	ctx->playlist_store = PLAYLIST_WIDGET(ctx->gui->playlist)->store;
 
 	migrate_config(ctx);
 

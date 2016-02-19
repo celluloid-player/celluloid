@@ -264,7 +264,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 		dest_stream = G_OUTPUT_STREAM(dest_file_stream);
 
 		rc = gtk_tree_model_get_iter_first
-			(GTK_TREE_MODEL(playlist->list_store), &iter);
+			(GTK_TREE_MODEL(playlist->store), &iter);
 
 		rc &= !!dest_stream;
 	}
@@ -274,7 +274,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 		gchar *uri;
 		gsize written;
 
-		gtk_tree_model_get(	GTK_TREE_MODEL(playlist->list_store),
+		gtk_tree_model_get(	GTK_TREE_MODEL(playlist->store),
 					&iter,
 					PLAYLIST_URI_COLUMN,
 					&uri,
@@ -288,7 +288,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 						uri );
 
 		rc &= gtk_tree_model_iter_next
-			(GTK_TREE_MODEL(playlist->list_store), &iter);
+			(GTK_TREE_MODEL(playlist->store), &iter);
 	}
 
 	if(dest_stream)

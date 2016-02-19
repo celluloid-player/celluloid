@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+#include "playlist.h"
+
 G_BEGIN_DECLS
 
 #define PLAYLIST_WIDGET_TYPE (playlist_widget_get_type ())
@@ -52,7 +54,7 @@ struct _PlaylistWidget
 {
 	GtkScrolledWindow parent_instance;
 	GtkWidget *tree_view;
-	GtkListStore *list_store;
+	playlist *store;
 	GtkTreeViewColumn *indicator_column;
 	GtkTreeViewColumn *title_column;
 	GtkCellRenderer *indicator_renderer;

@@ -25,6 +25,14 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
+playlist *playlist_new(void)
+{
+	return gtk_list_store_new(	3,
+					G_TYPE_STRING,
+					G_TYPE_STRING,
+					G_TYPE_STRING );
+}
+
 void playlist_append(	playlist *pl,
 			const gchar *name,
 			const gchar *uri )
