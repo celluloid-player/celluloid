@@ -495,7 +495,7 @@ static void connect_signals(gmpv_handle *ctx)
 
 	g_signal_connect(	playlist->tree_view,
 				"row-activated",
-				G_CALLBACK(playlist_row_handler),
+				G_CALLBACK(playlist_row_activated_handler),
 				ctx );
 
 	g_signal_connect(	playlist->list_store,

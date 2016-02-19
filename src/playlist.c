@@ -25,10 +25,10 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
-void playlist_row_handler(	GtkTreeView *tree_view,
-				GtkTreePath *path,
-				GtkTreeViewColumn *column,
-				gpointer data )
+void playlist_row_activated_handler(	GtkTreeView *tree_view,
+					GtkTreePath *path,
+					GtkTreeViewColumn *column,
+					gpointer data )
 {
 	gmpv_handle *ctx = data;
 	gint *indices = gtk_tree_path_get_indices(path);

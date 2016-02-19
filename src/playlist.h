@@ -26,10 +26,10 @@
 
 void playlist_previous_handler(GtkWidget *widget, gpointer data);
 void playlist_next_handler(GtkWidget *widget, gpointer data);
-void playlist_row_handler(	GtkTreeView *tree_view,
- 				GtkTreePath *path,
- 				GtkTreeViewColumn *column,
- 				gpointer data );
+void playlist_row_activated_handler(	GtkTreeView *tree_view,
+					GtkTreePath *path,
+					GtkTreeViewColumn *column,
+					gpointer data );
 void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
  					GtkTreePath *path,
  					GtkTreeIter *iter,
