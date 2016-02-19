@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -70,16 +70,9 @@ typedef enum PlaylistStoreColumn PlaylistStoreColumn;
 
 GtkWidget *playlist_widget_new(void);
 GType playlist_widget_get_type(void);
-gboolean playlist_widget_empty(PlaylistWidget *wgt);
-void playlist_widget_clear(PlaylistWidget *wgt);
 void playlist_widget_get_iter_first(PlaylistWidget *wgt, GtkTreeIter *iter);
 void playlist_widget_iter_next(PlaylistWidget *wgt, GtkTreeIter *iter);
 void playlist_widget_get_uri(PlaylistWidget *wgt, gint pos);
-void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos);
-void playlist_widget_remove(PlaylistWidget *wgt, gint pos);
-void playlist_widget_append(	PlaylistWidget *wgt,
-				const gchar *name,
-				const gchar *uri );
 
 G_END_DECLS
 

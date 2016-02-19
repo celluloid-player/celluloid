@@ -37,6 +37,13 @@ void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
 void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
  					GtkTreePath *path,
  					gpointer data );
+void playlist_set_indicator_pos(GtkListStore *wgt, gint pos);
+void playlist_append(	GtkListStore *wgt,
+				const gchar *name,
+				const gchar *uri );
+void playlist_remove(GtkListStore *wgt, gint pos);
+void playlist_clear(GtkListStore *wgt);
+gboolean playlist_empty(GtkListStore *wgt);
 void playlist_remove_current_entry(gmpv_handle *ctx);
 void playlist_reset(gmpv_handle *ctx);
 

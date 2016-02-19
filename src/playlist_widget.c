@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -115,84 +115,3 @@ GtkWidget *playlist_widget_new()
 	return GTK_WIDGET(g_object_new(playlist_widget_get_type(), NULL));
 }
 
-void playlist_widget_append(	PlaylistWidget *wgt,
-				const gchar *name,
-				const gchar *uri )
-{
-	GtkTreeIter iter;
-
-	gtk_list_store_append(wgt->list_store, &iter);
-
-	gtk_list_store_set
-		(wgt->list_store, &iter, PLAYLIST_NAME_COLUMN, name, -1);
-
-	gtk_list_store_set
-		(wgt->list_store, &iter, PLAYLIST_URI_COLUMN, uri, -1);
-
-	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(wgt->tree_view));
-}
-
-void playlist_widget_remove(PlaylistWidget *wgt, gint pos)
-{
-	GtkTreeIter iter;
-	gboolean rc;
-
-	rc = gtk_tree_model_get_iter_first
-		(GTK_TREE_MODEL(wgt->list_store), &iter);
-
-	while(rc && --pos >= 0)
-	{
-		rc = gtk_tree_model_iter_next
-			(GTK_TREE_MODEL(wgt->list_store), &iter);
-	}
-
-	if(rc)
-	{
-		gtk_list_store_remove(wgt->list_store, &iter);
-		gtk_tree_view_columns_autosize(GTK_TREE_VIEW(wgt->tree_view));
-	}
-}
-
-void playlist_widget_clear(PlaylistWidget *wgt)
-{
-	gtk_list_store_clear(wgt->list_store);
-}
-
-gboolean playlist_widget_empty(PlaylistWidget *wgt)
-{
-	GtkTreeIter iter;
-	int rc;
-
-	rc = gtk_tree_model_get_iter_first
-		(GTK_TREE_MODEL(wgt->list_store), &iter);
-
-	return !rc;
-}
-
-void playlist_widget_set_indicator_pos(PlaylistWidget *wgt, gint pos)
-{
-	GtkTreeIter iter;
-	gboolean rc;
-
-	rc = gtk_tree_model_get_iter_first
-		(GTK_TREE_MODEL(wgt->list_store), &iter);
-
-	while(rc)
-	{
-		if(pos-- == 0)
-		{
-			/* Put UTF-8 'right-pointing triangle' at requested row
-			 */
-			gtk_list_store_set
-				(wgt->list_store, &iter, 0, "\xe2\x96\xb6", -1);
-		}
-		else
-		{
-			/* Clear other rows */
-			gtk_list_store_set(wgt->list_store, &iter, 0, "", -1);
-		}
-
-		rc = gtk_tree_model_iter_next
-			(GTK_TREE_MODEL(wgt->list_store), &iter);
-	}
-}

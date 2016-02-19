@@ -84,6 +84,68 @@ void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
 	}
 }
 
+void playlist_append(	GtkListStore *pl,
+			const gchar *name,
+			const gchar *uri )
+{
+	GtkTreeIter iter;
+
+	gtk_list_store_append(pl, &iter);
+	gtk_list_store_set(pl, &iter, PLAYLIST_NAME_COLUMN, name, -1);
+	gtk_list_store_set(pl, &iter, PLAYLIST_URI_COLUMN, uri, -1);
+}
+
+void playlist_remove(GtkListStore *pl, gint pos)
+{
+	GtkTreeIter iter;
+	gboolean rc;
+
+	rc = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(pl), &iter);
+
+	while(rc && --pos >= 0)
+	{
+		rc = gtk_tree_model_iter_next
+			(GTK_TREE_MODEL(pl), &iter);
+	}
+
+	if(rc)
+	{
+		gtk_list_store_remove(pl, &iter);
+	}
+}
+
+void playlist_clear(GtkListStore *pl)
+{
+	gtk_list_store_clear(pl);
+}
+
+gboolean playlist_empty(GtkListStore *pl)
+{
+	GtkTreeIter iter;
+
+	return !gtk_tree_model_get_iter_first(GTK_TREE_MODEL(pl), &iter);
+}
+
+void playlist_set_indicator_pos(GtkListStore *pl, gint pos)
+{
+	GtkTreeIter iter;
+	gboolean rc;
+
+	rc = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(pl), &iter);
+
+	/* Put UTF-8 'right-pointing triangle' at requested row and clear other
+	 * rows.
+	 */
+	while(rc)
+	{
+		gchar const *const str = (pos-- == 0)?"\xe2\x96\xb6":"";
+
+		gtk_list_store_set(pl, &iter, 0, str, -1);
+
+		rc = gtk_tree_model_iter_next(GTK_TREE_MODEL(pl), &iter);
+	}
+}
+
 void playlist_remove_current_entry(gmpv_handle *ctx)
 {
 	const gchar *cmd[] = {"playlist_remove", NULL, NULL};
@@ -115,14 +177,14 @@ void playlist_remove_current_entry(gmpv_handle *ctx)
 				NULL,
 				ctx );
 
-		playlist_widget_remove(playlist, index);
+		playlist_remove(playlist->list_store, index);
 
 		if(ctx->loaded)
 		{
 			mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
 		}
 
-		if(playlist_widget_empty(playlist))
+		if(playlist_empty(playlist->list_store))
 		{
 			control_box_set_enabled
 				(CONTROL_BOX(ctx->gui->control_box), FALSE);
@@ -145,5 +207,5 @@ void playlist_reset(gmpv_handle *ctx)
 {
 	PlaylistWidget *playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
 
-	playlist_widget_set_indicator_pos(playlist, 0);
+	playlist_set_indicator_pos(playlist->list_store, 0);
 }

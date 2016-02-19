@@ -715,7 +715,7 @@ void mpv_update_playlist(gmpv_handle *ctx)
 		 */
 		else
 		{
-			playlist_widget_append(playlist, name, uri);
+			playlist_append(playlist->list_store, name, uri);
 		}
 
 		mpv_free(uri);
@@ -855,8 +855,8 @@ void mpv_load_gui_update(gmpv_handle *ctx)
 				MPV_FORMAT_INT64,
 				&playlist_pos) >= 0)
 	{
-		playlist_widget_set_indicator_pos
-			(	PLAYLIST_WIDGET(ctx->gui->playlist),
+		playlist_set_indicator_pos
+			(	PLAYLIST_WIDGET(ctx->gui->playlist)->list_store,
 				(gint)playlist_pos );
 	}
 
@@ -1099,8 +1099,8 @@ void mpv_load(	gmpv_handle *ctx,
 
 	if(!append && uri && update)
 	{
-		playlist_widget_clear
-			(PLAYLIST_WIDGET(ctx->gui->playlist));
+		playlist_clear
+			(PLAYLIST_WIDGET(ctx->gui->playlist)->list_store);
 
 		ctx->new_file = TRUE;
 		ctx->loaded = FALSE;
@@ -1153,8 +1153,9 @@ void mpv_load(	gmpv_handle *ctx,
 		{
 			gchar *name = get_name_from_path(path);
 
-			playlist_widget_append
-				(	PLAYLIST_WIDGET(ctx->gui->playlist),
+			playlist_append
+				(	PLAYLIST_WIDGET(ctx->gui->playlist)
+					->list_store,
 					name,
 					uri );
 

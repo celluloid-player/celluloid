@@ -191,7 +191,8 @@ static gboolean load_files(gpointer data)
 
 		ctx->paused = FALSE;
 
-		playlist_widget_clear(PLAYLIST_WIDGET(ctx->gui->playlist));
+		playlist_clear
+			(PLAYLIST_WIDGET(ctx->gui->playlist)->list_store);
 
 		for(i = 0; ctx->files[i]; i++)
 		{
@@ -199,9 +200,10 @@ static gboolean load_files(gpointer data)
 
 			if(ctx->init_load)
 			{
-				playlist_widget_append
+				playlist_append
 					(	PLAYLIST_WIDGET
-						(ctx->gui->playlist),
+						(ctx->gui->playlist)
+						->list_store,
 						name,
 						ctx->files[i] );
 			}
