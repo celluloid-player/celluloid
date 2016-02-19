@@ -156,12 +156,21 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 	/* vid_area cannot be initialized more than once */
 	if(!wnd->vid_area)
 	{
+		GtkTargetEntry targets[] = DND_TARGETS;
 		GtkStyleContext *style_context;
 
 		wnd->vid_area =	vid_area_new(use_opengl);
 		style_context = gtk_widget_get_style_context(wnd->vid_area);
 
 		gtk_style_context_add_class(style_context, "gmpv-vid-area");
+
+		gtk_drag_dest_set(	wnd->vid_area,
+					GTK_DEST_DEFAULT_ALL,
+					targets,
+					G_N_ELEMENTS(targets),
+					GDK_ACTION_LINK );
+
+		gtk_drag_dest_add_uri_targets(wnd->vid_area);
 
 		/* GDK_BUTTON_RELEASE_MASK is needed so that GtkMenuButtons can
 		 * hide their menus when vid_area is clicked.

@@ -38,6 +38,16 @@
 #define FS_CONTROL_HIDE_DELAY 1
 #define KEYSTRING_MAX_LEN 8
 
+#define DND_TARGETS	{	{.target = "text/uri-list",\
+				.flags = 0,\
+				.info = 0},\
+				{.target = "text/plain",\
+				.flags = 0,\
+				.info = 0},\
+				{.target = "STRING",\
+				.flags = 0,\
+				.info = 0} }
+
 #define DEFAULT_KEYBINDS	{	"SPACE cycle pause",\
 					"p cycle pause",\
 					"v osd-msg cycle sub-visibility",\

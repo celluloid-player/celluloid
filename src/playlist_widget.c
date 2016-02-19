@@ -68,6 +68,8 @@ static void playlist_widget_class_init(PlaylistWidgetClass *klass)
 
 static void playlist_widget_init(PlaylistWidget *wgt)
 {
+	GtkTargetEntry targets[] = DND_TARGETS;
+
 	wgt->indicator_renderer = gtk_cell_renderer_text_new();
 	wgt->title_renderer = gtk_cell_renderer_text_new();
 	wgt->store = playlist_new();
@@ -94,6 +96,14 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 
 	gtk_widget_set_can_focus(GTK_WIDGET(wgt->tree_view), FALSE);
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(wgt->tree_view), TRUE);
+
+	gtk_drag_dest_set(	GTK_WIDGET(wgt),
+				GTK_DEST_DEFAULT_ALL,
+				targets,
+				G_N_ELEMENTS(targets),
+				GDK_ACTION_COPY );
+
+	gtk_drag_dest_add_uri_targets(GTK_WIDGET(wgt));
 
 	gtk_widget_set_size_request
 		(GTK_WIDGET(wgt), PLAYLIST_MIN_WIDTH, -1);

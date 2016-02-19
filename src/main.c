@@ -74,7 +74,6 @@ static void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
 static void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
 						GtkTreePath *path,
 						gpointer data );
-static void setup_dnd_targets(gmpv_handle *ctx);
 static void connect_signals(gmpv_handle *ctx);
 static void add_accelerator(	GtkApplication *app,
 				const char *accel,
@@ -499,39 +498,6 @@ static void app_open_handler(	GApplication *app,
 	}
 }
 
-static void setup_dnd_targets(gmpv_handle *ctx)
-{
-	PlaylistWidget *playlist;
-	GtkTargetEntry target_entry[3];
-
-	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
-
-	target_entry[0].target = "text/uri-list";
-	target_entry[0].flags = 0;
-	target_entry[0].info = 0;
-	target_entry[1].target = "text/plain";
-	target_entry[1].flags = 0;
-	target_entry[1].info = 1;
-	target_entry[2].target = "STRING";
-	target_entry[2].flags = 0;
-	target_entry[2].info = 1;
-
-	gtk_drag_dest_set(	GTK_WIDGET(ctx->gui->vid_area),
-				GTK_DEST_DEFAULT_ALL,
-				target_entry,
-				3,
-				GDK_ACTION_LINK );
-
-	gtk_drag_dest_set(	GTK_WIDGET(playlist),
-				GTK_DEST_DEFAULT_ALL,
-				target_entry,
-				3,
-				GDK_ACTION_COPY );
-
-	gtk_drag_dest_add_uri_targets(GTK_WIDGET(ctx->gui->vid_area));
-	gtk_drag_dest_add_uri_targets(GTK_WIDGET(playlist));
-}
-
 static void connect_signals(gmpv_handle *ctx)
 {
 	PlaylistWidget *playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
@@ -734,7 +700,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 
 	main_window_load_state(ctx->gui);
 	setup_accelerators(ctx);
-	setup_dnd_targets(ctx);
 	actionctl_map_actions(ctx);
 	connect_signals(ctx);
 	load_keybind(ctx, mpvinput_enable?mpvinput:NULL, FALSE);
