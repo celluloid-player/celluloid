@@ -24,13 +24,15 @@
 
 #include <gtk/gtk.h>
 
-void playlist_set_indicator_pos(GtkListStore *wgt, gint pos);
-void playlist_append(	GtkListStore *wgt,
-				const gchar *name,
-				const gchar *uri );
-void playlist_remove(GtkListStore *wgt, gint pos);
-void playlist_clear(GtkListStore *wgt);
-gboolean playlist_empty(GtkListStore *wgt);
+typedef GtkListStore playlist;
+
+void playlist_set_indicator_pos(playlist *pl, gint pos);
+void playlist_append(	playlist *pl,
+			const gchar *name,
+			const gchar *uri );
+void playlist_remove(playlist *pl, gint pos);
+void playlist_clear(playlist *pl);
+gboolean playlist_empty(playlist *pl);
 void playlist_remove_current_entry(gmpv_handle *ctx);
 void playlist_reset(gmpv_handle *ctx);
 

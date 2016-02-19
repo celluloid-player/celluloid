@@ -25,7 +25,7 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
-void playlist_append(	GtkListStore *pl,
+void playlist_append(	playlist *pl,
 			const gchar *name,
 			const gchar *uri )
 {
@@ -36,7 +36,7 @@ void playlist_append(	GtkListStore *pl,
 	gtk_list_store_set(pl, &iter, PLAYLIST_URI_COLUMN, uri, -1);
 }
 
-void playlist_remove(GtkListStore *pl, gint pos)
+void playlist_remove(playlist *pl, gint pos)
 {
 	GtkTreeIter iter;
 	gboolean rc;
@@ -55,19 +55,19 @@ void playlist_remove(GtkListStore *pl, gint pos)
 	}
 }
 
-void playlist_clear(GtkListStore *pl)
+void playlist_clear(playlist *pl)
 {
 	gtk_list_store_clear(pl);
 }
 
-gboolean playlist_empty(GtkListStore *pl)
+gboolean playlist_empty(playlist *pl)
 {
 	GtkTreeIter iter;
 
 	return !gtk_tree_model_get_iter_first(GTK_TREE_MODEL(pl), &iter);
 }
 
-void playlist_set_indicator_pos(GtkListStore *pl, gint pos)
+void playlist_set_indicator_pos(playlist *pl, gint pos)
 {
 	GtkTreeIter iter;
 	gboolean rc;
