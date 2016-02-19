@@ -399,3 +399,24 @@ void menu_build_open_btn(GMenu *menu)
 	g_object_unref(open_loc_menu_item);
 }
 
+void menu_build_app_menu(GMenu *menu)
+{
+	GMenu *top_section;
+	GMenu *bottom_section;
+	GMenuItem *pref_menu_item;
+	GMenuItem *about_menu_item;
+	GMenuItem *quit_menu_item;
+
+	top_section = g_menu_new();
+	bottom_section = g_menu_new();
+	pref_menu_item = g_menu_item_new(_("_Preferences"), "app.pref");
+	about_menu_item = g_menu_item_new(_("_About"), "app.about");
+	quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
+
+	g_menu_append_section(menu, NULL, G_MENU_MODEL(top_section));
+	g_menu_append_section(menu, NULL, G_MENU_MODEL(bottom_section));
+	g_menu_append_item(top_section, pref_menu_item);
+	g_menu_append_item(bottom_section, about_menu_item);
+	g_menu_append_item(bottom_section, quit_menu_item);
+}
+

@@ -80,7 +80,6 @@ static void add_accelerator(	GtkApplication *app,
 				const char *accel,
 				const char *action );
 static void setup_accelerators(gmpv_handle *ctx);
-static GMenu *build_app_menu(void);
 static void app_startup_handler(GApplication *app, gpointer data);
 static void app_activate_handler(GApplication *app, gpointer data);
 static void app_open_handler(	GApplication *app,
@@ -625,31 +624,6 @@ static void setup_accelerators(gmpv_handle *ctx)
 	add_accelerator(ctx->app, "F11", "app.fullscreen");
 }
 
-static GMenu *build_app_menu()
-{
-	GMenu *menu;
-	GMenu *top_section;
-	GMenu *bottom_section;
-	GMenuItem *pref_menu_item;
-	GMenuItem *about_menu_item;
-	GMenuItem *quit_menu_item;
-
-	menu = g_menu_new();
-	top_section = g_menu_new();
-	bottom_section = g_menu_new();
-	pref_menu_item = g_menu_item_new(_("_Preferences"), "app.pref");
-	about_menu_item = g_menu_item_new(_("_About"), "app.about");
-	quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
-
-	g_menu_append_section(menu, NULL, G_MENU_MODEL(top_section));
-	g_menu_append_section(menu, NULL, G_MENU_MODEL(bottom_section));
-	g_menu_append_item(top_section, pref_menu_item);
-	g_menu_append_item(bottom_section, about_menu_item);
-	g_menu_append_item(bottom_section, quit_menu_item);
-
-	return menu;
-}
-
 static void app_startup_handler(GApplication *app, gpointer data)
 {
 	gmpv_handle *ctx = data;
@@ -724,9 +698,10 @@ static void app_startup_handler(GApplication *app, gpointer data)
 
 	if(csd_enable)
 	{
-		gtk_application_set_app_menu
-			(ctx->app, G_MENU_MODEL(build_app_menu()));
+		GMenu *app_menu = g_menu_new();
 
+		menu_build_app_menu(app_menu);
+		gtk_application_set_app_menu(ctx->app, G_MENU_MODEL(app_menu));
 		main_window_enable_csd(ctx->gui);
 	}
 	else

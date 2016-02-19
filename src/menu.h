@@ -31,5 +31,6 @@ void menu_build_menu_btn(	GMenu *menu,
 				const GSList *video_list,
 				const GSList *sub_list );
 void menu_build_open_btn(GMenu *menu);
+void menu_build_app_menu(GMenu *menu);
 
 #endif
