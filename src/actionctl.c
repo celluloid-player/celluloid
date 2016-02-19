@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 
 #include "actionctl.h"
+#include "playlist_widget.h"
 #include "def.h"
 #include "mpv.h"
 #include "playlist.h"
@@ -33,6 +34,15 @@ static void open_handler(	GSimpleAction *action,
 static void open_loc_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
+static void loop_handler(	GSimpleAction *action,
+				GVariant *value,
+				gpointer data );
+static void playlist_toggle_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
+static void playlist_save_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
 static void pref_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
@@ -40,7 +50,7 @@ static void quit_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
 static void track_select_handler(	GSimpleAction *action,
-					GVariant *param,
+					GVariant *value,
 					gpointer data );
 static void load_track_handler(	GSimpleAction *action,
 				GVariant *param,
@@ -185,6 +195,118 @@ static void loop_handler(	GSimpleAction *action,
 	mpv_check_error(mpv_set_property_string(	ctx->mpv_ctx,
 							"loop",
 							loop?"inf":"no" ));
+}
+
+static void playlist_toggle_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	gmpv_handle *ctx = data;
+	gboolean visible = gtk_widget_get_visible(ctx->gui->playlist);
+
+	main_window_set_playlist_visible(ctx->gui, !visible);
+}
+
+static void playlist_save_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	gmpv_handle *ctx = data;
+	PlaylistWidget *playlist;
+	GFile *dest_file;
+	GOutputStream *dest_stream;
+	GtkFileChooser *file_chooser;
+	GtkWidget *save_dialog;
+	GError *error;
+	GtkTreeIter iter;
+	gboolean rc;
+
+	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
+	dest_file = NULL;
+	dest_stream = NULL;
+	error = NULL;
+	rc = FALSE;
+
+	save_dialog
+		= gtk_file_chooser_dialog_new(	_("Save Playlist"),
+						GTK_WINDOW(ctx->gui),
+						GTK_FILE_CHOOSER_ACTION_SAVE,
+						_("_Cancel"),
+						GTK_RESPONSE_CANCEL,
+						_("_Save"),
+						GTK_RESPONSE_ACCEPT,
+						NULL );
+
+	file_chooser = GTK_FILE_CHOOSER(save_dialog);
+
+	gtk_file_chooser_set_do_overwrite_confirmation(file_chooser, TRUE);
+	gtk_file_chooser_set_current_name(file_chooser, "playlist.m3u");
+
+	if(gtk_dialog_run(GTK_DIALOG(save_dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		/* There should be only one file selected. */
+		dest_file = gtk_file_chooser_get_file(file_chooser);
+	}
+
+	gtk_widget_destroy(save_dialog);
+
+	if(dest_file)
+	{
+		GFileOutputStream *dest_file_stream;
+
+		dest_file_stream = g_file_replace(	dest_file,
+							NULL,
+							FALSE,
+							G_FILE_CREATE_NONE,
+							NULL,
+							&error );
+
+		dest_stream = G_OUTPUT_STREAM(dest_file_stream);
+
+		rc = gtk_tree_model_get_iter_first
+			(GTK_TREE_MODEL(playlist->list_store), &iter);
+
+		rc &= !!dest_stream;
+	}
+
+	while(rc)
+	{
+		gchar *uri;
+		gsize written;
+
+		gtk_tree_model_get(	GTK_TREE_MODEL(playlist->list_store),
+					&iter,
+					PLAYLIST_URI_COLUMN,
+					&uri,
+					-1 );
+
+		rc &= g_output_stream_printf(	dest_stream,
+						&written,
+						NULL,
+						&error,
+						"%s\n",
+						uri );
+
+		rc &= gtk_tree_model_iter_next
+			(GTK_TREE_MODEL(playlist->list_store), &iter);
+	}
+
+	if(dest_stream)
+	{
+		g_output_stream_close(dest_stream, NULL, &error);
+	}
+
+	if(dest_file)
+	{
+		g_object_unref(dest_file);
+	}
+
+	if(error)
+	{
+		show_error_dialog(ctx, NULL, error->message);
+
+		g_error_free(error);
+	}
 }
 
 static void pref_handler(	GSimpleAction *action,
