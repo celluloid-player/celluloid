@@ -20,9 +20,25 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include "common.h"
-
 #include <gtk/gtk.h>
+
+G_BEGIN_DECLS
+
+#define PLAYLIST_TYPE (playlist_get_type ())
+
+#define	PLAYLIST(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+		((obj), PLAYLIST_TYPE, Playlist))
+
+#define	PLAYLIST_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST \
+		((klass), PLAYLIST_TYPE, PlaylistClass))
+
+#define	IS_PLAYLIST(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((obj), PLAYLIST_TYPE))
+
+#define	IS_PLAYLIST_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_TYPE((klass), PLAYLIST_TYPE))
 
 enum PlaylistStoreColumn
 {
@@ -33,16 +49,19 @@ enum PlaylistStoreColumn
 };
 
 typedef enum PlaylistStoreColumn PlaylistStoreColumn;
-typedef GtkListStore playlist;
+typedef struct _Playlist Playlist;
+typedef struct _PlaylistClass PlaylistClass;
 
-playlist *playlist_new(void);
-void playlist_set_indicator_pos(playlist *pl, gint pos);
-void playlist_append(	playlist *pl,
-			const gchar *name,
-			const gchar *uri );
-void playlist_remove(playlist *pl, gint pos);
-void playlist_clear(playlist *pl);
-gboolean playlist_empty(playlist *pl);
-void playlist_reset(playlist *pl);
+Playlist *playlist_new(void);
+GType playlist_get_type(void);
+GtkListStore *playlist_get_store(Playlist *pl);
+void playlist_set_indicator_pos(Playlist *pl, gint pos);
+void playlist_append(Playlist *pl, const gchar *name, const gchar *uri);
+void playlist_remove(Playlist *pl, gint pos);
+void playlist_clear(Playlist *pl);
+gboolean playlist_empty(Playlist *pl);
+void playlist_reset(Playlist *pl);
+
+G_END_DECLS
 
 #endif

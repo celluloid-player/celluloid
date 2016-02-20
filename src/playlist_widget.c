@@ -75,7 +75,8 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 	wgt->store = playlist_new();
 
 	wgt->tree_view
-		= gtk_tree_view_new_with_model(GTK_TREE_MODEL(wgt->store));
+		= gtk_tree_view_new_with_model
+			(GTK_TREE_MODEL(playlist_get_store(wgt->store)));
 
 	wgt->indicator_column
 		= gtk_tree_view_column_new_with_attributes

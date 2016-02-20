@@ -67,12 +67,12 @@ static void playlist_row_activated_handler(	GtkTreeView *tree_view,
 						GtkTreePath *path,
 						GtkTreeViewColumn *column,
 						gpointer data );
-static void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
-						GtkTreePath *path,
-						GtkTreeIter *iter,
+static void playlist_row_deleted_handler(	Playlist *pl,
+						gint pos,
 						gpointer data );
-static void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
-						GtkTreePath *path,
+static void playlist_row_reodered_handler(	Playlist *pl,
+						gint src,
+						gint dest,
 						gpointer data );
 static void connect_signals(gmpv_handle *ctx);
 static void add_accelerator(	GtkApplication *app,
@@ -200,8 +200,7 @@ static gboolean load_files(gpointer data)
 
 		ctx->paused = FALSE;
 
-		playlist_clear
-			(PLAYLIST_WIDGET(ctx->gui->playlist)->store);
+		playlist_clear(ctx->playlist_store);
 
 		for(i = 0; ctx->files[i]; i++)
 		{
@@ -209,12 +208,9 @@ static gboolean load_files(gpointer data)
 
 			if(ctx->init_load)
 			{
-				playlist_append
-					(	PLAYLIST_WIDGET
-						(ctx->gui->playlist)
-						->store,
-						name,
-						ctx->files[i] );
+				playlist_append(	ctx->playlist_store,
+							name,
+							ctx->files[i] );
 			}
 			else
 			{
@@ -261,64 +257,48 @@ static void playlist_row_activated_handler(	GtkTreeView *tree_view,
 	}
 }
 
-static void playlist_row_inserted_handler(	GtkTreeModel *tree_model,
-						GtkTreePath *path,
-						GtkTreeIter *iter,
+static void playlist_row_deleted_handler(	Playlist *pl,
+						gint pos,
 						gpointer data )
 {
 	gmpv_handle *ctx = data;
 
-	ctx->playlist_move_dest = gtk_tree_path_get_indices(path)[0];
+	if(ctx->loaded)
+	{
+		const gchar *cmd[] = {"playlist_remove", NULL, NULL};
+		gchar *index_str = g_strdup_printf("%d", pos);
+
+		cmd[1] = index_str;
+
+		mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
+
+		g_free(index_str);
+	}
+
+	if(playlist_empty(ctx->playlist_store))
+	{
+		control_box_set_enabled
+			(CONTROL_BOX(ctx->gui->control_box), FALSE);
+	}
 }
 
-static void playlist_row_deleted_handler(	GtkTreeModel *tree_model,
-						GtkTreePath *path,
+static void playlist_row_reodered_handler(	Playlist *pl,
+						gint src,
+						gint dest,
 						gpointer data )
 {
 	gmpv_handle *ctx = data;
 	const gchar *cmd[] = {"playlist_move", NULL, NULL, NULL};
-	gchar *src_str;
-	gchar *dest_str;
-	gint src;
-	gint dest;
+	gchar *src_str = g_strdup_printf("%d", (src > dest)?--src:src);
+	gchar *dest_str = g_strdup_printf("%d", dest);
 
-	src = gtk_tree_path_get_indices(path)[0];
-	dest = ctx->playlist_move_dest;
+	cmd[1] = src_str;
+	cmd[2] = dest_str;
 
-	/* Reorder */
-	if(dest >= 0)
-	{
-		src_str = g_strdup_printf("%d", (src > dest)?--src:src);
-		dest_str = g_strdup_printf("%d", dest);
-		ctx->playlist_move_dest = -1;
+	mpv_command(ctx->mpv_ctx, cmd);
 
-		cmd[1] = src_str;
-		cmd[2] = dest_str;
-
-		mpv_command(ctx->mpv_ctx, cmd);
-
-		g_free(src_str);
-		g_free(dest_str);
-	}
-	/* Delete */
-	else
-	{
-		if(ctx->loaded)
-		{
-			const gchar *cmd[] = {"playlist_remove", NULL, NULL};
-			const gchar *index_str = g_strdup_printf("%d", src);
-
-			cmd[1] = index_str;
-
-			mpv_check_error(mpv_command(ctx->mpv_ctx, cmd));
-		}
-
-		if(playlist_empty(PLAYLIST_WIDGET(ctx->gui->playlist)->store))
-		{
-			control_box_set_enabled
-				(CONTROL_BOX(ctx->gui->control_box), FALSE);
-		}
-	}
+	g_free(src_str);
+	g_free(dest_str);
 }
 
 static void drag_data_handler(	GtkWidget *widget,
@@ -557,13 +537,13 @@ static void connect_signals(gmpv_handle *ctx)
 				ctx );
 
 	g_signal_connect(	playlist->store,
-				"row-inserted",
-				G_CALLBACK(playlist_row_inserted_handler),
+				"row-deleted",
+				G_CALLBACK(playlist_row_deleted_handler),
 				ctx );
 
 	g_signal_connect(	playlist->store,
-				"row-deleted",
-				G_CALLBACK(playlist_row_deleted_handler),
+				"row-reordered",
+				G_CALLBACK(playlist_row_reodered_handler),
 				ctx );
 }
 
@@ -622,7 +602,6 @@ static void app_startup_handler(GApplication *app, gpointer data)
 	ctx->sub_visible = TRUE;
 	ctx->init_load = TRUE;
 	ctx->inhibit_cookie = 0;
-	ctx->playlist_move_dest = -1;
 	ctx->log_level_list = NULL;
 	ctx->keybind_list = NULL;
 	ctx->config = g_settings_new(CONFIG_ROOT);

@@ -24,6 +24,7 @@
 #include <mpv/opengl_cb.h>
 
 #include "main_window.h"
+#include "playlist.h"
 
 typedef struct module_log_level module_log_level;
 typedef struct gmpv_handle gmpv_handle;
@@ -47,14 +48,13 @@ struct gmpv_handle
 	gboolean init_load;
 	gint64 vid_area_wid;
 	guint inhibit_cookie;
-	gint playlist_move_dest;
 	GSList *log_level_list;
 	GSList *keybind_list;
 	GSettings *config;
 	GtkApplication *app;
 	MainWindow *gui;
 	GtkWidget *fs_control;
-	GtkListStore *playlist_store;
+	Playlist *playlist_store;
 };
 
 gchar *get_config_dir_path(void);

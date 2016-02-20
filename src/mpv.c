@@ -642,7 +642,7 @@ void mpv_update_playlist(gmpv_handle *ctx)
 	gint i;
 
 	playlist = PLAYLIST_WIDGET(ctx->gui->playlist);
-	store = playlist->store;
+	store = playlist_get_store(playlist->store);
 	filename_prop_str = g_malloc(filename_prop_str_size);
 	iter_end = FALSE;
 
@@ -1097,7 +1097,7 @@ void mpv_load(	gmpv_handle *ctx,
 		update?"TRUE":"FALSE",
 		uri?:"<PLAYLIST_ITEMS>" );
 
-	playlist_store = GTK_LIST_STORE(ctx->playlist_store);
+	playlist_store = playlist_get_store(ctx->playlist_store);
 
 	empty = !gtk_tree_model_get_iter_first
 			(GTK_TREE_MODEL(playlist_store), &iter);
@@ -1186,8 +1186,6 @@ void mpv_load(	gmpv_handle *ctx,
 		mpv_check_error(mpv_request_event(	ctx->mpv_ctx,
 							MPV_EVENT_END_FILE,
 							1 ));
-
-		ctx->playlist_move_dest = -1;
 
 		g_free(path);
 	}
