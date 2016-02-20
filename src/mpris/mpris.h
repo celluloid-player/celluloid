@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -27,7 +27,7 @@ typedef struct mpris_prop_val_pair mpris_prop_val_pair;
 
 struct mpris
 {
-	gmpv_handle* gmpv_ctx;
+	Application* gmpv_ctx;
 	guint name_id;
 	guint base_reg_id;
 	guint player_reg_id;
@@ -48,6 +48,6 @@ struct mpris_prop_val_pair
 
 void mpris_emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list);
 GVariant *mpris_build_g_variant_string_array(const gchar** list);
-void mpris_init(gmpv_handle *gmpv_ctx);
+void mpris_init(Application *gmpv_ctx);
 
 #endif

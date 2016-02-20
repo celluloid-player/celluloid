@@ -280,12 +280,12 @@ GSList *keybind_parse_config(const gchar *config_path, gboolean* propexp)
 	return g_slist_reverse(result);
 }
 
-gchar *keybind_get_command(	gmpv_handle *ctx,
+gchar *keybind_get_command(	Application *app,
 				gboolean mouse,
 				guint modifier,
 				guint keyval )
 {
-	GSList *iter = ctx->keybind_list;
+	GSList *iter = app->keybind_list;
 	keybind *kb = iter->data;
 
 	while(kb && (kb->modifier != modifier || kb->keyval != keyval))

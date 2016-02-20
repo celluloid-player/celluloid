@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -39,22 +39,22 @@ static void fullscreen_handler(GtkWidget *button, gpointer data);
 
 static void play_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = data;
+	Application *app = data;
 
-	ctx->paused = !ctx->paused;
+	app->paused = !app->paused;
 
-	mpv_check_error(mpv_set_property(	ctx->mpv_ctx,
+	mpv_check_error(mpv_set_property(	app->mpv_ctx,
 						"pause",
 						MPV_FORMAT_FLAG,
-						&ctx->paused ));
+						&app->paused ));
 }
 
 static void stop_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = data;
+	Application *app = data;
 	const gchar *cmd[] = {"stop", NULL};
 
-	mpv_command(ctx->mpv_ctx, cmd);
+	mpv_command(app->mpv_ctx, cmd);
 }
 
 static void seek_handler(	GtkWidget *widget,
@@ -67,43 +67,43 @@ static void seek_handler(	GtkWidget *widget,
 
 static void forward_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = data;
+	Application *app = data;
 	const gchar *cmd[] = {"seek", "10", NULL};
 
-	mpv_command(ctx->mpv_ctx, cmd);
+	mpv_command(app->mpv_ctx, cmd);
 }
 
 static void rewind_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = data;
+	Application *app = data;
 	const gchar *cmd[] = {"seek", "-10", NULL};
 
-	mpv_command(ctx->mpv_ctx, cmd);
+	mpv_command(app->mpv_ctx, cmd);
 }
 
 static void chapter_previous_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = data;
+	Application *app = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
-	mpv_command(ctx->mpv_ctx, cmd);
+	mpv_command(app->mpv_ctx, cmd);
 }
 
 static void chapter_next_handler(GtkWidget *widget, gpointer data)
 {
-	gmpv_handle *ctx = data;
+	Application *app = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
-	mpv_command(ctx->mpv_ctx, cmd);
+	mpv_command(app->mpv_ctx, cmd);
 }
 
 static void volume_handler(GtkWidget *widget, gdouble value, gpointer data)
 {
-	gmpv_handle *ctx = data;
+	Application *app = data;
 
 	value *= 100;
 
-	mpv_set_property(ctx->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
+	mpv_set_property(app->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)
@@ -111,52 +111,52 @@ static void fullscreen_handler(GtkWidget *widget, gpointer data)
 	toggle_fullscreen(data);
 }
 
-void playbackctl_connect_signals(gmpv_handle *ctx)
+void playbackctl_connect_signals(Application *app)
 {
-	ControlBox *control_box = CONTROL_BOX(ctx->gui->control_box);
+	ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
 
 	g_signal_connect(	control_box->play_button,
 				"clicked",
 				G_CALLBACK(play_handler),
-				ctx );
+				app );
 
 	g_signal_connect(	control_box->stop_button,
 				"clicked",
 				G_CALLBACK(stop_handler),
-				ctx );
+				app );
 
 	g_signal_connect(	control_box->seek_bar,
 				"change-value",
 				G_CALLBACK(seek_handler),
-				ctx );
+				app );
 
 	g_signal_connect(	control_box->forward_button,
 				"clicked",
 				G_CALLBACK(forward_handler),
-				ctx );
+				app );
 
 	g_signal_connect(	control_box->rewind_button,
 				"clicked",
 				G_CALLBACK(rewind_handler),
-				ctx );
+				app );
 
 	g_signal_connect(	control_box->previous_button,
 				"clicked",
 				G_CALLBACK(chapter_previous_handler),
-				ctx );
+				app );
 
 	g_signal_connect(	control_box->next_button,
 				"clicked",
 				G_CALLBACK(chapter_next_handler),
-				ctx );
+				app );
 
 	g_signal_connect(	control_box->volume_button,
 				"value-changed",
 				G_CALLBACK(volume_handler),
-				ctx );
+				app );
 
 	g_signal_connect(	control_box->fullscreen_button,
 				"clicked",
 				G_CALLBACK(fullscreen_handler),
-				ctx );
+				app );
 }

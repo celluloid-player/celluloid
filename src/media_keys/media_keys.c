@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -20,7 +20,7 @@
 #include "media_keys.h"
 #include "def.h"
 
-static void set_paused(gmpv_handle *ctx, gboolean paused);
+static void set_paused(Application *app, gboolean paused);
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data );
@@ -36,14 +36,14 @@ static void session_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data );
 
-static void set_paused(gmpv_handle *ctx, gboolean paused)
+static void set_paused(Application *app, gboolean paused)
 {
-	ctx->paused = paused;
+	app->paused = paused;
 
-	mpv_set_property(	ctx->mpv_ctx,
+	mpv_set_property(	app->mpv_ctx,
 				"pause",
 				MPV_FORMAT_FLAG,
-				&ctx->paused );
+				&app->paused );
 }
 
 static gboolean delete_handler(	GtkWidget *widget,
@@ -166,7 +166,7 @@ static void session_ready_handler(	GObject *source_object,
 				inst );
 }
 
-void media_keys_init(gmpv_handle *gmpv_ctx)
+void media_keys_init(Application *gmpv_ctx)
 {
 	media_keys *inst = g_malloc(sizeof(media_keys));
 

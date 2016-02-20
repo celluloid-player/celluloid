@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -26,13 +26,13 @@ typedef struct media_keys media_keys;
 
 struct media_keys
 {
-	gmpv_handle *gmpv_ctx;
+	Application *gmpv_ctx;
 	gulong g_signal_sig_id;
 	gulong shutdown_sig_id;
 	GDBusProxy *proxy;
 	GDBusConnection *session_bus_conn;
 };
 
-void media_keys_init(gmpv_handle *gmpv_ctx);
+void media_keys_init(Application *gmpv_ctx);
 
 #endif

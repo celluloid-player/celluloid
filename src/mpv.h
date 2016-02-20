@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014, 2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -23,15 +23,15 @@
 #include "common.h"
 
 void mpv_wakeup_callback(void *data);
-void mpv_log_handler(gmpv_handle *ctx, mpv_event_log_message* message);
+void mpv_log_handler(Application *app, mpv_event_log_message* message);
 void mpv_check_error(int status);
 gboolean mpv_handle_event(gpointer data);
-void mpv_update_playlist(gmpv_handle *ctx);
-void mpv_load_gui_update(gmpv_handle *ctx);
+void mpv_update_playlist(Application *app);
+void mpv_load_gui_update(Application *app);
 gint mpv_apply_args(mpv_handle *mpv_ctx, char *args);
-void mpv_init(gmpv_handle *ctx);
-void mpv_quit(gmpv_handle *ctx);
-void mpv_load(	gmpv_handle *ctx,
+void mpv_init(Application *app);
+void mpv_quit(Application *app);
+void mpv_load(	Application *app,
 		const gchar *uri,
 		gboolean append,
 		gboolean update );

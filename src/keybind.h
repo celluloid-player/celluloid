@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -34,7 +34,7 @@ typedef struct keybind keybind;
 
 keybind *keybind_parse_config_line(const gchar *line, gboolean *propexp);
 GSList *keybind_parse_config(const gchar *config_path, gboolean *propexp);
-gchar *keybind_get_command(	gmpv_handle *ctx,
+gchar *keybind_get_command(	Application *app,
 				gboolean mouse,
 				guint modifier,
 				guint keyval );

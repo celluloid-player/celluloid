@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -22,6 +22,6 @@
 
 #include "common.h"
 
-void actionctl_map_actions(gmpv_handle *ctx);
+void actionctl_map_actions(Application *app);
 
 #endif

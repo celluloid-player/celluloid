@@ -66,27 +66,27 @@ gchar *get_name_from_path(const gchar *path)
 gboolean quit(gpointer data)
 {
 	const gchar *cmd[] = {"quit", NULL};
-	gmpv_handle *ctx = data;
+	Application *app = data;
 
-	if(ctx->mpv_ctx)
+	if(app->mpv_ctx)
 	{
-		mpv_command(ctx->mpv_ctx, cmd);
-		mpv_quit(ctx);
+		mpv_command(app->mpv_ctx, cmd);
+		mpv_quit(app);
 
-		ctx->mpv_ctx = NULL;
+		app->mpv_ctx = NULL;
 	}
 
-	if(!ctx->gui->fullscreen)
+	if(!app->gui->fullscreen)
 	{
-		main_window_save_state(ctx->gui);
+		main_window_save_state(app->gui);
 	}
 
-	g_application_quit(G_APPLICATION(ctx->app));
+	g_application_quit(G_APPLICATION(app));
 
 	return FALSE;
 }
 
-void migrate_config(gmpv_handle *ctx)
+void migrate_config(Application *app)
 {
 	const gchar *keys[] = {	"dark-theme-enable",
 				"csd-enable",
@@ -126,13 +126,13 @@ void migrate_config(gmpv_handle *ctx)
 
 gboolean update_seek_bar(gpointer data)
 {
-	gmpv_handle *ctx = data;
+	Application *app = data;
 	gdouble time_pos = -1;
 	gint rc = -1;
 
-	if(ctx->mpv_ctx)
+	if(app->mpv_ctx)
 	{
-		rc = mpv_get_property(	ctx->mpv_ctx,
+		rc = mpv_get_property(	app->mpv_ctx,
 					"time-pos",
 					MPV_FORMAT_DOUBLE,
 					&time_pos );
@@ -141,23 +141,23 @@ gboolean update_seek_bar(gpointer data)
 	if(rc >= 0)
 	{
 		ControlBox *control_box
-			= CONTROL_BOX(ctx->gui->control_box);
+			= CONTROL_BOX(app->gui->control_box);
 
 		gtk_range_set_value
 			(	GTK_RANGE(control_box->seek_bar),
 				time_pos );
 	}
 
-	return !!ctx->mpv_ctx;
+	return !!app->mpv_ctx;
 }
 
-void seek(gmpv_handle *ctx, gdouble time)
+void seek(Application *app, gdouble time)
 {
 	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
 
-	if(!ctx->loaded)
+	if(!app->loaded)
 	{
-		mpv_load(ctx, NULL, FALSE, TRUE);
+		mpv_load(app, NULL, FALSE, TRUE);
 	}
 	else
 	{
@@ -165,22 +165,22 @@ void seek(gmpv_handle *ctx, gdouble time)
 
 		cmd[1] = value_str;
 
-		mpv_command(ctx->mpv_ctx, cmd);
-		update_seek_bar(ctx);
+		mpv_command(app->mpv_ctx, cmd);
+		update_seek_bar(app);
 
 		g_free(value_str);
 	}
 
 }
 
-void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg)
+void show_error_dialog(Application *app, const gchar *prefix, const gchar *msg)
 {
 	GtkWidget *dialog;
 	GtkWidget *msg_area;
 	GList *iter;
 
 	dialog = gtk_message_dialog_new
-			(	GTK_WINDOW(ctx->gui),
+			(	GTK_WINDOW(app->gui),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_ERROR,
 				GTK_BUTTONS_OK,
@@ -230,20 +230,20 @@ void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg)
 	gtk_widget_destroy(dialog);
 }
 
-void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
+void resize_window_to_fit(Application *app, gdouble multiplier)
 {
-	gchar *video = mpv_get_property_string(ctx->mpv_ctx, "video");
+	gchar *video = mpv_get_property_string(app->mpv_ctx, "video");
 	gint64 width;
 	gint64 height;
 	gint mpv_width_rc;
 	gint mpv_height_rc;
 
-	mpv_width_rc = mpv_get_property(	ctx->mpv_ctx,
+	mpv_width_rc = mpv_get_property(	app->mpv_ctx,
 						"dwidth",
 						MPV_FORMAT_INT64,
 						&width );
 
-	mpv_height_rc = mpv_get_property(	ctx->mpv_ctx,
+	mpv_height_rc = mpv_get_property(	app->mpv_ctx,
 						"dheight",
 						MPV_FORMAT_INT64,
 						&height );
@@ -258,12 +258,12 @@ void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
 		gint new_width;
 		gint new_height;
 
-		width_margin = main_window_get_width_margin(ctx->gui);
-		height_margin = main_window_get_height_margin(ctx->gui);
+		width_margin = main_window_get_width_margin(app->gui);
+		height_margin = main_window_get_height_margin(app->gui);
 		new_width = (gint)(multiplier*(gdouble)width)+width_margin;
 		new_height = (gint)(multiplier*(gdouble)height)+height_margin;
 
-		gtk_window_resize(	GTK_WINDOW(ctx->gui),
+		gtk_window_resize(	GTK_WINDOW(app->gui),
 					new_width,
 					new_height );
 	}
@@ -271,23 +271,23 @@ void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier)
 	mpv_free(video);
 }
 
-void toggle_fullscreen(gmpv_handle *ctx)
+void toggle_fullscreen(Application *app)
 {
-	main_window_toggle_fullscreen(ctx->gui);
+	main_window_toggle_fullscreen(app->gui);
 
-	mpv_set_property(	ctx->mpv_ctx,
+	mpv_set_property(	app->mpv_ctx,
 				"fullscreen",
 				MPV_FORMAT_FLAG,
-				&ctx->gui->fullscreen );
+				&app->gui->fullscreen );
 }
 
-void load_keybind(	gmpv_handle *ctx,
+void load_keybind(	Application *app,
 			const gchar *config_path,
 			gboolean notify_propexp )
 {
 	gboolean propexp;
 
-	ctx->keybind_list
+	app->keybind_list
 		= keybind_parse_config_with_defaults(config_path, &propexp);
 
 	if(notify_propexp && propexp)
@@ -296,6 +296,6 @@ void load_keybind(	gmpv_handle *ctx,
 					"Expansion are not supported and have "
 					"been ignored." );
 
-		show_error_dialog(ctx, NULL, msg);
+		show_error_dialog(app, NULL, msg);
 	}
 }

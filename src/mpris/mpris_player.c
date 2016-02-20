@@ -24,7 +24,7 @@
 #include "mpv.h"
 #include "def.h"
 
-static void set_paused(gmpv_handle *ctx, gboolean paused);
+static void set_paused(Application *app, gboolean paused);
 static void prop_table_init(mpris *inst);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
@@ -60,14 +60,14 @@ static void mpv_prop_change_handler(	MainWindow *wnd,
 					gchar *name,
 					gpointer data );
 
-static void set_paused(gmpv_handle *ctx, gboolean paused)
+static void set_paused(Application *app, gboolean paused)
 {
-	ctx->paused = paused;
+	app->paused = paused;
 
-	mpv_set_property(	ctx->mpv_ctx,
+	mpv_set_property(	app->mpv_ctx,
 				"pause",
 				MPV_FORMAT_FLAG,
-				&ctx->paused );
+				&app->paused );
 }
 
 static void prop_table_init(mpris *inst)

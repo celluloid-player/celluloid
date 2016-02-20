@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -23,6 +23,6 @@
 #include "playbackctl.h"
 #include "common.h"
 
-void playbackctl_connect_signals(gmpv_handle *ctx);
+void playbackctl_connect_signals(Application *app);
 
 #endif

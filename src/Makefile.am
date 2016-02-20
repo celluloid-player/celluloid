@@ -23,6 +23,7 @@ BUILT_SOURCES = $(mpris_generated) $(marshal_generated)
 
 gnome_mpv_SOURCES =	main.c def.h \
 			actionctl.c actionctl.h \
+			application.c application.h \
 			common.c common.h \
 			control_box.c control_box.h \
 			keybind.c keybind.h \

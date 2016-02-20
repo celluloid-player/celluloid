@@ -25,9 +25,9 @@
 
 #include "main_window.h"
 #include "playlist.h"
+#include "application.h"
 
 typedef struct module_log_level module_log_level;
-typedef struct gmpv_handle gmpv_handle;
 
 struct module_log_level
 {
@@ -35,39 +35,17 @@ struct module_log_level
 	mpv_log_level level;
 };
 
-struct gmpv_handle
-{
-	mpv_handle *mpv_ctx;
-	gchar **files;
-	mpv_opengl_cb_context *opengl_ctx;
-	gboolean opengl_ready;
-	gboolean paused;
-	gboolean loaded;
-	gboolean new_file;
-	gboolean sub_visible;
-	gboolean init_load;
-	gint64 vid_area_wid;
-	guint inhibit_cookie;
-	GSList *log_level_list;
-	GSList *keybind_list;
-	GSettings *config;
-	GtkApplication *app;
-	MainWindow *gui;
-	GtkWidget *fs_control;
-	Playlist *playlist_store;
-};
-
 gchar *get_config_dir_path(void);
 gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
 gboolean quit(gpointer data);
 gboolean update_seek_bar(gpointer data);
-void migrate_config(gmpv_handle *ctx);
-void seek(gmpv_handle *ctx, gdouble time);
-void show_error_dialog(gmpv_handle *ctx, const gchar *prefix, const gchar *msg);
-void resize_window_to_fit(gmpv_handle *ctx, gdouble multiplier);
-void toggle_fullscreen(gmpv_handle *ctx);
-void load_keybind(	gmpv_handle *ctx,
+void migrate_config(Application *app);
+void seek(Application *app, gdouble time);
+void show_error_dialog(Application *app, const gchar *prefix, const gchar *msg);
+void resize_window_to_fit(Application *app, gdouble multiplier);
+void toggle_fullscreen(Application *app);
+void load_keybind(	Application *app,
 			const gchar *config_path,
 			gboolean notify_ignore );
 
