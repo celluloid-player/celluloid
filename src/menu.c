@@ -193,11 +193,11 @@ void menu_build_full(	GMenu *menu,
 		GMenuItem *load_sub_menu_item;
 
 		load_audio_menu_item
-			= g_menu_item_new(	_("_Load External..."),
+			= g_menu_item_new(	_("_Load External…"),
 						"app.load_track('audio-add')" );
 
 		load_sub_menu_item
-			= g_menu_item_new(	_("_Load External..."),
+			= g_menu_item_new(	_("_Load External…"),
 						"app.load_track('sub-add')" );
 
 		build_menu_from_track_list
@@ -343,12 +343,12 @@ void menu_build_menu_btn(	GMenu *menu,
 
 		load_audio_menu_item
 			= g_menu_item_new
-				(	_("_Load External..."),
+				(	_("_Load External…"),
 					"app.load_track('audio-add')" );
 
 		load_sub_menu_item
 			= g_menu_item_new
-				(	_("_Load External..."),
+				(	_("_Load External…"),
 					"app.load_track('sub-add')" );
 
 		g_menu_append_item(track, audio_menu_item);
