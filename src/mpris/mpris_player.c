@@ -21,7 +21,7 @@
 
 #include "mpris_player.h"
 #include "mpris_gdbus.h"
-#include "mpv.h"
+#include "mpv_obj.h"
 #include "def.h"
 
 static void set_paused(Application *app, gboolean paused);
@@ -207,7 +207,7 @@ static void method_handler(	GDBusConnection *connection,
 		const gchar *uri;
 
 		g_variant_get(parameters, "(&s)", &uri);
-		mpv_load(inst->gmpv_ctx, uri, FALSE, TRUE);
+		mpv_obj_load(inst->gmpv_ctx, uri, FALSE, TRUE);
 	}
 
 	g_dbus_method_invocation_return_value

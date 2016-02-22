@@ -22,7 +22,7 @@
 #include "playbackctl.h"
 #include "control_box.h"
 #include "common.h"
-#include "mpv.h"
+#include "mpv_obj.h"
 
 static void play_handler(GtkWidget *widget, gpointer data);
 static void stop_handler(GtkWidget *widget, gpointer data);

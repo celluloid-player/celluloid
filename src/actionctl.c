@@ -22,7 +22,7 @@
 #include "actionctl.h"
 #include "playlist_widget.h"
 #include "def.h"
-#include "mpv.h"
+#include "mpv_obj.h"
 #include "playlist.h"
 #include "open_loc_dialog.h"
 #include "pref_dialog.h"
@@ -132,7 +132,7 @@ static void open_handler(	GSimpleAction *action,
 
 		while(uri)
 		{
-			mpv_load(	app,
+			mpv_obj_load(	app,
 					uri->data,
 					(append || uri != uri_list),
 					TRUE );
@@ -177,7 +177,7 @@ static void open_loc_handler(	GSimpleAction *action,
 
 		app->paused = FALSE;
 
-		mpv_load(app, loc_str, FALSE, TRUE);
+		mpv_obj_load(app, loc_str, FALSE, TRUE);
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(open_loc_dialog));
@@ -385,14 +385,14 @@ static void pref_handler(	GSimpleAction *action,
 		/* Reset app->mpv_ctx */
 		mpv_check_error(mpv_command(app->mpv_ctx, quit_cmd));
 
-		mpv_quit(app);
+		mpv_obj_quit(app);
 
 		app->mpv_ctx = mpv_create();
 
-		mpv_init(app);
+		mpv_obj_initialize(app);
 
 		mpv_set_wakeup_callback(	app->mpv_ctx,
-						mpv_wakeup_callback,
+						mpv_obj_wakeup_callback,
 						app );
 
 		gtk_widget_queue_draw(GTK_WIDGET(app->gui));
@@ -407,7 +407,7 @@ static void pref_handler(	GSimpleAction *action,
 
 			mpv_check_error(rc);
 
-			mpv_load(app, NULL, FALSE, TRUE);
+			mpv_obj_load(app, NULL, FALSE, TRUE);
 
 			rc = mpv_request_event(	app->mpv_ctx,
 						MPV_EVENT_FILE_LOADED,
@@ -537,7 +537,7 @@ static void load_track_handler(	GSimpleAction *action,
 		g_slist_free_full(uri_list, g_free);
 	}
 
-	mpv_load_gui_update(app);
+	mpv_obj_load_gui_update(app);
 
 	gtk_widget_destroy(open_dialog);
 }

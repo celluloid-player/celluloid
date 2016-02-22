@@ -29,7 +29,7 @@ gnome_mpv_SOURCES =	main.c def.h \
 			keybind.c keybind.h \
 			main_window.c main_window.h \
 			menu.c menu.h \
-			mpv.c mpv.h \
+			mpv_obj.c mpv_obj.h \
 			open_loc_dialog.c open_loc_dialog.h \
 			playbackctl.c playbackctl.h \
 			playlist.c playlist.h \

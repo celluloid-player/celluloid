@@ -23,7 +23,7 @@
 
 #include "common.h"
 #include "def.h"
-#include "mpv.h"
+#include "mpv_obj.h"
 #include "keybind.h"
 #include "main_window.h"
 #include "control_box.h"
@@ -71,7 +71,7 @@ gboolean quit(gpointer data)
 	if(app->mpv_ctx)
 	{
 		mpv_command(app->mpv_ctx, cmd);
-		mpv_quit(app);
+		mpv_obj_quit(app);
 
 		app->mpv_ctx = NULL;
 	}
@@ -157,7 +157,7 @@ void seek(Application *app, gdouble time)
 
 	if(!app->loaded)
 	{
-		mpv_load(app, NULL, FALSE, TRUE);
+		mpv_obj_load(app, NULL, FALSE, TRUE);
 	}
 	else
 	{

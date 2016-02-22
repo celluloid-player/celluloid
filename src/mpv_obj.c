@@ -22,7 +22,7 @@
 #include <string.h>
 #include <execinfo.h>
 
-#include "mpv.h"
+#include "mpv_obj.h"
 #include "def.h"
 #include "track.h"
 #include "playlist.h"
@@ -39,6 +39,8 @@ static void handle_property_change_event(	Application *app,
 static void opengl_callback(void *cb_ctx);
 static void uninit_opengl_cb(Application *app);
 static Track *parse_track_list(mpv_node_list *node);
+
+G_DEFINE_TYPE(MpvObj, mpv_obj, G_TYPE_OBJECT)
 
 static void parse_dim_string(	const gchar *mpv_geom_str,
 				gint *width,
@@ -269,7 +271,7 @@ static void handle_property_change_event(	Application *app,
 
 		if(idle && !app->paused)
 		{
-			mpv_load(app, NULL, FALSE, TRUE);
+			mpv_obj_load(app, NULL, FALSE, TRUE);
 		}
 
 		if(!app->paused)
@@ -287,7 +289,7 @@ static void handle_property_change_event(	Application *app,
 				(GTK_APPLICATION(app), app->inhibit_cookie);
 		}
 
-		mpv_load_gui_update(app);
+		mpv_obj_load_gui_update(app);
 	}
 	else if(g_strcmp0(prop->name, "volume") == 0
 	&& (app->init_load || app->loaded))
@@ -409,12 +411,25 @@ static Track *parse_track_list(mpv_node_list *node)
 	return entry;
 }
 
-void mpv_wakeup_callback(void *data)
+static void mpv_obj_class_init(MpvObjClass* klass)
 {
-	g_idle_add((GSourceFunc)mpv_handle_event, data);
 }
 
-void mpv_log_handler(Application *app, mpv_event_log_message* message)
+static void mpv_obj_init(MpvObj *mpv)
+{
+}
+
+MpvObj *mpv_obj_new()
+{
+	return MPV_OBJ(g_object_new(mpv_obj_get_type(), NULL));
+}
+
+void mpv_obj_wakeup_callback(void *data)
+{
+	g_idle_add((GSourceFunc)mpv_obj_handle_event, data);
+}
+
+void mpv_obj_log_handler(Application *app, mpv_event_log_message* message)
 {
 	GSList *iter = app->log_level_list;
 	module_log_level *level = NULL;
@@ -495,7 +510,7 @@ void mpv_check_error(int status)
 	}
 }
 
-gboolean mpv_handle_event(gpointer data)
+gboolean mpv_obj_handle_event(gpointer data)
 {
 	Application *app = data;
 	mpv_event *event = NULL;
@@ -523,7 +538,7 @@ gboolean mpv_handle_event(gpointer data)
 		{
 			if(app->init_load)
 			{
-				mpv_load(app, NULL, FALSE, FALSE);
+				mpv_obj_load(app, NULL, FALSE, FALSE);
 			}
 			else if(app->loaded)
 			{
@@ -552,8 +567,8 @@ gboolean mpv_handle_event(gpointer data)
 			app->loaded = TRUE;
 			app->init_load = FALSE;
 
-			mpv_update_playlist(app);
-			mpv_load_gui_update(app);
+			mpv_obj_update_playlist(app);
+			mpv_obj_load_gui_update(app);
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
@@ -600,7 +615,7 @@ gboolean mpv_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
 		{
-			mpv_load_gui_update(app);
+			mpv_obj_load_gui_update(app);
 
 			g_signal_emit_by_name(	app->gui,
 						"mpv-playback-restart" );
@@ -613,7 +628,7 @@ gboolean mpv_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
 		{
-			mpv_log_handler(app, event->data);
+			mpv_obj_log_handler(app, event->data);
 		}
 		else if(event->event_id == MPV_EVENT_NONE)
 		{
@@ -624,7 +639,7 @@ gboolean mpv_handle_event(gpointer data)
 	return FALSE;
 }
 
-void mpv_update_playlist(Application *app)
+void mpv_obj_update_playlist(Application *app)
 {
 	/* The length of "playlist//filename" including null-terminator (19)
 	 * plus the number of digits in the maximum value of 64 bit int (19).
@@ -750,7 +765,7 @@ void mpv_update_playlist(Application *app)
 	mpv_free_node_contents(&mpv_playlist);
 }
 
-void mpv_load_gui_update(Application *app)
+void mpv_obj_load_gui_update(Application *app)
 {
 	ControlBox *control_box;
 	mpv_node track_list;
@@ -893,7 +908,7 @@ void mpv_load_gui_update(Application *app)
 	control_box_set_playing_state(control_box, !app->paused);
 }
 
-gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
+gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
 {
 	gchar *opt_begin = args?strstr(args, "--"):NULL;
 	gint fail_count = 0;
@@ -961,7 +976,7 @@ gint mpv_apply_args(mpv_handle *mpv_ctx, gchar *args)
 	return fail_count*(-1);
 }
 
-void mpv_init(Application *app)
+void mpv_obj_initialize(Application *app)
 {
 	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 	gdouble volume = g_settings_get_double(settings, "volume")*100;
@@ -1018,7 +1033,7 @@ void mpv_init(Application *app)
 	g_debug("Applying extra mpv options: %s", mpvopt);
 
 	/* Apply extra options */
-	if(mpv_apply_args(app->mpv_ctx, mpvopt) < 0)
+	if(mpv_obj_apply_args(app->mpv_ctx, mpvopt) < 0)
 	{
 		const gchar *msg
 			= _("Failed to apply one or more MPV options.");
@@ -1064,7 +1079,7 @@ void mpv_init(Application *app)
 	g_free(mpvopt);
 }
 
-void mpv_quit(Application *app)
+void mpv_obj_quit(Application *app)
 {
 	g_info("Terminating mpv");
 
@@ -1080,7 +1095,7 @@ void mpv_quit(Application *app)
 	mpv_terminate_destroy(app->mpv_ctx);
 }
 
-void mpv_load(	Application *app,
+void mpv_obj_load(	Application *app,
 		const gchar *uri,
 		gboolean append,
 		gboolean update )
@@ -1132,7 +1147,7 @@ void mpv_load(	Application *app,
 						-1 );
 
 			/* append = FALSE only on first iteration */
-			mpv_load(app, uri, append, FALSE);
+			mpv_obj_load(app, uri, append, FALSE);
 
 			append = TRUE;
 

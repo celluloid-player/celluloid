@@ -50,7 +50,7 @@
 #include "playlist_widget.h"
 #include "keybind.h"
 #include "menu.h"
-#include "mpv.h"
+#include "mpv_obj.h"
 #include "def.h"
 #include "mpris/mpris.h"
 #include "media_keys/media_keys.h"
@@ -175,8 +175,8 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						NULL,
 						app );
 
-	mpv_init(app);
-	mpv_set_wakeup_callback(app->mpv_ctx, mpv_wakeup_callback, app);
+	mpv_obj_initialize(app);
+	mpv_set_wakeup_callback(app->mpv_ctx, mpv_obj_wakeup_callback, app);
 
 	if(!app->files)
 	{
@@ -211,7 +211,7 @@ static gboolean load_files(gpointer data)
 			}
 			else
 			{
-				mpv_load(	app,
+				mpv_obj_load(	app,
 						app->files[i],
 						(i != 0),
 						TRUE );
@@ -322,7 +322,7 @@ static void drag_data_handler(	GtkWidget *widget,
 
 			for(i = 0; uri_list[i]; i++)
 			{
-				mpv_load(	app,
+				mpv_obj_load(	app,
 						uri_list[i],
 						(append || i != 0),
 						TRUE );
@@ -335,7 +335,7 @@ static void drag_data_handler(	GtkWidget *widget,
 			const guchar *raw_data
 				= gtk_selection_data_get_data(sel_data);
 
-			mpv_load(app, (const gchar *)raw_data, append, TRUE);
+			mpv_obj_load(app, (const gchar *)raw_data, append, TRUE);
 		}
 	}
 }

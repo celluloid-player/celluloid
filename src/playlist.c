@@ -22,7 +22,7 @@
 #include "playlist.h"
 #include "marshal.h"
 #include "common.h"
-#include "mpv.h"
+#include "mpv_obj.h"
 #include "control_box.h"
 #include "playlist_widget.h"
 
