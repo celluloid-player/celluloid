@@ -29,8 +29,7 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
-static void parse_dim_string(	Application *app,
-				const gchar *mpv_geom_str,
+static void parse_dim_string(	const gchar *mpv_geom_str,
 				gint *width,
 				gint *height );
 static void handle_autofit_opt(Application *app);
@@ -41,8 +40,7 @@ static void opengl_callback(void *cb_ctx);
 static void uninit_opengl_cb(Application *app);
 static Track *parse_track_list(mpv_node_list *node);
 
-static void parse_dim_string(	Application *app,
-				const gchar *mpv_geom_str,
+static void parse_dim_string(	const gchar *mpv_geom_str,
 				gint *width,
 				gint *height )
 {
@@ -137,8 +135,7 @@ static void handle_autofit_opt(Application *app)
 
 		if(rc >= 0)
 		{
-			parse_dim_string(	app,
-						optbuf,
+			parse_dim_string(	optbuf,
 						&autofit_width,
 						&autofit_height );
 
