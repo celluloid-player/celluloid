@@ -155,7 +155,7 @@ void seek(Application *app, gdouble time)
 {
 	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
 
-	if(!app->loaded)
+	if(!app->mpv->state.loaded)
 	{
 		mpv_obj_load(app, NULL, FALSE, TRUE);
 	}

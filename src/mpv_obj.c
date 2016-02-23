@@ -267,16 +267,16 @@ static void handle_property_change_event(	Application *app,
 		GtkWindow *wnd = GTK_WINDOW(app->gui);
 		gboolean idle;
 
-		app->paused = prop->data?*((int *)prop->data):TRUE;
+		mpv->state.paused = prop->data?*((int *)prop->data):TRUE;
 
 		mpv_get_property(mpv->mpv_ctx, "idle", MPV_FORMAT_FLAG, &idle);
 
-		if(idle && !app->paused)
+		if(idle && !mpv->state.paused)
 		{
 			mpv_obj_load(app, NULL, FALSE, TRUE);
 		}
 
-		if(!app->paused)
+		if(!mpv->state.paused)
 		{
 			app->inhibit_cookie
 				= gtk_application_inhibit
@@ -294,7 +294,7 @@ static void handle_property_change_event(	Application *app,
 		mpv_obj_load_gui_update(app);
 	}
 	else if(g_strcmp0(prop->name, "volume") == 0
-	&& (app->init_load || app->loaded))
+	&& (mpv->state.init_load || mpv->state.loaded))
 	{
 		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
 		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
@@ -345,8 +345,8 @@ static void handle_property_change_event(	Application *app,
 
 		playlist = PLAYLIST_WIDGET(app->gui->playlist);
 
-		app->paused = TRUE;
-		app->loaded = FALSE;
+		mpv->state.paused = TRUE;
+		mpv->state.loaded = FALSE;
 
 		main_window_reset(app->gui);
 		playlist_reset(playlist->store);
@@ -621,32 +621,32 @@ gboolean mpv_obj_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
-			if(app->init_load)
+			if(mpv->state.init_load)
 			{
 				mpv_obj_load(app, NULL, FALSE, FALSE);
 			}
-			else if(app->loaded)
+			else if(mpv->state.loaded)
 			{
 				gint rc;
 
-				app->paused = TRUE;
-				app->loaded = FALSE;
+				mpv->state.paused = TRUE;
+				mpv->state.loaded = FALSE;
 
 				rc = mpv_set_property(	mpv->mpv_ctx,
 							"pause",
 							MPV_FORMAT_FLAG,
-							&app->paused );
+							&mpv->state.paused );
 
 				mpv_check_error(rc);
 				playlist_reset(mpv->playlist);
 			}
 
-			app->init_load = FALSE;
+			mpv->state.init_load = FALSE;
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{
-			app->loaded = TRUE;
-			app->init_load = FALSE;
+			mpv->state.loaded = TRUE;
+			mpv->state.init_load = FALSE;
 
 			mpv_obj_update_playlist(app);
 			mpv_obj_load_gui_update(app);
@@ -655,11 +655,11 @@ gboolean mpv_obj_handle_event(gpointer data)
 		{
 			mpv_event_end_file *ef_event = event->data;
 
-			app->init_load = FALSE;
+			mpv->state.init_load = FALSE;
 
-			if(app->loaded)
+			if(mpv->state.loaded)
 			{
-				app->new_file = FALSE;
+				mpv->state.new_file = FALSE;
 			}
 
 			if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
@@ -674,19 +674,19 @@ gboolean mpv_obj_handle_event(gpointer data)
 						"abnormally. Reason: %s."),
 						err );
 
-				app->paused = TRUE;
+				mpv->state.paused = TRUE;
 
 				mpv_set_property(	mpv->mpv_ctx,
 							"pause",
 							MPV_FORMAT_FLAG,
-							&app->paused );
+							&mpv->state.paused );
 
 				g_signal_emit_by_name(mpv, "mpv-error", msg);
 			}
 		}
 		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
 		{
-			if(app->new_file)
+			if(mpv->state.new_file)
 			{
 				handle_autofit_opt(mpv);
 			}
@@ -871,7 +871,7 @@ void mpv_obj_load_gui_update(Application *app)
 	mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
 						"pause",
 						MPV_FORMAT_FLAG,
-						&app->paused));
+						&mpv->state.paused));
 
 	if(mpv_get_property(	mpv->mpv_ctx,
 				"track-list",
@@ -986,7 +986,7 @@ void mpv_obj_load_gui_update(Application *app)
 		control_box_set_seek_bar_length(control_box, (gint)length);
 	}
 
-	control_box_set_playing_state(control_box, !app->paused);
+	control_box_set_playing_state(control_box, !mpv->state.paused);
 }
 
 gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
@@ -1188,6 +1188,7 @@ void mpv_obj_load(	Application *app,
 	GtkListStore *playlist_store;
 	GtkTreeIter iter;
 	gboolean empty;
+	MpvObj *mpv = app->mpv;
 
 	g_info(	"Loading file (append=%s, update=%s): %s",
 		append?"TRUE":"FALSE",
@@ -1206,8 +1207,8 @@ void mpv_obj_load(	Application *app,
 		playlist_clear
 			(PLAYLIST_WIDGET(app->gui->playlist)->store);
 
-		app->new_file = TRUE;
-		app->loaded = FALSE;
+		mpv->state.new_file = TRUE;
+		mpv->state.loaded = FALSE;
 	}
 
 	if(!uri)
@@ -1251,7 +1252,7 @@ void mpv_obj_load(	Application *app,
 
 		if(!append)
 		{
-			app->loaded = FALSE;
+			mpv->state.loaded = FALSE;
 		}
 
 		if(update)
@@ -1275,7 +1276,7 @@ void mpv_obj_load(	Application *app,
 		mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
 							"pause",
 							MPV_FORMAT_FLAG,
-							&app->paused ));
+							&mpv->state.paused ));
 
 		mpv_check_error(mpv_request_event(	mpv->mpv_ctx,
 							MPV_EVENT_END_FILE,

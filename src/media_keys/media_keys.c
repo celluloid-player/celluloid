@@ -38,12 +38,12 @@ static void session_ready_handler(	GObject *source_object,
 
 static void set_paused(Application *app, gboolean paused)
 {
-	app->paused = paused;
+	app->mpv->state.paused = paused;
 
 	mpv_set_property(	app->mpv->mpv_ctx,
 				"pause",
 				MPV_FORMAT_FLAG,
-				&app->paused );
+				&app->mpv->state.paused );
 }
 
 static gboolean delete_handler(	GtkWidget *widget,
@@ -106,7 +106,7 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
-			set_paused(inst->gmpv_ctx, !inst->gmpv_ctx->paused);
+			set_paused(inst->gmpv_ctx, !inst->gmpv_ctx->mpv->state.paused);
 		}
 		else if(g_strcmp0(key, "FastForward") == 0)
 		{

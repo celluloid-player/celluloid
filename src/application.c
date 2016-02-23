@@ -199,7 +199,7 @@ static gboolean load_files(gpointer data)
 	{
 		gint i = 0;
 
-		app->paused = FALSE;
+		app->mpv->state.paused = FALSE;
 
 		playlist_clear(app->playlist_store);
 
@@ -207,7 +207,7 @@ static gboolean load_files(gpointer data)
 		{
 			gchar *name = get_name_from_path(app->files[i]);
 
-			if(app->init_load)
+			if(app->mpv->state.init_load)
 			{
 				playlist_append(	app->playlist_store,
 							name,
@@ -264,7 +264,7 @@ static void playlist_row_deleted_handler(	Playlist *pl,
 {
 	Application *app = data;
 
-	if(app->loaded)
+	if(app->mpv->state.loaded)
 	{
 		const gchar *cmd[] = {"playlist_remove", NULL, NULL};
 		gchar *index_str = g_strdup_printf("%d", pos);
@@ -310,14 +310,14 @@ static void mpv_event_handler(	MpvObj *mpv,
 
 	if(event_id == MPV_EVENT_VIDEO_RECONFIG)
 	{
-		if(app->new_file)
+		if(app->mpv->state.new_file)
 		{
 			resize_window_to_fit(app, mpv->autofit_ratio);
 		}
 	}
 	else if(event_id == MPV_EVENT_IDLE)
 	{
-		if(!app->init_load && app->loaded)
+		if(!app->mpv->state.init_load && app->mpv->state.loaded)
 		{
 			main_window_reset(app->gui);
 		}
@@ -352,7 +352,7 @@ static void drag_data_handler(	GtkWidget *widget,
 		Application *app = data;
 		gchar **uri_list = gtk_selection_data_get_uris(sel_data);
 
-		app->paused = FALSE;
+		app->mpv->state.paused = FALSE;
 
 		if(uri_list)
 		{
@@ -616,11 +616,10 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	app->files = NULL;
 	app->mpv = mpv_obj_new();
 	app->opengl_ready = FALSE;
-	app->paused = TRUE;
-	app->loaded = FALSE;
-	app->new_file = TRUE;
-	app->sub_visible = TRUE;
-	app->init_load = TRUE;
+	app->mpv->state.paused = TRUE;
+	app->mpv->state.loaded = FALSE;
+	app->mpv->state.new_file = TRUE;
+	app->mpv->state.init_load = TRUE;
 	app->inhibit_cookie = 0;
 	app->keybind_list = NULL;
 	app->config = g_settings_new(CONFIG_ROOT);

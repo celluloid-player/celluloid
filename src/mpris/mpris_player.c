@@ -62,12 +62,12 @@ static void mpv_prop_change_handler(	MainWindow *wnd,
 
 static void set_paused(Application *app, gboolean paused)
 {
-	app->paused = paused;
+	app->mpv->state.paused = paused;
 
 	mpv_set_property(	app->mpv->mpv_ctx,
 				"pause",
 				MPV_FORMAT_FLAG,
-				&app->paused );
+				&app->mpv->state.paused );
 }
 
 static void prop_table_init(mpris *inst)
@@ -127,7 +127,7 @@ static void method_handler(	GDBusConnection *connection,
 	}
 	else if(g_strcmp0(method_name, "PlayPause") == 0)
 	{
-		set_paused(inst->gmpv_ctx, !inst->gmpv_ctx->paused);
+		set_paused(inst->gmpv_ctx, !inst->gmpv_ctx->mpv->state.paused);
 	}
 	else if(g_strcmp0(method_name, "Stop") == 0)
 	{

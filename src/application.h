@@ -50,11 +50,6 @@ struct _Application
 	MpvObj *mpv;
 	gchar **files;
 	gboolean opengl_ready;
-	gboolean paused;
-	gboolean loaded;
-	gboolean new_file;
-	gboolean sub_visible;
-	gboolean init_load;
 	gint64 vid_area_wid;
 	guint inhibit_cookie;
 	GSList *keybind_list;

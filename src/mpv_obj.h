@@ -42,12 +42,22 @@ G_BEGIN_DECLS
 #define	IS_MPV_OBJ_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), MPV_OBJ_TYPE))
 
+typedef struct _MpvObjState MpvObjState;
 typedef struct _MpvObj MpvObj;
 typedef struct _MpvObjClass MpvObjClass;
+
+struct _MpvObjState
+{
+	gboolean paused;
+	gboolean loaded;
+	gboolean new_file;
+	gboolean init_load;
+};
 
 struct _MpvObj
 {
 	GObject parent;
+	MpvObjState state;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	Playlist *playlist;
