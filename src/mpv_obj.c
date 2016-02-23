@@ -462,6 +462,7 @@ static void mpv_obj_init(MpvObj *mpv)
 {
 	mpv->mpv_ctx = mpv_create();
 	mpv->opengl_ctx = NULL;
+	mpv->playlist = playlist_new();
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = 1;
 }
@@ -616,9 +617,6 @@ gboolean mpv_obj_handle_event(gpointer data)
 			else if(app->loaded)
 			{
 				gint rc;
-				const PlaylistWidget *playlist;
-
-				playlist = PLAYLIST_WIDGET(app->gui->playlist);
 
 				app->paused = TRUE;
 				app->loaded = FALSE;
@@ -629,7 +627,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 							&app->paused );
 
 				mpv_check_error(rc);
-				playlist_reset(playlist->store);
+				playlist_reset(mpv->playlist);
 			}
 
 			app->init_load = FALSE;
@@ -697,7 +695,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 			mpv_obj_log_handler(mpv, event->data);
 		}
 		else if(event->event_id == MPV_EVENT_SHUTDOWN
-		&& event->event_id == MPV_EVENT_NONE)
+		|| event->event_id == MPV_EVENT_NONE)
 		{
 			done = TRUE;
 		}
@@ -730,7 +728,7 @@ void mpv_obj_update_playlist(Application *app)
 
 	mpv = app->mpv;
 	playlist = PLAYLIST_WIDGET(app->gui->playlist);
-	store = playlist_get_store(playlist->store);
+	store = playlist_get_store(mpv->playlist);
 	filename_prop_str = g_malloc(filename_prop_str_size);
 	iter_end = FALSE;
 
@@ -810,7 +808,7 @@ void mpv_obj_update_playlist(Application *app)
 		 */
 		else
 		{
-			playlist_append(playlist->store, name, uri);
+			playlist_append(mpv->playlist, name, uri);
 		}
 
 		mpv_free(uri);
@@ -952,9 +950,7 @@ void mpv_obj_load_gui_update(Application *app)
 				MPV_FORMAT_INT64,
 				&playlist_pos) >= 0)
 	{
-		playlist_set_indicator_pos
-			(	PLAYLIST_WIDGET(app->gui->playlist)->store,
-				(gint)playlist_pos );
+		playlist_set_indicator_pos(mpv->playlist, (gint)playlist_pos);
 	}
 
 	if(mpv_get_property(	mpv->mpv_ctx,
@@ -1176,9 +1172,9 @@ void mpv_obj_quit(Application *app)
 }
 
 void mpv_obj_load(	Application *app,
-		const gchar *uri,
-		gboolean append,
-		gboolean update )
+			const gchar *uri,
+			gboolean append,
+			gboolean update )
 {
 	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
 	GtkListStore *playlist_store;
@@ -1254,11 +1250,7 @@ void mpv_obj_load(	Application *app,
 		{
 			gchar *name = get_name_from_path(path);
 
-			playlist_append
-				(	PLAYLIST_WIDGET(app->gui->playlist)
-					->store,
-					name,
-					uri );
+			playlist_append(mpv->playlist, name, uri);
 
 			g_free(name);
 		}

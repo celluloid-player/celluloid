@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -21,6 +21,8 @@
 #define MAIN_WINDOW_H
 
 #include <gtk/gtk.h>
+
+#include "playlist.h"
 
 G_BEGIN_DECLS
 
@@ -73,7 +75,9 @@ struct _MainWindowClass
 	GtkApplicationWindowClass parent_class;
 };
 
-GtkWidget *main_window_new(Application *app, gboolean use_opengl);
+GtkWidget *main_window_new(	Application *app,
+				Playlist *playlist,
+				gboolean use_opengl );
 GType main_window_get_type(void);
 void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);

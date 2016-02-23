@@ -61,7 +61,7 @@ struct _PlaylistWidgetClass
 typedef struct _PlaylistWidget PlaylistWidget;
 typedef struct _PlaylistWidgetClass PlaylistWidgetClass;
 
-GtkWidget *playlist_widget_new(void);
+GtkWidget *playlist_widget_new(Playlist *store);
 GType playlist_widget_get_type(void);
 void playlist_widget_remove_selected(PlaylistWidget *wgt);
 

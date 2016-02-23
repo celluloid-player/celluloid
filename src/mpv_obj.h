@@ -24,6 +24,8 @@
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
 
+#include "playlist.h"
+
 G_BEGIN_DECLS
 
 #define MPV_OBJ_TYPE (mpv_obj_get_type ())
@@ -48,6 +50,7 @@ struct _MpvObj
 	GObject parent;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
+	Playlist *playlist;
 	GSList *log_level_list;
 	gdouble autofit_ratio;
 };

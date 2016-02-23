@@ -23,7 +23,80 @@
 #include "playlist.h"
 #include "def.h"
 
+enum
+{
+	PROP_0,
+	PROP_STORE,
+	N_PROPERTIES
+};
+
+static gboolean mouse_press_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data );
+
 G_DEFINE_TYPE(PlaylistWidget, playlist_widget, GTK_TYPE_SCROLLED_WINDOW)
+
+static void playlist_widget_constructed(GObject *object)
+{
+	PlaylistWidget *self = PLAYLIST_WIDGET(object);
+
+	self->tree_view
+		= gtk_tree_view_new_with_model
+			(GTK_TREE_MODEL(playlist_get_store(self->store)));
+
+	g_signal_connect(	self->tree_view,
+				"button-press-event",
+				G_CALLBACK(mouse_press_handler),
+				NULL );
+
+	gtk_widget_set_can_focus(GTK_WIDGET(self->tree_view), FALSE);
+	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(self->tree_view), TRUE);
+
+	gtk_tree_view_append_column
+		(GTK_TREE_VIEW(self->tree_view), self->indicator_column);
+
+	gtk_tree_view_append_column
+		(GTK_TREE_VIEW(self->tree_view), self->title_column);
+
+	gtk_container_add(GTK_CONTAINER(self), self->tree_view);
+
+	G_OBJECT_CLASS(playlist_widget_parent_class)->constructed(object);
+}
+
+static void playlist_widget_set_property(	GObject *object,
+						guint property_id,
+						const GValue *value,
+						GParamSpec *pspec )
+{
+	PlaylistWidget *self = PLAYLIST_WIDGET(object);
+
+	if(property_id == PROP_STORE)
+	{
+		self->store = g_value_get_pointer(value);
+
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
+
+static void playlist_widget_get_property(	GObject *object,
+						guint property_id,
+						GValue *value,
+						GParamSpec *pspec )
+{
+	PlaylistWidget *self = PLAYLIST_WIDGET(object);
+
+	if(property_id == PROP_STORE)
+	{
+		g_value_set_pointer(value, self->store);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
 
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
@@ -64,6 +137,20 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 
 static void playlist_widget_class_init(PlaylistWidgetClass *klass)
 {
+	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
+	GParamSpec *pspec = NULL;
+
+	obj_class->constructed = playlist_widget_constructed;
+	obj_class->set_property = playlist_widget_set_property;
+	obj_class->get_property = playlist_widget_get_property;
+
+	pspec = g_param_spec_pointer
+		(	"store",
+			"Store",
+			"Playlist object used to store playlist items",
+			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+
+	g_object_class_install_property(obj_class, PROP_STORE, pspec);
 }
 
 static void playlist_widget_init(PlaylistWidget *wgt)
@@ -72,11 +159,6 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 
 	wgt->indicator_renderer = gtk_cell_renderer_text_new();
 	wgt->title_renderer = gtk_cell_renderer_text_new();
-	wgt->store = playlist_new();
-
-	wgt->tree_view
-		= gtk_tree_view_new_with_model
-			(GTK_TREE_MODEL(playlist_get_store(wgt->store)));
 
 	wgt->indicator_column
 		= gtk_tree_view_column_new_with_attributes
@@ -90,14 +172,6 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 		= gtk_tree_view_column_new_with_attributes
 			(_("Playlist"), wgt->title_renderer, "text", 1, NULL);
 
-	g_signal_connect(	wgt->tree_view,
-				"button-press-event",
-				G_CALLBACK(mouse_press_handler),
-				NULL );
-
-	gtk_widget_set_can_focus(GTK_WIDGET(wgt->tree_view), FALSE);
-	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(wgt->tree_view), TRUE);
-
 	gtk_drag_dest_set(	GTK_WIDGET(wgt),
 				GTK_DEST_DEFAULT_ALL,
 				targets,
@@ -108,19 +182,13 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 
 	gtk_widget_set_size_request
 		(GTK_WIDGET(wgt), PLAYLIST_MIN_WIDTH, -1);
-
-	gtk_tree_view_append_column
-		(GTK_TREE_VIEW(wgt->tree_view), wgt->indicator_column);
-
-	gtk_tree_view_append_column
-		(GTK_TREE_VIEW(wgt->tree_view), wgt->title_column);
-
-	gtk_container_add(GTK_CONTAINER(wgt), wgt->tree_view);
 }
 
-GtkWidget *playlist_widget_new()
+GtkWidget *playlist_widget_new(Playlist *store)
 {
-	return GTK_WIDGET(g_object_new(playlist_widget_get_type(), NULL));
+	return GTK_WIDGET(g_object_new(	playlist_widget_get_type(),
+					"store", store,
+					NULL ));
 }
 
 void playlist_widget_remove_selected(PlaylistWidget *wgt)

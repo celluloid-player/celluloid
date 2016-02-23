@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -26,12 +26,14 @@
 enum
 {
 	PROP_0,
+	PROP_PLAYLIST,
 	PROP_USE_OPENGL,
 	N_PROPERTIES
 };
 
 struct _MainWindowPrivate
 {
+	Playlist *playlist;
 	gboolean use_opengl;
 };
 
@@ -45,6 +47,22 @@ static gboolean finalize_load_state(gpointer data);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
 
+static void main_window_constructed(GObject *object)
+{
+	MainWindow *self = MAIN_WINDOW(object);
+
+	self->playlist = playlist_widget_new(self->priv->playlist);
+
+	gtk_paned_pack2(	GTK_PANED(self->vid_area_paned),
+				self->playlist,
+				FALSE,
+				FALSE );
+
+	vid_area_init(self, self->priv->use_opengl);
+
+	G_OBJECT_CLASS(main_window_parent_class)->constructed(object);
+}
+
 static void main_window_set_property(	GObject *object,
 					guint property_id,
 					const GValue *value,
@@ -52,12 +70,14 @@ static void main_window_set_property(	GObject *object,
 {
 	MainWindow *self = MAIN_WINDOW(object);
 
-	if(property_id == PROP_USE_OPENGL)
+	if(property_id == PROP_PLAYLIST)
+	{
+		self->priv->playlist = g_value_get_pointer(value);
+
+	}
+	else if(property_id == PROP_USE_OPENGL)
 	{
 		self->priv->use_opengl = g_value_get_boolean(value);
-
-		/* PROP_USE_OPENGL can only be set once during construction */
-		vid_area_init(self, self->priv->use_opengl);
 	}
 	else
 	{
@@ -72,7 +92,11 @@ static void main_window_get_property(	GObject *object,
 {
 	MainWindow *self = MAIN_WINDOW(object);
 
-	if(property_id == PROP_USE_OPENGL)
+	if(property_id == PROP_PLAYLIST)
+	{
+		g_value_set_pointer(value, self->priv->playlist);
+	}
+	else if(property_id == PROP_USE_OPENGL)
 	{
 		g_value_set_boolean(value, self->priv->use_opengl);
 	}
@@ -358,9 +382,18 @@ static void main_window_class_init(MainWindowClass *klass)
 	GtkWidgetClass *wgt_class = GTK_WIDGET_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
+	obj_class->constructed = main_window_constructed;
 	obj_class->set_property = main_window_set_property;
 	obj_class->get_property = main_window_get_property;
 	wgt_class->motion_notify_event = motion_notify_handler;
+
+	pspec = g_param_spec_pointer
+		(	"playlist",
+			"Playlist",
+			"Playlist object used to store playlist items",
+			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+
+	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"use-opengl",
@@ -392,7 +425,6 @@ static void main_window_init(MainWindow *wnd)
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
 	wnd->vid_area_overlay = gtk_overlay_new();
 	wnd->control_box = control_box_new();
-	wnd->playlist = playlist_widget_new();
 
 	gtk_widget_add_events(	wnd->vid_area_overlay,
 				GDK_ENTER_NOTIFY_MASK
@@ -414,9 +446,6 @@ static void main_window_init(MainWindow *wnd)
 	gtk_box_pack_start
 		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
 
-	gtk_paned_pack2
-		(GTK_PANED(wnd->vid_area_paned), wnd->playlist, FALSE, FALSE);
-
 	gtk_container_add
 		(GTK_CONTAINER(wnd->main_box), wnd->control_box);
 
@@ -434,10 +463,13 @@ static void main_window_init(MainWindow *wnd)
 				wnd );
 }
 
-GtkWidget *main_window_new(Application *app, gboolean use_opengl)
+GtkWidget *main_window_new(	Application *app,
+				Playlist *playlist,
+				gboolean use_opengl )
 {
 	return GTK_WIDGET(g_object_new(	main_window_get_type(),
 					"application", app,
+					"playlist", playlist,
 					"use-opengl", use_opengl,
 					NULL ));
 }
