@@ -40,7 +40,7 @@ static void set_paused(Application *app, gboolean paused)
 {
 	app->paused = paused;
 
-	mpv_set_property(	app->mpv_ctx,
+	mpv_set_property(	app->mpv->mpv_ctx,
 				"pause",
 				MPV_FORMAT_FLAG,
 				&app->paused );
@@ -86,13 +86,13 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 		{
 			const gchar *cmd[] = {"playlist_next", "weak", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv_ctx, cmd);
+			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
 		}
 		else if(g_strcmp0(key, "Previous") == 0)
 		{
 			const gchar *cmd[] = {"playlist_prev", "weak", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv_ctx, cmd);
+			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
 		}
 		else if(g_strcmp0(key, "Pause") == 0)
 		{
@@ -102,7 +102,7 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 		{
 			const gchar *cmd[] = {"stop", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv_ctx, cmd);
+			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
@@ -112,13 +112,13 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 		{
 			const gchar *cmd[] = {"seek", "10", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv_ctx, cmd);
+			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
 		}
 		else if(g_strcmp0(key, "Rewind") == 0)
 		{
 			const gchar *cmd[] = {"seek", "-10", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv_ctx, cmd);
+			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
 		}
 	}
 }

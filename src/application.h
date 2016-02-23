@@ -26,6 +26,7 @@
 
 #include "main_window.h"
 #include "playlist.h"
+#include "mpv_obj.h"
 
 G_BEGIN_DECLS
 
@@ -46,8 +47,7 @@ G_BEGIN_DECLS
 struct _Application
 {
 	GtkApplication parent;
-	mpv_handle *mpv_ctx;
-	mpv_opengl_cb_context *opengl_ctx;
+	MpvObj *mpv;
 	gchar **files;
 	gboolean opengl_ready;
 	gboolean paused;

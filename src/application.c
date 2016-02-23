@@ -137,7 +137,7 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 
 	if(!app->opengl_ready)
 	{
-		mpv_check_error(mpv_opengl_cb_init_gl(	app->opengl_ctx,
+		mpv_check_error(mpv_opengl_cb_init_gl(	app->mpv->opengl_ctx,
 							NULL,
 							get_proc_address,
 							NULL ));
@@ -150,7 +150,7 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 	fbo = -1;
 
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
-	mpv_opengl_cb_draw(app->opengl_ctx, fbo, width, height);
+	mpv_opengl_cb_draw(app->mpv->opengl_ctx, fbo, width, height);
 
 	while(gtk_events_pending())
 	{
@@ -176,7 +176,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						app );
 
 	mpv_obj_initialize(app);
-	mpv_set_wakeup_callback(app->mpv_ctx, mpv_obj_wakeup_callback, app);
+	mpv_set_wakeup_callback(app->mpv->mpv_ctx, mpv_obj_wakeup_callback, app);
 
 	if(!app->files)
 	{
@@ -247,7 +247,7 @@ static void playlist_row_activated_handler(	GtkTreeView *tree_view,
 	{
 		gint64 index = indices[0];
 
-		mpv_set_property(	app->mpv_ctx,
+		mpv_obj_set_property(	app->mpv,
 					"playlist-pos",
 					MPV_FORMAT_INT64,
 					&index );
@@ -267,7 +267,7 @@ static void playlist_row_deleted_handler(	Playlist *pl,
 
 		cmd[1] = index_str;
 
-		mpv_check_error(mpv_command(app->mpv_ctx, cmd));
+		mpv_check_error(mpv_obj_command(app->mpv, cmd));
 
 		g_free(index_str);
 	}
@@ -292,7 +292,7 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 	cmd[1] = src_str;
 	cmd[2] = dest_str;
 
-	mpv_command(app->mpv_ctx, cmd);
+	mpv_obj_command(app->mpv, cmd);
 
 	g_free(src_str);
 	g_free(dest_str);
@@ -364,7 +364,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	/* Try user-specified keys first, then fallback to hard-coded keys */
 	if(command)
 	{
-		mpv_command_string(app->mpv_ctx, command);
+		mpv_obj_command_string(app->mpv, command);
 	}
 	else if((state&mod_mask) == 0)
 	{
@@ -408,7 +408,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 
 	if(command)
 	{
-		mpv_command_string(app->mpv_ctx, command);
+		mpv_obj_command_string(app->mpv, command);
 	}
 	else if(btn_event->button == 1 && btn_event->type == GDK_2BUTTON_PRESS)
 	{
@@ -565,9 +565,8 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	use_opengl = get_use_opengl();
 
-	app->mpv_ctx = mpv_create();
 	app->files = NULL;
-	app->opengl_ctx = NULL;
+	app->mpv = mpv_obj_new();
 	app->opengl_ready = FALSE;
 	app->paused = TRUE;
 	app->loaded = FALSE;

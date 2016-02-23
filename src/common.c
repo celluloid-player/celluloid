@@ -68,12 +68,12 @@ gboolean quit(gpointer data)
 	const gchar *cmd[] = {"quit", NULL};
 	Application *app = data;
 
-	if(app->mpv_ctx)
+	if(app->mpv->mpv_ctx)
 	{
-		mpv_command(app->mpv_ctx, cmd);
+		mpv_obj_command(app->mpv, cmd);
 		mpv_obj_quit(app);
 
-		app->mpv_ctx = NULL;
+		app->mpv->mpv_ctx = NULL;
 	}
 
 	if(!app->gui->fullscreen)
@@ -130,9 +130,9 @@ gboolean update_seek_bar(gpointer data)
 	gdouble time_pos = -1;
 	gint rc = -1;
 
-	if(app->mpv_ctx)
+	if(app->mpv->mpv_ctx)
 	{
-		rc = mpv_get_property(	app->mpv_ctx,
+		rc = mpv_get_property(	app->mpv->mpv_ctx,
 					"time-pos",
 					MPV_FORMAT_DOUBLE,
 					&time_pos );
@@ -148,7 +148,7 @@ gboolean update_seek_bar(gpointer data)
 				time_pos );
 	}
 
-	return !!app->mpv_ctx;
+	return !!app->mpv->mpv_ctx;
 }
 
 void seek(Application *app, gdouble time)
@@ -165,7 +165,7 @@ void seek(Application *app, gdouble time)
 
 		cmd[1] = value_str;
 
-		mpv_command(app->mpv_ctx, cmd);
+		mpv_obj_command(app->mpv, cmd);
 		update_seek_bar(app);
 
 		g_free(value_str);
@@ -232,18 +232,18 @@ void show_error_dialog(Application *app, const gchar *prefix, const gchar *msg)
 
 void resize_window_to_fit(Application *app, gdouble multiplier)
 {
-	gchar *video = mpv_get_property_string(app->mpv_ctx, "video");
+	gchar *video = mpv_get_property_string(app->mpv->mpv_ctx, "video");
 	gint64 width;
 	gint64 height;
 	gint mpv_width_rc;
 	gint mpv_height_rc;
 
-	mpv_width_rc = mpv_get_property(	app->mpv_ctx,
+	mpv_width_rc = mpv_get_property(	app->mpv->mpv_ctx,
 						"dwidth",
 						MPV_FORMAT_INT64,
 						&width );
 
-	mpv_height_rc = mpv_get_property(	app->mpv_ctx,
+	mpv_height_rc = mpv_get_property(	app->mpv->mpv_ctx,
 						"dheight",
 						MPV_FORMAT_INT64,
 						&height );
@@ -275,7 +275,7 @@ void toggle_fullscreen(Application *app)
 {
 	main_window_toggle_fullscreen(app->gui);
 
-	mpv_set_property(	app->mpv_ctx,
+	mpv_obj_set_property(	app->mpv,
 				"fullscreen",
 				MPV_FORMAT_FLAG,
 				&app->gui->fullscreen );

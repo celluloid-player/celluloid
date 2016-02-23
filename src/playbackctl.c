@@ -43,7 +43,7 @@ static void play_handler(GtkWidget *widget, gpointer data)
 
 	app->paused = !app->paused;
 
-	mpv_check_error(mpv_set_property(	app->mpv_ctx,
+	mpv_check_error(mpv_obj_set_property(	app->mpv,
 						"pause",
 						MPV_FORMAT_FLAG,
 						&app->paused ));
@@ -54,7 +54,7 @@ static void stop_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"stop", NULL};
 
-	mpv_command(app->mpv_ctx, cmd);
+	mpv_obj_command(app->mpv, cmd);
 }
 
 static void seek_handler(	GtkWidget *widget,
@@ -70,7 +70,7 @@ static void forward_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"seek", "10", NULL};
 
-	mpv_command(app->mpv_ctx, cmd);
+	mpv_obj_command(app->mpv, cmd);
 }
 
 static void rewind_handler(GtkWidget *widget, gpointer data)
@@ -78,7 +78,7 @@ static void rewind_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"seek", "-10", NULL};
 
-	mpv_command(app->mpv_ctx, cmd);
+	mpv_obj_command(app->mpv, cmd);
 }
 
 static void chapter_previous_handler(GtkWidget *widget, gpointer data)
@@ -86,7 +86,7 @@ static void chapter_previous_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
-	mpv_command(app->mpv_ctx, cmd);
+	mpv_obj_command(app->mpv, cmd);
 }
 
 static void chapter_next_handler(GtkWidget *widget, gpointer data)
@@ -94,7 +94,7 @@ static void chapter_next_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
-	mpv_command(app->mpv_ctx, cmd);
+	mpv_obj_command(app->mpv, cmd);
 }
 
 static void volume_handler(GtkWidget *widget, gdouble value, gpointer data)
@@ -103,7 +103,7 @@ static void volume_handler(GtkWidget *widget, gdouble value, gpointer data)
 
 	value *= 100;
 
-	mpv_set_property(app->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &value);
+	mpv_obj_set_property(app->mpv, "volume", MPV_FORMAT_DOUBLE, &value);
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)

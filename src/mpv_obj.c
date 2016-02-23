@@ -23,6 +23,8 @@
 #include <execinfo.h>
 
 #include "mpv_obj.h"
+#include "application.h"
+#include "common.h"
 #include "def.h"
 #include "track.h"
 #include "playlist.h"
@@ -112,8 +114,9 @@ static void handle_autofit_opt(Application *app)
 {
 	gchar *optbuf = NULL;
 	gchar *geom = NULL;
+	MpvObj *mpv = app->mpv;
 
-	optbuf = mpv_get_property_string(app->mpv_ctx, "options/autofit");
+	optbuf = mpv_get_property_string(mpv->mpv_ctx, "options/autofit");
 
 	if(optbuf && strlen(optbuf) > 0)
 	{
@@ -125,12 +128,12 @@ static void handle_autofit_opt(Application *app)
 		gdouble height_ratio = -1;
 		gint rc = 0;
 
-		rc |= mpv_get_property(	app->mpv_ctx,
+		rc |= mpv_get_property(	mpv->mpv_ctx,
 					"dwidth",
 					MPV_FORMAT_INT64,
 					&vid_width );
 
-		rc |= mpv_get_property(	app->mpv_ctx,
+		rc |= mpv_get_property(	mpv->mpv_ctx,
 					"dheight",
 					MPV_FORMAT_INT64,
 					&vid_height );
@@ -193,9 +196,10 @@ static void handle_msg_level_opt(Application *app)
 	gchar *optbuf = NULL;
 	gchar **tokens = NULL;
 	mpv_log_level min_level = DEFAULT_LOG_LEVEL;
+	MpvObj *mpv = app->mpv;
 	gint i;
 
-	optbuf = mpv_get_property_string(app->mpv_ctx, "options/msg-level");
+	optbuf = mpv_get_property_string(mpv->mpv_ctx, "options/msg-level");
 
 	if(optbuf)
 	{
@@ -251,7 +255,7 @@ static void handle_msg_level_opt(Application *app)
 	for(i = 0; level_map[i].level != min_level; i++);
 
 	mpv_check_error
-		(mpv_request_log_messages(app->mpv_ctx, level_map[i].name));
+		(mpv_request_log_messages(mpv->mpv_ctx, level_map[i].name));
 
 	mpv_free(optbuf);
 	g_strfreev(tokens);
@@ -260,6 +264,8 @@ static void handle_msg_level_opt(Application *app)
 static void handle_property_change_event(	Application *app,
 						mpv_event_property* prop)
 {
+	MpvObj *mpv = app->mpv;
+
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
 		GtkWindow *wnd = GTK_WINDOW(app->gui);
@@ -267,7 +273,7 @@ static void handle_property_change_event(	Application *app,
 
 		app->paused = prop->data?*((int *)prop->data):TRUE;
 
-		mpv_get_property(app->mpv_ctx, "idle", MPV_FORMAT_FLAG, &idle);
+		mpv_get_property(mpv->mpv_ctx, "idle", MPV_FORMAT_FLAG, &idle);
 
 		if(idle && !app->paused)
 		{
@@ -356,7 +362,7 @@ static void opengl_callback(void *cb_ctx)
 #ifdef OPENGL_CB_ENABLED
 	Application *app = cb_ctx;
 
-	if(app->opengl_ctx)
+	if(app->mpv->opengl_ctx)
 	{
 		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
 	}
@@ -367,7 +373,7 @@ static void uninit_opengl_cb(Application *app)
 {
 #ifdef OPENGL_CB_ENABLED
 	gtk_gl_area_make_current(GTK_GL_AREA(app->gui->vid_area));
-	mpv_opengl_cb_uninit_gl(app->opengl_ctx);
+	mpv_opengl_cb_uninit_gl(app->mpv->opengl_ctx);
 #endif
 }
 
@@ -417,11 +423,38 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 
 static void mpv_obj_init(MpvObj *mpv)
 {
+	mpv->mpv_ctx = mpv_create();
+	mpv->opengl_ctx = NULL;
 }
 
 MpvObj *mpv_obj_new()
 {
 	return MPV_OBJ(g_object_new(mpv_obj_get_type(), NULL));
+}
+
+inline gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
+{
+	return mpv_command(mpv->mpv_ctx, cmd);
+}
+
+inline gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd)
+{
+	return mpv_command_string(mpv->mpv_ctx, cmd);
+}
+
+inline gint mpv_obj_set_property(	MpvObj *mpv,
+					const gchar *name,
+					mpv_format format,
+					void *data )
+{
+	return mpv_set_property(mpv->mpv_ctx, name, format, data);
+}
+
+inline gint mpv_obj_set_property_string(	MpvObj *mpv,
+						const gchar *name,
+						const char *data )
+{
+	return mpv_set_property_string(mpv->mpv_ctx, name, data);
 }
 
 void mpv_obj_wakeup_callback(void *data)
@@ -513,12 +546,13 @@ void mpv_check_error(int status)
 gboolean mpv_obj_handle_event(gpointer data)
 {
 	Application *app = data;
+	MpvObj *mpv = app->mpv;
 	mpv_event *event = NULL;
 	gboolean done = FALSE;
 
 	while(!done)
 	{
-		event = app->mpv_ctx?mpv_wait_event(app->mpv_ctx, 0):NULL;
+		event = mpv->mpv_ctx?mpv_wait_event(mpv->mpv_ctx, 0):NULL;
 
 		if(!event)
 		{
@@ -550,7 +584,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 				app->paused = TRUE;
 				app->loaded = FALSE;
 
-				rc = mpv_set_property(	app->mpv_ctx,
+				rc = mpv_set_property(	mpv->mpv_ctx,
 							"pause",
 							MPV_FORMAT_FLAG,
 							&app->paused );
@@ -595,7 +629,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 
 				app->paused = TRUE;
 
-				mpv_set_property(	app->mpv_ctx,
+				mpv_set_property(	mpv->mpv_ctx,
 							"pause",
 							MPV_FORMAT_FLAG,
 							&app->paused );
@@ -652,14 +686,16 @@ void mpv_obj_update_playlist(Application *app)
 	gchar *filename_prop_str;
 	gboolean iter_end;
 	gint playlist_count;
+	MpvObj *mpv;
 	gint i;
 
+	mpv = app->mpv;
 	playlist = PLAYLIST_WIDGET(app->gui->playlist);
 	store = playlist_get_store(playlist->store);
 	filename_prop_str = g_malloc(filename_prop_str_size);
 	iter_end = FALSE;
 
-	mpv_check_error(mpv_get_property(	app->mpv_ctx,
+	mpv_check_error(mpv_get_property(	mpv->mpv_ctx,
 						"playlist",
 						MPV_FORMAT_NODE,
 						&mpv_playlist ));
@@ -769,14 +805,16 @@ void mpv_obj_load_gui_update(Application *app)
 {
 	ControlBox *control_box;
 	mpv_node track_list;
+	MpvObj *mpv;
 	gchar* title;
 	gint64 chapter_count;
 	gint64 playlist_pos;
 	gdouble length;
 	gdouble volume;
 
+	mpv = app->mpv;
 	control_box = CONTROL_BOX(app->gui->control_box);
-	title = mpv_get_property_string(app->mpv_ctx, "media-title");
+	title = mpv_get_property_string(mpv->mpv_ctx, "media-title");
 
 	if(title)
 	{
@@ -785,12 +823,12 @@ void mpv_obj_load_gui_update(Application *app)
 		mpv_free(title);
 	}
 
-	mpv_check_error(mpv_set_property(	app->mpv_ctx,
+	mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
 						"pause",
 						MPV_FORMAT_FLAG,
 						&app->paused));
 
-	if(mpv_get_property(	app->mpv_ctx,
+	if(mpv_get_property(	mpv->mpv_ctx,
 				"track-list",
 				MPV_FORMAT_NODE,
 				&track_list) >= 0)
@@ -803,12 +841,12 @@ void mpv_obj_load_gui_update(Application *app)
 		gint64 aid = -1;
 		gint64 sid = -1;
 
-		mpv_get_property(	app->mpv_ctx,
+		mpv_get_property(	mpv->mpv_ctx,
 					"aid",
 					MPV_FORMAT_INT64,
 					&aid );
 
-		mpv_get_property(	app->mpv_ctx,
+		mpv_get_property(	mpv->mpv_ctx,
 					"sid",
 					MPV_FORMAT_INT64,
 					&sid );
@@ -870,7 +908,7 @@ void mpv_obj_load_gui_update(Application *app)
 			(sub_list, (GDestroyNotify)track_free);
 	}
 
-	if(mpv_get_property(	app->mpv_ctx,
+	if(mpv_get_property(	mpv->mpv_ctx,
 				"playlist-pos",
 				MPV_FORMAT_INT64,
 				&playlist_pos) >= 0)
@@ -880,7 +918,7 @@ void mpv_obj_load_gui_update(Application *app)
 				(gint)playlist_pos );
 	}
 
-	if(mpv_get_property(	app->mpv_ctx,
+	if(mpv_get_property(	mpv->mpv_ctx,
 				"chapters",
 				MPV_FORMAT_INT64,
 				&chapter_count) >= 0)
@@ -889,7 +927,7 @@ void mpv_obj_load_gui_update(Application *app)
 							(chapter_count > 1) );
 	}
 
-	if(mpv_get_property(	app->mpv_ctx,
+	if(mpv_get_property(	mpv->mpv_ctx,
 				"volume",
 				MPV_FORMAT_DOUBLE,
 				&volume) >= 0)
@@ -897,7 +935,7 @@ void mpv_obj_load_gui_update(Application *app)
 		control_box_set_volume(control_box, volume/100);
 	}
 
-	if(mpv_get_property(	app->mpv_ctx,
+	if(mpv_get_property(	mpv->mpv_ctx,
 				"length",
 				MPV_FORMAT_DOUBLE,
 				&length) >= 0)
@@ -978,10 +1016,12 @@ gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
 
 void mpv_obj_initialize(Application *app)
 {
-	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
-	gdouble volume = g_settings_get_double(settings, "volume")*100;
+	GSettings *main_settings = g_settings_new(CONFIG_ROOT);
+	GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
+	gdouble volume = g_settings_get_double(win_settings, "volume")*100;
 	gchar *config_dir = get_config_dir_path();
 	gchar *mpvopt = NULL;
+	MpvObj *mpv = app->mpv;
 
 	const struct
 	{
@@ -1009,31 +1049,31 @@ void mpv_obj_initialize(Application *app)
 				options[i].name,
 				options[i].value );
 
-		mpv_set_option_string(	app->mpv_ctx,
+		mpv_set_option_string(	mpv->mpv_ctx,
 					options[i].name,
 					options[i].value );
 	}
 
 	g_debug("Setting volume to %f", volume);
-	mpv_set_option(app->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &volume);
+	mpv_set_option(mpv->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &volume);
 
-	if(g_settings_get_boolean(app->config, "mpv-config-enable"))
+	if(g_settings_get_boolean(main_settings, "mpv-config-enable"))
 	{
 		gchar *mpv_conf = g_settings_get_string
-					(app->config, "mpv-config-file");
+					(main_settings, "mpv-config-file");
 
 		g_info("Loading config file: %s", mpv_conf);
-		mpv_load_config_file(app->mpv_ctx, mpv_conf);
+		mpv_load_config_file(mpv->mpv_ctx, mpv_conf);
 
 		g_free(mpv_conf);
 	}
 
-	mpvopt = g_settings_get_string(app->config, "mpv-options");
+	mpvopt = g_settings_get_string(main_settings, "mpv-options");
 
 	g_debug("Applying extra mpv options: %s", mpvopt);
 
 	/* Apply extra options */
-	if(mpv_obj_apply_args(app->mpv_ctx, mpvopt) < 0)
+	if(mpv_obj_apply_args(mpv->mpv_ctx, mpvopt) < 0)
 	{
 		const gchar *msg
 			= _("Failed to apply one or more MPV options.");
@@ -1044,7 +1084,7 @@ void mpv_obj_initialize(Application *app)
 	if(main_window_get_use_opengl(app->gui))
 	{
 		g_info("opengl-cb is enabled; forcing --vo=opengl-cb");
-		mpv_set_option_string(app->mpv_ctx, "vo", "opengl-cb");
+		mpv_set_option_string(mpv->mpv_ctx, "vo", "opengl-cb");
 
 	}
 	else
@@ -1052,29 +1092,30 @@ void mpv_obj_initialize(Application *app)
 		g_debug(	"Attaching mpv window to wid %#x",
 				(guint)app->vid_area_wid );
 
-		mpv_set_option(	app->mpv_ctx,
+		mpv_set_option(	mpv->mpv_ctx,
 				"wid",
 				MPV_FORMAT_INT64,
 				&app->vid_area_wid );
 	}
 
-	mpv_observe_property(app->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);
-	mpv_observe_property(app->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
-	mpv_observe_property(app->mpv_ctx, 0, "eof-reached", MPV_FORMAT_FLAG);
-	mpv_observe_property(app->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
-	mpv_observe_property(app->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
-	mpv_check_error(mpv_initialize(app->mpv_ctx));
+	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "eof-reached", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
+	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 
-	app->opengl_ctx = mpv_get_sub_api(app->mpv_ctx, MPV_SUB_API_OPENGL_CB);
+	mpv->opengl_ctx = mpv_get_sub_api(mpv->mpv_ctx, MPV_SUB_API_OPENGL_CB);
 
-	mpv_opengl_cb_set_update_callback(	app->opengl_ctx,
+	mpv_opengl_cb_set_update_callback(	mpv->opengl_ctx,
 						opengl_callback,
 						app );
 
 	handle_msg_level_opt(app);
 	g_signal_emit_by_name(app->gui, "mpv-init");
 
-	g_clear_object(&settings);
+	g_clear_object(&main_settings);
+	g_clear_object(&win_settings);
 	g_free(config_dir);
 	g_free(mpvopt);
 }
@@ -1092,7 +1133,7 @@ void mpv_obj_quit(Application *app)
 		app->opengl_ready = FALSE;
 	}
 
-	mpv_terminate_destroy(app->mpv_ctx);
+	mpv_terminate_destroy(app->mpv->mpv_ctx);
 }
 
 void mpv_obj_load(	Application *app,
@@ -1161,6 +1202,7 @@ void mpv_obj_load(	Application *app,
 	if(uri && playlist_store)
 	{
 		gchar *path = get_path_from_uri(uri);
+		MpvObj *mpv = app->mpv;
 
 		load_cmd[1] = path;
 
@@ -1185,18 +1227,18 @@ void mpv_obj_load(	Application *app,
 		control_box_set_enabled
 			(CONTROL_BOX(app->gui->control_box), TRUE);
 
-		mpv_check_error(mpv_request_event(	app->mpv_ctx,
+		mpv_check_error(mpv_request_event(	mpv->mpv_ctx,
 							MPV_EVENT_END_FILE,
 							0 ));
 
-		mpv_check_error(mpv_command(app->mpv_ctx, load_cmd));
+		mpv_check_error(mpv_command(mpv->mpv_ctx, load_cmd));
 
-		mpv_check_error(mpv_set_property(	app->mpv_ctx,
+		mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
 							"pause",
 							MPV_FORMAT_FLAG,
 							&app->paused ));
 
-		mpv_check_error(mpv_request_event(	app->mpv_ctx,
+		mpv_check_error(mpv_request_event(	mpv->mpv_ctx,
 							MPV_EVENT_END_FILE,
 							1 ));
 

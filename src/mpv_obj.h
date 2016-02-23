@@ -20,7 +20,9 @@
 #ifndef MPV_OBJ_H
 #define MPV_OBJ_H
 
-#include "common.h"
+#include <gtk/gtk.h>
+#include <mpv/client.h>
+#include <mpv/opengl_cb.h>
 
 G_BEGIN_DECLS
 
@@ -44,6 +46,8 @@ typedef struct _MpvObjClass MpvObjClass;
 struct _MpvObj
 {
 	GObject parent;
+	mpv_handle *mpv_ctx;
+	mpv_opengl_cb_context *opengl_ctx;
 };
 
 struct _MpvObjClass
@@ -51,8 +55,20 @@ struct _MpvObjClass
 	GObjectClass parent_class;
 };
 
+//TODO: Remove
+typedef struct _Application Application;
+
 GType mpv_obj_get_type(void);
 MpvObj *mpv_obj_new(void);
+gint mpv_obj_command(MpvObj *mpv, const gchar **cmd);
+gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd);
+gint mpv_obj_set_property(	MpvObj *mpv,
+				const gchar *name,
+				mpv_format format,
+				void *data );
+gint mpv_obj_set_property_string(	MpvObj *mpv,
+					const gchar *name,
+					const char *data );
 void mpv_obj_wakeup_callback(void *data);
 void mpv_obj_log_handler(Application *app, mpv_event_log_message* message);
 void mpv_check_error(int status);

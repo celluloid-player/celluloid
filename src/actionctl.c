@@ -192,7 +192,7 @@ static void loop_handler(	GSimpleAction *action,
 
 	g_simple_action_set_state(action, value);
 
-	mpv_check_error(mpv_set_property_string(	app->mpv_ctx,
+	mpv_check_error(mpv_obj_set_property_string(	app->mpv,
 							"loop",
 							loop?"inf":"no" ));
 }
@@ -368,30 +368,30 @@ static void pref_handler(	GSimpleAction *action,
 				dark_theme_enable,
 				NULL );
 
-		mpv_check_error(mpv_set_property_string(	app->mpv_ctx,
+		mpv_check_error(mpv_obj_set_property_string(	app->mpv,
 								"pause",
 								"yes" ));
 
-		playlist_pos_rc = mpv_get_property(	app->mpv_ctx,
+		playlist_pos_rc = mpv_get_property(	app->mpv->mpv_ctx,
 							"playlist-pos",
 							MPV_FORMAT_INT64,
 							&playlist_pos );
 
-		time_pos_rc = mpv_get_property(	app->mpv_ctx,
+		time_pos_rc = mpv_get_property(	app->mpv->mpv_ctx,
 						"time-pos",
 						MPV_FORMAT_DOUBLE,
 						&time_pos );
 
-		/* Reset app->mpv_ctx */
-		mpv_check_error(mpv_command(app->mpv_ctx, quit_cmd));
+		/* Reset app->mpv->mpv_ctx */
+		mpv_check_error(mpv_obj_command(app->mpv, quit_cmd));
 
 		mpv_obj_quit(app);
 
-		app->mpv_ctx = mpv_create();
+		app->mpv->mpv_ctx = mpv_create();
 
 		mpv_obj_initialize(app);
 
-		mpv_set_wakeup_callback(	app->mpv_ctx,
+		mpv_set_wakeup_callback(	app->mpv->mpv_ctx,
 						mpv_obj_wakeup_callback,
 						app );
 
@@ -401,7 +401,7 @@ static void pref_handler(	GSimpleAction *action,
 		{
 			gint rc;
 
-			rc = mpv_request_event(	app->mpv_ctx,
+			rc = mpv_request_event(	app->mpv->mpv_ctx,
 						MPV_EVENT_FILE_LOADED,
 						0 );
 
@@ -409,7 +409,7 @@ static void pref_handler(	GSimpleAction *action,
 
 			mpv_obj_load(app, NULL, FALSE, TRUE);
 
-			rc = mpv_request_event(	app->mpv_ctx,
+			rc = mpv_request_event(	app->mpv->mpv_ctx,
 						MPV_EVENT_FILE_LOADED,
 						1 );
 
@@ -417,7 +417,7 @@ static void pref_handler(	GSimpleAction *action,
 
 			if(playlist_pos_rc >= 0 && playlist_pos > 0)
 			{
-				mpv_set_property(	app->mpv_ctx,
+				mpv_obj_set_property(	app->mpv,
 							"playlist-pos",
 							MPV_FORMAT_INT64,
 							&playlist_pos );
@@ -425,13 +425,13 @@ static void pref_handler(	GSimpleAction *action,
 
 			if(time_pos_rc >= 0 && time_pos > 0)
 			{
-				mpv_set_property(	app->mpv_ctx,
+				mpv_obj_set_property(	app->mpv,
 							"time-pos",
 							MPV_FORMAT_DOUBLE,
 							&time_pos );
 			}
 
-			mpv_set_property(	app->mpv_ctx,
+			mpv_obj_set_property(	app->mpv,
 						"pause",
 						MPV_FORMAT_FLAG,
 						&app->paused );
@@ -486,11 +486,11 @@ static void track_select_handler(	GSimpleAction *action,
 
 	if(id >= 0)
 	{
-		mpv_set_property(app->mpv_ctx, mpv_prop, MPV_FORMAT_INT64, &id);
+		mpv_obj_set_property(app->mpv, mpv_prop, MPV_FORMAT_INT64, &id);
 	}
 	else
 	{
-		mpv_set_property_string(app->mpv_ctx, mpv_prop, "no");
+		mpv_obj_set_property_string(app->mpv, mpv_prop, "no");
 	}
 }
 
@@ -529,7 +529,7 @@ static void load_track_handler(	GSimpleAction *action,
 		{
 			cmd[1] = uri->data;
 
-			mpv_command(app->mpv_ctx, cmd);
+			mpv_obj_command(app->mpv, cmd);
 
 			uri = g_slist_next(uri);
 		}
