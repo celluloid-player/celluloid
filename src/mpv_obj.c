@@ -418,6 +418,37 @@ static Track *parse_track_list(mpv_node_list *node)
 
 static void mpv_obj_class_init(MpvObjClass* klass)
 {
+	g_signal_new(	"mpv-init",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+
+	g_signal_new(	"mpv-playback-restart",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+
+	g_signal_new(	"mpv-prop-change",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
+
 }
 
 static void mpv_obj_init(MpvObj *mpv)
@@ -564,7 +595,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 
 			handle_property_change_event(app, prop);
 
-			g_signal_emit_by_name(	app->gui,
+			g_signal_emit_by_name(	mpv,
 						"mpv-prop-change",
 						g_strdup(prop->name) );
 		}
@@ -651,7 +682,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 		{
 			mpv_obj_load_gui_update(app);
 
-			g_signal_emit_by_name(	app->gui,
+			g_signal_emit_by_name(	mpv,
 						"mpv-playback-restart" );
 		}
 		else if(event->event_id == MPV_EVENT_SHUTDOWN)
@@ -1112,7 +1143,7 @@ void mpv_obj_initialize(Application *app)
 						app );
 
 	handle_msg_level_opt(mpv);
-	g_signal_emit_by_name(app->gui, "mpv-init");
+	g_signal_emit_by_name(mpv, "mpv-init");
 
 	g_clear_object(&main_settings);
 	g_clear_object(&win_settings);

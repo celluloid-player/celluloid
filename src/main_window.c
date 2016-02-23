@@ -359,37 +359,6 @@ static void main_window_class_init(MainWindowClass *klass)
 	obj_class->get_property = main_window_get_property;
 	wgt_class->motion_notify_event = motion_notify_handler;
 
-	g_signal_new(	"mpv-init",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
-
-	g_signal_new(	"mpv-playback-restart",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
-
-	g_signal_new(	"mpv-prop-change",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__STRING,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_STRING );
-
 	pspec = g_param_spec_boolean
 		(	"use-opengl",
 			"Use OpenGL",

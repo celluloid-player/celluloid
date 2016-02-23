@@ -674,19 +674,19 @@ void mpris_player_register(mpris *inst)
 	inst->player_sig_id_list = g_malloc(4*sizeof(gulong));
 
 	inst->player_sig_id_list[0]
-		= g_signal_connect(	inst->gmpv_ctx->gui,
+		= g_signal_connect(	inst->gmpv_ctx->mpv,
 					"mpv-init",
 					G_CALLBACK(mpv_init_handler),
 					inst );
 
 	inst->player_sig_id_list[1]
-		= g_signal_connect(	inst->gmpv_ctx->gui,
+		= g_signal_connect(	inst->gmpv_ctx->mpv,
 					"mpv-playback-restart",
 					G_CALLBACK(mpv_playback_restart_handler),
 					inst );
 
 	inst->player_sig_id_list[2]
-		= g_signal_connect(	inst->gmpv_ctx->gui,
+		= g_signal_connect(	inst->gmpv_ctx->mpv,
 					"mpv-prop-change",
 					G_CALLBACK(mpv_prop_change_handler),
 					inst );
