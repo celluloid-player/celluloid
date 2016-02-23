@@ -35,6 +35,9 @@ struct _MainWindowPrivate
 	gboolean use_opengl;
 };
 
+// TODO: Remove
+typedef struct _Application Application;
+
 static void vid_area_init(MainWindow *wnd, gboolean use_opengl);
 static GtkWidget *vid_area_new(gboolean use_opengl);
 static gboolean timeout_handler(gpointer data);
@@ -49,11 +52,11 @@ static void main_window_set_property(	GObject *object,
 {
 	MainWindow *self = MAIN_WINDOW(object);
 
-	/* PROP_USE_OPENGL can only be set once during construction */
 	if(property_id == PROP_USE_OPENGL)
 	{
 		self->priv->use_opengl = g_value_get_boolean(value);
 
+		/* PROP_USE_OPENGL can only be set once during construction */
 		vid_area_init(self, self->priv->use_opengl);
 	}
 	else
@@ -431,7 +434,7 @@ static void main_window_init(MainWindow *wnd)
 				wnd );
 }
 
-GtkWidget *main_window_new(GtkApplication *app, gboolean use_opengl)
+GtkWidget *main_window_new(Application *app, gboolean use_opengl)
 {
 	return GTK_WIDGET(g_object_new(	main_window_get_type(),
 					"application", app,

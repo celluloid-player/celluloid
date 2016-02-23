@@ -576,7 +576,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	app->inhibit_cookie = 0;
 	app->keybind_list = NULL;
 	app->config = g_settings_new(CONFIG_ROOT);
-	app->gui = MAIN_WINDOW(main_window_new(GTK_APPLICATION(app), use_opengl));
+	app->gui = MAIN_WINDOW(main_window_new(app, use_opengl));
 	app->fs_control = NULL;
 	app->playlist_store = PLAYLIST_WIDGET(app->gui->playlist)->store;
 

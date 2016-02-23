@@ -448,7 +448,6 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
-
 }
 
 static void mpv_obj_init(MpvObj *mpv)

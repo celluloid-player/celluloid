@@ -41,6 +41,7 @@ G_BEGIN_DECLS
 typedef struct _MainWindow MainWindow;
 typedef struct _MainWindowClass MainWindowClass;
 typedef struct _MainWindowPrivate MainWindowPrivate;
+typedef struct _Application Application;
 
 struct _MainWindow
 {
@@ -72,7 +73,7 @@ struct _MainWindowClass
 	GtkApplicationWindowClass parent_class;
 };
 
-GtkWidget *main_window_new(GtkApplication *app, gboolean use_opengl);
+GtkWidget *main_window_new(Application *app, gboolean use_opengl);
 GType main_window_get_type(void);
 void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);

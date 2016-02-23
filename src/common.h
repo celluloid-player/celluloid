@@ -23,7 +23,6 @@
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
 
-#include "main_window.h"
 #include "playlist.h"
 #include "application.h"
 
