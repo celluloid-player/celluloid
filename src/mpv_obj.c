@@ -34,7 +34,7 @@
 static void parse_dim_string(	const gchar *mpv_geom_str,
 				gint *width,
 				gint *height );
-static void handle_autofit_opt(Application *app);
+static void handle_autofit_opt(MpvObj *mpv);
 static void handle_msg_level_opt(MpvObj *mpv);
 static void handle_property_change_event(	Application *app,
 						mpv_event_property* prop);
@@ -110,11 +110,10 @@ static void parse_dim_string(	const gchar *mpv_geom_str,
 	g_strfreev(tokens);
 }
 
-static void handle_autofit_opt(Application *app)
+static void handle_autofit_opt(MpvObj *mpv)
 {
 	gchar *optbuf = NULL;
 	gchar *geom = NULL;
-	MpvObj *mpv = app->mpv;
 
 	optbuf = mpv_get_property_string(mpv->mpv_ctx, "options/autofit");
 
@@ -155,7 +154,7 @@ static void handle_autofit_opt(Application *app)
 		{
 			if(width_ratio > 1 && height_ratio > 1)
 			{
-				resize_window_to_fit(app, 1);
+				mpv->autofit_ratio = 1;
 			}
 			else
 			{
@@ -163,11 +162,9 @@ static void handle_autofit_opt(Application *app)
 				 * possible within the limits imposed by
 				 * 'autofit' while preseving the aspect ratio.
 				 */
-				resize_window_to_fit
-					(	app,
-						(width_ratio < height_ratio)
-						?width_ratio
-						:height_ratio );
+				mpv->autofit_ratio
+					= (width_ratio < height_ratio)
+					? width_ratio:height_ratio;
 			}
 		}
 	}
@@ -438,6 +435,17 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 			G_TYPE_NONE,
 			0 );
 
+	g_signal_new(	"mpv-event",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__ENUM,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_INT );
+
 	g_signal_new(	"mpv-prop-change",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -455,6 +463,7 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->mpv_ctx = mpv_create();
 	mpv->opengl_ctx = NULL;
 	mpv->log_level_list = NULL;
+	mpv->autofit_ratio = 1;
 }
 
 MpvObj *mpv_obj_new()
@@ -620,7 +629,6 @@ gboolean mpv_obj_handle_event(gpointer data)
 							&app->paused );
 
 				mpv_check_error(rc);
-				main_window_reset(app->gui);
 				playlist_reset(playlist->store);
 			}
 
@@ -674,7 +682,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 		{
 			if(app->new_file)
 			{
-				handle_autofit_opt(app);
+				handle_autofit_opt(mpv);
 			}
 		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
@@ -684,19 +692,20 @@ gboolean mpv_obj_handle_event(gpointer data)
 			g_signal_emit_by_name(	mpv,
 						"mpv-playback-restart" );
 		}
-		else if(event->event_id == MPV_EVENT_SHUTDOWN)
-		{
-			quit(app);
-
-			done = TRUE;
-		}
 		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
 		{
 			mpv_obj_log_handler(mpv, event->data);
 		}
-		else if(event->event_id == MPV_EVENT_NONE)
+		else if(event->event_id == MPV_EVENT_SHUTDOWN
+		&& event->event_id == MPV_EVENT_NONE)
 		{
 			done = TRUE;
+		}
+
+		if(event)
+		{
+			g_signal_emit_by_name
+				(mpv, "mpv-event", event->event_id);
 		}
 	}
 

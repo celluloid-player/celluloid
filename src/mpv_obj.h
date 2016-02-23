@@ -49,6 +49,7 @@ struct _MpvObj
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	GSList *log_level_list;
+	gdouble autofit_ratio;
 };
 
 struct _MpvObjClass

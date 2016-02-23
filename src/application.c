@@ -78,6 +78,9 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 						gint src,
 						gint dest,
 						gpointer data );
+static void mpv_event_handler(	MpvObj *mpv,
+				mpv_event_id event_id,
+				gpointer data );
 static void connect_signals(Application *app);
 static void add_accelerator(	GtkApplication *app,
 				const char *accel,
@@ -298,6 +301,32 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 	g_free(dest_str);
 }
 
+static void mpv_event_handler(	MpvObj *mpv,
+				mpv_event_id event_id,
+				gpointer data )
+{
+	Application *app = data;
+
+	if(event_id == MPV_EVENT_VIDEO_RECONFIG)
+	{
+		if(app->new_file)
+		{
+			resize_window_to_fit(app, mpv->autofit_ratio);
+		}
+	}
+	else if(event_id == MPV_EVENT_IDLE)
+	{
+		if(!app->init_load && app->loaded)
+		{
+			main_window_reset(app->gui);
+		}
+	}
+	else if(event_id == MPV_EVENT_SHUTDOWN)
+	{
+		quit(app);
+	}
+}
+
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -512,6 +541,11 @@ static void connect_signals(Application *app)
 	g_signal_connect(	playlist->store,
 				"row-reordered",
 				G_CALLBACK(playlist_row_reodered_handler),
+				app );
+
+	g_signal_connect(	app->mpv,
+				"mpv-event",
+				G_CALLBACK(mpv_event_handler),
 				app );
 }
 
