@@ -215,7 +215,7 @@ static gboolean load_files(gpointer data)
 			}
 			else
 			{
-				mpv_obj_load(	app,
+				mpv_obj_load(	app->mpv,
 						app->files[i],
 						(i != 0),
 						TRUE );
@@ -315,6 +315,11 @@ static void mpv_event_handler(	MpvObj *mpv,
 			resize_window_to_fit(app, mpv->autofit_ratio);
 		}
 	}
+	else if(event_id == MPV_EVENT_FILE_LOADED)
+	{
+		control_box_set_enabled
+			(CONTROL_BOX(app->gui->control_box), TRUE);
+	}
 	else if(event_id == MPV_EVENT_IDLE)
 	{
 		if(!app->mpv->state.init_load && app->mpv->state.loaded)
@@ -360,7 +365,7 @@ static void drag_data_handler(	GtkWidget *widget,
 
 			for(i = 0; uri_list[i]; i++)
 			{
-				mpv_obj_load(	app,
+				mpv_obj_load(	app->mpv,
 						uri_list[i],
 						(append || i != 0),
 						TRUE );
@@ -373,7 +378,7 @@ static void drag_data_handler(	GtkWidget *widget,
 			const guchar *raw_data
 				= gtk_selection_data_get_data(sel_data);
 
-			mpv_obj_load(app, (const gchar *)raw_data, append, TRUE);
+			mpv_obj_load(app->mpv, (const gchar *)raw_data, append, TRUE);
 		}
 	}
 }

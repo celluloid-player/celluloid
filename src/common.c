@@ -157,7 +157,7 @@ void seek(Application *app, gdouble time)
 
 	if(!app->mpv->state.loaded)
 	{
-		mpv_obj_load(app, NULL, FALSE, TRUE);
+		mpv_obj_load(app->mpv, NULL, FALSE, TRUE);
 	}
 	else
 	{

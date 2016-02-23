@@ -93,10 +93,10 @@ void mpv_obj_load_gui_update(Application *app);
 gint mpv_obj_apply_args(mpv_handle *mpv_ctx, char *args);
 void mpv_obj_initialize(Application *app);
 void mpv_obj_quit(Application *app);
-void mpv_obj_load(	Application *app,
-		const gchar *uri,
-		gboolean append,
-		gboolean update );
+void mpv_obj_load(	MpvObj *mpv,
+			const gchar *uri,
+			gboolean append,
+			gboolean update );
 
 G_END_DECLS
 

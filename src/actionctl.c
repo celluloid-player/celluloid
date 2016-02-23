@@ -132,7 +132,7 @@ static void open_handler(	GSimpleAction *action,
 
 		while(uri)
 		{
-			mpv_obj_load(	app,
+			mpv_obj_load(	app->mpv,
 					uri->data,
 					(append || uri != uri_list),
 					TRUE );
@@ -177,7 +177,7 @@ static void open_loc_handler(	GSimpleAction *action,
 
 		app->mpv->state.paused = FALSE;
 
-		mpv_obj_load(app, loc_str, FALSE, TRUE);
+		mpv_obj_load(app->mpv, loc_str, FALSE, TRUE);
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(open_loc_dialog));
@@ -407,7 +407,7 @@ static void pref_handler(	GSimpleAction *action,
 
 			mpv_check_error(rc);
 
-			mpv_obj_load(app, NULL, FALSE, TRUE);
+			mpv_obj_load(app->mpv, NULL, FALSE, TRUE);
 
 			rc = mpv_request_event(	app->mpv->mpv_ctx,
 						MPV_EVENT_FILE_LOADED,

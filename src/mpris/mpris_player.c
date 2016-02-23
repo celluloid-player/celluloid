@@ -207,7 +207,7 @@ static void method_handler(	GDBusConnection *connection,
 		const gchar *uri;
 
 		g_variant_get(parameters, "(&s)", &uri);
-		mpv_obj_load(inst->gmpv_ctx, uri, FALSE, TRUE);
+		mpv_obj_load(inst->gmpv_ctx->mpv, uri, FALSE, TRUE);
 	}
 
 	g_dbus_method_invocation_return_value

@@ -273,7 +273,7 @@ static void handle_property_change_event(	Application *app,
 
 		if(idle && !mpv->state.paused)
 		{
-			mpv_obj_load(app, NULL, FALSE, TRUE);
+			mpv_obj_load(mpv, NULL, FALSE, TRUE);
 		}
 
 		if(!mpv->state.paused)
@@ -623,7 +623,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 		{
 			if(mpv->state.init_load)
 			{
-				mpv_obj_load(app, NULL, FALSE, FALSE);
+				mpv_obj_load(mpv, NULL, FALSE, FALSE);
 			}
 			else if(mpv->state.loaded)
 			{
@@ -1179,7 +1179,7 @@ void mpv_obj_quit(Application *app)
 	mpv_terminate_destroy(app->mpv->mpv_ctx);
 }
 
-void mpv_obj_load(	Application *app,
+void mpv_obj_load(	MpvObj *mpv,
 			const gchar *uri,
 			gboolean append,
 			gboolean update )
@@ -1188,14 +1188,13 @@ void mpv_obj_load(	Application *app,
 	GtkListStore *playlist_store;
 	GtkTreeIter iter;
 	gboolean empty;
-	MpvObj *mpv = app->mpv;
 
 	g_info(	"Loading file (append=%s, update=%s): %s",
 		append?"TRUE":"FALSE",
 		update?"TRUE":"FALSE",
 		uri?:"<PLAYLIST_ITEMS>" );
 
-	playlist_store = playlist_get_store(app->playlist_store);
+	playlist_store = playlist_get_store(mpv->playlist);
 
 	empty = !gtk_tree_model_get_iter_first
 			(GTK_TREE_MODEL(playlist_store), &iter);
@@ -1204,8 +1203,7 @@ void mpv_obj_load(	Application *app,
 
 	if(!append && uri && update)
 	{
-		playlist_clear
-			(PLAYLIST_WIDGET(app->gui->playlist)->store);
+		playlist_clear(mpv->playlist);
 
 		mpv->state.new_file = TRUE;
 		mpv->state.loaded = FALSE;
@@ -1232,7 +1230,7 @@ void mpv_obj_load(	Application *app,
 						-1 );
 
 			/* append = FALSE only on first iteration */
-			mpv_obj_load(app, uri, append, FALSE);
+			mpv_obj_load(mpv, uri, append, FALSE);
 
 			append = TRUE;
 
@@ -1246,7 +1244,6 @@ void mpv_obj_load(	Application *app,
 	if(uri && playlist_store)
 	{
 		gchar *path = get_path_from_uri(uri);
-		MpvObj *mpv = app->mpv;
 
 		load_cmd[1] = path;
 
@@ -1263,9 +1260,6 @@ void mpv_obj_load(	Application *app,
 
 			g_free(name);
 		}
-
-		control_box_set_enabled
-			(CONTROL_BOX(app->gui->control_box), TRUE);
 
 		mpv_check_error(mpv_request_event(	mpv->mpv_ctx,
 							MPV_EVENT_END_FILE,
