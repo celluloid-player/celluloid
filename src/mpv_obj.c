@@ -425,6 +425,17 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 			G_TYPE_NONE,
 			0 );
 
+	g_signal_new(	"mpv-error",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
+
 	g_signal_new(	"mpv-playback-restart",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -653,15 +664,15 @@ gboolean mpv_obj_handle_event(gpointer data)
 
 			if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
 			{
-				const gchar *err_str;
+				const gchar *err;
 				gchar *msg;
 
-				err_str = mpv_error_string(ef_event->error);
+				err = mpv_error_string(ef_event->error);
 
 				msg = g_strdup_printf
 					(	_("Playback was terminated "
 						"abnormally. Reason: %s."),
-						err_str );
+						err );
 
 				app->paused = TRUE;
 
@@ -670,10 +681,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 							MPV_FORMAT_FLAG,
 							&app->paused );
 
-				main_window_reset(app->gui);
-				show_error_dialog(app, NULL, msg);
-
-				g_free(msg);
+				g_signal_emit_by_name(mpv, "mpv-error", msg);
 			}
 		}
 		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
@@ -1113,7 +1121,7 @@ void mpv_obj_initialize(Application *app)
 		const gchar *msg
 			= _("Failed to apply one or more MPV options.");
 
-		show_error_dialog(app, NULL, msg);
+		g_signal_emit_by_name(mpv, "mpv-error", g_strdup(msg));
 	}
 
 	if(main_window_get_use_opengl(app->gui))

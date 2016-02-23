@@ -81,6 +81,7 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 static void mpv_event_handler(	MpvObj *mpv,
 				mpv_event_id event_id,
 				gpointer data );
+static void mpv_error_handler(MpvObj *mpv, const gchar *err, gpointer data);
 static void connect_signals(Application *app);
 static void add_accelerator(	GtkApplication *app,
 				const char *accel,
@@ -327,6 +328,14 @@ static void mpv_event_handler(	MpvObj *mpv,
 	}
 }
 
+static void mpv_error_handler(MpvObj *mpv, const gchar *err, gpointer data)
+{
+	Application *app = data;
+
+	main_window_reset(app->gui);
+	show_error_dialog(app, NULL, err);
+}
+
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -546,6 +555,11 @@ static void connect_signals(Application *app)
 	g_signal_connect(	app->mpv,
 				"mpv-event",
 				G_CALLBACK(mpv_event_handler),
+				app );
+
+	g_signal_connect(	app->mpv,
+				"mpv-error",
+				G_CALLBACK(mpv_error_handler),
 				app );
 }
 
