@@ -35,7 +35,7 @@ static void parse_dim_string(	const gchar *mpv_geom_str,
 				gint *width,
 				gint *height );
 static void handle_autofit_opt(Application *app);
-static void handle_msg_level_opt(Application *app);
+static void handle_msg_level_opt(MpvObj *mpv);
 static void handle_property_change_event(	Application *app,
 						mpv_event_property* prop);
 static void opengl_callback(void *cb_ctx);
@@ -176,7 +176,7 @@ static void handle_autofit_opt(Application *app)
 	g_free(geom);
 }
 
-static void handle_msg_level_opt(Application *app)
+static void handle_msg_level_opt(MpvObj *mpv)
 {
 	const struct
 	{
@@ -196,7 +196,6 @@ static void handle_msg_level_opt(Application *app)
 	gchar *optbuf = NULL;
 	gchar **tokens = NULL;
 	mpv_log_level min_level = DEFAULT_LOG_LEVEL;
-	MpvObj *mpv = app->mpv;
 	gint i;
 
 	optbuf = mpv_get_property_string(mpv->mpv_ctx, "options/msg-level");
@@ -206,11 +205,11 @@ static void handle_msg_level_opt(Application *app)
 		tokens = g_strsplit(optbuf, ",", 0);
 	}
 
-	if(app->log_level_list)
+	if(mpv->log_level_list)
 	{
-		g_slist_free_full(app->log_level_list, g_free);
+		g_slist_free_full(mpv->log_level_list, g_free);
 
-		app->log_level_list = NULL;
+		mpv->log_level_list = NULL;
 	}
 
 	for(i = 0; tokens && tokens[i]; i++)
@@ -243,9 +242,9 @@ static void handle_msg_level_opt(Application *app)
 
 			if(g_strcmp0(level->prefix, "all") != 0)
 			{
-				app->log_level_list
+				mpv->log_level_list
 					= g_slist_append
-						(app->log_level_list, level);
+						(mpv->log_level_list, level);
 			}
 		}
 
@@ -425,6 +424,7 @@ static void mpv_obj_init(MpvObj *mpv)
 {
 	mpv->mpv_ctx = mpv_create();
 	mpv->opengl_ctx = NULL;
+	mpv->log_level_list = NULL;
 }
 
 MpvObj *mpv_obj_new()
@@ -462,9 +462,9 @@ void mpv_obj_wakeup_callback(void *data)
 	g_idle_add((GSourceFunc)mpv_obj_handle_event, data);
 }
 
-void mpv_obj_log_handler(Application *app, mpv_event_log_message* message)
+void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message)
 {
-	GSList *iter = app->log_level_list;
+	GSList *iter = mpv->log_level_list;
 	module_log_level *level = NULL;
 	gsize event_prefix_len = strlen(message->prefix);
 	gboolean found = FALSE;
@@ -662,7 +662,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
 		{
-			mpv_obj_log_handler(app, event->data);
+			mpv_obj_log_handler(mpv, event->data);
 		}
 		else if(event->event_id == MPV_EVENT_NONE)
 		{
@@ -1111,7 +1111,7 @@ void mpv_obj_initialize(Application *app)
 						opengl_callback,
 						app );
 
-	handle_msg_level_opt(app);
+	handle_msg_level_opt(mpv);
 	g_signal_emit_by_name(app->gui, "mpv-init");
 
 	g_clear_object(&main_settings);

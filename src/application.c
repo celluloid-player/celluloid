@@ -574,7 +574,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	app->sub_visible = TRUE;
 	app->init_load = TRUE;
 	app->inhibit_cookie = 0;
-	app->log_level_list = NULL;
 	app->keybind_list = NULL;
 	app->config = g_settings_new(CONFIG_ROOT);
 	app->gui = MAIN_WINDOW(main_window_new(GTK_APPLICATION(app), use_opengl));

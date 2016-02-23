@@ -57,7 +57,6 @@ struct _Application
 	gboolean init_load;
 	gint64 vid_area_wid;
 	guint inhibit_cookie;
-	GSList *log_level_list;
 	GSList *keybind_list;
 	GSettings *config;
 	MainWindow *gui;

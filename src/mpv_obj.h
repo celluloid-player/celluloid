@@ -48,6 +48,7 @@ struct _MpvObj
 	GObject parent;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
+	GSList *log_level_list;
 };
 
 struct _MpvObjClass
@@ -70,7 +71,7 @@ gint mpv_obj_set_property_string(	MpvObj *mpv,
 					const gchar *name,
 					const char *data );
 void mpv_obj_wakeup_callback(void *data);
-void mpv_obj_log_handler(Application *app, mpv_event_log_message* message);
+void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
 void mpv_check_error(int status);
 gboolean  mpv_obj_handle_event(gpointer data);
 void mpv_obj_update_playlist(Application *app);
