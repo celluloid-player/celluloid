@@ -29,6 +29,14 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
+static void uninit_opengl_cb(Application *app)
+{
+#ifdef OPENGL_CB_ENABLED
+	gtk_gl_area_make_current(GTK_GL_AREA(app->gui->vid_area));
+	mpv_opengl_cb_uninit_gl(app->mpv->opengl_ctx);
+#endif
+}
+
 gchar *get_config_dir_path(void)
 {
 	return g_build_filename(	g_get_user_config_dir(),
@@ -70,8 +78,16 @@ gboolean quit(gpointer data)
 
 	if(app->mpv->mpv_ctx)
 	{
+		if(main_window_get_use_opengl(app->gui))
+		{
+			uninit_opengl_cb(app);
+
+			app->opengl_ready = FALSE;
+			app->mpv->opengl_ctx = NULL;
+		}
+
 		mpv_obj_command(app->mpv, cmd);
-		mpv_obj_quit(app);
+		mpv_obj_quit(app->mpv);
 
 		app->mpv->mpv_ctx = NULL;
 	}

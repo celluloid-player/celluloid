@@ -313,7 +313,6 @@ static void pref_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 	Application *app = data;
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	PrefDialog *pref_dialog;
@@ -324,10 +323,6 @@ static void pref_handler(	GSimpleAction *action,
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		gint64 playlist_pos;
-		gdouble time_pos;
-		gint playlist_pos_rc;
-		gint time_pos_rc;
 		gboolean csd_enable;
 		gboolean dark_theme_enable;
 		gboolean input_config_enable;
@@ -368,74 +363,8 @@ static void pref_handler(	GSimpleAction *action,
 				dark_theme_enable,
 				NULL );
 
-		mpv_check_error(mpv_obj_set_property_string(	app->mpv,
-								"pause",
-								"yes" ));
-
-		playlist_pos_rc = mpv_get_property(	app->mpv->mpv_ctx,
-							"playlist-pos",
-							MPV_FORMAT_INT64,
-							&playlist_pos );
-
-		time_pos_rc = mpv_get_property(	app->mpv->mpv_ctx,
-						"time-pos",
-						MPV_FORMAT_DOUBLE,
-						&time_pos );
-
-		/* Reset app->mpv->mpv_ctx */
-		mpv_check_error(mpv_obj_command(app->mpv, quit_cmd));
-
-		mpv_obj_quit(app);
-
-		app->mpv->mpv_ctx = mpv_create();
-
-		mpv_obj_initialize(app);
-
-		mpv_set_wakeup_callback(	app->mpv->mpv_ctx,
-						mpv_obj_wakeup_callback,
-						app );
-
+		mpv_obj_reset(app->mpv);
 		gtk_widget_queue_draw(GTK_WIDGET(app->gui));
-
-		if(app->playlist_store)
-		{
-			gint rc;
-
-			rc = mpv_request_event(	app->mpv->mpv_ctx,
-						MPV_EVENT_FILE_LOADED,
-						0 );
-
-			mpv_check_error(rc);
-
-			mpv_obj_load(app->mpv, NULL, FALSE, TRUE);
-
-			rc = mpv_request_event(	app->mpv->mpv_ctx,
-						MPV_EVENT_FILE_LOADED,
-						1 );
-
-			mpv_check_error(rc);
-
-			if(playlist_pos_rc >= 0 && playlist_pos > 0)
-			{
-				mpv_obj_set_property(	app->mpv,
-							"playlist-pos",
-							MPV_FORMAT_INT64,
-							&playlist_pos );
-			}
-
-			if(time_pos_rc >= 0 && time_pos > 0)
-			{
-				mpv_obj_set_property(	app->mpv,
-							"time-pos",
-							MPV_FORMAT_DOUBLE,
-							&time_pos );
-			}
-
-			mpv_obj_set_property(	app->mpv,
-						"pause",
-						MPV_FORMAT_FLAG,
-						&app->mpv->state.paused );
-		}
 
 		load_keybind(	app,
 				input_config_enable?input_config_file:NULL,

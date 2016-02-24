@@ -143,22 +143,26 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 	int height;
 	int fbo;
 
-	if(!app->opengl_ready)
+	if(app->mpv->opengl_ctx)
 	{
-		mpv_check_error(mpv_opengl_cb_init_gl(	app->mpv->opengl_ctx,
+		if(!app->opengl_ready)
+		{
+			mpv_check_error(mpv_opengl_cb_init_gl
+						(	app->mpv->opengl_ctx,
 							NULL,
 							get_proc_address,
 							NULL ));
 
-		app->opengl_ready = TRUE;
+			app->opengl_ready = TRUE;
+		}
+
+		width = gtk_widget_get_allocated_width(GTK_WIDGET(area));
+		height = (-1)*gtk_widget_get_allocated_height(GTK_WIDGET(area));
+		fbo = -1;
+
+		glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
+		mpv_opengl_cb_draw(app->mpv->opengl_ctx, fbo, width, height);
 	}
-
-	width = gtk_widget_get_allocated_width(GTK_WIDGET(area));
-	height = (-1)*gtk_widget_get_allocated_height(GTK_WIDGET(area));
-	fbo = -1;
-
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
-	mpv_opengl_cb_draw(app->mpv->opengl_ctx, fbo, width, height);
 
 	while(gtk_events_pending())
 	{
@@ -197,7 +201,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 
 	app->mpv->mpv_event_handler = mpv_event_handler;
 
-	mpv_obj_initialize(app);
+	mpv_obj_initialize(app->mpv);
 	mpv_obj_set_opengl_cb_callback(app->mpv, opengl_cb_update_callback, app);
 	mpv_obj_set_wakup_callback(app->mpv, mpv_obj_wakeup_callback, app);
 

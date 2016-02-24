@@ -73,9 +73,6 @@ struct _MpvObjClass
 	GObjectClass parent_class;
 };
 
-//TODO: Remove
-typedef struct _Application Application;
-
 GType mpv_obj_get_type(void);
 MpvObj *mpv_obj_new(gboolean use_opengl, gint64 wid, Playlist *playlist);
 gint mpv_obj_command(MpvObj *mpv, const gchar **cmd);
@@ -87,13 +84,17 @@ gint mpv_obj_set_property(	MpvObj *mpv,
 gint mpv_obj_set_property_string(	MpvObj *mpv,
 					const gchar *name,
 					const char *data );
+void mpv_obj_set_wakup_callback(	MpvObj *mpv,
+					void (*func)(void *),
+					void *data );
 void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
 					mpv_opengl_cb_update_fn func,
 					void *data );
 void mpv_obj_wakeup_callback(void *data);
 void mpv_check_error(int status);
-void mpv_obj_initialize(Application *app);
-void mpv_obj_quit(Application *app);
+void mpv_obj_initialize(MpvObj *mpv);
+void mpv_obj_reset(MpvObj *mpv);
+void mpv_obj_quit(MpvObj *mpv);
 void mpv_obj_load(	MpvObj *mpv,
 			const gchar *uri,
 			gboolean append,

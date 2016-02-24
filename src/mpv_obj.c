@@ -68,7 +68,6 @@ static void mpv_obj_update_playlist(MpvObj *mpv);
 static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
 static gboolean mpv_obj_handle_event(gpointer data);
-static void uninit_opengl_cb(Application *app);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
 
@@ -721,14 +720,6 @@ static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message)
 	}
 }
 
-static void uninit_opengl_cb(Application *app)
-{
-#ifdef OPENGL_CB_ENABLED
-	gtk_gl_area_make_current(GTK_GL_AREA(app->gui->vid_area));
-	mpv_opengl_cb_uninit_gl(app->mpv->opengl_ctx);
-#endif
-}
-
 static void mpv_obj_class_init(MpvObjClass* klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -906,14 +897,13 @@ void mpv_check_error(int status)
 	}
 }
 
-void mpv_obj_initialize(Application *app)
+void mpv_obj_initialize(MpvObj *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);
 	GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
 	gdouble volume = g_settings_get_double(win_settings, "volume")*100;
 	gchar *config_dir = get_config_dir_path();
 	gchar *mpvopt = NULL;
-	MpvObj *mpv = app->mpv;
 
 	const struct
 	{
@@ -1009,20 +999,86 @@ void mpv_obj_initialize(Application *app)
 	g_free(mpvopt);
 }
 
-void mpv_obj_quit(Application *app)
+void mpv_obj_reset(MpvObj *mpv)
+{
+	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
+	gint64 playlist_pos;
+	gdouble time_pos;
+	gint playlist_pos_rc;
+	gint time_pos_rc;
+
+	mpv_check_error(mpv_obj_set_property_string(	mpv,
+							"pause",
+							"yes" ));
+
+	playlist_pos_rc = mpv_get_property(	mpv->mpv_ctx,
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&playlist_pos );
+
+	time_pos_rc = mpv_get_property(	mpv->mpv_ctx,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&time_pos );
+
+	/* Reset mpv->mpv_ctx */
+	mpv_check_error(mpv_obj_command(mpv, quit_cmd));
+
+	mpv_obj_quit(mpv);
+
+	mpv->mpv_ctx = mpv_create();
+
+	mpv_obj_initialize(mpv);
+
+	mpv_set_wakeup_callback
+		(	mpv->mpv_ctx,
+			mpv->priv->wakeup_callback,
+			mpv->priv->wakeup_callback_data );
+
+	mpv_opengl_cb_set_update_callback
+		(	mpv->opengl_ctx,
+			mpv->priv->opengl_cb_callback,
+			mpv->priv->opengl_cb_callback_data );
+
+	if(mpv->playlist)
+	{
+		gint rc;
+
+		rc = mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
+		mpv_check_error(rc);
+
+		mpv_obj_load(mpv, NULL, FALSE, TRUE);
+
+		rc = mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
+		mpv_check_error(rc);
+
+		if(playlist_pos_rc >= 0 && playlist_pos > 0)
+		{
+			mpv_obj_set_property(	mpv,
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&playlist_pos );
+		}
+
+		if(time_pos_rc >= 0 && time_pos > 0)
+		{
+			mpv_obj_set_property(	mpv,
+						"time-pos",
+						MPV_FORMAT_DOUBLE,
+						&time_pos );
+		}
+
+		mpv_obj_set_property(	mpv,
+					"pause",
+					MPV_FORMAT_FLAG,
+					&mpv->state.paused );
+	}
+}
+
+void mpv_obj_quit(MpvObj *mpv)
 {
 	g_info("Terminating mpv");
-
-	if(gtk_widget_get_realized(app->gui->vid_area)
-	&& main_window_get_use_opengl(app->gui))
-	{
-		g_debug("Uninitializing opengl-cb");
-		uninit_opengl_cb(app);
-
-		app->opengl_ready = FALSE;
-	}
-
-	mpv_terminate_destroy(app->mpv->mpv_ctx);
+	mpv_terminate_destroy(mpv->mpv_ctx);
 }
 
 void mpv_obj_load(	MpvObj *mpv,
