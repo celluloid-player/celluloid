@@ -537,8 +537,6 @@ static void load_track_handler(	GSimpleAction *action,
 		g_slist_free_full(uri_list, g_free);
 	}
 
-	mpv_obj_load_gui_update(app);
-
 	gtk_widget_destroy(open_dialog);
 }
 

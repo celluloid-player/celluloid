@@ -40,7 +40,6 @@ static void handle_property_change_event(	Application *app,
 						mpv_event_property* prop);
 static void opengl_callback(void *cb_ctx);
 static void uninit_opengl_cb(Application *app);
-static Track *parse_track_list(mpv_node_list *node);
 
 G_DEFINE_TYPE(MpvObj, mpv_obj, G_TYPE_OBJECT)
 
@@ -274,8 +273,6 @@ static void handle_property_change_event(	Application *app,
 		{
 			mpv_obj_load(mpv, NULL, FALSE, TRUE);
 		}
-
-		mpv_obj_load_gui_update(app);
 	}
 	else if(g_strcmp0(prop->name, "eof-reached") == 0
 	&& prop->data
@@ -306,46 +303,6 @@ static void uninit_opengl_cb(Application *app)
 	gtk_gl_area_make_current(GTK_GL_AREA(app->gui->vid_area));
 	mpv_opengl_cb_uninit_gl(app->mpv->opengl_ctx);
 #endif
-}
-
-static Track *parse_track_list(mpv_node_list *node)
-{
-	Track *entry = track_new();
-
-	for(gint i = 0; i < node->num; i++)
-	{
-		if(g_strcmp0(node->keys[i], "type") == 0)
-		{
-			const gchar *type = node->values[i].u.string;
-
-			if(g_strcmp0(type, "audio") == 0)
-			{
-				entry->type = TRACK_TYPE_AUDIO;
-			}
-			else if(g_strcmp0(type, "video") == 0)
-			{
-				entry->type = TRACK_TYPE_VIDEO;
-			}
-			else if(g_strcmp0(type, "sub") == 0)
-			{
-				entry->type = TRACK_TYPE_SUBTITLE;
-			}
-		}
-		else if(g_strcmp0(node->keys[i], "title") == 0)
-		{
-			entry->title = g_strdup(node->values[i].u.string);
-		}
-		else if(g_strcmp0(node->keys[i], "lang") == 0)
-		{
-			entry->lang = g_strdup(node->values[i].u.string);
-		}
-		else if(g_strcmp0(node->keys[i], "id") == 0)
-		{
-			entry->id = node->values[i].u.int64;
-		}
-	}
-
-	return entry;
 }
 
 static void mpv_obj_class_init(MpvObjClass* klass)
@@ -585,7 +542,6 @@ gboolean mpv_obj_handle_event(gpointer data)
 			mpv->state.init_load = FALSE;
 
 			mpv_obj_update_playlist(app);
-			mpv_obj_load_gui_update(app);
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
@@ -629,8 +585,6 @@ gboolean mpv_obj_handle_event(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
 		{
-			mpv_obj_load_gui_update(app);
-
 			g_signal_emit_by_name(	mpv,
 						"mpv-playback-restart" );
 		}
@@ -785,149 +739,6 @@ void mpv_obj_update_playlist(Application *app)
 
 	g_free(filename_prop_str);
 	mpv_free_node_contents(&mpv_playlist);
-}
-
-void mpv_obj_load_gui_update(Application *app)
-{
-	ControlBox *control_box;
-	mpv_node track_list;
-	MpvObj *mpv;
-	gchar* title;
-	gint64 chapter_count;
-	gint64 playlist_pos;
-	gdouble length;
-	gdouble volume;
-
-	mpv = app->mpv;
-	control_box = CONTROL_BOX(app->gui->control_box);
-	title = mpv_get_property_string(mpv->mpv_ctx, "media-title");
-
-	if(title)
-	{
-		gtk_window_set_title(GTK_WINDOW(app->gui), title);
-
-		mpv_free(title);
-	}
-
-	mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
-						"pause",
-						MPV_FORMAT_FLAG,
-						&mpv->state.paused));
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"track-list",
-				MPV_FORMAT_NODE,
-				&track_list) >= 0)
-	{
-		mpv_node_list *org_list = track_list.u.list;
-		GSList *audio_list = NULL;
-		GSList *video_list = NULL;
-		GSList *sub_list = NULL;
-		GAction *action = NULL;
-		gint64 aid = -1;
-		gint64 sid = -1;
-
-		mpv_get_property(	mpv->mpv_ctx,
-					"aid",
-					MPV_FORMAT_INT64,
-					&aid );
-
-		mpv_get_property(	mpv->mpv_ctx,
-					"sid",
-					MPV_FORMAT_INT64,
-					&sid );
-
-		action = g_action_map_lookup_action
-				(G_ACTION_MAP(app), "audio_select");
-
-		g_simple_action_set_state
-			(G_SIMPLE_ACTION(action), g_variant_new_int64(aid));
-
-		action = g_action_map_lookup_action
-				(G_ACTION_MAP(app), "sub_select");
-
-		g_simple_action_set_state
-			(G_SIMPLE_ACTION(action), g_variant_new_int64(sid));
-
-		for(gint i = 0; i < org_list->num; i++)
-		{
-			Track *entry;
-			GSList **list;
-
-			entry = parse_track_list
-				(org_list->values[i].u.list);
-
-			if(entry->type == TRACK_TYPE_AUDIO)
-			{
-				list = &audio_list;
-			}
-			else if(entry->type == TRACK_TYPE_VIDEO)
-			{
-				list = &video_list;
-			}
-			else if(entry->type == TRACK_TYPE_SUBTITLE)
-			{
-				list = &sub_list;
-			}
-			else
-			{
-				g_assert(FALSE);
-			}
-
-			*list = g_slist_prepend(*list, entry);
-		}
-
-		audio_list = g_slist_reverse(audio_list);
-		video_list = g_slist_reverse(video_list);
-		sub_list = g_slist_reverse(sub_list);
-
-		main_window_update_track_list
-			(app->gui, audio_list, video_list, sub_list);
-
-		g_slist_free_full
-			(audio_list, (GDestroyNotify)track_free);
-
-		g_slist_free_full
-			(video_list, (GDestroyNotify)track_free);
-
-		g_slist_free_full
-			(sub_list, (GDestroyNotify)track_free);
-	}
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"playlist-pos",
-				MPV_FORMAT_INT64,
-				&playlist_pos) >= 0)
-	{
-		playlist_set_indicator_pos(mpv->playlist, (gint)playlist_pos);
-	}
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"chapters",
-				MPV_FORMAT_INT64,
-				&chapter_count) >= 0)
-	{
-		control_box_set_chapter_enabled(	control_box,
-							(chapter_count > 1) );
-	}
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"volume",
-				MPV_FORMAT_DOUBLE,
-				&volume) >= 0)
-	{
-		control_box_set_volume(control_box, volume/100);
-	}
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"length",
-				MPV_FORMAT_DOUBLE,
-				&length) >= 0)
-	{
-		control_box_set_seek_bar_length(control_box, (gint)length);
-	}
-
-	control_box_set_playing_state(control_box, !mpv->state.paused);
 }
 
 gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
@@ -1086,6 +897,7 @@ void mpv_obj_initialize(Application *app)
 	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "eof-reached", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 

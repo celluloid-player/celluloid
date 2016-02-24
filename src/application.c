@@ -49,6 +49,7 @@
 #include "playbackctl.h"
 #include "playlist_widget.h"
 #include "keybind.h"
+#include "track.h"
 #include "menu.h"
 #include "mpv_obj.h"
 #include "def.h"
@@ -78,6 +79,9 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 						gint src,
 						gint dest,
 						gpointer data );
+static Track *parse_track_list(mpv_node_list *node);
+static void update_track_list(Application *app, mpv_node *track_list);
+static void mpv_load_gui_update(Application *app);
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data);
 static void mpv_event_handler(mpv_event *event, gpointer data);
 static void mpv_error_handler(MpvObj *mpv, const gchar *err, gpointer data);
@@ -303,6 +307,186 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 	g_free(dest_str);
 }
 
+static Track *parse_track_list(mpv_node_list *node)
+{
+	Track *entry = track_new();
+
+	for(gint i = 0; i < node->num; i++)
+	{
+		if(g_strcmp0(node->keys[i], "type") == 0)
+		{
+			const gchar *type = node->values[i].u.string;
+
+			if(g_strcmp0(type, "audio") == 0)
+			{
+				entry->type = TRACK_TYPE_AUDIO;
+			}
+			else if(g_strcmp0(type, "video") == 0)
+			{
+				entry->type = TRACK_TYPE_VIDEO;
+			}
+			else if(g_strcmp0(type, "sub") == 0)
+			{
+				entry->type = TRACK_TYPE_SUBTITLE;
+			}
+		}
+		else if(g_strcmp0(node->keys[i], "title") == 0)
+		{
+			entry->title = g_strdup(node->values[i].u.string);
+		}
+		else if(g_strcmp0(node->keys[i], "lang") == 0)
+		{
+			entry->lang = g_strdup(node->values[i].u.string);
+		}
+		else if(g_strcmp0(node->keys[i], "id") == 0)
+		{
+			entry->id = node->values[i].u.int64;
+		}
+	}
+
+	return entry;
+}
+
+static void update_track_list(Application *app, mpv_node* track_list)
+{
+	MpvObj *mpv = app->mpv;
+	mpv_node_list *org_list = track_list->u.list;
+	GSList *audio_list = NULL;
+	GSList *video_list = NULL;
+	GSList *sub_list = NULL;
+	GAction *action = NULL;
+	gint64 aid = -1;
+	gint64 sid = -1;
+
+	mpv_get_property(	mpv->mpv_ctx,
+				"aid",
+				MPV_FORMAT_INT64,
+				&aid );
+
+	mpv_get_property(	mpv->mpv_ctx,
+				"sid",
+				MPV_FORMAT_INT64,
+				&sid );
+
+	action = g_action_map_lookup_action
+			(G_ACTION_MAP(app), "audio_select");
+
+	g_simple_action_set_state
+		(G_SIMPLE_ACTION(action), g_variant_new_int64(aid));
+
+	action = g_action_map_lookup_action
+			(G_ACTION_MAP(app), "sub_select");
+
+	g_simple_action_set_state
+		(G_SIMPLE_ACTION(action), g_variant_new_int64(sid));
+
+	for(gint i = 0; i < org_list->num; i++)
+	{
+		Track *entry;
+		GSList **list;
+
+		entry = parse_track_list
+			(org_list->values[i].u.list);
+
+		if(entry->type == TRACK_TYPE_AUDIO)
+		{
+			list = &audio_list;
+		}
+		else if(entry->type == TRACK_TYPE_VIDEO)
+		{
+			list = &video_list;
+		}
+		else if(entry->type == TRACK_TYPE_SUBTITLE)
+		{
+			list = &sub_list;
+		}
+		else
+		{
+			g_assert(FALSE);
+		}
+
+		*list = g_slist_prepend(*list, entry);
+	}
+
+	audio_list = g_slist_reverse(audio_list);
+	video_list = g_slist_reverse(video_list);
+	sub_list = g_slist_reverse(sub_list);
+
+	main_window_update_track_list
+		(app->gui, audio_list, video_list, sub_list);
+
+	g_slist_free_full
+		(audio_list, (GDestroyNotify)track_free);
+
+	g_slist_free_full
+		(video_list, (GDestroyNotify)track_free);
+
+	g_slist_free_full
+		(sub_list, (GDestroyNotify)track_free);
+}
+
+static void mpv_load_gui_update(Application *app)
+{
+	ControlBox *control_box;
+	MpvObj *mpv;
+	gchar* title;
+	gint64 chapter_count;
+	gint64 playlist_pos;
+	gdouble length;
+	gdouble volume;
+
+	mpv = app->mpv;
+	control_box = CONTROL_BOX(app->gui->control_box);
+	title = mpv_get_property_string(mpv->mpv_ctx, "media-title");
+
+	if(title)
+	{
+		gtk_window_set_title(GTK_WINDOW(app->gui), title);
+
+		mpv_free(title);
+	}
+
+	mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
+						"pause",
+						MPV_FORMAT_FLAG,
+						&mpv->state.paused));
+
+	if(mpv_get_property(	mpv->mpv_ctx,
+				"playlist-pos",
+				MPV_FORMAT_INT64,
+				&playlist_pos) >= 0)
+	{
+		playlist_set_indicator_pos(mpv->playlist, (gint)playlist_pos);
+	}
+
+	if(mpv_get_property(	mpv->mpv_ctx,
+				"chapters",
+				MPV_FORMAT_INT64,
+				&chapter_count) >= 0)
+	{
+		control_box_set_chapter_enabled(	control_box,
+							(chapter_count > 1) );
+	}
+
+	if(mpv_get_property(	mpv->mpv_ctx,
+				"volume",
+				MPV_FORMAT_DOUBLE,
+				&volume) >= 0)
+	{
+		control_box_set_volume(control_box, volume/100);
+	}
+
+	if(mpv_get_property(	mpv->mpv_ctx,
+				"length",
+				MPV_FORMAT_DOUBLE,
+				&length) >= 0)
+	{
+		control_box_set_seek_bar_length(control_box, (gint)length);
+	}
+
+	control_box_set_playing_state(control_box, !mpv->state.paused);
+}
+
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 {
 	Application *app = data;
@@ -310,6 +494,8 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
+		mpv_load_gui_update(app);
+
 		if(!mpv->state.paused)
 		{
 			app->inhibit_cookie
@@ -324,6 +510,10 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 			gtk_application_uninhibit
 				(GTK_APPLICATION(app), app->inhibit_cookie);
 		}
+	}
+	else if(g_strcmp0(prop->name, "track-list") == 0 && prop->data)
+	{
+		update_track_list(app, prop->data);
 	}
 	else if(g_strcmp0(prop->name, "volume") == 0
 	&& (mpv->state.init_load || mpv->state.loaded))
@@ -364,8 +554,7 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 		}
 	}
 	else if(g_strcmp0(prop->name, "eof-reached") == 0
-	&& prop->data
-	&& *((int *)prop->data) == 1)
+	&& prop->data && *((int *)prop->data) == 1)
 	{
 		main_window_reset(app->gui);
 	}
@@ -391,6 +580,12 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	{
 		control_box_set_enabled
 			(CONTROL_BOX(app->gui->control_box), TRUE);
+
+		mpv_load_gui_update(app);
+	}
+	else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
+	{
+		mpv_load_gui_update(app);
 	}
 	else if(event->event_id == MPV_EVENT_IDLE)
 	{
