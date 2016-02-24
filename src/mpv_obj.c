@@ -44,6 +44,10 @@ struct _MpvObjPrivate
 {
 	gboolean use_opengl;
 	gint64 wid;
+	void *wakeup_callback_data;
+	void *opengl_cb_callback_data;
+	void (*wakeup_callback)(void *data);
+	void (*opengl_cb_callback)(void *data);
 };
 
 static void mpv_obj_set_inst_property(	GObject *object,
@@ -860,10 +864,23 @@ inline gint mpv_obj_set_property_string(	MpvObj *mpv,
 	return mpv_set_property_string(mpv->mpv_ctx, name, data);
 }
 
-inline void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
-						mpv_opengl_cb_update_fn func,
-						void *data )
+void mpv_obj_set_wakup_callback(	MpvObj *mpv,
+					void (*func)(void *),
+					void *data )
 {
+	mpv->priv->wakeup_callback = func;
+	mpv->priv->wakeup_callback_data = data;
+
+	return mpv_set_wakeup_callback(mpv->mpv_ctx, func, data);
+}
+
+void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
+					mpv_opengl_cb_update_fn func,
+					void *data )
+{
+	mpv->priv->opengl_cb_callback = func;
+	mpv->priv->opengl_cb_callback_data = data;
+
 	return mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
 }
 

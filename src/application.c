@@ -199,7 +199,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 
 	mpv_obj_initialize(app);
 	mpv_obj_set_opengl_cb_callback(app->mpv, opengl_cb_update_callback, app);
-	mpv_set_wakeup_callback(app->mpv->mpv_ctx, mpv_obj_wakeup_callback, app);
+	mpv_obj_set_wakup_callback(app->mpv, mpv_obj_wakeup_callback, app);
 
 	if(!app->files)
 	{
