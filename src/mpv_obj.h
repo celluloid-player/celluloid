@@ -89,7 +89,7 @@ void mpv_obj_wakeup_callback(void *data);
 void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
 void mpv_check_error(int status);
 gboolean  mpv_obj_handle_event(gpointer data);
-void mpv_obj_update_playlist(Application *app);
+void mpv_obj_update_playlist(MpvObj *mpv);
 gint mpv_obj_apply_args(mpv_handle *mpv_ctx, char *args);
 void mpv_obj_initialize(Application *app);
 void mpv_obj_quit(Application *app);

@@ -537,7 +537,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 			mpv->state.loaded = TRUE;
 			mpv->state.init_load = FALSE;
 
-			mpv_obj_update_playlist(app);
+			mpv_obj_update_playlist(mpv);
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
@@ -609,24 +609,20 @@ gboolean mpv_obj_handle_event(gpointer data)
 	return FALSE;
 }
 
-void mpv_obj_update_playlist(Application *app)
+void mpv_obj_update_playlist(MpvObj *mpv)
 {
 	/* The length of "playlist//filename" including null-terminator (19)
 	 * plus the number of digits in the maximum value of 64 bit int (19).
 	 */
 	const gsize filename_prop_str_size = 38;
-	PlaylistWidget *playlist;
 	GtkListStore *store;
 	GtkTreeIter iter;
 	mpv_node mpv_playlist;
 	gchar *filename_prop_str;
 	gboolean iter_end;
 	gint playlist_count;
-	MpvObj *mpv;
 	gint i;
 
-	mpv = app->mpv;
-	playlist = PLAYLIST_WIDGET(app->gui->playlist);
 	store = playlist_get_store(mpv->playlist);
 	filename_prop_str = g_malloc(filename_prop_str_size);
 	iter_end = FALSE;
@@ -637,15 +633,6 @@ void mpv_obj_update_playlist(Application *app)
 						&mpv_playlist ));
 
 	playlist_count = mpv_playlist.u.list->num;
-
-	g_signal_handlers_block_matched
-		(	playlist->store,
-			G_SIGNAL_MATCH_DATA,
-			0,
-			0,
-			NULL,
-			NULL,
-			app );
 
 	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
 
@@ -721,17 +708,6 @@ void mpv_obj_update_playlist(Application *app)
 	{
 		while(gtk_list_store_remove(store, &iter));
 	}
-
-	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(playlist->tree_view));
-
-	g_signal_handlers_unblock_matched
-		(	playlist->store,
-			G_SIGNAL_MATCH_DATA,
-			0,
-			0,
-			NULL,
-			NULL,
-			app );
 
 	g_free(filename_prop_str);
 	mpv_free_node_contents(&mpv_playlist);
