@@ -74,6 +74,16 @@ AX_APPEND_LINK_FLAGS([ \
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_CC_STDC
+AC_PATH_PROG(GDBUS_CODEGEN, [gdbus-codegen], [])
+AC_PATH_PROG(GLIB_GENMARSHAL, [glib-genmarshal], [])
+
+AS_IF([test "x$GDBUS_CODEGEN" = "x"], [
+	AC_MSG_ERROR([Could not find gdbus-codegen])
+])
+
+AS_IF([test "x$GLIB_GENMARSHAL" = "x"], [
+	AC_MSG_ERROR([Could not find glib-genmarshal])
+])
 
 # Checks for libraries.
 AS_IF([test "x$enable_opengl_cb" != "xno"], [

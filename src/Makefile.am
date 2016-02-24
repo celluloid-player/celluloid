@@ -7,15 +7,15 @@ mpris_files =	mpris/mpris.c mpris/mpris.h mpris/mpris_base.c \
 		mpris/mpris_base.h mpris/mpris_player.c mpris/mpris_player.h \
 		$(mpris_generated)
 $(mpris_generated): $(top_srcdir)/data/mpris_gdbus.xml
-	gdbus-codegen --c-namespace mpris --generate-c-code mpris/mpris_gdbus $< && \
+	$(GDBUS_CODEGEN) --c-namespace mpris --generate-c-code mpris/mpris_gdbus $< && \
 	sed -i '1i#pragma GCC diagnostic ignored \"-Wconversion\"' mpris/mpris_gdbus.c
 
 marshal_generated = marshal.c marshal.h
 marshal_files = $(marshal_generated)
 marshal.h: $(top_srcdir)/data/marshal.lst
-	glib-genmarshal --prefix="g_cclosure_gen_marshal" --header $< > $@
+	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --header $< > $@
 marshal.c: $(top_srcdir)/data/marshal.lst
-	glib-genmarshal --prefix="g_cclosure_gen_marshal" --body $< > $@
+	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --body $< > $@
 	sed -i '1i#pragma GCC diagnostic ignored \"-Wmissing-prototypes\"' $@
 
 media_key_files = media_keys/media_keys.c media_keys/media_keys.h
