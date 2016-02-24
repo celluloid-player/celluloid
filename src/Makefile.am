@@ -12,10 +12,11 @@ $(mpris_generated): $(top_srcdir)/data/mpris_gdbus.xml
 
 marshal_generated = marshal.c marshal.h
 marshal_files = $(marshal_generated)
-$(marshal_generated): $(top_srcdir)/data/marshal.lst
-	glib-genmarshal --prefix="g_cclosure_gen_marshal" --header $< > marshal.h && \
-	glib-genmarshal --prefix="g_cclosure_gen_marshal" --body $< > marshal.c
-	sed -i '1i#pragma GCC diagnostic ignored \"-Wmissing-prototypes\"' marshal.c
+marshal.h: $(top_srcdir)/data/marshal.lst
+	glib-genmarshal --prefix="g_cclosure_gen_marshal" --header $< > $@
+marshal.c: $(top_srcdir)/data/marshal.lst
+	glib-genmarshal --prefix="g_cclosure_gen_marshal" --body $< > $@
+	sed -i '1i#pragma GCC diagnostic ignored \"-Wmissing-prototypes\"' $@
 
 media_key_files = media_keys/media_keys.c media_keys/media_keys.h
 
