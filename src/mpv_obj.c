@@ -37,6 +37,10 @@ static void parse_dim_string(	const gchar *mpv_geom_str,
 static void handle_autofit_opt(MpvObj *mpv);
 static void handle_msg_level_opt(MpvObj *mpv);
 static void handle_property_change_event(MpvObj *mpv, mpv_event_property* prop);
+static void mpv_obj_update_playlist(MpvObj *mpv);
+static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
+static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
+static gboolean mpv_obj_handle_event(gpointer data);
 static void opengl_callback(void *cb_ctx);
 static void uninit_opengl_cb(Application *app);
 
@@ -281,209 +285,179 @@ static void handle_property_change_event(MpvObj *mpv, mpv_event_property* prop)
 	}
 }
 
-static void opengl_callback(void *cb_ctx)
+static void mpv_obj_update_playlist(MpvObj *mpv)
 {
-#ifdef OPENGL_CB_ENABLED
-	Application *app = cb_ctx;
+	/* The length of "playlist//filename" including null-terminator (19)
+	 * plus the number of digits in the maximum value of 64 bit int (19).
+	 */
+	const gsize filename_prop_str_size = 38;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	mpv_node mpv_playlist;
+	gchar *filename_prop_str;
+	gboolean iter_end;
+	gint playlist_count;
+	gint i;
 
-	if(app->mpv->opengl_ctx)
+	store = playlist_get_store(mpv->playlist);
+	filename_prop_str = g_malloc(filename_prop_str_size);
+	iter_end = FALSE;
+
+	mpv_check_error(mpv_get_property(	mpv->mpv_ctx,
+						"playlist",
+						MPV_FORMAT_NODE,
+						&mpv_playlist ));
+
+	playlist_count = mpv_playlist.u.list->num;
+
+	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
+
+	for(i = 0; i < playlist_count; i++)
 	{
-		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
-	}
-#endif
-}
+		gint prop_count = 0;
+		gchar *uri = NULL;
+		gchar *title = NULL;
+		gchar *name = NULL;
+		gchar *old_name = NULL;
+		gchar *old_uri = NULL;
 
-static void uninit_opengl_cb(Application *app)
-{
-#ifdef OPENGL_CB_ENABLED
-	gtk_gl_area_make_current(GTK_GL_AREA(app->gui->vid_area));
-	mpv_opengl_cb_uninit_gl(app->mpv->opengl_ctx);
-#endif
-}
+		prop_count = mpv_playlist.u.list->values[i].u.list->num;
 
-static void mpv_obj_class_init(MpvObjClass* klass)
-{
-	g_signal_new(	"mpv-init",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
+		/* The first entry must always exist */
+		uri =	mpv_playlist.u.list
+			->values[i].u.list
+			->values[0].u.string;
 
-	g_signal_new(	"mpv-error",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__STRING,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_STRING );
-
-	g_signal_new(	"mpv-playback-restart",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
-
-	g_signal_new(	"mpv-event",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__ENUM,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_INT );
-
-	g_signal_new(	"mpv-prop-change",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__STRING,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_STRING );
-}
-
-static void mpv_obj_init(MpvObj *mpv)
-{
-	mpv->mpv_ctx = mpv_create();
-	mpv->opengl_ctx = NULL;
-	mpv->playlist = playlist_new();
-	mpv->log_level_list = NULL;
-	mpv->autofit_ratio = 1;
-	mpv->mpv_event_handler = NULL;
-}
-
-MpvObj *mpv_obj_new()
-{
-	return MPV_OBJ(g_object_new(mpv_obj_get_type(), NULL));
-}
-
-inline gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
-{
-	return mpv_command(mpv->mpv_ctx, cmd);
-}
-
-inline gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd)
-{
-	return mpv_command_string(mpv->mpv_ctx, cmd);
-}
-
-inline gint mpv_obj_set_property(	MpvObj *mpv,
-					const gchar *name,
-					mpv_format format,
-					void *data )
-{
-	return mpv_set_property(mpv->mpv_ctx, name, format, data);
-}
-
-inline gint mpv_obj_set_property_string(	MpvObj *mpv,
-						const gchar *name,
-						const char *data )
-{
-	return mpv_set_property_string(mpv->mpv_ctx, name, data);
-}
-
-void mpv_obj_wakeup_callback(void *data)
-{
-	g_idle_add((GSourceFunc)mpv_obj_handle_event, data);
-}
-
-void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message)
-{
-	GSList *iter = mpv->log_level_list;
-	module_log_level *level = NULL;
-	gsize event_prefix_len = strlen(message->prefix);
-	gboolean found = FALSE;
-
-	if(iter)
-	{
-		level = iter->data;
-	}
-
-	while(iter && !found)
-	{
-		gsize prefix_len;
-		gint cmp;
-
-		prefix_len = strlen(level->prefix);
-
-		cmp = strncmp(	level->prefix,
-				message->prefix,
-				(event_prefix_len < prefix_len)?
-				event_prefix_len:prefix_len );
-
-		/* Allow both exact match and prefix match */
-		if(cmp == 0
-		&& (prefix_len == event_prefix_len
-		|| (prefix_len < event_prefix_len
-		&& message->prefix[prefix_len] == '/')))
+		/* Try retrieving the title from mpv playlist */
+		if(prop_count >= 4)
 		{
-			found = TRUE;
+			title = mpv_playlist.u.list
+				->values[i].u.list
+				->values[3].u.string;
+		}
+
+		name = title?title:get_name_from_path(uri);
+
+		if(!iter_end)
+		{
+			gtk_tree_model_get
+				(	GTK_TREE_MODEL(store), &iter,
+					PLAYLIST_NAME_COLUMN, &old_name,
+					PLAYLIST_URI_COLUMN, &old_uri, -1 );
+
+			if(g_strcmp0(name, old_name) != 0)
+			{
+				gtk_list_store_set
+					(	store, &iter,
+						PLAYLIST_NAME_COLUMN, name, -1 );
+			}
+
+			if(g_strcmp0(uri, old_uri) != 0)
+			{
+				gtk_list_store_set
+					(	store, &iter,
+						PLAYLIST_URI_COLUMN, uri, -1 );
+			}
+
+			iter_end = !gtk_tree_model_iter_next
+					(GTK_TREE_MODEL(store), &iter);
+
+			g_free(old_name);
+			g_free(old_uri);
+		}
+		/* Append entries to the playlist if there are fewer entries in
+		 * the playlist widget than mpv's playlist.
+		 */
+		else
+		{
+			playlist_append(mpv->playlist, name, uri);
+		}
+
+		mpv_free(uri);
+		g_free(name);
+	}
+
+	/* If there are more entries in the playlist widget than mpv's playlist,
+	 * remove the excess entries from the playlist widget.
+	 */
+	if(!iter_end)
+	{
+		while(gtk_list_store_remove(store, &iter));
+	}
+
+	g_free(filename_prop_str);
+	mpv_free_node_contents(&mpv_playlist);
+}
+
+static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
+{
+	gchar *opt_begin = args?strstr(args, "--"):NULL;
+	gint fail_count = 0;
+
+	while(opt_begin)
+	{
+		gchar *opt_end = strstr(opt_begin, " --");
+		gchar *token;
+		gchar *token_arg;
+		gsize token_size;
+
+		/* Point opt_end to the end of the input string if the current
+		 * option is the last one.
+		 */
+		if(!opt_end)
+		{
+			opt_end = args+strlen(args);
+		}
+
+		/* Traverse the string backwards until non-space character is
+		 * found. This removes spaces after the option token.
+		 */
+		while(	--opt_end != opt_begin
+			&& (*opt_end == ' ' || *opt_end == '\n') );
+
+		token_size = (gsize)(opt_end-opt_begin);
+		token = g_strndup(opt_begin+2, token_size-1);
+		token_arg = strpbrk(token, "= ");
+
+		if(token_arg)
+		{
+			*token_arg = '\0';
+
+			token_arg++;
 		}
 		else
 		{
-			iter = g_slist_next(iter);
-			level = iter?iter->data:NULL;
-		}
-	}
-
-	if(!iter || (message->log_level <= level->level))
-	{
-		gchar *buf = g_strdup(message->text);
-		gsize len = strlen(buf);
-
-		if(len > 1)
-		{
-			/* g_message() automatically adds a newline
-			 * character when using the default log handler,
-			 * but log messages from mpv already come
-			 * terminated with a newline character so we
-			 * need to take it out.
+			/* Default to empty string if there is no explicit
+			 * argument
 			 */
-			if(buf[len-1] == '\n')
-			{
-				buf[len-1] = '\0';
-			}
-
-			g_message("[%s] %s", message->prefix, buf);
+			token_arg = "";
 		}
 
-		g_free(buf);
+		g_debug("Applying option --%s=%s", token, token_arg);
+
+		if(mpv_set_option_string(mpv_ctx, token, token_arg) < 0)
+		{
+			fail_count++;
+
+			g_warning(	"Failed to apply option: --%s=%s\n",
+					token,
+					token_arg );
+		}
+
+		opt_begin = strstr(opt_end, " --");
+
+		if(opt_begin)
+		{
+			opt_begin++;
+		}
+
+		g_free(token);
 	}
+
+	return fail_count*(-1);
 }
 
-void mpv_check_error(int status)
-{
-	void *array[10];
-	size_t size;
-
-	if(status < 0)
-	{
-		size = (size_t)backtrace(array, 10);
-
-		g_critical("MPV API error: %s\n", mpv_error_string(status));
-
-		backtrace_symbols_fd(array, (int)size, STDERR_FILENO);
-
-		exit(EXIT_FAILURE);
-	}
-}
-
-gboolean mpv_obj_handle_event(gpointer data)
+static gboolean mpv_obj_handle_event(gpointer data)
 {
 	Application *app = data;
 	MpvObj *mpv = app->mpv;
@@ -609,176 +583,206 @@ gboolean mpv_obj_handle_event(gpointer data)
 	return FALSE;
 }
 
-void mpv_obj_update_playlist(MpvObj *mpv)
+static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message)
 {
-	/* The length of "playlist//filename" including null-terminator (19)
-	 * plus the number of digits in the maximum value of 64 bit int (19).
-	 */
-	const gsize filename_prop_str_size = 38;
-	GtkListStore *store;
-	GtkTreeIter iter;
-	mpv_node mpv_playlist;
-	gchar *filename_prop_str;
-	gboolean iter_end;
-	gint playlist_count;
-	gint i;
+	GSList *iter = mpv->log_level_list;
+	module_log_level *level = NULL;
+	gsize event_prefix_len = strlen(message->prefix);
+	gboolean found = FALSE;
 
-	store = playlist_get_store(mpv->playlist);
-	filename_prop_str = g_malloc(filename_prop_str_size);
-	iter_end = FALSE;
-
-	mpv_check_error(mpv_get_property(	mpv->mpv_ctx,
-						"playlist",
-						MPV_FORMAT_NODE,
-						&mpv_playlist ));
-
-	playlist_count = mpv_playlist.u.list->num;
-
-	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
-
-	for(i = 0; i < playlist_count; i++)
+	if(iter)
 	{
-		gint prop_count = 0;
-		gchar *uri = NULL;
-		gchar *title = NULL;
-		gchar *name = NULL;
-		gchar *old_name = NULL;
-		gchar *old_uri = NULL;
+		level = iter->data;
+	}
 
-		prop_count = mpv_playlist.u.list->values[i].u.list->num;
+	while(iter && !found)
+	{
+		gsize prefix_len;
+		gint cmp;
 
-		/* The first entry must always exist */
-		uri =	mpv_playlist.u.list
-			->values[i].u.list
-			->values[0].u.string;
+		prefix_len = strlen(level->prefix);
 
-		/* Try retrieving the title from mpv playlist */
-		if(prop_count >= 4)
+		cmp = strncmp(	level->prefix,
+				message->prefix,
+				(event_prefix_len < prefix_len)?
+				event_prefix_len:prefix_len );
+
+		/* Allow both exact match and prefix match */
+		if(cmp == 0
+		&& (prefix_len == event_prefix_len
+		|| (prefix_len < event_prefix_len
+		&& message->prefix[prefix_len] == '/')))
 		{
-			title = mpv_playlist.u.list
-				->values[i].u.list
-				->values[3].u.string;
+			found = TRUE;
 		}
-
-		name = title?title:get_name_from_path(uri);
-
-		if(!iter_end)
-		{
-			gtk_tree_model_get
-				(	GTK_TREE_MODEL(store), &iter,
-					PLAYLIST_NAME_COLUMN, &old_name,
-					PLAYLIST_URI_COLUMN, &old_uri, -1 );
-
-			if(g_strcmp0(name, old_name) != 0)
-			{
-				gtk_list_store_set
-					(	store, &iter,
-						PLAYLIST_NAME_COLUMN, name, -1 );
-			}
-
-			if(g_strcmp0(uri, old_uri) != 0)
-			{
-				gtk_list_store_set
-					(	store, &iter,
-						PLAYLIST_URI_COLUMN, uri, -1 );
-			}
-
-			iter_end = !gtk_tree_model_iter_next
-					(GTK_TREE_MODEL(store), &iter);
-
-			g_free(old_name);
-			g_free(old_uri);
-		}
-		/* Append entries to the playlist if there are fewer entries in
-		 * the playlist widget than mpv's playlist.
-		 */
 		else
 		{
-			playlist_append(mpv->playlist, name, uri);
+			iter = g_slist_next(iter);
+			level = iter?iter->data:NULL;
+		}
+	}
+
+	if(!iter || (message->log_level <= level->level))
+	{
+		gchar *buf = g_strdup(message->text);
+		gsize len = strlen(buf);
+
+		if(len > 1)
+		{
+			/* g_message() automatically adds a newline
+			 * character when using the default log handler,
+			 * but log messages from mpv already come
+			 * terminated with a newline character so we
+			 * need to take it out.
+			 */
+			if(buf[len-1] == '\n')
+			{
+				buf[len-1] = '\0';
+			}
+
+			g_message("[%s] %s", message->prefix, buf);
 		}
 
-		mpv_free(uri);
-		g_free(name);
+		g_free(buf);
 	}
-
-	/* If there are more entries in the playlist widget than mpv's playlist,
-	 * remove the excess entries from the playlist widget.
-	 */
-	if(!iter_end)
-	{
-		while(gtk_list_store_remove(store, &iter));
-	}
-
-	g_free(filename_prop_str);
-	mpv_free_node_contents(&mpv_playlist);
 }
 
-gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
+static void opengl_callback(void *cb_ctx)
 {
-	gchar *opt_begin = args?strstr(args, "--"):NULL;
-	gint fail_count = 0;
+#ifdef OPENGL_CB_ENABLED
+	Application *app = cb_ctx;
 
-	while(opt_begin)
+	if(app->mpv->opengl_ctx)
 	{
-		gchar *opt_end = strstr(opt_begin, " --");
-		gchar *token;
-		gchar *token_arg;
-		gsize token_size;
-
-		/* Point opt_end to the end of the input string if the current
-		 * option is the last one.
-		 */
-		if(!opt_end)
-		{
-			opt_end = args+strlen(args);
-		}
-
-		/* Traverse the string backwards until non-space character is
-		 * found. This removes spaces after the option token.
-		 */
-		while(	--opt_end != opt_begin
-			&& (*opt_end == ' ' || *opt_end == '\n') );
-
-		token_size = (gsize)(opt_end-opt_begin);
-		token = g_strndup(opt_begin+2, token_size-1);
-		token_arg = strpbrk(token, "= ");
-
-		if(token_arg)
-		{
-			*token_arg = '\0';
-
-			token_arg++;
-		}
-		else
-		{
-			/* Default to empty string if there is no explicit
-			 * argument
-			 */
-			token_arg = "";
-		}
-
-		g_debug("Applying option --%s=%s", token, token_arg);
-
-		if(mpv_set_option_string(mpv_ctx, token, token_arg) < 0)
-		{
-			fail_count++;
-
-			g_warning(	"Failed to apply option: --%s=%s\n",
-					token,
-					token_arg );
-		}
-
-		opt_begin = strstr(opt_end, " --");
-
-		if(opt_begin)
-		{
-			opt_begin++;
-		}
-
-		g_free(token);
+		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
 	}
+#endif
+}
 
-	return fail_count*(-1);
+static void uninit_opengl_cb(Application *app)
+{
+#ifdef OPENGL_CB_ENABLED
+	gtk_gl_area_make_current(GTK_GL_AREA(app->gui->vid_area));
+	mpv_opengl_cb_uninit_gl(app->mpv->opengl_ctx);
+#endif
+}
+
+static void mpv_obj_class_init(MpvObjClass* klass)
+{
+	g_signal_new(	"mpv-init",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+
+	g_signal_new(	"mpv-error",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
+
+	g_signal_new(	"mpv-playback-restart",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+
+	g_signal_new(	"mpv-event",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__ENUM,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_INT );
+
+	g_signal_new(	"mpv-prop-change",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
+}
+
+static void mpv_obj_init(MpvObj *mpv)
+{
+	mpv->mpv_ctx = mpv_create();
+	mpv->opengl_ctx = NULL;
+	mpv->playlist = playlist_new();
+	mpv->log_level_list = NULL;
+	mpv->autofit_ratio = 1;
+	mpv->mpv_event_handler = NULL;
+}
+
+MpvObj *mpv_obj_new()
+{
+	return MPV_OBJ(g_object_new(mpv_obj_get_type(), NULL));
+}
+
+inline gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
+{
+	return mpv_command(mpv->mpv_ctx, cmd);
+}
+
+inline gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd)
+{
+	return mpv_command_string(mpv->mpv_ctx, cmd);
+}
+
+inline gint mpv_obj_set_property(	MpvObj *mpv,
+					const gchar *name,
+					mpv_format format,
+					void *data )
+{
+	return mpv_set_property(mpv->mpv_ctx, name, format, data);
+}
+
+inline gint mpv_obj_set_property_string(	MpvObj *mpv,
+						const gchar *name,
+						const char *data )
+{
+	return mpv_set_property_string(mpv->mpv_ctx, name, data);
+}
+
+void mpv_obj_wakeup_callback(void *data)
+{
+	g_idle_add((GSourceFunc)mpv_obj_handle_event, data);
+}
+
+void mpv_check_error(int status)
+{
+	void *array[10];
+	size_t size;
+
+	if(status < 0)
+	{
+		size = (size_t)backtrace(array, 10);
+
+		g_critical("MPV API error: %s\n", mpv_error_string(status));
+
+		backtrace_symbols_fd(array, (int)size, STDERR_FILENO);
+
+		exit(EXIT_FAILURE);
+	}
 }
 
 void mpv_obj_initialize(Application *app)
