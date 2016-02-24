@@ -64,7 +64,6 @@ static void mpv_obj_update_playlist(MpvObj *mpv);
 static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
 static gboolean mpv_obj_handle_event(gpointer data);
-static void opengl_callback(void *cb_ctx);
 static void uninit_opengl_cb(Application *app);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
@@ -718,18 +717,6 @@ static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message)
 	}
 }
 
-static void opengl_callback(void *cb_ctx)
-{
-#ifdef OPENGL_CB_ENABLED
-	Application *app = cb_ctx;
-
-	if(app->mpv->opengl_ctx)
-	{
-		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
-	}
-#endif
-}
-
 static void uninit_opengl_cb(Application *app)
 {
 #ifdef OPENGL_CB_ENABLED
@@ -873,6 +860,13 @@ inline gint mpv_obj_set_property_string(	MpvObj *mpv,
 	return mpv_set_property_string(mpv->mpv_ctx, name, data);
 }
 
+inline void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
+						mpv_opengl_cb_update_fn func,
+						void *data )
+{
+	return mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
+}
+
 void mpv_obj_wakeup_callback(void *data)
 {
 	g_idle_add((GSourceFunc)mpv_obj_handle_event, data);
@@ -988,10 +982,6 @@ void mpv_obj_initialize(Application *app)
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 
 	mpv->opengl_ctx = mpv_get_sub_api(mpv->mpv_ctx, MPV_SUB_API_OPENGL_CB);
-
-	mpv_opengl_cb_set_update_callback(	mpv->opengl_ctx,
-						opengl_callback,
-						app );
 
 	handle_msg_level_opt(mpv);
 	g_signal_emit_by_name(mpv, "mpv-init");

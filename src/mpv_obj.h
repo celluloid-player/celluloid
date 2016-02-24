@@ -87,6 +87,9 @@ gint mpv_obj_set_property(	MpvObj *mpv,
 gint mpv_obj_set_property_string(	MpvObj *mpv,
 					const gchar *name,
 					const char *data );
+void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
+					mpv_opengl_cb_update_fn func,
+					void *data );
 void mpv_obj_wakeup_callback(void *data);
 void mpv_check_error(int status);
 void mpv_obj_initialize(Application *app);

@@ -63,6 +63,7 @@ static void open_handler(	GApplication *app,
 				gint n_files,
 				gchar *hint,
 				gpointer data );
+static void opengl_cb_update_callback(void *cb_ctx);
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean load_files(gpointer data);
 static gboolean delete_handler(	GtkWidget *widget,
@@ -168,6 +169,18 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 }
 #endif
 
+static void opengl_cb_update_callback(void *cb_ctx)
+{
+#ifdef OPENGL_CB_ENABLED
+	Application *app = cb_ctx;
+
+	if(app->mpv->opengl_ctx)
+	{
+		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
+	}
+#endif
+}
+
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
 	Application *app = data;
@@ -185,6 +198,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 	app->mpv->mpv_event_handler = mpv_event_handler;
 
 	mpv_obj_initialize(app);
+	mpv_obj_set_opengl_cb_callback(app->mpv, opengl_cb_update_callback, app);
 	mpv_set_wakeup_callback(app->mpv->mpv_ctx, mpv_obj_wakeup_callback, app);
 
 	if(!app->files)
