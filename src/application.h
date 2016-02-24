@@ -50,7 +50,6 @@ struct _Application
 	MpvObj *mpv;
 	gchar **files;
 	gboolean opengl_ready;
-	gint64 vid_area_wid;
 	guint inhibit_cookie;
 	GSList *keybind_list;
 	GSettings *config;

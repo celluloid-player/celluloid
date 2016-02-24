@@ -31,6 +31,29 @@
 #include "control_box.h"
 #include "playlist_widget.h"
 
+enum
+{
+	PROP_0,
+	PROP_USE_OPENGL,
+	PROP_WID,
+	PROP_PLAYLIST,
+	N_PROPERTIES
+};
+
+struct _MpvObjPrivate
+{
+	gboolean use_opengl;
+	gint64 wid;
+};
+
+static void mpv_obj_set_inst_property(	GObject *object,
+					guint property_id,
+					const GValue *value,
+					GParamSpec *pspec );
+static void mpv_obj_get_inst_property(	GObject *object,
+					guint property_id,
+					GValue *value,
+					GParamSpec *pspec );
 static void parse_dim_string(	const gchar *mpv_geom_str,
 				gint *width,
 				gint *height );
@@ -44,7 +67,55 @@ static gboolean mpv_obj_handle_event(gpointer data);
 static void opengl_callback(void *cb_ctx);
 static void uninit_opengl_cb(Application *app);
 
-G_DEFINE_TYPE(MpvObj, mpv_obj, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
+
+static void mpv_obj_set_inst_property(	GObject *object,
+					guint property_id,
+					const GValue *value,
+					GParamSpec *pspec )
+{	MpvObj *self = MPV_OBJ(object);
+
+	if(property_id == PROP_USE_OPENGL)
+	{
+		self->priv->use_opengl = g_value_get_boolean(value);
+	}
+	else if(property_id == PROP_WID)
+	{
+		self->priv->wid = g_value_get_int64(value);
+	}
+	else if(property_id == PROP_PLAYLIST)
+	{
+		self->playlist = g_value_get_pointer(value);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
+
+static void mpv_obj_get_inst_property(	GObject *object,
+					guint property_id,
+					GValue *value,
+					GParamSpec *pspec )
+{	MpvObj *self = MPV_OBJ(object);
+
+	if(property_id == PROP_USE_OPENGL)
+	{
+		g_value_set_boolean(value, self->priv->use_opengl);
+	}
+	else if(property_id == PROP_WID)
+	{
+		g_value_set_int64(value, self->priv->wid);
+	}
+	else if(property_id == PROP_PLAYLIST)
+	{
+		g_value_set_pointer(value, self->playlist);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
 
 static void parse_dim_string(	const gchar *mpv_geom_str,
 				gint *width,
@@ -669,6 +740,40 @@ static void uninit_opengl_cb(Application *app)
 
 static void mpv_obj_class_init(MpvObjClass* klass)
 {
+	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
+	GParamSpec *pspec = NULL;
+
+	obj_class->set_property = mpv_obj_set_inst_property;
+	obj_class->get_property = mpv_obj_get_inst_property;
+
+	pspec = g_param_spec_boolean
+		(	"use-opengl",
+			"Use OpenGL",
+			"Whether or not to use opengl-cb",
+			FALSE,
+			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+
+	g_object_class_install_property(obj_class, PROP_USE_OPENGL, pspec);
+
+	pspec = g_param_spec_int64
+		(	"wid",
+			"WID",
+			"The ID of the window to attach to",
+			G_MININT64,
+			G_MAXINT64,
+			-1,
+			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+
+	g_object_class_install_property(obj_class, PROP_WID, pspec);
+
+	pspec = g_param_spec_pointer
+		(	"playlist",
+			"Playlist",
+			"Playlist object to use for storage",
+			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+
+	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
+
 	g_signal_new(	"mpv-init",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -725,17 +830,22 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 
 static void mpv_obj_init(MpvObj *mpv)
 {
+	mpv->priv = mpv_obj_get_instance_private(mpv);
 	mpv->mpv_ctx = mpv_create();
 	mpv->opengl_ctx = NULL;
-	mpv->playlist = playlist_new();
+	mpv->playlist = NULL;
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = 1;
 	mpv->mpv_event_handler = NULL;
 }
 
-MpvObj *mpv_obj_new()
+MpvObj *mpv_obj_new(gboolean use_opengl, gint64 wid, Playlist *playlist)
 {
-	return MPV_OBJ(g_object_new(mpv_obj_get_type(), NULL));
+	return MPV_OBJ(g_object_new(	mpv_obj_get_type(),
+					"use-opengl", use_opengl,
+					"wid", wid,
+					"playlist", playlist,
+					NULL));
 }
 
 inline gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
@@ -852,7 +962,7 @@ void mpv_obj_initialize(Application *app)
 		g_signal_emit_by_name(mpv, "mpv-error", g_strdup(msg));
 	}
 
-	if(main_window_get_use_opengl(app->gui))
+	if(mpv->priv->use_opengl)
 	{
 		g_info("opengl-cb is enabled; forcing --vo=opengl-cb");
 		mpv_set_option_string(mpv->mpv_ctx, "vo", "opengl-cb");
@@ -861,12 +971,12 @@ void mpv_obj_initialize(Application *app)
 	else
 	{
 		g_debug(	"Attaching mpv window to wid %#x",
-				(guint)app->vid_area_wid );
+				(guint)mpv->priv->wid );
 
 		mpv_set_option(	mpv->mpv_ctx,
 				"wid",
 				MPV_FORMAT_INT64,
-				&app->vid_area_wid );
+				&mpv->priv->wid );
 	}
 
 	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);

@@ -44,6 +44,7 @@ G_BEGIN_DECLS
 
 typedef struct _MpvObjState MpvObjState;
 typedef struct _MpvObj MpvObj;
+typedef struct _MpvObjPrivate MpvObjPrivate;
 typedef struct _MpvObjClass MpvObjClass;
 
 struct _MpvObjState
@@ -57,6 +58,7 @@ struct _MpvObjState
 struct _MpvObj
 {
 	GObject parent;
+	MpvObjPrivate *priv;
 	MpvObjState state;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
@@ -75,7 +77,7 @@ struct _MpvObjClass
 typedef struct _Application Application;
 
 GType mpv_obj_get_type(void);
-MpvObj *mpv_obj_new(void);
+MpvObj *mpv_obj_new(gboolean use_opengl, gint64 wid, Playlist *playlist);
 gint mpv_obj_command(MpvObj *mpv, const gchar **cmd);
 gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd);
 gint mpv_obj_set_property(	MpvObj *mpv,

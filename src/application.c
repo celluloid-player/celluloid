@@ -881,18 +881,13 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	use_opengl = get_use_opengl();
 
 	app->files = NULL;
-	app->mpv = mpv_obj_new();
 	app->opengl_ready = FALSE;
-	app->mpv->state.paused = TRUE;
-	app->mpv->state.loaded = FALSE;
-	app->mpv->state.new_file = TRUE;
-	app->mpv->state.init_load = TRUE;
 	app->inhibit_cookie = 0;
 	app->keybind_list = NULL;
 	app->config = g_settings_new(CONFIG_ROOT);
-	app->gui = MAIN_WINDOW(main_window_new(app, app->mpv->playlist, use_opengl));
+	app->playlist_store = playlist_new();
+	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store, use_opengl));
 	app->fs_control = NULL;
-	app->playlist_store = PLAYLIST_WIDGET(app->gui->playlist)->store;
 
 	migrate_config(app);
 
@@ -949,6 +944,15 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	gtk_widget_show_all(GTK_WIDGET(app->gui));
 
+	/* Due to a GTK bug, get_xid() must not be called when opengl-cb is
+	 * enabled or the GtkGLArea will break.
+	 */
+	app->mpv = mpv_obj_new(use_opengl, use_opengl?-1:get_xid(app->gui->vid_area), app->playlist_store);
+	app->mpv->state.paused = TRUE;
+	app->mpv->state.loaded = FALSE;
+	app->mpv->state.new_file = TRUE;
+	app->mpv->state.init_load = TRUE;
+
 	if(csd_enable)
 	{
 		control_box_set_fullscreen_btn_visible
@@ -957,14 +961,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	control_box_set_chapter_enabled
 		(CONTROL_BOX(app->gui->control_box), FALSE);
-
-	if(!main_window_get_use_opengl(app->gui))
-	{
-		app->vid_area_wid = get_xid(app->gui->vid_area);
-	}
-
-	g_assert(	main_window_get_use_opengl(app->gui) ||
-			app->vid_area_wid != -1 );
 
 	main_window_load_state(app->gui);
 	setup_accelerators(app);
