@@ -476,6 +476,7 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->playlist = playlist_new();
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = 1;
+	mpv->mpv_event_handler = NULL;
 }
 
 MpvObj *mpv_obj_new()
@@ -710,6 +711,11 @@ gboolean mpv_obj_handle_event(gpointer data)
 
 		if(event)
 		{
+			if(mpv->mpv_event_handler)
+			{
+				mpv->mpv_event_handler(event, data);
+			}
+
 			g_signal_emit_by_name
 				(mpv, "mpv-event", event->event_id);
 		}

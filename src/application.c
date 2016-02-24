@@ -78,9 +78,7 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 						gint src,
 						gint dest,
 						gpointer data );
-static void mpv_event_handler(	MpvObj *mpv,
-				mpv_event_id event_id,
-				gpointer data );
+static void mpv_event_handler(mpv_event *event, gpointer data);
 static void mpv_error_handler(MpvObj *mpv, const gchar *err, gpointer data);
 static void connect_signals(Application *app);
 static void add_accelerator(	GtkApplication *app,
@@ -178,6 +176,8 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						0,
 						NULL,
 						app );
+
+	app->mpv->mpv_event_handler = mpv_event_handler;
 
 	mpv_obj_initialize(app);
 	mpv_set_wakeup_callback(app->mpv->mpv_ctx, mpv_obj_wakeup_callback, app);
@@ -302,32 +302,31 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 	g_free(dest_str);
 }
 
-static void mpv_event_handler(	MpvObj *mpv,
-				mpv_event_id event_id,
-				gpointer data )
+static void mpv_event_handler(mpv_event *event, gpointer data)
 {
 	Application *app = data;
+	MpvObj *mpv = app->mpv;
 
-	if(event_id == MPV_EVENT_VIDEO_RECONFIG)
+	if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
 	{
 		if(app->mpv->state.new_file)
 		{
 			resize_window_to_fit(app, mpv->autofit_ratio);
 		}
 	}
-	else if(event_id == MPV_EVENT_FILE_LOADED)
+	else if(event->event_id == MPV_EVENT_FILE_LOADED)
 	{
 		control_box_set_enabled
 			(CONTROL_BOX(app->gui->control_box), TRUE);
 	}
-	else if(event_id == MPV_EVENT_IDLE)
+	else if(event->event_id == MPV_EVENT_IDLE)
 	{
-		if(!app->mpv->state.init_load && app->mpv->state.loaded)
+		if(!app->mpv->state.init_load && !app->mpv->state.loaded)
 		{
 			main_window_reset(app->gui);
 		}
 	}
-	else if(event_id == MPV_EVENT_SHUTDOWN)
+	else if(event->event_id == MPV_EVENT_SHUTDOWN)
 	{
 		quit(app);
 	}
@@ -555,11 +554,6 @@ static void connect_signals(Application *app)
 	g_signal_connect(	playlist->store,
 				"row-reordered",
 				G_CALLBACK(playlist_row_reodered_handler),
-				app );
-
-	g_signal_connect(	app->mpv,
-				"mpv-event",
-				G_CALLBACK(mpv_event_handler),
 				app );
 
 	g_signal_connect(	app->mpv,

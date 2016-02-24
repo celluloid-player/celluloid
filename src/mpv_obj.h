@@ -63,6 +63,7 @@ struct _MpvObj
 	Playlist *playlist;
 	GSList *log_level_list;
 	gdouble autofit_ratio;
+	void (*mpv_event_handler)(mpv_event *event, gpointer data);
 };
 
 struct _MpvObjClass
