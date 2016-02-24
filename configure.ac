@@ -97,8 +97,14 @@ AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_40], [Dont warn using old
 AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_40], [Prevents using newer APIs])
 
 # Checks for header files.
-AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h ctype.h execinfo.h])
-AC_CHECK_FUNCS([setlocale backtrace backtrace_symbols_fd exit])
+AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h ctype.h execinfo.h],[],[
+	AC_MSG_ERROR([Could not find required headers])
+])
+
+AC_CHECK_FUNCS([setlocale backtrace backtrace_symbols_fd exit],[],[
+	AC_MSG_ERROR([Could not find required functions])
+])
+
 AC_CONFIG_FILES([Makefile src/Makefile data/Makefile po/Makefile.in])
 AC_OUTPUT
 
