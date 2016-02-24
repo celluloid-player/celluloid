@@ -36,8 +36,7 @@ static void parse_dim_string(	const gchar *mpv_geom_str,
 				gint *height );
 static void handle_autofit_opt(MpvObj *mpv);
 static void handle_msg_level_opt(MpvObj *mpv);
-static void handle_property_change_event(	Application *app,
-						mpv_event_property* prop);
+static void handle_property_change_event(MpvObj *mpv, mpv_event_property* prop);
 static void opengl_callback(void *cb_ctx);
 static void uninit_opengl_cb(Application *app);
 
@@ -256,11 +255,8 @@ static void handle_msg_level_opt(MpvObj *mpv)
 	g_strfreev(tokens);
 }
 
-static void handle_property_change_event(	Application *app,
-						mpv_event_property* prop)
+static void handle_property_change_event(MpvObj *mpv, mpv_event_property* prop)
 {
-	MpvObj *mpv = app->mpv;
-
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
 		gboolean idle;
@@ -506,7 +502,7 @@ gboolean mpv_obj_handle_event(gpointer data)
 		{
 			mpv_event_property *prop = event->data;
 
-			handle_property_change_event(app, prop);
+			handle_property_change_event(mpv, prop);
 
 			g_signal_emit_by_name(	mpv,
 						"mpv-prop-change",
