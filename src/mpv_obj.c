@@ -264,7 +264,6 @@ static void handle_property_change_event(	Application *app,
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
-		GtkWindow *wnd = GTK_WINDOW(app->gui);
 		gboolean idle;
 
 		mpv->state.paused = prop->data?*((int *)prop->data):TRUE;
@@ -276,80 +275,16 @@ static void handle_property_change_event(	Application *app,
 			mpv_obj_load(mpv, NULL, FALSE, TRUE);
 		}
 
-		if(!mpv->state.paused)
-		{
-			app->inhibit_cookie
-				= gtk_application_inhibit
-					(	GTK_APPLICATION(app),
-						wnd,
-						GTK_APPLICATION_INHIBIT_IDLE,
-						_("Playing") );
-		}
-		else if(app->inhibit_cookie != 0)
-		{
-			gtk_application_uninhibit
-				(GTK_APPLICATION(app), app->inhibit_cookie);
-		}
-
 		mpv_obj_load_gui_update(app);
-	}
-	else if(g_strcmp0(prop->name, "volume") == 0
-	&& (mpv->state.init_load || mpv->state.loaded))
-	{
-		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
-		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
-
-		g_signal_handlers_block_matched
-			(	control_box->volume_button,
-				G_SIGNAL_MATCH_DATA,
-				0,
-				0,
-				NULL,
-				NULL,
-				app );
-
-		control_box_set_volume(control_box, volume);
-
-		g_signal_handlers_unblock_matched
-			(	control_box->volume_button,
-				G_SIGNAL_MATCH_DATA,
-				0,
-				0,
-				NULL,
-				NULL,
-				app );
-	}
-	else if(g_strcmp0(prop->name, "aid") == 0)
-	{
-		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
-
-		/* prop->data == NULL iff there is no audio track */
-		gtk_widget_set_sensitive
-			(control_box->volume_button, !!prop->data);
-	}
-	else if(g_strcmp0(prop->name, "fullscreen") == 0)
-	{
-		int *data = prop->data;
-		int fullscreen = data?*data:-1;
-
-		if(fullscreen != -1 && fullscreen != app->gui->fullscreen)
-		{
-			main_window_toggle_fullscreen(MAIN_WINDOW(app->gui));
-		}
 	}
 	else if(g_strcmp0(prop->name, "eof-reached") == 0
 	&& prop->data
 	&& *((int *)prop->data) == 1)
 	{
-		const PlaylistWidget *playlist;
-
-		playlist = PLAYLIST_WIDGET(app->gui->playlist);
-
 		mpv->state.paused = TRUE;
 		mpv->state.loaded = FALSE;
 
-		main_window_reset(app->gui);
-		playlist_reset(playlist->store);
+		playlist_reset(mpv->playlist);
 	}
 }
 

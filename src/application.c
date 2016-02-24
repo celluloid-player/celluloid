@@ -78,6 +78,7 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 						gint src,
 						gint dest,
 						gpointer data );
+static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data);
 static void mpv_event_handler(mpv_event *event, gpointer data);
 static void mpv_error_handler(MpvObj *mpv, const gchar *err, gpointer data);
 static void connect_signals(Application *app);
@@ -302,6 +303,74 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 	g_free(dest_str);
 }
 
+static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
+{
+	Application *app = data;
+	MpvObj *mpv = app->mpv;
+
+	if(g_strcmp0(prop->name, "pause") == 0)
+	{
+		if(!mpv->state.paused)
+		{
+			app->inhibit_cookie
+				= gtk_application_inhibit
+					(	GTK_APPLICATION(app),
+						GTK_WINDOW(app->gui),
+						GTK_APPLICATION_INHIBIT_IDLE,
+						_("Playing") );
+		}
+		else if(app->inhibit_cookie != 0)
+		{
+			gtk_application_uninhibit
+				(GTK_APPLICATION(app), app->inhibit_cookie);
+		}
+	}
+	else if(g_strcmp0(prop->name, "volume") == 0
+	&& (mpv->state.init_load || mpv->state.loaded))
+	{
+		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
+		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
+
+		g_signal_handlers_block_matched
+			(	control_box->volume_button,
+				G_SIGNAL_MATCH_DATA,
+				0, 0, NULL, NULL,
+				app );
+
+		control_box_set_volume(control_box, volume);
+
+		g_signal_handlers_unblock_matched
+			(	control_box->volume_button,
+				G_SIGNAL_MATCH_DATA,
+				0, 0, NULL, NULL,
+				app );
+	}
+	else if(g_strcmp0(prop->name, "aid") == 0)
+	{
+		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
+
+		/* prop->data == NULL iff there is no audio track */
+		gtk_widget_set_sensitive
+			(control_box->volume_button, !!prop->data);
+	}
+	else if(g_strcmp0(prop->name, "fullscreen") == 0)
+	{
+		int *data = prop->data;
+		int fullscreen = data?*data:-1;
+
+		if(fullscreen != -1 && fullscreen != app->gui->fullscreen)
+		{
+			main_window_toggle_fullscreen(MAIN_WINDOW(app->gui));
+		}
+	}
+	else if(g_strcmp0(prop->name, "eof-reached") == 0
+	&& prop->data
+	&& *((int *)prop->data) == 1)
+	{
+		main_window_reset(app->gui);
+	}
+}
+
 static void mpv_event_handler(mpv_event *event, gpointer data)
 {
 	Application *app = data;
@@ -313,6 +382,10 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		{
 			resize_window_to_fit(app, mpv->autofit_ratio);
 		}
+	}
+	else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
+	{
+		mpv_prop_change_handler(event->data, data);
 	}
 	else if(event->event_id == MPV_EVENT_FILE_LOADED)
 	{
