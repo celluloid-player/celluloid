@@ -932,10 +932,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 				use_opengl,
 				use_opengl?-1:get_xid(app->gui->vid_area),
 				use_opengl?GTK_GL_AREA(app->gui->vid_area):NULL );
-	app->mpv->state.paused = TRUE;
-	app->mpv->state.loaded = FALSE;
-	app->mpv->state.new_file = TRUE;
-	app->mpv->state.init_load = TRUE;
 
 	if(csd_enable)
 	{

@@ -867,6 +867,11 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = 1;
 	mpv->mpv_event_handler = NULL;
+
+	mpv->state.paused = TRUE;
+	mpv->state.loaded = FALSE;
+	mpv->state.new_file = TRUE;
+	mpv->state.init_load = TRUE;
 }
 
 MpvObj *mpv_obj_new(	Playlist *playlist,
