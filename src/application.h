@@ -49,7 +49,6 @@ struct _Application
 	GtkApplication parent;
 	MpvObj *mpv;
 	gchar **files;
-	gboolean opengl_ready;
 	guint inhibit_cookie;
 	GSList *keybind_list;
 	GSettings *config;

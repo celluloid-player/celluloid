@@ -109,31 +109,6 @@ static gboolean get_use_opengl(void);
 static gint64 get_xid(GtkWidget *widget);
 
 #ifdef OPENGL_CB_ENABLED
-static void *get_proc_address(void *fn_ctx, const gchar *name);
-static gboolean vid_area_render_handler(	GtkGLArea *area,
-						GdkGLContext *context,
-						gpointer data );
-
-static void *get_proc_address(void *fn_ctx, const gchar *name)
-{
-	GdkDisplay *display = gdk_display_get_default();
-
-#ifdef GDK_WINDOWING_WAYLAND
-	if (GDK_IS_WAYLAND_DISPLAY(display))
-		return eglGetProcAddress(name);
-#endif
-#ifdef GDK_WINDOWING_X11
-	if (GDK_IS_X11_DISPLAY(display))
-		return (void *)(intptr_t)glXGetProcAddressARB((const GLubyte *)name);
-#endif
-#ifdef GDK_WINDOWING_WIN32
-	if (GDK_IS_WIN32_DISPLAY(display))
-		return wglGetProcAddress(name);
-#endif
-
-	g_assert_not_reached();
-}
-
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
 						gpointer data )
@@ -145,17 +120,6 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 
 	if(app->mpv->opengl_ctx)
 	{
-		if(!app->opengl_ready)
-		{
-			mpv_check_error(mpv_opengl_cb_init_gl
-						(	app->mpv->opengl_ctx,
-							NULL,
-							get_proc_address,
-							NULL ));
-
-			app->opengl_ready = TRUE;
-		}
-
 		width = gtk_widget_get_allocated_width(GTK_WIDGET(area));
 		height = (-1)*gtk_widget_get_allocated_height(GTK_WIDGET(area));
 		fbo = -1;
@@ -899,7 +863,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	use_opengl = get_use_opengl();
 
 	app->files = NULL;
-	app->opengl_ready = FALSE;
 	app->inhibit_cookie = 0;
 	app->keybind_list = NULL;
 	app->config = g_settings_new(CONFIG_ROOT);
@@ -965,7 +928,10 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	/* Due to a GTK bug, get_xid() must not be called when opengl-cb is
 	 * enabled or the GtkGLArea will break.
 	 */
-	app->mpv = mpv_obj_new(use_opengl, use_opengl?-1:get_xid(app->gui->vid_area), app->playlist_store);
+	app->mpv = mpv_obj_new(	app->playlist_store,
+				use_opengl,
+				use_opengl?-1:get_xid(app->gui->vid_area),
+				use_opengl?GTK_GL_AREA(app->gui->vid_area):NULL );
 	app->mpv->state.paused = TRUE;
 	app->mpv->state.loaded = FALSE;
 	app->mpv->state.new_file = TRUE;
