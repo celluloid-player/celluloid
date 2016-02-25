@@ -937,17 +937,19 @@ void mpv_obj_set_wakup_callback(	MpvObj *mpv,
 	mpv->priv->wakeup_callback = func;
 	mpv->priv->wakeup_callback_data = data;
 
-	return mpv_set_wakeup_callback(mpv->mpv_ctx, func, data);
+	mpv_set_wakeup_callback(mpv->mpv_ctx, func, data);
 }
 
 void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
 					mpv_opengl_cb_update_fn func,
 					void *data )
 {
+#ifdef OPENGL_CB_ENABLED
 	mpv->priv->opengl_cb_callback = func;
 	mpv->priv->opengl_cb_callback_data = data;
 
-	return mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
+	mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
+#endif
 }
 
 void mpv_obj_wakeup_callback(void *data)
@@ -1117,13 +1119,13 @@ void mpv_obj_reset(MpvObj *mpv)
 	mpv->mpv_ctx = mpv_create();
 	mpv_obj_initialize(mpv);
 
-	mpv_set_wakeup_callback
-		(	mpv->mpv_ctx,
+	mpv_obj_set_wakup_callback
+		(	mpv,
 			mpv->priv->wakeup_callback,
 			mpv->priv->wakeup_callback_data );
 
-	mpv_opengl_cb_set_update_callback
-		(	mpv->opengl_ctx,
+	mpv_obj_set_opengl_cb_callback
+		(	mpv,
 			mpv->priv->opengl_cb_callback,
 			mpv->priv->opengl_cb_callback_data );
 

@@ -758,13 +758,13 @@ static void connect_signals(Application *app)
 					app );
 	}
 	else
+#endif
 	{
 		g_signal_connect_after(	app->gui,
 					"draw",
 					G_CALLBACK(draw_handler),
 					app );
 	}
-#endif
 
 	g_signal_connect(	app->gui->vid_area,
 				"drag-data-received",
