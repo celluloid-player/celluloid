@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-04 00:00+0700\n"
-"PO-Revision-Date: 2016-01-22 03:02-0500\n"
+"PO-Revision-Date: 2016-02-24 02:46-0500\n"
 "Last-Translator: Maxim Orlov <murmansksity@gmail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -15,67 +15,82 @@ msgstr ""
 "X-Generator: Zanata 3.8.2\n"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:1
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:2
 msgid "Enable or disable dark theme"
 msgstr "Включить или отключить тёмную тему"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:2
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:3
 msgid "Enable or disable client-side decorations"
-msgstr "Включить или отключить CSD"
+msgstr "Включить или отключить декорирование на стороне клиента"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:3
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:4
 msgid ""
 "Whether or not to make file chooser dialog remember last folder accessed"
 msgstr "Запомнить или нет последнее расположение в диалоге открытия файла"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:4
-msgid "Whether or not to redirect mpv log messages to console"
-msgstr "Перенаправить выхлоп MPV в консоль"
-
-#: ../data/org.gnome-mpv.gschema.xml.in.h:5
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:5
 msgid "Options to pass to mpv"
 msgstr "Перейти к опциям MPV"
 
-#: ../data/org.gnome-mpv.gschema.xml.in.h:6
+#: ../data/org.gnome-mpv.gschema.xml.in.h:5
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:6
 msgid "Path to mpv configuration file"
 msgstr "Путь к файлу конфигурации MPV"
 
-#: ../data/org.gnome-mpv.gschema.xml.in.h:7
+#: ../data/org.gnome-mpv.gschema.xml.in.h:6
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:7
 msgid "Load or don't load mpv configuration file"
 msgstr "Загрузить файл конфигурации MPV"
 
-#: ../data/org.gnome-mpv.gschema.xml.in.h:8
+#: ../data/org.gnome-mpv.gschema.xml.in.h:7
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:8
 msgid "Path to mpv input configuration file"
 msgstr "Путь к файлу конфигурации ввода MPV"
 
-#: ../data/org.gnome-mpv.gschema.xml.in.h:9
+#: ../data/org.gnome-mpv.gschema.xml.in.h:8
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:9
 msgid "Load or don't load mpv input configuration file"
 msgstr "Загрузить файл конфигурации ввода MPV"
 
-#: ../data/org.gnome-mpv.gschema.xml.in.h:10
+#: ../data/org.gnome-mpv.gschema.xml.in.h:9
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:10
 msgid "Width of the window"
-msgstr "Ширина"
+msgstr "Ширина окна"
+
+#: ../data/org.gnome-mpv.gschema.xml.in.h:10
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:11
+msgid "Height of the window"
+msgstr "Высота окна"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:11
-msgid "Height of the window"
-msgstr "Высота"
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:12
+msgid "Volume of player"
+msgstr "Громкость плеера"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:12
-msgid "Volume of player"
-msgstr "Громкость"
-
-#: ../data/org.gnome-mpv.gschema.xml.in.h:13
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:13
 msgid "Width of the playlist"
 msgstr "Ширина списка воспроизведения"
 
-#: ../data/org.gnome-mpv.gschema.xml.in.h:14
+#: ../data/org.gnome-mpv.gschema.xml.in.h:13
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:14
 msgid "Show or not show the playlist"
 msgstr "Показать или скрыть список воспроизведения"
 
-#: ../data/org.gnome-mpv.gschema.xml.in.h:15
+#: ../data/org.gnome-mpv.gschema.xml.in.h:14
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:15
 msgid "URI of the last folder accessed"
 msgstr "Адрес последнего открытого файла"
 
-#: ../data/gnome-mpv.appdata.xml.in.h:1
+#: ../data/io.github.GnomeMpv.gschema.xml.in.h:1
+msgid ""
+"Whether the settings has already been migrated from the previous version"
+msgstr ""
+
+#: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
 msgid ""
 "GNOME MPV is a simple GTK+ frontend for mpv, which is a very powerful media "
 "player capable of playing virtually all video and audio formats. The design "
@@ -89,61 +104,69 @@ msgstr ""
 "предлагает опцию, чтобы отключить декорирование на стороне клиента (CSD) для"
 " лучшей совместимости с системами, отличными от GNOME."
 
-#: ../data/gnome-mpv.appdata.xml.in.h:2
+#: ../data/io.github.GnomeMpv.appdata.xml.in.h:2
 msgid "Features:"
 msgstr "Возможности:"
 
-#: ../data/gnome-mpv.appdata.xml.in.h:3
+#: ../data/io.github.GnomeMpv.appdata.xml.in.h:3
 msgid "Drag and drop playlist"
-msgstr "Перетаскивание списка воспроизведения"
+msgstr "Drag'n'Drop списка воспроизведения"
 
-#: ../data/gnome-mpv.appdata.xml.in.h:4
+#: ../data/io.github.GnomeMpv.appdata.xml.in.h:4
 msgid "Loading external mpv configuration files"
 msgstr "Загрузка внешних конфигурационных файлов MPV"
 
-#: ../data/gnome-mpv.appdata.xml.in.h:5
+#: ../data/io.github.GnomeMpv.appdata.xml.in.h:5
 msgid "MPRIS2 D-Bus interface"
 msgstr "Интерфейс MPRIS2 D-Bus"
 
-#: ../data/gnome-mpv.appdata.xml.in.h:6
+#: ../data/io.github.GnomeMpv.appdata.xml.in.h:6
 msgid "The main window showing the application in action"
 msgstr "Главное окно, показывающее приложение в действии"
 
-#: ../data/gnome-mpv.appdata.xml.in.h:7
+#: ../data/io.github.GnomeMpv.appdata.xml.in.h:7
 msgid "The main window with CSD disabled"
 msgstr "Главное окно с отключённым CSD"
 
-#: ../data/gnome-mpv.appdata.xml.in.h:8
+#: ../data/io.github.GnomeMpv.appdata.xml.in.h:8
 msgid "The main window with playlist open"
 msgstr "Главное окно с открытым списком воспроизведения"
 
-#: ../data/gnome-mpv.desktop.in.h:1 ../src/main.c:552
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:559
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
-#: ../data/gnome-mpv.desktop.in.h:2
+#: ../data/io.github.GnomeMpv.desktop.in.h:2
 msgid "GTK+ frontend for mpv"
 msgstr "GTK+ интерфейс для MPV"
 
-#: ../src/actionctl.c:106
+#: ../src/actionctl.c:89
 msgid "Add File to Playlist"
 msgstr "Добавить файл в список воспроизведения"
 
-#: ../src/actionctl.c:107
+#: ../src/actionctl.c:90
 msgid "Open File"
 msgstr "Открыть файл"
 
-#: ../src/actionctl.c:110 ../src/actionctl.c:409 ../src/open_loc_dialog.c:83
-#: ../src/playlist.c:60 ../src/pref_dialog.c:267
+#: ../src/actionctl.c:93 ../src/actionctl.c:234 ../src/actionctl.c:512
+#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:204
 msgid "_Cancel"
 msgstr "_Отмена"
 
-#: ../src/actionctl.c:112 ../src/actionctl.c:411 ../src/menu.c:121
+#: ../src/actionctl.c:95 ../src/actionctl.c:514 ../src/menu.c:121
 #: ../src/menu.c:390 ../src/open_loc_dialog.c:81
 msgid "_Open"
 msgstr "_Открыть"
 
-#: ../src/actionctl.c:251
+#: ../src/actionctl.c:231
+msgid "Save Playlist"
+msgstr "Сохранить список воспроизведения"
+
+#: ../src/actionctl.c:236 ../src/pref_dialog.c:206
+msgid "_Save"
+msgstr "_Сохранить"
+
+#: ../src/actionctl.c:356
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
@@ -151,47 +174,25 @@ msgid ""
 msgstr ""
 "Чтобы изменения вступили в силу, необходимо перезапустить приложение %s."
 
-#: ../src/actionctl.c:406
+#: ../src/actionctl.c:509
 msgid "Load External…"
 msgstr "Загрузить внешние…"
 
-#: ../src/actionctl.c:482
+#: ../src/actionctl.c:585
 msgid "A GTK frontend for MPV"
 msgstr "GTK интерфейс для MPV"
 
-#: ../src/common.c:236
+#: ../src/common.c:187
 msgid "Error"
 msgstr "Ошибка"
 
-#: ../src/common.c:401
+#: ../src/common.c:295
 msgid ""
 "Keybindings that require Property Expansion are not supported and have been "
 "ignored."
 msgstr ""
 "Комбинации клавиш, которым требуются расширенные возможности не "
 "поддерживаются и были проигнорированы."
-
-#: ../src/main.c:525 ../src/menu.c:138
-msgid "_Preferences"
-msgstr "_Настройки"
-
-#: ../src/main.c:526 ../src/menu.c:169
-msgid "_About"
-msgstr "_О программе"
-
-#: ../src/main.c:527 ../src/menu.c:122
-msgid "_Quit"
-msgstr "_Выйти"
-
-#: ../src/main.c:677
-#, c-format
-msgid ""
-"Preferences is now stored using GSettings. Your preferences have been "
-"migrated from the configuration file. A backup copy of the configuration "
-"file can be found at \"%s\"."
-msgstr ""
-"Параметры настроек теперь хранятся посредством GSettings. Резервную копию "
-"файла конфигурации можно найти в \"%s\"."
 
 #: ../src/menu.c:39
 msgid "None"
@@ -207,6 +208,10 @@ msgstr "Неизвестный"
 msgid "_File"
 msgstr "_Файл"
 
+#: ../src/menu.c:122 ../src/menu.c:414
+msgid "_Quit"
+msgstr "_Выйти"
+
 #: ../src/menu.c:125 ../src/menu.c:393
 msgid "Open _Location"
 msgstr "Открыть _адрес"
@@ -219,13 +224,17 @@ msgstr "_Сохранить список воспроизведения"
 msgid "_Edit"
 msgstr "_Правка"
 
+#: ../src/menu.c:138 ../src/menu.c:412
+msgid "_Preferences"
+msgstr "_Настройки"
+
 #: ../src/menu.c:145
 msgid "_View"
 msgstr "_Вид"
 
 #: ../src/menu.c:148 ../src/menu.c:292
 msgid "_Toggle Playlist"
-msgstr "_Показать / Скрыть список воспроизведения"
+msgstr "_Показать/Скрыть список воспроизведения"
 
 #: ../src/menu.c:151
 msgid "_Fullscreen"
@@ -247,13 +256,17 @@ msgstr "_Половинный размер"
 msgid "_Help"
 msgstr "_Справка"
 
+#: ../src/menu.c:169 ../src/menu.c:413
+msgid "_About"
+msgstr "_О программе"
+
 #: ../src/menu.c:179 ../src/menu.c:316
 msgid "_Video Track"
 msgstr "_Видео дорожка"
 
 #: ../src/menu.c:196 ../src/menu.c:200 ../src/menu.c:346 ../src/menu.c:351
-msgid "_Load External..."
-msgstr "_Загрузить внешние…"
+msgid "_Load External…"
+msgstr ""
 
 #: ../src/menu.c:210 ../src/menu.c:335
 msgid "_Audio Track"
@@ -263,16 +276,16 @@ msgstr "_Аудио дорожка"
 msgid "S_ubtitle Track"
 msgstr "Дорожка с_убтитров"
 
-#: ../src/mpv.c:304
+#: ../src/mpv.c:285
 msgid "Playing"
 msgstr "Воспроизведение"
 
-#: ../src/mpv.c:596
+#: ../src/mpv.c:580
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Воспроизведение было прекращено. Причина: %s."
 
-#: ../src/mpv.c:1087
+#: ../src/mpv.c:1027
 msgid "Failed to apply one or more MPV options."
 msgstr "Не удалось применить одну или несколько опций MPV."
 
@@ -284,82 +297,66 @@ msgstr "Адрес:"
 msgid "Open Location"
 msgstr "Открыть адрес"
 
-#: ../src/playlist.c:57
-msgid "Save Playlist"
-msgstr "Сохранить список воспроизведения"
-
-#: ../src/playlist.c:62 ../src/pref_dialog.c:269
-msgid "_Save"
-msgstr "_Сохранить"
-
-#: ../src/playlist_widget.c:44
+#: ../src/playlist_widget.c:46
 msgid "_Add…"
 msgstr "_Добавить…"
 
-#: ../src/playlist_widget.c:45
+#: ../src/playlist_widget.c:47
 msgid "Loop"
 msgstr "Повторить"
 
-#: ../src/playlist_widget.c:90
+#: ../src/playlist_widget.c:91
 msgid "Playlist"
 msgstr "Список воспроизведения"
 
-#: ../src/pref_dialog.c:105
-msgid "MPV configuration file:"
-msgstr "Файл конфигурации MPV:"
-
-#: ../src/pref_dialog.c:106
-msgid "MPV input configuration file:"
-msgstr "Файл конфигурации ввода MPV:"
-
-#: ../src/pref_dialog.c:107
-msgid "Extra MPV options:"
-msgstr "Дополнительные опции MPV:"
-
-#: ../src/pref_dialog.c:108
+#: ../src/pref_dialog.c:136
 msgid "<b>General</b>"
 msgstr "<b>Общие</b>"
 
-#: ../src/pref_dialog.c:109
-msgid "<b>MPV Configuration</b>"
-msgstr "<b>Конфигурация MPV</b>"
-
-#: ../src/pref_dialog.c:110
-msgid "<b>Keybindings</b>"
-msgstr "<b>Комбинации клавиш</b>"
-
-#: ../src/pref_dialog.c:111
-msgid "<b>Miscellaneous</b>"
-msgstr "<b>Разное</b>"
-
-#: ../src/pref_dialog.c:126
+#: ../src/pref_dialog.c:139
 msgid "Enable client-side decorations"
-msgstr "Включить / Отключить CSD"
+msgstr "Включить декорирование на стороне клиента"
 
-#: ../src/pref_dialog.c:130
+#: ../src/pref_dialog.c:142
 msgid "Enable dark theme"
 msgstr "Использовать тёмный вариант темы"
 
-#: ../src/pref_dialog.c:134
+#: ../src/pref_dialog.c:145
 msgid "Remember last file's location"
 msgstr "Запомнить последнее расположение файла"
 
-#: ../src/pref_dialog.c:138
-msgid "MPV configuration file"
-msgstr "Файл конфигурации MPV"
-
-#: ../src/pref_dialog.c:143
-msgid "MPV input configuration file"
-msgstr "Файл конфигурации ввода MPV"
-
 #: ../src/pref_dialog.c:148
+msgid "<b>MPV Configuration</b>"
+msgstr "<b>Конфигурация MPV</b>"
+
+#: ../src/pref_dialog.c:151
 msgid "Load MPV configuration file"
 msgstr "Загрузить файл конфигурации MPV"
 
-#: ../src/pref_dialog.c:152
+#: ../src/pref_dialog.c:154
+msgid "MPV configuration file:"
+msgstr "Файл конфигурации MPV:"
+
+#: ../src/pref_dialog.c:157
+msgid "<b>Keybindings</b>"
+msgstr "<b>Комбинации клавиш</b>"
+
+#: ../src/pref_dialog.c:160
 msgid "Load MPV input configuration file"
 msgstr "Загрузить файл конфигурации ввода MPV"
 
-#: ../src/pref_dialog.c:285
+#: ../src/pref_dialog.c:163
+msgid "MPV input configuration file:"
+msgstr "Файл конфигурации ввода MPV:"
+
+#: ../src/pref_dialog.c:166
+msgid "<b>Miscellaneous</b>"
+msgstr "<b>Разное</b>"
+
+#: ../src/pref_dialog.c:169
+msgid "Extra MPV options:"
+msgstr "Дополнительные опции MPV:"
+
+#: ../src/pref_dialog.c:347
 msgid "Preferences"
 msgstr "Настройки"

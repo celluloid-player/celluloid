@@ -1,96 +1,90 @@
-# Chinese translations for gnome-mpv package
-# gnome-mpv 套件的正體中文翻譯
-# Copyright (C) 2015 THE GNOME-MPV'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the gnome-mpv package.
-# sun <warmsun0220@gmail.com>, 2015.
-# Mingye Wang <arthur2e5@aosc.xyz>, 2015.
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
-# Mingye Wang <arthur2e5@aosc.xyz>, 2016. #zanata
+# Piotr Sokół <psokol.l10n@gmail.com>, 2016. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mpv 0.6\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 21:24+0800\n"
-"PO-Revision-Date: 2016-01-24 12:32-0500\n"
-"Last-Translator: Mingye Wang <arthur2e5@aosc.xyz>\n"
-"Language-Team: zh_Hant <chinese-l10n@googlegroups.com>\n"
+"POT-Creation-Date: 2016-02-25 09:08+0700\n"
+"PO-Revision-Date: 2016-02-08 05:57-0500\n"
+"Last-Translator: Piotr Sokół <psokol.l10n@gmail.com>\n"
+"Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh-TW\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "X-Generator: Zanata 3.8.2\n"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:1
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:2
 msgid "Enable or disable dark theme"
-msgstr "啟用或禁用暗色主題"
+msgstr "Przełącza ciemny styl"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:2
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:3
 msgid "Enable or disable client-side decorations"
-msgstr "啟用或禁用客戶端裝飾"
+msgstr "Przełącza wyświetlanie obramowania po stronie klienta"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:3
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:4
 msgid ""
 "Whether or not to make file chooser dialog remember last folder accessed"
-msgstr "是否讓檔案選擇對話窗記住最近訪問的資料夾"
+msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:4
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:5
 msgid "Options to pass to mpv"
-msgstr "要傳遞給 mpv 的選項"
+msgstr "Określa opcje przekazywane do mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:5
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:6
 msgid "Path to mpv configuration file"
-msgstr "mpv 配置檔的路徑"
+msgstr "Wskazuje ścieżkę pliku konfiguracyjnego mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:6
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:7
 msgid "Load or don't load mpv configuration file"
-msgstr "是否載入 mpv 配置檔"
+msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:7
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:8
 msgid "Path to mpv input configuration file"
-msgstr "mpv 輸入配置檔的路徑"
+msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:8
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:9
 msgid "Load or don't load mpv input configuration file"
-msgstr "是否載入 mpv 輸入配置檔"
+msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:9
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:10
 msgid "Width of the window"
-msgstr "視窗寬度"
+msgstr "Określa szerokość okna"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:10
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:11
 msgid "Height of the window"
-msgstr "視窗高度"
+msgstr "Określa wysokość okna"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:11
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:12
 msgid "Volume of player"
-msgstr "播放器音量"
+msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:12
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:13
 msgid "Width of the playlist"
-msgstr "播放列表寬度"
+msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:13
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:14
 msgid "Show or not show the playlist"
-msgstr "是否顯示播放列表"
+msgstr "Przełącza wyświetlanie listy odtwarzania"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:14
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:15
+#, fuzzy
 msgid "URI of the last folder accessed"
-msgstr "最近訪問的資料夾 URI"
+msgstr "Przechowuje adres URI ostatnio używanego katalogu"
 
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:1
 msgid ""
@@ -105,37 +99,34 @@ msgid ""
 "libraries. GNOME MPV also offers an option to disable client-side "
 "decorations (CSD) for better compatibility with non-GNOME systems."
 msgstr ""
-"GNOME MPV 是一個簡單的 GTK+ mpv 前端，mpv 是一個功能強大的媒體播放器，可用於播放幾乎所有的視訊和音訊格式。儘管該程式不依賴於任何"
-" GNOME 庫，GNOME MPV 是一個基於 GNOME HIG（人機介面準則）設計的程式。GNOME MPV "
-"還提供禁用客戶端裝飾（CSD）的選項以為不執行 GNOME 的系統提供更好的相容性。"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:2
 msgid "Features:"
-msgstr "特性："
+msgstr "Cechy:"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:3
 msgid "Drag and drop playlist"
-msgstr "拖放播放列表"
+msgstr ""
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:4
 msgid "Loading external mpv configuration files"
-msgstr "正在載入外部 mpv 配置檔"
+msgstr "Wczytywanie zewnętrznych plików konfiguracyjnych mpv"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:5
 msgid "MPRIS2 D-Bus interface"
-msgstr "MPRIS2 D-Bus 介面"
+msgstr ""
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:6
 msgid "The main window showing the application in action"
-msgstr "顯示執行中套用的主視窗"
+msgstr ""
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:7
 msgid "The main window with CSD disabled"
-msgstr "關閉了 CSD 的主視窗"
+msgstr ""
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:8
 msgid "The main window with playlist open"
-msgstr "打開了播放列表的主視窗"
+msgstr ""
 
 #: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:559
 msgid "GNOME MPV"
@@ -143,128 +134,128 @@ msgstr "GNOME MPV"
 
 #: ../data/io.github.GnomeMpv.desktop.in.h:2
 msgid "GTK+ frontend for mpv"
-msgstr "MPV 之 GTK 前端程式"
+msgstr ""
 
 #: ../src/actionctl.c:89
 msgid "Add File to Playlist"
-msgstr "新增檔案到播放列表"
+msgstr ""
 
 #: ../src/actionctl.c:90
 msgid "Open File"
-msgstr "開啟檔案"
+msgstr ""
 
 #: ../src/actionctl.c:93 ../src/actionctl.c:234 ../src/actionctl.c:512
 #: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:204
 msgid "_Cancel"
-msgstr "取消(_C)"
+msgstr ""
 
 #: ../src/actionctl.c:95 ../src/actionctl.c:514 ../src/menu.c:121
 #: ../src/menu.c:390 ../src/open_loc_dialog.c:81
 msgid "_Open"
-msgstr "開啟(_O)"
+msgstr ""
 
 #: ../src/actionctl.c:231
 msgid "Save Playlist"
-msgstr "儲存播放列表"
+msgstr ""
 
 #: ../src/actionctl.c:236 ../src/pref_dialog.c:206
 msgid "_Save"
-msgstr "儲存(_S)"
+msgstr ""
 
 #: ../src/actionctl.c:356
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
 " effect."
-msgstr "啟用或禁用客戶端裝飾需要重啟 %s 生效。"
+msgstr ""
 
 #: ../src/actionctl.c:509
 msgid "Load External…"
-msgstr "載入外部配置檔…"
+msgstr ""
 
 #: ../src/actionctl.c:585
 msgid "A GTK frontend for MPV"
-msgstr "MPV 的 GTK 前端程式"
+msgstr ""
 
 #: ../src/common.c:187
 msgid "Error"
-msgstr "錯誤"
+msgstr ""
 
 #: ../src/common.c:295
 msgid ""
 "Keybindings that require Property Expansion are not supported and have been "
 "ignored."
-msgstr "不支援需要屬性擴充的鍵綁定，已被忽略。"
+msgstr ""
 
 #: ../src/menu.c:39
 msgid "None"
-msgstr "無"
+msgstr ""
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
 #: ../src/menu.c:54
 msgid "Unknown"
-msgstr "未知"
+msgstr ""
 
 #: ../src/menu.c:119
 msgid "_File"
-msgstr "檔案(_F)"
+msgstr ""
 
 #: ../src/menu.c:122 ../src/menu.c:414
 msgid "_Quit"
-msgstr "退出(_Q)"
+msgstr ""
 
 #: ../src/menu.c:125 ../src/menu.c:393
 msgid "Open _Location"
-msgstr "開啟位置(_L)"
+msgstr ""
 
 #: ../src/menu.c:128 ../src/menu.c:296
 msgid "_Save Playlist"
-msgstr "儲存播放列表(_S)"
+msgstr ""
 
 #: ../src/menu.c:135
 msgid "_Edit"
-msgstr "編輯(_E)"
+msgstr ""
 
 #: ../src/menu.c:138 ../src/menu.c:412
 msgid "_Preferences"
-msgstr "偏好設定(_P)"
+msgstr ""
 
 #: ../src/menu.c:145
 msgid "_View"
-msgstr "檢視(_V)"
+msgstr ""
 
 #: ../src/menu.c:148 ../src/menu.c:292
 msgid "_Toggle Playlist"
-msgstr "切換播放列表(_T)"
+msgstr ""
 
 #: ../src/menu.c:151
 msgid "_Fullscreen"
-msgstr "全屏(_F)"
+msgstr ""
 
 #: ../src/menu.c:154 ../src/menu.c:300
 msgid "_Normal Size"
-msgstr "正常尺寸(_N)"
+msgstr ""
 
 #: ../src/menu.c:157 ../src/menu.c:304
 msgid "_Double Size"
-msgstr "兩倍尺寸(_D)"
+msgstr ""
 
 #: ../src/menu.c:160 ../src/menu.c:308
 msgid "_Half Size"
-msgstr "一半尺寸(_H)"
+msgstr ""
 
 #: ../src/menu.c:167
 msgid "_Help"
-msgstr "幫助(_F)"
+msgstr ""
 
 #: ../src/menu.c:169 ../src/menu.c:413
 msgid "_About"
-msgstr "關於(_A)"
+msgstr ""
 
 #: ../src/menu.c:179 ../src/menu.c:316
 msgid "_Video Track"
-msgstr "視訊軌道(_V)"
+msgstr ""
 
 #: ../src/menu.c:196 ../src/menu.c:200 ../src/menu.c:346 ../src/menu.c:351
 msgid "_Load External…"
@@ -272,93 +263,93 @@ msgstr ""
 
 #: ../src/menu.c:210 ../src/menu.c:335
 msgid "_Audio Track"
-msgstr "音軌(_A)"
+msgstr ""
 
 #: ../src/menu.c:214 ../src/menu.c:339
 msgid "S_ubtitle Track"
-msgstr "字幕軌道(_U)"
+msgstr ""
 
 #: ../src/mpv.c:285
 msgid "Playing"
-msgstr "正在播放"
+msgstr ""
 
 #: ../src/mpv.c:580
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr "回放被異常終止。原因：%s。"
+msgstr ""
 
 #: ../src/mpv.c:1027
 msgid "Failed to apply one or more MPV options."
-msgstr "套用一個或多個 MPV 選項失敗。"
+msgstr ""
 
 #: ../src/open_loc_dialog.c:77
 msgid "Location:"
-msgstr "位置："
+msgstr ""
 
 #: ../src/open_loc_dialog.c:93
 msgid "Open Location"
-msgstr "開啟位置"
+msgstr ""
 
 #: ../src/playlist_widget.c:46
 msgid "_Add…"
-msgstr "新增(_A)…"
+msgstr ""
 
 #: ../src/playlist_widget.c:47
 msgid "Loop"
-msgstr "迴圈"
+msgstr ""
 
 #: ../src/playlist_widget.c:91
 msgid "Playlist"
-msgstr "播放列表"
+msgstr ""
 
 #: ../src/pref_dialog.c:136
 msgid "<b>General</b>"
-msgstr "<b>常規</b>"
+msgstr ""
 
 #: ../src/pref_dialog.c:139
 msgid "Enable client-side decorations"
-msgstr "啟用客戶端裝飾"
+msgstr ""
 
 #: ../src/pref_dialog.c:142
 msgid "Enable dark theme"
-msgstr "啟用暗色主題"
+msgstr ""
 
 #: ../src/pref_dialog.c:145
 msgid "Remember last file's location"
-msgstr "記住最後一次開啟位置"
+msgstr ""
 
 #: ../src/pref_dialog.c:148
 msgid "<b>MPV Configuration</b>"
-msgstr "<b>MPV 配置</b>"
+msgstr ""
 
 #: ../src/pref_dialog.c:151
 msgid "Load MPV configuration file"
-msgstr "載入 MPV 配置檔"
+msgstr ""
 
 #: ../src/pref_dialog.c:154
 msgid "MPV configuration file:"
-msgstr "MPV 配置檔："
+msgstr ""
 
 #: ../src/pref_dialog.c:157
 msgid "<b>Keybindings</b>"
-msgstr "<b>鍵繫結</b>"
+msgstr ""
 
 #: ../src/pref_dialog.c:160
 msgid "Load MPV input configuration file"
-msgstr "載入 MPV 輸入配置檔"
+msgstr ""
 
 #: ../src/pref_dialog.c:163
 msgid "MPV input configuration file:"
-msgstr "MPV 輸入配置檔："
+msgstr ""
 
 #: ../src/pref_dialog.c:166
 msgid "<b>Miscellaneous</b>"
-msgstr "<b>雜項</b>"
+msgstr ""
 
 #: ../src/pref_dialog.c:169
 msgid "Extra MPV options:"
-msgstr "額外的 MPV 選項："
+msgstr ""
 
 #: ../src/pref_dialog.c:347
 msgid "Preferences"
-msgstr "偏好設定"
+msgstr ""
