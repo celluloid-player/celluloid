@@ -28,7 +28,7 @@
 
 G_BEGIN_DECLS
 
-#define MPV_OBJ_TYPE (mpv_obj_get_type ())
+#define MPV_OBJ_TYPE (mpv_obj_get_type())
 
 #define	MPV_OBJ(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST((obj), MPV_OBJ_TYPE, MpvObj))

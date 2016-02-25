@@ -83,17 +83,15 @@ static void mpv_obj_get_inst_property(	GObject *object,
 					guint property_id,
 					GValue *value,
 					GParamSpec *pspec );
-static void parse_dim_string(	const gchar *mpv_geom_str,
-				gint *width,
-				gint *height );
+static void parse_dim_string(const gchar *geom_str, gint *width, gint *height);
 static void handle_autofit_opt(MpvObj *mpv);
 static void handle_msg_level_opt(MpvObj *mpv);
-static void handle_property_change_event(MpvObj *mpv, mpv_event_property* prop);
+static void mpv_prop_change_handler(MpvObj *mpv, mpv_event_property* prop);
+static gboolean mpv_event_handler(gpointer data);
 static void mpv_obj_update_playlist(MpvObj *mpv);
 static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
 static void uninit_opengl_cb(MpvObj *mpv);
-static gboolean mpv_obj_handle_event(gpointer data);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
 
@@ -174,20 +172,13 @@ static void mpv_obj_get_inst_property(	GObject *object,
 	}
 }
 
-static void parse_dim_string(	const gchar *mpv_geom_str,
-				gint *width,
-				gint *height )
+static void parse_dim_string(const gchar *geom_str, gint *width, gint *height)
 {
-	GdkScreen *screen = NULL;
-	gint screen_width = -1;
-	gint screen_height = -1;
-	gchar **tokens = NULL;
+	GdkScreen *screen = gdk_screen_get_default();
+	gint screen_width = gdk_screen_get_width(screen);
+	gint screen_height = gdk_screen_get_height(screen);
+	gchar **tokens = g_strsplit(geom_str, "x", 2);
 	gint i = -1;
-
-	screen = gdk_screen_get_default();
-	screen_width = gdk_screen_get_width(screen);
-	screen_height = gdk_screen_get_height(screen);
-	tokens = g_strsplit(mpv_geom_str, "x", 2);
 
 	*width = 0;
 	*height = 0;
@@ -195,9 +186,7 @@ static void parse_dim_string(	const gchar *mpv_geom_str,
 	while(tokens && tokens[++i] && i < 4)
 	{
 		gdouble multiplier = -1;
-		gint value = -1;
-
-		value = (gint)g_ascii_strtoll(tokens[i], NULL, 0);
+		gint value = (gint)g_ascii_strtoll(tokens[i], NULL, 0);
 
 		if(tokens[i][strnlen(tokens[i], 256)-1] == '%')
 		{
@@ -387,7 +376,7 @@ static void handle_msg_level_opt(MpvObj *mpv)
 	g_strfreev(tokens);
 }
 
-static void handle_property_change_event(MpvObj *mpv, mpv_event_property* prop)
+static void mpv_prop_change_handler(MpvObj *mpv, mpv_event_property* prop)
 {
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
@@ -413,43 +402,159 @@ static void handle_property_change_event(MpvObj *mpv, mpv_event_property* prop)
 	}
 }
 
+static gboolean mpv_event_handler(gpointer data)
+{
+	Application *app = data;
+	MpvObj *mpv = app->mpv;
+	mpv_event *event = NULL;
+	gboolean done = FALSE;
+
+	while(!done)
+	{
+		event = mpv->mpv_ctx?mpv_wait_event(mpv->mpv_ctx, 0):NULL;
+
+		if(!event)
+		{
+			done = TRUE;
+		}
+		else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
+		{
+			mpv_event_property *prop = event->data;
+
+			mpv_prop_change_handler(mpv, prop);
+
+			g_signal_emit_by_name(	mpv,
+						"mpv-prop-change",
+						g_strdup(prop->name) );
+		}
+		else if(event->event_id == MPV_EVENT_IDLE)
+		{
+			if(mpv->state.init_load)
+			{
+				mpv_obj_load(mpv, NULL, FALSE, FALSE);
+			}
+			else if(mpv->state.loaded)
+			{
+				gint rc;
+
+				mpv->state.paused = TRUE;
+				mpv->state.loaded = FALSE;
+
+				rc = mpv_set_property(	mpv->mpv_ctx,
+							"pause",
+							MPV_FORMAT_FLAG,
+							&mpv->state.paused );
+
+				mpv_check_error(rc);
+				playlist_reset(mpv->playlist);
+			}
+
+			mpv->state.init_load = FALSE;
+		}
+		else if(event->event_id == MPV_EVENT_FILE_LOADED)
+		{
+			mpv->state.loaded = TRUE;
+			mpv->state.init_load = FALSE;
+
+			mpv_obj_update_playlist(mpv);
+		}
+		else if(event->event_id == MPV_EVENT_END_FILE)
+		{
+			mpv_event_end_file *ef_event = event->data;
+
+			mpv->state.init_load = FALSE;
+
+			if(mpv->state.loaded)
+			{
+				mpv->state.new_file = FALSE;
+			}
+
+			if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
+			{
+				const gchar *err;
+				gchar *msg;
+
+				err = mpv_error_string(ef_event->error);
+				msg = g_strdup_printf
+					(	_("Playback was terminated "
+						"abnormally. Reason: %s."),
+						err );
+				mpv->state.paused = TRUE;
+
+				mpv_set_property(	mpv->mpv_ctx,
+							"pause",
+							MPV_FORMAT_FLAG,
+							&mpv->state.paused );
+
+				g_signal_emit_by_name(mpv, "mpv-error", msg);
+			}
+		}
+		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
+		{
+			if(mpv->state.new_file)
+			{
+				handle_autofit_opt(mpv);
+			}
+		}
+		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
+		{
+			g_signal_emit_by_name(mpv, "mpv-playback-restart");
+		}
+		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
+		{
+			mpv_obj_log_handler(mpv, event->data);
+		}
+		else if(event->event_id == MPV_EVENT_SHUTDOWN
+		|| event->event_id == MPV_EVENT_NONE)
+		{
+			done = TRUE;
+		}
+
+		if(event)
+		{
+			if(mpv->mpv_event_handler)
+			{
+				mpv->mpv_event_handler(event, data);
+			}
+
+			g_signal_emit_by_name
+				(mpv, "mpv-event", event->event_id);
+		}
+	}
+
+	return FALSE;
+}
+
 static void mpv_obj_update_playlist(MpvObj *mpv)
 {
 	/* The length of "playlist//filename" including null-terminator (19)
 	 * plus the number of digits in the maximum value of 64 bit int (19).
 	 */
 	const gsize filename_prop_str_size = 38;
-	GtkListStore *store;
+	GtkListStore *store = playlist_get_store(mpv->playlist);
+	gchar *filename_prop_str = g_malloc(filename_prop_str_size);
+	gboolean iter_end = FALSE;
 	GtkTreeIter iter;
 	mpv_node mpv_playlist;
-	gchar *filename_prop_str;
-	gboolean iter_end;
 	gint playlist_count;
 	gint i;
-
-	store = playlist_get_store(mpv->playlist);
-	filename_prop_str = g_malloc(filename_prop_str_size);
-	iter_end = FALSE;
 
 	mpv_check_error(mpv_get_property(	mpv->mpv_ctx,
 						"playlist",
 						MPV_FORMAT_NODE,
 						&mpv_playlist ));
-
 	playlist_count = mpv_playlist.u.list->num;
 
 	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
 
 	for(i = 0; i < playlist_count; i++)
 	{
-		gint prop_count = 0;
+		gint prop_count = mpv_playlist.u.list->values[i].u.list->num;
 		gchar *uri = NULL;
 		gchar *title = NULL;
 		gchar *name = NULL;
 		gchar *old_name = NULL;
 		gchar *old_uri = NULL;
-
-		prop_count = mpv_playlist.u.list->values[i].u.list->num;
 
 		/* The first entry must always exist */
 		uri =	mpv_playlist.u.list
@@ -585,132 +690,6 @@ static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
 	return fail_count*(-1);
 }
 
-static gboolean mpv_obj_handle_event(gpointer data)
-{
-	Application *app = data;
-	MpvObj *mpv = app->mpv;
-	mpv_event *event = NULL;
-	gboolean done = FALSE;
-
-	while(!done)
-	{
-		event = mpv->mpv_ctx?mpv_wait_event(mpv->mpv_ctx, 0):NULL;
-
-		if(!event)
-		{
-			done = TRUE;
-		}
-		else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
-		{
-			mpv_event_property *prop = event->data;
-
-			handle_property_change_event(mpv, prop);
-
-			g_signal_emit_by_name(	mpv,
-						"mpv-prop-change",
-						g_strdup(prop->name) );
-		}
-		else if(event->event_id == MPV_EVENT_IDLE)
-		{
-			if(mpv->state.init_load)
-			{
-				mpv_obj_load(mpv, NULL, FALSE, FALSE);
-			}
-			else if(mpv->state.loaded)
-			{
-				gint rc;
-
-				mpv->state.paused = TRUE;
-				mpv->state.loaded = FALSE;
-
-				rc = mpv_set_property(	mpv->mpv_ctx,
-							"pause",
-							MPV_FORMAT_FLAG,
-							&mpv->state.paused );
-
-				mpv_check_error(rc);
-				playlist_reset(mpv->playlist);
-			}
-
-			mpv->state.init_load = FALSE;
-		}
-		else if(event->event_id == MPV_EVENT_FILE_LOADED)
-		{
-			mpv->state.loaded = TRUE;
-			mpv->state.init_load = FALSE;
-
-			mpv_obj_update_playlist(mpv);
-		}
-		else if(event->event_id == MPV_EVENT_END_FILE)
-		{
-			mpv_event_end_file *ef_event = event->data;
-
-			mpv->state.init_load = FALSE;
-
-			if(mpv->state.loaded)
-			{
-				mpv->state.new_file = FALSE;
-			}
-
-			if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
-			{
-				const gchar *err;
-				gchar *msg;
-
-				err = mpv_error_string(ef_event->error);
-
-				msg = g_strdup_printf
-					(	_("Playback was terminated "
-						"abnormally. Reason: %s."),
-						err );
-
-				mpv->state.paused = TRUE;
-
-				mpv_set_property(	mpv->mpv_ctx,
-							"pause",
-							MPV_FORMAT_FLAG,
-							&mpv->state.paused );
-
-				g_signal_emit_by_name(mpv, "mpv-error", msg);
-			}
-		}
-		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
-		{
-			if(mpv->state.new_file)
-			{
-				handle_autofit_opt(mpv);
-			}
-		}
-		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
-		{
-			g_signal_emit_by_name(	mpv,
-						"mpv-playback-restart" );
-		}
-		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
-		{
-			mpv_obj_log_handler(mpv, event->data);
-		}
-		else if(event->event_id == MPV_EVENT_SHUTDOWN
-		|| event->event_id == MPV_EVENT_NONE)
-		{
-			done = TRUE;
-		}
-
-		if(event)
-		{
-			if(mpv->mpv_event_handler)
-			{
-				mpv->mpv_event_handler(event, data);
-			}
-
-			g_signal_emit_by_name
-				(mpv, "mpv-event", event->event_id);
-		}
-	}
-
-	return FALSE;
-}
-
 static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message)
 {
 	GSList *iter = mpv->log_level_list;
@@ -725,10 +704,8 @@ static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message)
 
 	while(iter && !found)
 	{
-		gsize prefix_len;
+		gsize prefix_len = strlen(level->prefix);
 		gint cmp;
-
-		prefix_len = strlen(level->prefix);
 
 		cmp = strncmp(	level->prefix,
 				message->prefix,
@@ -902,7 +879,7 @@ MpvObj *mpv_obj_new(	Playlist *playlist,
 					"use-opengl", use_opengl,
 					"wid", wid,
 					"glarea", glarea,
-					NULL));
+					NULL ));
 }
 
 inline gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
@@ -954,7 +931,7 @@ void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
 
 void mpv_obj_wakeup_callback(void *data)
 {
-	g_idle_add((GSourceFunc)mpv_obj_handle_event, data);
+	g_idle_add((GSourceFunc)mpv_event_handler, data);
 }
 
 void mpv_check_error(int status)
@@ -1066,8 +1043,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 
 #ifdef OPENGL_CB_ENABLED
-	mpv->opengl_ctx = mpv_get_sub_api(	mpv->mpv_ctx,
-						MPV_SUB_API_OPENGL_CB );
+	mpv->opengl_ctx = mpv_get_sub_api(mpv->mpv_ctx, MPV_SUB_API_OPENGL_CB);
 
 	if(mpv->priv->use_opengl)
 	{
@@ -1098,9 +1074,7 @@ void mpv_obj_reset(MpvObj *mpv)
 	gint playlist_pos_rc;
 	gint time_pos_rc;
 
-	mpv_check_error(mpv_obj_set_property_string(	mpv,
-							"pause",
-							"yes" ));
+	mpv_check_error(mpv_obj_set_property_string(mpv, "pause", "yes"));
 
 	playlist_pos_rc = mpv_get_property(	mpv->mpv_ctx,
 						"playlist-pos",
@@ -1185,7 +1159,7 @@ void mpv_obj_load(	MpvObj *mpv,
 			gboolean update )
 {
 	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
-	GtkListStore *playlist_store;
+	GtkListStore *playlist_store = playlist_get_store(mpv->playlist);
 	GtkTreeIter iter;
 	gboolean empty;
 
@@ -1193,8 +1167,6 @@ void mpv_obj_load(	MpvObj *mpv,
 		append?"TRUE":"FALSE",
 		update?"TRUE":"FALSE",
 		uri?:"<PLAYLIST_ITEMS>" );
-
-	playlist_store = playlist_get_store(mpv->playlist);
 
 	empty = !gtk_tree_model_get_iter_first
 			(GTK_TREE_MODEL(playlist_store), &iter);
@@ -1211,13 +1183,11 @@ void mpv_obj_load(	MpvObj *mpv,
 
 	if(!uri)
 	{
+		gboolean append = FALSE;
 		gboolean rc;
-		gboolean append;
 
 		rc = gtk_tree_model_get_iter_first
 			(GTK_TREE_MODEL(playlist_store), &iter);
-
-		append = FALSE;
 
 		while(rc)
 		{
