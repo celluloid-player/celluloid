@@ -30,7 +30,7 @@
 
 G_BEGIN_DECLS
 
-#define APPLICATION_TYPE (application_get_type ())
+#define APPLICATION_TYPE (application_get_type())
 
 #define	APPLICATION(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST((obj), APPLICATION_TYPE, Application))
@@ -65,8 +65,8 @@ struct _ApplicationClass
 typedef struct _Application Application;
 typedef struct _ApplicationClass ApplicationClass;
 
-Application *application_new(gchar *id, GApplicationFlags flags);
 GType application_get_type(void);
+Application *application_new(gchar *id, GApplicationFlags flags);
 
 G_END_DECLS
 

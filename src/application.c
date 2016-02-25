@@ -56,18 +56,16 @@
 #include "mpris/mpris.h"
 #include "media_keys/media_keys.h"
 
-static void startup_handler(GApplication *app, gpointer data);
-static void activate_handler(GApplication *app, gpointer data);
-static void open_handler(	GApplication *app,
+static void startup_handler(GApplication *gapp, gpointer data);
+static void activate_handler(GApplication *gapp, gpointer data);
+static void open_handler(	GApplication *gapp,
 				gpointer files,
 				gint n_files,
 				gchar *hint,
 				gpointer data );
-static void opengl_cb_update_callback(void *cb_ctx);
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
-static gboolean load_files(gpointer data);
 static gboolean delete_handler(	GtkWidget *widget,
-				GdkEvent* event,
+				GdkEvent *event,
 				gpointer data );
 static void playlist_row_activated_handler(	GtkTreeView *tree_view,
 						GtkTreePath *path,
@@ -81,16 +79,11 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 						gint dest,
 						gpointer data );
 static Track *parse_track_list(mpv_node_list *node);
-static void update_track_list(Application *app, mpv_node *track_list);
+static void update_track_list(Application *app, mpv_node* track_list);
 static void mpv_load_gui_update(Application *app);
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data);
 static void mpv_event_handler(mpv_event *event, gpointer data);
 static void mpv_error_handler(MpvObj *mpv, const gchar *err, gpointer data);
-static void connect_signals(Application *app);
-static void add_accelerator(	GtkApplication *app,
-				const char *accel,
-				const char *action );
-static void setup_accelerators(Application *app);
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -105,8 +98,19 @@ static gboolean key_press_handler(	GtkWidget *widget,
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+static void opengl_cb_update_callback(void *cb_ctx);
 static gboolean get_use_opengl(void);
 static gint64 get_xid(GtkWidget *widget);
+static gboolean load_files(gpointer data);
+static void connect_signals(Application *app);
+static inline void add_accelerator(	GtkApplication *app,
+					const char *accel,
+					const char *action );
+static void setup_accelerators(Application *app);
+static void application_class_init(ApplicationClass *klass);
+static void application_init(Application *app);
+
+G_DEFINE_TYPE(Application, application, GTK_TYPE_APPLICATION)
 
 #ifdef OPENGL_CB_ENABLED
 static gboolean vid_area_render_handler(	GtkGLArea *area,
@@ -114,12 +118,13 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 						gpointer data )
 {
 	Application *app = data;
-	int width;
-	int height;
-	int fbo;
 
 	if(app->mpv->opengl_ctx)
 	{
+		int width;
+		int height;
+		int fbo;
+
 		width = gtk_widget_get_allocated_width(GTK_WIDGET(area));
 		height = (-1)*gtk_widget_get_allocated_height(GTK_WIDGET(area));
 		fbo = -1;
@@ -137,16 +142,150 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 }
 #endif
 
-static void opengl_cb_update_callback(void *cb_ctx)
+static void startup_handler(GApplication *gapp, gpointer data)
 {
-#ifdef OPENGL_CB_ENABLED
-	Application *app = cb_ctx;
+	Application *app = data;
+	const gchar *vid_area_style = ".gmpv-vid-area{background-color: black}";
+	GtkCssProvider *style_provider;
+	gboolean css_loaded;
+	gboolean use_opengl;
+	gboolean mpvinput_enable;
+	gboolean csd_enable;
+	gboolean dark_theme_enable;
+	gchar *mpvinput;
 
-	if(app->mpv->opengl_ctx)
+	setlocale(LC_NUMERIC, "C");
+	g_set_application_name(_("GNOME MPV"));
+	gtk_window_set_default_icon_name(ICON_NAME);
+
+	bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
+
+	use_opengl = get_use_opengl();
+
+	app->files = NULL;
+	app->inhibit_cookie = 0;
+	app->keybind_list = NULL;
+	app->config = g_settings_new(CONFIG_ROOT);
+	app->playlist_store = playlist_new();
+	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store, use_opengl));
+	app->fs_control = NULL;
+
+	migrate_config(app);
+
+	style_provider = gtk_css_provider_new();
+	css_loaded = gtk_css_provider_load_from_data
+			(style_provider, vid_area_style, -1, NULL);
+
+	if(!css_loaded)
 	{
-		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
+		g_warning ("Failed to apply background color css");
 	}
-#endif
+
+	gtk_style_context_add_provider_for_screen
+		(	gtk_window_get_screen(GTK_WINDOW(app->gui)),
+			GTK_STYLE_PROVIDER(style_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
+
+	g_object_unref(style_provider);
+
+	csd_enable = g_settings_get_boolean
+				(app->config, "csd-enable");
+	dark_theme_enable = g_settings_get_boolean
+				(app->config, "dark-theme-enable");
+	mpvinput_enable = g_settings_get_boolean
+				(app->config, "mpv-input-config-enable");
+	mpvinput = g_settings_get_string
+				(app->config, "mpv-input-config-file");
+
+	if(csd_enable)
+	{
+		GMenu *app_menu = g_menu_new();
+
+		menu_build_app_menu(app_menu);
+		gtk_application_set_app_menu
+			(GTK_APPLICATION(app), G_MENU_MODEL(app_menu));
+
+		main_window_enable_csd(app->gui);
+	}
+	else
+	{
+		GMenu *full_menu = g_menu_new();
+
+		menu_build_full(full_menu, NULL, NULL, NULL);
+		gtk_application_set_app_menu(GTK_APPLICATION(app), NULL);
+
+		gtk_application_set_menubar
+			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
+	}
+
+	gtk_widget_show_all(GTK_WIDGET(app->gui));
+
+	/* Due to a GTK bug, get_xid() must not be called when opengl-cb is
+	 * enabled or the GtkGLArea will break.
+	 */
+	app->mpv = mpv_obj_new(	app->playlist_store,
+				use_opengl,
+				use_opengl?-1:get_xid(app->gui->vid_area),
+				use_opengl?GTK_GL_AREA(app->gui->vid_area):NULL );
+
+	if(csd_enable)
+	{
+		control_box_set_fullscreen_btn_visible
+			(CONTROL_BOX(app->gui->control_box), FALSE);
+	}
+
+	control_box_set_chapter_enabled
+		(CONTROL_BOX(app->gui->control_box), FALSE);
+
+	main_window_load_state(app->gui);
+	setup_accelerators(app);
+	actionctl_map_actions(app);
+	connect_signals(app);
+	load_keybind(app, mpvinput_enable?mpvinput:NULL, FALSE);
+	mpris_init(app);
+	media_keys_init(app);
+
+	g_object_set(	app->gui->settings,
+			"gtk-application-prefer-dark-theme",
+			dark_theme_enable,
+			NULL );
+
+	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
+			(GSourceFunc)update_seek_bar,
+			app );
+
+	g_free(mpvinput);
+}
+
+static void activate_handler(GApplication *gapp, gpointer data)
+{
+	gtk_window_present(GTK_WINDOW(APPLICATION(data)->gui));
+}
+
+static void open_handler(	GApplication *gapp,
+				gpointer files,
+				gint n_files,
+				gchar *hint,
+				gpointer data )
+{
+	Application *app = data;
+	gint i;
+
+	if(n_files > 0)
+	{
+		app->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
+
+		for(i = 0; i < n_files; i++)
+		{
+			app->files[i] = g_file_get_uri(((GFile **)files)[i]);
+		}
+
+		app->files[i] = NULL;
+
+		g_idle_add(load_files, app);
+	}
 }
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
@@ -173,45 +312,6 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 	{
 		control_box_set_enabled
 			(CONTROL_BOX(app->gui->control_box), FALSE);
-	}
-
-	return FALSE;
-}
-
-static gboolean load_files(gpointer data)
-{
-	Application *app = data;
-
-	if(app->files)
-	{
-		gint i = 0;
-
-		app->mpv->state.paused = FALSE;
-
-		playlist_clear(app->playlist_store);
-
-		for(i = 0; app->files[i]; i++)
-		{
-			gchar *name = get_name_from_path(app->files[i]);
-
-			if(app->mpv->state.init_load)
-			{
-				playlist_append(	app->playlist_store,
-							name,
-							app->files[i] );
-			}
-			else
-			{
-				mpv_obj_load(	app->mpv,
-						app->files[i],
-						(i != 0),
-						TRUE );
-			}
-
-			g_free(name);
-		}
-
-		g_strfreev(app->files);
 	}
 
 	return FALSE;
@@ -344,7 +444,6 @@ static void update_track_list(Application *app, mpv_node* track_list)
 				"aid",
 				MPV_FORMAT_INT64,
 				&aid );
-
 	mpv_get_property(	mpv->mpv_ctx,
 				"sid",
 				MPV_FORMAT_INT64,
@@ -352,13 +451,11 @@ static void update_track_list(Application *app, mpv_node* track_list)
 
 	action = g_action_map_lookup_action
 			(G_ACTION_MAP(app), "audio_select");
-
 	g_simple_action_set_state
 		(G_SIMPLE_ACTION(action), g_variant_new_int64(aid));
 
 	action = g_action_map_lookup_action
 			(G_ACTION_MAP(app), "sub_select");
-
 	g_simple_action_set_state
 		(G_SIMPLE_ACTION(action), g_variant_new_int64(sid));
 
@@ -397,14 +494,9 @@ static void update_track_list(Application *app, mpv_node* track_list)
 	main_window_update_track_list
 		(app->gui, audio_list, video_list, sub_list);
 
-	g_slist_free_full
-		(audio_list, (GDestroyNotify)track_free);
-
-	g_slist_free_full
-		(video_list, (GDestroyNotify)track_free);
-
-	g_slist_free_full
-		(sub_list, (GDestroyNotify)track_free);
+	g_slist_free_full(audio_list, (GDestroyNotify)track_free);
+	g_slist_free_full(video_list, (GDestroyNotify)track_free);
+	g_slist_free_full(sub_list, (GDestroyNotify)track_free);
 }
 
 static void mpv_load_gui_update(Application *app)
@@ -667,11 +759,10 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		if((app->gui->fullscreen && keyval == GDK_KEY_Escape)
 		|| keyval == GDK_KEY_f)
 		{
-			GAction *action ;
+			GAction *action;
 
 			action = g_action_map_lookup_action
 					(G_ACTION_MAP(app), "fullscreen");
-
 			g_action_activate(action, NULL);
 		}
 		else if(keyval == GDK_KEY_Delete
@@ -708,11 +799,22 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 
 		action = g_action_map_lookup_action
 				(G_ACTION_MAP(app), "fullscreen");
-
 		g_action_activate(action, NULL);
 	}
 
 	return TRUE;
+}
+
+static void opengl_cb_update_callback(void *cb_ctx)
+{
+#ifdef OPENGL_CB_ENABLED
+	Application *app = cb_ctx;
+
+	if(app->mpv->opengl_ctx)
+	{
+		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
+	}
+#endif
 }
 
 static gboolean get_use_opengl(void)
@@ -738,6 +840,45 @@ static gint64 get_xid(GtkWidget *widget)
 #endif
 }
 
+static gboolean load_files(gpointer data)
+{
+	Application *app = data;
+
+	if(app->files)
+	{
+		gint i = 0;
+
+		app->mpv->state.paused = FALSE;
+
+		playlist_clear(app->playlist_store);
+
+		for(i = 0; app->files[i]; i++)
+		{
+			gchar *name = get_name_from_path(app->files[i]);
+
+			if(app->mpv->state.init_load)
+			{
+				playlist_append(	app->playlist_store,
+							name,
+							app->files[i] );
+			}
+			else
+			{
+				mpv_obj_load(	app->mpv,
+						app->files[i],
+						(i != 0),
+						TRUE );
+			}
+
+			g_free(name);
+		}
+
+		g_strfreev(app->files);
+	}
+
+	return FALSE;
+}
+
 static void connect_signals(Application *app)
 {
 	PlaylistWidget *playlist = PLAYLIST_WIDGET(app->gui->playlist);
@@ -751,7 +892,6 @@ static void connect_signals(Application *app)
 					"render",
 					G_CALLBACK(vid_area_render_handler),
 					app );
-
 		g_signal_connect(	app->gui,
 					"draw",
 					G_CALLBACK(draw_handler),
@@ -770,42 +910,34 @@ static void connect_signals(Application *app)
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
 				app );
-
 	g_signal_connect(	app->gui->playlist,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
 				app );
-
 	g_signal_connect(	app->gui,
 				"delete-event",
 				G_CALLBACK(delete_handler),
 				app );
-
 	g_signal_connect(	app->gui,
 				"key-press-event",
 				G_CALLBACK(key_press_handler),
 				app );
-
 	g_signal_connect(	app->gui->vid_area,
 				"button-press-event",
 				G_CALLBACK(mouse_press_handler),
 				app );
-
 	g_signal_connect(	playlist->tree_view,
 				"row-activated",
 				G_CALLBACK(playlist_row_activated_handler),
 				app );
-
 	g_signal_connect(	playlist->store,
 				"row-deleted",
 				G_CALLBACK(playlist_row_deleted_handler),
 				app );
-
 	g_signal_connect(	playlist->store,
 				"row-reordered",
 				G_CALLBACK(playlist_row_reodered_handler),
 				app );
-
 	g_signal_connect(	app->mpv,
 				"mpv-error",
 				G_CALLBACK(mpv_error_handler),
@@ -827,169 +959,16 @@ static void setup_accelerators(Application *app)
 
 	add_accelerator(gtk_app, "<Control>o", "app.open(false)");
 	add_accelerator(gtk_app, "<Control>l", "app.openloc");
-	add_accelerator(gtk_app, "<Control>S", "app.playlist_save");
+	add_accelerator(gtk_app, "<Control>s", "app.playlist_save");
 	add_accelerator(gtk_app, "<Control>q", "app.quit");
 	add_accelerator(gtk_app, "<Control>p", "app.pref");
-	add_accelerator(gtk_app, "F9", "app.playlist_toggle");
 	add_accelerator(gtk_app, "<Control>1", "app.normalsize");
 	add_accelerator(gtk_app, "<Control>2", "app.doublesize");
 	add_accelerator(gtk_app, "<Control>3", "app.halfsize");
+	add_accelerator(gtk_app, "F9", "app.playlist_toggle");
 	add_accelerator(gtk_app, "F11", "app.fullscreen");
 }
 
-
-G_DEFINE_TYPE(Application, application, GTK_TYPE_APPLICATION)
-
-static void startup_handler(GApplication *gapp, gpointer data)
-{
-	Application *app = data;
-	const gchar *vid_area_style = ".gmpv-vid-area{background-color: black}";
-	GtkCssProvider *style_provider;
-	gboolean css_loaded;
-	gboolean use_opengl;
-	gboolean mpvinput_enable;
-	gboolean csd_enable;
-	gboolean dark_theme_enable;
-	gchar *mpvinput;
-
-	setlocale(LC_NUMERIC, "C");
-	g_set_application_name(_("GNOME MPV"));
-	gtk_window_set_default_icon_name(ICON_NAME);
-
-	bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALEDIR);
-	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-	textdomain(GETTEXT_PACKAGE);
-
-	use_opengl = get_use_opengl();
-
-	app->files = NULL;
-	app->inhibit_cookie = 0;
-	app->keybind_list = NULL;
-	app->config = g_settings_new(CONFIG_ROOT);
-	app->playlist_store = playlist_new();
-	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store, use_opengl));
-	app->fs_control = NULL;
-
-	migrate_config(app);
-
-	style_provider = gtk_css_provider_new();
-
-	css_loaded = gtk_css_provider_load_from_data
-			(style_provider, vid_area_style, -1, NULL);
-
-	if(!css_loaded)
-	{
-		g_warning ("Failed to apply background color css");
-	}
-
-	gtk_style_context_add_provider_for_screen
-		(	gtk_window_get_screen(GTK_WINDOW(app->gui)),
-			GTK_STYLE_PROVIDER(style_provider),
-			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
-
-	g_object_unref(style_provider);
-
-	csd_enable = g_settings_get_boolean
-				(app->config, "csd-enable");
-
-	dark_theme_enable = g_settings_get_boolean
-				(app->config, "dark-theme-enable");
-
-	mpvinput_enable = g_settings_get_boolean
-				(app->config, "mpv-input-config-enable");
-
-	mpvinput = g_settings_get_string
-				(app->config, "mpv-input-config-file");
-
-	if(csd_enable)
-	{
-		GMenu *app_menu = g_menu_new();
-
-		menu_build_app_menu(app_menu);
-
-		gtk_application_set_app_menu
-			(GTK_APPLICATION(app), G_MENU_MODEL(app_menu));
-
-		main_window_enable_csd(app->gui);
-	}
-	else
-	{
-		GMenu *full_menu = g_menu_new();
-
-		menu_build_full(full_menu, NULL, NULL, NULL);
-		gtk_application_set_app_menu(GTK_APPLICATION(app), NULL);
-
-		gtk_application_set_menubar
-			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
-	}
-
-	gtk_widget_show_all(GTK_WIDGET(app->gui));
-
-	/* Due to a GTK bug, get_xid() must not be called when opengl-cb is
-	 * enabled or the GtkGLArea will break.
-	 */
-	app->mpv = mpv_obj_new(	app->playlist_store,
-				use_opengl,
-				use_opengl?-1:get_xid(app->gui->vid_area),
-				use_opengl?GTK_GL_AREA(app->gui->vid_area):NULL );
-
-	if(csd_enable)
-	{
-		control_box_set_fullscreen_btn_visible
-			(CONTROL_BOX(app->gui->control_box), FALSE);
-	}
-
-	control_box_set_chapter_enabled
-		(CONTROL_BOX(app->gui->control_box), FALSE);
-
-	main_window_load_state(app->gui);
-	setup_accelerators(app);
-	actionctl_map_actions(app);
-	connect_signals(app);
-	load_keybind(app, mpvinput_enable?mpvinput:NULL, FALSE);
-	mpris_init(app);
-	media_keys_init(app);
-
-	g_object_set(	app->gui->settings,
-			"gtk-application-prefer-dark-theme",
-			dark_theme_enable,
-			NULL );
-
-	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
-			(GSourceFunc)update_seek_bar,
-			app );
-
-	g_free(mpvinput);
-}
-
-static void activate_handler(GApplication *gapp, gpointer data)
-{
-	gtk_window_present(GTK_WINDOW(APPLICATION(data)->gui));
-}
-
-static void open_handler(	GApplication *gapp,
-				gpointer files,
-				gint n_files,
-				gchar *hint,
-				gpointer data )
-{
-	Application *app = data;
-	gint i;
-
-	if(n_files > 0)
-	{
-		app->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
-
-		for(i = 0; i < n_files; i++)
-		{
-			app->files[i] = g_file_get_uri(((GFile **)files)[i]);
-		}
-
-		app->files[i] = NULL;
-
-		g_idle_add(load_files, app);
-	}
-}
 
 static void application_class_init(ApplicationClass *klass)
 {
@@ -1007,5 +986,5 @@ Application *application_new(gchar *id, GApplicationFlags flags)
 	return APPLICATION(g_object_new(	application_get_type(),
 						"application-id", id,
 						"flags", flags,
-						NULL));
+						NULL ));
 }
