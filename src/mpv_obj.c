@@ -872,6 +872,14 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->state.loaded = FALSE;
 	mpv->state.new_file = TRUE;
 	mpv->state.init_load = TRUE;
+
+	mpv->priv->use_opengl = FALSE;
+	mpv->priv->glarea = NULL;
+	mpv->priv->wid = -1;
+	mpv->priv->wakeup_callback_data = NULL;
+	mpv->priv->opengl_cb_callback_data = NULL;
+	mpv->priv->wakeup_callback = NULL;
+	mpv->priv->opengl_cb_callback = NULL;
 }
 
 MpvObj *mpv_obj_new(	Playlist *playlist,
