@@ -691,36 +691,70 @@ static void drag_data_handler(	GtkWidget *widget,
 				guint time,
 				gpointer data)
 {
-	gboolean append = (widget == ((Application *)data)->gui->playlist);
+	static const char *const sub_exts[]
+		= {	"utf", "utf8", "utf-8", "idx", "sub", "srt", "smi",
+			"rt", "txt", "ssa", "aqt", "jss", "js", "ass", "mks",
+			"vtt", "sup", NULL };
+
+	Application *app = data;
+	gboolean append = (widget == app->gui->playlist);
+	gchar **uri_list = NULL;
 
 	if(sel_data && gtk_selection_data_get_length(sel_data) > 0)
 	{
-		Application *app = data;
-		gchar **uri_list = gtk_selection_data_get_uris(sel_data);
+		uri_list = gtk_selection_data_get_uris(sel_data);
+	}
 
+	if(uri_list)
+	{
 		app->mpv->state.paused = FALSE;
 
-		if(uri_list)
+		for(gint i = 0; uri_list[i]; i++)
 		{
-			int i;
+			const gchar *ext = strrchr(uri_list[i], '.')+1;
+			gint j;
 
-			for(i = 0; uri_list[i]; i++)
+			for(	j = 0;
+				sub_exts[j] && g_strcmp0(ext, sub_exts[j]) != 0;
+				j++ );
+
+			/* Only attempt to load file as subtitle if there
+			 * already is a file loaded. Try to load the file as a
+			 * media file otherwise.
+			 */
+			if(sub_exts[j] && app->mpv->state.loaded)
+			{
+				const gchar *cmd[] = {"sub-add", NULL, NULL};
+				gchar *path;
+
+				/* Convert to path if possible to get rid of
+				 * percent encoding.
+				 */
+				path =	g_filename_from_uri
+					(uri_list[i], NULL, NULL);
+
+				cmd[1] = path?:uri_list[i];
+
+				mpv_obj_command(app->mpv, cmd);
+
+				g_free(path);
+			}
+			else
 			{
 				mpv_obj_load(	app->mpv,
 						uri_list[i],
 						(append || i != 0),
 						TRUE );
 			}
-
-			g_strfreev(uri_list);
 		}
-		else
-		{
-			const guchar *raw_data
-				= gtk_selection_data_get_data(sel_data);
 
-			mpv_obj_load(app->mpv, (const gchar *)raw_data, append, TRUE);
-		}
+		g_strfreev(uri_list);
+	}
+	else
+	{
+		const guchar *raw_data = gtk_selection_data_get_data(sel_data);
+
+		mpv_obj_load(app->mpv, (const gchar *)raw_data, append, TRUE);
 	}
 }
 
