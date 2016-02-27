@@ -80,7 +80,6 @@ static void playlist_row_reodered_handler(	Playlist *pl,
 						gpointer data );
 static Track *parse_track_list(mpv_node_list *node);
 static void update_track_list(Application *app, mpv_node* track_list);
-static void mpv_load_gui_update(Application *app);
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data);
 static void mpv_event_handler(mpv_event *event, gpointer data);
 static void mpv_error_handler(MpvObj *mpv, const gchar *err, gpointer data);
@@ -499,76 +498,15 @@ static void update_track_list(Application *app, mpv_node* track_list)
 	g_slist_free_full(sub_list, (GDestroyNotify)track_free);
 }
 
-static void mpv_load_gui_update(Application *app)
-{
-	ControlBox *control_box;
-	MpvObj *mpv;
-	gchar* title;
-	gint64 chapter_count;
-	gint64 playlist_pos;
-	gdouble length;
-	gdouble volume;
-
-	mpv = app->mpv;
-	control_box = CONTROL_BOX(app->gui->control_box);
-	title = mpv_get_property_string(mpv->mpv_ctx, "media-title");
-
-	if(title)
-	{
-		gtk_window_set_title(GTK_WINDOW(app->gui), title);
-
-		mpv_free(title);
-	}
-
-	mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
-						"pause",
-						MPV_FORMAT_FLAG,
-						&mpv->state.paused));
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"playlist-pos",
-				MPV_FORMAT_INT64,
-				&playlist_pos) >= 0)
-	{
-		playlist_set_indicator_pos(mpv->playlist, (gint)playlist_pos);
-	}
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"chapters",
-				MPV_FORMAT_INT64,
-				&chapter_count) >= 0)
-	{
-		control_box_set_chapter_enabled(	control_box,
-							(chapter_count > 1) );
-	}
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"volume",
-				MPV_FORMAT_DOUBLE,
-				&volume) >= 0)
-	{
-		control_box_set_volume(control_box, volume/100);
-	}
-
-	if(mpv_get_property(	mpv->mpv_ctx,
-				"length",
-				MPV_FORMAT_DOUBLE,
-				&length) >= 0)
-	{
-		control_box_set_seek_bar_length(control_box, (gint)length);
-	}
-
-	control_box_set_playing_state(control_box, !mpv->state.paused);
-}
-
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 {
 	Application *app = data;
 	MpvObj *mpv = app->mpv;
+	ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
-		mpv_load_gui_update(app);
+		control_box_set_playing_state(control_box, !mpv->state.paused);
 
 		if(!mpv->state.paused)
 		{
@@ -592,7 +530,6 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 	else if(g_strcmp0(prop->name, "volume") == 0
 	&& (mpv->state.init_load || mpv->state.loaded))
 	{
-		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
 		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
 
 		g_signal_handlers_block_matched
@@ -611,8 +548,6 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 	}
 	else if(g_strcmp0(prop->name, "aid") == 0)
 	{
-		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
-
 		/* prop->data == NULL iff there is no audio track */
 		gtk_widget_set_sensitive
 			(control_box->volume_button, !!prop->data);
@@ -626,6 +561,30 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 		{
 			main_window_toggle_fullscreen(MAIN_WINDOW(app->gui));
 		}
+	}
+	else if(g_strcmp0(prop->name, "length") == 0 && prop->data)
+	{
+		gdouble length = *((gdouble *) prop->data);
+
+		control_box_set_seek_bar_length(control_box, (gint)length);
+	}
+	else if(g_strcmp0(prop->name, "media-title") == 0 && prop->data)
+	{
+		const gchar *title = *((const gchar **)prop->data);
+
+		gtk_window_set_title(GTK_WINDOW(app->gui), title);
+	}
+	else if(g_strcmp0(prop->name, "playlist-pos") == 0 && prop->data)
+	{
+		gint64 pos = *((gint64 *)prop->data);
+
+		playlist_set_indicator_pos(mpv->playlist, (gint)pos);
+	}
+	else if(g_strcmp0(prop->name, "chapters") == 0 && prop->data)
+	{
+		gint64 count = *((gint64 *) prop->data);
+
+		control_box_set_chapter_enabled(control_box, (count > 1));
 	}
 }
 
@@ -649,12 +608,6 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	{
 		control_box_set_enabled
 			(CONTROL_BOX(app->gui->control_box), TRUE);
-
-		mpv_load_gui_update(app);
-	}
-	else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
-	{
-		mpv_load_gui_update(app);
 	}
 	else if(event->event_id == MPV_EVENT_IDLE)
 	{
