@@ -627,11 +627,6 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 			main_window_toggle_fullscreen(MAIN_WINDOW(app->gui));
 		}
 	}
-	else if(g_strcmp0(prop->name, "eof-reached") == 0
-	&& prop->data && *((int *)prop->data) == 1)
-	{
-		main_window_reset(app->gui);
-	}
 }
 
 static void mpv_event_handler(mpv_event *event, gpointer data)

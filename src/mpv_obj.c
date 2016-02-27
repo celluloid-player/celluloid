@@ -391,15 +391,6 @@ static void mpv_prop_change_handler(MpvObj *mpv, mpv_event_property* prop)
 			mpv_obj_load(mpv, NULL, FALSE, TRUE);
 		}
 	}
-	else if(g_strcmp0(prop->name, "eof-reached") == 0
-	&& prop->data
-	&& *((int *)prop->data) == 1)
-	{
-		mpv->state.paused = TRUE;
-		mpv->state.loaded = FALSE;
-
-		playlist_reset(mpv->playlist);
-	}
 }
 
 static gboolean mpv_event_handler(gpointer data)
@@ -1049,7 +1040,6 @@ void mpv_obj_initialize(MpvObj *mpv)
 
 	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "eof-reached", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
