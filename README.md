@@ -16,7 +16,7 @@ capabilities.
 - glib2 >= 2.40
 - gtk3 >= 3.16 (or gtk3 >= 3.14 if opengl-cb is disabled)
 - mpv >= 0.16
-- epoxy
+- epoxy (only if opengl-cb is enabled)
 - youtube-dl (optional)
 
 ## Installation
