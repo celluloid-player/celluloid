@@ -63,6 +63,7 @@ struct _MpvObj
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	Playlist *playlist;
+	gchar *tmp_input_file;
 	GSList *log_level_list;
 	gdouble autofit_ratio;
 	void (*mpv_event_handler)(mpv_event *event, gpointer data);

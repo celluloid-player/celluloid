@@ -754,6 +754,7 @@ static void load_input_conf(MpvObj *mpv, const gchar *input_conf)
 
 	tmp_fd = g_file_open_tmp(NULL, &tmp_path, NULL);
 	tmp_file = fdopen(tmp_fd, "w");
+	mpv->tmp_input_file = tmp_path;
 
 	if(!tmp_file)
 	{
@@ -924,6 +925,7 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->mpv_ctx = mpv_create();
 	mpv->opengl_ctx = NULL;
 	mpv->playlist = NULL;
+	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = 1;
 	mpv->mpv_event_handler = NULL;
@@ -1234,6 +1236,11 @@ void mpv_obj_reset(MpvObj *mpv)
 void mpv_obj_quit(MpvObj *mpv)
 {
 	g_info("Terminating mpv");
+
+	if(mpv->tmp_input_file)
+	{
+		g_unlink(mpv->tmp_input_file);
+	}
 
 	if(mpv->priv->use_opengl)
 	{
