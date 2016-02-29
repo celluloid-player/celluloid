@@ -13,9 +13,9 @@ capabilities.
 - gcc (build)
 - intltool (build)
 - python2 (build)
-- glib2
-- gtk3
-- libmpv
+- glib2 >= 2.40
+- gtk3 >= 3.16 (or gtk3 >= 3.14 if opengl-cb is disabled)
+- mpv >= 0.16
 - youtube-dl (optional)
 
 ## Installation
