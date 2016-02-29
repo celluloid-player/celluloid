@@ -262,6 +262,8 @@ void resize_window_to_fit(Application *app, gdouble multiplier)
 		new_width = (gint)(multiplier*(gdouble)width)+width_margin;
 		new_height = (gint)(multiplier*(gdouble)height)+height_margin;
 
+		g_debug("Resizing window to %dx%d", new_width, new_height);
+
 		gtk_window_resize(	GTK_WINDOW(app->gui),
 					new_width,
 					new_height );

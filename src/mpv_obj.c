@@ -248,6 +248,8 @@ static void handle_autofit_opt(MpvObj *mpv)
 		gdouble height_ratio = -1;
 		gint rc = 0;
 
+		g_debug("Retrieved option --autofit=%s", optbuf);
+
 		rc |= mpv_get_property(	mpv->mpv_ctx,
 					"dwidth",
 					MPV_FORMAT_INT64,
@@ -264,9 +266,15 @@ static void handle_autofit_opt(MpvObj *mpv)
 						&autofit_width,
 						&autofit_height );
 
+			g_debug(	"Retrieved video size: "
+					"%" G_GINT64_FORMAT "x"
+					"%" G_GINT64_FORMAT,
+					vid_width, vid_height );
+			g_debug(	"Target video area size: %dx%d",
+					autofit_width, autofit_height );
+
 			width_ratio =	(gdouble)autofit_width/
 					(gdouble)vid_width;
-
 			height_ratio =	(gdouble)autofit_height/
 					(gdouble)vid_height;
 		}
@@ -287,6 +295,9 @@ static void handle_autofit_opt(MpvObj *mpv)
 					= (width_ratio < height_ratio)
 					? width_ratio:height_ratio;
 			}
+
+			g_debug(	"Set video size multiplier to %f",
+					mpv->autofit_ratio );
 		}
 	}
 
