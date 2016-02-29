@@ -105,6 +105,7 @@
 				"LEFT", "Left",\
 				"UP", "Up",\
 				"DOWN", "Down",\
+				"ESC", "Escape",\
 				NULL }
 
 #define SUPPORTED_PROTOCOLS	{	"cdda",\
