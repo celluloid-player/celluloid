@@ -1040,7 +1040,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 	options[] = {	{"osd-level", "1"},
 			{"softvol", "yes"},
 			{"force-window", "yes"},
-			{"audio-client-name", g_get_application_name()},
+			{"audio-client-name", ICON_NAME},
 			{"title", "${media-title}"},
 			{"pause", "yes"},
 			{"ytdl", "yes"},
