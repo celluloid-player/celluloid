@@ -748,7 +748,7 @@ static gchar *get_full_keystr(guint keyval, guint state)
 		}
 	}
 
-	return g_strconcat(modstr, keystr, NULL);
+	return (strlen(keystr) > 0)?g_strconcat(modstr, keystr, NULL):NULL;
 }
 
 static gboolean key_press_handler(	GtkWidget *widget,
@@ -771,10 +771,13 @@ static gboolean key_press_handler(	GtkWidget *widget,
 
 	cmd[1] = keystr = get_full_keystr(keyval, state);
 
-	g_debug("Sent '%s' key down to mpv", keystr);
-	mpv_obj_command(app->mpv, cmd);
+	if(keystr)
+	{
+		g_debug("Sent '%s' key down to mpv", keystr);
+		mpv_obj_command(app->mpv, cmd);
 
-	g_free(keystr);
+		g_free(keystr);
+	}
 
 	if((state&mod_mask) == 0)
 	{
@@ -814,10 +817,13 @@ static gboolean key_release_handler(	GtkWidget *widget,
 
 	cmd[1] = keystr = get_full_keystr(keyval, state);
 
-	g_debug("Sent '%s' key up to mpv", keystr);
-	mpv_obj_command(app->mpv, cmd);
+	if(keystr)
+	{
+		g_debug("Sent '%s' key up to mpv", keystr);
+		mpv_obj_command(app->mpv, cmd);
 
-	g_free(keystr);
+		g_free(keystr);
+	}
 
 	return FALSE;
 }

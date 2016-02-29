@@ -36,7 +36,7 @@
 #define MAIN_WINDOW_DEFAULT_HEIGHT 400
 #define SEEK_BAR_UPDATE_INTERVAL 250
 #define FS_CONTROL_HIDE_DELAY 1
-#define KEYSTRING_MAX_LEN 8
+#define KEYSTRING_MAX_LEN 16
 
 #define DND_TARGETS	{	{.target = "text/uri-list",\
 				.flags = 0,\
@@ -106,6 +106,12 @@
 				"UP", "Up",\
 				"DOWN", "Down",\
 				"ESC", "Escape",\
+				"", "Control_L",\
+				"", "Control_R",\
+				"", "Alt_L",\
+				"", "Alt_R",\
+				"", "Shift_L",\
+				"", "Shift_R",\
 				NULL }
 
 #define SUPPORTED_PROTOCOLS	{	"cdda",\
