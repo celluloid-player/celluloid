@@ -299,6 +299,10 @@ static void handle_autofit_opt(MpvObj *mpv)
 			g_debug(	"Set video size multiplier to %f",
 					mpv->autofit_ratio );
 		}
+		else
+		{
+			mpv->autofit_ratio = -1;
+		}
 	}
 
 	mpv_free(optbuf);
@@ -938,7 +942,7 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->playlist = NULL;
 	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
-	mpv->autofit_ratio = 1;
+	mpv->autofit_ratio = -1;
 	mpv->mpv_event_handler = NULL;
 
 	mpv->state.paused = TRUE;
