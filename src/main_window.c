@@ -337,6 +337,7 @@ static void main_window_init(MainWindow *wnd)
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
 	wnd->vid_area_overlay = gtk_overlay_new();
 	wnd->control_box = control_box_new();
+	wnd->fs_event_box = gtk_event_box_new();
 
 	gtk_widget_add_events(	wnd->vid_area_overlay,
 				GDK_ENTER_NOTIFY_MASK
@@ -355,6 +356,14 @@ static void main_window_init(MainWindow *wnd)
 					MAIN_WINDOW_DEFAULT_WIDTH,
 					MAIN_WINDOW_DEFAULT_HEIGHT );
 
+	gtk_widget_set_vexpand(wnd->fs_event_box, FALSE);
+	gtk_widget_set_hexpand(wnd->fs_event_box, FALSE);
+	gtk_widget_set_halign(wnd->fs_event_box, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign(wnd->fs_event_box, GTK_ALIGN_END);
+	gtk_widget_show(wnd->fs_event_box);
+
+	gtk_overlay_add_overlay
+		(GTK_OVERLAY(wnd->vid_area_overlay), wnd->fs_event_box);
 	gtk_box_pack_start
 		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
 	gtk_container_add(GTK_CONTAINER(wnd->main_box), wnd->control_box);
@@ -385,7 +394,7 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 {
 	ControlBox *control_box = CONTROL_BOX(wnd->control_box);
 	GtkContainer* main_box = GTK_CONTAINER(wnd->main_box);
-	GtkContainer *overlay = GTK_CONTAINER(wnd->vid_area_overlay);
+	GtkContainer* event_box = GTK_CONTAINER(wnd->fs_event_box);
 
 	if(wnd->fullscreen)
 	{
@@ -397,13 +406,14 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 		gtk_widget_set_size_request(wnd->control_box, -1, -1);
 
 		g_object_ref(wnd->control_box);
-		gtk_container_remove(overlay, wnd->control_box);
+		gtk_container_remove(event_box, wnd->control_box);
 		gtk_container_add(main_box, wnd->control_box);
 		g_object_unref(wnd->control_box);
 
 		control_box_set_fullscreen_state(control_box, FALSE);
 		gtk_window_unfullscreen(GTK_WINDOW(wnd));
 		gtk_widget_show(wnd->control_box);
+		gtk_widget_hide(GTK_WIDGET(event_box));
 
 		if(main_window_get_csd_enabled(wnd))
 		{
@@ -445,19 +455,18 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 
 		width = monitor_geom.width/2;
 
-		gtk_widget_set_halign(wnd->control_box, GTK_ALIGN_CENTER);
-		gtk_widget_set_valign(wnd->control_box, GTK_ALIGN_END);
 		gtk_widget_set_size_request(wnd->control_box, width, -1);
 
 		g_object_ref(wnd->control_box);
 		gtk_container_remove(main_box, wnd->control_box);
-		gtk_overlay_add_overlay(GTK_OVERLAY(overlay), wnd->control_box);
+		gtk_container_add(event_box, wnd->control_box);
 		g_object_unref(wnd->control_box);
 
 		control_box_set_fullscreen_state(control_box, TRUE);
 		gtk_window_fullscreen(GTK_WINDOW(wnd));
 		gtk_window_present(GTK_WINDOW(wnd));
 		gtk_widget_hide(wnd->control_box);
+		gtk_widget_show(GTK_WIDGET(event_box));
 
 		if(main_window_get_csd_enabled(wnd))
 		{
