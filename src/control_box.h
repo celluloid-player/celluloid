@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -24,7 +24,7 @@
 
 G_BEGIN_DECLS
 
-#define CONTROL_BOX_TYPE (control_box_get_type ())
+#define CONTROL_BOX_TYPE (control_box_get_type())
 
 #define	CONTROL_BOX(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST((obj), CONTROL_BOX_TYPE, ControlBox))
@@ -72,7 +72,7 @@ gdouble control_box_get_volume(ControlBox *box);
 void control_box_set_playing_state(ControlBox *box, gboolean playing);
 void control_box_set_fullscreen_state(ControlBox *box, gboolean fullscreen);
 void control_box_set_fullscreen_btn_visible(ControlBox *box, gboolean value);
-void control_box_reset_control(ControlBox *box);
+void control_box_reset(ControlBox *box);
 
 G_END_DECLS
 

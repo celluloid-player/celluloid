@@ -24,7 +24,6 @@
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
 					gpointer data );
-static void control_box_init(ControlBox *box);
 
 G_DEFINE_TYPE(ControlBox, control_box, GTK_TYPE_BOX)
 
@@ -33,7 +32,7 @@ static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gpointer data )
 {
 	gint sec = (gint)value;
-	gint length = ((ControlBox *)data)->seek_bar_length;
+	gint length = CONTROL_BOX(data)->seek_bar_length;
 	char *output = NULL;
 
 	/* Longer than one hour */
@@ -53,7 +52,6 @@ static gchar *seek_bar_format_handler(	GtkScale *scale,
 		/* Set variable to 0 if the value is negative */
 		length *= (length >= 0);
 		sec *= (sec >= 0);
-
 		output = g_strdup_printf(	"%02d:%02d/"
 						"%02d:%02d",
 						(sec%3600)/60,
@@ -91,37 +89,30 @@ static void control_box_init(ControlBox *box)
 	box->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 
 	play_icon
-		= gtk_image_new_from_icon_name(	"media-playback-start-symbolic",
-						GTK_ICON_SIZE_BUTTON );
-
+		= gtk_image_new_from_icon_name
+			("media-playback-start-symbolic", GTK_ICON_SIZE_BUTTON);
 	stop_icon
-		= gtk_image_new_from_icon_name(	"media-playback-stop-symbolic",
-						GTK_ICON_SIZE_BUTTON );
-
+		= gtk_image_new_from_icon_name
+			("media-playback-stop-symbolic", GTK_ICON_SIZE_BUTTON);
 	forward_icon
-		= gtk_image_new_from_icon_name(	"media-seek-forward-symbolic",
-						GTK_ICON_SIZE_BUTTON );
-
+		= gtk_image_new_from_icon_name
+			("media-seek-forward-symbolic", GTK_ICON_SIZE_BUTTON);
 	rewind_icon
-		= gtk_image_new_from_icon_name(	"media-seek-backward-symbolic",
-						GTK_ICON_SIZE_BUTTON );
-
+		= gtk_image_new_from_icon_name
+			("media-seek-backward-symbolic", GTK_ICON_SIZE_BUTTON);
 	next_icon
-		= gtk_image_new_from_icon_name(	"media-skip-forward-symbolic",
-						GTK_ICON_SIZE_BUTTON );
-
+		= gtk_image_new_from_icon_name
+			("media-skip-forward-symbolic", GTK_ICON_SIZE_BUTTON);
 	previous_icon
-		= gtk_image_new_from_icon_name(	"media-skip-backward-symbolic",
-						GTK_ICON_SIZE_BUTTON );
-
+		= gtk_image_new_from_icon_name
+			("media-skip-backward-symbolic", GTK_ICON_SIZE_BUTTON);
 	fullscreen_icon
-		= gtk_image_new_from_icon_name(	"view-fullscreen-symbolic",
-						GTK_ICON_SIZE_BUTTON );
+		= gtk_image_new_from_icon_name
+			("view-fullscreen-symbolic", GTK_ICON_SIZE_BUTTON);
 
 	gtk_style_context_add_class
 		(	gtk_widget_get_style_context(GTK_WIDGET(box)),
 			GTK_STYLE_CLASS_BACKGROUND );
-
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
 	gtk_widget_set_sensitive(box->volume_button, FALSE);
 
@@ -155,49 +146,35 @@ static void control_box_init(ControlBox *box)
 
 	gtk_button_set_image
 		(GTK_BUTTON(box->play_button), play_icon);
-
 	gtk_button_set_image
 		(GTK_BUTTON(box->stop_button), stop_icon);
-
 	gtk_button_set_image
 		(GTK_BUTTON(box->forward_button), forward_icon);
-
 	gtk_button_set_image
 		(GTK_BUTTON(box->rewind_button), rewind_icon);
-
 	gtk_button_set_image
 		(GTK_BUTTON(box->next_button), next_icon);
-
 	gtk_button_set_image
 		(GTK_BUTTON(box->previous_button), previous_icon);
-
 	gtk_button_set_image
 		(GTK_BUTTON(box->fullscreen_button), fullscreen_icon);
 
 	gtk_container_add
 		(GTK_CONTAINER(box), box->previous_button);
-
 	gtk_container_add
 		(GTK_CONTAINER(box), box->rewind_button);
-
 	gtk_container_add
 		(GTK_CONTAINER(box), box->play_button);
-
 	gtk_container_add
 		(GTK_CONTAINER(box), box->stop_button);
-
 	gtk_container_add
 		(GTK_CONTAINER(box), box->forward_button);
-
 	gtk_container_add
 		(GTK_CONTAINER(box), box->next_button);
-
 	gtk_box_pack_start
 		(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
-
 	gtk_container_add
 		(GTK_CONTAINER(box), box->volume_button);
-
 	gtk_container_add
 		(GTK_CONTAINER(box), box->fullscreen_button);
 
@@ -289,7 +266,7 @@ void control_box_set_fullscreen_btn_visible(ControlBox *box, gboolean value)
 	gtk_widget_set_visible(box->fullscreen_button, value);
 }
 
-void control_box_reset_control(ControlBox *box)
+void control_box_reset(ControlBox *box)
 {
 	control_box_set_seek_bar_length(box, 0);
 	control_box_set_playing_state(box, FALSE);

@@ -483,7 +483,7 @@ void main_window_toggle_fullscreen(MainWindow *wnd)
 void main_window_reset(MainWindow *wnd)
 {
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
-	control_box_reset_control(CONTROL_BOX(wnd->control_box));
+	control_box_reset(CONTROL_BOX(wnd->control_box));
 }
 
 void main_window_save_state(MainWindow *wnd)
