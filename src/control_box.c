@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#include <glib/gi18n.h>
 
 #include "control_box.h"
 
@@ -122,6 +124,14 @@ static void control_box_init(ControlBox *box)
 
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
 	gtk_widget_set_sensitive(box->volume_button, FALSE);
+
+	gtk_widget_set_tooltip_text(box->play_button, _("Play"));
+	gtk_widget_set_tooltip_text(box->stop_button, _("Stop"));
+	gtk_widget_set_tooltip_text(box->forward_button, _("Forward"));
+	gtk_widget_set_tooltip_text(box->rewind_button, _("Rewind"));
+	gtk_widget_set_tooltip_text(box->next_button, _("Next Chapter"));
+	gtk_widget_set_tooltip_text(box->previous_button, _("Previous Chapter"));
+	gtk_widget_set_tooltip_text(box->fullscreen_button, _("Toggle Fullscreen"));
 
 	g_object_set(box->play_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->stop_button, "relief", GTK_RELIEF_NONE, NULL);
@@ -247,14 +257,17 @@ gdouble control_box_get_volume(ControlBox *box)
 void control_box_set_playing_state(ControlBox *box, gboolean playing)
 {
 	GtkWidget *play_icon;
+	const gchar *tooltip;
 
 	play_icon = gtk_image_new_from_icon_name
 			( 	playing
 				?"media-playback-pause-symbolic"
 				:"media-playback-start-symbolic",
 				GTK_ICON_SIZE_BUTTON );
+	tooltip = playing?_("Pause"):_("Play");
 
 	gtk_button_set_image(GTK_BUTTON(box->play_button), play_icon);
+	gtk_widget_set_tooltip_text(box->play_button, tooltip);
 }
 
 void control_box_set_fullscreen_state(ControlBox *box, gboolean fullscreen)
