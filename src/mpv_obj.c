@@ -1101,6 +1101,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 			{"force-window", "yes"},
 			{"audio-client-name", ICON_NAME},
 			{"title", "${media-title}"},
+			{"autofit", "75%"},
 			{"pause", "yes"},
 			{"ytdl", "yes"},
 			{"input-cursor", "no"},
