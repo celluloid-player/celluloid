@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-25 09:08+0700\n"
+"POT-Creation-Date: 2016-03-03 04:52+0700\n"
 "PO-Revision-Date: 2016-01-15 06:40-0500\n"
 "Last-Translator: gnome-mpv <gnome-mpv@openmailbox.org>\n"
 "Language-Team: Romanian Translations\n"
@@ -133,7 +133,7 @@ msgstr ""
 msgid "The main window with playlist open"
 msgstr ""
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:559
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:159
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -149,12 +149,12 @@ msgstr "Adaugă un fișier Listei de Redare"
 msgid "Open File"
 msgstr "Deschide Fișier"
 
-#: ../src/actionctl.c:93 ../src/actionctl.c:234 ../src/actionctl.c:512
+#: ../src/actionctl.c:93 ../src/actionctl.c:234 ../src/actionctl.c:427
 #: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:204
 msgid "_Cancel"
 msgstr "_Anulează"
 
-#: ../src/actionctl.c:95 ../src/actionctl.c:514 ../src/menu.c:121
+#: ../src/actionctl.c:95 ../src/actionctl.c:429 ../src/menu.c:121
 #: ../src/menu.c:390 ../src/open_loc_dialog.c:81
 msgid "_Open"
 msgstr "_Deschide"
@@ -167,7 +167,7 @@ msgstr "Salvează Lista de Redare"
 msgid "_Save"
 msgstr "_Salvează"
 
-#: ../src/actionctl.c:356
+#: ../src/actionctl.c:343
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
@@ -176,25 +176,53 @@ msgstr ""
 "Activarea sau dezactivarea decorațiilor ferestrelor (CSD) necesită "
 "repornirea %s."
 
-#: ../src/actionctl.c:509
+#: ../src/actionctl.c:424
 msgid "Load External…"
 msgstr ""
 
-#: ../src/actionctl.c:585
+#: ../src/actionctl.c:498
 msgid "A GTK frontend for MPV"
 msgstr "O interfață GTK pentru MPV"
 
-#: ../src/common.c:187
+#: ../src/application.c:516
+msgid "Playing"
+msgstr ""
+
+#: ../src/common.c:186
 msgid "Error"
 msgstr ""
 
-#: ../src/common.c:295
-msgid ""
-"Keybindings that require Property Expansion are not supported and have been "
-"ignored."
+#: ../src/control_box.c:119 ../src/control_box.c:244
+msgid "Play"
 msgstr ""
-"Combinațiile de taste care necesită extinderea proprietăților nu sunt "
-"suportate și au fost ignorate."
+
+#: ../src/control_box.c:120
+msgid "Stop"
+msgstr ""
+
+#: ../src/control_box.c:121
+msgid "Forward"
+msgstr ""
+
+#: ../src/control_box.c:122
+msgid "Rewind"
+msgstr ""
+
+#: ../src/control_box.c:123
+msgid "Next Chapter"
+msgstr ""
+
+#: ../src/control_box.c:124
+msgid "Previous Chapter"
+msgstr ""
+
+#: ../src/control_box.c:125
+msgid "Toggle Fullscreen"
+msgstr ""
+
+#: ../src/control_box.c:244
+msgid "Pause"
+msgstr ""
 
 #: ../src/menu.c:39
 msgid "None"
@@ -278,16 +306,12 @@ msgstr ""
 msgid "S_ubtitle Track"
 msgstr ""
 
-#: ../src/mpv.c:285
-msgid "Playing"
-msgstr ""
-
-#: ../src/mpv.c:580
+#: ../src/mpv_obj.c:539
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr ""
 
-#: ../src/mpv.c:1027
+#: ../src/mpv_obj.c:1192
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
@@ -299,15 +323,15 @@ msgstr "Adresă:"
 msgid "Open Location"
 msgstr "Deschide Adresa"
 
-#: ../src/playlist_widget.c:46
+#: ../src/playlist_widget.c:119
 msgid "_Add…"
 msgstr ""
 
-#: ../src/playlist_widget.c:47
+#: ../src/playlist_widget.c:120
 msgid "Loop"
 msgstr "Buclă"
 
-#: ../src/playlist_widget.c:91
+#: ../src/playlist_widget.c:173
 msgid "Playlist"
 msgstr "Listă de redare"
 

@@ -137,7 +137,7 @@ msgstr "关闭了 CSD 的主窗口"
 msgid "The main window with playlist open"
 msgstr "打开了播放列表的主窗口"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:559
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:159
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -153,12 +153,12 @@ msgstr "添加文件到播放列表"
 msgid "Open File"
 msgstr "打开文件"
 
-#: ../src/actionctl.c:93 ../src/actionctl.c:234 ../src/actionctl.c:512
+#: ../src/actionctl.c:93 ../src/actionctl.c:234 ../src/actionctl.c:427
 #: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:204
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: ../src/actionctl.c:95 ../src/actionctl.c:514 ../src/menu.c:121
+#: ../src/actionctl.c:95 ../src/actionctl.c:429 ../src/menu.c:121
 #: ../src/menu.c:390 ../src/open_loc_dialog.c:81
 msgid "_Open"
 msgstr "打开(_O)"
@@ -171,30 +171,60 @@ msgstr "保存播放列表"
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: ../src/actionctl.c:356
+#: ../src/actionctl.c:343
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
 " effect."
 msgstr "启用或禁用客户端装饰需要重启 %s 生效。"
 
-#: ../src/actionctl.c:509
+#: ../src/actionctl.c:424
 msgid "Load External…"
 msgstr "载入外部配置文件…"
 
-#: ../src/actionctl.c:585
+#: ../src/actionctl.c:498
 msgid "A GTK frontend for MPV"
 msgstr "MPV 的 GTK 前端程序"
 
-#: ../src/common.c:187
+#: ../src/application.c:516
+msgid "Playing"
+msgstr "正在播放"
+
+#: ../src/common.c:186
 msgid "Error"
 msgstr "错误"
 
-#: ../src/common.c:295
-msgid ""
-"Keybindings that require Property Expansion are not supported and have been "
-"ignored."
-msgstr "需要属性扩展的键绑定不被支持，已被忽略。"
+#: ../src/control_box.c:119 ../src/control_box.c:244
+msgid "Play"
+msgstr ""
+
+#: ../src/control_box.c:120
+msgid "Stop"
+msgstr ""
+
+#: ../src/control_box.c:121
+msgid "Forward"
+msgstr ""
+
+#: ../src/control_box.c:122
+msgid "Rewind"
+msgstr ""
+
+#: ../src/control_box.c:123
+msgid "Next Chapter"
+msgstr ""
+
+#: ../src/control_box.c:124
+msgid "Previous Chapter"
+msgstr ""
+
+#: ../src/control_box.c:125
+msgid "Toggle Fullscreen"
+msgstr ""
+
+#: ../src/control_box.c:244
+msgid "Pause"
+msgstr ""
 
 #: ../src/menu.c:39
 msgid "None"
@@ -278,16 +308,12 @@ msgstr "音轨(_A)"
 msgid "S_ubtitle Track"
 msgstr "字幕轨道(_U)"
 
-#: ../src/mpv.c:285
-msgid "Playing"
-msgstr "正在播放"
-
-#: ../src/mpv.c:580
+#: ../src/mpv_obj.c:539
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "回放被异常终止。原因：%s。"
 
-#: ../src/mpv.c:1027
+#: ../src/mpv_obj.c:1192
 msgid "Failed to apply one or more MPV options."
 msgstr "应用一个或多个 MPV 选项失败。"
 
@@ -299,15 +325,15 @@ msgstr "位置："
 msgid "Open Location"
 msgstr "打开位置"
 
-#: ../src/playlist_widget.c:46
+#: ../src/playlist_widget.c:119
 msgid "_Add…"
 msgstr "添加(_A)…"
 
-#: ../src/playlist_widget.c:47
+#: ../src/playlist_widget.c:120
 msgid "Loop"
 msgstr "循环"
 
-#: ../src/playlist_widget.c:91
+#: ../src/playlist_widget.c:173
 msgid "Playlist"
 msgstr "播放列表"
 
