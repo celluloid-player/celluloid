@@ -93,6 +93,7 @@ static void mpv_obj_update_playlist(MpvObj *mpv);
 static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
 static void load_input_conf(MpvObj *mpv, const gchar *input_conf);
+static void set_paused(MpvObj *mpv, gboolean paused);
 static void uninit_opengl_cb(MpvObj *mpv);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
@@ -476,17 +477,9 @@ static gboolean mpv_event_handler(gpointer data)
 			}
 			else if(mpv->state.loaded)
 			{
-				gint rc;
-
-				mpv->state.paused = TRUE;
 				mpv->state.loaded = FALSE;
 
-				rc = mpv_set_property(	mpv->mpv_ctx,
-							"pause",
-							MPV_FORMAT_FLAG,
-							&mpv->state.paused );
-
-				mpv_check_error(rc);
+				set_paused(mpv, TRUE);
 				playlist_reset(mpv->playlist);
 			}
 
@@ -520,13 +513,8 @@ static gboolean mpv_event_handler(gpointer data)
 					(	_("Playback was terminated "
 						"abnormally. Reason: %s."),
 						err );
-				mpv->state.paused = TRUE;
 
-				mpv_set_property(	mpv->mpv_ctx,
-							"pause",
-							MPV_FORMAT_FLAG,
-							&mpv->state.paused );
-
+				set_paused(mpv, TRUE);
 				g_signal_emit_by_name(mpv, "mpv-error", msg);
 			}
 		}
@@ -861,6 +849,14 @@ static void load_input_conf(MpvObj *mpv, const gchar *input_conf)
 	fclose(tmp_file);
 }
 
+static inline void set_paused(MpvObj *mpv, gboolean paused)
+{
+	mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
+						"pause",
+						MPV_FORMAT_FLAG,
+						&paused ));
+}
+
 static void uninit_opengl_cb(MpvObj *mpv)
 {
 #ifdef OPENGL_CB_ENABLED
@@ -1013,6 +1009,19 @@ inline gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
 inline gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd)
 {
 	return mpv_command_string(mpv->mpv_ctx, cmd);
+}
+
+inline gint mpv_obj_get_property(	MpvObj *mpv,
+					const gchar *name,
+					mpv_format format,
+					void *data )
+{
+	return mpv_get_property(mpv->mpv_ctx, name, format, data);
+}
+
+inline gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name)
+{
+	return mpv_get_property_string(mpv->mpv_ctx, name);
 }
 
 inline gint mpv_obj_set_property(	MpvObj *mpv,
@@ -1368,6 +1377,7 @@ void mpv_obj_load(	MpvObj *mpv,
 		if(!append)
 		{
 			mpv->state.loaded = FALSE;
+			set_paused(mpv, FALSE);
 		}
 
 		if(update)
@@ -1384,11 +1394,6 @@ void mpv_obj_load(	MpvObj *mpv,
 							0 ));
 
 		mpv_check_error(mpv_command(mpv->mpv_ctx, load_cmd));
-
-		mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
-							"pause",
-							MPV_FORMAT_FLAG,
-							&mpv->state.paused ));
 
 		mpv_check_error(mpv_request_event(	mpv->mpv_ctx,
 							MPV_EVENT_END_FILE,

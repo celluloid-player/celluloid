@@ -81,6 +81,11 @@ MpvObj *mpv_obj_new(	Playlist *playlist,
 			GtkGLArea *glarea );
 gint mpv_obj_command(MpvObj *mpv, const gchar **cmd);
 gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd);
+gint mpv_obj_get_property(	MpvObj *mpv,
+				const gchar *name,
+				mpv_format format,
+				void *data );
+gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name);
 gint mpv_obj_set_property(	MpvObj *mpv,
 				const gchar *name,
 				mpv_format format,

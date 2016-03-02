@@ -604,8 +604,25 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	}
 	else if(event->event_id == MPV_EVENT_FILE_LOADED)
 	{
-		control_box_set_enabled
-			(CONTROL_BOX(app->gui->control_box), TRUE);
+		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
+		gint64 pos;
+		gdouble length;
+		gchar *title;
+
+		mpv_obj_get_property
+			(mpv, "playlist-pos", MPV_FORMAT_INT64, &pos);
+		mpv_obj_get_property
+			(mpv, "length", MPV_FORMAT_DOUBLE, &length);
+
+		title = mpv_obj_get_property_string(mpv, "media-title");
+
+		control_box_set_enabled(control_box, TRUE);
+		control_box_set_playing_state(control_box, !mpv->state.paused);
+		playlist_set_indicator_pos(mpv->playlist, (gint)pos);
+		control_box_set_seek_bar_length(control_box, (gint)length);
+		gtk_window_set_title(GTK_WINDOW(app->gui), title);
+
+		mpv_free(title);
 	}
 	else if(event->event_id == MPV_EVENT_IDLE)
 	{
