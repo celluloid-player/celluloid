@@ -217,30 +217,37 @@ static void parse_dim_string(const gchar *geom_str, gint dim[2])
 
 static void handle_autofit_opt(MpvObj *mpv)
 {
+	gchar *scale_str = NULL;
 	gchar *autofit_str = NULL;
 	gchar *larger_str = NULL;
 	gchar *smaller_str = NULL;
+	gboolean scale_set = FALSE;
 	gboolean autofit_set = FALSE;
 	gboolean larger_set = FALSE;
 	gboolean smaller_set = FALSE;
 
-	autofit_str = mpv_get_property_string(mpv->mpv_ctx, "options/autofit");
+	scale_str =	mpv_get_property_string
+			(mpv->mpv_ctx, "options/window-scale");
+	autofit_str =	mpv_get_property_string
+			(mpv->mpv_ctx, "options/autofit");
 	larger_str =	mpv_get_property_string
 			(mpv->mpv_ctx, "options/autofit-larger");
 	smaller_str =	mpv_get_property_string
 			(mpv->mpv_ctx, "options/autofit-smaller");
 
+	scale_set = scale_str && scale_str[0] != '\0';
 	autofit_set = autofit_str && autofit_str[0] != '\0';
 	larger_set = larger_str && larger_str[0] != '\0';
 	smaller_set = smaller_str && smaller_str[0] != '\0';
 
-	if(autofit_set || larger_set || smaller_set)
+	if(scale_set || autofit_set || larger_set || smaller_set)
 	{
 		gint larger_dim[2] = {G_MAXINT, G_MAXINT};
 		gint smaller_dim[2] = {0, 0};
 		gint autofit_dim[2] = {0, 0};
 		gint64 vid_dim[2];
 		gdouble ratio[2];
+		gdouble scale = 1;
 		gint rc = 0;
 
 		rc |= mpv_get_property(	mpv->mpv_ctx,
@@ -258,6 +265,17 @@ static void handle_autofit_opt(MpvObj *mpv)
 					"%" G_GINT64_FORMAT "x"
 					"%" G_GINT64_FORMAT,
 					vid_dim[0], vid_dim[1] );
+		}
+
+		if(rc >= 0 && scale_set)
+		{
+			g_debug(	"Retrieved option --window-scale=%s",
+					scale_str);
+
+			/* This should never fail since mpv_set_option() will
+			 * refuse to set invalid values.
+			 */
+			scale = g_ascii_strtod(scale_str, NULL);
 		}
 
 		if(rc >= 0 && larger_set)
@@ -290,6 +308,14 @@ static void handle_autofit_opt(MpvObj *mpv)
 				autofit_dim[0] = (gint)vid_dim[0];
 				autofit_dim[1] = (gint)vid_dim[1];
 			}
+
+			if(scale_set)
+			{
+				autofit_dim[0]
+					= (gint)(scale*(gdouble)autofit_dim[0]);
+				autofit_dim[1]
+					= (gint)(scale*(gdouble)autofit_dim[1]);
+			}
 		}
 
 		if(rc >= 0)
@@ -308,8 +334,8 @@ static void handle_autofit_opt(MpvObj *mpv)
 				 * video size does not exceed the limits imposed
 				 * by --autofit-larger and --autofit-smaller.
 				 */
-				ratio[0] = 0;;
-				ratio[1] = 0;;
+				ratio[0] = scale_set?scale:0;
+				ratio[1] = scale_set?scale:0;
 			}
 			else
 			{
@@ -326,8 +352,7 @@ static void handle_autofit_opt(MpvObj *mpv)
 			/* Resize the window so that it is as big as possible
 			 *  while preseving the aspect ratio.
 			 */
-			mpv->autofit_ratio =	(ratio[0] < ratio[1])?
-						ratio[0]:ratio[1];
+			mpv->autofit_ratio = MIN(ratio[0], ratio[1]);
 
 			g_debug(	"Set video size multiplier to %f",
 					mpv->autofit_ratio );
@@ -338,6 +363,7 @@ static void handle_autofit_opt(MpvObj *mpv)
 		}
 	}
 
+	mpv_free(scale_str);
 	mpv_free(autofit_str);
 	mpv_free(larger_str);
 	mpv_free(smaller_str);
