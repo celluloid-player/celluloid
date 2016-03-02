@@ -84,7 +84,7 @@ static void mpv_obj_get_inst_property(	GObject *object,
 					guint property_id,
 					GValue *value,
 					GParamSpec *pspec );
-static void parse_dim_string(const gchar *geom_str, gint *width, gint *height);
+static void parse_dim_string(const gchar *geom_str, gint dim[2]);
 static void handle_autofit_opt(MpvObj *mpv);
 static void handle_msg_level_opt(MpvObj *mpv);
 static void mpv_prop_change_handler(MpvObj *mpv, mpv_event_property* prop);
@@ -174,58 +174,41 @@ static void mpv_obj_get_inst_property(	GObject *object,
 	}
 }
 
-static void parse_dim_string(const gchar *geom_str, gint *width, gint *height)
+static void parse_dim_string(const gchar *geom_str, gint dim[2])
 {
 	GdkScreen *screen = gdk_screen_get_default();
-	gint screen_width = gdk_screen_get_width(screen);
-	gint screen_height = gdk_screen_get_height(screen);
+	gint screen_dim[2] = {0, 0};
+	gdouble multiplier[2] = {-1, -1};
 	gchar **tokens = g_strsplit(geom_str, "x", 2);
 	gint i = -1;
 
-	*width = 0;
-	*height = 0;
+	screen_dim[0] = gdk_screen_get_width(screen);
+	screen_dim[1] = gdk_screen_get_height(screen);
 
-	while(tokens && tokens[++i] && i < 4)
+	while(tokens && tokens[++i] && i < 3)
 	{
-		gdouble multiplier = -1;
 		gint value = (gint)g_ascii_strtoll(tokens[i], NULL, 0);
 
-		if(tokens[i][strnlen(tokens[i], 256)-1] == '%')
+		if((i == 0 && value > 0) || i == 1)
 		{
-			multiplier = value/100.0;
-		}
-
-		if(i == 0)
-		{
-			if(multiplier == -1)
+			if(tokens[i][strnlen(tokens[i], 256)-1] == '%')
 			{
-				*width = value;
+				multiplier[i] = value/100.0;
+			}
+			else if(i == 1 && multiplier[0] != -1)
+			{
+				multiplier[i] = multiplier[0];
+			}
+
+			if(multiplier[i] == -1)
+			{
+				dim[i] = value;
 			}
 			else
 			{
-				*width = (gint)(multiplier*screen_width);
+				dim[i] = (gint)(multiplier[i]*screen_dim[i]);
 			}
 		}
-		else if(i == 1)
-		{
-			if(multiplier == -1)
-			{
-				*height = value;
-			}
-			else
-			{
-				*height = (gint)(multiplier*screen_height);
-			}
-		}
-	}
-
-	if(*width != 0 && *height == 0)
-	{
-		/* If height is not specified, set it to screen height. This
-		 * should correctly emulate vanilla mpv's behavior since we
-		 * always preserve aspect ratio when autofitting.
-		 */
-		*height = screen_height;
 	}
 
 	g_strfreev(tokens);
@@ -233,68 +216,117 @@ static void parse_dim_string(const gchar *geom_str, gint *width, gint *height)
 
 static void handle_autofit_opt(MpvObj *mpv)
 {
-	gchar *optbuf = NULL;
-	gchar *geom = NULL;
+	gchar *autofit_str = NULL;
+	gchar *larger_str = NULL;
+	gchar *smaller_str = NULL;
+	gboolean autofit_set = FALSE;
+	gboolean larger_set = FALSE;
+	gboolean smaller_set = FALSE;
 
-	optbuf = mpv_get_property_string(mpv->mpv_ctx, "options/autofit");
+	autofit_str = mpv_get_property_string(mpv->mpv_ctx, "options/autofit");
+	larger_str =	mpv_get_property_string
+			(mpv->mpv_ctx, "options/autofit-larger");
+	smaller_str =	mpv_get_property_string
+			(mpv->mpv_ctx, "options/autofit-smaller");
 
-	if(optbuf && strlen(optbuf) > 0)
+	autofit_set = autofit_str && autofit_str[0] != '\0';
+	larger_set = larger_str && larger_str[0] != '\0';
+	smaller_set = smaller_str && smaller_str[0] != '\0';
+
+	if(autofit_set || larger_set || smaller_set)
 	{
-		gint autofit_width = 0;
-		gint autofit_height = 0;
-		gint64 vid_width = 0;
-		gint64 vid_height = 0;
-		gdouble width_ratio = -1;
-		gdouble height_ratio = -1;
+		gint larger_dim[2] = {G_MAXINT, G_MAXINT};
+		gint smaller_dim[2] = {0, 0};
+		gint autofit_dim[2] = {0, 0};
+		gint64 vid_dim[2];
+		gdouble ratio[2];
 		gint rc = 0;
-
-		g_debug("Retrieved option --autofit=%s", optbuf);
 
 		rc |= mpv_get_property(	mpv->mpv_ctx,
 					"dwidth",
 					MPV_FORMAT_INT64,
-					&vid_width );
-
+					&vid_dim[0] );
 		rc |= mpv_get_property(	mpv->mpv_ctx,
 					"dheight",
 					MPV_FORMAT_INT64,
-					&vid_height );
+					&vid_dim[1] );
 
 		if(rc >= 0)
 		{
-			parse_dim_string(	optbuf,
-						&autofit_width,
-						&autofit_height );
-
 			g_debug(	"Retrieved video size: "
 					"%" G_GINT64_FORMAT "x"
 					"%" G_GINT64_FORMAT,
-					vid_width, vid_height );
-			g_debug(	"Target video area size: %dx%d",
-					autofit_width, autofit_height );
-
-			width_ratio =	(gdouble)autofit_width/
-					(gdouble)vid_width;
-			height_ratio =	(gdouble)autofit_height/
-					(gdouble)vid_height;
+					vid_dim[0], vid_dim[1] );
 		}
 
-		if(rc >= 0 && width_ratio > 0 && height_ratio > 0)
+		if(rc >= 0 && larger_set)
 		{
-			if(width_ratio > 1 && height_ratio > 1)
+			g_debug(	"Retrieved option --autofit-larger=%s",
+					larger_str);
+
+			parse_dim_string(larger_str, larger_dim);
+		}
+
+		if(rc >= 0 && smaller_set)
+		{
+			g_debug(	"Retrieved option --autofit-smaller=%s",
+					smaller_str);
+
+			parse_dim_string(smaller_str, smaller_dim);
+		}
+
+		if(rc >= 0)
+		{
+			if(autofit_set)
 			{
-				mpv->autofit_ratio = 1;
+				g_debug(	"Retrieved option --autofit=%s",
+						autofit_str );
+
+				parse_dim_string(autofit_str, autofit_dim);
 			}
 			else
 			{
-				/* Resize the window so that it is as big as
-				 * possible within the limits imposed by
-				 * 'autofit' while preseving the aspect ratio.
-				 */
-				mpv->autofit_ratio
-					= (width_ratio < height_ratio)
-					? width_ratio:height_ratio;
+				autofit_dim[0] = (gint)vid_dim[0];
+				autofit_dim[1] = (gint)vid_dim[1];
 			}
+		}
+
+		if(rc >= 0)
+		{
+			autofit_dim[0] = MIN(autofit_dim[0], larger_dim[0]);
+			autofit_dim[1] = MIN(autofit_dim[1], larger_dim[1]);
+
+			autofit_dim[0] = MAX(autofit_dim[0], smaller_dim[0]);
+			autofit_dim[1] = MAX(autofit_dim[1], smaller_dim[1]);
+
+			if(!autofit_set
+			&& autofit_dim[0] == vid_dim[0]
+			&& autofit_dim[1] == vid_dim[1])
+			{
+				/* Do not resize if --autofit is not set and the
+				 * video size does not exceed the limits imposed
+				 * by --autofit-larger and --autofit-smaller.
+				 */
+				ratio[0] = 0;;
+				ratio[1] = 0;;
+			}
+			else
+			{
+				g_debug(	"Target video area size: %dx%d",
+						autofit_dim[0], autofit_dim[1] );
+
+				ratio[0] = autofit_dim[0]/(gdouble)vid_dim[0];
+				ratio[1] = autofit_dim[1]/(gdouble)vid_dim[1];
+			}
+		}
+
+		if(rc >= 0 && ratio[0] > 0 && ratio[1] > 0)
+		{
+			/* Resize the window so that it is as big as possible
+			 *  while preseving the aspect ratio.
+			 */
+			mpv->autofit_ratio =	(ratio[0] < ratio[1])?
+						ratio[0]:ratio[1];
 
 			g_debug(	"Set video size multiplier to %f",
 					mpv->autofit_ratio );
@@ -305,8 +337,9 @@ static void handle_autofit_opt(MpvObj *mpv)
 		}
 	}
 
-	mpv_free(optbuf);
-	g_free(geom);
+	mpv_free(autofit_str);
+	mpv_free(larger_str);
+	mpv_free(smaller_str);
 }
 
 static void handle_msg_level_opt(MpvObj *mpv)
