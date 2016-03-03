@@ -80,6 +80,7 @@ GtkWidget *main_window_new(	Application *app,
 				Playlist *playlist,
 				gboolean use_opengl );
 GType main_window_get_type(void);
+void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen);
 void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);
 void main_window_save_state(MainWindow *wnd);

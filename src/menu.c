@@ -148,7 +148,7 @@ void menu_build_full(	GMenu *menu,
 		= g_menu_item_new(_("_Toggle Playlist"), "app.playlist_toggle");
 
 	fullscreen_menu_item
-		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen");
+		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen_toggle");
 
 	normal_size_menu_item
 		= g_menu_item_new(_("_Normal Size"), "app.normalsize");

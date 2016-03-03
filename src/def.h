@@ -48,26 +48,28 @@
 				.flags = 0,\
 				.info = 0} }
 
-#define DEFAULT_KEYBINDS	{	"SPACE cycle pause",\
-					"p cycle pause",\
-					"v osd-msg cycle sub-visibility",\
-					"s osd-msg screenshot",\
-					"S osd-msg screenshot video",\
-					"j osd-msg cycle sub",\
-					"J osd-msg cycle sub down",\
-					"@ osd-msg cycle chapter",\
-					"! osd-msg cycle chapter down",\
-					"< playlist_prev",\
-					"> playlist_next",\
-					"U stop",\
-					"RIGHT no-osd seek 10",\
-					"LEFT no-osd seek -10",\
-					"UP no-osd seek 60",\
-					"DOWN no-osd seek -60",\
-					"Q quit_watch_later",\
-					"MOUSE_BTN1_DBL cycle fullscreen",\
-					"MOUSE_BTN3 cycle pause",\
-					NULL }
+#define DEFAULT_KEYBINDS \
+	{	"SPACE cycle pause",\
+		"p cycle pause",\
+		"f script-message gmpv-action fullscreen_toggle",\
+		"ESC script-message gmpv-action fullscreen_leave",\
+		"v osd-msg cycle sub-visibility",\
+		"s osd-msg screenshot",\
+		"S osd-msg screenshot video",\
+		"j osd-msg cycle sub",\
+		"J osd-msg cycle sub down",\
+		"@ osd-msg cycle chapter",\
+		"! osd-msg cycle chapter down",\
+		"< playlist_prev",\
+		"> playlist_next",\
+		"U stop",\
+		"RIGHT no-osd seek 10",\
+		"LEFT no-osd seek -10",\
+		"UP no-osd seek 60",\
+		"DOWN no-osd seek -60",\
+		"Q quit_watch_later",\
+		"MOUSE_BTN3 cycle pause",\
+		NULL }
 
 #define KEYSTRING_MAP	{	"<", "less",\
 				">", "greater",\

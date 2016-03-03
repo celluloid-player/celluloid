@@ -824,27 +824,12 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		g_free(keystr);
 	}
 
-	if((state&mod_mask) == 0)
+	if((state&mod_mask) == 0
+	&& keyval == GDK_KEY_Delete
+	&& main_window_get_playlist_visible(app->gui))
 	{
-		/* Accept F11 and f for entering/exiting fullscreen mode. ESC is
-		 * only used for exiting fullscreen mode. F11 is handled via
-		 * accelrator.
-		 */
-		if((app->gui->fullscreen && keyval == GDK_KEY_Escape)
-		|| keyval == GDK_KEY_f)
-		{
-			GAction *action;
-
-			action = g_action_map_lookup_action
-					(G_ACTION_MAP(app), "fullscreen");
-			g_action_activate(action, NULL);
-		}
-		else if(keyval == GDK_KEY_Delete
-		&& main_window_get_playlist_visible(app->gui))
-		{
-			playlist_widget_remove_selected
-				(PLAYLIST_WIDGET(app->gui->playlist));
-		}
+		playlist_widget_remove_selected
+			(PLAYLIST_WIDGET(app->gui->playlist));
 	}
 
 	return FALSE;
@@ -890,13 +875,10 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	g_debug(	"Sent %s button %s click at %sx%s to mpv",
 			type_str, btn_str, x_str, y_str );
 
-	if(btn_event->button == 1 && btn_event->type == GDK_2BUTTON_PRESS)
+	/* As of mpv-0.16, the 'mouse' command work for double clicks */
+	if(btn_event->type == GDK_2BUTTON_PRESS && btn_event->button == 1)
 	{
-		GAction *action;
-
-		action = g_action_map_lookup_action
-				(G_ACTION_MAP(app), "fullscreen");
-		g_action_activate(action, NULL);
+		activate_action_string(app, "fullscreen_toggle");
 	}
 	else
 	{
@@ -1075,7 +1057,7 @@ static void setup_accelerators(Application *app)
 	add_accelerator(gtk_app, "<Control>2", "app.doublesize");
 	add_accelerator(gtk_app, "<Control>3", "app.halfsize");
 	add_accelerator(gtk_app, "F9", "app.playlist_toggle");
-	add_accelerator(gtk_app, "F11", "app.fullscreen");
+	add_accelerator(gtk_app, "F11", "app.fullscreen_toggle");
 }
 
 

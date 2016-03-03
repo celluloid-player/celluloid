@@ -459,7 +459,25 @@ static void fullscreen_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	toggle_fullscreen(data);
+	MainWindow *wnd = APPLICATION(data)->gui;
+	gchar *name;
+
+	g_object_get(action, "name", &name, NULL);
+
+	if(g_strcmp0(name, "fullscreen_toggle") == 0)
+	{
+		main_window_toggle_fullscreen(wnd);
+	}
+	else if(g_strcmp0(name, "fullscreen_enter") == 0)
+	{
+		main_window_set_fullscreen(wnd, TRUE);
+	}
+	else if(g_strcmp0(name, "fullscreen_leave") == 0)
+	{
+		main_window_set_fullscreen(wnd, FALSE);
+	}
+
+	g_free(name);
 }
 
 static void normal_size_handler(	GSimpleAction *action,
@@ -541,7 +559,11 @@ void actionctl_map_actions(Application *app)
 		{.name = "load_track",
 		.activate = load_track_handler,
 		.parameter_type = "s"},
-		{.name = "fullscreen",
+		{.name = "fullscreen_toggle",
+		.activate = fullscreen_handler},
+		{.name = "fullscreen_enter",
+		.activate = fullscreen_handler},
+		{.name = "fullscreen_leave",
 		.activate = fullscreen_handler},
 		{.name = "normalsize",
 		.activate = normal_size_handler},
