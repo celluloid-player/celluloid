@@ -108,7 +108,7 @@ static void volume_handler(GtkWidget *widget, gdouble value, gpointer data)
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)
 {
-	toggle_fullscreen(data);
+	main_window_toggle_fullscreen(APPLICATION(data)->gui);
 }
 
 void playbackctl_connect_signals(Application *app)

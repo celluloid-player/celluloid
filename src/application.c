@@ -550,16 +550,6 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 		gtk_widget_set_sensitive
 			(control_box->volume_button, !!prop->data);
 	}
-	else if(g_strcmp0(prop->name, "fullscreen") == 0)
-	{
-		int *data = prop->data;
-		int fullscreen = data?*data:-1;
-
-		if(fullscreen != -1 && fullscreen != app->gui->fullscreen)
-		{
-			main_window_toggle_fullscreen(MAIN_WINDOW(app->gui));
-		}
-	}
 	else if(g_strcmp0(prop->name, "length") == 0 && prop->data)
 	{
 		gdouble length = *((gdouble *) prop->data);

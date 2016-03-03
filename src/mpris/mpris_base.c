@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -130,7 +130,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 	if(g_strcmp0(property_name, "Fullscreen") == 0
 	&& g_variant_get_boolean(value) != inst->gmpv_ctx->gui->fullscreen)
 	{
-		toggle_fullscreen(inst->gmpv_ctx);
+		main_window_toggle_fullscreen(inst->gmpv_ctx->gui);
 	}
 	else
 	{

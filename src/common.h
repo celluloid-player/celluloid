@@ -44,7 +44,6 @@ void migrate_config(Application *app);
 void seek(Application *app, gdouble time);
 void show_error_dialog(Application *app, const gchar *prefix, const gchar *msg);
 void resize_window_to_fit(Application *app, gdouble multiplier);
-void toggle_fullscreen(Application *app);
 void load_keybind(	Application *app,
 			const gchar *config_path,
 			gboolean notify_ignore );

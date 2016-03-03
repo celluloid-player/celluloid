@@ -305,13 +305,3 @@ void resize_window_to_fit(Application *app, gdouble multiplier)
 
 	mpv_free(video);
 }
-
-void toggle_fullscreen(Application *app)
-{
-	main_window_toggle_fullscreen(app->gui);
-
-	mpv_obj_set_property(	app->mpv,
-				"fullscreen",
-				MPV_FORMAT_FLAG,
-				&app->gui->fullscreen );
-}
