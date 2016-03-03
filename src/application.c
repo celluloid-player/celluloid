@@ -624,6 +624,34 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 
 		mpv_free(title);
 	}
+	else if(event->event_id == MPV_EVENT_CLIENT_MESSAGE)
+	{
+		mpv_event_client_message *event_cmsg = event->data;
+
+		if(event_cmsg->num_args == 2
+		&& g_strcmp0(event_cmsg->args[0], "gmpv-action") == 0)
+		{
+			activate_action_string(app, event_cmsg->args[1]);
+		}
+		else
+		{
+			gint num_args = event_cmsg->num_args;
+			gsize args_size = ((gsize)num_args+1)*sizeof(gchar *);
+			gchar **args = g_malloc(args_size);
+			gchar *full_str = NULL;
+
+			/* Concatenate arguments into one string */
+			memcpy(args, event_cmsg->args, args_size);
+
+			args[num_args] = NULL;
+			full_str = g_strjoinv(" ", args);
+
+			g_warning(	"Invalid client message received: %s",
+					full_str );
+
+			g_free(full_str);
+		}
+	}
 	else if(event->event_id == MPV_EVENT_IDLE)
 	{
 		if(!app->mpv->state.init_load && !app->mpv->state.loaded)

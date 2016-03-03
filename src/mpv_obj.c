@@ -572,8 +572,15 @@ static gboolean mpv_event_handler(gpointer data)
 				mpv->mpv_event_handler(event, data);
 			}
 
-			g_signal_emit_by_name
-				(mpv, "mpv-event", event->event_id);
+			if(mpv->mpv_ctx)
+			{
+				g_signal_emit_by_name
+					(mpv, "mpv-event", event->event_id);
+			}
+			else
+			{
+				done = TRUE;
+			}
 		}
 	}
 
@@ -1336,6 +1343,8 @@ void mpv_obj_quit(MpvObj *mpv)
 	}
 
 	mpv_terminate_destroy(mpv->mpv_ctx);
+
+	mpv->mpv_ctx = NULL;
 }
 
 void mpv_obj_load(	MpvObj *mpv,

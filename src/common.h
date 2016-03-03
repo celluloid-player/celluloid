@@ -39,6 +39,7 @@ gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
 gboolean quit(gpointer data);
 gboolean update_seek_bar(gpointer data);
+void activate_action_string(Application *app, const gchar *str);
 void migrate_config(Application *app);
 void seek(Application *app, gdouble time);
 void show_error_dialog(Application *app, const gchar *prefix, const gchar *msg);
