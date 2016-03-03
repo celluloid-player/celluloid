@@ -796,14 +796,6 @@ static gboolean key_press_handler(	GtkWidget *widget,
 	guint state = ((GdkEventKey*)event)->state;
 	gchar *keystr = NULL;
 
-	const guint mod_mask =	GDK_MODIFIER_MASK
-				&~(GDK_SHIFT_MASK
-				|GDK_LOCK_MASK
-				|GDK_MOD2_MASK
-				|GDK_MOD3_MASK
-				|GDK_MOD4_MASK
-				|GDK_MOD5_MASK);
-
 	cmd[1] = keystr = get_full_keystr(keyval, state);
 
 	if(keystr)
@@ -812,14 +804,6 @@ static gboolean key_press_handler(	GtkWidget *widget,
 		mpv_obj_command(app->mpv, cmd);
 
 		g_free(keystr);
-	}
-
-	if((state&mod_mask) == 0
-	&& keyval == GDK_KEY_Delete
-	&& main_window_get_playlist_visible(app->gui))
-	{
-		playlist_widget_remove_selected
-			(PLAYLIST_WIDGET(app->gui->playlist));
 	}
 
 	return FALSE;

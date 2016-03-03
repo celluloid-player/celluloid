@@ -309,6 +309,18 @@ static void playlist_save_handler(	GSimpleAction *action,
 	}
 }
 
+static void playlist_remove_selected(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	MainWindow *wnd = APPLICATION(data)->gui;
+
+	if(main_window_get_playlist_visible(wnd))
+	{
+		playlist_widget_remove_selected(PLAYLIST_WIDGET(wnd->playlist));
+	}
+}
+
 static void pref_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
@@ -544,6 +556,8 @@ void actionctl_map_actions(Application *app)
 		.activate = playlist_toggle_handler},
 		{.name = "playlist_save",
 		.activate = playlist_save_handler},
+		{.name = "playlist_remove_selected",
+		.activate = playlist_remove_selected},
 		{.name = "audio_select",
 		.change_state = track_select_handler,
 		.state = "@x 1",

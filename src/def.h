@@ -62,6 +62,7 @@
 		"! osd-msg cycle chapter down",\
 		"< playlist_prev",\
 		"> playlist_next",\
+		"DEL script-message gmpv-action playlist_remove_selected",\
 		"U stop",\
 		"RIGHT no-osd seek 10",\
 		"LEFT no-osd seek -10",\
@@ -108,6 +109,7 @@
 				"UP", "Up",\
 				"DOWN", "Down",\
 				"ESC", "Escape",\
+				"DEL", "Delete",\
 				"", "Control_L",\
 				"", "Control_R",\
 				"", "Alt_L",\
