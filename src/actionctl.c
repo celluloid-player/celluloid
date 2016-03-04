@@ -27,6 +27,7 @@
 #include "open_loc_dialog.h"
 #include "pref_dialog.h"
 #include "common.h"
+#include "authors.h"
 
 static void open_handler(	GSimpleAction *action,
 				GVariant *param,
@@ -518,6 +519,7 @@ static void about_handler(	GSimpleAction *action,
 				gpointer data )
 {
 	Application *app = (Application*)data;
+	const gchar *authors[] = AUTHORS;
 
 	gtk_show_about_dialog(	GTK_WINDOW(app->gui),
 				"logo-icon-name",
@@ -532,6 +534,10 @@ static void about_handler(	GSimpleAction *action,
 				GTK_LICENSE_GPL_3_0,
 				"copyright",
 				"\u00A9 2014-2016 The GNOME MPV authors",
+				"authors",
+				authors,
+				"translator-credits",
+				_("translator-credits"),
 				NULL );
 }
 

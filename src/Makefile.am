@@ -18,9 +18,18 @@ marshal.c: $(top_srcdir)/data/marshal.lst
 	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --body $< > $@
 	sed -i '1i#pragma GCC diagnostic ignored \"-Wmissing-prototypes\"' $@
 
+authors_generated = authors.h
+authors_files = $(authors_generated)
+authors.h: $(top_srcdir)/AUTHORS
+	awk	'BEGIN{print	"#ifndef AUTHORS_H\n" \
+				"#define AUTHORS_H\n\n" \
+				"#define AUTHORS {\\"} \
+		/^[^#].+/{print "\"" $$0 "\",\\"} \
+		END{print "NULL}\n\n#endif"}' $< > $@
+
 media_key_files = media_keys/media_keys.c media_keys/media_keys.h
 
-BUILT_SOURCES = $(mpris_generated) $(marshal_generated)
+BUILT_SOURCES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 
 gnome_mpv_SOURCES =	main.c def.h \
 			actionctl.c actionctl.h \
@@ -36,7 +45,8 @@ gnome_mpv_SOURCES =	main.c def.h \
 			playlist_widget.c playlist_widget.h \
 			pref_dialog.c pref_dialog.h \
 			track.c track.h \
-			$(mpris_files) $(marshal_files) $(media_key_files)
+			$(mpris_files) $(marshal_files) $(media_key_files) \
+			$(authors_files)
 
 gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \
 			-DG_SETTINGS_ENABLE_BACKEND \
@@ -44,4 +54,4 @@ gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \
 
 gnome_mpv_LDADD = $(DEPS_LIBS)
 
-CLEANFILES = $(mpris_generated) $(marshal_generated)
+CLEANFILES = $(mpris_generated) $(marshal_generated) $(authors_generated)

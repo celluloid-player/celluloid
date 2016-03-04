@@ -11,7 +11,7 @@ INTLTOOL_FILES =	intltool-extract.in \
 			intltool-merge.in \
 			intltool-update.in
 
-EXTRA_DIST = README.md
+EXTRA_DIST = README.md AUTHORS
 
 UPDATE_DESKTOP = update-desktop-database -q || :
 UPDATE_ICON = gtk-update-icon-cache -q $(datadir)/icons/hicolor/ || :
