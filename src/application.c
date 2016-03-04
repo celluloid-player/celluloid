@@ -840,7 +840,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	GdkEventButton *btn_event = (GdkEventButton *)event;
 	gchar *x_str = g_strdup_printf("%d", (gint)btn_event->x);
 	gchar *y_str = g_strdup_printf("%d", (gint)btn_event->y);
-	gchar *btn_str = g_strdup_printf("%u", btn_event->button);
+	gchar *btn_str = g_strdup_printf("%u", btn_event->button-1);
 	const gchar *type_str =	(btn_event->type == GDK_2BUTTON_PRESS)?
 				"double":"single";
 

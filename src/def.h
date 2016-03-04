@@ -69,7 +69,7 @@
 		"UP no-osd seek 60",\
 		"DOWN no-osd seek -60",\
 		"Q quit_watch_later",\
-		"MOUSE_BTN3 cycle pause",\
+		"MOUSE_BTN2 cycle pause",\
 		NULL }
 
 #define KEYSTRING_MAP	{	"<", "less",\
