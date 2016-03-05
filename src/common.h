@@ -26,14 +26,6 @@
 #include "playlist.h"
 #include "application.h"
 
-typedef struct module_log_level module_log_level;
-
-struct module_log_level
-{
-	gchar *prefix;
-	mpv_log_level level;
-};
-
 gchar *get_config_dir_path(void);
 gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
