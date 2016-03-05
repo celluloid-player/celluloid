@@ -20,7 +20,6 @@
 #include "media_keys.h"
 #include "def.h"
 
-static void set_paused(Application *app, gboolean paused);
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data );
@@ -35,16 +34,6 @@ static void proxy_ready_handler(	GObject *source_object,
 static void session_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data );
-
-static void set_paused(Application *app, gboolean paused)
-{
-	app->mpv->state.paused = paused;
-
-	mpv_set_property(	app->mpv->mpv_ctx,
-				"pause",
-				MPV_FORMAT_FLAG,
-				&app->mpv->state.paused );
-}
 
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
@@ -96,7 +85,7 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 		}
 		else if(g_strcmp0(key, "Pause") == 0)
 		{
-			set_paused(inst->gmpv_ctx, TRUE);
+			mpv_obj_set_property_flag(inst->gmpv_ctx->mpv, "pause", TRUE);
 		}
 		else if(g_strcmp0(key, "Stop") == 0)
 		{
@@ -106,7 +95,10 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
-			set_paused(inst->gmpv_ctx, !inst->gmpv_ctx->mpv->state.paused);
+			mpv_obj_set_property_flag
+				(	inst->gmpv_ctx->mpv,
+					"pause",
+					!inst->gmpv_ctx->mpv->state.paused );
 		}
 		else if(g_strcmp0(key, "FastForward") == 0)
 		{

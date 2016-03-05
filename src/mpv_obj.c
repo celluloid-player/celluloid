@@ -91,7 +91,6 @@ static void mpv_obj_update_playlist(MpvObj *mpv);
 static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
 static void load_input_conf(MpvObj *mpv, const gchar *input_conf);
-static void set_paused(MpvObj *mpv, gboolean paused);
 static void uninit_opengl_cb(MpvObj *mpv);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
@@ -225,7 +224,7 @@ static gboolean mpv_event_handler(gpointer data)
 			{
 				mpv->state.loaded = FALSE;
 
-				set_paused(mpv, TRUE);
+				mpv_obj_set_property_flag(mpv, "pause", TRUE);
 				playlist_reset(mpv->playlist);
 			}
 
@@ -260,7 +259,7 @@ static gboolean mpv_event_handler(gpointer data)
 						"abnormally. Reason: %s."),
 						err );
 
-				set_paused(mpv, TRUE);
+				mpv_obj_set_property_flag(mpv, "pause", TRUE);
 				g_signal_emit_by_name(mpv, "mpv-error", msg);
 			}
 		}
@@ -602,14 +601,6 @@ static void load_input_conf(MpvObj *mpv, const gchar *input_conf)
 	fclose(tmp_file);
 }
 
-static inline void set_paused(MpvObj *mpv, gboolean paused)
-{
-	mpv_check_error(mpv_set_property(	mpv->mpv_ctx,
-						"pause",
-						MPV_FORMAT_FLAG,
-						&paused ));
-}
-
 static void uninit_opengl_cb(MpvObj *mpv)
 {
 #ifdef OPENGL_CB_ENABLED
@@ -783,6 +774,13 @@ inline gint mpv_obj_set_property(	MpvObj *mpv,
 					void *data )
 {
 	return mpv_set_property(mpv->mpv_ctx, name, format, data);
+}
+
+inline gint mpv_obj_set_property_flag(	MpvObj *mpv,
+					const gchar *name,
+					gboolean value )
+{
+	return mpv_set_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
 }
 
 inline gint mpv_obj_set_property_string(	MpvObj *mpv,
@@ -1133,7 +1131,8 @@ void mpv_obj_load(	MpvObj *mpv,
 		if(!append)
 		{
 			mpv->state.loaded = FALSE;
-			set_paused(mpv, FALSE);
+
+			mpv_obj_set_property_flag(mpv, "pause", FALSE);
 		}
 
 		if(update)

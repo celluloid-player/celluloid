@@ -90,6 +90,7 @@ gint mpv_obj_set_property(	MpvObj *mpv,
 				const gchar *name,
 				mpv_format format,
 				void *data );
+gint mpv_obj_set_property_flag(	MpvObj *mpv, const gchar *name, gboolean value);
 gint mpv_obj_set_property_string(	MpvObj *mpv,
 					const gchar *name,
 					const char *data );

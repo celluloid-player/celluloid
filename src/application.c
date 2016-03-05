@@ -688,7 +688,7 @@ static void drag_data_handler(	GtkWidget *widget,
 
 	if(uri_list)
 	{
-		app->mpv->state.paused = FALSE;
+		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
 
 		for(gint i = 0; uri_list[i]; i++)
 		{
@@ -909,8 +909,7 @@ static gboolean load_files(gpointer data)
 	{
 		gint i = 0;
 
-		app->mpv->state.paused = FALSE;
-
+		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
 		playlist_clear(app->playlist_store);
 
 		for(i = 0; app->files[i]; i++)

@@ -129,7 +129,7 @@ static void open_handler(	GSimpleAction *action,
 		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
 		GSList *uri = uri_list;
 
-		app->mpv->state.paused = FALSE;
+		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
 
 		while(uri)
 		{
@@ -176,8 +176,7 @@ static void open_loc_handler(	GSimpleAction *action,
 
 		loc_str = open_loc_dialog_get_string(open_loc_dialog);
 
-		app->mpv->state.paused = FALSE;
-
+		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
 		mpv_obj_load(app->mpv, loc_str, FALSE, TRUE);
 	}
 

@@ -24,7 +24,6 @@
 #include "mpv_obj.h"
 #include "def.h"
 
-static void set_paused(Application *app, gboolean paused);
 static void prop_table_init(mpris *inst);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
@@ -59,16 +58,6 @@ static void mpv_playback_restart_handler(MainWindow *wnd, gpointer data);
 static void mpv_prop_change_handler(	MainWindow *wnd,
 					gchar *name,
 					gpointer data );
-
-static void set_paused(Application *app, gboolean paused)
-{
-	app->mpv->state.paused = paused;
-
-	mpv_set_property(	app->mpv->mpv_ctx,
-				"pause",
-				MPV_FORMAT_FLAG,
-				&app->mpv->state.paused );
-}
 
 static void prop_table_init(mpris *inst)
 {
@@ -123,11 +112,14 @@ static void method_handler(	GDBusConnection *connection,
 	}
 	else if(g_strcmp0(method_name, "Pause") == 0)
 	{
-		set_paused(inst->gmpv_ctx, TRUE);
+		mpv_obj_set_property_flag(inst->gmpv_ctx->mpv, "pause", TRUE);
 	}
 	else if(g_strcmp0(method_name, "PlayPause") == 0)
 	{
-		set_paused(inst->gmpv_ctx, !inst->gmpv_ctx->mpv->state.paused);
+		mpv_obj_set_property_flag
+			(	inst->gmpv_ctx->mpv,
+				"pause",
+				!inst->gmpv_ctx->mpv->state.paused );
 	}
 	else if(g_strcmp0(method_name, "Stop") == 0)
 	{
@@ -137,7 +129,7 @@ static void method_handler(	GDBusConnection *connection,
 	}
 	else if(g_strcmp0(method_name, "Play") == 0)
 	{
-		set_paused(inst->gmpv_ctx, FALSE);
+		mpv_obj_set_property_flag(inst->gmpv_ctx->mpv, "pause", FALSE);
 	}
 	else if(g_strcmp0(method_name, "Seek") == 0)
 	{
