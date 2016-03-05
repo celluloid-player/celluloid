@@ -504,9 +504,11 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
-		control_box_set_playing_state(control_box, !mpv->state.paused);
+		gboolean paused = mpv_obj_get_property_flag(mpv, "pause");
 
-		if(!mpv->state.paused)
+		control_box_set_playing_state(control_box, !paused);
+
+		if(!paused)
 		{
 			app->inhibit_cookie
 				= gtk_application_inhibit

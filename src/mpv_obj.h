@@ -86,6 +86,7 @@ gint mpv_obj_get_property(	MpvObj *mpv,
 				mpv_format format,
 				void *data );
 gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name);
+gboolean mpv_obj_get_property_flag(MpvObj *mpv, const gchar *name);
 gint mpv_obj_set_property(	MpvObj *mpv,
 				const gchar *name,
 				mpv_format format,

@@ -768,6 +768,15 @@ inline gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name)
 	return mpv_get_property_string(mpv->mpv_ctx, name);
 }
 
+inline gboolean mpv_obj_get_property_flag(MpvObj *mpv, const gchar *name)
+{
+	gboolean value;
+
+	mpv_get_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+
+	return value;
+}
+
 inline gint mpv_obj_set_property(	MpvObj *mpv,
 					const gchar *name,
 					mpv_format format,
@@ -776,18 +785,18 @@ inline gint mpv_obj_set_property(	MpvObj *mpv,
 	return mpv_set_property(mpv->mpv_ctx, name, format, data);
 }
 
-inline gint mpv_obj_set_property_flag(	MpvObj *mpv,
-					const gchar *name,
-					gboolean value )
-{
-	return mpv_set_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
-}
-
 inline gint mpv_obj_set_property_string(	MpvObj *mpv,
 						const gchar *name,
 						const char *data )
 {
 	return mpv_set_property_string(mpv->mpv_ctx, name, data);
+}
+
+inline gint mpv_obj_set_property_flag(	MpvObj *mpv,
+					const gchar *name,
+					gboolean value )
+{
+	return mpv_set_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
 }
 
 void mpv_obj_set_wakup_callback(	MpvObj *mpv,

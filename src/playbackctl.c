@@ -41,7 +41,10 @@ static void play_handler(GtkWidget *widget, gpointer data)
 {
 	Application *app = data;
 
-	mpv_obj_set_property_flag(app->mpv, "pause", !app->mpv->state.paused);
+	mpv_obj_set_property_flag
+		(	app->mpv,
+			"pause",
+			!mpv_obj_get_property_flag(app->mpv, "pause") );
 }
 
 static void stop_handler(GtkWidget *widget, gpointer data)

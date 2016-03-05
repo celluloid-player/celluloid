@@ -95,10 +95,13 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
+			gboolean paused;
+
+			paused =	mpv_obj_get_property_flag
+					(inst->gmpv_ctx->mpv, "pause");
+
 			mpv_obj_set_property_flag
-				(	inst->gmpv_ctx->mpv,
-					"pause",
-					!inst->gmpv_ctx->mpv->state.paused );
+				(inst->gmpv_ctx->mpv, "pause", !paused);
 		}
 		else if(g_strcmp0(key, "FastForward") == 0)
 		{
