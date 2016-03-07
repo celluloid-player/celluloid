@@ -330,15 +330,25 @@ static void playlist_row_activated_handler(	GtkTreeView *tree_view,
 {
 	Application *app = data;
 	gint *indices = gtk_tree_path_get_indices(path);
+	gint64 index = indices[0];
+	gint64 pos;
+	gint rc;
 
-	if(indices)
+	rc = mpv_obj_get_property(	app->mpv,
+					"playlist-pos",
+					MPV_FORMAT_INT64,
+					&pos );
+
+	if(rc >= 0 && indices && indices[0] != pos)
 	{
-		gint64 index = indices[0];
-
 		mpv_obj_set_property(	app->mpv,
 					"playlist-pos",
 					MPV_FORMAT_INT64,
 					&index );
+	}
+	else
+	{
+		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
 	}
 }
 
