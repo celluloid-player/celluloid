@@ -1091,7 +1091,7 @@ void mpv_obj_load(	MpvObj *mpv,
 	empty = !gtk_tree_model_get_iter_first
 			(GTK_TREE_MODEL(playlist_store), &iter);
 
-	load_cmd[2] = (append && !empty)?"append":"replace";
+	load_cmd[2] = (append && !empty)?"append-play":"replace";
 
 	if(!append && uri && update)
 	{
