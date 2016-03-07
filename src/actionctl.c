@@ -212,7 +212,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	Application *app = data;
-	PlaylistWidget *playlist;
+	GtkTreeModel *playlist;
 	GFile *dest_file;
 	GOutputStream *dest_stream;
 	GtkFileChooser *file_chooser;
@@ -221,7 +221,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 	GtkTreeIter iter;
 	gboolean rc;
 
-	playlist = PLAYLIST_WIDGET(app->gui->playlist);
+	playlist = GTK_TREE_MODEL(playlist_get_store(app->mpv->playlist));
 	dest_file = NULL;
 	dest_stream = NULL;
 	error = NULL;
@@ -262,10 +262,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 							&error );
 
 		dest_stream = G_OUTPUT_STREAM(dest_file_stream);
-
-		rc = gtk_tree_model_get_iter_first
-			(GTK_TREE_MODEL(playlist->store), &iter);
-
+		rc = gtk_tree_model_get_iter_first(playlist, &iter);
 		rc &= !!dest_stream;
 	}
 
@@ -274,11 +271,8 @@ static void playlist_save_handler(	GSimpleAction *action,
 		gchar *uri;
 		gsize written;
 
-		gtk_tree_model_get(	GTK_TREE_MODEL(playlist->store),
-					&iter,
-					PLAYLIST_URI_COLUMN,
-					&uri,
-					-1 );
+		gtk_tree_model_get
+			(playlist, &iter, PLAYLIST_URI_COLUMN, &uri, -1);
 
 		rc &= g_output_stream_printf(	dest_stream,
 						&written,
@@ -286,9 +280,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 						&error,
 						"%s\n",
 						uri );
-
-		rc &= gtk_tree_model_iter_next
-			(GTK_TREE_MODEL(playlist->store), &iter);
+		rc &= gtk_tree_model_iter_next(playlist, &iter);
 	}
 
 	if(dest_stream)
