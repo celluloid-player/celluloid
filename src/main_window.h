@@ -67,7 +67,7 @@ struct _MainWindow
 	GtkWidget *vid_area_overlay;
 	GtkWidget *vid_area;
 	GtkWidget *control_box;
-	GtkWidget *fs_event_box;
+	GtkWidget *fs_revealer;
 	GtkWidget *playlist;
 };
 
