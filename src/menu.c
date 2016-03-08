@@ -151,13 +151,13 @@ void menu_build_full(	GMenu *menu,
 		= g_menu_item_new(_("_Fullscreen"), "app.fullscreen_toggle");
 
 	normal_size_menu_item
-		= g_menu_item_new(_("_Normal Size"), "app.normalsize");
+		= g_menu_item_new(_("_Normal Size"), "app.video_size(@d 1)");
 
 	double_size_menu_item
-		= g_menu_item_new(_("_Double Size"), "app.doublesize");
+		= g_menu_item_new(_("_Double Size"), "app.video_size(@d 2)");
 
 	half_size_menu_item
-		= g_menu_item_new(_("_Half Size"), "app.halfsize");
+		= g_menu_item_new(_("_Half Size"), "app.video_size(@d 0.5)");
 
 	/* Help */
 	help_menu = g_menu_new();
@@ -297,15 +297,15 @@ void menu_build_menu_btn(	GMenu *menu,
 
 	normal_size_menu_item
 		= g_menu_item_new
-			(_("_Normal Size"), "app.normalsize");
+			(_("_Normal Size"), "app.video_size(@d 1)");
 
 	double_size_menu_item
 		= g_menu_item_new
-			(_("_Double Size"), "app.doublesize");
+			(_("_Double Size"), "app.video_size(@d 2)");
 
 	half_size_menu_item
 		= g_menu_item_new
-			(_("_Half Size"), "app.halfsize");
+			(_("_Half Size"), "app.video_size(@d 0.5)");
 
 	if(video_list)
 	{
