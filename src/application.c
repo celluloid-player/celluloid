@@ -218,17 +218,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
 	}
 
-	main_window_load_state(app->gui);
-	gtk_widget_show_all(GTK_WIDGET(app->gui));
-
-	/* Due to a GTK bug, get_xid() must not be called when opengl-cb is
-	 * enabled or the GtkGLArea will break.
-	 */
-	app->mpv = mpv_obj_new(	app->playlist_store,
-				use_opengl,
-				use_opengl?-1:get_xid(app->gui->vid_area),
-				use_opengl?GTK_GL_AREA(app->gui->vid_area):NULL );
-
 	if(csd_enable)
 	{
 		control_box_set_fullscreen_btn_visible
@@ -240,6 +229,17 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	setup_accelerators(app);
 	actionctl_map_actions(app);
+	main_window_load_state(app->gui);
+	gtk_widget_show_all(GTK_WIDGET(app->gui));
+
+	/* Due to a GTK bug, get_xid() must not be called when opengl-cb is
+	 * enabled or the GtkGLArea will break.
+	 */
+	app->mpv = mpv_obj_new(	app->playlist_store,
+				use_opengl,
+				use_opengl?-1:get_xid(app->gui->vid_area),
+				use_opengl?GTK_GL_AREA(app->gui->vid_area):NULL );
+
 	connect_signals(app);
 	mpris_init(app);
 	media_keys_init(app);

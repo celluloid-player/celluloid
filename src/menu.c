@@ -289,7 +289,7 @@ void menu_build_menu_btn(	GMenu *menu,
 
 	playlist_toggle_menu_item
 		= g_menu_item_new
-			(_("_Toggle Playlist"), "app.playlist_toggle");
+			(_("_Show Playlist"), "app.playlist_toggle");
 
 	playlist_save_menu_item
 		= g_menu_item_new
