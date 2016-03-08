@@ -59,13 +59,7 @@ static void load_track_handler(	GSimpleAction *action,
 static void fullscreen_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-static void normal_size_handler(	GSimpleAction *action,
-					GVariant *param,
-					gpointer data );
-static void double_size_handler(	GSimpleAction *action,
-					GVariant *param,
-					gpointer data );
-static void half_size_handler(	GSimpleAction *action,
+static void video_size_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
 static void about_handler(	GSimpleAction *action,
@@ -484,25 +478,14 @@ static void fullscreen_handler(	GSimpleAction *action,
 	g_free(name);
 }
 
-static void normal_size_handler(	GSimpleAction *action,
-					GVariant *param,
-					gpointer data )
-{
-	resize_window_to_fit((Application *)data, 1);
-}
-
-static void double_size_handler(	GSimpleAction *action,
-					GVariant *param,
-					gpointer data )
-{
-	resize_window_to_fit((Application *)data, 2);
-}
-
-static void half_size_handler(	GSimpleAction *action,
+static void video_size_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	resize_window_to_fit((Application *)data, 0.5);
+	gdouble value = g_variant_get_double (param);
+
+	g_simple_action_set_state(action, param);
+	resize_window_to_fit((Application *)data, value);
 }
 
 static void about_handler(	GSimpleAction *action,
@@ -576,12 +559,9 @@ void actionctl_map_actions(Application *app)
 		.activate = fullscreen_handler},
 		{.name = "fullscreen_leave",
 		.activate = fullscreen_handler},
-		{.name = "normalsize",
-		.activate = normal_size_handler},
-		{.name = "doublesize",
-		.activate = double_size_handler},
-		{.name = "halfsize",
-		.activate = half_size_handler} };
+		{.name = "video_size",
+		.activate = video_size_handler,
+		.parameter_type = "d"} };
 
 	g_action_map_add_action_entries(	G_ACTION_MAP(app),
 						entries,
