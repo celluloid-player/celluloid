@@ -273,17 +273,15 @@ static gboolean timeout_handler(gpointer data)
 static gboolean finalize_load_state(gpointer data)
 {
 	MainWindow *wnd = data;
+	GAction *action = g_action_map_lookup_action
+				(G_ACTION_MAP (g_application_get_default()),
+		 		"playlist_toggle");
 
 	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
 				wnd->init_width-wnd->playlist_width );
 
-	if(wnd->init_playlist_visible != main_window_get_playlist_visible(wnd))
-	{
-		wnd->playlist_visible = wnd->init_playlist_visible;
-
-		gtk_widget_set_visible(	wnd->playlist,
-					wnd->init_playlist_visible );
-	}
+	g_action_change_state(
+		action, g_variant_new_boolean(wnd->init_playlist_visible));
 
 	return FALSE;
 }
