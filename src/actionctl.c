@@ -59,13 +59,7 @@ static void load_track_handler(	GSimpleAction *action,
 static void fullscreen_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-static void normal_size_handler(	GSimpleAction *action,
-					GVariant *param,
-					gpointer data );
-static void double_size_handler(	GSimpleAction *action,
-					GVariant *param,
-					gpointer data );
-static void half_size_handler(	GSimpleAction *action,
+static void video_size_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
 static void about_handler(	GSimpleAction *action,
@@ -202,9 +196,10 @@ static void playlist_toggle_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	Application *app = data;
-	gboolean visible = gtk_widget_get_visible(app->gui->playlist);
+	gboolean visible = g_variant_get_boolean(param);
 
-	main_window_set_playlist_visible(app->gui, !visible);
+	g_simple_action_set_state(action, param);
+	main_window_set_playlist_visible(app->gui, visible);
 }
 
 static void playlist_save_handler(	GSimpleAction *action,
@@ -484,25 +479,14 @@ static void fullscreen_handler(	GSimpleAction *action,
 	g_free(name);
 }
 
-static void normal_size_handler(	GSimpleAction *action,
+static void video_size_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	resize_window_to_fit((Application *)data, 1);
-}
+	gdouble value = g_variant_get_double (param);
 
-static void double_size_handler(	GSimpleAction *action,
-					GVariant *param,
-					gpointer data )
-{
-	resize_window_to_fit((Application *)data, 2);
-}
-
-static void half_size_handler(	GSimpleAction *action,
-				GVariant *param,
-				gpointer data )
-{
-	resize_window_to_fit((Application *)data, 0.5);
+	g_simple_action_set_state(action, param);
+	resize_window_to_fit((Application *)data, value);
 }
 
 static void about_handler(	GSimpleAction *action,
@@ -550,7 +534,8 @@ void actionctl_map_actions(Application *app)
 		.state = "false",
 		.change_state = loop_handler},
 		{.name = "playlist_toggle",
-		.activate = playlist_toggle_handler},
+		.state = "false",
+		.change_state = playlist_toggle_handler},
 		{.name = "playlist_save",
 		.activate = playlist_save_handler},
 		{.name = "playlist_remove_selected",
@@ -576,12 +561,10 @@ void actionctl_map_actions(Application *app)
 		.activate = fullscreen_handler},
 		{.name = "fullscreen_leave",
 		.activate = fullscreen_handler},
-		{.name = "normalsize",
-		.activate = normal_size_handler},
-		{.name = "doublesize",
-		.activate = double_size_handler},
-		{.name = "halfsize",
-		.activate = half_size_handler} };
+		{.name = "video_size",
+		.change_state = video_size_handler,
+		.state = "@d 1",
+		.parameter_type = "d"} };
 
 	g_action_map_add_action_entries(	G_ACTION_MAP(app),
 						entries,
