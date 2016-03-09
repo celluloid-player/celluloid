@@ -53,14 +53,9 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data );
 static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event);
-static gboolean configure_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data );
 static void vid_area_init(MainWindow *wnd, gboolean use_opengl);
 static GtkWidget *vid_area_new(gboolean use_opengl);
 static gboolean timeout_handler(gpointer data);
-static gboolean finalize_load_state(gpointer data);
-
 
 G_DEFINE_TYPE_WITH_PRIVATE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -69,6 +64,10 @@ static void main_window_constructed(GObject *object)
 	MainWindow *self = MAIN_WINDOW(object);
 
 	self->playlist = playlist_widget_new(self->priv->playlist);
+
+	gtk_widget_show_all(self->playlist);
+	gtk_widget_hide(self->playlist);
+	gtk_widget_set_no_show_all(self->playlist, TRUE);
 
 	gtk_paned_pack2(	GTK_PANED(self->vid_area_paned),
 				self->playlist,
@@ -169,31 +168,6 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 		->motion_notify_event(widget, event);
 }
 
-static gboolean configure_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data )
-{
-	MainWindow *wnd = data;
-	GdkEventConfigure *conf_event = (GdkEventConfigure *)event;
-	guint signal_id = g_signal_lookup("configure-event", MAIN_WINDOW_TYPE);
-
-	if(wnd->init_width == conf_event->width)
-	{
-		g_signal_handlers_disconnect_matched(	wnd,
-							G_SIGNAL_MATCH_ID
-							|G_SIGNAL_MATCH_DATA,
-							signal_id,
-							0,
-							0,
-							NULL,
-							data);
-
-		g_idle_add((GSourceFunc)finalize_load_state, data);
-	}
-
-	return FALSE;
-}
-
 static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 {
 	/* vid_area cannot be initialized more than once */
@@ -272,24 +246,6 @@ static gboolean timeout_handler(gpointer data)
 	return FALSE;
 }
 
-static gboolean finalize_load_state(gpointer data)
-{
-	MainWindow *wnd = data;
-
-	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
-				wnd->init_width-wnd->playlist_width );
-
-	if(wnd->init_playlist_visible != main_window_get_playlist_visible(wnd))
-	{
-		wnd->playlist_visible = wnd->init_playlist_visible;
-
-		gtk_widget_set_visible(	wnd->playlist,
-					wnd->init_playlist_visible );
-	}
-
-	return FALSE;
-}
-
 static void main_window_class_init(MainWindowClass *klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -328,8 +284,6 @@ static void main_window_init(MainWindow *wnd)
 	wnd->fs_control_hover = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
-	wnd->init_width = MAIN_WINDOW_DEFAULT_WIDTH;
-	wnd->init_height = MAIN_WINDOW_DEFAULT_HEIGHT;
 	wnd->settings = gtk_settings_get_default();
 	wnd->header_bar = gtk_header_bar_new();
 	wnd->open_hdr_btn = NULL;
@@ -544,31 +498,31 @@ void main_window_save_state(MainWindow *wnd)
 
 void main_window_load_state(MainWindow *wnd)
 {
-	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
+	if(!gtk_widget_get_realized(GTK_WIDGET(wnd)))
+	{
+		GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
+		gint width = g_settings_get_int(settings, "width");
+		gint height = g_settings_get_int(settings, "height");
 
-	wnd->init_width = g_settings_get_int(settings, "width");
-	wnd->init_height = g_settings_get_int(settings, "height");
-	wnd->init_playlist_visible
-		= g_settings_get_boolean(settings, "show-playlist");
+		wnd->playlist_width
+			= g_settings_get_int(settings, "playlist-width");
+		wnd->playlist_visible
+			= g_settings_get_boolean(settings, "show-playlist");
 
-	g_signal_connect(	wnd,
-				"configure-event",
-				G_CALLBACK(configure_handler),
-				wnd );
+		control_box_set_volume(	CONTROL_BOX(wnd->control_box),
+					g_settings_get_double(settings, "volume") );
+		gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
+					width-wnd->playlist_width );
+		gtk_widget_set_visible(wnd->playlist, wnd->playlist_visible);
+		gtk_window_resize(GTK_WINDOW(wnd), width, height);
 
-	/* This is needed even when show_playlist==false to initialize some
-	 * internal variables.
-	 */
-	main_window_set_playlist_visible(wnd, TRUE);
-
-	wnd->playlist_width = g_settings_get_int(settings, "playlist-width");
-
-	control_box_set_volume(	CONTROL_BOX(wnd->control_box),
-				g_settings_get_double(settings, "volume") );
-
-	gtk_window_resize(GTK_WINDOW(wnd), wnd->init_width, wnd->init_height);
-
-	g_clear_object(&settings);
+		g_clear_object(&settings);
+	}
+	else
+	{
+		g_critical(	"Attempted to call main_window_load_state() on "
+				"realized window" );
+	}
 }
 
 void main_window_update_track_list(	MainWindow *wnd,
@@ -697,32 +651,44 @@ gboolean main_window_get_csd_enabled(MainWindow *wnd)
 
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 {
-	gint offset;
-	gint handle_pos;
-	gint width;
-	gint height;
-
-	offset = main_window_get_csd_enabled(wnd)?PLAYLIST_CSD_WIDTH_OFFSET:0;
-	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
-
-	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
-
-	if(!visible && wnd->playlist_visible)
+	if(visible != wnd->playlist_visible)
 	{
-		wnd->playlist_width = width-handle_pos;
+		gint offset;
+		gint handle_pos;
+		gint width;
+		gint height;
+
+		offset =	main_window_get_csd_enabled(wnd)?
+				PLAYLIST_CSD_WIDTH_OFFSET:0;
+		handle_pos =	gtk_paned_get_position
+				(GTK_PANED(wnd->vid_area_paned));
+
+		gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
+
+		if(!visible && wnd->playlist_visible)
+		{
+			wnd->playlist_width = width-handle_pos;
+		}
+
+		if(!wnd->playlist_visible)
+		{
+			gtk_paned_set_position
+				(GTK_PANED(wnd->vid_area_paned), width-offset);
+		}
+
+		wnd->playlist_visible = visible;
+		gtk_widget_set_visible(wnd->playlist, visible);
+
+		/* For some unknown reason, width needs to be adjusted by some
+		 * offset (50px) when CSD is enabled for the resulting size to
+		 * be correct.
+		 */
+		gtk_window_resize(	GTK_WINDOW(wnd),
+					visible
+					?width+wnd->playlist_width-offset
+					:handle_pos+offset,
+					height );
 	}
-
-	wnd->playlist_visible = visible;
-	gtk_widget_set_visible(wnd->playlist, visible);
-
-	/* For some unknown reason, width needs to be adjusted by some offset
-	 * (50px) when CSD is enabled for the resulting size to be correct.
-	 */
-	gtk_window_resize(	GTK_WINDOW(wnd),
-				visible
-				?width+wnd->playlist_width-offset
-				:handle_pos+offset,
-				height );
 }
 
 gboolean main_window_get_playlist_visible(MainWindow *wnd)

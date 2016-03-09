@@ -53,9 +53,6 @@ struct _MainWindow
 	gboolean playlist_visible;
 	gboolean fs_control_hover;
 	gint playlist_width;
-	gint init_width;
-	gint init_height;
-	gint init_playlist_visible;
 	guint timeout_tag;
 	GtkSettings* settings;
 	GtkWidget *header_bar;
