@@ -196,10 +196,9 @@ static void playlist_toggle_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	Application *app = data;
-	gboolean visible = g_variant_get_boolean(param);
+	gboolean visible = gtk_widget_get_visible(app->gui->playlist);
 
-	g_simple_action_set_state(action, param);
-	main_window_set_playlist_visible(app->gui, visible);
+	main_window_set_playlist_visible(app->gui, !visible);
 }
 
 static void playlist_save_handler(	GSimpleAction *action,
@@ -534,8 +533,7 @@ void actionctl_map_actions(Application *app)
 		.state = "false",
 		.change_state = loop_handler},
 		{.name = "playlist_toggle",
-		.state = "false",
-		.change_state = playlist_toggle_handler},
+		.activate = playlist_toggle_handler},
 		{.name = "playlist_save",
 		.activate = playlist_save_handler},
 		{.name = "playlist_remove_selected",

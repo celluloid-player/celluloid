@@ -240,6 +240,15 @@ static void startup_handler(GApplication *gapp, gpointer data)
 				use_opengl?-1:get_xid(app->gui->vid_area),
 				use_opengl?GTK_GL_AREA(app->gui->vid_area):NULL );
 
+	if(csd_enable)
+	{
+		control_box_set_fullscreen_btn_visible
+			(CONTROL_BOX(app->gui->control_box), FALSE);
+	}
+
+	control_box_set_chapter_enabled
+		(CONTROL_BOX(app->gui->control_box), FALSE);
+
 	connect_signals(app);
 	mpris_init(app);
 	media_keys_init(app);
