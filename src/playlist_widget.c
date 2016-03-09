@@ -179,6 +179,8 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 				GDK_ACTION_COPY );
 	gtk_drag_dest_add_uri_targets(GTK_WIDGET(wgt));
 
+	gtk_widget_set_size_request
+		(GTK_WIDGET(wgt), PLAYLIST_MIN_WIDTH, -1);
 	gtk_tree_view_column_set_sizing
 		(wgt->title_column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 }
