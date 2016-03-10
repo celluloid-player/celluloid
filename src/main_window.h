@@ -51,7 +51,6 @@ struct _MainWindow
 	MainWindowPrivate *priv;
 	gboolean fullscreen;
 	gboolean playlist_visible;
-	gboolean pre_fs_playlist_visible;
 	gboolean fs_control_hover;
 	gint playlist_width;
 	guint timeout_tag;

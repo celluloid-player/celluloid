@@ -281,7 +281,6 @@ static void main_window_init(MainWindow *wnd)
 	wnd->priv = main_window_get_instance_private(wnd);
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
-	wnd->pre_fs_playlist_visible = FALSE;
 	wnd->fs_control_hover = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
@@ -398,9 +397,7 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 					(GTK_APPLICATION_WINDOW(wnd), FALSE);
 			}
 
-			wnd->pre_fs_playlist_visible = wnd->playlist_visible;
-			main_window_set_playlist_visible(wnd, FALSE);
-
+			gtk_widget_hide(wnd->playlist);
 			timeout_handler(wnd);
 		}
 		else
@@ -432,8 +429,8 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 					(GTK_APPLICATION_WINDOW(wnd), TRUE);
 			}
 
-			main_window_set_playlist_visible
-				(wnd, wnd->pre_fs_playlist_visible);
+			gtk_widget_set_visible
+				(wnd->playlist, wnd->playlist_visible);
 
 			cursor =	gdk_cursor_new_from_name
 					(gdk_display_get_default(), "default");
@@ -648,7 +645,7 @@ gboolean main_window_get_csd_enabled(MainWindow *wnd)
 
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 {
-	if(visible != wnd->playlist_visible)
+	if(visible != wnd->playlist_visible && !wnd->fullscreen)
 	{
 		gint offset;
 		gint handle_pos;
