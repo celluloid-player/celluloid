@@ -52,6 +52,7 @@ struct _MainWindow
 	gboolean fullscreen;
 	gboolean playlist_visible;
 	gboolean fs_control_hover;
+	gboolean pre_fs_playlist_visible;
 	gint playlist_width;
 	guint timeout_tag;
 	GtkSettings* settings;

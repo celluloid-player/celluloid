@@ -282,6 +282,7 @@ static void main_window_init(MainWindow *wnd)
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
 	wnd->fs_control_hover = FALSE;
+	wnd->pre_fs_playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
 	wnd->settings = gtk_settings_get_default();
@@ -397,7 +398,8 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 					(GTK_APPLICATION_WINDOW(wnd), FALSE);
 			}
 
-			gtk_widget_hide(wnd->playlist);
+			wnd->pre_fs_playlist_visible = wnd->playlist_visible;
+			gtk_widget_set_visible(wnd->playlist, FALSE);
 			timeout_handler(wnd);
 		}
 		else
@@ -429,8 +431,9 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 					(GTK_APPLICATION_WINDOW(wnd), TRUE);
 			}
 
+			wnd->playlist_visible = wnd->pre_fs_playlist_visible;
 			gtk_widget_set_visible
-				(wnd->playlist, wnd->playlist_visible);
+				(wnd->playlist, wnd->pre_fs_playlist_visible);
 
 			cursor =	gdk_cursor_new_from_name
 					(gdk_display_get_default(), "default");
@@ -497,18 +500,26 @@ void main_window_load_state(MainWindow *wnd)
 		GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 		gint width = g_settings_get_int(settings, "width");
 		gint height = g_settings_get_int(settings, "height");
+		gint offset;
+		gint handle_pos;
+		gdouble volume;
 
 		wnd->playlist_width
 			= g_settings_get_int(settings, "playlist-width");
 		wnd->playlist_visible
 			= g_settings_get_boolean(settings, "show-playlist");
+		volume = g_settings_get_double(settings, "volume");
+		offset =	main_window_get_csd_enabled(wnd)?
+				PLAYLIST_CSD_WIDTH_OFFSET:0;
+		handle_pos =	width-
+				(wnd->playlist_visible?
+				wnd->playlist_width:offset);
 
-		control_box_set_volume(	CONTROL_BOX(wnd->control_box),
-					g_settings_get_double(settings, "volume") );
-		gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
-					width-wnd->playlist_width );
+		control_box_set_volume(CONTROL_BOX(wnd->control_box), volume);
 		gtk_widget_set_visible(wnd->playlist, wnd->playlist_visible);
 		gtk_window_resize(GTK_WINDOW(wnd), width, height);
+		gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
+					 handle_pos );
 
 		g_clear_object(&settings);
 	}
@@ -647,21 +658,25 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 {
 	if(visible != wnd->playlist_visible && !wnd->fullscreen)
 	{
-		gint offset;
+		gint wnd_offset;
+		gint handle_offset;
 		gint handle_pos;
 		gint width;
 		gint height;
 
-		offset =	main_window_get_csd_enabled(wnd)?
+		wnd_offset =	main_window_get_csd_enabled(wnd)?
 				PLAYLIST_CSD_WIDTH_OFFSET:0;
+		handle_offset =	gtk_window_is_maximized(GTK_WINDOW(wnd)) ||
+				wnd->fullscreen?
+				wnd_offset:0;
 		handle_pos =	gtk_paned_get_position
 				(GTK_PANED(wnd->vid_area_paned));
 
 		gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
-		if(!visible && wnd->playlist_visible)
+		if(!visible)
 		{
-			wnd->playlist_width = width-handle_pos;
+			wnd->playlist_width = width-handle_pos+handle_offset;
 		}
 
 		wnd->playlist_visible = visible;
@@ -673,8 +688,8 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 		 */
 		gtk_window_resize(	GTK_WINDOW(wnd),
 					visible
-					?width+wnd->playlist_width-offset
-					:handle_pos+offset,
+					?width+wnd->playlist_width-wnd_offset
+					:handle_pos+wnd_offset,
 					height );
 	}
 }
