@@ -114,6 +114,8 @@
 				"", "Control_R",\
 				"", "Alt_L",\
 				"", "Alt_R",\
+				"", "Meta_L",\
+				"", "Meta_R",\
 				"", "Shift_L",\
 				"", "Shift_R",\
 				NULL }
