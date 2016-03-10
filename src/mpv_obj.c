@@ -1029,15 +1029,20 @@ void mpv_obj_reset(MpvObj *mpv)
 
 	if(mpv->playlist)
 	{
-		gint rc;
+		if(mpv->priv->state.loaded)
+		{
+			gint rc;
 
-		rc = mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
-		mpv_check_error(rc);
+			rc =	mpv_request_event
+				(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
+			mpv_check_error(rc);
 
-		mpv_obj_load(mpv, NULL, FALSE, TRUE);
+			mpv_obj_load(mpv, NULL, FALSE, TRUE);
 
-		rc = mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
-		mpv_check_error(rc);
+			rc =	mpv_request_event
+				(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
+			mpv_check_error(rc);
+		}
 
 		if(playlist_pos_rc >= 0 && playlist_pos > 0)
 		{
