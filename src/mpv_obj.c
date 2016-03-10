@@ -848,6 +848,11 @@ inline gboolean mpv_obj_is_loaded(MpvObj *mpv)
 	return mpv->state.loaded;
 }
 
+inline void mpv_obj_get_state(MpvObj *mpv, MpvObjState *state)
+{
+	memcpy(state, &mpv->state, sizeof(MpvObjState));
+}
+
 void mpv_obj_initialize(MpvObj *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);

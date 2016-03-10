@@ -520,6 +520,9 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 	Application *app = data;
 	MpvObj *mpv = app->mpv;
 	ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
+	MpvObjState state;
+
+	mpv_obj_get_state(mpv, &state);
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
@@ -547,7 +550,7 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 		update_track_list(app, prop->data);
 	}
 	else if(g_strcmp0(prop->name, "volume") == 0
-	&& (mpv->state.init_load || mpv_obj_is_loaded(mpv)))
+	&& (state.init_load || state.loaded))
 	{
 		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
 
@@ -602,10 +605,13 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 {
 	Application *app = data;
 	MpvObj *mpv = app->mpv;
+	MpvObjState state;
+
+	mpv_obj_get_state(mpv, &state);
 
 	if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
 	{
-		if(app->mpv->state.new_file && app->mpv->autofit_ratio > 0)
+		if(state.new_file && app->mpv->autofit_ratio > 0)
 		{
 			resize_window_to_fit(app, mpv->autofit_ratio);
 		}
@@ -629,7 +635,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		title = mpv_obj_get_property_string(mpv, "media-title");
 
 		control_box_set_enabled(control_box, TRUE);
-		control_box_set_playing_state(control_box, !mpv->state.paused);
+		control_box_set_playing_state(control_box, !state.paused);
 		playlist_set_indicator_pos(mpv->playlist, (gint)pos);
 		control_box_set_seek_bar_length(control_box, (gint)length);
 		gtk_window_set_title(GTK_WINDOW(app->gui), title);
@@ -666,7 +672,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	}
 	else if(event->event_id == MPV_EVENT_IDLE)
 	{
-		if(!app->mpv->state.init_load && !mpv_obj_is_loaded(app->mpv))
+		if(!state.init_load && !state.loaded)
 		{
 			main_window_reset(app->gui);
 		}
@@ -926,6 +932,9 @@ static gint64 get_xid(GtkWidget *widget)
 static gboolean load_files(gpointer data)
 {
 	Application *app = data;
+	MpvObjState state;
+
+	mpv_obj_get_state(app->mpv, &state);
 
 	if(app->files)
 	{
@@ -938,7 +947,7 @@ static gboolean load_files(gpointer data)
 		{
 			gchar *name = get_name_from_path(app->files[i]);
 
-			if(app->mpv->state.init_load)
+			if(state.init_load)
 			{
 				playlist_append(	app->playlist_store,
 							name,
