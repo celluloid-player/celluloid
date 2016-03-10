@@ -506,12 +506,12 @@ void main_window_load_state(MainWindow *wnd)
 		wnd->playlist_visible
 			= g_settings_get_boolean(settings, "show-playlist");
 
+		gtk_window_resize(GTK_WINDOW(wnd), width, height);
 		control_box_set_volume(	CONTROL_BOX(wnd->control_box),
 					g_settings_get_double(settings, "volume") );
+		gtk_widget_set_visible(wnd->playlist, wnd->playlist_visible);
 		gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
 					width-wnd->playlist_width );
-		gtk_widget_set_visible(wnd->playlist, wnd->playlist_visible);
-		gtk_window_resize(GTK_WINDOW(wnd), width, height);
 
 		g_clear_object(&settings);
 	}
@@ -662,7 +662,12 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 
 		gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
-		if(!visible && wnd->playlist_visible)
+		if(visible)
+		{
+			gtk_paned_set_position
+				(GTK_PANED(wnd->vid_area_paned), width-offset);
+		}
+		else
 		{
 			wnd->playlist_width = width-handle_pos;
 		}
