@@ -59,7 +59,6 @@ struct _MpvObj
 {
 	GObject parent;
 	MpvObjPrivate *priv;
-	MpvObjState state;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	Playlist *playlist;
