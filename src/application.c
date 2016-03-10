@@ -591,7 +591,6 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 		gint64 pos = *((gint64 *)prop->data);
 
 		playlist_set_indicator_pos(mpv->playlist, (gint)pos);
-		mpv_obj_set_property_flag(mpv, "pause", FALSE);
 	}
 	else if(g_strcmp0(prop->name, "chapters") == 0 && prop->data)
 	{
