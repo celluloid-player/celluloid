@@ -103,6 +103,7 @@ void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
 					void *data );
 void mpv_obj_wakeup_callback(void *data);
 void mpv_check_error(int status);
+gboolean mpv_obj_is_loaded(MpvObj *mpv);
 void mpv_obj_initialize(MpvObj *mpv);
 void mpv_obj_reset(MpvObj *mpv);
 void mpv_obj_quit(MpvObj *mpv);

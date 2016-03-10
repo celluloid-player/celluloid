@@ -843,6 +843,11 @@ void mpv_check_error(int status)
 	}
 }
 
+inline gboolean mpv_obj_is_loaded(MpvObj *mpv)
+{
+	return mpv->state.loaded;
+}
+
 void mpv_obj_initialize(MpvObj *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);

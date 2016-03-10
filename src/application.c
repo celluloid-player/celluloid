@@ -367,7 +367,7 @@ static void playlist_row_deleted_handler(	Playlist *pl,
 {
 	Application *app = data;
 
-	if(app->mpv->state.loaded)
+	if(mpv_obj_is_loaded(app->mpv))
 	{
 		const gchar *cmd[] = {"playlist_remove", NULL, NULL};
 		gchar *index_str = g_strdup_printf("%d", pos);
@@ -547,7 +547,7 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 		update_track_list(app, prop->data);
 	}
 	else if(g_strcmp0(prop->name, "volume") == 0
-	&& (mpv->state.init_load || mpv->state.loaded))
+	&& (mpv->state.init_load || mpv_obj_is_loaded(mpv)))
 	{
 		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
 
@@ -666,7 +666,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	}
 	else if(event->event_id == MPV_EVENT_IDLE)
 	{
-		if(!app->mpv->state.init_load && !app->mpv->state.loaded)
+		if(!app->mpv->state.init_load && !mpv_obj_is_loaded(app->mpv))
 		{
 			main_window_reset(app->gui);
 		}
@@ -725,7 +725,7 @@ static void drag_data_handler(	GtkWidget *widget,
 			 * already is a file loaded. Try to load the file as a
 			 * media file otherwise.
 			 */
-			if(sub_exts[j] && app->mpv->state.loaded)
+			if(sub_exts[j] && mpv_obj_is_loaded(app->mpv))
 			{
 				const gchar *cmd[] = {"sub-add", NULL, NULL};
 				gchar *path;
