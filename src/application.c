@@ -526,7 +526,7 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
-		gboolean paused = mpv_obj_get_property_flag(mpv, "pause");
+		gboolean paused = prop->data?*((gboolean *)prop->data):TRUE;
 
 		control_box_set_playing_state(control_box, !paused);
 
