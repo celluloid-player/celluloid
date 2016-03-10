@@ -1,12 +1,11 @@
 # Piotr Sokół <psokol.l10n@gmail.com>, 2016. #zanata
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-04 13:54+0700\n"
-"PO-Revision-Date: 2016-03-04 02:18-0500\n"
-"Last-Translator: gnome-mpv <gnome-mpv@openmailbox.org>\n"
+"POT-Creation-Date: 2016-03-09 20:06+0700\n"
+"PO-Revision-Date: 2016-03-06 02:37-0500\n"
+"Last-Translator: Piotr Sokół <psokol.l10n@gmail.com>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,13 +50,12 @@ msgstr "Przełącza wczytywanie pliku konfiguracyjnego mpv"
 #: ../data/org.gnome-mpv.gschema.xml.in.h:7
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:8
 msgid "Path to mpv input configuration file"
-msgstr ""
+msgstr "Wskazuje ścieżkę pliku konfiguracyjnego skrótów programu mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:8
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:9
-#, fuzzy
 msgid "Load or don't load mpv input configuration file"
-msgstr "Przełącza wczytywanie pliku konfiguracyjnego skrótów klawiszowych mpv"
+msgstr "Przełącza wczytywanie pliku konfiguracyjnego skrótów programu mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:9
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:10
@@ -93,6 +91,7 @@ msgstr "Przechowuje adres URI ostatnio używanego katalogu"
 msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr ""
+"Określa czy ustawienia zostały zaimportowane z poprzedniej wersji programu"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
 msgid ""
@@ -102,6 +101,12 @@ msgid ""
 "libraries. GNOME MPV also offers an option to disable client-side "
 "decorations (CSD) for better compatibility with non-GNOME systems."
 msgstr ""
+"GNOME MPV jest prostym interfejsem GTK+ programu mpv - potężnego odtwarzacza"
+" obsługującego wszystkie formaty nagrań dźwięku i wideo.  Projekt interfejsu"
+" jest zgodny z wytycznymi GNOME HIG, choć sam program nie jest zależy od "
+"bibliotek GNOME. GNOME MPV umożliwia wyłączenie wyświetlania obramowań po "
+"stronie klienta (CDS) dla lepszej integracji z systemami bez środowiska "
+"GNOME."
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:2
 msgid "Features:"
@@ -109,27 +114,27 @@ msgstr "Cechy:"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:3
 msgid "Drag and drop playlist"
-msgstr ""
+msgstr "lista odtwarzania obsługująca przeciąganie plików,"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:4
 msgid "Loading external mpv configuration files"
-msgstr "Wczytywanie zewnętrznych plików konfiguracyjnych mpv"
+msgstr "wczytywanie zewnętrznych plików konfiguracyjnych programu mpv,"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:5
 msgid "MPRIS2 D-Bus interface"
-msgstr ""
+msgstr "obsluga interfejsu D-Bus MPRIS2."
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:6
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Główne okno przedstawiające działanie programu"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:7
 msgid "The main window with CSD disabled"
-msgstr ""
+msgstr "Głowne okno programu z wyłączonym obramowaniem po stronie klienta"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:8
 msgid "The main window with playlist open"
-msgstr ""
+msgstr "Główne okno programu z listą odtwarzania"
 
 #: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:159
 msgid "GNOME MPV"
@@ -147,26 +152,26 @@ msgstr "Dodawanie pliku do listy odtwarzania"
 msgid "Open File"
 msgstr "Wybór pliku"
 
-#: ../src/actionctl.c:94 ../src/actionctl.c:235 ../src/actionctl.c:440
+#: ../src/actionctl.c:94 ../src/actionctl.c:234 ../src/actionctl.c:431
 #: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:204
 msgid "_Cancel"
 msgstr "_Anuluj"
 
-#: ../src/actionctl.c:96 ../src/actionctl.c:442 ../src/menu.c:121
+#: ../src/actionctl.c:96 ../src/actionctl.c:433 ../src/menu.c:121
 #: ../src/menu.c:390 ../src/open_loc_dialog.c:81
 msgid "_Open"
 msgstr "_Otwórz"
 
-#: ../src/actionctl.c:232
+#: ../src/actionctl.c:231
 #, fuzzy
 msgid "Save Playlist"
 msgstr "Zapisywanie listy odtwarzania"
 
-#: ../src/actionctl.c:237 ../src/pref_dialog.c:206
+#: ../src/actionctl.c:236 ../src/pref_dialog.c:206
 msgid "_Save"
 msgstr "_Zapisz"
 
-#: ../src/actionctl.c:356
+#: ../src/actionctl.c:347
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
@@ -175,19 +180,19 @@ msgstr ""
 "Przełączenie wyświetlania obramowań okien po stronie klienta wymaga "
 "ponownego uruchomienia programu %s w celu wprowadzenia zmian."
 
-#: ../src/actionctl.c:437
+#: ../src/actionctl.c:428
 msgid "Load External…"
-msgstr ""
+msgstr "Wczytaj zewnętrzną..."
 
-#: ../src/actionctl.c:530
+#: ../src/actionctl.c:521
 msgid "A GTK frontend for MPV"
-msgstr ""
+msgstr "Wykorzystuje interfejs GTK do obsługi programu MPV"
 
-#: ../src/actionctl.c:540
+#: ../src/actionctl.c:531
 msgid "translator-credits"
-msgstr "Piotr Sokół"
+msgstr "Piotr Sokół <psokol.l10n@gmail.com>, 2016"
 
-#: ../src/application.c:516
+#: ../src/application.c:528
 msgid "Playing"
 msgstr "Odtwarzanie"
 
@@ -197,27 +202,27 @@ msgstr "Błąd"
 
 #: ../src/control_box.c:119 ../src/control_box.c:244
 msgid "Play"
-msgstr ""
+msgstr "Odtwarzaj"
 
 #: ../src/control_box.c:120
 msgid "Stop"
-msgstr ""
+msgstr "Zatrzymaj"
 
 #: ../src/control_box.c:121
 msgid "Forward"
-msgstr ""
+msgstr "Naprzód"
 
 #: ../src/control_box.c:122
 msgid "Rewind"
-msgstr ""
+msgstr "Wstecz"
 
 #: ../src/control_box.c:123
 msgid "Next Chapter"
-msgstr ""
+msgstr "Następny rozdział"
 
 #: ../src/control_box.c:124
 msgid "Previous Chapter"
-msgstr ""
+msgstr "Poprzedni rozdział"
 
 #: ../src/control_box.c:125
 msgid "Toggle Fullscreen"
@@ -225,7 +230,7 @@ msgstr ""
 
 #: ../src/control_box.c:244
 msgid "Pause"
-msgstr ""
+msgstr "Wstrzymaj"
 
 #: ../src/menu.c:39
 msgid "None"
@@ -311,14 +316,14 @@ msgstr "Ścieżka _dźwiękowa"
 msgid "S_ubtitle Track"
 msgstr "Ścieżka _napisów"
 
-#: ../src/mpv_obj.c:539
+#: ../src/mpv_obj.c:258
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr ""
+msgstr "Zakończono odtwarzanie w nieprawidłowy sposób. Powód: %s"
 
-#: ../src/mpv_obj.c:1199
+#: ../src/mpv_obj.c:926
 msgid "Failed to apply one or more MPV options."
-msgstr ""
+msgstr "Nie udało się wprowadzić jednej lub więcej opcji MPV."
 
 #: ../src/open_loc_dialog.c:77
 msgid "Location:"
@@ -346,7 +351,7 @@ msgstr "<b>Ogólne</b>"
 
 #: ../src/pref_dialog.c:139
 msgid "Enable client-side decorations"
-msgstr "Włączenie obramowania po stronie klienta"
+msgstr "Obramowania okien po stronie klienta"
 
 #: ../src/pref_dialog.c:142
 msgid "Enable dark theme"
@@ -374,11 +379,11 @@ msgstr "<b>Skróty klawiszowe</b>"
 
 #: ../src/pref_dialog.c:160
 msgid "Load MPV input configuration file"
-msgstr ""
+msgstr "Wczytywanie pliku konfiguracji skrótów MPV"
 
 #: ../src/pref_dialog.c:163
 msgid "MPV input configuration file:"
-msgstr ""
+msgstr "Plik konfiguracji skrótów MPV:"
 
 #: ../src/pref_dialog.c:166
 msgid "<b>Miscellaneous</b>"
