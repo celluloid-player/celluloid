@@ -161,6 +161,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 		iface = mpris_org_mpris_media_player2_interface_info();
 		value = g_variant_new_boolean(inst->gmpv_ctx->gui->fullscreen);
 
+		g_variant_ref_sink(value);
 		g_variant_builder_add(&builder, "{sv}", "Fullscreen", value);
 
 		sig_args = g_variant_new(	"(sa{sv}as)",
@@ -179,7 +180,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 
 		g_hash_table_replace(	((mpris *) data)->base_prop_table,
 					g_strdup("Fullscreen"),
-					g_variant_ref(value) );
+					value );
 	}
 
 	return FALSE;
