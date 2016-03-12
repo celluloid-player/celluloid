@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
+
 #include "def.h"
 #include "menu.h"
 #include "application.h"
@@ -633,6 +635,9 @@ void main_window_enable_csd(MainWindow *wnd)
 		(GTK_HEADER_BAR(wnd->header_bar), wnd->menu_hdr_btn);
 	gtk_header_bar_pack_end
 		(GTK_HEADER_BAR(wnd->header_bar), wnd->fullscreen_hdr_btn);
+
+	gtk_widget_set_tooltip_text(	wnd->fullscreen_hdr_btn,
+					_("Toggle Fullscreen") );
 
 	gtk_actionable_set_action_name
 		(	GTK_ACTIONABLE(wnd->fullscreen_hdr_btn),
