@@ -719,18 +719,25 @@ static void drag_data_handler(	GtkWidget *widget,
 
 		for(gint i = 0; uri_list[i]; i++)
 		{
-			const gchar *ext = strrchr(uri_list[i], '.')+1;
+			const gchar *ext = strrchr(uri_list[i], '.');
 			gint j;
 
-			for(	j = 0;
-				sub_exts[j] && g_strcmp0(ext, sub_exts[j]) != 0;
-				j++ );
+			/* Only start checking the extension if there is at
+			 * least one character after the dot.
+			 */
+			if(ext && ++ext)
+			{
+				for(	j = 0;
+					sub_exts[j] &&
+					g_strcmp0(ext, sub_exts[j]) != 0;
+					j++ );
+			}
 
 			/* Only attempt to load file as subtitle if there
 			 * already is a file loaded. Try to load the file as a
 			 * media file otherwise.
 			 */
-			if(sub_exts[j] && mpv_obj_is_loaded(app->mpv))
+			if(ext && sub_exts[j] && mpv_obj_is_loaded(app->mpv))
 			{
 				const gchar *cmd[] = {"sub-add", NULL, NULL};
 				gchar *path;
