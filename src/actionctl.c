@@ -484,7 +484,6 @@ static void video_size_handler(	GSimpleAction *action,
 {
 	gdouble value = g_variant_get_double (param);
 
-	g_simple_action_set_state(action, param);
 	resize_window_to_fit((Application *)data, value);
 }
 
