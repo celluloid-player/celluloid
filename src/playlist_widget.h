@@ -47,9 +47,7 @@ struct _PlaylistWidget
 	GtkScrolledWindow parent_instance;
 	GtkWidget *tree_view;
 	Playlist *store;
-	GtkTreeViewColumn *indicator_column;
 	GtkTreeViewColumn *title_column;
-	GtkCellRenderer *indicator_renderer;
 	GtkCellRenderer *title_renderer;
 };
 

@@ -53,9 +53,6 @@ static void playlist_widget_constructed(GObject *object)
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(self->tree_view), TRUE);
 
 	gtk_tree_view_append_column
-		(GTK_TREE_VIEW(self->tree_view), self->indicator_column);
-
-	gtk_tree_view_append_column
 		(GTK_TREE_VIEW(self->tree_view), self->title_column);
 
 	gtk_container_add(GTK_CONTAINER(self), self->tree_view);
@@ -157,20 +154,14 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 {
 	GtkTargetEntry targets[] = DND_TARGETS;
 
-	wgt->indicator_renderer = gtk_cell_renderer_text_new();
 	wgt->title_renderer = gtk_cell_renderer_text_new();
-
-	wgt->indicator_column
-		= gtk_tree_view_column_new_with_attributes
-			(	"\xe2\x80\xa2", /* UTF-8 bullet */
-				wgt->indicator_renderer,
-				"text",
-				0,
-				NULL );
-
 	wgt->title_column
 		= gtk_tree_view_column_new_with_attributes
-			(_("Playlist"), wgt->title_renderer, "text", 1, NULL);
+			(	_("Playlist"),
+				wgt->title_renderer,
+				"text", PLAYLIST_NAME_COLUMN,
+				"weight", PLAYLIST_WEIGHT_COLUMN,
+				NULL );
 
 	gtk_drag_dest_set(	GTK_WIDGET(wgt),
 				GTK_DEST_DEFAULT_ALL,
