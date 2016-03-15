@@ -620,7 +620,10 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	}
 	else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
 	{
-		mpv_prop_change_handler(event->data, data);
+		if(state.loaded)
+		{
+			mpv_prop_change_handler(event->data, data);
+		}
 	}
 	else if(event->event_id == MPV_EVENT_FILE_LOADED)
 	{
