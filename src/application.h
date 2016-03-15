@@ -50,6 +50,7 @@ struct _Application
 	MpvObj *mpv;
 	gchar **files;
 	guint inhibit_cookie;
+	gint64 target_playlist_pos;
 	GSettings *config;
 	MainWindow *gui;
 	GtkWidget *fs_control;

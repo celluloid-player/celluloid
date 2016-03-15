@@ -167,6 +167,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	app->files = NULL;
 	app->inhibit_cookie = 0;
+	app->target_playlist_pos = -1;
 	app->config = g_settings_new(CONFIG_ROOT);
 	app->playlist_store = playlist_new();
 	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store, use_opengl));
@@ -357,6 +358,8 @@ static void playlist_row_activated_handler(	GtkTreeView *tree_view,
 	}
 	else
 	{
+		app->target_playlist_pos = index;
+
 		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
 	}
 }
@@ -625,6 +628,16 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		gint64 pos;
 		gdouble length;
 		gchar *title;
+
+		if(app->target_playlist_pos != -1)
+		{
+			mpv_obj_set_property(	app->mpv,
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&app->target_playlist_pos );
+
+			app->target_playlist_pos = -1;
+		}
 
 		mpv_obj_get_property
 			(mpv, "playlist-pos", MPV_FORMAT_INT64, &pos);
