@@ -746,58 +746,135 @@ MpvObj *mpv_obj_new(	Playlist *playlist,
 					NULL ));
 }
 
-inline gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
+gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
 {
-	return mpv_command(mpv->mpv_ctx, cmd);
+	gint rc;
+
+	rc = mpv_command(mpv->mpv_ctx, cmd);
+
+	if(rc < 0)
+	{
+		gchar *cmd_str = g_strjoinv(" ", (gchar **)cmd);
+
+		g_warning("Failed to run mpv command \"%s\"", cmd_str);
+
+		g_free(cmd);
+	}
+
+	return rc;
 }
 
-inline gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd)
+gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd)
 {
-	return mpv_command_string(mpv->mpv_ctx, cmd);
+	gint rc;
+
+	rc = mpv_command_string(mpv->mpv_ctx, cmd);
+
+	if(rc < 0)
+	{
+		g_warning("Failed to run mpv command string \"%s\"", cmd);
+	}
+
+	return rc;
 }
 
-inline gint mpv_obj_get_property(	MpvObj *mpv,
-					const gchar *name,
-					mpv_format format,
-					void *data )
+gint mpv_obj_get_property(	MpvObj *mpv,
+				const gchar *name,
+				mpv_format format,
+				void *data )
 {
-	return mpv_get_property(mpv->mpv_ctx, name, format, data);
+	gint rc;
+
+	rc = mpv_get_property(mpv->mpv_ctx, name, format, data);
+
+	if(rc < 0)
+	{
+		g_warning(	"Failed to retrieve property \"%s\""
+				"using mpv format %d",
+				name,
+				format );
+	}
+
+	return rc;
 }
 
-inline gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name)
+gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name)
 {
-	return mpv_get_property_string(mpv->mpv_ctx, name);
-}
+	gchar *value = mpv_get_property_string(mpv->mpv_ctx, name);
 
-inline gboolean mpv_obj_get_property_flag(MpvObj *mpv, const gchar *name)
-{
-	gboolean value;
-
-	mpv_get_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+	if(!value)
+	{
+		g_warning("Failed to retrieve property \"%s\" as string", name);
+	}
 
 	return value;
 }
 
-inline gint mpv_obj_set_property(	MpvObj *mpv,
-					const gchar *name,
-					mpv_format format,
-					void *data )
+gboolean mpv_obj_get_property_flag(MpvObj *mpv, const gchar *name)
 {
-	return mpv_set_property(mpv->mpv_ctx, name, format, data);
+	gboolean value = FALSE;
+	gint rc;
+
+	rc = mpv_get_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+
+	if(rc < 0)
+	{
+		g_warning("Failed to retrieve property \"%s\" as flag", name);
+	}
+
+	return value;
 }
 
-inline gint mpv_obj_set_property_string(	MpvObj *mpv,
-						const gchar *name,
-						const char *data )
+gint mpv_obj_set_property(	MpvObj *mpv,
+				const gchar *name,
+				mpv_format format,
+				void *data )
 {
-	return mpv_set_property_string(mpv->mpv_ctx, name, data);
+	gint rc;
+
+	rc = mpv_set_property(mpv->mpv_ctx, name, format, data);
+
+	if(rc < 0)
+	{
+		g_warning(	"Failed to set property \"%s\""
+				"using mpv format %d",
+				name,
+				format );
+	}
+
+	return rc;
 }
 
-inline gint mpv_obj_set_property_flag(	MpvObj *mpv,
+gint mpv_obj_set_property_string(	MpvObj *mpv,
 					const gchar *name,
-					gboolean value )
+					const char *data )
 {
-	return mpv_set_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+	gint rc;
+
+	rc = mpv_set_property_string(mpv->mpv_ctx, name, data);
+
+	if(rc < 0)
+	{
+		g_warning("Failed to set property \"%s\" as string", name);
+	}
+
+	return rc;
+}
+
+gint mpv_obj_set_property_flag(	MpvObj *mpv,
+				const gchar *name,
+				gboolean value )
+{
+	gint rc;
+
+	rc = mpv_set_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+
+	if(rc < 0)
+	{
+		g_warning("Failed to set property \"%s\" as flag", name);
+	}
+
+	return rc;
 }
 
 void mpv_obj_set_wakup_callback(	MpvObj *mpv,
