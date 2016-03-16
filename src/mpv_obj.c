@@ -1114,7 +1114,7 @@ void mpv_obj_load(	MpvObj *mpv,
 	empty = !gtk_tree_model_get_iter_first
 			(GTK_TREE_MODEL(playlist_store), &iter);
 
-	load_cmd[2] = (append && !empty)?"append-play":"replace";
+	load_cmd[2] = (append && !empty)?"append":"replace";
 
 	if(!append && uri && update)
 	{
@@ -1128,6 +1128,8 @@ void mpv_obj_load(	MpvObj *mpv,
 	{
 		gboolean append = FALSE;
 		gboolean rc;
+
+		mpv_obj_set_property_flag(mpv, "pause", FALSE);
 
 		rc = gtk_tree_model_get_iter_first
 			(GTK_TREE_MODEL(playlist_store), &iter);

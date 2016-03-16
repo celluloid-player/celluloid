@@ -349,6 +349,8 @@ static void playlist_row_activated_handler(	GtkTreeView *tree_view,
 					MPV_FORMAT_INT64,
 					&pos );
 
+	mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
+
 	if(rc >= 0 && indices && indices[0] != pos)
 	{
 		mpv_obj_set_property(	app->mpv,
@@ -359,8 +361,6 @@ static void playlist_row_activated_handler(	GtkTreeView *tree_view,
 	else
 	{
 		app->target_playlist_pos = index;
-
-		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
 	}
 }
 
@@ -731,8 +731,6 @@ static void drag_data_handler(	GtkWidget *widget,
 
 	if(uri_list)
 	{
-		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
-
 		for(gint i = 0; uri_list[i]; i++)
 		{
 			const gchar *ext = strrchr(uri_list[i], '.');

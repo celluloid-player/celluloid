@@ -123,8 +123,6 @@ static void open_handler(	GSimpleAction *action,
 		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
 		GSList *uri = uri_list;
 
-		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
-
 		while(uri)
 		{
 			mpv_obj_load(	app->mpv,
