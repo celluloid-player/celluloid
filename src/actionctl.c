@@ -120,17 +120,24 @@ static void open_handler(	GSimpleAction *action,
 
 	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
-		GSList *uri = uri_list;
+		GSList *uri_slist = gtk_file_chooser_get_filenames(file_chooser);
+		GSList *uri = uri_slist;
+		gsize uri_list_size =	sizeof(gchar **)*
+					(g_slist_length(uri_slist)+1);
+		const gchar **uri_list = g_malloc(uri_list_size);
+		gint i;
 
-		while(uri)
+		for(i = 0; uri; i++)
 		{
-			mpv_obj_load(	app->mpv,
-					uri->data,
-					(append || uri != uri_list),
-					TRUE );
-
+			uri_list[i] = uri->data;
 			uri = g_slist_next(uri);
+		}
+
+		uri_list[i] = NULL;
+
+		if(uri_slist)
+		{
+			mpv_obj_load_list(app->mpv, uri_list, append, TRUE);
 		}
 
 		if(last_folder_enable)
@@ -145,7 +152,8 @@ static void open_handler(	GSimpleAction *action,
 			g_free(last_folder_uri);
 		}
 
-		g_slist_free_full(uri_list, g_free);
+		g_free(uri_list);
+		g_slist_free_full(uri_slist, g_free);
 	}
 
 	gtk_widget_destroy(open_dialog);

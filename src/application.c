@@ -715,16 +715,10 @@ static void drag_data_handler(	GtkWidget *widget,
 				guint time,
 				gpointer data)
 {
-	static const char *const sub_exts[]
-		= {	"utf", "utf8", "utf-8", "idx", "sub", "srt", "smi",
-			"rt", "txt", "ssa", "aqt", "jss", "js", "ass", "mks",
-			"vtt", "sup", NULL };
-
 	Application *app = data;
 	PlaylistWidget *playlist = PLAYLIST_WIDGET(app->gui->playlist);
 	gchar **uri_list = NULL;
-	gboolean append =	(widget == GTK_WIDGET(playlist)) &&
-				!playlist_empty(playlist->store);
+	gboolean append = (widget == GTK_WIDGET(playlist));
 
 	if(sel_data && gtk_selection_data_get_length(sel_data) > 0)
 	{
@@ -733,51 +727,10 @@ static void drag_data_handler(	GtkWidget *widget,
 
 	if(uri_list)
 	{
-		for(gint i = 0; uri_list[i]; i++)
-		{
-			const gchar *ext = strrchr(uri_list[i], '.');
-			gint j;
-
-			/* Only start checking the extension if there is at
-			 * least one character after the dot.
-			 */
-			if(ext && ++ext)
-			{
-				for(	j = 0;
-					sub_exts[j] &&
-					g_strcmp0(ext, sub_exts[j]) != 0;
-					j++ );
-			}
-
-			/* Only attempt to load file as subtitle if there
-			 * already is a file loaded. Try to load the file as a
-			 * media file otherwise.
-			 */
-			if(ext && sub_exts[j] && mpv_obj_is_loaded(app->mpv))
-			{
-				const gchar *cmd[] = {"sub-add", NULL, NULL};
-				gchar *path;
-
-				/* Convert to path if possible to get rid of
-				 * percent encoding.
-				 */
-				path =	g_filename_from_uri
-					(uri_list[i], NULL, NULL);
-
-				cmd[1] = path?:uri_list[i];
-
-				mpv_obj_command(app->mpv, cmd);
-
-				g_free(path);
-			}
-			else
-			{
-				mpv_obj_load(	app->mpv,
-						uri_list[i],
-						(append || i != 0),
-						TRUE );
-			}
-		}
+		mpv_obj_load_list(	app->mpv,
+					(const gchar **)uri_list,
+					append,
+					TRUE );
 
 		g_strfreev(uri_list);
 	}
@@ -960,31 +913,10 @@ static gboolean load_files(gpointer data)
 
 	if(app->files)
 	{
-		gint i = 0;
-
-		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
-		playlist_clear(app->playlist_store);
-
-		for(i = 0; app->files[i]; i++)
-		{
-			gchar *name = get_name_from_path(app->files[i]);
-
-			if(state.init_load)
-			{
-				playlist_append(	app->playlist_store,
-							name,
-							app->files[i] );
-			}
-			else
-			{
-				mpv_obj_load(	app->mpv,
-						app->files[i],
-						(i != 0),
-						TRUE );
-			}
-
-			g_free(name);
-		}
+		mpv_obj_load_list(	app->mpv,
+					(const gchar **)app->files,
+					FALSE,
+					TRUE );
 
 		g_strfreev(app->files);
 	}
