@@ -993,6 +993,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 void mpv_obj_reset(MpvObj *mpv)
 {
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
+	gchar *loop_str;
 	gboolean loop;
 	gint64 playlist_pos;
 	gdouble time_pos;
@@ -1001,7 +1002,10 @@ void mpv_obj_reset(MpvObj *mpv)
 
 	mpv_check_error(mpv_obj_set_property_string(mpv, "pause", "yes"));
 
-	loop = mpv_obj_get_property_flag(mpv, "loop");
+	loop_str = mpv_obj_get_property_string(mpv, "loop");
+	loop = (g_strcmp0(loop_str, "inf") == 0);
+
+	g_free(loop_str);
 
 	playlist_pos_rc = mpv_get_property(	mpv->mpv_ctx,
 						"playlist-pos",
