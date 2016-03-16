@@ -721,8 +721,10 @@ static void drag_data_handler(	GtkWidget *widget,
 			"vtt", "sup", NULL };
 
 	Application *app = data;
-	gboolean append = (widget == app->gui->playlist);
+	PlaylistWidget *playlist = PLAYLIST_WIDGET(app->gui->playlist);
 	gchar **uri_list = NULL;
+	gboolean append =	(widget == GTK_WIDGET(playlist)) &&
+				!playlist_empty(playlist->store);
 
 	if(sel_data && gtk_selection_data_get_length(sel_data) > 0)
 	{
