@@ -77,7 +77,6 @@
 				"PGUP", "Page_Up",\
 				"PGDWN", "Page_Down",\
 				"BS", "BackSpace",\
-				"SPACE", "space",\
 				".", "period",\
 				",", "comma",\
 				"`", "grave",\
@@ -110,6 +109,8 @@
 				"DOWN", "Down",\
 				"ESC", "Escape",\
 				"DEL", "Delete",\
+				"ENTER", "Return",\
+				"INS", "Insert",\
 				"", "Control_L",\
 				"", "Control_R",\
 				"", "Alt_L",\
