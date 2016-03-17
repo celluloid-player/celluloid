@@ -795,10 +795,10 @@ gint mpv_obj_get_property(	MpvObj *mpv,
 	if(rc < 0)
 	{
 		g_info(	"Failed to retrieve property \"%s\" "
-				"using mpv format %d. Reason %s",
-				name,
-				format,
-				mpv_error_string(rc) );
+			"using mpv format %d. Reason %s",
+			name,
+			format,
+			mpv_error_string(rc) );
 	}
 
 	return rc;
