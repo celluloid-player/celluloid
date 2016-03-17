@@ -760,7 +760,7 @@ gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
 				cmd_str,
 				mpv_error_string(rc) );
 
-		g_free(cmd);
+		g_free(cmd_str);
 	}
 
 	return rc;
