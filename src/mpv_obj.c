@@ -789,7 +789,7 @@ gint mpv_obj_get_property(	MpvObj *mpv,
 
 	if(rc < 0)
 	{
-		g_warning(	"Failed to retrieve property \"%s\""
+		g_warning(	"Failed to retrieve property \"%s\" "
 				"using mpv format %d",
 				name,
 				format );
@@ -836,7 +836,7 @@ gint mpv_obj_set_property(	MpvObj *mpv,
 
 	if(rc < 0)
 	{
-		g_warning(	"Failed to set property \"%s\""
+		g_warning(	"Failed to set property \"%s\" "
 				"using mpv format %d",
 				name,
 				format );
