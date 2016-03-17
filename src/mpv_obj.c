@@ -1073,9 +1073,7 @@ void mpv_obj_reset(MpvObj *mpv)
 	gchar *loop_str;
 	gboolean loop;
 	gint64 playlist_pos;
-	gdouble time_pos;
 	gint playlist_pos_rc;
-	gint time_pos_rc;
 
 	mpv_check_error(mpv_obj_set_property_string(mpv, "pause", "yes"));
 
@@ -1088,11 +1086,6 @@ void mpv_obj_reset(MpvObj *mpv)
 						"playlist-pos",
 						MPV_FORMAT_INT64,
 						&playlist_pos );
-
-	time_pos_rc = mpv_get_property(	mpv->mpv_ctx,
-					"time-pos",
-					MPV_FORMAT_DOUBLE,
-					&time_pos );
 
 	/* Reset mpv->mpv_ctx */
 	mpv_check_error(mpv_obj_command(mpv, quit_cmd));
@@ -1138,14 +1131,6 @@ void mpv_obj_reset(MpvObj *mpv)
 						"playlist-pos",
 						MPV_FORMAT_INT64,
 						&playlist_pos );
-		}
-
-		if(time_pos_rc >= 0 && time_pos > 0)
-		{
-			mpv_obj_set_property(	mpv,
-						"time-pos",
-						MPV_FORMAT_DOUBLE,
-						&time_pos );
 		}
 
 		mpv_obj_set_property(	mpv,
