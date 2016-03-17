@@ -756,7 +756,7 @@ gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
 	{
 		gchar *cmd_str = g_strjoinv(" ", (gchar **)cmd);
 
-		g_warning(	"Failed to run mpv command \"%s\". Reason %s",
+		g_warning(	"Failed to run mpv command \"%s\". Reason: %s",
 				cmd_str,
 				mpv_error_string(rc) );
 
@@ -794,7 +794,7 @@ gint mpv_obj_get_property(	MpvObj *mpv,
 
 	if(rc < 0)
 	{
-		g_warning(	"Failed to retrieve property \"%s\" "
+		g_info(	"Failed to retrieve property \"%s\" "
 				"using mpv format %d. Reason %s",
 				name,
 				format,
@@ -810,7 +810,7 @@ gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name)
 
 	if(!value)
 	{
-		g_warning("Failed to retrieve property \"%s\" as string.", name);
+		g_info("Failed to retrieve property \"%s\" as string.", name);
 	}
 
 	return value;
@@ -825,10 +825,10 @@ gboolean mpv_obj_get_property_flag(MpvObj *mpv, const gchar *name)
 
 	if(rc < 0)
 	{
-		g_warning(	"Failed to retrieve property \"%s\" as flag. "
-				"Reason %s",
-				name,
-				mpv_error_string(rc) );
+		g_info(	"Failed to retrieve property \"%s\" as flag. "
+			"Reason: %s",
+			name,
+			mpv_error_string(rc) );
 	}
 
 	return value;
@@ -845,11 +845,11 @@ gint mpv_obj_set_property(	MpvObj *mpv,
 
 	if(rc < 0)
 	{
-		g_warning(	"Failed to set property \"%s\" "
-				"using mpv format %d. Reason: %s",
-				name,
-				format,
-				mpv_error_string(rc) );
+		g_info(	"Failed to set property \"%s\" using mpv format %d. "
+			"Reason: %s",
+			name,
+			format,
+			mpv_error_string(rc) );
 	}
 
 	return rc;
@@ -865,10 +865,9 @@ gint mpv_obj_set_property_string(	MpvObj *mpv,
 
 	if(rc < 0)
 	{
-		g_warning(	"Failed to set property \"%s\" as string. "
-				"Reason: %s",
-				name,
-				mpv_error_string(rc) );
+		g_info(	"Failed to set property \"%s\" as string. Reason: %s",
+			name,
+			mpv_error_string(rc) );
 	}
 
 	return rc;
@@ -884,10 +883,9 @@ gint mpv_obj_set_property_flag(	MpvObj *mpv,
 
 	if(rc < 0)
 	{
-		g_warning(	"Failed to set property \"%s\" as flag. "
-				"Reason: %s",
-				name,
-				mpv_error_string(rc) );
+		g_info(	"Failed to set property \"%s\" as flag. Reason: %s",
+			name,
+			mpv_error_string(rc) );
 	}
 
 	return rc;
