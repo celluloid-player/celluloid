@@ -1082,7 +1082,7 @@ void mpv_obj_reset(MpvObj *mpv)
 	loop_str = mpv_obj_get_property_string(mpv, "loop");
 	loop = (g_strcmp0(loop_str, "inf") == 0);
 
-	g_free(loop_str);
+	mpv_free(loop_str);
 
 	playlist_pos_rc = mpv_get_property(	mpv->mpv_ctx,
 						"playlist-pos",
