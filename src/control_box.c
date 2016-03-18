@@ -252,8 +252,12 @@ void control_box_set_seek_bar_length(ControlBox *box, gint length)
 
 void control_box_set_volume(ControlBox *box, gdouble volume)
 {
+	g_signal_handlers_block_by_func(box, volume_changed_handler, box);
+
 	gtk_scale_button_set_value
 		(GTK_SCALE_BUTTON(box->volume_button), volume);
+
+	g_signal_handlers_unblock_by_func(box, volume_changed_handler, box);
 }
 
 gdouble control_box_get_volume(ControlBox *box)

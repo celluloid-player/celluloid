@@ -560,19 +560,7 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 	{
 		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
 
-		g_signal_handlers_block_matched
-			(	control_box->volume_button,
-				G_SIGNAL_MATCH_DATA,
-				0, 0, NULL, NULL,
-				app );
-
 		control_box_set_volume(control_box, volume);
-
-		g_signal_handlers_unblock_matched
-			(	control_box->volume_button,
-				G_SIGNAL_MATCH_DATA,
-				0, 0, NULL, NULL,
-				app );
 	}
 	else if(g_strcmp0(prop->name, "aid") == 0)
 	{
