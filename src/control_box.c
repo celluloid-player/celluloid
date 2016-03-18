@@ -215,7 +215,7 @@ void control_box_set_chapter_enabled(ControlBox *box, gboolean enabled)
 
 void control_box_set_volume_enabled(ControlBox *box, gboolean enabled)
 {
-	gtk_widget_set_sensitive(box->volume_button, FALSE);
+	gtk_widget_set_sensitive(box->volume_button, enabled);
 }
 
 void control_box_set_seek_bar_length(ControlBox *box, gint length)
