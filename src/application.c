@@ -303,7 +303,7 @@ static void open_handler(	GApplication *gapp,
 
 		mpv_obj_get_state(app->mpv, &state);
 
-		if(state.ready && 0)
+		if(state.ready)
 		{
 			load_files(app, (const gchar **)app->files);
 		}
