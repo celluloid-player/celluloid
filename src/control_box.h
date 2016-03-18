@@ -70,6 +70,7 @@ void control_box_set_volume_enabled(ControlBox *box, gboolean enabled);
 void control_box_set_seek_bar_length(ControlBox *box, gint length);
 void control_box_set_volume(ControlBox *box, gdouble volume);
 gdouble control_box_get_volume(ControlBox *box);
+gboolean control_box_get_volume_popup_visible(ControlBox *box);
 void control_box_set_playing_state(ControlBox *box, gboolean playing);
 void control_box_set_fullscreen_state(ControlBox *box, gboolean fullscreen);
 void control_box_set_fullscreen_btn_visible(ControlBox *box, gboolean value);

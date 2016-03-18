@@ -219,17 +219,13 @@ static gboolean timeout_handler(gpointer data)
 {
 	MainWindow *wnd;
 	ControlBox *control_box;
-	GtkScaleButton *button;
-	GtkWidget *popup;
 
 	wnd = data;
 	control_box = CONTROL_BOX(wnd->control_box);
-	button = GTK_SCALE_BUTTON(control_box->volume_button);
-	popup = gtk_scale_button_get_popup(button);
 
 	if(wnd->fullscreen
 	&& !wnd->fs_control_hover
-	&& !gtk_widget_is_visible(popup))
+	&& !control_box_get_volume_popup_visible(control_box))
 	{
 		GdkWindow *window;
 		GdkCursor *cursor;
