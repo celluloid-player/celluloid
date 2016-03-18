@@ -148,8 +148,8 @@ void playbackctl_connect_signals(Application *app)
 				G_CALLBACK(chapter_next_handler),
 				app );
 
-	g_signal_connect(	control_box->volume_button,
-				"value-changed",
+	g_signal_connect(	control_box,
+				"volume-changed",
 				G_CALLBACK(volume_handler),
 				app );
 

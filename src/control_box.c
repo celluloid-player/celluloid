@@ -24,6 +24,9 @@
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
 					gpointer data );
+static void volume_changed_handler(	GtkVolumeButton *button,
+					gdouble value,
+					gpointer data );
 
 G_DEFINE_TYPE(ControlBox, control_box, GTK_TYPE_BOX)
 
@@ -63,8 +66,25 @@ static gchar *seek_bar_format_handler(	GtkScale *scale,
 	return output;
 }
 
+static void volume_changed_handler(	GtkVolumeButton *button,
+					gdouble value,
+					gpointer data )
+{
+	g_signal_emit_by_name(data, "volume-changed", value);
+}
+
 static void control_box_class_init(ControlBoxClass *klass)
 {
+	g_signal_new(	"volume-changed",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__DOUBLE,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_DOUBLE );
 }
 
 static void control_box_init(ControlBox *box)
@@ -181,6 +201,11 @@ static void control_box_init(ControlBox *box)
 	g_signal_connect(	box->seek_bar,
 				"format-value",
 				G_CALLBACK(seek_bar_format_handler),
+				box );
+
+	g_signal_connect(	box->volume_button,
+				"value-changed",
+				G_CALLBACK(volume_changed_handler),
 				box );
 }
 
