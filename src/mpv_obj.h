@@ -49,6 +49,7 @@ typedef struct _MpvObjClass MpvObjClass;
 
 struct _MpvObjState
 {
+	gboolean ready;
 	gboolean paused;
 	gboolean loaded;
 	gboolean new_file;

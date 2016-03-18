@@ -719,6 +719,7 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->autofit_ratio = -1;
 	mpv->mpv_event_handler = NULL;
 
+	mpv->priv->state.ready = FALSE;
 	mpv->priv->state.paused = TRUE;
 	mpv->priv->state.loaded = FALSE;
 	mpv->priv->state.new_file = TRUE;
@@ -1073,6 +1074,8 @@ void mpv_obj_initialize(MpvObj *mpv)
 #endif
 
 	mpv_opt_handle_msg_level(mpv);
+
+	mpv->priv->state.ready = TRUE;
 	g_signal_emit_by_name(mpv, "mpv-init");
 
 	g_clear_object(&main_settings);
@@ -1102,6 +1105,8 @@ void mpv_obj_reset(MpvObj *mpv)
 						&playlist_pos );
 
 	/* Reset mpv->mpv_ctx */
+	mpv->priv->state.ready = FALSE;
+
 	mpv_check_error(mpv_obj_command(mpv, quit_cmd));
 	mpv_obj_quit(mpv);
 

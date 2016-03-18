@@ -103,7 +103,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 static void opengl_cb_update_callback(void *cb_ctx);
 static gboolean get_use_opengl(void);
 static gint64 get_xid(GtkWidget *widget);
-static gboolean load_files(gpointer data);
+static gboolean load_files(Application* app, const gchar **files);
 static void connect_signals(Application *app);
 static inline void add_accelerator(	GtkApplication *app,
 					const char *accel,
@@ -271,6 +271,14 @@ static void activate_handler(GApplication *gapp, gpointer data)
 	gtk_window_present(GTK_WINDOW(APPLICATION(data)->gui));
 }
 
+static void mpv_init_handler(MpvObj *mpv, gpointer data)
+{
+	Application *app = data;
+
+	g_signal_handlers_disconnect_by_func(mpv, mpv_init_handler, data);
+	load_files(app, (const gchar **)app->files);
+}
+
 static void open_handler(	GApplication *gapp,
 				gpointer files,
 				gint n_files,
@@ -282,6 +290,8 @@ static void open_handler(	GApplication *gapp,
 
 	if(n_files > 0)
 	{
+		MpvObjState state;
+
 		app->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
 
 		for(i = 0; i < n_files; i++)
@@ -291,7 +301,19 @@ static void open_handler(	GApplication *gapp,
 
 		app->files[i] = NULL;
 
-		g_idle_add(load_files, app);
+		mpv_obj_get_state(app->mpv, &state);
+
+		if(state.ready && 0)
+		{
+			load_files(app, (const gchar **)app->files);
+		}
+		else
+		{
+			g_signal_connect(	app->mpv,
+						"mpv-init",
+						G_CALLBACK(mpv_init_handler),
+						app );
+		}
 	}
 }
 
@@ -898,19 +920,15 @@ static gint64 get_xid(GtkWidget *widget)
 #endif
 }
 
-static gboolean load_files(gpointer data)
+static gboolean load_files(Application *app, const gchar **files)
 {
-	Application *app = data;
 	MpvObjState state;
 
 	mpv_obj_get_state(app->mpv, &state);
 
-	if(app->files)
+	if(files)
 	{
-		mpv_obj_load_list(	app->mpv,
-					(const gchar **)app->files,
-					FALSE,
-					TRUE );
+		mpv_obj_load_list(app->mpv, files, FALSE, TRUE);
 
 		g_strfreev(app->files);
 	}
