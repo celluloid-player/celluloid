@@ -21,6 +21,26 @@
 
 #include "control_box.h"
 
+struct _ControlBox
+{
+	GtkBox parent_instance;
+	gint seek_bar_length;
+	GtkWidget *play_button;
+	GtkWidget *stop_button;
+	GtkWidget *forward_button;
+	GtkWidget *rewind_button;
+	GtkWidget *next_button;
+	GtkWidget *previous_button;
+	GtkWidget *volume_button;
+	GtkWidget *fullscreen_button;
+	GtkWidget *seek_bar;
+};
+
+struct _ControlBoxClass
+{
+	GtkBoxClass parent_class;
+};
+
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
 					gpointer data );

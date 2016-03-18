@@ -38,29 +38,8 @@ G_BEGIN_DECLS
 #define	IS_CONTROL_BOX_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), CONTROL_BOX_TYPE))
 
-struct _ControlBox
-{
-	GtkBox parent_instance;
-	gint seek_bar_length;
-	GtkWidget *play_button;
-	GtkWidget *stop_button;
-	GtkWidget *forward_button;
-	GtkWidget *rewind_button;
-	GtkWidget *next_button;
-	GtkWidget *previous_button;
-	GtkWidget *volume_button;
-	GtkWidget *fullscreen_button;
-	GtkWidget *seek_bar;
-};
-
-struct _ControlBoxClass
-{
-	GtkBoxClass parent_class;
-};
-
 typedef struct _ControlBox ControlBox;
 typedef struct _ControlBoxClass ControlBoxClass;
-
 
 GtkWidget *control_box_new(void);
 GType control_box_get_type(void);
