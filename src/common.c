@@ -173,12 +173,8 @@ gboolean update_seek_bar(gpointer data)
 
 	if(rc >= 0)
 	{
-		ControlBox *control_box
-			= CONTROL_BOX(app->gui->control_box);
-
-		gtk_range_set_value
-			(	GTK_RANGE(control_box->seek_bar),
-				time_pos );
+		control_box_set_seek_bar_pos
+			(CONTROL_BOX(app->gui->control_box), time_pos);
 	}
 
 	return !!app->mpv->mpv_ctx;

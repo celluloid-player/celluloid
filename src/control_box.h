@@ -67,6 +67,7 @@ GType control_box_get_type(void);
 void control_box_set_enabled(ControlBox *box, gboolean enabled);
 void control_box_set_chapter_enabled(ControlBox *box, gboolean enabled);
 void control_box_set_volume_enabled(ControlBox *box, gboolean enabled);
+void control_box_set_seek_bar_pos(ControlBox *box, gdouble pos);
 void control_box_set_seek_bar_length(ControlBox *box, gint length);
 void control_box_set_volume(ControlBox *box, gdouble volume);
 gdouble control_box_get_volume(ControlBox *box);

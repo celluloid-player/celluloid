@@ -243,6 +243,11 @@ void control_box_set_volume_enabled(ControlBox *box, gboolean enabled)
 	gtk_widget_set_sensitive(box->volume_button, enabled);
 }
 
+void control_box_set_seek_bar_pos(ControlBox *box, gdouble pos)
+{
+	gtk_range_set_value(GTK_RANGE(box->seek_bar), pos);
+}
+
 void control_box_set_seek_bar_length(ControlBox *box, gint length)
 {
 	box->seek_bar_length = length;
