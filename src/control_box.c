@@ -24,9 +24,14 @@
 static gchar *seek_bar_format_handler(	GtkScale *scale,
 					gdouble value,
 					gpointer data );
+static void seek_handler(	GtkWidget *widget,
+				GtkScrollType scroll,
+				gdouble value,
+				gpointer data );
 static void volume_changed_handler(	GtkVolumeButton *button,
 					gdouble value,
 					gpointer data );
+static void simple_signal_handler(GtkWidget *widget, gpointer data);
 
 G_DEFINE_TYPE(ControlBox, control_box, GTK_TYPE_BOX)
 
@@ -66,6 +71,15 @@ static gchar *seek_bar_format_handler(	GtkScale *scale,
 	return output;
 }
 
+static void seek_handler(	GtkWidget *widget,
+				GtkScrollType scroll,
+				gdouble value,
+				gpointer data )
+{
+	g_signal_emit_by_name(data, "seek", value);
+}
+
+
 static void volume_changed_handler(	GtkVolumeButton *button,
 					gdouble value,
 					gpointer data )
@@ -73,8 +87,70 @@ static void volume_changed_handler(	GtkVolumeButton *button,
 	g_signal_emit_by_name(data, "volume-changed", value);
 }
 
+static void simple_signal_handler(GtkWidget *widget, gpointer data)
+{
+	ControlBox *box = data;
+	gint i;
+
+	const struct
+	{
+		const GtkWidget *widget;
+		const gchar *name;
+	}
+	signal_map[]
+		= {	{box->play_button, "play-button-clicked"},
+			{box->stop_button, "stop-button-clicked"},
+			{box->forward_button, "forward-button-clicked"},
+			{box->rewind_button, "rewind-button-clicked"},
+			{box->previous_button, "previous-button-clicked"},
+			{box->next_button, "next-button-clicked"},
+			{box->fullscreen_button, "fullscreen-button-clicked"},
+			{NULL, NULL} };
+
+	for(i = 0; signal_map[i].name && signal_map[i].widget != widget; i++);
+
+	if(signal_map[i].name)
+	{
+		g_signal_emit_by_name(data, signal_map[i].name);
+	}
+}
+
 static void control_box_class_init(ControlBoxClass *klass)
 {
+	/* Names of signals that have no parameter and return nothing */
+	const gchar *simple_signals[] = {	"play-button-clicked",
+						"stop-button-clicked",
+						"forward-button-clicked",
+						"rewind-button-clicked",
+						"previous-button-clicked",
+						"next-button-clicked",
+						"fullscreen-button-clicked",
+						NULL };
+
+	for(gint i = 0; simple_signals[i]; i++)
+	{
+		g_signal_new(	simple_signals[i],
+				G_TYPE_FROM_CLASS(klass),
+				G_SIGNAL_RUN_FIRST,
+				0,
+				NULL,
+				NULL,
+				g_cclosure_marshal_VOID__VOID,
+				G_TYPE_NONE,
+				0 );
+	}
+
+	g_signal_new(	"seek",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__DOUBLE,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_DOUBLE );
+
 	g_signal_new(	"volume-changed",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -202,7 +278,38 @@ static void control_box_init(ControlBox *box)
 				"format-value",
 				G_CALLBACK(seek_bar_format_handler),
 				box );
-
+	g_signal_connect(	box->play_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
+	g_signal_connect(	box->stop_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
+	g_signal_connect(	box->seek_bar,
+				"change-value",
+				G_CALLBACK(seek_handler),
+				box );
+	g_signal_connect(	box->forward_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
+	g_signal_connect(	box->rewind_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
+	g_signal_connect(	box->previous_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
+	g_signal_connect(	box->next_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
+	g_signal_connect(	box->fullscreen_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
 	g_signal_connect(	box->volume_button,
 				"value-changed",
 				G_CALLBACK(volume_changed_handler),

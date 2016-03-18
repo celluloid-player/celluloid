@@ -26,10 +26,7 @@
 
 static void play_handler(GtkWidget *widget, gpointer data);
 static void stop_handler(GtkWidget *widget, gpointer data);
-static void seek_handler(	GtkWidget *widget,
-				GtkScrollType scroll,
-				gdouble value,
-				gpointer data );
+static void seek_handler(GtkWidget *widget, gdouble value, gpointer data);
 static void forward_handler(GtkWidget *widget, gpointer data);
 static void rewind_handler(GtkWidget *widget, gpointer data);
 static void chapter_previous_handler(GtkWidget *widget, gpointer data);
@@ -55,10 +52,7 @@ static void stop_handler(GtkWidget *widget, gpointer data)
 	mpv_obj_command(app->mpv, cmd);
 }
 
-static void seek_handler(	GtkWidget *widget,
-				GtkScrollType scroll,
-				gdouble value,
-				gpointer data )
+static void seek_handler(GtkWidget *widget, gdouble value, gpointer data)
 {
 	seek(data, value);
 }
@@ -113,48 +107,36 @@ void playbackctl_connect_signals(Application *app)
 {
 	ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
 
-	g_signal_connect(	control_box->play_button,
-				"clicked",
-				G_CALLBACK(play_handler),
-				app );
+	const struct
+	{
+		const gchar *name;
+		GCallback handler;
+	}
+	signals_map[] = {	{"play-button-clicked",
+				G_CALLBACK(play_handler)},
+				{"stop-button-clicked",
+				G_CALLBACK(stop_handler)},
+				{"forward-button-clicked",
+				G_CALLBACK(forward_handler)},
+				{"rewind-button-clicked",
+				G_CALLBACK(rewind_handler)},
+				{"previous-button-clicked",
+				G_CALLBACK(chapter_previous_handler)},
+				{"next-button-clicked",
+				G_CALLBACK(chapter_next_handler)},
+				{"fullscreen-button-clicked",
+				G_CALLBACK(fullscreen_handler)},
+				{"seek",
+				G_CALLBACK(seek_handler)},
+				{"volume-changed",
+				G_CALLBACK(volume_handler)},
+				{NULL, NULL} };
 
-	g_signal_connect(	control_box->stop_button,
-				"clicked",
-				G_CALLBACK(stop_handler),
-				app );
-
-	g_signal_connect(	control_box->seek_bar,
-				"change-value",
-				G_CALLBACK(seek_handler),
-				app );
-
-	g_signal_connect(	control_box->forward_button,
-				"clicked",
-				G_CALLBACK(forward_handler),
-				app );
-
-	g_signal_connect(	control_box->rewind_button,
-				"clicked",
-				G_CALLBACK(rewind_handler),
-				app );
-
-	g_signal_connect(	control_box->previous_button,
-				"clicked",
-				G_CALLBACK(chapter_previous_handler),
-				app );
-
-	g_signal_connect(	control_box->next_button,
-				"clicked",
-				G_CALLBACK(chapter_next_handler),
-				app );
-
-	g_signal_connect(	control_box,
-				"volume-changed",
-				G_CALLBACK(volume_handler),
-				app );
-
-	g_signal_connect(	control_box->fullscreen_button,
-				"clicked",
-				G_CALLBACK(fullscreen_handler),
-				app );
+	for(gint i = 0; signals_map[i].name; i++)
+	{
+		g_signal_connect(	control_box,
+					signals_map[i].name,
+					signals_map[i].handler,
+					app );
+	}
 }
