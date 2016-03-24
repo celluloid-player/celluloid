@@ -18,6 +18,7 @@
  */
 
 #include <glib/gi18n.h>
+#include <gdk/gdkwayland.h>
 
 #include "def.h"
 #include "menu.h"
@@ -495,7 +496,6 @@ void main_window_load_state(MainWindow *wnd)
 		GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 		gint width = g_settings_get_int(settings, "width");
 		gint height = g_settings_get_int(settings, "height");
-		gint offset;
 		gint handle_pos;
 		gdouble volume;
 
@@ -504,11 +504,7 @@ void main_window_load_state(MainWindow *wnd)
 		wnd->playlist_visible
 			= g_settings_get_boolean(settings, "show-playlist");
 		volume = g_settings_get_double(settings, "volume");
-		offset =	main_window_get_csd_enabled(wnd)?
-				PLAYLIST_CSD_WIDTH_OFFSET:0;
-		handle_pos =	width-
-				(wnd->playlist_visible?
-				wnd->playlist_width:offset);
+		handle_pos = width-(wnd->playlist_visible?wnd->playlist_width:0);
 
 		control_box_set_volume(CONTROL_BOX(wnd->control_box), volume);
 		gtk_widget_set_visible(wnd->playlist, wnd->playlist_visible);
@@ -558,14 +554,30 @@ void main_window_update_track_list(	MainWindow *wnd,
 
 gint main_window_get_width_margin(MainWindow *wnd)
 {
+	const gint offset = main_window_get_csd_enabled(wnd)?CSD_WIDTH_OFFSET:0;
+
 	return	gtk_widget_get_allocated_width(GTK_WIDGET(wnd)) -
-		gtk_widget_get_allocated_width(wnd->vid_area);
+		gtk_widget_get_allocated_width(wnd->vid_area) -
+		offset;
 }
 
 gint main_window_get_height_margin(MainWindow *wnd)
 {
+	GdkDisplay *display = gdk_display_get_default();
+	gint offset = 0;
+
+	if(main_window_get_csd_enabled(wnd))
+	{
+		offset = CSD_HEIGHT_OFFSET;
+	}
+	else if(GDK_IS_WAYLAND_DISPLAY(display))
+	{
+		offset = WAYLAND_NOCSD_HEIGHT_OFFSET;
+	}
+
 	return	gtk_widget_get_allocated_height(GTK_WIDGET(wnd)) -
-		gtk_widget_get_allocated_height(wnd->vid_area);
+		gtk_widget_get_allocated_height(wnd->vid_area) -
+		offset;
 }
 
 gboolean main_window_get_use_opengl(MainWindow *wnd)
@@ -591,7 +603,7 @@ void main_window_enable_csd(MainWindow *wnd)
 	menu_icon = g_themed_icon_new_with_default_fallbacks
 				("view-list-symbolic");
 
-	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH+PLAYLIST_CSD_WIDTH_OFFSET;
+	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->open_hdr_btn = gtk_menu_button_new();
 	wnd->fullscreen_hdr_btn = gtk_button_new();
 	wnd->menu_hdr_btn = gtk_menu_button_new();
@@ -638,8 +650,7 @@ void main_window_enable_csd(MainWindow *wnd)
 
 	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
 				MAIN_WINDOW_DEFAULT_WIDTH
-				-PLAYLIST_DEFAULT_WIDTH
-				-PLAYLIST_CSD_WIDTH_OFFSET );
+				-PLAYLIST_DEFAULT_WIDTH );
 
 	gtk_window_set_titlebar(GTK_WINDOW(wnd), wnd->header_bar);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
@@ -656,17 +667,10 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 {
 	if(visible != wnd->playlist_visible && !wnd->fullscreen)
 	{
-		gint wnd_offset;
-		gint handle_offset;
 		gint handle_pos;
 		gint width;
 		gint height;
 
-		wnd_offset =	main_window_get_csd_enabled(wnd)?
-				PLAYLIST_CSD_WIDTH_OFFSET:0;
-		handle_offset =	gtk_window_is_maximized(GTK_WINDOW(wnd)) ||
-				wnd->fullscreen?
-				wnd_offset:0;
 		handle_pos =	gtk_paned_get_position
 				(GTK_PANED(wnd->vid_area_paned));
 
@@ -674,7 +678,7 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 
 		if(!visible)
 		{
-			wnd->playlist_width = width-handle_pos+handle_offset;
+			wnd->playlist_width = width-handle_pos;
 		}
 
 		wnd->playlist_visible = visible;
@@ -686,8 +690,7 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 		 */
 		gtk_window_resize(	GTK_WINDOW(wnd),
 					visible
-					?width+wnd->playlist_width-wnd_offset
-					:handle_pos+wnd_offset,
+					?width+wnd->playlist_width:handle_pos,
 					height );
 	}
 }
