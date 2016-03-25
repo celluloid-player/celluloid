@@ -208,11 +208,7 @@ static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 
 static GtkWidget *vid_area_new(gboolean use_opengl)
 {
-#ifdef OPENGL_CB_ENABLED
 	return use_opengl?gtk_gl_area_new():gtk_drawing_area_new();
-#else
-	return gtk_drawing_area_new();
-#endif
 }
 
 static gboolean timeout_handler(gpointer data)

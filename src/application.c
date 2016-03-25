@@ -21,7 +21,6 @@
 #include <gdk/gdk.h>
 #include <locale.h>
 
-#ifdef OPENGL_CB_ENABLED
 #include <epoxy/gl.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
@@ -34,13 +33,6 @@
 #ifdef GDK_WINDOWING_WIN32
 #include <gdk/gdkwin32.h>
 #include <epoxy/wgl.h>
-#endif
-#else
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#else
-#error "X11 GDK backend is required when opengl-cb is disabled."
-#endif
 #endif
 
 #include "application.h"
@@ -55,6 +47,9 @@
 #include "mpris/mpris.h"
 #include "media_keys/media_keys.h"
 
+static gboolean vid_area_render_handler(	GtkGLArea *area,
+						GdkGLContext *context,
+						gpointer data );
 static void startup_handler(GApplication *gapp, gpointer data);
 static void activate_handler(GApplication *gapp, gpointer data);
 static void open_handler(	GApplication *gapp,
@@ -114,7 +109,6 @@ static void application_init(Application *app);
 
 G_DEFINE_TYPE(Application, application, GTK_TYPE_APPLICATION)
 
-#ifdef OPENGL_CB_ENABLED
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
 						gpointer data )
@@ -142,7 +136,6 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 
 	return TRUE;
 }
-#endif
 
 static void startup_handler(GApplication *gapp, gpointer data)
 {
@@ -887,28 +880,19 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 
 static void opengl_cb_update_callback(void *cb_ctx)
 {
-#ifdef OPENGL_CB_ENABLED
 	Application *app = cb_ctx;
 
 	if(app->mpv->opengl_ctx)
 	{
 		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
 	}
-#endif
 }
 
 static gboolean get_use_opengl(void)
 {
-#if defined(OPENGL_CB_ENABLED) && defined(GDK_WINDOWING_X11)
 	/* TODO: Add option to use opengl on X11 */
 	return	g_getenv("FORCE_OPENGL_CB") ||
 		!GDK_IS_X11_DISPLAY(gdk_display_get_default()) ;
-#elif defined(OPENGL_CB_ENABLED)
-	/* In theory this can work on any backend supporting GtkGLArea */
-	return TRUE;
-#else
-	return FALSE;
-#endif
 }
 
 static gint64 get_xid(GtkWidget *widget)
@@ -942,7 +926,6 @@ static void connect_signals(Application *app)
 
 	playbackctl_connect_signals(app);
 
-#ifdef OPENGL_CB_ENABLED
 	if(main_window_get_use_opengl(app->gui))
 	{
 		g_signal_connect(	app->gui->vid_area,
@@ -955,7 +938,6 @@ static void connect_signals(Application *app)
 					app );
 	}
 	else
-#endif
 	{
 		g_signal_connect_after(	app->gui,
 					"draw",

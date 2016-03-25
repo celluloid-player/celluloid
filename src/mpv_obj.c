@@ -24,7 +24,6 @@
 #include <string.h>
 #include <execinfo.h>
 
-#ifdef OPENGL_CB_ENABLED
 #include <epoxy/gl.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
@@ -37,13 +36,6 @@
 #ifdef GDK_WINDOWING_WIN32
 #include <gdk/gdkwin32.h>
 #include <epoxy/wgl.h>
-#endif
-#else
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#else
-#error "X11 GDK backend is required when opengl-cb is disabled."
-#endif
 #endif
 
 #include "mpv_obj.h"
@@ -78,6 +70,8 @@ struct _MpvObjPrivate
 	void (*opengl_cb_callback)(void *data);
 };
 
+
+static void *get_proc_address(void *fn_ctx, const gchar *name);
 static void mpv_obj_set_inst_property(	GObject *object,
 					guint property_id,
 					const GValue *value,
@@ -96,7 +90,6 @@ static void uninit_opengl_cb(MpvObj *mpv);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
 
-#ifdef OPENGL_CB_ENABLED
 static void *get_proc_address(void *fn_ctx, const gchar *name)
 {
 	GdkDisplay *display = gdk_display_get_default();
@@ -115,7 +108,6 @@ static void *get_proc_address(void *fn_ctx, const gchar *name)
 #endif
 	g_assert_not_reached();
 }
-#endif
 
 static void mpv_obj_set_inst_property(	GObject *object,
 					guint property_id,
@@ -604,10 +596,8 @@ static void load_input_conf(MpvObj *mpv, const gchar *input_conf)
 
 static void uninit_opengl_cb(MpvObj *mpv)
 {
-#ifdef OPENGL_CB_ENABLED
 	gtk_gl_area_make_current(mpv->priv->glarea);
 	mpv_opengl_cb_uninit_gl(mpv->opengl_ctx);
-#endif
 }
 
 static void mpv_obj_class_init(MpvObjClass* klass)
@@ -906,12 +896,10 @@ void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
 					mpv_opengl_cb_update_fn func,
 					void *data )
 {
-#ifdef OPENGL_CB_ENABLED
 	mpv->priv->opengl_cb_callback = func;
 	mpv->priv->opengl_cb_callback_data = data;
 
 	mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
-#endif
 }
 
 void mpv_obj_wakeup_callback(void *data)
@@ -1058,7 +1046,6 @@ void mpv_obj_initialize(MpvObj *mpv)
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 
-#ifdef OPENGL_CB_ENABLED
 	mpv->opengl_ctx = mpv_get_sub_api(mpv->mpv_ctx, MPV_SUB_API_OPENGL_CB);
 
 	if(mpv->priv->use_opengl)
@@ -1071,7 +1058,6 @@ void mpv_obj_initialize(MpvObj *mpv)
 						get_proc_address,
 						NULL ));
 	}
-#endif
 
 	mpv_opt_handle_msg_level(mpv);
 

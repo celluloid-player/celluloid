@@ -23,8 +23,6 @@ AM_GLIB_GNU_GETTEXT
 GLIB_GSETTINGS
 
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]), [enable_debug=$enableval], [enable_debug=no])
-AC_ARG_ENABLE([opengl-cb], AS_HELP_STRING([--disable-opengl-cb], [disable support for opengl-cb, which is required to work on Wayland]),
-              [enable_opengl_cb=$enableval], [enable_opengl_cb=yes])
 
 AC_DEFUN([GM_CHECK_AX_MACRO],
 	[m4_ifndef([$1], [m4_fatal($1[ is not defined. Is autoconf-archive installed?])])])
@@ -85,13 +83,7 @@ AS_IF([test "x$GLIB_GENMARSHAL" = "x"], [
 	AC_MSG_ERROR([Could not find glib-genmarshal])
 ])
 
-# Checks for libraries.
-AS_IF([test "x$enable_opengl_cb" != "xno"], [
-	AC_DEFINE([OPENGL_CB_ENABLED])
-	PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.16 glib-2.0 >= 2.40 mpv >= 1.20 epoxy])
-], [
-	PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.14 glib-2.0 >= 2.40 mpv >= 1.20])
-])
+PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.20 glib-2.0 >= 2.40 mpv >= 1.20 epoxy])
 
 AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_40], [Dont warn using older APIs])
 AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_40], [Prevents using newer APIs])
@@ -113,5 +105,4 @@ echo "
 
 	prefix ........: $prefix
 	debug .........: $enable_debug
-	opengl-cb .....: $enable_opengl_cb
 "

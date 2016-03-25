@@ -28,10 +28,6 @@ int main(int argc, char **argv)
 	Application *app;
 	gint status;
 
-#ifndef OPENGL_CB_ENABLED
-	gdk_set_allowed_backends("x11");
-#endif
-
 	app = application_new(APP_ID, G_APPLICATION_HANDLES_OPEN);
 	status = g_application_run(G_APPLICATION(app), argc, argv);
 
