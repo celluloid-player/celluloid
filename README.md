@@ -14,9 +14,9 @@ capabilities.
 - intltool (build)
 - python2 (build)
 - glib2 >= 2.40
-- gtk3 >= 3.16 (or gtk3 >= 3.14 if opengl-cb is disabled)
+- gtk3 >= 3.20
 - mpv >= 0.16
-- epoxy (only if opengl-cb is enabled)
+- epoxy
 - youtube-dl (optional)
 
 ## Installation
