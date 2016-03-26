@@ -43,6 +43,9 @@ struct _MainWindowPrivate
 {
 	Playlist *playlist;
 	gboolean use_opengl;
+	gint width_offset;
+	gint height_offset;
+	gint resize_target[2];
 };
 
 static void main_window_set_property(	GObject *object,
@@ -60,9 +63,13 @@ static gboolean fs_control_leave_handler(	GtkWidget *widget,
 						GdkEvent *event,
 						gpointer data );
 static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event);
+static void size_allocate_handler(	GtkWidget *widget,
+					GdkRectangle *allocation,
+					gpointer data );
 static void vid_area_init(MainWindow *wnd, gboolean use_opengl);
 static GtkWidget *vid_area_new(gboolean use_opengl);
 static gboolean timeout_handler(gpointer data);
+static gboolean resize_to_target(gpointer data);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -175,6 +182,30 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 		->motion_notify_event(widget, event);
 }
 
+static void size_allocate_handler(	GtkWidget *widget,
+					GdkRectangle *allocation,
+					gpointer data )
+{
+	MainWindow *wnd = data;
+	gint width = allocation->width;
+	gint height = allocation->height;
+	gint target_width = wnd->priv->resize_target[0];
+	gint target_height = wnd->priv->resize_target[1];
+
+	g_signal_handlers_disconnect_by_func
+		(widget, size_allocate_handler, data);
+
+	/* Adjust resize offset */
+	if(width != wnd->priv->resize_target[0]
+	|| height != wnd->priv->resize_target[1])
+	{
+		wnd->priv->width_offset += target_width-width;
+		wnd->priv->height_offset += target_height-height;
+
+		g_idle_add(resize_to_target, wnd);
+	}
+}
+
 static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
 {
 	/* vid_area cannot be initialized more than once */
@@ -245,6 +276,19 @@ static gboolean timeout_handler(gpointer data)
 	return FALSE;
 }
 
+static gboolean resize_to_target(gpointer data)
+{
+	MainWindow *wnd = data;
+	gint target_width = wnd->priv->resize_target[0];
+	gint target_height = wnd->priv->resize_target[1];
+
+	gtk_window_resize(	GTK_WINDOW(wnd),
+				target_width+wnd->priv->width_offset,
+				target_height+wnd->priv->height_offset );
+
+	return FALSE;
+}
+
 static void main_window_class_init(MainWindowClass *klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -294,6 +338,9 @@ static void main_window_init(MainWindow *wnd)
 	wnd->vid_area_overlay = gtk_overlay_new();
 	wnd->control_box = control_box_new();
 	wnd->fs_revealer = gtk_revealer_new();
+
+	wnd->priv->width_offset = 0;
+	wnd->priv->height_offset = 0;
 
 	gtk_widget_add_events(	wnd->vid_area_overlay,
 				GDK_ENTER_NOTIFY_MASK
@@ -556,36 +603,24 @@ void main_window_update_track_list(	MainWindow *wnd,
 	}
 }
 
-gint main_window_get_width_margin(MainWindow *wnd)
+void main_window_resize_video_area(	MainWindow *wnd,
+					gint width,
+					gint height )
 {
-	const gint offset = main_window_get_csd_enabled(wnd)?CSD_WIDTH_OFFSET:0;
+	g_signal_connect(	wnd->vid_area,
+				"size-allocate",
+				G_CALLBACK(size_allocate_handler),
+				wnd );
 
-	return	gtk_widget_get_allocated_width(GTK_WIDGET(wnd)) -
-		gtk_widget_get_allocated_width(wnd->vid_area) -
-		offset;
-}
+	wnd->priv->resize_target[0] = width;
+	wnd->priv->resize_target[1] = height;
+	resize_to_target(wnd);
 
-gint main_window_get_height_margin(MainWindow *wnd)
-{
-	gint offset = 0;
-	gboolean wayland = FALSE;
-
-	#ifdef GDK_WINDOWING_WAYLAND
-	wayland = GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default());
-	#endif
-
-	if(main_window_get_csd_enabled(wnd))
-	{
-		offset = CSD_HEIGHT_OFFSET;
-	}
-	else if(wayland)
-	{
-		offset = WAYLAND_NOCSD_HEIGHT_OFFSET;
-	}
-
-	return	gtk_widget_get_allocated_height(GTK_WIDGET(wnd)) -
-		gtk_widget_get_allocated_height(wnd->vid_area) -
-		offset;
+	/* The size may not change, so this is needed to ensure that
+	 * size_allocate_handler() will be called so that the event handler will
+	 * be disconnected.
+	 */
+	gtk_widget_queue_allocate(wnd->vid_area);
 }
 
 gboolean main_window_get_use_opengl(MainWindow *wnd)
