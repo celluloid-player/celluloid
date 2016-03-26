@@ -18,7 +18,11 @@
  */
 
 #include <glib/gi18n.h>
+#include <gdk/gdk.h>
+
+#ifdef GDK_WINDOWING_WAYLAND
 #include <gdk/gdkwayland.h>
+#endif
 
 #include "def.h"
 #include "menu.h"
@@ -563,14 +567,18 @@ gint main_window_get_width_margin(MainWindow *wnd)
 
 gint main_window_get_height_margin(MainWindow *wnd)
 {
-	GdkDisplay *display = gdk_display_get_default();
 	gint offset = 0;
+	gboolean wayland = FALSE;
+
+	#ifdef GDK_WINDOWING_WAYLAND
+	wayland = GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default());
+	#endif
 
 	if(main_window_get_csd_enabled(wnd))
 	{
 		offset = CSD_HEIGHT_OFFSET;
 	}
-	else if(GDK_IS_WAYLAND_DISPLAY(display))
+	else if(wayland)
 	{
 		offset = WAYLAND_NOCSD_HEIGHT_OFFSET;
 	}
