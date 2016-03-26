@@ -26,7 +26,6 @@ capabilities.
 - Arch Linux (Git): https://aur.archlinux.org/packages/gnome-mpv-git
 - Debian testing: https://packages.debian.org/testing/gnome-mpv
 - Debian unstable: https://packages.debian.org/sid/gnome-mpv
-- Fedora (Copr): https://copr.fedoraproject.org/coprs/region51/gnome-mpv/
 - Fedora (russianfedora): http://ru.fedoracommunity.org/repository
 - Fedora/OpenSUSE: https://build.opensuse.org/package/show/home:mermoldy:multimedia/gnome-mpv
 - Gentoo: http://gpo.zugaina.org/media-video/gnome-mpv
