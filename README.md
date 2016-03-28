@@ -15,7 +15,7 @@ capabilities.
 - python2 (build)
 - glib2 >= 2.40
 - gtk3 >= 3.20
-- mpv >= 0.16
+- mpv >= 0.17
 - epoxy
 - youtube-dl (optional)
 

@@ -863,15 +863,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	g_debug(	"Sent %s button %s click at %sx%s to mpv",
 			type_str, btn_str, x_str, y_str );
 
-	/* As of mpv-0.16, the 'mouse' command doesn't work for double clicks */
-	if(btn_event->type == GDK_2BUTTON_PRESS && btn_event->button == 1)
-	{
-		activate_action_string(app, "fullscreen_toggle");
-	}
-	else
-	{
-		mpv_obj_command(app->mpv, cmd);
-	}
+	mpv_obj_command(app->mpv, cmd);
 
 	g_free(x_str);
 	g_free(y_str);

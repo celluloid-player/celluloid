@@ -69,6 +69,7 @@
 		"Alt+0 script-message gmpv-action video_size(0.5)",\
 		"Alt+1 script-message gmpv-action video_size(1.0)",\
 		"Alt+2 script-message gmpv-action video_size(2.0)",\
+		"MOUSE_BTN0_DBL script-message gmpv-action fullscreen_toggle",\
 		NULL }
 
 #define KEYSTRING_MAP	{	"<", "less",\
