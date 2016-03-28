@@ -105,6 +105,7 @@
 				")", "parenright",\
 				"[", "bracketleft",\
 				"]", "bracketright",\
+				"?", "question",\
 				"RIGHT", "Right",\
 				"LEFT", "Left",\
 				"UP", "Up",\
