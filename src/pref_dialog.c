@@ -63,7 +63,7 @@ static void file_set_handler(GtkFileChooserButton *widget, gpointer data)
 	PrefDialog *dlg = PREF_DIALOG(toplevel);
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER(widget);
 	const gchar *key = data;
-	gchar *filename = gtk_file_chooser_get_filename(chooser);
+	gchar *filename = gtk_file_chooser_get_filename(chooser)?:g_strdup("");
 
 	g_settings_set_string(dlg->settings, key, filename);
 
