@@ -26,6 +26,7 @@
 #include "playlist.h"
 #include "open_loc_dialog.h"
 #include "pref_dialog.h"
+#include "shortcuts_window.h"
 #include "common.h"
 #include "authors.h"
 
@@ -195,6 +196,16 @@ static void loop_handler(	GSimpleAction *action,
 	mpv_check_error(mpv_obj_set_property_string(	app->mpv,
 							"loop",
 							loop?"inf":"no" ));
+}
+
+static void show_shortcuts_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	Application *app = data;
+	GtkWidget *wnd = shortcuts_window_new(GTK_WINDOW(app->gui));
+
+	gtk_widget_show_all(wnd);
 }
 
 static void playlist_toggle_handler(	GSimpleAction *action,
@@ -537,6 +548,8 @@ void actionctl_map_actions(Application *app)
 		{.name = "loop",
 		.state = "false",
 		.change_state = loop_handler},
+		{.name = "show_shortcuts",
+		.activate = show_shortcuts_handler},
 		{.name = "playlist_toggle",
 		.activate = playlist_toggle_handler},
 		{.name = "playlist_save",

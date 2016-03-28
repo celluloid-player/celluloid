@@ -1004,6 +1004,7 @@ static void setup_accelerators(Application *app)
 	add_accelerator(gtk_app, "<Control>l", "app.openloc");
 	add_accelerator(gtk_app, "<Control>s", "app.playlist_save");
 	add_accelerator(gtk_app, "<Control>q", "app.quit");
+	add_accelerator(gtk_app, "<Control>question", "app.show_shortcuts");
 	add_accelerator(gtk_app, "<Control>p", "app.pref");
 	add_accelerator(gtk_app, "<Control>1", "app.video_size(@d 1)");
 	add_accelerator(gtk_app, "<Control>2", "app.video_size(@d 2)");
