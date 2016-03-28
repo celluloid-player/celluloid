@@ -187,6 +187,9 @@ static void size_allocate_handler(	GtkWidget *widget,
 					gpointer data )
 {
 	MainWindow *wnd = data;
+	GdkScreen *screen = gdk_screen_get_default();
+	gint screen_width = gdk_screen_get_width(screen);
+	gint screen_height = gdk_screen_get_height(screen);
 	gint width = allocation->width;
 	gint height = allocation->height;
 	gint target_width = wnd->priv->resize_target[0];
@@ -196,8 +199,10 @@ static void size_allocate_handler(	GtkWidget *widget,
 		(widget, size_allocate_handler, data);
 
 	/* Adjust resize offset */
-	if(width != wnd->priv->resize_target[0]
-	|| height != wnd->priv->resize_target[1])
+	if((width != target_width || height != target_height)
+	&& (target_width < screen_width && target_height < screen_height)
+	&& !gtk_window_is_maximized(GTK_WINDOW(wnd))
+	&& !wnd->fullscreen)
 	{
 		wnd->priv->width_offset += target_width-width;
 		wnd->priv->height_offset += target_height-height;
