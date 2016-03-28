@@ -727,10 +727,6 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 		wnd->playlist_visible = visible;
 		gtk_widget_set_visible(wnd->playlist, visible);
 
-		/* For some unknown reason, width needs to be adjusted by some
-		 * offset (50px) when CSD is enabled for the resulting size to
-		 * be correct.
-		 */
 		gtk_window_resize(	GTK_WINDOW(wnd),
 					visible
 					?width+wnd->playlist_width:handle_pos,
