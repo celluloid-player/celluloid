@@ -152,35 +152,21 @@ static gboolean window_state_handler(	GtkWidget *widget,
 	if(window_state_event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
 	{
 		GDBusInterfaceInfo *iface;
-		GVariantBuilder builder;
 		GVariant *value;
-		GVariant *sig_args;
-
-		g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
+		mpris_prop_val_pair *prop_list;
 
 		iface = mpris_org_mpris_media_player2_interface_info();
 		value = g_variant_new_boolean(inst->gmpv_ctx->gui->fullscreen);
 
-		g_variant_ref_sink(value);
-		g_variant_builder_add(&builder, "{sv}", "Fullscreen", value);
-
-		sig_args = g_variant_new(	"(sa{sv}as)",
-						iface->name,
-						&builder,
-						NULL );
-
-		g_dbus_connection_emit_signal
-			(	inst->session_bus_conn,
-				NULL,
-				MPRIS_OBJ_ROOT_PATH,
-				"org.freedesktop.DBus.Properties",
-				"PropertiesChanged",
-				sig_args,
-				NULL );
-
-		g_hash_table_replace(	((mpris *) data)->base_prop_table,
+		g_hash_table_replace(	inst->base_prop_table,
 					g_strdup("Fullscreen"),
-					value );
+					g_variant_ref(value) );
+
+		prop_list =	(mpris_prop_val_pair[])
+				{	{"Fullscreen", value},
+					{NULL, NULL} };
+
+		mpris_emit_prop_changed(inst, iface->name, prop_list);
 	}
 
 	return FALSE;
