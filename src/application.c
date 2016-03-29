@@ -308,6 +308,8 @@ static void open_handler(	GApplication *gapp,
 						app );
 		}
 	}
+
+	gdk_notify_startup_complete();
 }
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
