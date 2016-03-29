@@ -86,15 +86,15 @@ static void unregister(mpris *inst)
 	}
 }
 
-void mpris_emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list)
+void mpris_emit_prop_changed(	mpris *inst,
+				const gchar *iface_name,
+				const mpris_prop_val_pair *prop_list )
 {
 	const mpris_prop_val_pair *current;
-	GDBusInterfaceInfo *iface;
 	GVariantBuilder builder;
 	GVariant *sig_args;
 
 	current = prop_list;
-	iface = mpris_org_mpris_media_player2_interface_info();
 
 	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
 
@@ -109,7 +109,7 @@ void mpris_emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list)
 	}
 
 	sig_args = g_variant_new(	"(sa{sv}as)",
-					iface->name,
+					iface_name,
 					&builder,
 					NULL );
 

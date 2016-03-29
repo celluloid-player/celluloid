@@ -25,6 +25,7 @@
 #include "def.h"
 
 static void prop_table_init(mpris *inst);
+static void emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
 				const gchar *object_path,
@@ -85,6 +86,14 @@ static void prop_table_init(mpris *inst)
 					default_values[i],
 					default_values[i+1] );
 	}
+}
+
+static void emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list)
+{
+	GDBusInterfaceInfo *iface;
+
+	iface = mpris_org_mpris_media_player2_player_interface_info();
+	mpris_emit_prop_changed(inst, iface->name, prop_list);
 }
 
 static void method_handler(	GDBusConnection *connection,
@@ -332,7 +341,7 @@ static void playback_status_update_handler(mpris *inst)
 				{"CanSeek", can_seek_value},
 				{NULL, NULL} };
 
-	mpris_emit_prop_changed(inst, prop_list);
+	emit_prop_changed(inst, prop_list);
 }
 
 static void playlist_update_handler(mpris *inst)
@@ -374,7 +383,7 @@ static void playlist_update_handler(mpris *inst)
 				{"CanGoNext", can_next_value},
 				{NULL, NULL} };
 
-	mpris_emit_prop_changed(inst, prop_list);
+	emit_prop_changed(inst, prop_list);
 }
 
 static void speed_update_handler(mpris *inst)
@@ -397,7 +406,7 @@ static void speed_update_handler(mpris *inst)
 	prop_list =	(mpris_prop_val_pair[])
 			{{"Rate", value}, {NULL, NULL}};
 
-	mpris_emit_prop_changed(inst, prop_list);
+	emit_prop_changed(inst, prop_list);
 }
 
 static void metadata_update_handler(mpris *inst)
@@ -516,7 +525,7 @@ static void metadata_update_handler(mpris *inst)
 	prop_list =	(mpris_prop_val_pair[])
 			{{"Metadata", value}, {NULL, NULL}};
 
-	mpris_emit_prop_changed(inst, prop_list);
+	emit_prop_changed(inst, prop_list);
 	mpv_playback_restart_handler(inst->gmpv_ctx->gui, inst);
 
 	g_free(playlist_pos_str);
@@ -543,7 +552,7 @@ static void volume_update_handler(mpris *inst)
 	prop_list =	(mpris_prop_val_pair[])
 			{{"Volume", value}, {NULL, NULL}};
 
-	mpris_emit_prop_changed(inst, prop_list);
+	emit_prop_changed(inst, prop_list);
 }
 
 static void mpv_init_handler(MainWindow *wnd, gpointer data)

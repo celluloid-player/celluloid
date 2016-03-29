@@ -46,7 +46,9 @@ struct mpris_prop_val_pair
 	GVariant *value;
 };
 
-void mpris_emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list);
+void mpris_emit_prop_changed(	mpris *inst,
+				const gchar *iface_name,
+				const mpris_prop_val_pair *prop_list );
 GVariant *mpris_build_g_variant_string_array(const gchar** list);
 void mpris_init(Application *gmpv_ctx);
 
