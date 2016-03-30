@@ -493,26 +493,30 @@ static void metadata_update_handler(mpris *inst)
 		value_buf = mpv_get_property_string
 				(inst->gmpv_ctx->mpv->mpv_ctx, mpv_prop);
 
-		tag_value = g_variant_new_string(value_buf?:"");
-
-		if(tag_map[i].is_array)
+		if(value_buf)
 		{
-			g_variant_builder_init
-				(&tag_builder, G_VARIANT_TYPE("as"));
+			tag_value = g_variant_new_string(value_buf?:"");
 
-			g_variant_builder_add_value
-				(&tag_builder, tag_value);
+			if(tag_map[i].is_array)
+			{
+				g_variant_builder_init
+					(&tag_builder, G_VARIANT_TYPE("as"));
+
+				g_variant_builder_add_value
+					(&tag_builder, tag_value);
+			}
+
+			g_variant_builder_add
+				(	&builder,
+					"{sv}",
+					tag_map[i].xesam_name,
+					tag_map[i].is_array?
+					g_variant_new("as", &tag_builder):
+					tag_value );
+
+			mpv_free(value_buf);
 		}
 
-		g_variant_builder_add
-			(	&builder,
-				"{sv}",
-				tag_map[i].xesam_name,
-				tag_map[i].is_array?
-				g_variant_new("as", &tag_builder):
-				tag_value );
-
-		mpv_free(value_buf);
 		g_free(mpv_prop);
 	}
 
