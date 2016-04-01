@@ -24,14 +24,14 @@ GLIB_GSETTINGS
 
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [turn on debugging]), [enable_debug=$enableval], [enable_debug=no])
 
-AC_DEFUN([GM_CHECK_AX_MACRO],
-	[m4_ifndef([$1], [m4_fatal($1[ is not defined. Is autoconf-archive installed?])])])
+AC_DEFUN([GM_CHECK_MACRO],
+	[m4_ifndef([$1], [m4_fatal($1[ is not defined. Is ]$2[ installed?])])])
 
-GM_CHECK_AX_MACRO([AX_APPEND_COMPILE_FLAGS])
-GM_CHECK_AX_MACRO([AX_APPEND_LINK_FLAGS])
-GM_CHECK_AX_MACRO([AX_REQUIRE_DEFINED])
+GM_CHECK_MACRO([AX_APPEND_COMPILE_FLAGS], [autoconf-archive])
+GM_CHECK_MACRO([AX_APPEND_LINK_FLAGS], [autoconf-archive])
+GM_CHECK_MACRO([AX_REQUIRE_DEFINED], [autoconf-archive])
 
-AX_REQUIRE_DEFINED([APPSTREAM_XML])
+GM_CHECK_MACRO([APPSTREAM_XML], [appstream-glib])
 APPSTREAM_XML
 
 AS_IF([test "x$enable_debug" = "xyes"], [
