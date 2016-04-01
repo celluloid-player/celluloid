@@ -209,11 +209,7 @@ static gboolean mpv_event_handler(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
-			if(mpv->priv->state.init_load)
-			{
-				mpv_obj_load(mpv, NULL, FALSE, FALSE);
-			}
-			else if(mpv->priv->state.loaded)
+			if(mpv->priv->state.loaded)
 			{
 				mpv->priv->state.loaded = FALSE;
 
