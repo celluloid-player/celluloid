@@ -19,9 +19,10 @@
 
 #include <glib/gi18n.h>
 
-#include "def.h"
 #include "pref_dialog.h"
+#include "plugins_manager.h"
 #include "main_window.h"
+#include "def.h"
 
 typedef struct PrefDialogItem PrefDialogItem;
 typedef enum PrefDialogItemType PrefDialogItemType;
@@ -30,6 +31,7 @@ struct _PrefDialog
 {
 	GtkDialog parent_instance;
 	GSettings *settings;
+	GtkWidget *notebook;
 	GtkWidget *grid;
 };
 
@@ -107,6 +109,142 @@ static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event)
 	return GTK_WIDGET_CLASS(pref_dialog_parent_class)->key_press_event (widget, event);
 }
 
+static GtkWidget *build_page(const PrefDialogItem *items, GSettings *settings)
+{
+	GtkWidget *grid = gtk_grid_new();
+
+	gtk_container_set_border_width(GTK_CONTAINER(grid), 12);
+	gtk_grid_set_row_spacing(GTK_GRID(grid), 6);
+	gtk_grid_set_column_spacing(GTK_GRID(grid), 12);
+
+	for(gint i = 0; items[i].type != ITEM_TYPE_INVALID; i++)
+	{
+		const gchar *label = items[i].label;
+		const gchar *key = items[i].key;
+		const PrefDialogItemType type = items[i].type;
+		GtkWidget *widget = NULL;
+		gboolean separate_label = FALSE;
+		gint width = 1;
+		gint xpos = 0;
+
+		if(type == ITEM_TYPE_GROUP)
+		{
+			widget = gtk_label_new(label);
+			width = 2;
+
+			gtk_label_set_use_markup(GTK_LABEL(widget), TRUE);
+			gtk_widget_set_halign(widget, GTK_ALIGN_START);
+			gtk_widget_set_margin_top(widget, 12);
+		}
+		else if(type == ITEM_TYPE_CHECK_BOX)
+		{
+			widget = gtk_check_button_new_with_label(label);
+			width = 2;
+
+			g_settings_bind(	settings,
+						key,
+						widget,
+						"active",
+						G_SETTINGS_BIND_DEFAULT );
+		}
+		else if(type == ITEM_TYPE_FILE_CHOOSER)
+		{
+			GtkFileChooser *chooser;
+			gchar *filename;
+
+			widget = gtk_file_chooser_button_new
+					(label, GTK_FILE_CHOOSER_ACTION_OPEN);
+
+			chooser = GTK_FILE_CHOOSER(widget);
+			filename = g_settings_get_string(settings, key);
+			separate_label = TRUE;
+			xpos = 1;
+
+			gtk_widget_set_hexpand(widget, TRUE);
+			gtk_widget_set_size_request(widget, 100, -1);
+			gtk_file_chooser_set_filename(chooser, filename);
+
+			/* For simplicity, changes made to the GSettings
+			 * database externally won't be reflected immediately
+			 * for this type of widget.
+			 */
+			g_signal_connect_data(	widget,
+						"file-set",
+						G_CALLBACK(file_set_handler),
+						g_strdup(key),
+						(GClosureNotify)g_free,
+						0 );
+
+			g_free(filename);
+		}
+		else if(type == ITEM_TYPE_TEXT_BOX)
+		{
+			widget = gtk_entry_new();
+			separate_label = TRUE;
+			xpos = 1;
+
+			gtk_widget_set_hexpand(widget, TRUE);
+
+			g_settings_bind(	settings,
+						key,
+						widget,
+						"text",
+						G_SETTINGS_BIND_DEFAULT );
+		}
+		else if(type == ITEM_TYPE_LABEL)
+		{
+			widget = gtk_label_new(label);
+
+			gtk_widget_set_halign(widget, GTK_ALIGN_START);
+		}
+
+		g_assert(widget);
+		g_assert(xpos == 0 || xpos == 1);
+
+		if(i == 0)
+		{
+			gtk_widget_set_margin_top(widget, 0);
+		}
+
+		if(type != ITEM_TYPE_GROUP)
+		{
+			gtk_widget_set_margin_start(widget, 12);
+		}
+
+		/* Expand the widget to fill both columns if it usually needs a
+		 * separate label but none is provided.
+		 */
+		if(separate_label && !label)
+		{
+			width = 2;
+			xpos = 0;
+		}
+
+		gtk_grid_attach(GTK_GRID(grid), widget, xpos, i, width, 1);
+
+		if(separate_label && label)
+		{
+			GtkWidget *label_widget = gtk_label_new(label);
+
+			/* The grid should only have 2 columns, so the previous
+			 * widget connot be wider than 1 column if it needs a
+			 * seperate label.
+			 */
+			g_assert(width == 1);
+
+			gtk_grid_attach(	GTK_GRID(grid),
+						label_widget,
+						1-xpos, i, 1, 1 );
+
+			gtk_widget_set_halign(label_widget, GTK_ALIGN_START);
+			gtk_widget_set_hexpand(label_widget, FALSE);
+			gtk_widget_set_margin_start(label_widget, 12);
+		}
+	}
+
+	return grid;
+}
+
 static void pref_dialog_constructed(GObject *obj)
 {
 	gboolean csd_enabled;
@@ -132,8 +270,8 @@ static void pref_dialog_class_init(PrefDialogClass *klass)
 
 static void pref_dialog_init(PrefDialog *dlg)
 {
-	const PrefDialogItem items[]
-		= {	{_("<b>General</b>"),
+	const PrefDialogItem general_items[]
+		= {	{_("<b>User Interface</b>"),
 			NULL,
 			ITEM_TYPE_GROUP},
 			{_("Enable client-side decorations"),
@@ -184,7 +322,7 @@ static void pref_dialog_init(PrefDialog *dlg)
 	geom.max_height = 0;
 
 	dlg->settings = g_settings_new(CONFIG_ROOT);
-	dlg->grid = gtk_grid_new();
+	dlg->notebook = gtk_notebook_new();
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
 
 	g_settings_delay(dlg->settings);
@@ -194,11 +332,16 @@ static void pref_dialog_init(PrefDialog *dlg)
 					&geom,
 					GDK_HINT_MAX_SIZE );
 
-	gtk_grid_set_row_spacing(GTK_GRID(dlg->grid), 6);
-	gtk_grid_set_column_spacing(GTK_GRID(dlg->grid), 12);
+	gtk_container_set_border_width(GTK_CONTAINER(content_area), 0);
+	gtk_container_add(GTK_CONTAINER(content_area), dlg->notebook);
 
-	gtk_container_set_border_width(GTK_CONTAINER(content_area), 12);
-	gtk_container_add(GTK_CONTAINER(content_area), dlg->grid);
+	gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook),
+					build_page(general_items, dlg->settings),
+					gtk_label_new(_("General")) );
+
+	gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook),
+					plugins_manager_new(GTK_WINDOW(dlg)),
+					gtk_label_new(_("Lua Scripts")) );
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				_("_Cancel"),
@@ -209,130 +352,6 @@ static void pref_dialog_init(PrefDialog *dlg)
 
 	gtk_dialog_set_default_response(GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
 
-	for(gint i = 0; items[i].type != ITEM_TYPE_INVALID; i++)
-	{
-		const gchar *label = items[i].label;
-		const gchar *key = items[i].key;
-		const PrefDialogItemType type = items[i].type;
-		GtkWidget *widget = NULL;
-		gboolean separate_label = FALSE;
-		gint width = 1;
-		gint xpos = 0;
-
-		if(type == ITEM_TYPE_GROUP)
-		{
-			widget = gtk_label_new(label);
-			width = 2;
-
-			gtk_label_set_use_markup(GTK_LABEL(widget), TRUE);
-			gtk_widget_set_halign(widget, GTK_ALIGN_START);
-			gtk_widget_set_margin_top(widget, 12);
-		}
-		else if(type == ITEM_TYPE_CHECK_BOX)
-		{
-			widget = gtk_check_button_new_with_label(label);
-			width = 2;
-
-			g_settings_bind(	dlg->settings,
-						key,
-						widget,
-						"active",
-						G_SETTINGS_BIND_DEFAULT );
-		}
-		else if(type == ITEM_TYPE_FILE_CHOOSER)
-		{
-			GtkFileChooser *chooser;
-			gchar *filename;
-
-			widget = gtk_file_chooser_button_new
-					(label, GTK_FILE_CHOOSER_ACTION_OPEN);
-
-			chooser = GTK_FILE_CHOOSER(widget);
-			filename = g_settings_get_string(dlg->settings, key);
-			separate_label = TRUE;
-			xpos = 1;
-
-			gtk_widget_set_hexpand(widget, TRUE);
-			gtk_widget_set_size_request(widget, 100, -1);
-			gtk_file_chooser_set_filename(chooser, filename);
-
-			/* For simplicity, changes made to the GSettings
-			 * database externally won't be reflected immediately
-			 * for this type of widget.
-			 */
-			g_signal_connect_data(	widget,
-						"file-set",
-						G_CALLBACK(file_set_handler),
-						g_strdup(key),
-						(GClosureNotify)g_free,
-						0 );
-
-			g_free(filename);
-		}
-		else if(type == ITEM_TYPE_TEXT_BOX)
-		{
-			widget = gtk_entry_new();
-			separate_label = TRUE;
-			xpos = 1;
-
-			gtk_widget_set_hexpand(widget, TRUE);
-
-			g_settings_bind(	dlg->settings,
-						key,
-						widget,
-						"text",
-						G_SETTINGS_BIND_DEFAULT );
-		}
-		else if(type == ITEM_TYPE_LABEL)
-		{
-			widget = gtk_label_new(label);
-
-			gtk_widget_set_halign(widget, GTK_ALIGN_START);
-		}
-
-		g_assert(widget);
-		g_assert(xpos == 0 || xpos == 1);
-
-		if(i == 0)
-		{
-			gtk_widget_set_margin_top(widget, 0);
-		}
-
-		if(type != ITEM_TYPE_GROUP)
-		{
-			gtk_widget_set_margin_start(widget, 12);
-		}
-
-		/* Expand the widget to fill both columns if it usually needs a
-		 * separate label but none is provided.
-		 */
-		if(separate_label && !label)
-		{
-			width = 2;
-			xpos = 0;
-		}
-
-		gtk_grid_attach(GTK_GRID(dlg->grid), widget, xpos, i, width, 1);
-
-		if(separate_label && label)
-		{
-			GtkWidget *label_widget = gtk_label_new(label);
-
-			/* The grid should only have 2 columns, so the previous
-			 * widget connot be wider than 1 column if it needs a
-			 * seperate label.
-			 */
-			g_assert(width == 1);
-
-			gtk_grid_attach(	GTK_GRID(dlg->grid),
-						label_widget,
-						1-xpos, i, 1, 1 );
-
-			gtk_widget_set_halign(label_widget, GTK_ALIGN_START);
-			gtk_widget_set_hexpand(label_widget, FALSE);
-			gtk_widget_set_margin_start(label_widget, 12);
-		}
-	}
 }
 
 GtkWidget *pref_dialog_new(GtkWindow *parent)

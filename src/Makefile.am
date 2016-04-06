@@ -44,6 +44,8 @@ gnome_mpv_SOURCES =	main.c def.h \
 			playbackctl.c playbackctl.h \
 			playlist.c playlist.h \
 			playlist_widget.c playlist_widget.h \
+			plugins_manager.c plugins_manager.h \
+			plugins_manager_item.c plugins_manager_item.h \
 			pref_dialog.c pref_dialog.h \
 			shortcuts_window.c shortcuts_window.h \
 			track.c track.h \
