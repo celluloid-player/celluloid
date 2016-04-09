@@ -946,6 +946,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 	options[] = {	{"osd-level", "1"},
 			{"softvol", "yes"},
 			{"force-window", "yes"},
+			{"input-default-bindings", "yes"},
 			{"audio-client-name", ICON_NAME},
 			{"title", "${media-title}"},
 			{"autofit-larger", "75%"},
