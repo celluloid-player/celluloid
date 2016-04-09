@@ -51,9 +51,7 @@
 				.info = 0} }
 
 #define DEFAULT_KEYBINDS \
-	{	"SPACE cycle pause",\
-		"p cycle pause",\
-		"f script-message gmpv-action fullscreen_toggle",\
+	{	"f script-message gmpv-action fullscreen_toggle",\
 		"ESC script-message gmpv-action fullscreen_leave",\
 		"v osd-msg cycle sub-visibility",\
 		"s osd-msg screenshot",\
@@ -62,16 +60,12 @@
 		"J osd-msg cycle sub down",\
 		"@ osd-msg cycle chapter",\
 		"! osd-msg cycle chapter down",\
-		"< playlist_prev",\
-		"> playlist_next",\
 		"DEL script-message gmpv-action playlist_remove_selected",\
 		"U stop",\
 		"RIGHT no-osd seek 10",\
 		"LEFT no-osd seek -10",\
 		"UP no-osd seek 60",\
 		"DOWN no-osd seek -60",\
-		"Q quit_watch_later",\
-		"MOUSE_BTN2 cycle pause",\
 		"Alt+0 script-message gmpv-action video_size(0.5)",\
 		"Alt+1 script-message gmpv-action video_size(1.0)",\
 		"Alt+2 script-message gmpv-action video_size(2.0)",\
