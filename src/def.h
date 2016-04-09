@@ -72,6 +72,9 @@
 		"DOWN no-osd seek -60",\
 		"Q quit_watch_later",\
 		"MOUSE_BTN2 cycle pause",\
+		"Alt+0 script-message gmpv-action video_size(0.5)",\
+		"Alt+1 script-message gmpv-action video_size(1.0)",\
+		"Alt+2 script-message gmpv-action video_size(2.0)",\
 		NULL }
 
 #define KEYSTRING_MAP	{	"<", "less",\
