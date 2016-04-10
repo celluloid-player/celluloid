@@ -35,6 +35,7 @@ struct _PluginsManager
 	GtkGrid parent;
 	GtkWindow *parent_window;
 	GtkWidget *list_box;
+	GtkWidget *placeholder_label;
 	GFileMonitor *monitor;
 	gchar *directory;
 };
@@ -204,6 +205,7 @@ static void changed_handler(	GFileMonitor *monitor,
 	PluginsManager *pmgr = data;
 	GDir *dir = NULL;
 	const gchar *filename = NULL;
+	gboolean empty = TRUE;
 	const GFileMonitorEvent mask =	G_FILE_MONITOR_EVENT_CREATED|
 					G_FILE_MONITOR_EVENT_DELETED|
 					G_FILE_MONITOR_EVENT_UNMOUNTED;
@@ -246,9 +248,10 @@ static void changed_handler(	GFileMonitor *monitor,
 					(	pmgr->parent_window,
 						filename,
 						full_path );
-
 				gtk_container_add
 					(GTK_CONTAINER(pmgr->list_box), item);
+
+				empty = FALSE;
 			}
 
 			g_free(full_path);
@@ -256,6 +259,7 @@ static void changed_handler(	GFileMonitor *monitor,
 		while(filename);
 
 		gtk_widget_show_all(pmgr->list_box);
+		gtk_widget_set_visible(pmgr->placeholder_label, empty);
 
 		g_dir_close(dir);
 	}
@@ -283,9 +287,11 @@ static void plugins_manager_class_init(PluginsManagerClass *klass)
 static void plugins_manager_init(PluginsManager *pmgr)
 {
 	GtkWidget *scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+	GtkWidget *overlay = gtk_overlay_new();
 	GtkWidget *add_button = gtk_button_new_with_label("+");
 
 	pmgr->list_box = gtk_list_box_new();
+	pmgr->placeholder_label = gtk_label_new(_("No Lua script found"));
 	pmgr->parent_window = NULL;
 	pmgr->monitor = NULL;
 	pmgr->directory = NULL;
@@ -297,9 +303,17 @@ static void plugins_manager_init(PluginsManager *pmgr)
 
 	gtk_widget_set_hexpand(GTK_WIDGET(scrolled_window), TRUE);
 	gtk_widget_set_vexpand(GTK_WIDGET(scrolled_window), TRUE);
+	gtk_widget_set_sensitive(pmgr->placeholder_label, FALSE);
+	gtk_widget_set_no_show_all(pmgr->placeholder_label, TRUE);
+
+	gtk_container_add(GTK_CONTAINER(overlay), scrolled_window);
+	gtk_overlay_add_overlay(GTK_OVERLAY(overlay), pmgr->placeholder_label);
+	gtk_overlay_set_overlay_pass_through(	GTK_OVERLAY(overlay),
+						pmgr->placeholder_label,
+						TRUE );
 
 	gtk_grid_attach(	GTK_GRID(pmgr),
-				scrolled_window,
+				overlay,
 				0, 0, 1, 1 );
 	gtk_grid_attach(	GTK_GRID(pmgr),
 				add_button,
