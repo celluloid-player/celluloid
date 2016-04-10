@@ -303,8 +303,10 @@ static void plugins_manager_init(PluginsManager *pmgr)
 
 	gtk_widget_set_hexpand(GTK_WIDGET(scrolled_window), TRUE);
 	gtk_widget_set_vexpand(GTK_WIDGET(scrolled_window), TRUE);
+
 	gtk_widget_set_sensitive(pmgr->placeholder_label, FALSE);
 	gtk_widget_set_no_show_all(pmgr->placeholder_label, TRUE);
+	gtk_widget_show(pmgr->placeholder_label);
 
 	gtk_container_add(GTK_CONTAINER(overlay), scrolled_window);
 	gtk_overlay_add_overlay(GTK_OVERLAY(overlay), pmgr->placeholder_label);
