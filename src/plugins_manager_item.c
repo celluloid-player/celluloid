@@ -156,7 +156,8 @@ static void remove_handler(GtkButton *button, gpointer data)
 						GTK_MESSAGE_QUESTION,
 						GTK_BUTTONS_YES_NO,
 						_("Are you sure you want to "
-						"remove this script?"));
+						"remove this script? This "
+						"action cannot be undone."));
 
 	if(gtk_dialog_run(GTK_DIALOG(confirm_dialog)) == GTK_RESPONSE_YES)
 	{
