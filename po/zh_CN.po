@@ -6,21 +6,20 @@
 # Mingye Wang <arthur2e5@aosc.xyz>, 2015.
 # gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
 # Mingye Wang <arthur2e5@aosc.xyz>, 2016. #zanata
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 21:24+0800\n"
-"PO-Revision-Date: 2016-03-04 02:10-0500\n"
-"Last-Translator: gnome-mpv <gnome-mpv@openmailbox.org>\n"
+"PO-Revision-Date: 2016-03-29 10:43-0400\n"
+"Last-Translator: Mingye Wang <arthur2e5@aosc.xyz>\n"
 "Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh-CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Zanata 3.8.2\n"
+"X-Generator: Zanata 3.8.3\n"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:1
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:2
@@ -96,7 +95,7 @@ msgstr "最近访问的文件夹 URI"
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:1
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr ""
+msgstr "是否已从上一个版本迁移设置"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
 msgid ""
@@ -138,7 +137,7 @@ msgstr "关闭了 CSD 的主窗口"
 msgid "The main window with playlist open"
 msgstr "打开了播放列表的主窗口"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:159
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:152
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -146,92 +145,93 @@ msgstr "GNOME MPV"
 msgid "GTK+ frontend for mpv"
 msgstr "MPV 的 GTK 前端程序"
 
-#: ../src/actionctl.c:90
+#: ../src/actionctl.c:85
 msgid "Add File to Playlist"
 msgstr "添加文件到播放列表"
 
-#: ../src/actionctl.c:91
+#: ../src/actionctl.c:86
 msgid "Open File"
 msgstr "打开文件"
 
-#: ../src/actionctl.c:94 ../src/actionctl.c:234 ../src/actionctl.c:431
-#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:204
+#: ../src/actionctl.c:89 ../src/actionctl.c:245 ../src/actionctl.c:442
+#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:347
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: ../src/actionctl.c:96 ../src/actionctl.c:433 ../src/menu.c:121
+#: ../src/actionctl.c:91 ../src/actionctl.c:444 ../src/menu.c:121
 #: ../src/menu.c:390 ../src/open_loc_dialog.c:81
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: ../src/actionctl.c:231
+#: ../src/actionctl.c:242
 msgid "Save Playlist"
 msgstr "保存播放列表"
 
-#: ../src/actionctl.c:236 ../src/pref_dialog.c:206
+#: ../src/actionctl.c:247 ../src/pref_dialog.c:349
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: ../src/actionctl.c:347
+#: ../src/actionctl.c:358
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
 " effect."
 msgstr "启用或禁用客户端装饰需要重启 %s 生效。"
 
-#: ../src/actionctl.c:428
+#: ../src/actionctl.c:439
 msgid "Load External…"
 msgstr "载入外部配置文件…"
 
-#: ../src/actionctl.c:521
+#: ../src/actionctl.c:520
 msgid "A GTK frontend for MPV"
 msgstr "MPV 的 GTK 前端程序"
 
-#: ../src/actionctl.c:531
+#: ../src/actionctl.c:530
 msgid "translator-credits"
 msgstr ""
-"Mingye Wang\n"
-"Sun"
+"Mingye Wang <arthur2e5@aosc.xyz>, 2015, 2016.\n"
+"Jeff Bai <jeffbai@aosc.xyz>, 2015, 2016.\n"
+"Sun <warmsun0220@gmail.com>, 2015, 2016."
 
-#: ../src/application.c:528
+#: ../src/application.c:563
 msgid "Playing"
 msgstr "正在播放"
 
-#: ../src/common.c:220
+#: ../src/common.c:224
 msgid "Error"
 msgstr "错误"
 
-#: ../src/control_box.c:119 ../src/control_box.c:244
+#: ../src/control_box.c:235 ../src/control_box.c:417
 msgid "Play"
-msgstr ""
+msgstr "播放"
 
-#: ../src/control_box.c:120
+#: ../src/control_box.c:236
 msgid "Stop"
-msgstr ""
+msgstr "停止"
 
-#: ../src/control_box.c:121
+#: ../src/control_box.c:237
 msgid "Forward"
-msgstr ""
+msgstr "快进"
 
-#: ../src/control_box.c:122
+#: ../src/control_box.c:238
 msgid "Rewind"
-msgstr ""
+msgstr "快退"
 
-#: ../src/control_box.c:123
+#: ../src/control_box.c:239
 msgid "Next Chapter"
-msgstr ""
+msgstr "下一章节"
 
-#: ../src/control_box.c:124
+#: ../src/control_box.c:240
 msgid "Previous Chapter"
-msgstr ""
+msgstr "上一章节"
 
-#: ../src/control_box.c:125
+#: ../src/control_box.c:241 ../src/main_window.c:695
 msgid "Toggle Fullscreen"
-msgstr ""
+msgstr "切换全屏"
 
-#: ../src/control_box.c:244
+#: ../src/control_box.c:417
 msgid "Pause"
-msgstr ""
+msgstr "暂停"
 
 #: ../src/menu.c:39
 msgid "None"
@@ -305,7 +305,7 @@ msgstr "视频轨道(_V)"
 
 #: ../src/menu.c:196 ../src/menu.c:200 ../src/menu.c:346 ../src/menu.c:351
 msgid "_Load External…"
-msgstr ""
+msgstr "载入外部(_L)…"
 
 #: ../src/menu.c:210 ../src/menu.c:335
 msgid "_Audio Track"
@@ -315,12 +315,12 @@ msgstr "音轨(_A)"
 msgid "S_ubtitle Track"
 msgstr "字幕轨道(_U)"
 
-#: ../src/mpv_obj.c:258
+#: ../src/mpv_obj.c:247
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "回放被异常终止。原因：%s。"
 
-#: ../src/mpv_obj.c:926
+#: ../src/mpv_obj.c:1014
 msgid "Failed to apply one or more MPV options."
 msgstr "应用一个或多个 MPV 选项失败。"
 
@@ -332,66 +332,153 @@ msgstr "位置："
 msgid "Open Location"
 msgstr "打开位置"
 
-#: ../src/playlist_widget.c:119
+#: ../src/playlist_widget.c:116
 msgid "_Add…"
 msgstr "添加(_A)…"
 
-#: ../src/playlist_widget.c:120
+#: ../src/playlist_widget.c:117
 msgid "Loop"
 msgstr "循环"
 
-#: ../src/playlist_widget.c:173
+#: ../src/playlist_widget.c:160
 msgid "Playlist"
 msgstr "播放列表"
 
-#: ../src/pref_dialog.c:136
-msgid "<b>General</b>"
-msgstr "<b>常规</b>"
+#: ../src/plugins_manager.c:137
+msgid "Cancel"
+msgstr ""
 
-#: ../src/pref_dialog.c:139
+#: ../src/plugins_manager.c:139
+msgid "Open"
+msgstr ""
+
+#: ../src/plugins_manager.c:176
+#, c-format
+msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
+msgstr ""
+
+#: ../src/plugins_manager.c:295
+msgid "No Lua script found"
+msgstr ""
+
+#: ../src/plugins_manager_item.c:65
+msgid "Remove"
+msgstr ""
+
+#: ../src/plugins_manager_item.c:158
+msgid ""
+"Are you sure you want to remove this script? This action cannot be undone."
+msgstr ""
+
+#: ../src/plugins_manager_item.c:179
+#, c-format
+msgid "Failed to delete file '%s'. Reason: %s"
+msgstr ""
+
+#: ../src/pref_dialog.c:274
+msgid "<b>User Interface</b>"
+msgstr ""
+
+#: ../src/pref_dialog.c:277
 msgid "Enable client-side decorations"
 msgstr "启用客户端装饰"
 
-#: ../src/pref_dialog.c:142
+#: ../src/pref_dialog.c:280
 msgid "Enable dark theme"
 msgstr "启用暗色主题"
 
-#: ../src/pref_dialog.c:145
+#: ../src/pref_dialog.c:283
 msgid "Remember last file's location"
 msgstr "记住最后一次打开位置"
 
-#: ../src/pref_dialog.c:148
+#: ../src/pref_dialog.c:286
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>MPV 配置</b>"
 
-#: ../src/pref_dialog.c:151
+#: ../src/pref_dialog.c:289
 msgid "Load MPV configuration file"
 msgstr "加载 MPV 配置文件"
 
-#: ../src/pref_dialog.c:154
+#: ../src/pref_dialog.c:292
 msgid "MPV configuration file:"
 msgstr "MPV 配置文件："
 
-#: ../src/pref_dialog.c:157
+#: ../src/pref_dialog.c:295
 msgid "<b>Keybindings</b>"
 msgstr "<b>键绑定</b>"
 
-#: ../src/pref_dialog.c:160
+#: ../src/pref_dialog.c:298
 msgid "Load MPV input configuration file"
 msgstr "加载 MPV 输入配置文件"
 
-#: ../src/pref_dialog.c:163
+#: ../src/pref_dialog.c:301
 msgid "MPV input configuration file:"
 msgstr "MPV 输入配置文件："
 
-#: ../src/pref_dialog.c:166
+#: ../src/pref_dialog.c:304
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>杂项</b>"
 
-#: ../src/pref_dialog.c:169
+#: ../src/pref_dialog.c:307
 msgid "Extra MPV options:"
 msgstr "额外的 MPV 选项："
 
-#: ../src/pref_dialog.c:347
+#: ../src/pref_dialog.c:340
+msgid "General"
+msgstr ""
+
+#: ../src/pref_dialog.c:344
+msgid "Lua Scripts"
+msgstr ""
+
+#: ../src/pref_dialog.c:366
 msgid "Preferences"
 msgstr "首选项"
+
+#: ../src/shortcuts_window.c:43
+msgid "Open file"
+msgstr "打开文件"
+
+#: ../src/shortcuts_window.c:44
+msgid "Open location"
+msgstr "打开位置"
+
+#: ../src/shortcuts_window.c:45
+msgid "Quit"
+msgstr "退出"
+
+#: ../src/shortcuts_window.c:46
+msgid "Show preferences dialog"
+msgstr "显示首选项对话框"
+
+#: ../src/shortcuts_window.c:47
+msgid "Toggle playlist"
+msgstr "切换播放列表"
+
+#: ../src/shortcuts_window.c:48
+msgid "Save playlist"
+msgstr "保存播放列表"
+
+#: ../src/shortcuts_window.c:49
+msgid "Remove selected playlist item"
+msgstr "移除选定的播放列表项"
+
+#: ../src/shortcuts_window.c:50
+msgid "Toggle fullscreen mode"
+msgstr "切换全屏模式"
+
+#: ../src/shortcuts_window.c:51
+msgid "Leave fullscreen mode"
+msgstr "离开全屏模式"
+
+#: ../src/shortcuts_window.c:52
+msgid "Normal size"
+msgstr "正常大小"
+
+#: ../src/shortcuts_window.c:53
+msgid "Double size"
+msgstr "双倍大小"
+
+#: ../src/shortcuts_window.c:54
+msgid "Half size"
+msgstr "一般大小"

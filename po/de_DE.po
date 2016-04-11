@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de-DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.8.2\n"
+"X-Generator: Zanata 3.8.3\n"
 
 #: ../data/org.gnome-mpv.gschema.xml.in.h:1
 #: ../data/io.github.GnomeMpv.gschema.xml.in.h:2
@@ -133,7 +133,7 @@ msgstr ""
 msgid "The main window with playlist open"
 msgstr ""
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:159
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/application.c:152
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -141,88 +141,88 @@ msgstr "GNOME MPV"
 msgid "GTK+ frontend for mpv"
 msgstr ""
 
-#: ../src/actionctl.c:90
+#: ../src/actionctl.c:85
 msgid "Add File to Playlist"
 msgstr "Datei zur _Wiedergabeliste hinzufügen"
 
-#: ../src/actionctl.c:91
+#: ../src/actionctl.c:86
 msgid "Open File"
 msgstr "Datei öffnen"
 
-#: ../src/actionctl.c:94 ../src/actionctl.c:234 ../src/actionctl.c:431
-#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:204
+#: ../src/actionctl.c:89 ../src/actionctl.c:245 ../src/actionctl.c:442
+#: ../src/open_loc_dialog.c:83 ../src/pref_dialog.c:347
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
-#: ../src/actionctl.c:96 ../src/actionctl.c:433 ../src/menu.c:121
+#: ../src/actionctl.c:91 ../src/actionctl.c:444 ../src/menu.c:121
 #: ../src/menu.c:390 ../src/open_loc_dialog.c:81
 msgid "_Open"
 msgstr "Ö_ffnen"
 
-#: ../src/actionctl.c:231
+#: ../src/actionctl.c:242
 msgid "Save Playlist"
 msgstr "Wiedergabeliste speichern"
 
-#: ../src/actionctl.c:236 ../src/pref_dialog.c:206
+#: ../src/actionctl.c:247 ../src/pref_dialog.c:349
 msgid "_Save"
 msgstr "_Speichern"
 
-#: ../src/actionctl.c:347
+#: ../src/actionctl.c:358
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
 " effect."
 msgstr "Die Änderungen erfordern einen Neustart von %s."
 
-#: ../src/actionctl.c:428
+#: ../src/actionctl.c:439
 msgid "Load External…"
 msgstr ""
 
-#: ../src/actionctl.c:521
+#: ../src/actionctl.c:520
 msgid "A GTK frontend for MPV"
 msgstr "Eine GTK-Oberfläche für MPV"
 
-#: ../src/actionctl.c:531
+#: ../src/actionctl.c:530
 msgid "translator-credits"
 msgstr "Vincent Bermel"
 
-#: ../src/application.c:528
+#: ../src/application.c:563
 msgid "Playing"
 msgstr ""
 
-#: ../src/common.c:220
+#: ../src/common.c:224
 msgid "Error"
 msgstr ""
 
-#: ../src/control_box.c:119 ../src/control_box.c:244
+#: ../src/control_box.c:235 ../src/control_box.c:417
 msgid "Play"
 msgstr ""
 
-#: ../src/control_box.c:120
+#: ../src/control_box.c:236
 msgid "Stop"
 msgstr ""
 
-#: ../src/control_box.c:121
+#: ../src/control_box.c:237
 msgid "Forward"
 msgstr ""
 
-#: ../src/control_box.c:122
+#: ../src/control_box.c:238
 msgid "Rewind"
 msgstr ""
 
-#: ../src/control_box.c:123
+#: ../src/control_box.c:239
 msgid "Next Chapter"
 msgstr ""
 
-#: ../src/control_box.c:124
+#: ../src/control_box.c:240
 msgid "Previous Chapter"
 msgstr ""
 
-#: ../src/control_box.c:125
+#: ../src/control_box.c:241 ../src/main_window.c:695
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: ../src/control_box.c:244
+#: ../src/control_box.c:417
 msgid "Pause"
 msgstr ""
 
@@ -308,12 +308,12 @@ msgstr ""
 msgid "S_ubtitle Track"
 msgstr ""
 
-#: ../src/mpv_obj.c:258
+#: ../src/mpv_obj.c:247
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr ""
 
-#: ../src/mpv_obj.c:926
+#: ../src/mpv_obj.c:1014
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
@@ -325,66 +325,153 @@ msgstr "Adresse:"
 msgid "Open Location"
 msgstr "Adresse öffnen"
 
-#: ../src/playlist_widget.c:119
+#: ../src/playlist_widget.c:116
 msgid "_Add…"
 msgstr ""
 
-#: ../src/playlist_widget.c:120
+#: ../src/playlist_widget.c:117
 msgid "Loop"
 msgstr "Wiederholen"
 
-#: ../src/playlist_widget.c:173
+#: ../src/playlist_widget.c:160
 msgid "Playlist"
 msgstr "Wiedergabeliste"
 
-#: ../src/pref_dialog.c:136
-msgid "<b>General</b>"
-msgstr "<b>Allgemein</b>"
+#: ../src/plugins_manager.c:137
+msgid "Cancel"
+msgstr ""
 
-#: ../src/pref_dialog.c:139
+#: ../src/plugins_manager.c:139
+msgid "Open"
+msgstr ""
+
+#: ../src/plugins_manager.c:176
+#, c-format
+msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
+msgstr ""
+
+#: ../src/plugins_manager.c:295
+msgid "No Lua script found"
+msgstr ""
+
+#: ../src/plugins_manager_item.c:65
+msgid "Remove"
+msgstr ""
+
+#: ../src/plugins_manager_item.c:158
+msgid ""
+"Are you sure you want to remove this script? This action cannot be undone."
+msgstr ""
+
+#: ../src/plugins_manager_item.c:179
+#, c-format
+msgid "Failed to delete file '%s'. Reason: %s"
+msgstr ""
+
+#: ../src/pref_dialog.c:274
+msgid "<b>User Interface</b>"
+msgstr ""
+
+#: ../src/pref_dialog.c:277
 msgid "Enable client-side decorations"
 msgstr "Kombinierte Titel-/Menüleiste (CSD)"
 
-#: ../src/pref_dialog.c:142
+#: ../src/pref_dialog.c:280
 msgid "Enable dark theme"
 msgstr "Dunkles Thema verwenden"
 
-#: ../src/pref_dialog.c:145
+#: ../src/pref_dialog.c:283
 msgid "Remember last file's location"
 msgstr "Speicherort der zuletzt gespielten Datei merken"
 
-#: ../src/pref_dialog.c:148
+#: ../src/pref_dialog.c:286
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>MPV-Einstellungen</b>"
 
-#: ../src/pref_dialog.c:151
+#: ../src/pref_dialog.c:289
 msgid "Load MPV configuration file"
 msgstr "MPV-Konfiguration aus Datei laden"
 
-#: ../src/pref_dialog.c:154
+#: ../src/pref_dialog.c:292
 msgid "MPV configuration file:"
 msgstr "MPV-Konfigurationsdatei"
 
-#: ../src/pref_dialog.c:157
+#: ../src/pref_dialog.c:295
 msgid "<b>Keybindings</b>"
 msgstr "<b>Tastenbelegungen</b>"
 
-#: ../src/pref_dialog.c:160
+#: ../src/pref_dialog.c:298
 msgid "Load MPV input configuration file"
 msgstr "MPV-Tastenbelegung aus Datei laden"
 
-#: ../src/pref_dialog.c:163
+#: ../src/pref_dialog.c:301
 msgid "MPV input configuration file:"
 msgstr "Datei mit MPV-Tastenbelegungen"
 
-#: ../src/pref_dialog.c:166
+#: ../src/pref_dialog.c:304
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Sonstiges</b>"
 
-#: ../src/pref_dialog.c:169
+#: ../src/pref_dialog.c:307
 msgid "Extra MPV options:"
 msgstr "Weitere Optionen für MPV"
 
-#: ../src/pref_dialog.c:347
+#: ../src/pref_dialog.c:340
+msgid "General"
+msgstr ""
+
+#: ../src/pref_dialog.c:344
+msgid "Lua Scripts"
+msgstr ""
+
+#: ../src/pref_dialog.c:366
 msgid "Preferences"
 msgstr "Einstellungen"
+
+#: ../src/shortcuts_window.c:43
+msgid "Open file"
+msgstr ""
+
+#: ../src/shortcuts_window.c:44
+msgid "Open location"
+msgstr ""
+
+#: ../src/shortcuts_window.c:45
+msgid "Quit"
+msgstr ""
+
+#: ../src/shortcuts_window.c:46
+msgid "Show preferences dialog"
+msgstr ""
+
+#: ../src/shortcuts_window.c:47
+msgid "Toggle playlist"
+msgstr ""
+
+#: ../src/shortcuts_window.c:48
+msgid "Save playlist"
+msgstr ""
+
+#: ../src/shortcuts_window.c:49
+msgid "Remove selected playlist item"
+msgstr ""
+
+#: ../src/shortcuts_window.c:50
+msgid "Toggle fullscreen mode"
+msgstr ""
+
+#: ../src/shortcuts_window.c:51
+msgid "Leave fullscreen mode"
+msgstr ""
+
+#: ../src/shortcuts_window.c:52
+msgid "Normal size"
+msgstr ""
+
+#: ../src/shortcuts_window.c:53
+msgid "Double size"
+msgstr ""
+
+#: ../src/shortcuts_window.c:54
+msgid "Half size"
+msgstr ""
