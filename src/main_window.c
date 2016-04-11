@@ -453,7 +453,6 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 
 			wnd->pre_fs_playlist_visible = wnd->playlist_visible;
 			gtk_widget_set_visible(wnd->playlist, FALSE);
-			timeout_handler(wnd);
 		}
 		else
 		{
@@ -497,6 +496,8 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 		}
 
 		wnd->fullscreen = fullscreen;
+
+		timeout_handler(wnd);
 	}
 }
 
