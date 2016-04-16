@@ -17,6 +17,7 @@ capabilities.
 - gtk3 >= 3.20
 - mpv >= 0.17
 - epoxy
+- lua (optional)
 - youtube-dl (optional)
 
 ## Installation
