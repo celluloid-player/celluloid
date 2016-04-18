@@ -6,19 +6,21 @@ capabilities.
 
 ## Dependencies
 
-- appstream-glib (build)
-- autotools (build)
-- autoconf-archive (build)
+- appstream-glib<sup>[[1]](#note)</sup> (build)
+- autotools<sup>[[1]](#note)</sup> (build)
+- autoconf-archive<sup>[[1]](#note)</sup> (build)
+- python2<sup>[[1]](#note)</sup> (build)
+- intltool (build)
 - pkg-config (build)
 - gcc (build)
-- intltool (build)
-- python2 (build)
 - glib2 >= 2.40
 - gtk3 >= 3.20
 - mpv >= 0.17
 - epoxy
 - lua (optional)
 - youtube-dl (optional)
+
+<a name="note">[1]</a>: Not required when building from release tarballs
 
 ## Installation
 
