@@ -166,8 +166,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store, use_opengl));
 	app->fs_control = NULL;
 
-	migrate_config(app);
-
 	style_provider = gtk_css_provider_new();
 	css_loaded = gtk_css_provider_load_from_data
 			(style_provider, vid_area_style, -1, NULL);
