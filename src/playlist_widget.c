@@ -21,6 +21,7 @@
 
 #include "playlist_widget.h"
 #include "playlist.h"
+#include "marshal.h"
 #include "def.h"
 
 enum
@@ -30,6 +31,29 @@ enum
 	N_PROPERTIES
 };
 
+struct _PlaylistWidget
+{
+	GtkScrolledWindow parent_instance;
+	GtkWidget *tree_view;
+	Playlist *store;
+	GtkTreeViewColumn *title_column;
+	GtkCellRenderer *title_renderer;
+};
+
+struct _PlaylistWidgetClass
+{
+	GtkScrolledWindowClass parent_class;
+};
+
+static void row_activated_handler(	GtkTreeView *tree_view,
+					GtkTreePath *path,
+					GtkTreeViewColumn *column,
+					gpointer data );
+static void row_deleted_handler(Playlist *pl, gint pos, gpointer data);
+static void row_reodered_handler(	Playlist *pl,
+					gint src,
+					gint dest,
+					gpointer data );
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
@@ -48,6 +72,18 @@ static void playlist_widget_constructed(GObject *object)
 				"button-press-event",
 				G_CALLBACK(mouse_press_handler),
 				NULL );
+	g_signal_connect(	self->tree_view,
+				"row-activated",
+				G_CALLBACK(row_activated_handler),
+				self );
+	g_signal_connect(	self->store,
+				"row-deleted",
+				G_CALLBACK(row_deleted_handler),
+				self );
+	g_signal_connect(	self->store,
+				"row-reordered",
+				G_CALLBACK(row_reodered_handler),
+				self );
 
 	gtk_widget_set_can_focus(GTK_WIDGET(self->tree_view), FALSE);
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(self->tree_view), TRUE);
@@ -93,6 +129,32 @@ static void playlist_widget_get_property(	GObject *object,
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 	}
+}
+
+static void row_activated_handler(	GtkTreeView *tree_view,
+					GtkTreePath *path,
+					GtkTreeViewColumn *column,
+					gpointer data )
+{
+	gint *indices = gtk_tree_path_get_indices(path);
+	gint64 index = indices?indices[0]:-1;
+
+	printf("FOO: %ld\n", index);
+
+	g_signal_emit_by_name(data, "row-activated", index);
+}
+
+static void row_deleted_handler(Playlist *pl, gint pos, gpointer data)
+{
+	g_signal_emit_by_name(data, "row-deleted", pos);
+}
+
+static void row_reodered_handler(	Playlist *pl,
+					gint src,
+					gint dest,
+					gpointer data )
+{
+	g_signal_emit_by_name(data, "row-reordered", src, dest);
 }
 
 static gboolean mouse_press_handler(	GtkWidget *widget,
@@ -146,8 +208,39 @@ static void playlist_widget_class_init(PlaylistWidgetClass *klass)
 			"Store",
 			"Playlist object used to store playlist items",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-
 	g_object_class_install_property(obj_class, PROP_STORE, pspec);
+
+	g_signal_new(	"row-activated",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__INT64,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_INT );
+	g_signal_new(	"row-deleted",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__INT,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_INT );
+	g_signal_new(	"row-reordered",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__INT_INT,
+			G_TYPE_NONE,
+			2,
+			G_TYPE_INT,
+			G_TYPE_INT );
 }
 
 static void playlist_widget_init(PlaylistWidget *wgt)
@@ -206,3 +299,7 @@ void playlist_widget_remove_selected(PlaylistWidget *wgt)
 	}
 }
 
+Playlist *playlist_widget_get_store(PlaylistWidget *wgt)
+{
+	return wgt->store;
+}

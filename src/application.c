@@ -61,14 +61,13 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data );
-static void playlist_row_activated_handler(	GtkTreeView *tree_view,
-						GtkTreePath *path,
-						GtkTreeViewColumn *column,
+static void playlist_row_activated_handler(	PlaylistWidget *playlist,
+						gint64 pos,
 						gpointer data );
-static void playlist_row_deleted_handler(	Playlist *pl,
+static void playlist_row_deleted_handler(	PlaylistWidget *playlist,
 						gint pos,
 						gpointer data );
-static void playlist_row_reodered_handler(	Playlist *pl,
+static void playlist_row_reodered_handler(	PlaylistWidget *playlist,
 						gint src,
 						gint dest,
 						gpointer data );
@@ -348,41 +347,38 @@ static gboolean delete_handler(	GtkWidget *widget,
 	return TRUE;
 }
 
-static void playlist_row_activated_handler(	GtkTreeView *tree_view,
-						GtkTreePath *path,
-						GtkTreeViewColumn *column,
+static void playlist_row_activated_handler(	PlaylistWidget *playlist,
+						gint64 pos,
 						gpointer data )
 {
 	Application *app = data;
-	gint *indices = gtk_tree_path_get_indices(path);
-	gint64 index = indices[0];
-	gint64 pos;
+	gint64 mpv_pos;
 	gint rc;
 
 	rc = mpv_obj_get_property(	app->mpv,
 					"playlist-pos",
 					MPV_FORMAT_INT64,
-					&pos );
+					&mpv_pos );
 
 	mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
 
-	if(indices && indices[0] != pos)
+	if(pos != mpv_pos)
 	{
 		if(rc >= 0)
 		{
 			mpv_obj_set_property(	app->mpv,
 						"playlist-pos",
 						MPV_FORMAT_INT64,
-						&index );
+						&pos );
 		}
 		else
 		{
-			app->target_playlist_pos = index;
+			app->target_playlist_pos = pos;
 		}
 	}
 }
 
-static void playlist_row_deleted_handler(	Playlist *pl,
+static void playlist_row_deleted_handler(	PlaylistWidget *playlist,
 						gint pos,
 						gpointer data )
 {
@@ -407,7 +403,7 @@ static void playlist_row_deleted_handler(	Playlist *pl,
 	}
 }
 
-static void playlist_row_reodered_handler(	Playlist *pl,
+static void playlist_row_reodered_handler(	PlaylistWidget *playlist,
 						gint src,
 						gint dest,
 						gpointer data )
@@ -961,15 +957,15 @@ static void connect_signals(Application *app)
 				"button-press-event",
 				G_CALLBACK(mouse_press_handler),
 				app );
-	g_signal_connect(	playlist->tree_view,
+	g_signal_connect(	playlist,
 				"row-activated",
 				G_CALLBACK(playlist_row_activated_handler),
 				app );
-	g_signal_connect(	playlist->store,
+	g_signal_connect(	playlist,
 				"row-deleted",
 				G_CALLBACK(playlist_row_deleted_handler),
 				app );
-	g_signal_connect(	playlist->store,
+	g_signal_connect(	playlist,
 				"row-reordered",
 				G_CALLBACK(playlist_row_reodered_handler),
 				app );

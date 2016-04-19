@@ -42,26 +42,13 @@ G_BEGIN_DECLS
 #define	IS_PLAYLIST_WIDGET_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), PLAYLIST_WIDGET_TYPE))
 
-struct _PlaylistWidget
-{
-	GtkScrolledWindow parent_instance;
-	GtkWidget *tree_view;
-	Playlist *store;
-	GtkTreeViewColumn *title_column;
-	GtkCellRenderer *title_renderer;
-};
-
-struct _PlaylistWidgetClass
-{
-	GtkScrolledWindowClass parent_class;
-};
-
 typedef struct _PlaylistWidget PlaylistWidget;
 typedef struct _PlaylistWidgetClass PlaylistWidgetClass;
 
 GtkWidget *playlist_widget_new(Playlist *store);
 GType playlist_widget_get_type(void);
 void playlist_widget_remove_selected(PlaylistWidget *wgt);
+Playlist *playlist_widget_get_store(PlaylistWidget *wgt);
 
 G_END_DECLS
 
