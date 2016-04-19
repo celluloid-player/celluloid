@@ -58,11 +58,20 @@ static void plugins_manager_get_property(	GObject *object,
 						GValue *value,
 						GParamSpec *pspec );
 static void add_handler(GtkButton *button, gpointer data);
+static void drag_data_handler(	GtkWidget *widget,
+				GdkDragContext *context,
+				gint x,
+				gint y,
+				GtkSelectionData *sel_data,
+				guint info,
+				guint time,
+				gpointer data);
 static void changed_handler(	GFileMonitor *monitor,
 				GFile *file,
 				GFile *other_file,
 				GFileMonitorEvent event_type,
 				gpointer data );
+static void copy_file_to_directory(PluginsManager *pmgr, GFile *src);
 
 static void plugins_manager_constructed(GObject *object)
 {
@@ -126,10 +135,6 @@ static void add_handler(GtkButton *button, gpointer data)
 	PluginsManager *pmgr = data;
 	GtkWidget *dialog = NULL;
 	GFile *src = NULL;
-	GFile *dest = NULL;
-	gchar *src_path = NULL;
-	gchar *dest_path = NULL;
-	GError *error = NULL;
 
 	dialog = gtk_file_chooser_dialog_new(	"Add Lua Script",
 						pmgr->parent_window,
@@ -140,61 +145,43 @@ static void add_handler(GtkButton *button, gpointer data)
 						GTK_RESPONSE_ACCEPT,
 						NULL );
 
-	g_assert(pmgr->directory);
-
 	if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
 
 		src = gtk_file_chooser_get_file(chooser);
-		dest_path = g_build_filename(	pmgr->directory,
-						g_file_get_basename(src),
-						NULL );
-		dest = g_file_new_for_path(dest_path);
-
-		g_file_copy(	src,
-				dest,
-				G_FILE_COPY_NONE,
-				NULL, NULL, NULL,
-				&error );
 	}
 
 	gtk_widget_destroy(dialog);
 
-	if(error)
-	{
-		GtkWidget *error_dialog;
-
-		src_path = g_file_get_path(src)?:g_file_get_uri(src);
-
-		error_dialog =	gtk_message_dialog_new
-				(	pmgr->parent_window,
-					GTK_DIALOG_MODAL|
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_ERROR,
-					GTK_BUTTONS_OK,
-					_("Failed to copy file from '%s' "
-					"to '%s'. Reason: %s"),
-					src_path,
-					dest_path,
-					error->message );
-
-		g_warning(	"Failed to copy file from '%s' to '%s'. "
-				"Reason: %s",
-				src_path,
-				dest_path,
-				error->message );
-
-		gtk_dialog_run(GTK_DIALOG(error_dialog));
-
-		gtk_widget_destroy(error_dialog);
-		g_error_free(error);
-	}
+	copy_file_to_directory(pmgr, src);
 
 	g_clear_object(&src);
-	g_clear_object(&dest);
-	g_free(src_path);
-	g_free(dest_path);
+}
+
+static void drag_data_handler(	GtkWidget *widget,
+				GdkDragContext *context,
+				gint x,
+				gint y,
+				GtkSelectionData *sel_data,
+				guint info,
+				guint time,
+				gpointer data)
+{
+	gchar **uri_list = gtk_selection_data_get_uris(sel_data);
+
+	g_assert(uri_list);
+
+	for(gint i = 0; uri_list[i]; i++)
+	{
+		GFile *file = g_file_new_for_uri(uri_list[i]);
+
+		copy_file_to_directory(data, file);
+
+		g_clear_object(&file);
+	}
+
+	g_strfreev(uri_list);
 }
 
 static void changed_handler(	GFileMonitor *monitor,
@@ -266,6 +253,64 @@ static void changed_handler(	GFileMonitor *monitor,
 	}
 }
 
+static void copy_file_to_directory(PluginsManager *pmgr, GFile *src)
+{
+	gchar *dest_path = NULL;
+	GFile *dest = NULL;
+	GError *error = NULL;
+
+	if(src)
+	{
+		g_assert(pmgr->directory);
+
+		dest_path = g_build_filename(	pmgr->directory,
+						g_file_get_basename(src),
+						NULL );
+		dest = g_file_new_for_path(dest_path);
+
+		g_file_copy(	src,
+				dest,
+				G_FILE_COPY_NONE,
+				NULL, NULL, NULL,
+				&error );
+	}
+
+	if(error)
+	{
+		GtkWidget *error_dialog = NULL;
+		gchar *src_path = NULL;
+
+		src_path = g_file_get_path(src)?:g_file_get_uri(src);
+
+		error_dialog =	gtk_message_dialog_new
+				(	pmgr->parent_window,
+					GTK_DIALOG_MODAL|
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_ERROR,
+					GTK_BUTTONS_OK,
+					_("Failed to copy file from '%s' "
+					"to '%s'. Reason: %s"),
+					src_path,
+					dest_path,
+					error->message );
+
+		g_warning(	"Failed to copy file from '%s' to '%s'. "
+				"Reason: %s",
+				src_path,
+				dest_path,
+				error->message );
+
+		gtk_dialog_run(GTK_DIALOG(error_dialog));
+
+		gtk_widget_destroy(error_dialog);
+		g_error_free(error);
+		g_free(src_path);
+	}
+
+	g_clear_object(&dest);
+	g_free(dest_path);
+}
+
 static void plugins_manager_class_init(PluginsManagerClass *klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -301,6 +346,17 @@ static void plugins_manager_init(PluginsManager *pmgr)
 				"clicked",
 				G_CALLBACK(add_handler),
 				pmgr );
+	g_signal_connect(	pmgr->list_box,
+				"drag-data-received",
+				G_CALLBACK(drag_data_handler),
+				pmgr );
+
+	gtk_drag_dest_set(	pmgr->list_box,
+				GTK_DEST_DEFAULT_ALL,
+				NULL,
+				0,
+				GDK_ACTION_LINK );
+	gtk_drag_dest_add_uri_targets(pmgr->list_box);
 
 	gtk_widget_set_hexpand(GTK_WIDGET(scrolled_window), TRUE);
 	gtk_widget_set_vexpand(GTK_WIDGET(scrolled_window), TRUE);
