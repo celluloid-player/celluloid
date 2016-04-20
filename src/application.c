@@ -872,7 +872,10 @@ static void opengl_cb_update_callback(void *cb_ctx)
 
 	if(app->mpv->opengl_ctx)
 	{
-		gtk_gl_area_queue_render(GTK_GL_AREA(app->gui->vid_area));
+		g_idle_add_full(	G_PRIORITY_HIGH,
+					(GSourceFunc)gtk_gl_area_queue_render,
+					app->gui->vid_area,
+					NULL );
 	}
 }
 
