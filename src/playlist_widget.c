@@ -139,8 +139,6 @@ static void row_activated_handler(	GtkTreeView *tree_view,
 	gint *indices = gtk_tree_path_get_indices(path);
 	gint64 index = indices?indices[0]:-1;
 
-	printf("FOO: %ld\n", index);
-
 	g_signal_emit_by_name(data, "row-activated", index);
 }
 
