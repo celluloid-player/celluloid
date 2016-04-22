@@ -43,10 +43,12 @@
 #include "track.h"
 #include "menu.h"
 #include "mpv_obj.h"
+#include "video_area.h"
 #include "def.h"
 #include "mpris/mpris.h"
 #include "media_keys/media_keys.h"
 
+static void *get_proc_address(void *fn_ctx, const gchar *name);
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
 						gpointer data );
@@ -94,10 +96,10 @@ static gboolean key_release_handler(	GtkWidget *widget,
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+static gboolean queue_render(GtkGLArea *area);
 static void opengl_cb_update_callback(void *cb_ctx);
 static void set_inhibit_idle(Application *app, gboolean inhibit);
 static gboolean get_use_opengl(void);
-static gint64 get_xid(GtkWidget *widget);
 static gboolean load_files(Application* app, const gchar **files);
 static void connect_signals(Application *app);
 static inline void add_accelerator(	GtkApplication *app,
@@ -108,6 +110,25 @@ static void application_class_init(ApplicationClass *klass);
 static void application_init(Application *app);
 
 G_DEFINE_TYPE(Application, application, GTK_TYPE_APPLICATION)
+
+static void *get_proc_address(void *fn_ctx, const gchar *name)
+{
+	GdkDisplay *display = gdk_display_get_default();
+
+#ifdef GDK_WINDOWING_WAYLAND
+	if (GDK_IS_WAYLAND_DISPLAY(display))
+		return eglGetProcAddress(name);
+#endif
+#ifdef GDK_WINDOWING_X11
+	if (GDK_IS_X11_DISPLAY(display))
+		return (void *)(intptr_t)glXGetProcAddressARB((const GLubyte *)name);
+#endif
+#ifdef GDK_WINDOWING_WIN32
+	if (GDK_IS_WIN32_DISPLAY(display))
+		return wglGetProcAddress(name);
+#endif
+	g_assert_not_reached();
+}
 
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
@@ -146,6 +167,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	gboolean use_opengl;
 	gboolean csd_enable;
 	gboolean dark_theme_enable;
+	gint64 wid;
 	gchar *mpvinput;
 
 	setlocale(LC_NUMERIC, "C");
@@ -224,13 +246,8 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	control_box_set_chapter_enabled
 		(CONTROL_BOX(app->gui->control_box), FALSE);
 
-	/* Due to a GTK bug, get_xid() must not be called when opengl-cb is
-	 * enabled or the GtkGLArea will break.
-	 */
-	app->mpv = mpv_obj_new(	app->playlist_store,
-				use_opengl,
-				use_opengl?-1:get_xid(app->gui->vid_area),
-				use_opengl?GTK_GL_AREA(app->gui->vid_area):NULL );
+	wid = video_area_get_xid(VIDEO_AREA(app->gui->vid_area));
+	app->mpv = mpv_obj_new(app->playlist_store, wid);
 
 	if(csd_enable)
 	{
@@ -265,8 +282,40 @@ static void activate_handler(GApplication *gapp, gpointer data)
 static void mpv_init_handler(MpvObj *mpv, gpointer data)
 {
 	Application *app = data;
+	gchar *current_vo = mpv_obj_get_property_string(mpv, "current-vo");
+	VideoArea *vid_area = VIDEO_AREA(app->gui->vid_area);
 
-	g_signal_handlers_disconnect_by_func(mpv, mpv_init_handler, data);
+	video_area_set_use_opengl(vid_area, !current_vo);
+
+	/* current_vo should be NULL if the selected vo is opengl-cb */
+	if(!current_vo)
+	{
+		GtkGLArea *gl_area;
+		gint rc;
+
+		gl_area = video_area_get_gl_area(vid_area);
+		g_signal_connect(	gl_area,
+					"render",
+					G_CALLBACK(vid_area_render_handler),
+					app );
+
+		gtk_gl_area_make_current(gl_area);
+		rc = mpv_opengl_cb_init_gl(	mpv->opengl_ctx,
+						NULL,
+						get_proc_address,
+						NULL );
+
+		if(rc >= 0)
+		{
+			g_debug("Initialized opengl-cb");
+		}
+		else
+		{
+			g_critical("Failed to initialize opengl-cb");
+		}
+	}
+
+	mpv_free(current_vo);
 	load_files(app, (const gchar **)app->files);
 }
 
@@ -297,13 +346,6 @@ static void open_handler(	GApplication *gapp,
 		if(state.ready)
 		{
 			load_files(app, (const gchar **)app->files);
-		}
-		else
-		{
-			g_signal_connect(	app->mpv,
-						"mpv-init",
-						G_CALLBACK(mpv_init_handler),
-						app );
 		}
 	}
 
@@ -858,17 +900,22 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	return TRUE;
 }
 
+static gboolean queue_render(GtkGLArea *area)
+{
+	gtk_gl_area_queue_render(area);
+
+	return FALSE;
+}
+
 static void opengl_cb_update_callback(void *cb_ctx)
 {
-	Application *app = cb_ctx;
+	GtkGLArea *area =	video_area_get_gl_area
+				(VIDEO_AREA(APPLICATION(cb_ctx)->gui->vid_area));
 
-	if(app->mpv->opengl_ctx)
-	{
-		g_idle_add_full(	G_PRIORITY_HIGH,
-					(GSourceFunc)gtk_gl_area_queue_render,
-					app->gui->vid_area,
-					NULL );
-	}
+	g_idle_add_full(	G_PRIORITY_HIGH,
+				(GSourceFunc)queue_render,
+				area,
+				NULL );
 }
 
 static void set_inhibit_idle(Application *app, gboolean inhibit)
@@ -898,15 +945,6 @@ static gboolean get_use_opengl(void)
 		!GDK_IS_X11_DISPLAY(gdk_display_get_default()) ;
 }
 
-static gint64 get_xid(GtkWidget *widget)
-{
-#ifdef GDK_WINDOWING_X11
-	return (gint64)gdk_x11_window_get_xid(gtk_widget_get_window(widget));
-#else
-	return -1;
-#endif
-}
-
 static gboolean load_files(Application *app, const gchar **files)
 {
 	MpvObjState state;
@@ -918,6 +956,8 @@ static gboolean load_files(Application *app, const gchar **files)
 		mpv_obj_load_list(app->mpv, files, FALSE, TRUE);
 
 		g_strfreev(app->files);
+
+		app->files = NULL;
 	}
 
 	return FALSE;
@@ -931,10 +971,6 @@ static void connect_signals(Application *app)
 
 	if(main_window_get_use_opengl(app->gui))
 	{
-		g_signal_connect(	app->gui->vid_area,
-					"render",
-					G_CALLBACK(vid_area_render_handler),
-					app );
 		g_signal_connect(	app->gui,
 					"draw",
 					G_CALLBACK(draw_handler),
@@ -948,6 +984,10 @@ static void connect_signals(Application *app)
 					app );
 	}
 
+	g_signal_connect(	app->mpv,
+				"mpv-init",
+				G_CALLBACK(mpv_init_handler),
+				app );
 	g_signal_connect(	app->gui->vid_area,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),

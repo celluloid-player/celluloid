@@ -61,7 +61,7 @@ enum
 struct _MpvObjPrivate
 {
 	MpvObjState state;
-	gboolean use_opengl;
+	gboolean force_opengl;
 	GtkGLArea *glarea;
 	gint64 wid;
 	void *wakeup_callback_data;
@@ -70,8 +70,6 @@ struct _MpvObjPrivate
 	void (*opengl_cb_callback)(void *data);
 };
 
-
-static void *get_proc_address(void *fn_ctx, const gchar *name);
 static void mpv_obj_set_inst_property(	GObject *object,
 					guint property_id,
 					const GValue *value,
@@ -86,28 +84,8 @@ static void mpv_obj_update_playlist(MpvObj *mpv);
 static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void mpv_obj_log_handler(MpvObj *mpv, mpv_event_log_message* message);
 static void load_input_conf(MpvObj *mpv, const gchar *input_conf);
-static void uninit_opengl_cb(MpvObj *mpv);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MpvObj, mpv_obj, G_TYPE_OBJECT)
-
-static void *get_proc_address(void *fn_ctx, const gchar *name)
-{
-	GdkDisplay *display = gdk_display_get_default();
-
-#ifdef GDK_WINDOWING_WAYLAND
-	if (GDK_IS_WAYLAND_DISPLAY(display))
-		return eglGetProcAddress(name);
-#endif
-#ifdef GDK_WINDOWING_X11
-	if (GDK_IS_X11_DISPLAY(display))
-		return (void *)(intptr_t)glXGetProcAddressARB((const GLubyte *)name);
-#endif
-#ifdef GDK_WINDOWING_WIN32
-	if (GDK_IS_WIN32_DISPLAY(display))
-		return wglGetProcAddress(name);
-#endif
-	g_assert_not_reached();
-}
 
 static void mpv_obj_set_inst_property(	GObject *object,
 					guint property_id,
@@ -117,7 +95,7 @@ static void mpv_obj_set_inst_property(	GObject *object,
 
 	if(property_id == PROP_USE_OPENGL)
 	{
-		self->priv->use_opengl = g_value_get_boolean(value);
+		self->priv->force_opengl = g_value_get_boolean(value);
 	}
 	else if(property_id == PROP_GLAREA)
 	{
@@ -145,7 +123,7 @@ static void mpv_obj_get_inst_property(	GObject *object,
 
 	if(property_id == PROP_USE_OPENGL)
 	{
-		g_value_set_boolean(value, self->priv->use_opengl);
+		g_value_set_boolean(value, self->priv->force_opengl);
 	}
 	else if(property_id == PROP_GLAREA)
 	{
@@ -590,12 +568,6 @@ static void load_input_conf(MpvObj *mpv, const gchar *input_conf)
 	fclose(tmp_file);
 }
 
-static void uninit_opengl_cb(MpvObj *mpv)
-{
-	gtk_gl_area_make_current(mpv->priv->glarea);
-	mpv_opengl_cb_uninit_gl(mpv->opengl_ctx);
-}
-
 static void mpv_obj_class_init(MpvObjClass* klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -605,11 +577,11 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 	obj_class->get_property = mpv_obj_get_inst_property;
 
 	pspec = g_param_spec_boolean
-		(	"use-opengl",
-			"Use OpenGL",
-			"Whether or not to use opengl-cb",
+		(	"force-opengl",
+			"Force opengl",
+			"Whether or not to force opengl-cb video output",
 			FALSE,
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+			G_PARAM_READWRITE );
 
 	g_object_class_install_property(obj_class, PROP_USE_OPENGL, pspec);
 
@@ -617,7 +589,7 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 		(	"glarea",
 			"GLArea",
 			"The GtkGLArea to render onto",
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+			G_PARAM_READWRITE );
 
 	g_object_class_install_property(obj_class, PROP_GLAREA, pspec);
 
@@ -628,7 +600,7 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 			G_MININT64,
 			G_MAXINT64,
 			-1,
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+			G_PARAM_READWRITE );
 
 	g_object_class_install_property(obj_class, PROP_WID, pspec);
 
@@ -636,7 +608,7 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 		(	"playlist",
 			"Playlist",
 			"Playlist object to use for storage",
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+			G_PARAM_READWRITE );
 
 	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
 
@@ -711,7 +683,7 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->priv->state.new_file = TRUE;
 	mpv->priv->state.init_load = TRUE;
 
-	mpv->priv->use_opengl = FALSE;
+	mpv->priv->force_opengl = FALSE;
 	mpv->priv->glarea = NULL;
 	mpv->priv->wid = -1;
 	mpv->priv->wakeup_callback_data = NULL;
@@ -721,15 +693,11 @@ static void mpv_obj_init(MpvObj *mpv)
 }
 
 MpvObj *mpv_obj_new(	Playlist *playlist,
-			gboolean use_opengl,
-			gint64 wid,
-			GtkGLArea *glarea )
+			gint64 wid )
 {
 	return MPV_OBJ(g_object_new(	mpv_obj_get_type(),
 					"playlist", playlist,
-					"use-opengl", use_opengl,
 					"wid", wid,
-					"glarea", glarea,
 					NULL ));
 }
 
@@ -895,7 +863,10 @@ void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
 	mpv->priv->opengl_cb_callback = func;
 	mpv->priv->opengl_cb_callback_data = data;
 
-	mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
+	if(mpv->opengl_ctx)
+	{
+		mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
+	}
 }
 
 void mpv_obj_wakeup_callback(void *data)
@@ -937,6 +908,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 	gdouble volume = g_settings_get_double(win_settings, "volume")*100;
 	gchar *config_dir = get_config_dir_path();
 	gchar *mpvopt = NULL;
+	gchar *current_vo = NULL;
 
 	const struct
 	{
@@ -1016,9 +988,9 @@ void mpv_obj_initialize(MpvObj *mpv)
 		g_signal_emit_by_name(mpv, "mpv-error", g_strdup(msg));
 	}
 
-	if(mpv->priv->use_opengl)
+	if(mpv->priv->force_opengl)
 	{
-		g_info("opengl-cb is enabled; forcing --vo=opengl-cb");
+		g_info("Forcing --vo=opengl-cb");
 		mpv_set_option_string(mpv->mpv_ctx, "vo", "opengl-cb");
 
 	}
@@ -1044,23 +1016,35 @@ void mpv_obj_initialize(MpvObj *mpv)
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 
-	mpv->opengl_ctx = mpv_get_sub_api(mpv->mpv_ctx, MPV_SUB_API_OPENGL_CB);
+	current_vo = mpv_obj_get_property_string(mpv, "current-vo");
 
-	if(mpv->priv->use_opengl)
+	if(current_vo && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
 	{
-		gtk_gl_area_make_current(mpv->priv->glarea);
+		g_info(	"The vo is %s but the display is not X11; "
+			"forcing --vo=opengl-cb and resetting",
+			current_vo );
 
-		mpv_check_error(mpv_opengl_cb_init_gl
-					(	mpv->opengl_ctx,
-						NULL,
-						get_proc_address,
-						NULL ));
+		mpv->priv->force_opengl = TRUE;
+		mpv->priv->state.paused = FALSE;
+
+		mpv_free(current_vo);
+		mpv_obj_reset(mpv);
 	}
+	else
+	{
+		/* The vo should be opengl-cb if current_vo is NULL*/
+		if(!current_vo)
+		{
+			mpv->opengl_ctx =	mpv_get_sub_api
+						(	mpv->mpv_ctx,
+							MPV_SUB_API_OPENGL_CB );
+		}
 
-	mpv_opt_handle_msg_level(mpv);
+		mpv_opt_handle_msg_level(mpv);
 
-	mpv->priv->state.ready = TRUE;
-	g_signal_emit_by_name(mpv, "mpv-init");
+		mpv->priv->state.ready = TRUE;
+		g_signal_emit_by_name(mpv, "mpv-init");
+	}
 
 	g_clear_object(&main_settings);
 	g_clear_object(&win_settings);
@@ -1075,8 +1059,6 @@ void mpv_obj_reset(MpvObj *mpv)
 	gboolean loop;
 	gint64 playlist_pos;
 	gint playlist_pos_rc;
-
-	mpv_check_error(mpv_obj_set_property_string(mpv, "pause", "yes"));
 
 	loop_str = mpv_obj_get_property_string(mpv, "loop");
 	loop = (g_strcmp0(loop_str, "inf") == 0);
@@ -1152,10 +1134,10 @@ void mpv_obj_quit(MpvObj *mpv)
 		g_unlink(mpv->tmp_input_file);
 	}
 
-	if(mpv->priv->use_opengl)
+	if(mpv->opengl_ctx)
 	{
 		g_debug("Uninitializing opengl-cb");
-		uninit_opengl_cb(mpv);
+		mpv_opengl_cb_uninit_gl(mpv->opengl_ctx);
 
 		mpv->opengl_ctx = NULL;
 	}

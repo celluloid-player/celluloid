@@ -49,6 +49,7 @@ gnome_mpv_SOURCES =	main.c def.h \
 			pref_dialog.c pref_dialog.h \
 			shortcuts_window.c shortcuts_window.h \
 			track.c track.h \
+			video_area.c video_area.h \
 			$(mpris_files) $(marshal_files) $(media_key_files) \
 			$(authors_files)
 

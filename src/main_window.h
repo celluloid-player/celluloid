@@ -51,7 +51,6 @@ struct _MainWindow
 	MainWindowPrivate *priv;
 	gboolean fullscreen;
 	gboolean playlist_visible;
-	gboolean fs_control_hover;
 	gboolean pre_fs_playlist_visible;
 	gint playlist_width;
 	guint timeout_tag;
@@ -62,10 +61,8 @@ struct _MainWindow
 	GtkWidget *menu_hdr_btn;
 	GtkWidget *main_box;
 	GtkWidget *vid_area_paned;
-	GtkWidget *vid_area_overlay;
 	GtkWidget *vid_area;
 	GtkWidget *control_box;
-	GtkWidget *fs_revealer;
 	GtkWidget *playlist;
 };
 

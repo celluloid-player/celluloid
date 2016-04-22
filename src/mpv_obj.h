@@ -75,10 +75,7 @@ struct _MpvObjClass
 };
 
 GType mpv_obj_get_type(void);
-MpvObj *mpv_obj_new(	Playlist *playlist,
-			gboolean use_opengl,
-			gint64 wid,
-			GtkGLArea *glarea );
+MpvObj *mpv_obj_new(Playlist *playlist, gint64 wid);
 gint mpv_obj_command(MpvObj *mpv, const gchar **cmd);
 gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd);
 gint mpv_obj_get_property(	MpvObj *mpv,

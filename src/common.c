@@ -25,6 +25,7 @@
 #include "def.h"
 #include "mpv_obj.h"
 #include "main_window.h"
+#include "video_area.h"
 #include "control_box.h"
 #include "playlist_widget.h"
 
@@ -77,6 +78,11 @@ gboolean quit(gpointer data)
 
 	if(app->mpv->mpv_ctx)
 	{
+		VideoArea *vid_area = VIDEO_AREA(app->gui->vid_area);
+		GtkGLArea *gl_area = video_area_get_gl_area(vid_area);
+
+		/* Needed by mpv_obj_quit() to uninitialize opengl-cb */
+		gtk_gl_area_make_current(GTK_GL_AREA(gl_area));
 		mpv_obj_command(app->mpv, cmd);
 		mpv_obj_quit(app->mpv);
 

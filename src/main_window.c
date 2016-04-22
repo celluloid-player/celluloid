@@ -30,6 +30,7 @@
 #include "playlist_widget.h"
 #include "main_window.h"
 #include "control_box.h"
+#include "video_area.h"
 
 enum
 {
@@ -57,19 +58,9 @@ static void main_window_get_property(	GObject *object,
 					guint property_id,
 					GValue *value,
 					GParamSpec *pspec );
-static gboolean fs_control_enter_handler(	GtkWidget *widget,
-						GdkEvent *event,
-						gpointer data );
-static gboolean fs_control_leave_handler(	GtkWidget *widget,
-						GdkEvent *event,
-						gpointer data );
-static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event);
 static void size_allocate_handler(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data );
-static void vid_area_init(MainWindow *wnd, gboolean use_opengl);
-static GtkWidget *vid_area_new(gboolean use_opengl);
-static gboolean timeout_handler(gpointer data);
 static gboolean resize_to_target(gpointer data);
 
 G_DEFINE_TYPE_WITH_PRIVATE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
@@ -84,12 +75,14 @@ static void main_window_constructed(GObject *object)
 	gtk_widget_hide(self->playlist);
 	gtk_widget_set_no_show_all(self->playlist, TRUE);
 
+	gtk_paned_pack1(	GTK_PANED(self->vid_area_paned),
+				self->vid_area,
+				TRUE,
+				TRUE );
 	gtk_paned_pack2(	GTK_PANED(self->vid_area_paned),
 				self->playlist,
 				FALSE,
 				FALSE );
-
-	vid_area_init(self, self->priv->use_opengl);
 
 	G_OBJECT_CLASS(main_window_parent_class)->constructed(object);
 }
@@ -137,52 +130,6 @@ static void main_window_get_property(	GObject *object,
 	}
 }
 
-static gboolean fs_control_enter_handler(	GtkWidget *widget,
-						GdkEvent *event,
-						gpointer data )
-{
-	MAIN_WINDOW(data)->fs_control_hover = TRUE;
-
-	return FALSE;
-}
-
-static gboolean fs_control_leave_handler(	GtkWidget *widget,
-						GdkEvent *event,
-						gpointer data )
-{
-	MAIN_WINDOW(data)->fs_control_hover = FALSE;
-
-	return FALSE;
-}
-
-static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
-{
-	MainWindow *wnd = MAIN_WINDOW(widget);
-	GdkCursor *cursor;
-
-	cursor = gdk_cursor_new_from_name(gdk_display_get_default(), "default");
-	gdk_window_set_cursor
-		(gtk_widget_get_window(GTK_WIDGET(wnd->vid_area)), cursor);
-
-	if(wnd->fullscreen)
-	{
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(wnd->fs_revealer), TRUE);
-	}
-
-	if(wnd->timeout_tag > 0)
-	{
-		g_source_remove(wnd->timeout_tag);
-	}
-
-	wnd->timeout_tag = g_timeout_add_seconds(	FS_CONTROL_HIDE_DELAY,
-							timeout_handler,
-							wnd );
-
-	return	GTK_WIDGET_CLASS(main_window_parent_class)
-		->motion_notify_event(widget, event);
-}
-
 static void size_allocate_handler(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data )
@@ -212,76 +159,6 @@ static void size_allocate_handler(	GtkWidget *widget,
 	}
 }
 
-static void vid_area_init(MainWindow *wnd, gboolean use_opengl)
-{
-	/* vid_area cannot be initialized more than once */
-	if(!wnd->vid_area)
-	{
-		GtkTargetEntry targets[] = DND_TARGETS;
-		GtkStyleContext *style_context;
-
-		wnd->vid_area =	vid_area_new(use_opengl);
-		style_context = gtk_widget_get_style_context(wnd->vid_area);
-
-		gtk_style_context_add_class(style_context, "gmpv-vid-area");
-
-		gtk_drag_dest_set(	wnd->vid_area,
-					GTK_DEST_DEFAULT_ALL,
-					targets,
-					G_N_ELEMENTS(targets),
-					GDK_ACTION_LINK );
-		gtk_drag_dest_add_uri_targets(wnd->vid_area);
-
-		/* GDK_BUTTON_RELEASE_MASK is needed so that GtkMenuButtons can
-		 * hide their menus when vid_area is clicked.
-		 */
-		gtk_widget_add_events(	wnd->vid_area,
-					GDK_BUTTON_PRESS_MASK|
-					GDK_BUTTON_RELEASE_MASK );
-
-		gtk_container_add(	GTK_CONTAINER(wnd->vid_area_overlay),
-					wnd->vid_area );
-		gtk_paned_pack1(	GTK_PANED(wnd->vid_area_paned),
-					wnd->vid_area_overlay,
-					TRUE,
-					TRUE );
-	}
-}
-
-static GtkWidget *vid_area_new(gboolean use_opengl)
-{
-	return use_opengl?gtk_gl_area_new():gtk_drawing_area_new();
-}
-
-static gboolean timeout_handler(gpointer data)
-{
-	MainWindow *wnd;
-	ControlBox *control_box;
-
-	wnd = data;
-	control_box = CONTROL_BOX(wnd->control_box);
-
-	if(wnd->fullscreen
-	&& !wnd->fs_control_hover
-	&& !control_box_get_volume_popup_visible(control_box))
-	{
-		GdkWindow *window;
-		GdkCursor *cursor;
-
-		window = gtk_widget_get_window(GTK_WIDGET(wnd->vid_area));
-		cursor = gdk_cursor_new_for_display
-				(gdk_display_get_default(), GDK_BLANK_CURSOR);
-
-		gdk_window_set_cursor(window, cursor);
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(wnd->fs_revealer), FALSE);
-	}
-
-	wnd->timeout_tag = 0;
-
-	return FALSE;
-}
-
 static gboolean resize_to_target(gpointer data)
 {
 	MainWindow *wnd = data;
@@ -298,13 +175,11 @@ static gboolean resize_to_target(gpointer data)
 static void main_window_class_init(MainWindowClass *klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
-	GtkWidgetClass *wgt_class = GTK_WIDGET_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
 	obj_class->constructed = main_window_constructed;
 	obj_class->set_property = main_window_set_property;
 	obj_class->get_property = main_window_get_property;
-	wgt_class->motion_notify_event = motion_notify_handler;
 
 	pspec = g_param_spec_pointer
 		(	"playlist",
@@ -326,11 +201,9 @@ static void main_window_class_init(MainWindowClass *klass)
 
 static void main_window_init(MainWindow *wnd)
 {
-	/* wnd->vid_area will be initialized when use-opengl property is set */
 	wnd->priv = main_window_get_instance_private(wnd);
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
-	wnd->fs_control_hover = FALSE;
 	wnd->pre_fs_playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
@@ -341,15 +214,14 @@ static void main_window_init(MainWindow *wnd)
 	wnd->menu_hdr_btn = NULL;
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
-	wnd->vid_area_overlay = gtk_overlay_new();
+	wnd->vid_area = video_area_new();
 	wnd->control_box = control_box_new();
-	wnd->fs_revealer = gtk_revealer_new();
 
 	wnd->priv->playlist_first_toggle = TRUE;
 	wnd->priv->width_offset = 0;
 	wnd->priv->height_offset = 0;
 
-	gtk_widget_add_events(	wnd->vid_area_overlay,
+	gtk_widget_add_events(	wnd->vid_area,
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
 
@@ -366,28 +238,10 @@ static void main_window_init(MainWindow *wnd)
 					MAIN_WINDOW_DEFAULT_WIDTH,
 					MAIN_WINDOW_DEFAULT_HEIGHT );
 
-	gtk_widget_set_vexpand(wnd->fs_revealer, FALSE);
-	gtk_widget_set_hexpand(wnd->fs_revealer, FALSE);
-	gtk_widget_set_halign(wnd->fs_revealer, GTK_ALIGN_CENTER);
-	gtk_widget_set_valign(wnd->fs_revealer, GTK_ALIGN_END);
-	gtk_widget_show(wnd->fs_revealer);
-	gtk_revealer_set_reveal_child(GTK_REVEALER(wnd->fs_revealer), FALSE);
-
-	gtk_overlay_add_overlay
-		(GTK_OVERLAY(wnd->vid_area_overlay), wnd->fs_revealer);
 	gtk_box_pack_start
 		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
 	gtk_container_add(GTK_CONTAINER(wnd->main_box), wnd->control_box);
 	gtk_container_add(GTK_CONTAINER(wnd), wnd->main_box);
-
-	g_signal_connect(	wnd->vid_area_overlay,
-				"enter-notify-event",
-				G_CALLBACK(fs_control_enter_handler),
-				wnd );
-	g_signal_connect(	wnd->vid_area_overlay,
-				"leave-notify-event",
-				G_CALLBACK(fs_control_leave_handler),
-				wnd );
 }
 
 GtkWidget *main_window_new(	Application *app,
@@ -405,9 +259,8 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 {
 	if(fullscreen != wnd->fullscreen)
 	{
-		ControlBox *control_box = CONTROL_BOX(wnd->control_box);
+		VideoArea *vid_area = VIDEO_AREA(wnd->vid_area);
 		GtkContainer* main_box = GTK_CONTAINER(wnd->main_box);
-		GtkContainer* revealer = GTK_CONTAINER(wnd->fs_revealer);
 
 		if(fullscreen)
 		{
@@ -432,13 +285,12 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 
 			g_object_ref(wnd->control_box);
 			gtk_container_remove(main_box, wnd->control_box);
-			gtk_container_add(revealer, wnd->control_box);
+			video_area_set_control_box(vid_area, wnd->control_box);
 			g_object_unref(wnd->control_box);
 
-			control_box_set_fullscreen_state(control_box, TRUE);
+			video_area_set_fullscreen_state(vid_area, TRUE);
 			gtk_window_fullscreen(GTK_WINDOW(wnd));
 			gtk_window_present(GTK_WINDOW(wnd));
-			gtk_widget_show(GTK_WIDGET(revealer));
 
 			if(main_window_get_csd_enabled(wnd))
 			{
@@ -456,21 +308,17 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 		}
 		else
 		{
-			GdkCursor *cursor;
-			GdkWindow *vid_area;
-
 			gtk_widget_set_halign(wnd->control_box, GTK_ALIGN_FILL);
 			gtk_widget_set_valign(wnd->control_box, GTK_ALIGN_FILL);
 			gtk_widget_set_size_request(wnd->control_box, -1, -1);
 
 			g_object_ref(wnd->control_box);
-			gtk_container_remove(revealer, wnd->control_box);
+			video_area_set_control_box(vid_area, NULL);
 			gtk_container_add(main_box, wnd->control_box);
 			g_object_unref(wnd->control_box);
 
-			control_box_set_fullscreen_state(control_box, FALSE);
+			video_area_set_fullscreen_state(vid_area, FALSE);
 			gtk_window_unfullscreen(GTK_WINDOW(wnd));
-			gtk_widget_hide(GTK_WIDGET(revealer));
 
 			if(main_window_get_csd_enabled(wnd))
 			{
@@ -486,18 +334,9 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 			wnd->playlist_visible = wnd->pre_fs_playlist_visible;
 			gtk_widget_set_visible
 				(wnd->playlist, wnd->pre_fs_playlist_visible);
-
-			cursor =	gdk_cursor_new_from_name
-					(gdk_display_get_default(), "default");
-			vid_area =	gtk_widget_get_window
-					(GTK_WIDGET(wnd->vid_area));
-
-			gdk_window_set_cursor(vid_area, cursor);
 		}
 
 		wnd->fullscreen = fullscreen;
-
-		timeout_handler(wnd);
 	}
 }
 
