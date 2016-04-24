@@ -1035,6 +1035,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 
 	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "chapters", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv->mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "length", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);

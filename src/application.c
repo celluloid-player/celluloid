@@ -95,6 +95,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
 static void opengl_cb_update_callback(void *cb_ctx);
+static void set_inhibit_idle(Application *app, gboolean inhibit);
 static gboolean get_use_opengl(void);
 static gint64 get_xid(GtkWidget *widget);
 static gboolean load_files(Application* app, const gchar **files);
@@ -546,21 +547,12 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 		gboolean paused = prop->data?*((gboolean *)prop->data):TRUE;
 
 		control_box_set_playing_state(control_box, !paused);
+	}
+	else if(g_strcmp0(prop->name, "core-idle") == 0)
+	{
+		gboolean idle = prop->data?*((gboolean *)prop->data):TRUE;
 
-		if(!paused)
-		{
-			app->inhibit_cookie
-				= gtk_application_inhibit
-					(	GTK_APPLICATION(app),
-						GTK_WINDOW(app->gui),
-						GTK_APPLICATION_INHIBIT_IDLE,
-						_("Playing") );
-		}
-		else if(app->inhibit_cookie != 0)
-		{
-			gtk_application_uninhibit
-				(GTK_APPLICATION(app), app->inhibit_cookie);
-		}
+		set_inhibit_idle(app, !idle);
 	}
 	else if(g_strcmp0(prop->name, "track-list") == 0 && prop->data)
 	{
@@ -876,6 +868,26 @@ static void opengl_cb_update_callback(void *cb_ctx)
 					(GSourceFunc)gtk_gl_area_queue_render,
 					app->gui->vid_area,
 					NULL );
+	}
+}
+
+static void set_inhibit_idle(Application *app, gboolean inhibit)
+{
+	if(inhibit && app->inhibit_cookie == 0)
+	{
+		app->inhibit_cookie
+			= gtk_application_inhibit
+				(	GTK_APPLICATION(app),
+					GTK_WINDOW(app->gui),
+					GTK_APPLICATION_INHIBIT_IDLE,
+					_("Playing") );
+	}
+	else if(!inhibit && app->inhibit_cookie != 0)
+	{
+		gtk_application_uninhibit
+			(GTK_APPLICATION(app), app->inhibit_cookie);
+
+		app->inhibit_cookie = 0;
 	}
 }
 
