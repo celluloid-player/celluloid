@@ -194,7 +194,7 @@ static void video_area_init(VideoArea *area)
 
 	gtk_stack_add_named(GTK_STACK(area->stack), area->draw_area, "draw");
 	gtk_stack_add_named(GTK_STACK(area->stack), area->gl_area, "gl");
-	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->gl_area);
+	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->draw_area);
 
 	gtk_overlay_add_overlay(GTK_OVERLAY(area), area->fs_revealer);
 	gtk_container_add(GTK_CONTAINER(area), area->stack);

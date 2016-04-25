@@ -99,7 +99,6 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 static gboolean queue_render(GtkGLArea *area);
 static void opengl_cb_update_callback(void *cb_ctx);
 static void set_inhibit_idle(Application *app, gboolean inhibit);
-static gboolean get_use_opengl(void);
 static gboolean load_files(Application* app, const gchar **files);
 static void connect_signals(Application *app);
 static inline void add_accelerator(	GtkApplication *app,
@@ -164,7 +163,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	const gchar *vid_area_style = ".gmpv-vid-area{background-color: black}";
 	GtkCssProvider *style_provider;
 	gboolean css_loaded;
-	gboolean use_opengl;
 	gboolean csd_enable;
 	gboolean dark_theme_enable;
 	gint64 wid;
@@ -178,14 +176,12 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
 
-	use_opengl = get_use_opengl();
-
 	app->files = NULL;
 	app->inhibit_cookie = 0;
 	app->target_playlist_pos = -1;
 	app->config = g_settings_new(CONFIG_ROOT);
 	app->playlist_store = playlist_new();
-	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store, use_opengl));
+	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store));
 	app->fs_control = NULL;
 
 	style_provider = gtk_css_provider_new();
@@ -938,13 +934,6 @@ static void set_inhibit_idle(Application *app, gboolean inhibit)
 	}
 }
 
-static gboolean get_use_opengl(void)
-{
-	/* TODO: Add option to use opengl on X11 */
-	return	g_getenv("FORCE_OPENGL_CB") ||
-		!GDK_IS_X11_DISPLAY(gdk_display_get_default()) ;
-}
-
 static gboolean load_files(Application *app, const gchar **files)
 {
 	MpvObjState state;
@@ -969,21 +958,10 @@ static void connect_signals(Application *app)
 
 	playbackctl_connect_signals(app);
 
-	if(main_window_get_use_opengl(app->gui))
-	{
-		g_signal_connect(	app->gui,
-					"draw",
-					G_CALLBACK(draw_handler),
-					app );
-	}
-	else
-	{
-		g_signal_connect_after(	app->gui,
-					"draw",
-					G_CALLBACK(draw_handler),
-					app );
-	}
-
+	g_signal_connect_after(	app->gui,
+				"draw",
+				G_CALLBACK(draw_handler),
+				app );
 	g_signal_connect(	app->mpv,
 				"mpv-init",
 				G_CALLBACK(mpv_init_handler),

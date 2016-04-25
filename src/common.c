@@ -81,8 +81,12 @@ gboolean quit(gpointer data)
 		VideoArea *vid_area = VIDEO_AREA(app->gui->vid_area);
 		GtkGLArea *gl_area = video_area_get_gl_area(vid_area);
 
-		/* Needed by mpv_obj_quit() to uninitialize opengl-cb */
-		gtk_gl_area_make_current(GTK_GL_AREA(gl_area));
+		if(gtk_widget_get_realized(GTK_WIDGET(gl_area)))
+		{
+			/* Needed by mpv_obj_quit() to uninitialize opengl-cb */
+			gtk_gl_area_make_current(GTK_GL_AREA(gl_area));
+		}
+
 		mpv_obj_command(app->mpv, cmd);
 		mpv_obj_quit(app->mpv);
 

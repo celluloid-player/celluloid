@@ -36,7 +36,6 @@ enum
 {
 	PROP_0,
 	PROP_PLAYLIST,
-	PROP_USE_OPENGL,
 	N_PROPERTIES
 };
 
@@ -44,7 +43,6 @@ struct _MainWindowPrivate
 {
 	Playlist *playlist;
 	gboolean playlist_first_toggle;
-	gboolean use_opengl;
 	gint width_offset;
 	gint height_offset;
 	gint resize_target[2];
@@ -99,10 +97,6 @@ static void main_window_set_property(	GObject *object,
 		self->priv->playlist = g_value_get_pointer(value);
 
 	}
-	else if(property_id == PROP_USE_OPENGL)
-	{
-		self->priv->use_opengl = g_value_get_boolean(value);
-	}
 	else
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -119,10 +113,6 @@ static void main_window_get_property(	GObject *object,
 	if(property_id == PROP_PLAYLIST)
 	{
 		g_value_set_pointer(value, self->priv->playlist);
-	}
-	else if(property_id == PROP_USE_OPENGL)
-	{
-		g_value_set_boolean(value, self->priv->use_opengl);
 	}
 	else
 	{
@@ -188,15 +178,6 @@ static void main_window_class_init(MainWindowClass *klass)
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
 
 	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
-
-	pspec = g_param_spec_boolean
-		(	"use-opengl",
-			"Use OpenGL",
-			"Whether or not to set up video area for opengl-cb",
-			FALSE,
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-
-	g_object_class_install_property(obj_class, PROP_USE_OPENGL, pspec);
 }
 
 static void main_window_init(MainWindow *wnd)
@@ -244,14 +225,11 @@ static void main_window_init(MainWindow *wnd)
 	gtk_container_add(GTK_CONTAINER(wnd), wnd->main_box);
 }
 
-GtkWidget *main_window_new(	Application *app,
-				Playlist *playlist,
-				gboolean use_opengl )
+GtkWidget *main_window_new(Application *app, Playlist *playlist)
 {
 	return GTK_WIDGET(g_object_new(	main_window_get_type(),
 					"application", app,
 					"playlist", playlist,
-					"use-opengl", use_opengl,
 					NULL ));
 }
 
@@ -471,11 +449,6 @@ void main_window_resize_video_area(	MainWindow *wnd,
 	 * be disconnected.
 	 */
 	gtk_widget_queue_allocate(wnd->vid_area);
-}
-
-gboolean main_window_get_use_opengl(MainWindow *wnd)
-{
-	return wnd->priv->use_opengl;
 }
 
 void main_window_enable_csd(MainWindow *wnd)

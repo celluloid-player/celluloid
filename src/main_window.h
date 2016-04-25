@@ -71,9 +71,7 @@ struct _MainWindowClass
 	GtkApplicationWindowClass parent_class;
 };
 
-GtkWidget *main_window_new(	Application *app,
-				Playlist *playlist,
-				gboolean use_opengl );
+GtkWidget *main_window_new(Application *app, Playlist *playlist);
 GType main_window_get_type(void);
 void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen);
 void main_window_toggle_fullscreen(MainWindow *wnd);
@@ -87,7 +85,6 @@ void main_window_update_track_list(	MainWindow *wnd,
 void main_window_resize_video_area(	MainWindow *wnd,
 					gint width,
 					gint height );
-gboolean main_window_get_use_opengl(MainWindow *wnd);
 void main_window_enable_csd(MainWindow *wnd);
 gboolean main_window_get_csd_enabled(MainWindow *wnd);
 void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible);

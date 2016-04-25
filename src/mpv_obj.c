@@ -51,8 +51,6 @@
 enum
 {
 	PROP_0,
-	PROP_USE_OPENGL,
-	PROP_GLAREA,
 	PROP_WID,
 	PROP_PLAYLIST,
 	N_PROPERTIES
@@ -93,15 +91,7 @@ static void mpv_obj_set_inst_property(	GObject *object,
 					GParamSpec *pspec )
 {	MpvObj *self = MPV_OBJ(object);
 
-	if(property_id == PROP_USE_OPENGL)
-	{
-		self->priv->force_opengl = g_value_get_boolean(value);
-	}
-	else if(property_id == PROP_GLAREA)
-	{
-		self->priv->glarea = g_value_get_pointer(value);
-	}
-	else if(property_id == PROP_WID)
+	if(property_id == PROP_WID)
 	{
 		self->priv->wid = g_value_get_int64(value);
 	}
@@ -121,15 +111,7 @@ static void mpv_obj_get_inst_property(	GObject *object,
 					GParamSpec *pspec )
 {	MpvObj *self = MPV_OBJ(object);
 
-	if(property_id == PROP_USE_OPENGL)
-	{
-		g_value_set_boolean(value, self->priv->force_opengl);
-	}
-	else if(property_id == PROP_GLAREA)
-	{
-		g_value_set_pointer(value, self->priv->glarea);
-	}
-	else if(property_id == PROP_WID)
+	if(property_id == PROP_WID)
 	{
 		g_value_set_int64(value, self->priv->wid);
 	}
@@ -576,23 +558,6 @@ static void mpv_obj_class_init(MpvObjClass* klass)
 	obj_class->set_property = mpv_obj_set_inst_property;
 	obj_class->get_property = mpv_obj_get_inst_property;
 
-	pspec = g_param_spec_boolean
-		(	"force-opengl",
-			"Force opengl",
-			"Whether or not to force opengl-cb video output",
-			FALSE,
-			G_PARAM_READWRITE );
-
-	g_object_class_install_property(obj_class, PROP_USE_OPENGL, pspec);
-
-	pspec = g_param_spec_pointer
-		(	"glarea",
-			"GLArea",
-			"The GtkGLArea to render onto",
-			G_PARAM_READWRITE );
-
-	g_object_class_install_property(obj_class, PROP_GLAREA, pspec);
-
 	pspec = g_param_spec_int64
 		(	"wid",
 			"WID",
@@ -703,9 +668,12 @@ MpvObj *mpv_obj_new(	Playlist *playlist,
 
 gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
 {
-	gint rc;
+	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	rc = mpv_command(mpv->mpv_ctx, cmd);
+	if(mpv->mpv_ctx)
+	{
+		rc = mpv_command(mpv->mpv_ctx, cmd);
+	}
 
 	if(rc < 0)
 	{
@@ -723,9 +691,12 @@ gint mpv_obj_command(MpvObj *mpv, const gchar **cmd)
 
 gint mpv_obj_command_string(MpvObj *mpv, const gchar *cmd)
 {
-	gint rc;
+	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	rc = mpv_command_string(mpv->mpv_ctx, cmd);
+	if(mpv->mpv_ctx)
+	{
+		rc = mpv_command_string(mpv->mpv_ctx, cmd);
+	}
 
 	if(rc < 0)
 	{
@@ -743,9 +714,12 @@ gint mpv_obj_get_property(	MpvObj *mpv,
 				mpv_format format,
 				void *data )
 {
-	gint rc;
+	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	rc = mpv_get_property(mpv->mpv_ctx, name, format, data);
+	if(mpv->mpv_ctx)
+	{
+		rc = mpv_get_property(mpv->mpv_ctx, name, format, data);
+	}
 
 	if(rc < 0)
 	{
@@ -761,7 +735,12 @@ gint mpv_obj_get_property(	MpvObj *mpv,
 
 gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name)
 {
-	gchar *value = mpv_get_property_string(mpv->mpv_ctx, name);
+	gchar *value = NULL;
+
+	if(mpv->mpv_ctx)
+	{
+		value = mpv_get_property_string(mpv->mpv_ctx, name);
+	}
 
 	if(!value)
 	{
@@ -774,9 +753,13 @@ gchar *mpv_obj_get_property_string(MpvObj *mpv, const gchar *name)
 gboolean mpv_obj_get_property_flag(MpvObj *mpv, const gchar *name)
 {
 	gboolean value = FALSE;
-	gint rc;
+	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	rc = mpv_get_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+	if(mpv->mpv_ctx)
+	{
+		rc =	mpv_get_property
+			(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+	}
 
 	if(rc < 0)
 	{
@@ -794,9 +777,12 @@ gint mpv_obj_set_property(	MpvObj *mpv,
 				mpv_format format,
 				void *data )
 {
-	gint rc;
+	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	rc = mpv_set_property(mpv->mpv_ctx, name, format, data);
+	if(mpv->mpv_ctx)
+	{
+		rc = mpv_set_property(mpv->mpv_ctx, name, format, data);
+	}
 
 	if(rc < 0)
 	{
@@ -814,9 +800,12 @@ gint mpv_obj_set_property_string(	MpvObj *mpv,
 					const gchar *name,
 					const char *data )
 {
-	gint rc;
+	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	rc = mpv_set_property_string(mpv->mpv_ctx, name, data);
+	if(mpv->mpv_ctx)
+	{
+		rc = mpv_set_property_string(mpv->mpv_ctx, name, data);
+	}
 
 	if(rc < 0)
 	{
@@ -832,9 +821,13 @@ gint mpv_obj_set_property_flag(	MpvObj *mpv,
 				const gchar *name,
 				gboolean value )
 {
-	gint rc;
+	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	rc = mpv_set_property(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+	if(mpv->mpv_ctx)
+	{
+		rc =	mpv_set_property
+			(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+	}
 
 	if(rc < 0)
 	{
@@ -853,7 +846,10 @@ void mpv_obj_set_wakup_callback(	MpvObj *mpv,
 	mpv->priv->wakeup_callback = func;
 	mpv->priv->wakeup_callback_data = data;
 
-	mpv_set_wakeup_callback(mpv->mpv_ctx, func, data);
+	if(mpv->mpv_ctx)
+	{
+		mpv_set_wakeup_callback(mpv->mpv_ctx, func, data);
+	}
 }
 
 void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
@@ -932,6 +928,8 @@ void mpv_obj_initialize(MpvObj *mpv)
 			{"screenshot-template", "gnome-mpv-shot%n"},
 			{"config-dir", config_dir},
 			{NULL, NULL} };
+
+	g_assert(mpv->mpv_ctx);
 
 	for(gint i = 0; options[i].name; i++)
 	{
@@ -1020,7 +1018,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 
 	if(current_vo && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
 	{
-		g_info(	"The vo is %s but the display is not X11; "
+		g_info(	"The chosen vo is %s but the display is not X11; "
 			"forcing --vo=opengl-cb and resetting",
 			current_vo );
 
@@ -1042,6 +1040,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 
 		mpv_opt_handle_msg_level(mpv);
 
+		mpv->priv->force_opengl = FALSE;
 		mpv->priv->state.ready = TRUE;
 		g_signal_emit_by_name(mpv, "mpv-init");
 	}
@@ -1059,6 +1058,8 @@ void mpv_obj_reset(MpvObj *mpv)
 	gboolean loop;
 	gint64 playlist_pos;
 	gint playlist_pos_rc;
+
+	g_assert(mpv->mpv_ctx);
 
 	loop_str = mpv_obj_get_property_string(mpv, "loop");
 	loop = (g_strcmp0(loop_str, "inf") == 0);
@@ -1142,6 +1143,7 @@ void mpv_obj_quit(MpvObj *mpv)
 		mpv->opengl_ctx = NULL;
 	}
 
+	g_assert(mpv->mpv_ctx);
 	mpv_terminate_destroy(mpv->mpv_ctx);
 
 	mpv->mpv_ctx = NULL;
@@ -1234,6 +1236,8 @@ void mpv_obj_load(	MpvObj *mpv,
 
 			g_free(name);
 		}
+
+		g_assert(mpv->mpv_ctx);
 
 		mpv_check_error(mpv_request_event(	mpv->mpv_ctx,
 							MPV_EVENT_END_FILE,
