@@ -162,7 +162,6 @@ static void video_area_init(VideoArea *area)
 				targets,
 				G_N_ELEMENTS(targets),
 				GDK_ACTION_LINK );
-	gtk_drag_dest_add_uri_targets(GTK_WIDGET(area));
 
 	/* GDK_BUTTON_RELEASE_MASK is needed so that GtkMenuButtons can
 	 * hide their menus when vid_area is clicked.

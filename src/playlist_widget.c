@@ -45,6 +45,20 @@ struct _PlaylistWidgetClass
 	GtkScrolledWindowClass parent_class;
 };
 
+static void drag_data_get_handler(	GtkWidget *widget,
+					GdkDragContext *context,
+					GtkSelectionData *sel_data,
+					guint info,
+					guint time,
+					gpointer data );
+static void drag_data_received_handler(	GtkWidget *widget,
+					GdkDragContext *context,
+					gint x,
+					gint y,
+					GtkSelectionData *sel_data,
+					guint info,
+					guint time,
+					gpointer data );
 static void row_activated_handler(	GtkTreeView *tree_view,
 					GtkTreePath *path,
 					GtkTreeViewColumn *column,
@@ -57,12 +71,14 @@ static void row_reodered_handler(	Playlist *pl,
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+static gchar *get_uri_selected(PlaylistWidget *wgt);
 
 G_DEFINE_TYPE(PlaylistWidget, playlist_widget, GTK_TYPE_SCROLLED_WINDOW)
 
 static void playlist_widget_constructed(GObject *object)
 {
 	PlaylistWidget *self = PLAYLIST_WIDGET(object);
+	GtkTargetEntry targets[] = DND_TARGETS;
 
 	self->tree_view
 		= gtk_tree_view_new_with_model
@@ -72,6 +88,14 @@ static void playlist_widget_constructed(GObject *object)
 				"button-press-event",
 				G_CALLBACK(mouse_press_handler),
 				NULL );
+	g_signal_connect(	self->tree_view,
+				"drag-data-get",
+				G_CALLBACK(drag_data_get_handler),
+				self );
+	g_signal_connect(	self->tree_view,
+				"drag-data-received",
+				G_CALLBACK(drag_data_received_handler),
+				self );
 	g_signal_connect(	self->tree_view,
 				"row-activated",
 				G_CALLBACK(row_activated_handler),
@@ -85,8 +109,20 @@ static void playlist_widget_constructed(GObject *object)
 				G_CALLBACK(row_reodered_handler),
 				self );
 
-	gtk_widget_set_can_focus(GTK_WIDGET(self->tree_view), FALSE);
-	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(self->tree_view), TRUE);
+	gtk_tree_view_enable_model_drag_source(	GTK_TREE_VIEW(self->tree_view),
+						GDK_BUTTON1_MASK,
+						targets,
+						G_N_ELEMENTS(targets),
+						GDK_ACTION_COPY|
+						GDK_ACTION_LINK );
+
+	gtk_tree_view_enable_model_drag_dest(	GTK_TREE_VIEW(self->tree_view),
+						targets,
+						G_N_ELEMENTS(targets),
+						GDK_ACTION_MOVE );
+
+	gtk_widget_set_can_focus(self->tree_view, FALSE);
+	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(self->tree_view), FALSE);
 
 	gtk_tree_view_append_column
 		(GTK_TREE_VIEW(self->tree_view), self->title_column);
@@ -128,6 +164,162 @@ static void playlist_widget_get_property(	GObject *object,
 	else
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
+
+static void drag_data_get_handler(	GtkWidget *widget,
+					GdkDragContext *context,
+					GtkSelectionData *sel_data,
+					guint info,
+					guint time,
+					gpointer data )
+{
+	gchar *type = gdk_atom_name(gtk_selection_data_get_target(sel_data));
+	gchar *text = get_uri_selected(data);
+
+	if(g_strcmp0(type, "PLAYLIST_PATH") == 0)
+	{
+		PlaylistWidget *wgt = data;
+		GtkTreePath *path = NULL;
+		gchar *path_str = NULL;
+		GdkAtom atom = gdk_atom_intern_static_string("PLAYLIST_PATH");
+
+		gtk_tree_view_get_cursor
+			(GTK_TREE_VIEW(wgt->tree_view), &path, NULL);
+
+		path_str = gtk_tree_path_to_string(path);
+
+		gtk_selection_data_set(	sel_data,
+					atom,
+					8,
+					(const guchar *)path_str,
+					(gint)strlen(path_str) );
+
+		g_free(path_str);
+	}
+	else if(g_strcmp0(type, "text/uri-list") == 0)
+	{
+		/* Only one URI can be selected at a time */
+		gchar *uris[] = {text, NULL};
+
+		gtk_selection_data_set_uris(sel_data, uris);
+	}
+	else
+	{
+		gtk_selection_data_set_text(sel_data, text, -1);
+	}
+
+	g_free(type);
+	g_free(text);
+}
+
+static void drag_data_received_handler(	GtkWidget *widget,
+					GdkDragContext *context,
+					gint x,
+					gint y,
+					GtkSelectionData *sel_data,
+					guint info,
+					guint time,
+					gpointer data)
+{
+	PlaylistWidget *wgt = data;
+	gchar *type = gdk_atom_name(gtk_selection_data_get_target(sel_data));
+	gboolean reorder = (widget == gtk_drag_get_source_widget(context));
+
+	if(reorder)
+	{
+		GtkListStore *store;
+		const guchar *raw_data;
+		gint src_index, dest_index;
+		GtkTreeIter src_iter, dest_iter;
+		GtkTreePath *src_path, *dest_path;
+		GtkTreeViewDropPosition before_mask;
+		GtkTreeViewDropPosition drop_pos;
+		gboolean insert_before;
+		gboolean dest_row_exist;
+
+		store = playlist_get_store(wgt->store);
+		raw_data = gtk_selection_data_get_data(sel_data);
+		src_path =	gtk_tree_path_new_from_string
+				((const gchar *)raw_data);
+		src_index = gtk_tree_path_get_indices(src_path)[0];
+		before_mask =	GTK_TREE_VIEW_DROP_BEFORE|
+				GTK_TREE_VIEW_DROP_INTO_OR_BEFORE;
+		dest_row_exist =	gtk_tree_view_get_dest_row_at_pos
+					(	GTK_TREE_VIEW(widget),
+						x, y,
+						&dest_path,
+						&drop_pos );
+
+		g_assert(g_strcmp0(type, "PLAYLIST_PATH") == 0);
+		g_assert(src_path);
+
+		gtk_tree_model_get_iter(	GTK_TREE_MODEL(store),
+						&src_iter,
+						src_path );
+
+		if(dest_row_exist)
+		{
+			g_assert(dest_path);
+
+			dest_index = gtk_tree_path_get_indices(dest_path)[0];
+
+			gtk_tree_model_get_iter(	GTK_TREE_MODEL(store),
+							&dest_iter,
+							dest_path );
+		}
+		else
+		{
+			/* Set dest_iter to the last child */
+			GtkTreeIter iter;
+			gboolean has_next;
+
+			drop_pos = GTK_TREE_VIEW_DROP_AFTER;
+			dest_index = -1;
+
+			gtk_tree_model_get_iter_first
+				(GTK_TREE_MODEL(store), &iter);
+
+			do
+			{
+				dest_iter = iter;
+				has_next =	gtk_tree_model_iter_next
+						(GTK_TREE_MODEL(store), &iter);
+
+				dest_index++;
+			}
+			while(has_next);
+		}
+
+		insert_before = (drop_pos&before_mask || drop_pos == 0);
+
+		if(insert_before)
+		{
+			gtk_list_store_move_before(store, &src_iter, &dest_iter);
+		}
+		else
+		{
+			gtk_list_store_move_after(store, &src_iter, &dest_iter);
+		}
+
+		g_signal_emit_by_name(	wgt,
+					"row-reordered",
+					src_index+(src_index>dest_index),
+					dest_index+!insert_before );
+
+		gtk_tree_path_free(src_path);
+		gtk_tree_path_free(dest_path);
+	}
+	else
+	{
+		g_signal_emit_by_name(	wgt,
+					"drag-data-received",
+					context,
+					x, y,
+					sel_data,
+					info,
+					time,
+					data );
 	}
 }
 
@@ -192,6 +384,31 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	return handled;
 }
 
+static gchar *get_uri_selected(PlaylistWidget *wgt)
+{
+	GtkTreeIter iter;
+	GtkTreePath *path = NULL;
+	GtkTreeModel *model = NULL;
+	gchar *result = NULL;
+	gboolean rc = FALSE;
+
+	gtk_tree_view_get_cursor(GTK_TREE_VIEW(wgt->tree_view), &path, NULL);
+
+	if(path)
+	{
+		model = GTK_TREE_MODEL(playlist_get_store(wgt->store));
+		rc = gtk_tree_model_get_iter(model, &iter, path);
+	}
+
+	if(rc)
+	{
+		gtk_tree_model_get
+			(model, &iter, PLAYLIST_URI_COLUMN, &result, -1);
+	}
+
+	return result;
+}
+
 static void playlist_widget_class_init(PlaylistWidgetClass *klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -243,8 +460,6 @@ static void playlist_widget_class_init(PlaylistWidgetClass *klass)
 
 static void playlist_widget_init(PlaylistWidget *wgt)
 {
-	GtkTargetEntry targets[] = DND_TARGETS;
-
 	wgt->title_renderer = gtk_cell_renderer_text_new();
 	wgt->title_column
 		= gtk_tree_view_column_new_with_attributes
@@ -253,13 +468,6 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 				"text", PLAYLIST_NAME_COLUMN,
 				"weight", PLAYLIST_WEIGHT_COLUMN,
 				NULL );
-
-	gtk_drag_dest_set(	GTK_WIDGET(wgt),
-				GTK_DEST_DEFAULT_ALL,
-				targets,
-				G_N_ELEMENTS(targets),
-				GDK_ACTION_COPY );
-	gtk_drag_dest_add_uri_targets(GTK_WIDGET(wgt));
 
 	gtk_widget_set_size_request
 		(GTK_WIDGET(wgt), PLAYLIST_MIN_WIDTH, -1);

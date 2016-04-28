@@ -98,6 +98,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 					gpointer data );
 static gboolean queue_render(GtkGLArea *area);
 static void opengl_cb_update_callback(void *cb_ctx);
+static void set_playlist_pos(Application *app, gint64 pos);
 static void set_inhibit_idle(Application *app, gboolean inhibit);
 static gboolean load_files(Application* app, const gchar **files);
 static void connect_signals(Application *app);
@@ -390,31 +391,7 @@ static void playlist_row_activated_handler(	PlaylistWidget *playlist,
 						gint64 pos,
 						gpointer data )
 {
-	Application *app = data;
-	gint64 mpv_pos;
-	gint rc;
-
-	rc = mpv_obj_get_property(	app->mpv,
-					"playlist-pos",
-					MPV_FORMAT_INT64,
-					&mpv_pos );
-
-	mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
-
-	if(pos != mpv_pos)
-	{
-		if(rc >= 0)
-		{
-			mpv_obj_set_property(	app->mpv,
-						"playlist-pos",
-						MPV_FORMAT_INT64,
-						&pos );
-		}
-		else
-		{
-			app->target_playlist_pos = pos;
-		}
-	}
+	set_playlist_pos(data, pos);
 }
 
 static void playlist_row_deleted_handler(	PlaylistWidget *playlist,
@@ -751,30 +728,41 @@ static void drag_data_handler(	GtkWidget *widget,
 				gpointer data)
 {
 	Application *app = data;
-	PlaylistWidget *playlist = PLAYLIST_WIDGET(app->gui->playlist);
-	gchar **uri_list = NULL;
-	gboolean append = (widget == GTK_WIDGET(playlist));
+	gchar *type = gdk_atom_name(gtk_selection_data_get_target(sel_data));
+	const guchar *raw_data = gtk_selection_data_get_data(sel_data);
+	gchar **uri_list = gtk_selection_data_get_uris(sel_data);
+	gboolean append = IS_PLAYLIST_WIDGET(widget);
 
-	if(sel_data && gtk_selection_data_get_length(sel_data) > 0)
+	if(g_strcmp0(type, "PLAYLIST_PATH") == 0)
 	{
-		uri_list = gtk_selection_data_get_uris(sel_data);
-	}
+		GtkTreePath *path =	gtk_tree_path_new_from_string
+					((const gchar *)raw_data);
 
-	if(uri_list)
-	{
-		mpv_obj_load_list(	app->mpv,
-					(const gchar **)uri_list,
-					append,
-					TRUE );
+		g_assert(path);
+		set_playlist_pos(app, gtk_tree_path_get_indices(path)[0]);
 
-		g_strfreev(uri_list);
+		gtk_tree_path_free(path);
 	}
 	else
 	{
-		const guchar *raw_data = gtk_selection_data_get_data(sel_data);
-
-		mpv_obj_load(app->mpv, (const gchar *)raw_data, append, TRUE);
+		if(uri_list)
+		{
+			mpv_obj_load_list(	app->mpv,
+						(const gchar **)uri_list,
+						append,
+						TRUE );
+		}
+		else
+		{
+			mpv_obj_load(	app->mpv,
+					(const gchar *)raw_data,
+					append,
+					TRUE );
+		}
 	}
+
+	g_strfreev(uri_list);
+	g_free(type);
 }
 
 static gchar *get_full_keystr(guint keyval, guint state)
@@ -912,6 +900,34 @@ static void opengl_cb_update_callback(void *cb_ctx)
 				(GSourceFunc)queue_render,
 				area,
 				NULL );
+}
+
+static void set_playlist_pos(Application *app, gint64 pos)
+{
+	gint64 mpv_pos;
+	gint rc;
+
+	rc = mpv_obj_get_property(	app->mpv,
+					"playlist-pos",
+					MPV_FORMAT_INT64,
+					&mpv_pos );
+
+	mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
+
+	if(pos != mpv_pos)
+	{
+		if(rc >= 0)
+		{
+			mpv_obj_set_property(	app->mpv,
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&pos );
+		}
+		else
+		{
+			app->target_playlist_pos = pos;
+		}
+	}
 }
 
 static void set_inhibit_idle(Application *app, gboolean inhibit)

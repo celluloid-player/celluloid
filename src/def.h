@@ -40,7 +40,10 @@
 #define FS_CONTROL_HIDE_DELAY 1
 #define KEYSTRING_MAX_LEN 16
 
-#define DND_TARGETS	{	{.target = "text/uri-list",\
+#define DND_TARGETS	{	{.target = "PLAYLIST_PATH",\
+				.flags = GTK_TARGET_SAME_APP,\
+				.info = 0},\
+				{.target = "text/uri-list",\
 				.flags = 0,\
 				.info = 0},\
 				{.target = "text/plain",\
