@@ -299,7 +299,7 @@ static void mpv_obj_update_playlist(MpvObj *mpv)
 				->values[3].u.string;
 		}
 
-		name = title?title:get_name_from_path(uri);
+		name = title?g_strdup(title):get_name_from_path(uri);
 
 		if(!iter_end)
 		{
