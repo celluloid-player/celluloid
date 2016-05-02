@@ -336,7 +336,6 @@ static void mpv_obj_update_playlist(MpvObj *mpv)
 			playlist_append(mpv->playlist, name, uri);
 		}
 
-		mpv_free(uri);
 		g_free(name);
 	}
 
