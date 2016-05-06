@@ -911,6 +911,11 @@ inline mpv_handle *mpv_obj_get_mpv_handle(MpvObj *mpv)
 	return mpv->mpv_ctx;
 }
 
+inline mpv_opengl_cb_context *mpv_obj_get_opengl_cb_context(MpvObj *mpv)
+{
+	return mpv->opengl_ctx;
+}
+
 void mpv_obj_initialize(MpvObj *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);

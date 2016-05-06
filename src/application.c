@@ -135,8 +135,10 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 						gpointer data )
 {
 	Application *app = data;
+	mpv_opengl_cb_context *opengl_ctx =	mpv_obj_get_opengl_cb_context
+						(app->mpv);
 
-	if(app->mpv->opengl_ctx)
+	if(opengl_ctx)
 	{
 		int width;
 		int height;
@@ -147,7 +149,7 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 		fbo = -1;
 
 		glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
-		mpv_opengl_cb_draw(app->mpv->opengl_ctx, fbo, width, height);
+		mpv_opengl_cb_draw(opengl_ctx, fbo, width, height);
 	}
 
 	while(gtk_events_pending())
@@ -288,6 +290,7 @@ static void mpv_init_handler(MpvObj *mpv, gpointer data)
 	if(!current_vo)
 	{
 		GtkGLArea *gl_area;
+		mpv_opengl_cb_context *opengl_ctx;
 		gint rc;
 
 		gl_area = video_area_get_gl_area(vid_area);
@@ -297,7 +300,8 @@ static void mpv_init_handler(MpvObj *mpv, gpointer data)
 					app );
 
 		gtk_gl_area_make_current(gl_area);
-		rc = mpv_opengl_cb_init_gl(	mpv->opengl_ctx,
+		opengl_ctx = mpv_obj_get_opengl_cb_context(mpv);
+		rc = mpv_opengl_cb_init_gl(	opengl_ctx,
 						NULL,
 						get_proc_address,
 						NULL );

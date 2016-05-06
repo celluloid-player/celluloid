@@ -230,14 +230,15 @@ static GVariant *get_prop_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(property_name, "Position") == 0)
 	{
+		mpv_handle *mpv_ctx;
 		gdouble position;
 		gint rc;
 
-		rc = mpv_get_property(	inst->gmpv_ctx->mpv->mpv_ctx,
+		mpv_ctx = mpv_obj_get_mpv_handle(inst->gmpv_ctx->mpv);
+		rc = mpv_get_property(	mpv_ctx,
 					"time-pos",
 					MPV_FORMAT_DOUBLE,
 					&position );
-
 		value = g_variant_new_int64((gint64)((rc >= 0)*position*1e6));
 	}
 	else
