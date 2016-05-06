@@ -21,6 +21,7 @@
 #include <mpv/client.h>
 
 #include "mpv_opt.h"
+#include "mpv_obj_private.h"
 #include "def.h"
 
 static void parse_dim_string(const gchar *geom_str, gint dim[2]);

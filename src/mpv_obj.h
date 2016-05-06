@@ -44,7 +44,6 @@ G_BEGIN_DECLS
 
 typedef struct _MpvObjState MpvObjState;
 typedef struct _MpvObj MpvObj;
-typedef struct _MpvObjPrivate MpvObjPrivate;
 typedef struct _MpvObjClass MpvObjClass;
 
 struct _MpvObjState
@@ -54,23 +53,6 @@ struct _MpvObjState
 	gboolean loaded;
 	gboolean new_file;
 	gboolean init_load;
-};
-
-struct _MpvObj
-{
-	GObject parent;
-	MpvObjPrivate *priv;
-	mpv_handle *mpv_ctx;
-	mpv_opengl_cb_context *opengl_ctx;
-	Playlist *playlist;
-	gchar *tmp_input_file;
-	GSList *log_level_list;
-	gdouble autofit_ratio;
-};
-
-struct _MpvObjClass
-{
-	GObjectClass parent_class;
 };
 
 GType mpv_obj_get_type(void);
