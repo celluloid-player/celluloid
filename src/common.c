@@ -240,18 +240,18 @@ void show_error_dialog(Application *app, const gchar *prefix, const gchar *msg)
 
 void resize_window_to_fit(Application *app, gdouble multiplier)
 {
-	gchar *video = mpv_get_property_string(app->mpv->mpv_ctx, "video");
+	gchar *video = mpv_obj_get_property_string(app->mpv, "video");
 	gint64 width;
 	gint64 height;
 	gint mpv_width_rc;
 	gint mpv_height_rc;
 
-	mpv_width_rc = mpv_get_property(	app->mpv->mpv_ctx,
+	mpv_width_rc = mpv_obj_get_property(	app->mpv,
 						"dwidth",
 						MPV_FORMAT_INT64,
 						&width );
 
-	mpv_height_rc = mpv_get_property(	app->mpv->mpv_ctx,
+	mpv_height_rc = mpv_obj_get_property(	app->mpv,
 						"dheight",
 						MPV_FORMAT_INT64,
 						&height );

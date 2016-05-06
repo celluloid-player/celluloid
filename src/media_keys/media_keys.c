@@ -71,49 +71,49 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 
 	if(g_strcmp0(application, APP_ID) == 0)
 	{
+		MpvObj *mpv = inst->gmpv_ctx->mpv;
+
 		if(g_strcmp0(key, "Next") == 0)
 		{
 			const gchar *cmd[] = {"playlist_next", "weak", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
+			mpv_obj_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Previous") == 0)
 		{
 			const gchar *cmd[] = {"playlist_prev", "weak", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
+			mpv_obj_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Pause") == 0)
 		{
-			mpv_obj_set_property_flag(inst->gmpv_ctx->mpv, "pause", TRUE);
+			mpv_obj_set_property_flag(mpv, "pause", TRUE);
 		}
 		else if(g_strcmp0(key, "Stop") == 0)
 		{
 			const gchar *cmd[] = {"stop", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
+			mpv_obj_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
 			gboolean paused;
 
-			paused =	mpv_obj_get_property_flag
-					(inst->gmpv_ctx->mpv, "pause");
+			paused = mpv_obj_get_property_flag(mpv, "pause");
 
-			mpv_obj_set_property_flag
-				(inst->gmpv_ctx->mpv, "pause", !paused);
+			mpv_obj_set_property_flag(mpv, "pause", !paused);
 		}
 		else if(g_strcmp0(key, "FastForward") == 0)
 		{
 			const gchar *cmd[] = {"seek", "10", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
+			mpv_obj_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Rewind") == 0)
 		{
 			const gchar *cmd[] = {"seek", "-10", NULL};
 
-			mpv_command(inst->gmpv_ctx->mpv->mpv_ctx, cmd);
+			mpv_obj_command(mpv, cmd);
 		}
 	}
 }

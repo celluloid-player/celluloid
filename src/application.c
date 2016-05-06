@@ -489,11 +489,11 @@ static void update_track_list(Application *app, mpv_node* track_list)
 	gint64 aid = -1;
 	gint64 sid = -1;
 
-	mpv_get_property(	mpv->mpv_ctx,
+	mpv_obj_get_property(	mpv,
 				"aid",
 				MPV_FORMAT_INT64,
 				&aid );
-	mpv_get_property(	mpv->mpv_ctx,
+	mpv_obj_get_property(	mpv,
 				"sid",
 				MPV_FORMAT_INT64,
 				&sid );
