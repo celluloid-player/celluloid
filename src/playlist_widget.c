@@ -38,6 +38,7 @@ struct _PlaylistWidget
 	Playlist *store;
 	GtkTreeViewColumn *title_column;
 	GtkCellRenderer *title_renderer;
+	gboolean dnd_delete;
 };
 
 struct _PlaylistWidgetClass
@@ -58,6 +59,9 @@ static void drag_data_received_handler(	GtkWidget *widget,
 					GtkSelectionData *sel_data,
 					guint info,
 					guint time,
+					gpointer data );
+static void drag_data_delete_handler(	GtkWidget *widget,
+					GdkDragContext *context,
 					gpointer data );
 static void row_activated_handler(	GtkTreeView *tree_view,
 					GtkTreePath *path,
@@ -97,6 +101,10 @@ static void playlist_widget_constructed(GObject *object)
 				G_CALLBACK(drag_data_received_handler),
 				self );
 	g_signal_connect(	self->tree_view,
+				"drag-data-delete",
+				G_CALLBACK(drag_data_delete_handler),
+				self );
+	g_signal_connect(	self->tree_view,
 				"row-activated",
 				G_CALLBACK(row_activated_handler),
 				self );
@@ -114,7 +122,8 @@ static void playlist_widget_constructed(GObject *object)
 						targets,
 						G_N_ELEMENTS(targets),
 						GDK_ACTION_COPY|
-						GDK_ACTION_LINK );
+						GDK_ACTION_LINK|
+						GDK_ACTION_MOVE );
 
 	gtk_tree_view_enable_model_drag_dest(	GTK_TREE_VIEW(self->tree_view),
 						targets,
@@ -251,6 +260,8 @@ static void drag_data_received_handler(	GtkWidget *widget,
 						&dest_path,
 						&drop_pos );
 
+		wgt->dnd_delete = FALSE;
+
 		g_assert(g_strcmp0(type, "PLAYLIST_PATH") == 0);
 		g_assert(src_path);
 
@@ -321,6 +332,24 @@ static void drag_data_received_handler(	GtkWidget *widget,
 					time,
 					data );
 	}
+}
+
+static void drag_data_delete_handler(	GtkWidget *widget,
+					GdkDragContext *context,
+					gpointer data )
+{
+	PlaylistWidget *wgt = data;
+
+	/* Prevent default handler from deleting the source row when reordering.
+	 * When reordering, dnd_delete will be set to FALSE in
+	 * drag_data_received_handler().
+	 */
+	if(!wgt->dnd_delete)
+	{
+		g_signal_stop_emission_by_name(widget, "drag-data-delete");
+	}
+
+	wgt->dnd_delete = TRUE;
 }
 
 static void row_activated_handler(	GtkTreeView *tree_view,
@@ -468,6 +497,7 @@ static void playlist_widget_init(PlaylistWidget *wgt)
 				"text", PLAYLIST_NAME_COLUMN,
 				"weight", PLAYLIST_WEIGHT_COLUMN,
 				NULL );
+	wgt->dnd_delete = TRUE;
 
 	gtk_widget_set_size_request
 		(GTK_WIDGET(wgt), PLAYLIST_MIN_WIDTH, -1);
