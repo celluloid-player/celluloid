@@ -901,6 +901,11 @@ inline gdouble mpv_obj_get_autofit_ratio(MpvObj *mpv)
 	return mpv->autofit_ratio;
 }
 
+inline Playlist *mpv_obj_get_playlist(MpvObj *mpv)
+{
+	return mpv->playlist;
+}
+
 void mpv_obj_initialize(MpvObj *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);

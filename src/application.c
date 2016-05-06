@@ -599,9 +599,10 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 	}
 	else if(g_strcmp0(prop->name, "playlist-pos") == 0 && prop->data)
 	{
+		Playlist *playlist = mpv_obj_get_playlist(mpv);
 		gint64 pos = *((gint64 *)prop->data);
 
-		playlist_set_indicator_pos(mpv->playlist, (gint)pos);
+		playlist_set_indicator_pos(playlist, (gint)pos);
 	}
 	else if(g_strcmp0(prop->name, "chapters") == 0 && prop->data)
 	{
@@ -638,6 +639,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	else if(event->event_id == MPV_EVENT_FILE_LOADED)
 	{
 		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
+		Playlist *playlist = mpv_obj_get_playlist(mpv);
 		gint64 aid = -1;
 		gint64 pos = -1;
 		gdouble length = 0;
@@ -645,7 +647,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 
 		if(app->target_playlist_pos != -1)
 		{
-			mpv_obj_set_property(	app->mpv,
+			mpv_obj_set_property(	mpv,
 						"playlist-pos",
 						MPV_FORMAT_INT64,
 						&app->target_playlist_pos );
@@ -665,7 +667,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		control_box_set_enabled(control_box, TRUE);
 		control_box_set_volume_enabled(control_box, (aid != -1));
 		control_box_set_playing_state(control_box, !state.paused);
-		playlist_set_indicator_pos(mpv->playlist, (gint)pos);
+		playlist_set_indicator_pos(playlist, (gint)pos);
 		control_box_set_seek_bar_length(control_box, (gint)length);
 		gtk_window_set_title(GTK_WINDOW(app->gui), title);
 
