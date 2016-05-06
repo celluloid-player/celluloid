@@ -104,6 +104,7 @@ gboolean mpv_obj_is_loaded(MpvObj *mpv);
 void mpv_obj_get_state(MpvObj *mpv, MpvObjState *state);
 gdouble mpv_obj_get_autofit_ratio(MpvObj *mpv);
 Playlist *mpv_obj_get_playlist(MpvObj *mpv);
+mpv_handle *mpv_obj_get_mpv_handle(MpvObj *mpv);
 void mpv_obj_initialize(MpvObj *mpv);
 void mpv_obj_reset(MpvObj *mpv);
 void mpv_obj_quit(MpvObj *mpv);

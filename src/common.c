@@ -76,7 +76,7 @@ gboolean quit(gpointer data)
 	const gchar *cmd[] = {"quit", NULL};
 	Application *app = data;
 
-	if(app->mpv->mpv_ctx)
+	if(mpv_obj_get_mpv_handle(app->mpv))
 	{
 		VideoArea *vid_area = VIDEO_AREA(app->gui->vid_area);
 		GtkGLArea *gl_area = video_area_get_gl_area(vid_area);
@@ -89,8 +89,6 @@ gboolean quit(gpointer data)
 
 		mpv_obj_command(app->mpv, cmd);
 		mpv_obj_quit(app->mpv);
-
-		app->mpv->mpv_ctx = NULL;
 	}
 
 	if(!app->gui->fullscreen)
@@ -140,15 +138,16 @@ void activate_action_string(Application *app, const gchar *str)
 gboolean update_seek_bar(gpointer data)
 {
 	Application *app = data;
+	mpv_handle *mpv_ctx = mpv_obj_get_mpv_handle(app->mpv);
 	gdouble time_pos = -1;
 	gint rc = -1;
 
-	if(app->mpv->mpv_ctx)
+	if(mpv_ctx)
 	{
-		rc = mpv_get_property(	app->mpv->mpv_ctx,
-					"time-pos",
-					MPV_FORMAT_DOUBLE,
-					&time_pos );
+		rc = mpv_obj_get_property(	app->mpv,
+						"time-pos",
+						MPV_FORMAT_DOUBLE,
+						&time_pos );
 	}
 
 	if(rc >= 0)
@@ -157,7 +156,7 @@ gboolean update_seek_bar(gpointer data)
 			(CONTROL_BOX(app->gui->control_box), time_pos);
 	}
 
-	return !!app->mpv->mpv_ctx;
+	return !!mpv_ctx;
 }
 
 void seek(Application *app, gdouble time)
