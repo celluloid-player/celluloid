@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -22,6 +22,8 @@
 
 #include <gio/gio.h>
 
+G_BEGIN_DECLS
+
 void menu_build_full(	GMenu *menu,
 			const GSList *audio_list,
 			const GSList *video_list,
@@ -32,5 +34,7 @@ void menu_build_menu_btn(	GMenu *menu,
 				const GSList *sub_list );
 void menu_build_open_btn(GMenu *menu);
 void menu_build_app_menu(GMenu *menu);
+
+G_END_DECLS
 
 #endif

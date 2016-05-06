@@ -24,6 +24,8 @@
 
 #include "mpv_obj.h"
 
+G_BEGIN_DECLS
+
 typedef struct module_log_level module_log_level;
 
 struct module_log_level
@@ -34,5 +36,7 @@ struct module_log_level
 
 void mpv_opt_handle_autofit(MpvObj *mpv);
 void mpv_opt_handle_msg_level(MpvObj *mpv);
+
+G_END_DECLS
 
 #endif

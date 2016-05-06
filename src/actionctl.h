@@ -22,6 +22,10 @@
 
 #include "common.h"
 
+G_BEGIN_DECLS
+
 void actionctl_map_actions(Application *app);
+
+G_END_DECLS
 
 #endif

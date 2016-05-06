@@ -23,6 +23,10 @@
 #include "playbackctl.h"
 #include "common.h"
 
+G_BEGIN_DECLS
+
 void playbackctl_connect_signals(Application *app);
+
+G_END_DECLS
 
 #endif

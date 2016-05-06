@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+G_BEGIN_DECLS
+
 #define SHORTCUTS_WINDOW_TYPE (shortcuts_window_get_type ())
 
 #define	SHORTCUTS_WINDOW(obj) \
@@ -41,5 +43,7 @@ typedef struct ShortcutsWindowClass ShortcutsWindowClass;
 
 GtkWidget *shortcuts_window_new(GtkWindow *parent);
 GType shortcuts_window_get_type(void);
+
+G_END_DECLS
 
 #endif

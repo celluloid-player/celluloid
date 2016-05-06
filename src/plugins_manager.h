@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+G_BEGIN_DECLS
+
 #define PLUGINS_MANAGER_TYPE (plugins_manager_get_type ())
 
 #define	PLUGINS_MANAGER(obj) \
@@ -42,5 +44,7 @@ typedef struct _PluginsManagerClass PluginsManagerClass;
 GType plugins_manager_get_type(void);
 GtkWidget *plugins_manager_new(GtkWindow *parent);
 void plugins_manager_set_directory(PluginsManager *pmgr, const gchar *path);
+
+G_END_DECLS
 
 #endif

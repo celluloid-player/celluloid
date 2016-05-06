@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+G_BEGIN_DECLS
+
 #define PLUGINS_MANAGER_ITEM_TYPE (plugins_manager_item_get_type ())
 
 #define	PLUGINS_MANAGER_ITEM(obj) \
@@ -43,5 +45,7 @@ GType plugins_manager_item_get_type(void);
 GtkWidget *plugins_manager_item_new(	GtkWindow *parent,
 					const gchar *title,
 					const gchar *path );
+
+G_END_DECLS
 
 #endif

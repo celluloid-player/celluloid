@@ -26,6 +26,8 @@
 #include "playlist.h"
 #include "application.h"
 
+G_BEGIN_DECLS
+
 gchar *get_config_dir_path(void);
 gchar *get_scripts_dir_path(void);
 gchar *get_path_from_uri(const gchar *uri);
@@ -40,5 +42,7 @@ void resize_window_to_fit(Application *app, gdouble multiplier);
 void load_keybind(	Application *app,
 			const gchar *config_path,
 			gboolean notify_ignore );
+
+G_END_DECLS
 
 #endif
