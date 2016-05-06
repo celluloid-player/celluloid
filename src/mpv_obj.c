@@ -62,9 +62,9 @@ struct _MpvObjPrivate
 	gboolean force_opengl;
 	GtkGLArea *glarea;
 	gint64 wid;
-	void *wakeup_callback_data;
+	void *event_callback_data;
 	void *opengl_cb_callback_data;
-	void (*wakeup_callback)(void *data);
+	void (*event_callback)(mpv_event *, void *data);
 	void (*opengl_cb_callback)(void *data);
 };
 
@@ -76,6 +76,7 @@ static void mpv_obj_get_inst_property(	GObject *object,
 					guint property_id,
 					GValue *value,
 					GParamSpec *pspec );
+static void wakeup_callback(void *data);
 static void mpv_prop_change_handler(MpvObj *mpv, mpv_event_property* prop);
 static gboolean mpv_event_handler(gpointer data);
 static void mpv_obj_update_playlist(MpvObj *mpv);
@@ -125,6 +126,11 @@ static void mpv_obj_get_inst_property(	GObject *object,
 	}
 }
 
+static void wakeup_callback(void *data)
+{
+	g_idle_add((GSourceFunc)mpv_event_handler, data);
+}
+
 static void mpv_prop_change_handler(MpvObj *mpv, mpv_event_property* prop)
 {
 	if(g_strcmp0(prop->name, "pause") == 0)
@@ -144,14 +150,14 @@ static void mpv_prop_change_handler(MpvObj *mpv, mpv_event_property* prop)
 
 static gboolean mpv_event_handler(gpointer data)
 {
-	Application *app = data;
-	MpvObj *mpv = app->mpv;
-	mpv_event *event = NULL;
-	gboolean done = FALSE;
+	MpvObj *mpv = data;
+	gboolean done = !mpv;
 
 	while(!done)
 	{
-		event = mpv->mpv_ctx?mpv_wait_event(mpv->mpv_ctx, 0):NULL;
+		mpv_event *event =	mpv->mpv_ctx?
+					mpv_wait_event(mpv->mpv_ctx, 0):
+					NULL;
 
 		if(!event)
 		{
@@ -235,9 +241,10 @@ static gboolean mpv_event_handler(gpointer data)
 
 		if(event)
 		{
-			if(mpv->mpv_event_handler)
+			if(mpv->priv->event_callback)
 			{
-				mpv->mpv_event_handler(event, data);
+				mpv->priv->event_callback
+					(event, mpv->priv->event_callback_data);
 			}
 
 			if(mpv->mpv_ctx)
@@ -639,7 +646,6 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = -1;
-	mpv->mpv_event_handler = NULL;
 
 	mpv->priv->state.ready = FALSE;
 	mpv->priv->state.paused = TRUE;
@@ -650,9 +656,9 @@ static void mpv_obj_init(MpvObj *mpv)
 	mpv->priv->force_opengl = FALSE;
 	mpv->priv->glarea = NULL;
 	mpv->priv->wid = -1;
-	mpv->priv->wakeup_callback_data = NULL;
+	mpv->priv->event_callback_data = NULL;
 	mpv->priv->opengl_cb_callback_data = NULL;
-	mpv->priv->wakeup_callback = NULL;
+	mpv->priv->event_callback = NULL;
 	mpv->priv->opengl_cb_callback = NULL;
 }
 
@@ -838,17 +844,12 @@ gint mpv_obj_set_property_flag(	MpvObj *mpv,
 	return rc;
 }
 
-void mpv_obj_set_wakup_callback(	MpvObj *mpv,
-					void (*func)(void *),
+void mpv_obj_set_event_callback(	MpvObj *mpv,
+					void (*func)(mpv_event *, void *),
 					void *data )
 {
-	mpv->priv->wakeup_callback = func;
-	mpv->priv->wakeup_callback_data = data;
-
-	if(mpv->mpv_ctx)
-	{
-		mpv_set_wakeup_callback(mpv->mpv_ctx, func, data);
-	}
+	mpv->priv->event_callback = func;
+	mpv->priv->event_callback_data = data;
 }
 
 void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
@@ -862,11 +863,6 @@ void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
 	{
 		mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
 	}
-}
-
-void mpv_obj_wakeup_callback(void *data)
-{
-	g_idle_add((GSourceFunc)mpv_event_handler, data);
 }
 
 void mpv_check_error(int status)
@@ -1031,6 +1027,7 @@ void mpv_obj_initialize(MpvObj *mpv)
 	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
+	mpv_set_wakeup_callback(mpv->mpv_ctx, wakeup_callback, mpv);
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 
 	current_vo = mpv_obj_get_property_string(mpv, "current-vo");
@@ -1099,11 +1096,10 @@ void mpv_obj_reset(MpvObj *mpv)
 	mpv->mpv_ctx = mpv_create();
 	mpv_obj_initialize(mpv);
 
-	mpv_obj_set_wakup_callback
+	mpv_obj_set_event_callback
 		(	mpv,
-			mpv->priv->wakeup_callback,
-			mpv->priv->wakeup_callback_data );
-
+			mpv->priv->event_callback,
+			mpv->priv->event_callback_data );
 	mpv_obj_set_opengl_cb_callback
 		(	mpv,
 			mpv->priv->opengl_cb_callback,

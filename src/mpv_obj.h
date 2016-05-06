@@ -66,7 +66,6 @@ struct _MpvObj
 	gchar *tmp_input_file;
 	GSList *log_level_list;
 	gdouble autofit_ratio;
-	void (*mpv_event_handler)(mpv_event *event, gpointer data);
 };
 
 struct _MpvObjClass
@@ -92,13 +91,12 @@ gint mpv_obj_set_property_flag(	MpvObj *mpv, const gchar *name, gboolean value);
 gint mpv_obj_set_property_string(	MpvObj *mpv,
 					const gchar *name,
 					const char *data );
-void mpv_obj_set_wakup_callback(	MpvObj *mpv,
-					void (*func)(void *),
+void mpv_obj_set_event_callback(	MpvObj *mpv,
+					void (*func)(mpv_event *, void *),
 					void *data );
 void mpv_obj_set_opengl_cb_callback(	MpvObj *mpv,
 					mpv_opengl_cb_update_fn func,
 					void *data );
-void mpv_obj_wakeup_callback(void *data);
 void mpv_check_error(int status);
 gboolean mpv_obj_is_loaded(MpvObj *mpv);
 void mpv_obj_get_state(MpvObj *mpv, MpvObjState *state);

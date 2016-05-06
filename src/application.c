@@ -367,11 +367,9 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						NULL,
 						app );
 
-	app->mpv->mpv_event_handler = mpv_event_handler;
-
 	mpv_obj_initialize(app->mpv);
 	mpv_obj_set_opengl_cb_callback(app->mpv, opengl_cb_update_callback, app);
-	mpv_obj_set_wakup_callback(app->mpv, mpv_obj_wakeup_callback, app);
+	mpv_obj_set_event_callback(app->mpv, mpv_event_handler, app);
 
 	if(!app->files)
 	{
