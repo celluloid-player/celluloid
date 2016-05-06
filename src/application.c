@@ -621,9 +621,11 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 
 	if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
 	{
-		if(state.new_file && app->mpv->autofit_ratio > 0)
+		gdouble autofit_ratio = mpv_obj_get_autofit_ratio(app->mpv);
+
+		if(state.new_file && autofit_ratio > 0)
 		{
-			resize_window_to_fit(app, mpv->autofit_ratio);
+			resize_window_to_fit(app, autofit_ratio);
 		}
 	}
 	else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
