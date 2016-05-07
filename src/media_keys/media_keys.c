@@ -40,12 +40,10 @@ static gboolean delete_handler(	GtkWidget *widget,
 				gpointer data )
 {
 	media_keys *inst = data;
+	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
 
-	g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
-					inst->shutdown_sig_id );
-
-	g_signal_handler_disconnect(	inst->proxy,
-					inst->g_signal_sig_id );
+	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
+	g_signal_handler_disconnect(inst->proxy, inst->g_signal_sig_id);
 
 	g_object_unref(inst->proxy);
 	g_object_unref(inst->session_bus_conn);
@@ -71,7 +69,7 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 
 	if(g_strcmp0(application, APP_ID) == 0)
 	{
-		MpvObj *mpv = inst->gmpv_ctx->mpv;
+		MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
 
 		if(g_strcmp0(key, "Next") == 0)
 		{
@@ -164,14 +162,15 @@ static void session_ready_handler(	GObject *source_object,
 void media_keys_init(Application *gmpv_ctx)
 {
 	media_keys *inst = g_malloc(sizeof(media_keys));
+	MainWindow *wnd = application_get_main_window(gmpv_ctx);
 
 	inst->gmpv_ctx = gmpv_ctx;
 	inst->shutdown_sig_id = 0;
 	inst->proxy = NULL;
 	inst->session_bus_conn = NULL;
 
-	inst->shutdown_sig_id
-		= g_signal_connect(	inst->gmpv_ctx->gui,
+	inst->shutdown_sig_id =	g_signal_connect
+				(	wnd,
 					"delete-event",
 					G_CALLBACK(delete_handler),
 					inst );

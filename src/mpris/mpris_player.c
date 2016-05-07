@@ -106,7 +106,7 @@ static void method_handler(	GDBusConnection *connection,
 				gpointer data )
 {
 	mpris *inst = data;
-	MpvObj *mpv = inst->gmpv_ctx->mpv;
+	MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
 
 	if(g_strcmp0(method_name, "Next") == 0)
 	{
@@ -200,8 +200,10 @@ static void method_handler(	GDBusConnection *connection,
 			}
 			else
 			{
-				mpv_playback_restart_handler
-					(inst->gmpv_ctx->gui, inst);
+				MainWindow *wnd;
+
+				wnd = application_get_main_window(inst->gmpv_ctx);
+				mpv_playback_restart_handler(wnd, inst);
 			}
 		}
 	}
@@ -210,7 +212,7 @@ static void method_handler(	GDBusConnection *connection,
 		const gchar *uri;
 
 		g_variant_get(parameters, "(&s)", &uri);
-		mpv_obj_load(inst->gmpv_ctx->mpv, uri, FALSE, TRUE);
+		mpv_obj_load(mpv, uri, FALSE, TRUE);
 	}
 
 	g_dbus_method_invocation_return_value
@@ -230,11 +232,13 @@ static GVariant *get_prop_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(property_name, "Position") == 0)
 	{
+		MpvObj *mpv;
 		mpv_handle *mpv_ctx;
 		gdouble position;
 		gint rc;
 
-		mpv_ctx = mpv_obj_get_mpv_handle(inst->gmpv_ctx->mpv);
+		mpv = application_get_mpv_obj(inst->gmpv_ctx);
+		mpv_ctx = mpv_obj_get_mpv_handle(mpv);
 		rc = mpv_get_property(	mpv_ctx,
 					"time-pos",
 					MPV_FORMAT_DOUBLE,
@@ -260,7 +264,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					gpointer data )
 {
 	mpris *inst = data;
-	MpvObj *mpv = inst->gmpv_ctx->mpv;
+	MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
 
 	if(g_strcmp0(property_name, "Rate") == 0)
 	{
@@ -290,7 +294,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 
 static void playback_status_update_handler(mpris *inst)
 {
-	MpvObj *mpv = inst->gmpv_ctx->mpv;
+	MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
 	const gchar *state;
 	mpris_prop_val_pair *prop_list;
 	GVariant *state_value;
@@ -304,10 +308,12 @@ static void playback_status_update_handler(mpris *inst)
 
 	if(!core_idle && !idle)
 	{
+		MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
+
 		state = "Playing";
 		can_seek = TRUE;
 
-		mpv_playback_restart_handler(inst->gmpv_ctx->gui, inst);
+		mpv_playback_restart_handler(wnd, inst);
 	}
 	else if(core_idle && idle)
 	{
@@ -341,7 +347,7 @@ static void playback_status_update_handler(mpris *inst)
 
 static void playlist_update_handler(mpris *inst)
 {
-	MpvObj *mpv = inst->gmpv_ctx->mpv;
+	MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
 	mpris_prop_val_pair *prop_list;
 	GVariant *can_prev_value;
 	GVariant *can_next_value;
@@ -387,7 +393,7 @@ static void speed_update_handler(mpris *inst)
 	GVariant *value;
 	mpris_prop_val_pair *prop_list;
 
-	mpv_obj_get_property(	inst->gmpv_ctx->mpv,
+	mpv_obj_get_property(	application_get_mpv_obj(inst->gmpv_ctx),
 				"speed",
 				MPV_FORMAT_DOUBLE,
 				&speed );
@@ -421,7 +427,8 @@ static void metadata_update_handler(mpris *inst)
 			{"Title", "xesam:title", FALSE},
 			{NULL, NULL, FALSE} };
 
-	MpvObj *mpv = inst->gmpv_ctx->mpv;
+	MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
+	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
 	mpris_prop_val_pair *prop_list;
 	GVariantBuilder builder;
 	GVariant *value;
@@ -524,7 +531,7 @@ static void metadata_update_handler(mpris *inst)
 			{{"Metadata", value}, {NULL, NULL}};
 
 	emit_prop_changed(inst, prop_list);
-	mpv_playback_restart_handler(inst->gmpv_ctx->gui, inst);
+	mpv_playback_restart_handler(wnd, inst);
 
 	g_free(playlist_pos_str);
 	g_free(trackid);
@@ -536,7 +543,7 @@ static void volume_update_handler(mpris *inst)
 	gdouble volume;
 	GVariant *value;
 
-	mpv_obj_get_property(	inst->gmpv_ctx->mpv,
+	mpv_obj_get_property(	application_get_mpv_obj(inst->gmpv_ctx),
 				"volume",
 				MPV_FORMAT_DOUBLE,
 				&volume );
@@ -556,7 +563,8 @@ static void volume_update_handler(mpris *inst)
 static void mpv_init_handler(MainWindow *wnd, gpointer data)
 {
 	mpris *inst = data;
-	mpv_handle *mpv_ctx = mpv_obj_get_mpv_handle(inst->gmpv_ctx->mpv);
+	MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
+	mpv_handle *mpv_ctx = mpv_obj_get_mpv_handle(mpv);
 
 	mpv_observe_property(mpv_ctx, 0, "idle", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
@@ -570,6 +578,7 @@ static void mpv_init_handler(MainWindow *wnd, gpointer data)
 static void mpv_playback_restart_handler(MainWindow *wnd, gpointer data)
 {
 	mpris *inst = data;
+	MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
 	GDBusInterfaceInfo *iface;
 	gdouble position;
 
@@ -578,14 +587,14 @@ static void mpv_playback_restart_handler(MainWindow *wnd, gpointer data)
 		position = inst->pending_seek;
 		inst->pending_seek = -1;
 
-		mpv_obj_set_property(	inst->gmpv_ctx->mpv,
+		mpv_obj_set_property(	mpv,
 					"time-pos",
 					MPV_FORMAT_DOUBLE,
 					&position );
 	}
 	else
 	{
-		mpv_obj_get_property(	inst->gmpv_ctx->mpv,
+		mpv_obj_get_property(	mpv,
 					"time-pos",
 					MPV_FORMAT_DOUBLE,
 					&position );
@@ -635,6 +644,7 @@ static void mpv_prop_change_handler(	MainWindow *wnd,
 
 void mpris_player_register(mpris *inst)
 {
+	MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
 	GDBusInterfaceInfo *iface;
 	GDBusInterfaceVTable vtable;
 
@@ -648,28 +658,24 @@ void mpris_player_register(mpris *inst)
 						g_variant_unref );
 
 	inst->player_sig_id_list = g_malloc(4*sizeof(gulong));
-
 	inst->player_sig_id_list[0]
-		= g_signal_connect(	inst->gmpv_ctx->mpv,
+		= g_signal_connect(	mpv,
 					"mpv-init",
 					G_CALLBACK(mpv_init_handler),
 					inst );
-
 	inst->player_sig_id_list[1]
-		= g_signal_connect(	inst->gmpv_ctx->mpv,
+		= g_signal_connect(	mpv,
 					"mpv-playback-restart",
 					G_CALLBACK(mpv_playback_restart_handler),
 					inst );
-
 	inst->player_sig_id_list[2]
-		= g_signal_connect(	inst->gmpv_ctx->mpv,
+		= g_signal_connect(	mpv,
 					"mpv-prop-change",
 					G_CALLBACK(mpv_prop_change_handler),
 					inst );
-
 	inst->player_sig_id_list[3] = 0;
 
-	mpv_init_handler(inst->gmpv_ctx->gui, inst);
+	mpv_init_handler(application_get_main_window(inst->gmpv_ctx), inst);
 	prop_table_init(inst);
 
 	vtable.method_call = (GDBusInterfaceMethodCallFunc)method_handler;
@@ -692,10 +698,11 @@ void mpris_player_unregister(mpris *inst)
 
 	if(current_sig_id)
 	{
+		MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
+
 		while(current_sig_id && *current_sig_id > 0)
 		{
-			g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
-							*current_sig_id );
+			g_signal_handler_disconnect(wnd, *current_sig_id);
 
 			current_sig_id++;
 		}

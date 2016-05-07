@@ -72,41 +72,36 @@ static void open_handler(	GSimpleAction *action,
 				gpointer data )
 {
 	Application *app = data;
-	GSettings *config = NULL;
-	GtkFileChooser *file_chooser;
-	GtkWidget *open_dialog;
-	gboolean last_folder_enable;
-	gboolean append;
+	MainWindow *wnd = NULL;
+	GSettings *main_config = NULL;
+	GSettings *win_config = NULL;
+	GtkFileChooser *file_chooser = NULL;
+	GtkWidget *open_dialog = NULL;
+	gboolean last_folder_enable = FALSE;
+	gboolean append = FALSE;
 
 	g_variant_get(param, "b", &append);
 
-	open_dialog
-		= gtk_file_chooser_dialog_new(	append?
-						_("Add File to Playlist"):
-						_("Open File"),
-						GTK_WINDOW(app->gui),
-						GTK_FILE_CHOOSER_ACTION_OPEN,
-						_("_Cancel"),
-						GTK_RESPONSE_CANCEL,
-						_("_Open"),
-						GTK_RESPONSE_ACCEPT,
-						NULL );
-
+	wnd = application_get_main_window(app);
+	open_dialog =	gtk_file_chooser_dialog_new
+			(	append?_("Add File to Playlist"):_("Open File"),
+				GTK_WINDOW(wnd),
+				GTK_FILE_CHOOSER_ACTION_OPEN,
+				_("_Cancel"), GTK_RESPONSE_CANCEL,
+				_("_Open"), GTK_RESPONSE_ACCEPT,
+				NULL );
+	main_config = g_settings_new(CONFIG_ROOT);
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
-
-	last_folder_enable
-		= g_settings_get_boolean( 	app->config,
-						"last-folder-enable" );
+	last_folder_enable =	g_settings_get_boolean
+				(main_config, "last-folder-enable");
 
 	if(last_folder_enable)
 	{
 		gchar *last_folder_uri;
 
-		config = g_settings_new(CONFIG_WIN_STATE);
-
-		last_folder_uri = g_settings_get_string
-					(config, "last-folder-uri");
-
+		win_config = g_settings_new(CONFIG_WIN_STATE);
+		last_folder_uri =	g_settings_get_string
+					(win_config, "last-folder-uri");
 
 		if(last_folder_uri && strlen(last_folder_uri) > 0)
 		{
@@ -138,7 +133,9 @@ static void open_handler(	GSimpleAction *action,
 
 		if(uri_slist)
 		{
-			mpv_obj_load_list(app->mpv, uri_list, append, TRUE);
+			MpvObj *mpv = application_get_mpv_obj(app);
+
+			mpv_obj_load_list(mpv, uri_list, append, TRUE);
 		}
 
 		if(last_folder_enable)
@@ -147,8 +144,9 @@ static void open_handler(	GSimpleAction *action,
 				= gtk_file_chooser_get_current_folder_uri
 					(file_chooser);
 
-			g_settings_set_string
-				(config, "last-folder-uri", last_folder_uri ?: "" );
+			g_settings_set_string(	win_config,
+						"last-folder-uri",
+						last_folder_uri?:"" );
 
 			g_free(last_folder_uri);
 		}
@@ -158,30 +156,30 @@ static void open_handler(	GSimpleAction *action,
 	}
 
 	gtk_widget_destroy(open_dialog);
-	g_clear_object(&config);
+	g_clear_object(&main_config);
+	g_clear_object(&win_config);
 }
 
 static void open_loc_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	Application *app = (Application*)data;
-	OpenLocDialog *open_loc_dialog;
+	Application *app = data;
+	MainWindow *wnd = application_get_main_window(app);
+	GtkWidget *dlg = open_loc_dialog_new(GTK_WINDOW(wnd));
 
-	open_loc_dialog
-		= OPEN_LOC_DIALOG(open_loc_dialog_new(GTK_WINDOW(app->gui)));
-
-	if(gtk_dialog_run(GTK_DIALOG(open_loc_dialog)) == GTK_RESPONSE_ACCEPT)
+	if(gtk_dialog_run(GTK_DIALOG(dlg)) == GTK_RESPONSE_ACCEPT)
 	{
 		const gchar *loc_str;
+		MpvObj *mpv = application_get_mpv_obj(app);
 
-		loc_str = open_loc_dialog_get_string(open_loc_dialog);
+		loc_str = open_loc_dialog_get_string(OPEN_LOC_DIALOG(dlg));
 
-		mpv_obj_set_property_flag(app->mpv, "pause", FALSE);
-		mpv_obj_load(app->mpv, loc_str, FALSE, TRUE);
+		mpv_obj_set_property_flag(mpv, "pause", FALSE);
+		mpv_obj_load(mpv, loc_str, FALSE, TRUE);
 	}
 
-	gtk_widget_destroy(GTK_WIDGET(open_loc_dialog));
+	gtk_widget_destroy(dlg);
 }
 
 static void loop_handler(	GSimpleAction *action,
@@ -189,11 +187,12 @@ static void loop_handler(	GSimpleAction *action,
 				gpointer data )
 {
 	Application *app = data;
+	MpvObj *mpv = application_get_mpv_obj(app);
 	gboolean loop = g_variant_get_boolean(value);
 
 	g_simple_action_set_state(action, value);
 
-	mpv_check_error(mpv_obj_set_property_string(	app->mpv,
+	mpv_check_error(mpv_obj_set_property_string(	mpv,
 							"loop",
 							loop?"inf":"no" ));
 }
@@ -203,7 +202,8 @@ static void show_shortcuts_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	Application *app = data;
-	GtkWidget *wnd = shortcuts_window_new(GTK_WINDOW(app->gui));
+	MainWindow *mwnd = application_get_main_window(app);
+	GtkWidget *wnd = shortcuts_window_new(GTK_WINDOW(mwnd));
 
 	gtk_widget_show_all(wnd);
 }
@@ -213,9 +213,10 @@ static void playlist_toggle_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	Application *app = data;
-	gboolean visible = gtk_widget_get_visible(app->gui->playlist);
+	MainWindow *wnd = application_get_main_window(app);
+	gboolean visible = gtk_widget_get_visible(wnd->playlist);
 
-	main_window_set_playlist_visible(app->gui, !visible);
+	main_window_set_playlist_visible(wnd, !visible);
 }
 
 static void playlist_save_handler(	GSimpleAction *action,
@@ -223,6 +224,8 @@ static void playlist_save_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	Application *app = data;
+	MpvObj *mpv;
+	MainWindow *wnd;
 	Playlist *playlist;
 	GtkTreeModel *model;
 	GFile *dest_file;
@@ -233,24 +236,22 @@ static void playlist_save_handler(	GSimpleAction *action,
 	GtkTreeIter iter;
 	gboolean rc;
 
-	playlist = mpv_obj_get_playlist(app->mpv);
+	mpv = application_get_mpv_obj(app);
+	wnd = application_get_main_window(app);
+	playlist = mpv_obj_get_playlist(mpv);
 	model = GTK_TREE_MODEL(playlist_get_store(playlist));
 	dest_file = NULL;
 	dest_stream = NULL;
+	save_dialog =	gtk_file_chooser_dialog_new
+			(	_("Save Playlist"),
+				GTK_WINDOW(wnd),
+				GTK_FILE_CHOOSER_ACTION_SAVE,
+				_("_Cancel"), GTK_RESPONSE_CANCEL,
+				_("_Save"), GTK_RESPONSE_ACCEPT,
+				NULL );
+	file_chooser = GTK_FILE_CHOOSER(save_dialog);
 	error = NULL;
 	rc = FALSE;
-
-	save_dialog
-		= gtk_file_chooser_dialog_new(	_("Save Playlist"),
-						GTK_WINDOW(app->gui),
-						GTK_FILE_CHOOSER_ACTION_SAVE,
-						_("_Cancel"),
-						GTK_RESPONSE_CANCEL,
-						_("_Save"),
-						GTK_RESPONSE_ACCEPT,
-						NULL );
-
-	file_chooser = GTK_FILE_CHOOSER(save_dialog);
 
 	gtk_file_chooser_set_do_overwrite_confirmation(file_chooser, TRUE);
 	gtk_file_chooser_set_current_name(file_chooser, "playlist.m3u");
@@ -318,7 +319,7 @@ static void playlist_remove_selected(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	MainWindow *wnd = APPLICATION(data)->gui;
+	MainWindow *wnd = application_get_main_window(APPLICATION(data));
 
 	if(main_window_get_playlist_visible(wnd))
 	{
@@ -331,29 +332,31 @@ static void pref_handler(	GSimpleAction *action,
 				gpointer data )
 {
 	Application *app = data;
+	MainWindow *wnd = application_get_main_window(app);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	PrefDialog *pref_dialog;
 	gboolean csd_enable_old;
 
 	csd_enable_old = g_settings_get_boolean(settings, "csd-enable");
-	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(app->gui)));
+	pref_dialog = PREF_DIALOG(pref_dialog_new(GTK_WINDOW(wnd)));
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
+		MpvObj *mpv;
 		gboolean csd_enable;
 		gboolean dark_theme_enable;
 
-		csd_enable = g_settings_get_boolean
-				(settings, "csd-enable");
-
-		dark_theme_enable = g_settings_get_boolean
+		mpv = application_get_mpv_obj(app);
+		csd_enable = g_settings_get_boolean(settings, "csd-enable");
+		dark_theme_enable =	g_settings_get_boolean
 					(settings, "dark-theme-enable");
 
 		if(csd_enable_old != csd_enable)
 		{
-			GtkWidget *dialog
-				= gtk_message_dialog_new
-					(	GTK_WINDOW(app->gui),
+			GtkWidget *dialog;
+
+			dialog =	gtk_message_dialog_new
+					(	GTK_WINDOW(wnd),
 						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_MESSAGE_INFO,
 						GTK_BUTTONS_OK,
@@ -367,13 +370,13 @@ static void pref_handler(	GSimpleAction *action,
 			gtk_widget_destroy(dialog);
 		}
 
-		g_object_set(	app->gui->settings,
+		g_object_set(	wnd->settings,
 				"gtk-application-prefer-dark-theme",
 				dark_theme_enable,
 				NULL );
 
-		mpv_obj_reset(app->mpv);
-		gtk_widget_queue_draw(GTK_WIDGET(app->gui));
+		mpv_obj_reset(mpv);
+		gtk_widget_queue_draw(GTK_WIDGET(wnd));
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(pref_dialog));
@@ -391,6 +394,7 @@ static void track_select_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	Application *app = data;
+	MpvObj *mpv;
 	gint64 id;
 	gchar *name;
 	const gchar *mpv_prop;
@@ -416,13 +420,15 @@ static void track_select_handler(	GSimpleAction *action,
 		g_assert_not_reached();
 	}
 
+	mpv = application_get_mpv_obj(app);
+
 	if(id >= 0)
 	{
-		mpv_obj_set_property(app->mpv, mpv_prop, MPV_FORMAT_INT64, &id);
+		mpv_obj_set_property(mpv, mpv_prop, MPV_FORMAT_INT64, &id);
 	}
 	else
 	{
-		mpv_obj_set_property_string(app->mpv, mpv_prop, "no");
+		mpv_obj_set_property_string(mpv, mpv_prop, "no");
 	}
 }
 
@@ -430,23 +436,22 @@ static void load_track_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	Application *app = (Application*)data;
+	Application *app = data;
+	MainWindow *wnd;
 	GtkFileChooser *file_chooser;
 	GtkWidget *open_dialog;
 	const gchar *cmd_name;
 
 	g_variant_get(param, "s", &cmd_name);
 
-	open_dialog
-		= gtk_file_chooser_dialog_new(	_("Load External…"),
-						GTK_WINDOW(app->gui),
-						GTK_FILE_CHOOSER_ACTION_OPEN,
-						_("_Cancel"),
-						GTK_RESPONSE_CANCEL,
-						_("_Open"),
-						GTK_RESPONSE_ACCEPT,
-						NULL );
-
+	wnd = application_get_main_window(app);
+	open_dialog =	gtk_file_chooser_dialog_new
+			(	_("Load External…"),
+				GTK_WINDOW(wnd),
+				GTK_FILE_CHOOSER_ACTION_OPEN,
+				_("_Cancel"), GTK_RESPONSE_CANCEL,
+				_("_Open"), GTK_RESPONSE_ACCEPT,
+				NULL );
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
 
 	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
@@ -454,6 +459,7 @@ static void load_track_handler(	GSimpleAction *action,
 	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		const gchar *cmd[] = {cmd_name, NULL, NULL};
+		MpvObj *mpv = application_get_mpv_obj(app);
 		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
 		GSList *uri = uri_list;
 
@@ -461,7 +467,7 @@ static void load_track_handler(	GSimpleAction *action,
 		{
 			cmd[1] = uri->data;
 
-			mpv_obj_command(app->mpv, cmd);
+			mpv_obj_command(mpv, cmd);
 
 			uri = g_slist_next(uri);
 		}
@@ -476,7 +482,7 @@ static void fullscreen_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	MainWindow *wnd = APPLICATION(data)->gui;
+	MainWindow *wnd = application_get_main_window(APPLICATION(data));
 	gchar *name;
 
 	g_object_get(action, "name", &name, NULL);
@@ -510,10 +516,11 @@ static void about_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	Application *app = (Application*)data;
+	Application *app = data;
+	MainWindow *wnd = application_get_main_window(app);
 	const gchar *authors[] = AUTHORS;
 
-	gtk_show_about_dialog(	GTK_WINDOW(app->gui),
+	gtk_show_about_dialog(	GTK_WINDOW(wnd),
 				"logo-icon-name",
 				ICON_NAME,
 				"version",

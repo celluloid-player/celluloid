@@ -75,10 +75,12 @@ gboolean quit(gpointer data)
 {
 	const gchar *cmd[] = {"quit", NULL};
 	Application *app = data;
+	MpvObj *mpv = application_get_mpv_obj(app);
+	MainWindow *wnd = application_get_main_window(app);
 
-	if(mpv_obj_get_mpv_handle(app->mpv))
+	if(mpv_obj_get_mpv_handle(mpv))
 	{
-		VideoArea *vid_area = VIDEO_AREA(app->gui->vid_area);
+		VideoArea *vid_area = VIDEO_AREA(wnd->vid_area);
 		GtkGLArea *gl_area = video_area_get_gl_area(vid_area);
 
 		if(gtk_widget_get_realized(GTK_WIDGET(gl_area)))
@@ -87,13 +89,13 @@ gboolean quit(gpointer data)
 			gtk_gl_area_make_current(GTK_GL_AREA(gl_area));
 		}
 
-		mpv_obj_command(app->mpv, cmd);
-		mpv_obj_quit(app->mpv);
+		mpv_obj_command(mpv, cmd);
+		mpv_obj_quit(mpv);
 	}
 
-	if(!app->gui->fullscreen)
+	if(!wnd->fullscreen)
 	{
-		main_window_save_state(app->gui);
+		main_window_save_state(wnd);
 	}
 
 	g_application_quit(G_APPLICATION(app));
@@ -138,13 +140,14 @@ void activate_action_string(Application *app, const gchar *str)
 gboolean update_seek_bar(gpointer data)
 {
 	Application *app = data;
-	mpv_handle *mpv_ctx = mpv_obj_get_mpv_handle(app->mpv);
+	MpvObj *mpv = application_get_mpv_obj(app);
+	mpv_handle *mpv_ctx = mpv_obj_get_mpv_handle(mpv);
 	gdouble time_pos = -1;
 	gint rc = -1;
 
 	if(mpv_ctx)
 	{
-		rc = mpv_obj_get_property(	app->mpv,
+		rc = mpv_obj_get_property(	mpv,
 						"time-pos",
 						MPV_FORMAT_DOUBLE,
 						&time_pos );
@@ -152,8 +155,10 @@ gboolean update_seek_bar(gpointer data)
 
 	if(rc >= 0)
 	{
+		MainWindow *wnd = application_get_main_window(app);
+
 		control_box_set_seek_bar_pos
-			(CONTROL_BOX(app->gui->control_box), time_pos);
+			(CONTROL_BOX(wnd->control_box), time_pos);
 	}
 
 	return !!mpv_ctx;
@@ -162,10 +167,11 @@ gboolean update_seek_bar(gpointer data)
 void seek(Application *app, gdouble time)
 {
 	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
+	MpvObj *mpv = application_get_mpv_obj(app);
 
-	if(!mpv_obj_is_loaded(app->mpv))
+	if(!mpv_obj_is_loaded(mpv))
 	{
-		mpv_obj_load(app->mpv, NULL, FALSE, TRUE);
+		mpv_obj_load(mpv, NULL, FALSE, TRUE);
 	}
 	else
 	{
@@ -173,7 +179,7 @@ void seek(Application *app, gdouble time)
 
 		cmd[1] = value_str;
 
-		mpv_obj_command(app->mpv, cmd);
+		mpv_obj_command(mpv, cmd);
 		update_seek_bar(app);
 
 		g_free(value_str);
@@ -183,20 +189,20 @@ void seek(Application *app, gdouble time)
 
 void show_error_dialog(Application *app, const gchar *prefix, const gchar *msg)
 {
+	MainWindow *wnd;
 	GtkWidget *dialog;
 	GtkWidget *msg_area;
 	GList *iter;
 
-	dialog = gtk_message_dialog_new
-			(	GTK_WINDOW(app->gui),
+	wnd = application_get_main_window(app);
+	dialog =	gtk_message_dialog_new
+			(	GTK_WINDOW(wnd),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_ERROR,
 				GTK_BUTTONS_OK,
 				_("Error") );
-
-	msg_area = gtk_message_dialog_get_message_area
+	msg_area =	gtk_message_dialog_get_message_area
 			(GTK_MESSAGE_DIALOG(dialog));
-
 	iter = gtk_container_get_children(GTK_CONTAINER(msg_area));
 
 	while(iter)
@@ -240,18 +246,18 @@ void show_error_dialog(Application *app, const gchar *prefix, const gchar *msg)
 
 void resize_window_to_fit(Application *app, gdouble multiplier)
 {
-	gchar *video = mpv_obj_get_property_string(app->mpv, "video");
+	MpvObj *mpv = application_get_mpv_obj(app);
+	gchar *video = mpv_obj_get_property_string(mpv, "video");
 	gint64 width;
 	gint64 height;
 	gint mpv_width_rc;
 	gint mpv_height_rc;
 
-	mpv_width_rc = mpv_obj_get_property(	app->mpv,
+	mpv_width_rc = mpv_obj_get_property(	mpv,
 						"dwidth",
 						MPV_FORMAT_INT64,
 						&width );
-
-	mpv_height_rc = mpv_obj_get_property(	app->mpv,
+	mpv_height_rc = mpv_obj_get_property(	mpv,
 						"dheight",
 						MPV_FORMAT_INT64,
 						&height );
@@ -261,15 +267,17 @@ void resize_window_to_fit(Application *app, gdouble multiplier)
 	&& mpv_width_rc >= 0
 	&& mpv_height_rc >= 0)
 	{
+		MainWindow *wnd;
 		gint new_width;
 		gint new_height;
 
+		wnd = application_get_main_window(app);
 		new_width = (gint)(multiplier*(gdouble)width);
 		new_height = (gint)(multiplier*(gdouble)height);
 
 		g_debug("Resizing window to %dx%d", new_width, new_height);
 
-		main_window_resize_video_area(app->gui, new_width, new_height);
+		main_window_resize_video_area(wnd, new_width, new_height);
 	}
 
 	mpv_free(video);

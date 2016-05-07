@@ -62,9 +62,9 @@ static gboolean delete_handler(	GtkWidget *widget,
 				gpointer data )
 {
 	mpris *inst = data;
+	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
 
-	g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
-					inst->shutdown_sig_id );
+	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
 
 	unregister(inst);
 	g_bus_unown_name(inst->name_id);
@@ -155,7 +155,7 @@ void mpris_init(Application *gmpv_ctx)
 	inst->session_bus_conn = NULL;
 
 	inst->shutdown_sig_id
-		= g_signal_connect(	inst->gmpv_ctx->gui,
+		= g_signal_connect(	application_get_main_window(gmpv_ctx),
 					"delete-event",
 					G_CALLBACK(delete_handler),
 					inst );

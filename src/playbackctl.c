@@ -37,11 +37,12 @@ static void fullscreen_handler(GtkWidget *button, gpointer data);
 static void play_handler(GtkWidget *widget, gpointer data)
 {
 	Application *app = data;
+	MpvObj *mpv = application_get_mpv_obj(app);
 
 	mpv_obj_set_property_flag
-		(	app->mpv,
+		(	mpv,
 			"pause",
-			!mpv_obj_get_property_flag(app->mpv, "pause") );
+			!mpv_obj_get_property_flag(mpv, "pause") );
 }
 
 static void stop_handler(GtkWidget *widget, gpointer data)
@@ -49,7 +50,7 @@ static void stop_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"stop", NULL};
 
-	mpv_obj_command(app->mpv, cmd);
+	mpv_obj_command(application_get_mpv_obj(app), cmd);
 }
 
 static void seek_handler(GtkWidget *widget, gdouble value, gpointer data)
@@ -62,7 +63,7 @@ static void forward_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"seek", "10", NULL};
 
-	mpv_obj_command(app->mpv, cmd);
+	mpv_obj_command(application_get_mpv_obj(app), cmd);
 }
 
 static void rewind_handler(GtkWidget *widget, gpointer data)
@@ -70,7 +71,7 @@ static void rewind_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"seek", "-10", NULL};
 
-	mpv_obj_command(app->mpv, cmd);
+	mpv_obj_command(application_get_mpv_obj(app), cmd);
 }
 
 static void chapter_previous_handler(GtkWidget *widget, gpointer data)
@@ -78,7 +79,7 @@ static void chapter_previous_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
-	mpv_obj_command(app->mpv, cmd);
+	mpv_obj_command(application_get_mpv_obj(app), cmd);
 }
 
 static void chapter_next_handler(GtkWidget *widget, gpointer data)
@@ -86,26 +87,29 @@ static void chapter_next_handler(GtkWidget *widget, gpointer data)
 	Application *app = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
-	mpv_obj_command(app->mpv, cmd);
+	mpv_obj_command(application_get_mpv_obj(app), cmd);
 }
 
 static void volume_handler(GtkWidget *widget, gdouble value, gpointer data)
 {
-	Application *app = data;
+	MpvObj *mpv = application_get_mpv_obj(APPLICATION(data));
 
 	value *= 100;
 
-	mpv_obj_set_property(app->mpv, "volume", MPV_FORMAT_DOUBLE, &value);
+	mpv_obj_set_property(mpv, "volume", MPV_FORMAT_DOUBLE, &value);
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)
 {
-	main_window_toggle_fullscreen(APPLICATION(data)->gui);
+	MainWindow *wnd = application_get_main_window(APPLICATION(data));
+
+	main_window_toggle_fullscreen(wnd);
 }
 
 void playbackctl_connect_signals(Application *app)
 {
-	ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
+	MainWindow *wnd = application_get_main_window(app);
+	ControlBox *control_box = CONTROL_BOX(wnd->control_box);
 
 	const struct
 	{

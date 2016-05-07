@@ -88,7 +88,9 @@ static void method_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(method_name, "Raise") == 0)
 	{
-		gtk_window_present(GTK_WINDOW(inst->gmpv_ctx->gui));
+		MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
+
+		gtk_window_present(GTK_WINDOW(wnd));
 	}
 	else if(g_strcmp0(method_name, "Quit") == 0)
 	{
@@ -126,11 +128,12 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					gpointer data )
 {
 	mpris *inst = data;
+	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
 
 	if(g_strcmp0(property_name, "Fullscreen") == 0
-	&& g_variant_get_boolean(value) != inst->gmpv_ctx->gui->fullscreen)
+	&& g_variant_get_boolean(value) != wnd->fullscreen)
 	{
-		main_window_toggle_fullscreen(inst->gmpv_ctx->gui);
+		main_window_toggle_fullscreen(wnd);
 	}
 	else
 	{
@@ -147,6 +150,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 					gpointer data )
 {
 	mpris *inst = data;
+	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
 	GdkEventWindowState *window_state_event = (GdkEventWindowState *)event;
 
 	if(window_state_event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
@@ -156,7 +160,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 		mpris_prop_val_pair *prop_list;
 
 		iface = mpris_org_mpris_media_player2_interface_info();
-		value = g_variant_new_boolean(inst->gmpv_ctx->gui->fullscreen);
+		value = g_variant_new_boolean(wnd->fullscreen);
 
 		g_hash_table_replace(	inst->base_prop_table,
 					g_strdup("Fullscreen"),
@@ -188,26 +192,25 @@ static GVariant *get_supported_mime_types(void)
 
 void mpris_base_register(mpris *inst)
 {
+	MainWindow *wnd;
 	GDBusInterfaceVTable vtable;
 	GDBusInterfaceInfo *iface;
 
+	wnd = application_get_main_window(inst->gmpv_ctx);
 	iface = mpris_org_mpris_media_player2_interface_info();
 
-	inst->base_prop_table = g_hash_table_new_full
-					(	g_str_hash,
-						g_str_equal,
-						NULL,
-						(GDestroyNotify)
-						g_variant_unref );
-
+	inst->base_prop_table =	g_hash_table_new_full
+				(	g_str_hash,
+					g_str_equal,
+					NULL,
+					(GDestroyNotify)g_variant_unref );
 	inst->base_sig_id_list = g_malloc(2*sizeof(gulong));
 
-	inst->base_sig_id_list[0]
-		= g_signal_connect(	inst->gmpv_ctx->gui,
-					"window-state-event",
-					G_CALLBACK(window_state_handler),
-					inst );
-
+	inst->base_sig_id_list[0] =	g_signal_connect
+					(	wnd,
+						"window-state-event",
+						G_CALLBACK(window_state_handler),
+						inst );
 	inst->base_sig_id_list[1] = 0;
 
 	prop_table_init(inst);
@@ -216,15 +219,14 @@ void mpris_base_register(mpris *inst)
 	vtable.get_property = (GDBusInterfaceGetPropertyFunc)get_prop_handler;
 	vtable.set_property = (GDBusInterfaceSetPropertyFunc)set_prop_handler;
 
-	inst->base_reg_id
-		= g_dbus_connection_register_object
-			(	inst->session_bus_conn,
-				MPRIS_OBJ_ROOT_PATH,
-				iface,
-				&vtable,
-				inst,
-				NULL,
-				NULL );
+	inst->base_reg_id =	g_dbus_connection_register_object
+				(	inst->session_bus_conn,
+					MPRIS_OBJ_ROOT_PATH,
+					iface,
+					&vtable,
+					inst,
+					NULL,
+					NULL );
 }
 
 void mpris_base_unregister(mpris *inst)
@@ -235,8 +237,10 @@ void mpris_base_unregister(mpris *inst)
 	{
 		while(current_sig_id && *current_sig_id > 0)
 		{
-			g_signal_handler_disconnect(	inst->gmpv_ctx->gui,
-							*current_sig_id );
+			MainWindow *wnd;
+
+			wnd = application_get_main_window(inst->gmpv_ctx);
+			g_signal_handler_disconnect(wnd, *current_sig_id);
 
 			current_sig_id++;
 		}

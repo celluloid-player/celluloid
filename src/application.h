@@ -44,29 +44,13 @@ G_BEGIN_DECLS
 #define	IS_APPLICATION_CLASS(klass) \
 	(G_TYPE_CHECK_CLASS_TYPE((klass), APPLICATION_TYPE))
 
-struct _Application
-{
-	GtkApplication parent;
-	MpvObj *mpv;
-	gchar **files;
-	guint inhibit_cookie;
-	gint64 target_playlist_pos;
-	GSettings *config;
-	MainWindow *gui;
-	GtkWidget *fs_control;
-	Playlist *playlist_store;
-};
-
-struct _ApplicationClass
-{
-	GtkApplicationClass parent_class;
-};
-
 typedef struct _Application Application;
 typedef struct _ApplicationClass ApplicationClass;
 
 GType application_get_type(void);
 Application *application_new(gchar *id, GApplicationFlags flags);
+MainWindow *application_get_main_window(Application *app);
+MpvObj *application_get_mpv_obj(Application *app);
 
 G_END_DECLS
 

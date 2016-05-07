@@ -48,6 +48,24 @@
 #include "mpris/mpris.h"
 #include "media_keys/media_keys.h"
 
+struct _Application
+{
+	GtkApplication parent;
+	MpvObj *mpv;
+	gchar **files;
+	guint inhibit_cookie;
+	gint64 target_playlist_pos;
+	GSettings *config;
+	MainWindow *gui;
+	GtkWidget *fs_control;
+	Playlist *playlist_store;
+};
+
+struct _ApplicationClass
+{
+	GtkApplicationClass parent_class;
+};
+
 static void *get_proc_address(void *fn_ctx, const gchar *name);
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
@@ -1066,6 +1084,16 @@ static void application_init(Application *app)
 	g_signal_connect(app, "startup", G_CALLBACK(startup_handler), app);
 	g_signal_connect(app, "activate", G_CALLBACK(activate_handler), app);
 	g_signal_connect(app, "open", G_CALLBACK(open_handler), app);
+}
+
+MainWindow *application_get_main_window(Application *app)
+{
+	return app->gui;
+}
+
+MpvObj *application_get_mpv_obj(Application *app)
+{
+	return app->mpv;
 }
 
 Application *application_new(gchar *id, GApplicationFlags flags)
