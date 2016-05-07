@@ -109,7 +109,7 @@ static void fullscreen_handler(GtkWidget *widget, gpointer data)
 void playbackctl_connect_signals(Application *app)
 {
 	MainWindow *wnd = application_get_main_window(app);
-	ControlBox *control_box = CONTROL_BOX(wnd->control_box);
+	ControlBox *control_box = main_window_get_control_box(wnd);
 
 	const struct
 	{

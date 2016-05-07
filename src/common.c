@@ -80,7 +80,7 @@ gboolean quit(gpointer data)
 
 	if(mpv_obj_get_mpv_handle(mpv))
 	{
-		VideoArea *vid_area = VIDEO_AREA(wnd->vid_area);
+		VideoArea *vid_area = main_window_get_video_area(wnd);
 		GtkGLArea *gl_area = video_area_get_gl_area(vid_area);
 
 		if(gtk_widget_get_realized(GTK_WIDGET(gl_area)))
@@ -93,7 +93,7 @@ gboolean quit(gpointer data)
 		mpv_obj_quit(mpv);
 	}
 
-	if(!wnd->fullscreen)
+	if(!main_window_get_fullscreen(wnd))
 	{
 		main_window_save_state(wnd);
 	}
@@ -156,9 +156,9 @@ gboolean update_seek_bar(gpointer data)
 	if(rc >= 0)
 	{
 		MainWindow *wnd = application_get_main_window(app);
+		ControlBox *control_box = main_window_get_control_box(wnd);
 
-		control_box_set_seek_bar_pos
-			(CONTROL_BOX(wnd->control_box), time_pos);
+		control_box_set_seek_bar_pos(control_box, time_pos);
 	}
 
 	return !!mpv_ctx;

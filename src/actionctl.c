@@ -214,7 +214,7 @@ static void playlist_toggle_handler(	GSimpleAction *action,
 {
 	Application *app = data;
 	MainWindow *wnd = application_get_main_window(app);
-	gboolean visible = gtk_widget_get_visible(wnd->playlist);
+	gboolean visible = main_window_get_playlist_visible(wnd);
 
 	main_window_set_playlist_visible(wnd, !visible);
 }
@@ -323,7 +323,9 @@ static void playlist_remove_selected(	GSimpleAction *action,
 
 	if(main_window_get_playlist_visible(wnd))
 	{
-		playlist_widget_remove_selected(PLAYLIST_WIDGET(wnd->playlist));
+		PlaylistWidget *playlist = main_window_get_playlist(wnd);
+
+		playlist_widget_remove_selected(playlist);
 	}
 }
 
@@ -370,7 +372,7 @@ static void pref_handler(	GSimpleAction *action,
 			gtk_widget_destroy(dialog);
 		}
 
-		g_object_set(	wnd->settings,
+		g_object_set(	gtk_settings_get_default(),
 				"gtk-application-prefer-dark-theme",
 				dark_theme_enable,
 				NULL );

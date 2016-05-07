@@ -181,6 +181,7 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 static void startup_handler(GApplication *gapp, gpointer data)
 {
 	Application *app = data;
+	ControlBox *control_box;
 	const gchar *vid_area_style = ".gmpv-vid-area{background-color: black}";
 	GtkCssProvider *style_provider;
 	gboolean css_loaded;
@@ -205,6 +206,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	app->gui = MAIN_WINDOW(main_window_new(app, app->playlist_store));
 	app->fs_control = NULL;
 
+	control_box = main_window_get_control_box(app->gui);
 	style_provider = gtk_css_provider_new();
 	css_loaded = gtk_css_provider_load_from_data
 			(style_provider, vid_area_style, -1, NULL);
@@ -256,30 +258,26 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	if(csd_enable)
 	{
-		control_box_set_fullscreen_btn_visible
-			(CONTROL_BOX(app->gui->control_box), FALSE);
+		control_box_set_fullscreen_btn_visible(control_box, FALSE);
 	}
 
-	control_box_set_chapter_enabled
-		(CONTROL_BOX(app->gui->control_box), FALSE);
+	control_box_set_chapter_enabled(control_box, FALSE);
 
-	wid = video_area_get_xid(VIDEO_AREA(app->gui->vid_area));
+	wid = video_area_get_xid(main_window_get_video_area(app->gui));
 	app->mpv = mpv_obj_new(app->playlist_store, wid);
 
 	if(csd_enable)
 	{
-		control_box_set_fullscreen_btn_visible
-			(CONTROL_BOX(app->gui->control_box), FALSE);
+		control_box_set_fullscreen_btn_visible(control_box, FALSE);
 	}
 
-	control_box_set_chapter_enabled
-		(CONTROL_BOX(app->gui->control_box), FALSE);
+	control_box_set_chapter_enabled(control_box, FALSE);
 
 	connect_signals(app);
 	mpris_init(app);
 	media_keys_init(app);
 
-	g_object_set(	app->gui->settings,
+	g_object_set(	gtk_settings_get_default(),
 			"gtk-application-prefer-dark-theme",
 			dark_theme_enable,
 			NULL );
@@ -300,7 +298,7 @@ static void mpv_init_handler(MpvObj *mpv, gpointer data)
 {
 	Application *app = data;
 	gchar *current_vo = mpv_obj_get_property_string(mpv, "current-vo");
-	VideoArea *vid_area = VIDEO_AREA(app->gui->vid_area);
+	VideoArea *vid_area = main_window_get_video_area(app->gui);
 
 	video_area_set_use_opengl(vid_area, !current_vo);
 
@@ -391,8 +389,9 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 
 	if(!app->files)
 	{
-		control_box_set_enabled
-			(CONTROL_BOX(app->gui->control_box), FALSE);
+		ControlBox *control_box = main_window_get_control_box(app->gui);
+
+		control_box_set_enabled(control_box, FALSE);
 	}
 
 	return FALSE;
@@ -434,8 +433,9 @@ static void playlist_row_deleted_handler(	PlaylistWidget *playlist,
 
 	if(playlist_empty(app->playlist_store))
 	{
-		control_box_set_enabled
-			(CONTROL_BOX(app->gui->control_box), FALSE);
+		ControlBox *control_box = main_window_get_control_box(app->gui);
+
+		control_box_set_enabled(control_box, FALSE);
 	}
 }
 
@@ -572,7 +572,7 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 {
 	Application *app = data;
 	MpvObj *mpv = app->mpv;
-	ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
+	ControlBox *control_box = main_window_get_control_box(app->gui);
 	MpvObjState state;
 
 	mpv_obj_get_state(mpv, &state);
@@ -658,7 +658,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	}
 	else if(event->event_id == MPV_EVENT_FILE_LOADED)
 	{
-		ControlBox *control_box = CONTROL_BOX(app->gui->control_box);
+		ControlBox *control_box = main_window_get_control_box(app->gui);
 		Playlist *playlist = mpv_obj_get_playlist(mpv);
 		gint64 aid = -1;
 		gint64 pos = -1;
@@ -917,8 +917,9 @@ static gboolean queue_render(GtkGLArea *area)
 
 static void opengl_cb_update_callback(void *cb_ctx)
 {
+	Application *app = cb_ctx;
 	GtkGLArea *area =	video_area_get_gl_area
-				(VIDEO_AREA(APPLICATION(cb_ctx)->gui->vid_area));
+				(main_window_get_video_area(app->gui));
 
 	g_idle_add_full(	G_PRIORITY_HIGH,
 				(GSourceFunc)queue_render,
@@ -994,7 +995,8 @@ static gboolean load_files(Application *app, const gchar **files)
 
 static void connect_signals(Application *app)
 {
-	PlaylistWidget *playlist = PLAYLIST_WIDGET(app->gui->playlist);
+	PlaylistWidget *playlist = main_window_get_playlist(app->gui);
+	VideoArea *video_area = main_window_get_video_area(app->gui);
 
 	playbackctl_connect_signals(app);
 
@@ -1006,11 +1008,11 @@ static void connect_signals(Application *app)
 				"mpv-init",
 				G_CALLBACK(mpv_init_handler),
 				app );
-	g_signal_connect(	app->gui->vid_area,
+	g_signal_connect(	video_area,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
 				app );
-	g_signal_connect(	app->gui->playlist,
+	g_signal_connect(	playlist,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
 				app );
@@ -1026,7 +1028,7 @@ static void connect_signals(Application *app)
 				"key-release-event",
 				G_CALLBACK(key_release_handler),
 				app );
-	g_signal_connect(	app->gui->vid_area,
+	g_signal_connect(	video_area,
 				"button-press-event",
 				G_CALLBACK(mouse_press_handler),
 				app );

@@ -39,13 +39,33 @@ enum
 	N_PROPERTIES
 };
 
-struct _MainWindowPrivate
+struct _MainWindow
 {
-	Playlist *playlist;
-	gboolean playlist_first_toggle;
+	GtkApplicationWindow parent_instance;
+	Playlist *playlist_store;
 	gint width_offset;
 	gint height_offset;
 	gint resize_target[2];
+	gboolean fullscreen;
+	gboolean playlist_visible;
+	gboolean playlist_first_toggle;
+	gboolean pre_fs_playlist_visible;
+	gint playlist_width;
+	guint timeout_tag;
+	GtkWidget *header_bar;
+	GtkWidget *open_hdr_btn;
+	GtkWidget *fullscreen_hdr_btn;
+	GtkWidget *menu_hdr_btn;
+	GtkWidget *main_box;
+	GtkWidget *vid_area_paned;
+	GtkWidget *vid_area;
+	GtkWidget *control_box;
+	GtkWidget *playlist;
+};
+
+struct _MainWindowClass
+{
+	GtkApplicationWindowClass parent_class;
 };
 
 static void main_window_set_property(	GObject *object,
@@ -61,13 +81,13 @@ static void size_allocate_handler(	GtkWidget *widget,
 					gpointer data );
 static gboolean resize_to_target(gpointer data);
 
-G_DEFINE_TYPE_WITH_PRIVATE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
+G_DEFINE_TYPE(MainWindow, main_window, GTK_TYPE_APPLICATION_WINDOW)
 
 static void main_window_constructed(GObject *object)
 {
 	MainWindow *self = MAIN_WINDOW(object);
 
-	self->playlist = playlist_widget_new(self->priv->playlist);
+	self->playlist = playlist_widget_new(self->playlist_store);
 
 	gtk_widget_show_all(self->playlist);
 	gtk_widget_hide(self->playlist);
@@ -94,7 +114,7 @@ static void main_window_set_property(	GObject *object,
 
 	if(property_id == PROP_PLAYLIST)
 	{
-		self->priv->playlist = g_value_get_pointer(value);
+		self->playlist_store = g_value_get_pointer(value);
 
 	}
 	else
@@ -112,7 +132,7 @@ static void main_window_get_property(	GObject *object,
 
 	if(property_id == PROP_PLAYLIST)
 	{
-		g_value_set_pointer(value, self->priv->playlist);
+		g_value_set_pointer(value, self->playlist_store);
 	}
 	else
 	{
@@ -130,8 +150,8 @@ static void size_allocate_handler(	GtkWidget *widget,
 	gint screen_height = gdk_screen_get_height(screen);
 	gint width = allocation->width;
 	gint height = allocation->height;
-	gint target_width = wnd->priv->resize_target[0];
-	gint target_height = wnd->priv->resize_target[1];
+	gint target_width = wnd->resize_target[0];
+	gint target_height = wnd->resize_target[1];
 
 	g_signal_handlers_disconnect_by_func
 		(widget, size_allocate_handler, data);
@@ -142,8 +162,8 @@ static void size_allocate_handler(	GtkWidget *widget,
 	&& !gtk_window_is_maximized(GTK_WINDOW(wnd))
 	&& !wnd->fullscreen)
 	{
-		wnd->priv->width_offset += target_width-width;
-		wnd->priv->height_offset += target_height-height;
+		wnd->width_offset += target_width-width;
+		wnd->height_offset += target_height-height;
 
 		g_idle_add(resize_to_target, wnd);
 	}
@@ -152,12 +172,12 @@ static void size_allocate_handler(	GtkWidget *widget,
 static gboolean resize_to_target(gpointer data)
 {
 	MainWindow *wnd = data;
-	gint target_width = wnd->priv->resize_target[0];
-	gint target_height = wnd->priv->resize_target[1];
+	gint target_width = wnd->resize_target[0];
+	gint target_height = wnd->resize_target[1];
 
 	gtk_window_resize(	GTK_WINDOW(wnd),
-				target_width+wnd->priv->width_offset,
-				target_height+wnd->priv->height_offset );
+				target_width+wnd->width_offset,
+				target_height+wnd->height_offset );
 
 	return FALSE;
 }
@@ -182,13 +202,11 @@ static void main_window_class_init(MainWindowClass *klass)
 
 static void main_window_init(MainWindow *wnd)
 {
-	wnd->priv = main_window_get_instance_private(wnd);
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
 	wnd->pre_fs_playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
-	wnd->settings = gtk_settings_get_default();
 	wnd->header_bar = gtk_header_bar_new();
 	wnd->open_hdr_btn = NULL;
 	wnd->fullscreen_hdr_btn = NULL;
@@ -198,9 +216,9 @@ static void main_window_init(MainWindow *wnd)
 	wnd->vid_area = video_area_new();
 	wnd->control_box = control_box_new();
 
-	wnd->priv->playlist_first_toggle = TRUE;
-	wnd->priv->width_offset = 0;
-	wnd->priv->height_offset = 0;
+	wnd->playlist_first_toggle = TRUE;
+	wnd->width_offset = 0;
+	wnd->height_offset = 0;
 
 	gtk_widget_add_events(	wnd->vid_area,
 				GDK_ENTER_NOTIFY_MASK
@@ -231,6 +249,21 @@ GtkWidget *main_window_new(Application *app, Playlist *playlist)
 					"application", app,
 					"playlist", playlist,
 					NULL ));
+}
+
+PlaylistWidget *main_window_get_playlist(MainWindow *wnd)
+{
+	return PLAYLIST_WIDGET(wnd->playlist);
+}
+
+ControlBox *main_window_get_control_box(MainWindow *wnd)
+{
+	return CONTROL_BOX(wnd->control_box);
+}
+
+VideoArea *main_window_get_video_area(MainWindow *wnd)
+{
+	return VIDEO_AREA(wnd->vid_area);
 }
 
 void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
@@ -316,6 +349,11 @@ void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen)
 
 		wnd->fullscreen = fullscreen;
 	}
+}
+
+gboolean main_window_get_fullscreen(MainWindow *wnd)
+{
+	return wnd->fullscreen;
 }
 
 void main_window_toggle_fullscreen(MainWindow *wnd)
@@ -440,8 +478,8 @@ void main_window_resize_video_area(	MainWindow *wnd,
 				G_CALLBACK(size_allocate_handler),
 				wnd );
 
-	wnd->priv->resize_target[0] = width;
-	wnd->priv->resize_target[1] = height;
+	wnd->resize_target[0] = width;
+	wnd->resize_target[1] = height;
 	resize_to_target(wnd);
 
 	/* The size may not change, so this is needed to ensure that
@@ -544,7 +582,7 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 
 		gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
-		if(wnd->priv->playlist_first_toggle && visible)
+		if(wnd->playlist_first_toggle && visible)
 		{
 			gint new_pos = width-(maximized?wnd->playlist_width:0);
 
@@ -569,7 +607,7 @@ void main_window_set_playlist_visible(MainWindow *wnd, gboolean visible)
 						height );
 		}
 
-		wnd->priv->playlist_first_toggle = FALSE;
+		wnd->playlist_first_toggle = FALSE;
 	}
 }
 

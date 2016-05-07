@@ -131,7 +131,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
 
 	if(g_strcmp0(property_name, "Fullscreen") == 0
-	&& g_variant_get_boolean(value) != wnd->fullscreen)
+	&& g_variant_get_boolean(value) != main_window_get_fullscreen(wnd))
 	{
 		main_window_toggle_fullscreen(wnd);
 	}
@@ -160,7 +160,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 		mpris_prop_val_pair *prop_list;
 
 		iface = mpris_org_mpris_media_player2_interface_info();
-		value = g_variant_new_boolean(wnd->fullscreen);
+		value = g_variant_new_boolean(main_window_get_fullscreen(wnd));
 
 		g_hash_table_replace(	inst->base_prop_table,
 					g_strdup("Fullscreen"),

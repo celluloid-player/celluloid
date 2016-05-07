@@ -23,6 +23,9 @@
 #include <gtk/gtk.h>
 
 #include "playlist.h"
+#include "playlist_widget.h"
+#include "control_box.h"
+#include "video_area.h"
 
 G_BEGIN_DECLS
 
@@ -45,35 +48,13 @@ typedef struct _MainWindowClass MainWindowClass;
 typedef struct _MainWindowPrivate MainWindowPrivate;
 typedef struct _Application Application;
 
-struct _MainWindow
-{
-	GtkApplicationWindow parent_instance;
-	MainWindowPrivate *priv;
-	gboolean fullscreen;
-	gboolean playlist_visible;
-	gboolean pre_fs_playlist_visible;
-	gint playlist_width;
-	guint timeout_tag;
-	GtkSettings* settings;
-	GtkWidget *header_bar;
-	GtkWidget *open_hdr_btn;
-	GtkWidget *fullscreen_hdr_btn;
-	GtkWidget *menu_hdr_btn;
-	GtkWidget *main_box;
-	GtkWidget *vid_area_paned;
-	GtkWidget *vid_area;
-	GtkWidget *control_box;
-	GtkWidget *playlist;
-};
-
-struct _MainWindowClass
-{
-	GtkApplicationWindowClass parent_class;
-};
-
 GtkWidget *main_window_new(Application *app, Playlist *playlist);
 GType main_window_get_type(void);
+PlaylistWidget *main_window_get_playlist(MainWindow *wnd);
+ControlBox *main_window_get_control_box(MainWindow *wnd);
+VideoArea *main_window_get_video_area(MainWindow *wnd);
 void main_window_set_fullscreen(MainWindow *wnd, gboolean fullscreen);
+gboolean main_window_get_fullscreen(MainWindow *wnd);
 void main_window_toggle_fullscreen(MainWindow *wnd);
 void main_window_reset(MainWindow *wnd);
 void main_window_save_state(MainWindow *wnd);
