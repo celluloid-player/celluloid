@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2014 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,21 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef OPEN_LOC_DIALOG_H
+#define OPEN_LOC_DIALOG_H
 
-#include "gmpv_common.h"
+#include <gtk/gtk.h>
 
-typedef struct media_keys media_keys;
+G_BEGIN_DECLS
 
-struct media_keys
-{
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
-};
+#define GMPV_TYPE_OPEN_LOC_DIALOG (gmpv_open_loc_dialog_get_type ())
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+G_DECLARE_FINAL_TYPE(GmpvOpenLocDialog, gmpv_open_loc_dialog, GMPV, OPEN_LOC_DIALOG, GtkDialog)
+
+GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent);
+const gchar *gmpv_open_loc_dialog_get_string(GmpvOpenLocDialog *dlg);
+guint64 gmpv_open_loc_dialog_get_string_length(GmpvOpenLocDialog *dlg);
+
+G_END_DECLS
 
 #endif

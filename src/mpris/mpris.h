@@ -20,14 +20,14 @@
 #ifndef MPRIS_H
 #define MPRIS_H
 
-#include "common.h"
+#include "gmpv_common.h"
 
 typedef struct mpris mpris;
 typedef struct mpris_prop_val_pair mpris_prop_val_pair;
 
 struct mpris
 {
-	Application* gmpv_ctx;
+	GmpvApplication* gmpv_ctx;
 	guint name_id;
 	guint base_reg_id;
 	guint player_reg_id;
@@ -50,6 +50,6 @@ void mpris_emit_prop_changed(	mpris *inst,
 				const gchar *iface_name,
 				const mpris_prop_val_pair *prop_list );
 GVariant *mpris_build_g_variant_string_array(const gchar** list);
-void mpris_init(Application *gmpv_ctx);
+void mpris_init(GmpvApplication *gmpv_ctx);
 
 #endif

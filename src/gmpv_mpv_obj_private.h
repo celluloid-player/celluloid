@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,43 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef MPV_OBJ_PRIVATE_H
+#define MPV_OBJ_PRIVATE_H
 
-#include "gmpv_common.h"
+G_BEGIN_DECLS
 
-typedef struct media_keys media_keys;
-
-struct media_keys
+enum
 {
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
+	PROP_0,
+	PROP_WID,
+	PROP_PLAYLIST,
+	N_PROPERTIES
 };
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+struct _GmpvMpvObj
+{
+	GObject parent;
+	GmpvMpvObjState state;
+	mpv_handle *mpv_ctx;
+	mpv_opengl_cb_context *opengl_ctx;
+	GmpvPlaylist *playlist;
+	GtkGLArea *glarea;
+	gchar *tmp_input_file;
+	GSList *log_level_list;
+	gdouble autofit_ratio;
+	gboolean force_opengl;
+	gint64 wid;
+	void *event_callback_data;
+	void *opengl_cb_callback_data;
+	void (*event_callback)(mpv_event *, void *data);
+	void (*opengl_cb_callback)(void *data);
+};
+
+struct _GmpvMpvObjClass
+{
+	GObjectClass parent_class;
+};
+
+G_END_DECLS
 
 #endif

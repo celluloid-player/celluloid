@@ -19,7 +19,7 @@
 
 #include "mpris_base.h"
 #include "mpris_gdbus.h"
-#include "def.h"
+#include "gmpv_def.h"
 
 static void prop_table_init(mpris *inst);
 static void method_handler(	GDBusConnection *connection,
@@ -88,7 +88,8 @@ static void method_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(method_name, "Raise") == 0)
 	{
-		MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
+		GmpvMainWindow *wnd =	gmpv_application_get_main_window
+					(inst->gmpv_ctx);
 
 		gtk_window_present(GTK_WINDOW(wnd));
 	}
@@ -128,12 +129,12 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					gpointer data )
 {
 	mpris *inst = data;
-	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
+	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
 	if(g_strcmp0(property_name, "Fullscreen") == 0
-	&& g_variant_get_boolean(value) != main_window_get_fullscreen(wnd))
+	&& g_variant_get_boolean(value) != gmpv_main_window_get_fullscreen(wnd))
 	{
-		main_window_toggle_fullscreen(wnd);
+		gmpv_main_window_toggle_fullscreen(wnd);
 	}
 	else
 	{
@@ -150,7 +151,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 					gpointer data )
 {
 	mpris *inst = data;
-	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
+	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 	GdkEventWindowState *window_state_event = (GdkEventWindowState *)event;
 
 	if(window_state_event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
@@ -160,7 +161,8 @@ static gboolean window_state_handler(	GtkWidget *widget,
 		mpris_prop_val_pair *prop_list;
 
 		iface = mpris_org_mpris_media_player2_interface_info();
-		value = g_variant_new_boolean(main_window_get_fullscreen(wnd));
+		value =	g_variant_new_boolean
+			(gmpv_main_window_get_fullscreen(wnd));
 
 		g_hash_table_replace(	inst->base_prop_table,
 					g_strdup("Fullscreen"),
@@ -192,11 +194,11 @@ static GVariant *get_supported_mime_types(void)
 
 void mpris_base_register(mpris *inst)
 {
-	MainWindow *wnd;
+	GmpvMainWindow *wnd;
 	GDBusInterfaceVTable vtable;
 	GDBusInterfaceInfo *iface;
 
-	wnd = application_get_main_window(inst->gmpv_ctx);
+	wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 	iface = mpris_org_mpris_media_player2_interface_info();
 
 	inst->base_prop_table =	g_hash_table_new_full
@@ -237,9 +239,9 @@ void mpris_base_unregister(mpris *inst)
 	{
 		while(current_sig_id && *current_sig_id > 0)
 		{
-			MainWindow *wnd;
+			GmpvMainWindow *wnd;
 
-			wnd = application_get_main_window(inst->gmpv_ctx);
+			wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 			g_signal_handler_disconnect(wnd, *current_sig_id);
 
 			current_sig_id++;

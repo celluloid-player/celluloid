@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,27 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
-#include "gmpv_common.h"
+#include <gtk/gtk.h>
+#include <mpv/client.h>
+#include <mpv/opengl_cb.h>
 
-typedef struct media_keys media_keys;
+#include "gmpv_main_window.h"
+#include "gmpv_playlist.h"
+#include "gmpv_mpv_obj.h"
 
-struct media_keys
-{
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
-};
+G_BEGIN_DECLS
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+#define GMPV_TYPE_APPLICATION (gmpv_application_get_type())
+
+G_DECLARE_FINAL_TYPE(GmpvApplication, gmpv_application, GMPV, APPLICATION, GtkApplication)
+
+GmpvApplication *gmpv_application_new(gchar *id, GApplicationFlags flags);
+GmpvMainWindow *gmpv_application_get_main_window(GmpvApplication *app);
+GmpvMpvObj *gmpv_application_get_mpv_obj(GmpvApplication *app);
+
+G_END_DECLS
 
 #endif

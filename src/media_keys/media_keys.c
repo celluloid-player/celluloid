@@ -18,7 +18,7 @@
  */
 
 #include "media_keys.h"
-#include "def.h"
+#include "gmpv_def.h"
 
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
@@ -40,7 +40,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 				gpointer data )
 {
 	media_keys *inst = data;
-	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
+	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
 	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
 	g_signal_handler_disconnect(inst->proxy, inst->g_signal_sig_id);
@@ -59,59 +59,59 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 					gpointer data )
 {
 	media_keys *inst = data;
-	gchar *application = NULL;
+	gchar *gmpv_application = NULL;
 	gchar *key = NULL;
 
 	if(g_strcmp0(signal_name, "MediaPlayerKeyPressed") == 0)
 	{
-		g_variant_get(parameters, "(&s&s)", &application, &key);
+		g_variant_get(parameters, "(&s&s)", &gmpv_application, &key);
 	}
 
-	if(g_strcmp0(application, APP_ID) == 0)
+	if(g_strcmp0(gmpv_application, APP_ID) == 0)
 	{
-		MpvObj *mpv = application_get_mpv_obj(inst->gmpv_ctx);
+		GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 
 		if(g_strcmp0(key, "Next") == 0)
 		{
 			const gchar *cmd[] = {"playlist_next", "weak", NULL};
 
-			mpv_obj_command(mpv, cmd);
+			gmpv_mpv_obj_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Previous") == 0)
 		{
 			const gchar *cmd[] = {"playlist_prev", "weak", NULL};
 
-			mpv_obj_command(mpv, cmd);
+			gmpv_mpv_obj_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Pause") == 0)
 		{
-			mpv_obj_set_property_flag(mpv, "pause", TRUE);
+			gmpv_mpv_obj_set_property_flag(mpv, "pause", TRUE);
 		}
 		else if(g_strcmp0(key, "Stop") == 0)
 		{
 			const gchar *cmd[] = {"stop", NULL};
 
-			mpv_obj_command(mpv, cmd);
+			gmpv_mpv_obj_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
 			gboolean paused;
 
-			paused = mpv_obj_get_property_flag(mpv, "pause");
+			paused = gmpv_mpv_obj_get_property_flag(mpv, "pause");
 
-			mpv_obj_set_property_flag(mpv, "pause", !paused);
+			gmpv_mpv_obj_set_property_flag(mpv, "pause", !paused);
 		}
 		else if(g_strcmp0(key, "FastForward") == 0)
 		{
 			const gchar *cmd[] = {"seek", "10", NULL};
 
-			mpv_obj_command(mpv, cmd);
+			gmpv_mpv_obj_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Rewind") == 0)
 		{
 			const gchar *cmd[] = {"seek", "-10", NULL};
 
-			mpv_obj_command(mpv, cmd);
+			gmpv_mpv_obj_command(mpv, cmd);
 		}
 	}
 }
@@ -159,10 +159,10 @@ static void session_ready_handler(	GObject *source_object,
 				inst );
 }
 
-void media_keys_init(Application *gmpv_ctx)
+void media_keys_init(GmpvApplication *gmpv_ctx)
 {
 	media_keys *inst = g_malloc(sizeof(media_keys));
-	MainWindow *wnd = application_get_main_window(gmpv_ctx);
+	GmpvMainWindow *wnd = gmpv_application_get_main_window(gmpv_ctx);
 
 	inst->gmpv_ctx = gmpv_ctx;
 	inst->shutdown_sig_id = 0;

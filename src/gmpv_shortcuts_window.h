@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,19 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef SHORTCUTS_WINDOW_H
+#define SHORTCUTS_WINDOW_H
 
-#include "gmpv_common.h"
+#include <gtk/gtk.h>
 
-typedef struct media_keys media_keys;
+G_BEGIN_DECLS
 
-struct media_keys
-{
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
-};
+#define GMPV_TYPE_SHORTCUTS_WINDOW (gmpv_shortcuts_window_get_type ())
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+G_DECLARE_FINAL_TYPE(GmpvShortcutsWindow, gmpv_shortcuts_window, GMPV, SHORTCUTS_WINDOW, GtkShortcutsWindow)
+
+GtkWidget *gmpv_shortcuts_window_new(GtkWindow *parent);
+
+G_END_DECLS
 
 #endif

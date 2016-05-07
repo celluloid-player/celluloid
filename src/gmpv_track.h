@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,31 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef TRACK_H
+#define TRACK_H
 
-#include "gmpv_common.h"
+#include <glib.h>
 
-typedef struct media_keys media_keys;
+typedef enum TrackType TrackType;
+typedef struct GmpvTrack GmpvTrack;
 
-struct media_keys
+enum TrackType
 {
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
+	TRACK_TYPE_INVALID,
+	TRACK_TYPE_AUDIO,
+	TRACK_TYPE_VIDEO,
+	TRACK_TYPE_SUBTITLE
 };
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+struct GmpvTrack
+{
+	TrackType type;
+	gint64 id;
+	gchar *title;
+	gchar *lang;
+};
+
+GmpvTrack *gmpv_track_new(void);
+void gmpv_track_free(GmpvTrack *entry);
 
 #endif

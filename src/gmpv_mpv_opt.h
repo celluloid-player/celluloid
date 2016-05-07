@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,26 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef MPV_OPT_H
+#define MPV_OPT_H
 
-#include "gmpv_common.h"
+#include <mpv/client.h>
 
-typedef struct media_keys media_keys;
+#include "gmpv_mpv_obj.h"
 
-struct media_keys
+G_BEGIN_DECLS
+
+typedef struct module_log_level module_log_level;
+
+struct module_log_level
 {
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
+	gchar *prefix;
+	mpv_log_level level;
 };
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv);
+void gmpv_mpv_opt_handle_msg_level(GmpvMpvObj *mpv);
+
+G_END_DECLS
 
 #endif

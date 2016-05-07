@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,23 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef PLAYLIST_WIDGET_H
+#define PLAYLIST_WIDGET_H
 
-#include "gmpv_common.h"
+#include <gtk/gtk.h>
 
-typedef struct media_keys media_keys;
+#include "gmpv_playlist.h"
 
-struct media_keys
-{
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
-};
+G_BEGIN_DECLS
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+#define GMPV_TYPE_PLAYLIST_WIDGET (gmpv_playlist_widget_get_type ())
+
+G_DECLARE_FINAL_TYPE(GmpvPlaylistWidget, gmpv_playlist_widget, GMPV, PLAYLIST_WIDGET, GtkScrolledWindow)
+
+GtkWidget *gmpv_playlist_widget_new(GmpvPlaylist *store);
+void gmpv_playlist_widget_remove_selected(GmpvPlaylistWidget *wgt);
+GmpvPlaylist *gmpv_playlist_widget_get_store(GmpvPlaylistWidget *wgt);
+
+G_END_DECLS
 
 #endif

@@ -17,22 +17,16 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef PLAYBACKCTL_H
+#define PLAYBACKCTL_H
 
+#include "gmpv_playbackctl.h"
 #include "gmpv_common.h"
 
-typedef struct media_keys media_keys;
+G_BEGIN_DECLS
 
-struct media_keys
-{
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
-};
+void gmpv_playbackctl_connect_signals(GmpvApplication *app);
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+G_END_DECLS
 
 #endif

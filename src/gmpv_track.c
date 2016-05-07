@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,22 +17,26 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#include "gmpv_track.h"
 
-#include "gmpv_common.h"
-
-typedef struct media_keys media_keys;
-
-struct media_keys
+GmpvTrack *gmpv_track_new(void)
 {
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
-};
+	GmpvTrack *entry = g_malloc(sizeof(GmpvTrack));
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+	entry->type = TRACK_TYPE_INVALID;
+	entry->title = NULL;
+	entry->lang = NULL;
+	entry->id = 0;
 
-#endif
+	return entry;
+}
+
+void gmpv_track_free(GmpvTrack *entry)
+{
+	if(entry)
+	{
+		g_free(entry->title);
+		g_free(entry->lang);
+		g_free(entry);
+	}
+}

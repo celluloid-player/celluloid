@@ -25,7 +25,7 @@
 #include "mpris_base.h"
 #include "mpris_player.h"
 #include "mpris_gdbus.h" /* auto-generated */
-#include "def.h"
+#include "gmpv_def.h"
 
 static void bus_acquired_handler(	GDBusConnection *connection,
 					const gchar *name,
@@ -62,7 +62,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 				gpointer data )
 {
 	mpris *inst = data;
-	MainWindow *wnd = application_get_main_window(inst->gmpv_ctx);
+	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
 	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
 
@@ -138,7 +138,7 @@ GVariant *mpris_build_g_variant_string_array(const gchar** list)
 	return g_variant_new("as", &builder);
 }
 
-void mpris_init(Application *gmpv_ctx)
+void mpris_init(GmpvApplication *gmpv_ctx)
 {
 	mpris *inst = g_malloc(sizeof(mpris));
 
@@ -155,10 +155,11 @@ void mpris_init(Application *gmpv_ctx)
 	inst->session_bus_conn = NULL;
 
 	inst->shutdown_sig_id
-		= g_signal_connect(	application_get_main_window(gmpv_ctx),
-					"delete-event",
-					G_CALLBACK(delete_handler),
-					inst );
+		= g_signal_connect
+			(	gmpv_application_get_main_window(gmpv_ctx),
+				"delete-event",
+				G_CALLBACK(delete_handler),
+				inst );
 
 	inst->name_id = g_bus_own_name(	G_BUS_TYPE_SESSION,
 					MPRIS_BUS_NAME,

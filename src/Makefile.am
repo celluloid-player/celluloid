@@ -31,26 +31,26 @@ media_key_files = media_keys/media_keys.c media_keys/media_keys.h
 
 BUILT_SOURCES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 
-gnome_mpv_SOURCES =	main.c def.h \
-			actionctl.c actionctl.h \
-			application.c application.h \
-			common.c common.h \
-			control_box.c control_box.h \
-			main_window.c main_window.h \
-			menu.c menu.h \
-			mpv_obj.c mpv_obj.h \
-			mpv_obj_private.h \
-			mpv_opt.c mpv_opt.h \
-			open_loc_dialog.c open_loc_dialog.h \
-			playbackctl.c playbackctl.h \
-			playlist.c playlist.h \
-			playlist_widget.c playlist_widget.h \
-			plugins_manager.c plugins_manager.h \
-			plugins_manager_item.c plugins_manager_item.h \
-			pref_dialog.c pref_dialog.h \
-			shortcuts_window.c shortcuts_window.h \
-			track.c track.h \
-			video_area.c video_area.h \
+gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
+			gmpv_actionctl.c gmpv_actionctl.h \
+			gmpv_application.c gmpv_application.h \
+			gmpv_common.c gmpv_common.h \
+			gmpv_control_box.c gmpv_control_box.h \
+			gmpv_main_window.c gmpv_main_window.h \
+			gmpv_menu.c gmpv_menu.h \
+			gmpv_mpv_obj.c gmpv_mpv_obj.h \
+			gmpv_mpv_obj_private.h \
+			gmpv_mpv_opt.c gmpv_mpv_opt.h \
+			gmpv_open_loc_dialog.c gmpv_open_loc_dialog.h \
+			gmpv_playbackctl.c gmpv_playbackctl.h \
+			gmpv_playlist.c gmpv_playlist.h \
+			gmpv_playlist_widget.c gmpv_playlist_widget.h \
+			gmpv_plugins_manager.c gmpv_plugins_manager.h \
+			gmpv_plugins_manager_item.c gmpv_plugins_manager_item.h \
+			gmpv_pref_dialog.c gmpv_pref_dialog.h \
+			gmpv_shortcuts_window.c gmpv_shortcuts_window.h \
+			gmpv_track.c gmpv_track.h \
+			gmpv_video_area.c gmpv_video_area.h \
 			$(mpris_files) $(marshal_files) $(media_key_files) \
 			$(authors_files)
 

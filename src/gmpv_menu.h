@@ -17,22 +17,24 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIA_KEYS_H
-#define MEDIA_KEYS_H
+#ifndef MENU_H
+#define MENU_H
 
-#include "gmpv_common.h"
+#include <gio/gio.h>
 
-typedef struct media_keys media_keys;
+G_BEGIN_DECLS
 
-struct media_keys
-{
-	GmpvApplication *gmpv_ctx;
-	gulong g_signal_sig_id;
-	gulong shutdown_sig_id;
-	GDBusProxy *proxy;
-	GDBusConnection *session_bus_conn;
-};
+void gmpv_menu_build_full(	GMenu *gmpv_menu,
+			const GSList *audio_list,
+			const GSList *video_list,
+			const GSList *sub_list );
+void gmpv_menu_build_menu_btn(	GMenu *gmpv_menu,
+				const GSList *audio_list,
+				const GSList *video_list,
+				const GSList *sub_list );
+void gmpv_menu_build_open_btn(GMenu *gmpv_menu);
+void gmpv_menu_build_app_menu(GMenu *gmpv_menu);
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+G_END_DECLS
 
 #endif
