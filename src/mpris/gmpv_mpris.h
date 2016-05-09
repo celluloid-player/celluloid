@@ -22,10 +22,10 @@
 
 #include "gmpv_common.h"
 
-typedef struct mpris mpris;
-typedef struct mpris_prop_val_pair mpris_prop_val_pair;
+typedef struct gmpv_mpris gmpv_mpris;
+typedef struct gmpv_mpris_prop gmpv_mpris_prop;
 
-struct mpris
+struct gmpv_mpris
 {
 	GmpvApplication* gmpv_ctx;
 	guint name_id;
@@ -40,16 +40,16 @@ struct mpris
 	GDBusConnection *session_bus_conn;
 };
 
-struct mpris_prop_val_pair
+struct gmpv_mpris_prop
 {
 	gchar *name;
 	GVariant *value;
 };
 
-void mpris_emit_prop_changed(	mpris *inst,
-				const gchar *iface_name,
-				const mpris_prop_val_pair *prop_list );
-GVariant *mpris_build_g_variant_string_array(const gchar** list);
-void mpris_init(GmpvApplication *gmpv_ctx);
+void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
+					const gchar *iface_name,
+					const gmpv_mpris_prop *prop_list );
+GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list);
+void gmpv_mpris_init(GmpvApplication *gmpv_ctx);
 
 #endif

@@ -19,13 +19,14 @@
 
 #include <string.h>
 
-#include "mpris_player.h"
-#include "mpris_gdbus.h"
+#include "gmpv_mpris_player.h"
+#include "gmpv_mpris_gdbus.h"
 #include "gmpv_mpv_obj.h"
 #include "gmpv_def.h"
 
-static void prop_table_init(mpris *inst);
-static void emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list);
+static void prop_table_init(gmpv_mpris *inst);
+static void emit_prop_changed(	gmpv_mpris *inst,
+				const gmpv_mpris_prop *prop_list );
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
 				const gchar *object_path,
@@ -49,18 +50,18 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					GVariant *value,
 					GError **error,
 					gpointer data );
-static void playback_status_update_handler(mpris *inst);
-static void playlist_update_handler(mpris *inst);
-static void speed_update_handler(mpris *inst);
-static void metadata_update_handler(mpris *inst);
-static void volume_update_handler(mpris *inst);
+static void playback_status_update_handler(gmpv_mpris *inst);
+static void playlist_update_handler(gmpv_mpris *inst);
+static void speed_update_handler(gmpv_mpris *inst);
+static void metadata_update_handler(gmpv_mpris *inst);
+static void volume_update_handler(gmpv_mpris *inst);
 static void mpv_init_handler(GmpvMainWindow *wnd, gpointer data);
 static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data);
 static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 					gchar *name,
 					gpointer data );
 
-static void prop_table_init(mpris *inst)
+static void prop_table_init(gmpv_mpris *inst)
 {
 	/* Position is retrieved from mpv on-demand */
 	const gpointer default_values[]
@@ -88,12 +89,12 @@ static void prop_table_init(mpris *inst)
 	}
 }
 
-static void emit_prop_changed(mpris *inst, const mpris_prop_val_pair *prop_list)
+static void emit_prop_changed(gmpv_mpris *inst, const gmpv_mpris_prop *prop_list)
 {
 	GDBusInterfaceInfo *iface;
 
-	iface = mpris_org_mpris_media_player2_player_interface_info();
-	mpris_emit_prop_changed(inst, iface->name, prop_list);
+	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
+	gmpv_mpris_emit_prop_changed(inst, iface->name, prop_list);
 }
 
 static void method_handler(	GDBusConnection *connection,
@@ -105,7 +106,7 @@ static void method_handler(	GDBusConnection *connection,
 				GDBusMethodInvocation *invocation,
 				gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 
 	if(g_strcmp0(method_name, "Next") == 0)
@@ -228,7 +229,7 @@ static GVariant *get_prop_handler(	GDBusConnection *connection,
 					GError **error,
 					gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GVariant *value;
 
 	if(g_strcmp0(property_name, "Position") == 0)
@@ -264,7 +265,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					GError **error,
 					gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 
 	if(g_strcmp0(property_name, "Rate") == 0)
@@ -293,11 +294,11 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 	return TRUE; /* This function should always succeed */
 }
 
-static void playback_status_update_handler(mpris *inst)
+static void playback_status_update_handler(gmpv_mpris *inst)
 {
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 	const gchar *state;
-	mpris_prop_val_pair *prop_list;
+	gmpv_mpris_prop *prop_list;
 	GVariant *state_value;
 	GVariant *can_seek_value;
 	gint idle;
@@ -339,7 +340,7 @@ static void playback_status_update_handler(mpris *inst)
 				"CanSeek",
 				g_variant_ref(can_seek_value) );
 
-	prop_list =	(mpris_prop_val_pair[])
+	prop_list =	(gmpv_mpris_prop[])
 			{	{"PlaybackStatus", state_value},
 				{"CanSeek", can_seek_value},
 				{NULL, NULL} };
@@ -347,10 +348,10 @@ static void playback_status_update_handler(mpris *inst)
 	emit_prop_changed(inst, prop_list);
 }
 
-static void playlist_update_handler(mpris *inst)
+static void playlist_update_handler(gmpv_mpris *inst)
 {
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
-	mpris_prop_val_pair *prop_list;
+	gmpv_mpris_prop *prop_list;
 	GVariant *can_prev_value;
 	GVariant *can_next_value;
 	gboolean can_prev;
@@ -381,7 +382,7 @@ static void playlist_update_handler(mpris *inst)
 				"CanGoNext",
 				g_variant_ref(can_next_value) );
 
-	prop_list =	(mpris_prop_val_pair[])
+	prop_list =	(gmpv_mpris_prop[])
 			{	{"CanGoPrevious", can_prev_value},
 				{"CanGoNext", can_next_value},
 				{NULL, NULL} };
@@ -389,11 +390,11 @@ static void playlist_update_handler(mpris *inst)
 	emit_prop_changed(inst, prop_list);
 }
 
-static void speed_update_handler(mpris *inst)
+static void speed_update_handler(gmpv_mpris *inst)
 {
 	gdouble speed;
 	GVariant *value;
-	mpris_prop_val_pair *prop_list;
+	gmpv_mpris_prop *prop_list;
 
 	gmpv_mpv_obj_get_property
 		(	gmpv_application_get_mpv_obj(inst->gmpv_ctx),
@@ -407,13 +408,13 @@ static void speed_update_handler(mpris *inst)
 				"Rate",
 				g_variant_ref(value) );
 
-	prop_list =	(mpris_prop_val_pair[])
+	prop_list =	(gmpv_mpris_prop[])
 			{{"Rate", value}, {NULL, NULL}};
 
 	emit_prop_changed(inst, prop_list);
 }
 
-static void metadata_update_handler(mpris *inst)
+static void metadata_update_handler(gmpv_mpris *inst)
 {
 	const struct
 	{
@@ -432,7 +433,7 @@ static void metadata_update_handler(mpris *inst)
 
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
-	mpris_prop_val_pair *prop_list;
+	gmpv_mpris_prop *prop_list;
 	GVariantBuilder builder;
 	GVariant *value;
 	gchar *uri;
@@ -530,7 +531,7 @@ static void metadata_update_handler(mpris *inst)
 				"Metadata",
 				g_variant_ref(value) );
 
-	prop_list =	(mpris_prop_val_pair[])
+	prop_list =	(gmpv_mpris_prop[])
 			{{"Metadata", value}, {NULL, NULL}};
 
 	emit_prop_changed(inst, prop_list);
@@ -540,9 +541,9 @@ static void metadata_update_handler(mpris *inst)
 	g_free(trackid);
 }
 
-static void volume_update_handler(mpris *inst)
+static void volume_update_handler(gmpv_mpris *inst)
 {
-	mpris_prop_val_pair *prop_list;
+	gmpv_mpris_prop *prop_list;
 	gdouble volume;
 	GVariant *value;
 
@@ -558,7 +559,7 @@ static void volume_update_handler(mpris *inst)
 				"Volume",
 				g_variant_ref(value) );
 
-	prop_list =	(mpris_prop_val_pair[])
+	prop_list =	(gmpv_mpris_prop[])
 			{{"Volume", value}, {NULL, NULL}};
 
 	emit_prop_changed(inst, prop_list);
@@ -566,7 +567,7 @@ static void volume_update_handler(mpris *inst)
 
 static void mpv_init_handler(GmpvMainWindow *wnd, gpointer data)
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 	mpv_handle *mpv_ctx = gmpv_mpv_obj_get_mpv_handle(mpv);
 
@@ -581,7 +582,7 @@ static void mpv_init_handler(GmpvMainWindow *wnd, gpointer data)
 
 static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data)
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 	GDBusInterfaceInfo *iface;
 	gdouble position;
@@ -604,7 +605,7 @@ static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data)
 					&position );
 	}
 
-	iface = mpris_org_mpris_media_player2_player_interface_info();
+	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
 
 	g_dbus_connection_emit_signal
 		(	inst->session_bus_conn,
@@ -620,7 +621,7 @@ static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 					gchar *name,
 					gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 
 	if(g_strcmp0(name, "core-idle") == 0
 	|| g_strcmp0(name, "idle") == 0)
@@ -646,13 +647,13 @@ static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 	}
 }
 
-void mpris_player_register(mpris *inst)
+void gmpv_mpris_player_register(gmpv_mpris *inst)
 {
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 	GDBusInterfaceInfo *iface;
 	GDBusInterfaceVTable vtable;
 
-	iface = mpris_org_mpris_media_player2_player_interface_info();
+	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
 
 	inst->player_prop_table = g_hash_table_new_full
 					(	g_str_hash,
@@ -696,7 +697,7 @@ void mpris_player_register(mpris *inst)
 					NULL );
 }
 
-void mpris_player_unregister(mpris *inst)
+void gmpv_mpris_player_unregister(gmpv_mpris *inst)
 {
 	gulong *current_sig_id = inst->player_sig_id_list;
 

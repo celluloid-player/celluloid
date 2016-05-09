@@ -17,11 +17,11 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mpris_base.h"
-#include "mpris_gdbus.h"
+#include "gmpv_mpris_base.h"
+#include "gmpv_mpris_gdbus.h"
 #include "gmpv_def.h"
 
-static void prop_table_init(mpris *inst);
+static void prop_table_init(gmpv_mpris *inst);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
 				const gchar *object_path,
@@ -51,7 +51,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 static GVariant *get_supported_uri_schemes(void);
 static GVariant *get_supported_mime_types(void);
 
-static void prop_table_init(mpris *inst)
+static void prop_table_init(gmpv_mpris *inst)
 {
 	const gpointer default_values[]
 		= {	"CanQuit", g_variant_new_boolean(TRUE),
@@ -84,7 +84,7 @@ static void method_handler(	GDBusConnection *connection,
 				GDBusMethodInvocation *invocation,
 				gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 
 	if(g_strcmp0(method_name, "Raise") == 0)
 	{
@@ -110,7 +110,7 @@ static GVariant *get_prop_handler(	GDBusConnection *connection,
 					GError **error,
 					gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GVariant *value;
 
 	value = g_hash_table_lookup(	inst->base_prop_table,
@@ -128,7 +128,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					GError **error,
 					gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
 	if(g_strcmp0(property_name, "Fullscreen") == 0
@@ -138,7 +138,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 	}
 	else
 	{
-		g_hash_table_replace(	((mpris *) data)->base_prop_table,
+		g_hash_table_replace(	((gmpv_mpris *) data)->base_prop_table,
 					g_strdup(property_name),
 					g_variant_ref(value) );
 	}
@@ -150,7 +150,7 @@ static gboolean window_state_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 	GdkEventWindowState *window_state_event = (GdkEventWindowState *)event;
 
@@ -158,9 +158,9 @@ static gboolean window_state_handler(	GtkWidget *widget,
 	{
 		GDBusInterfaceInfo *iface;
 		GVariant *value;
-		mpris_prop_val_pair *prop_list;
+		gmpv_mpris_prop *prop_list;
 
-		iface = mpris_org_mpris_media_player2_interface_info();
+		iface = gmpv_mpris_org_mpris_media_player2_interface_info();
 		value =	g_variant_new_boolean
 			(gmpv_main_window_get_fullscreen(wnd));
 
@@ -168,11 +168,11 @@ static gboolean window_state_handler(	GtkWidget *widget,
 					g_strdup("Fullscreen"),
 					g_variant_ref(value) );
 
-		prop_list =	(mpris_prop_val_pair[])
+		prop_list =	(gmpv_mpris_prop[])
 				{	{"Fullscreen", value},
 					{NULL, NULL} };
 
-		mpris_emit_prop_changed(inst, iface->name, prop_list);
+		gmpv_mpris_emit_prop_changed(inst, iface->name, prop_list);
 	}
 
 	return FALSE;
@@ -182,24 +182,24 @@ static GVariant *get_supported_uri_schemes(void)
 {
 	const gchar *protocols[] = SUPPORTED_PROTOCOLS;
 
-	return mpris_build_g_variant_string_array(protocols);
+	return gmpv_mpris_build_g_variant_string_array(protocols);
 }
 
 static GVariant *get_supported_mime_types(void)
 {
 	const gchar *mime_types[] = SUPPORTED_MIME_TYPES;
 
-	return mpris_build_g_variant_string_array(mime_types);
+	return gmpv_mpris_build_g_variant_string_array(mime_types);
 }
 
-void mpris_base_register(mpris *inst)
+void gmpv_mpris_base_register(gmpv_mpris *inst)
 {
 	GmpvMainWindow *wnd;
 	GDBusInterfaceVTable vtable;
 	GDBusInterfaceInfo *iface;
 
 	wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
-	iface = mpris_org_mpris_media_player2_interface_info();
+	iface = gmpv_mpris_org_mpris_media_player2_interface_info();
 
 	inst->base_prop_table =	g_hash_table_new_full
 				(	g_str_hash,
@@ -231,7 +231,7 @@ void mpris_base_register(mpris *inst)
 					NULL );
 }
 
-void mpris_base_unregister(mpris *inst)
+void gmpv_mpris_base_unregister(gmpv_mpris *inst)
 {
 	gulong *current_sig_id = inst->base_sig_id_list;
 

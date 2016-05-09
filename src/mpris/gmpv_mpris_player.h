@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 gnome-mpv
+ * Copyright (c) 2015-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -20,9 +20,9 @@
 #ifndef MPRIS_PLAYER_H
 #define MPRIS_PLAYER_H
 
-#include "mpris.h"
+#include "gmpv_mpris.h"
 
-void mpris_player_register(mpris *inst);
-void mpris_player_unregister(mpris *inst);
+void gmpv_mpris_player_register(gmpv_mpris *inst);
+void gmpv_mpris_player_unregister(gmpv_mpris *inst);
 
 #endif

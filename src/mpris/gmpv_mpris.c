@@ -21,10 +21,10 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
-#include "mpris.h"
-#include "mpris_base.h"
-#include "mpris_player.h"
-#include "mpris_gdbus.h" /* auto-generated */
+#include "gmpv_mpris.h"
+#include "gmpv_mpris_base.h"
+#include "gmpv_mpris_player.h"
+#include "gmpv_mpris_gdbus.h" /* auto-generated */
 #include "gmpv_def.h"
 
 static void bus_acquired_handler(	GDBusConnection *connection,
@@ -36,18 +36,18 @@ static void name_lost_handler(	GDBusConnection *connection,
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data );
-static void unregister(mpris *inst);
+static void unregister(gmpv_mpris *inst);
 
 static void bus_acquired_handler(	GDBusConnection *connection,
 					const gchar *name,
 					gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 
 	inst->session_bus_conn = connection;
 
-	mpris_base_register(inst);
-	mpris_player_register(inst);
+	gmpv_mpris_base_register(inst);
+	gmpv_mpris_player_register(inst);
 }
 
 static void name_lost_handler(	GDBusConnection *connection,
@@ -61,7 +61,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data )
 {
-	mpris *inst = data;
+	gmpv_mpris *inst = data;
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
 	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
@@ -73,24 +73,24 @@ static gboolean delete_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
-static void unregister(mpris *inst)
+static void unregister(gmpv_mpris *inst)
 {
 	if(inst->base_reg_id > 0)
 	{
-		mpris_base_unregister(inst);
+		gmpv_mpris_base_unregister(inst);
 	}
 
 	if(inst->player_reg_id > 0)
 	{
-		mpris_player_unregister(inst);
+		gmpv_mpris_player_unregister(inst);
 	}
 }
 
-void mpris_emit_prop_changed(	mpris *inst,
-				const gchar *iface_name,
-				const mpris_prop_val_pair *prop_list )
+void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
+					const gchar *iface_name,
+					const gmpv_mpris_prop *prop_list )
 {
-	const mpris_prop_val_pair *current;
+	const gmpv_mpris_prop *current;
 	GVariantBuilder builder;
 	GVariant *sig_args;
 
@@ -123,7 +123,7 @@ void mpris_emit_prop_changed(	mpris *inst,
 			NULL );
 }
 
-GVariant *mpris_build_g_variant_string_array(const gchar** list)
+GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list)
 {
 	GVariantBuilder builder;
 	gint i;
@@ -138,9 +138,9 @@ GVariant *mpris_build_g_variant_string_array(const gchar** list)
 	return g_variant_new("as", &builder);
 }
 
-void mpris_init(GmpvApplication *gmpv_ctx)
+void gmpv_mpris_init(GmpvApplication *gmpv_ctx)
 {
-	mpris *inst = g_malloc(sizeof(mpris));
+	gmpv_mpris *inst = g_malloc(sizeof(gmpv_mpris));
 
 	inst->gmpv_ctx = gmpv_ctx;
 	inst->name_id = 0;

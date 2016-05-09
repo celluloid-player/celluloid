@@ -45,7 +45,7 @@
 #include "gmpv_mpv_obj.h"
 #include "gmpv_video_area.h"
 #include "gmpv_def.h"
-#include "mpris/mpris.h"
+#include "mpris/gmpv_mpris.h"
 #include "media_keys/media_keys.h"
 
 struct _GmpvApplication
@@ -278,7 +278,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	gmpv_control_box_set_chapter_enabled(control_box, FALSE);
 
 	connect_signals(app);
-	mpris_init(app);
+	gmpv_mpris_init(app);
 	media_keys_init(app);
 
 	g_object_set(	gtk_settings_get_default(),
