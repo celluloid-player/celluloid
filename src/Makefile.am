@@ -49,11 +49,14 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_plugins_manager.c gmpv_plugins_manager.h \
 			gmpv_plugins_manager_item.c gmpv_plugins_manager_item.h \
 			gmpv_pref_dialog.c gmpv_pref_dialog.h \
-			gmpv_shortcuts_window.c gmpv_shortcuts_window.h \
 			gmpv_track.c gmpv_track.h \
 			gmpv_video_area.c gmpv_video_area.h \
 			$(mpris_files) $(marshal_files) $(media_key_files) \
 			$(authors_files)
+
+if !OLD_GTK
+gnome_mpv_SOURCES += gmpv_shortcuts_window.c gmpv_shortcuts_window.h
+endif
 
 gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \
 			-DG_SETTINGS_ENABLE_BACKEND \

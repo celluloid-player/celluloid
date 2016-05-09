@@ -26,9 +26,12 @@
 #include "gmpv_playlist.h"
 #include "gmpv_open_loc_dialog.h"
 #include "gmpv_pref_dialog.h"
-#include "gmpv_shortcuts_window.h"
 #include "gmpv_common.h"
 #include "gmpv_authors.h"
+
+#if (GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 20)
+#include "gmpv_shortcuts_window.h"
+#endif
 
 static void open_handler(	GSimpleAction *action,
 				GVariant *param,
@@ -202,11 +205,13 @@ static void show_shortcuts_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
+#if (GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 20)
 	GmpvApplication *app = data;
 	GmpvMainWindow *mwnd = gmpv_application_get_main_window(app);
 	GtkWidget *wnd = gmpv_shortcuts_window_new(GTK_WINDOW(mwnd));
 
 	gtk_widget_show_all(wnd);
+#endif
 }
 
 static void playlist_toggle_handler(	GSimpleAction *action,
