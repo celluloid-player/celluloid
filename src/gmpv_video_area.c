@@ -161,7 +161,7 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 				GTK_DEST_DEFAULT_ALL,
 				targets,
 				G_N_ELEMENTS(targets),
-				GDK_ACTION_LINK );
+				GDK_ACTION_COPY );
 
 	/* GDK_BUTTON_RELEASE_MASK is needed so that GtkMenuButtons can
 	 * hide their menus when vid_area is clicked.
