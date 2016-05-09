@@ -21,7 +21,7 @@
 
 #include "gmpv_playlist_widget.h"
 #include "gmpv_playlist.h"
-#include "marshal.h"
+#include "gmpv_marshal.h"
 #include "gmpv_def.h"
 
 enum

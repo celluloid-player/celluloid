@@ -20,7 +20,7 @@
 #include <glib/gi18n.h>
 
 #include "gmpv_playlist.h"
-#include "marshal.h"
+#include "gmpv_marshal.h"
 #include "gmpv_common.h"
 #include "gmpv_mpv_obj.h"
 #include "gmpv_control_box.h"

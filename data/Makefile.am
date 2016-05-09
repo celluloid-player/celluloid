@@ -23,6 +23,6 @@ symicon_DATA = gnome-mpv-symbolic.svg
 EXTRA_DIST =	$(appstream_in_files) $(desktop_in_files) \
 		gnome-mpv.svg gnome-mpv-symbolic.svg \
 		io.github.GnomeMpv.gschema.xml \
-		gmpv_mpris_gdbus.xml marshal.lst
+		gmpv_mpris_gdbus.xml gmpv_marshal.lst
 
 DISTCLEANFILES = $(appstream_XML) $(desktop_DATA)

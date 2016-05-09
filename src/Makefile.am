@@ -11,11 +11,11 @@ $(mpris_generated): $(top_srcdir)/data/gmpv_mpris_gdbus.xml
 	$(GDBUS_CODEGEN) --c-namespace gmpv_mpris --generate-c-code mpris/gmpv_mpris_gdbus $< && \
 	sed -i '1i#pragma GCC diagnostic ignored \"-Wconversion\"' mpris/gmpv_mpris_gdbus.c
 
-marshal_generated = marshal.c marshal.h
+marshal_generated = gmpv_marshal.c gmpv_marshal.h
 marshal_files = $(marshal_generated)
-marshal.h: $(top_srcdir)/data/marshal.lst
+gmpv_marshal.h: $(top_srcdir)/data/gmpv_marshal.lst
 	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --header $< > $@
-marshal.c: $(top_srcdir)/data/marshal.lst
+gmpv_marshal.c: $(top_srcdir)/data/gmpv_marshal.lst
 	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --body $< > $@
 	sed -i '1i#pragma GCC diagnostic ignored \"-Wmissing-prototypes\"' $@
 
