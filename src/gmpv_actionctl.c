@@ -28,7 +28,7 @@
 #include "gmpv_pref_dialog.h"
 #include "gmpv_shortcuts_window.h"
 #include "gmpv_common.h"
-#include "authors.h"
+#include "gmpv_authors.h"
 
 static void open_handler(	GSimpleAction *action,
 				GVariant *param,

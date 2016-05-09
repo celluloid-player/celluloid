@@ -19,9 +19,9 @@ marshal.c: $(top_srcdir)/data/marshal.lst
 	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --body $< > $@
 	sed -i '1i#pragma GCC diagnostic ignored \"-Wmissing-prototypes\"' $@
 
-authors_generated = authors.h
+authors_generated = gmpv_authors.h
 authors_files = $(authors_generated)
-authors.h: $(top_srcdir)/AUTHORS
+gmpv_authors.h: $(top_srcdir)/AUTHORS
 	awk	'BEGIN{print	"#ifndef AUTHORS_H\n" \
 				"#define AUTHORS_H\n\n" \
 				"#define AUTHORS {\\"} \
