@@ -28,7 +28,7 @@ authors.h: $(top_srcdir)/AUTHORS
 		/^[^#].+/{print "\"" $$0 "\",\\"} \
 		END{print "NULL}\n\n#endif"}' $< > $@
 
-media_key_files = media_keys/media_keys.c media_keys/media_keys.h
+media_key_files = media_keys/gmpv_media_keys.c media_keys/gmpv_media_keys.h
 
 BUILT_SOURCES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 

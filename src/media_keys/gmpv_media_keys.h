@@ -22,9 +22,9 @@
 
 #include "gmpv_common.h"
 
-typedef struct media_keys media_keys;
+typedef struct gmpv_media_keys gmpv_media_keys;
 
-struct media_keys
+struct gmpv_media_keys
 {
 	GmpvApplication *gmpv_ctx;
 	gulong g_signal_sig_id;
@@ -33,6 +33,6 @@ struct media_keys
 	GDBusConnection *session_bus_conn;
 };
 
-void media_keys_init(GmpvApplication *gmpv_ctx);
+void gmpv_media_keys_init(GmpvApplication *gmpv_ctx);
 
 #endif

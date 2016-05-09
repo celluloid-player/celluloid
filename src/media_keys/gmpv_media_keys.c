@@ -17,7 +17,7 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "media_keys.h"
+#include "gmpv_media_keys.h"
 #include "gmpv_def.h"
 
 static gboolean delete_handler(	GtkWidget *widget,
@@ -39,7 +39,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data )
 {
-	media_keys *inst = data;
+	gmpv_media_keys *inst = data;
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
 	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
@@ -58,7 +58,7 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 					GVariant *parameters,
 					gpointer data )
 {
-	media_keys *inst = data;
+	gmpv_media_keys *inst = data;
 	gchar *gmpv_application = NULL;
 	gchar *key = NULL;
 
@@ -120,7 +120,7 @@ static void proxy_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data )
 {
-	media_keys *inst = data;
+	gmpv_media_keys *inst = data;
 
 	inst->proxy = g_dbus_proxy_new_finish(res, NULL);
 
@@ -144,7 +144,7 @@ static void session_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data )
 {
-	media_keys *inst = data;
+	gmpv_media_keys *inst = data;
 
 	inst->session_bus_conn = g_bus_get_finish(res, NULL);
 
@@ -159,9 +159,9 @@ static void session_ready_handler(	GObject *source_object,
 				inst );
 }
 
-void media_keys_init(GmpvApplication *gmpv_ctx)
+void gmpv_media_keys_init(GmpvApplication *gmpv_ctx)
 {
-	media_keys *inst = g_malloc(sizeof(media_keys));
+	gmpv_media_keys *inst = g_malloc(sizeof(gmpv_media_keys));
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(gmpv_ctx);
 
 	inst->gmpv_ctx = gmpv_ctx;

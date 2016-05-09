@@ -46,7 +46,7 @@
 #include "gmpv_video_area.h"
 #include "gmpv_def.h"
 #include "mpris/gmpv_mpris.h"
-#include "media_keys/media_keys.h"
+#include "media_keys/gmpv_media_keys.h"
 
 struct _GmpvApplication
 {
@@ -279,7 +279,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	connect_signals(app);
 	gmpv_mpris_init(app);
-	media_keys_init(app);
+	gmpv_media_keys_init(app);
 
 	g_object_set(	gtk_settings_get_default(),
 			"gtk-application-prefer-dark-theme",
