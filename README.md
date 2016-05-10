@@ -7,14 +7,15 @@ capabilities.
 ## Dependencies
 
 - appstream-glib<sup>[[1]](#note)</sup> (build)
-- autotools<sup>[[1]](#note)</sup> (build)
+- autoconf >= 2.69<sup>[[1]](#note)</sup> (build)
 - autoconf-archive<sup>[[1]](#note)</sup> (build)
+- automake >= 1.12<sup>[[1]](#note)</sup> (build)
 - python2<sup>[[1]](#note)</sup> (build)
-- intltool (build)
+- intltool >= 0.40.6 (build)
 - pkg-config (build)
 - gcc (build)
-- glib2 >= 2.40
-- gtk3 >= 3.20
+- glib2 >= 2.44
+- gtk3 >= 3.18
 - mpv >= 0.17
 - epoxy
 - lua (optional)
