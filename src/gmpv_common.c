@@ -182,10 +182,13 @@ gboolean update_seek_bar(gpointer data)
 	GmpvApplication *app = data;
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
 	mpv_handle *mpv_ctx = gmpv_mpv_obj_get_mpv_handle(mpv);
+	GmpvMpvObjState state;
 	gdouble time_pos = -1;
 	gint rc = -1;
 
-	if(mpv_ctx)
+	gmpv_mpv_obj_get_state(mpv, &state);
+
+	if(state.loaded)
 	{
 		rc = gmpv_mpv_obj_get_property(	mpv,
 						"time-pos",
