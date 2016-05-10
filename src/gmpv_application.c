@@ -208,6 +208,8 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(app, app->playlist_store));
 	app->fs_control = NULL;
 
+	migrate_config(app);
+
 	control_box = gmpv_main_window_get_control_box(app->gui);
 	style_provider = gtk_css_provider_new();
 	css_loaded = gtk_css_provider_load_from_data
