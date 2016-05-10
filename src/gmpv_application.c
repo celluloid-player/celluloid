@@ -745,6 +745,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		if(!state.init_load && !state.loaded)
 		{
 			gmpv_main_window_reset(app->gui);
+			set_inhibit_idle(app, FALSE);
 		}
 	}
 	else if(event->event_id == MPV_EVENT_SHUTDOWN)
