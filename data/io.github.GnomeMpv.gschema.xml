@@ -5,6 +5,12 @@
 		<child	schema="io.github.GnomeMpv.window-state"
 			name="window-state" />
 
+		<key name='settings-migrated' type='b'>
+			<default>false</default>
+			<summary>Whether the settings has already been migrated from the previous version</summary>
+			<description>
+			</description>
+		</key>
 		<key name='dark-theme-enable' type='b'>
 			<default>true</default>
 			<summary>Enable or disable dark theme</summary>
