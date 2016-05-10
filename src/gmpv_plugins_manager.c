@@ -136,7 +136,7 @@ static void add_handler(GtkButton *button, gpointer data)
 	GtkWidget *dialog = NULL;
 	GFile *src = NULL;
 
-	dialog = gtk_file_chooser_dialog_new(	"Add Lua Script",
+	dialog = gtk_file_chooser_dialog_new(	_("Add Lua Script"),
 						pmgr->parent_window,
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						_("Cancel"),
