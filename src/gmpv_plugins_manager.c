@@ -361,6 +361,7 @@ static void gmpv_plugins_manager_init(GmpvPluginsManager *pmgr)
 	gtk_widget_set_hexpand(GTK_WIDGET(scrolled_window), TRUE);
 	gtk_widget_set_vexpand(GTK_WIDGET(scrolled_window), TRUE);
 
+	gtk_widget_set_tooltip_text(add_button, _("Add Lua Script"));
 	gtk_widget_set_sensitive(pmgr->placeholder_label, FALSE);
 	gtk_widget_set_no_show_all(pmgr->placeholder_label, TRUE);
 	gtk_widget_show(pmgr->placeholder_label);
