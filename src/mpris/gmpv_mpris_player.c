@@ -188,16 +188,16 @@ static void method_handler(	GDBusConnection *connection,
 			index = g_ascii_strtoll(track_id+prefix_len, NULL, 0);
 
 			gmpv_mpv_obj_get_property(	mpv,
-						"gmpv_playlist-pos",
-						MPV_FORMAT_INT64,
-						&old_index );
+							"playlist-pos",
+							MPV_FORMAT_INT64,
+							&old_index );
 
 			if(index != old_index)
 			{
 				gmpv_mpv_obj_set_property(	mpv,
-							"gmpv_playlist-pos",
-							MPV_FORMAT_INT64,
-							&index );
+								"playlist-pos",
+								MPV_FORMAT_INT64,
+								&index );
 			}
 			else
 			{
@@ -361,13 +361,13 @@ static void playlist_update_handler(gmpv_mpris *inst)
 	gint rc = 0;
 
 	rc |= gmpv_mpv_obj_get_property(	mpv,
-					"gmpv_playlist-count",
-					MPV_FORMAT_INT64,
-					&playlist_count );
+						"playlist-count",
+						MPV_FORMAT_INT64,
+						&playlist_count );
 	rc |= gmpv_mpv_obj_get_property(	mpv,
-					"gmpv_playlist-pos",
-					MPV_FORMAT_INT64,
-					&playlist_pos );
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&playlist_pos );
 
 	can_prev = (rc >= 0 && playlist_pos > 0);
 	can_next = (rc >= 0 && playlist_pos < playlist_count-1);
@@ -470,7 +470,7 @@ static void metadata_update_handler(gmpv_mpris *inst)
 				((gint64)((rc >= 0)*duration*1e6)) );
 
 	rc = gmpv_mpv_obj_get_property(	mpv,
-					"gmpv_playlist-pos",
+					"playlist-pos",
 					MPV_FORMAT_INT64,
 					&playlist_pos );
 
@@ -576,8 +576,8 @@ static void mpv_init_handler(GmpvMainWindow *wnd, gpointer data)
 	mpv_observe_property(mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
-	mpv_observe_property(mpv_ctx, 0, "gmpv_playlist-pos", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv_ctx, 0, "gmpv_playlist-count", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
 }
 
 static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data)
@@ -628,8 +628,8 @@ static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 	{
 		playback_status_update_handler(inst);
 	}
-	else if(g_strcmp0(name, "gmpv_playlist-pos") == 0
-	|| g_strcmp0(name, "gmpv_playlist-count") == 0)
+	else if(g_strcmp0(name, "playlist-pos") == 0
+	|| g_strcmp0(name, "playlist-count") == 0)
 	{
 		playlist_update_handler(inst);
 	}
