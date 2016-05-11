@@ -522,13 +522,13 @@ static void update_track_list(GmpvApplication *app, mpv_node* track_list)
 	gint64 sid = -1;
 
 	gmpv_mpv_obj_get_property(	mpv,
-				"aid",
-				MPV_FORMAT_INT64,
-				&aid );
+					"aid",
+					MPV_FORMAT_INT64,
+					&aid );
 	gmpv_mpv_obj_get_property(	mpv,
-				"sid",
-				MPV_FORMAT_INT64,
-				&sid );
+					"sid",
+					MPV_FORMAT_INT64,
+					&sid );
 
 	action = g_action_map_lookup_action
 			(G_ACTION_MAP(app), "audio_select");
@@ -799,9 +799,9 @@ static void drag_data_handler(	GtkWidget *widget,
 		else
 		{
 			gmpv_mpv_obj_load(	app->mpv,
-					(const gchar *)raw_data,
-					append,
-					TRUE );
+						(const gchar *)raw_data,
+						append,
+						TRUE );
 		}
 	}
 
