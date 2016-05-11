@@ -66,8 +66,8 @@ void gmpv_mpv_obj_set_event_callback(	GmpvMpvObj *mpv,
 					void (*func)(mpv_event *, void *),
 					void *data );
 void gmpv_mpv_obj_set_opengl_cb_callback(	GmpvMpvObj *mpv,
-					mpv_opengl_cb_update_fn func,
-					void *data );
+						mpv_opengl_cb_update_fn func,
+						void *data );
 void mpv_check_error(int status);
 gboolean gmpv_mpv_obj_is_loaded(GmpvMpvObj *mpv);
 void gmpv_mpv_obj_get_state(GmpvMpvObj *mpv, GmpvMpvObjState *state);

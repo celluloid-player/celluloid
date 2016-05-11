@@ -50,13 +50,13 @@
 #include "gmpv_playlist_widget.h"
 
 static void gmpv_mpv_obj_set_inst_property(	GObject *object,
-					guint property_id,
-					const GValue *value,
-					GParamSpec *pspec );
+						guint property_id,
+						const GValue *value,
+						GParamSpec *pspec );
 static void gmpv_mpv_obj_get_inst_property(	GObject *object,
-					guint property_id,
-					GValue *value,
-					GParamSpec *pspec );
+						guint property_id,
+						GValue *value,
+						GParamSpec *pspec );
 static void wakeup_callback(void *data);
 static void mpv_prop_change_handler(GmpvMpvObj *mpv, mpv_event_property* prop);
 static gboolean mpv_event_handler(gpointer data);
@@ -646,13 +646,12 @@ static void gmpv_mpv_obj_init(GmpvMpvObj *mpv)
 	mpv->opengl_cb_callback = NULL;
 }
 
-GmpvMpvObj *gmpv_mpv_obj_new(	GmpvPlaylist *playlist,
-			gint64 wid )
+GmpvMpvObj *gmpv_mpv_obj_new(GmpvPlaylist *playlist, gint64 wid)
 {
 	return GMPV_MPV_OBJ(g_object_new(	gmpv_mpv_obj_get_type(),
 						"playlist", playlist,
-					"wid", wid,
-					NULL ));
+						"wid", wid,
+						NULL ));
 }
 
 gint gmpv_mpv_obj_command(GmpvMpvObj *mpv, const gchar **cmd)
@@ -807,8 +806,8 @@ gint gmpv_mpv_obj_set_property_string(	GmpvMpvObj *mpv,
 }
 
 gint gmpv_mpv_obj_set_property_flag(	GmpvMpvObj *mpv,
-				const gchar *name,
-				gboolean value )
+					const gchar *name,
+					gboolean value )
 {
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
@@ -837,8 +836,8 @@ void gmpv_mpv_obj_set_event_callback(	GmpvMpvObj *mpv,
 }
 
 void gmpv_mpv_obj_set_opengl_cb_callback(	GmpvMpvObj *mpv,
-					mpv_opengl_cb_update_fn func,
-					void *data )
+						mpv_opengl_cb_update_fn func,
+						void *data )
 {
 	mpv->opengl_cb_callback = func;
 	mpv->opengl_cb_callback_data = data;
@@ -996,10 +995,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 		g_debug(	"Attaching mpv window to wid %#x",
 				(guint)mpv->wid );
 
-		mpv_set_option(	mpv->mpv_ctx,
-				"wid",
-				MPV_FORMAT_INT64,
-				&mpv->wid );
+		mpv_set_option(mpv->mpv_ctx, "wid", MPV_FORMAT_INT64, &mpv->wid);
 	}
 
 	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);
@@ -1089,9 +1085,7 @@ void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
 			mpv->opengl_cb_callback,
 			mpv->opengl_cb_callback_data );
 
-	gmpv_mpv_obj_set_property_string(	mpv,
-					"loop",
-					loop?"inf":"no" );
+	gmpv_mpv_obj_set_property_string(mpv, "loop", loop?"inf":"no");
 
 	if(mpv->playlist)
 	{
@@ -1113,15 +1107,15 @@ void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
 		if(playlist_pos_rc >= 0 && playlist_pos > 0)
 		{
 			gmpv_mpv_obj_set_property(	mpv,
-						"playlist-pos",
-						MPV_FORMAT_INT64,
-						&playlist_pos );
+							"playlist-pos",
+							MPV_FORMAT_INT64,
+							&playlist_pos );
 		}
 
 		gmpv_mpv_obj_set_property(	mpv,
-					"pause",
-					MPV_FORMAT_FLAG,
-					&mpv->state.paused );
+						"pause",
+						MPV_FORMAT_FLAG,
+						&mpv->state.paused );
 	}
 }
 
@@ -1254,9 +1248,9 @@ void gmpv_mpv_obj_load(	GmpvMpvObj *mpv,
 }
 
 void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
-			const gchar **uri_list,
-			gboolean append,
-			gboolean update )
+				const gchar **uri_list,
+				gboolean append,
+				gboolean update )
 {
 	static const char *const sub_exts[]
 		= {	"utf", "utf8", "utf-8", "idx", "sub", "srt", "smi",
