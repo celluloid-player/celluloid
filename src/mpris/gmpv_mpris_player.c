@@ -27,6 +27,7 @@
 static void prop_table_init(gmpv_mpris *inst);
 static void emit_prop_changed(	gmpv_mpris *inst,
 				const gmpv_mpris_prop *prop_list );
+static void append_metadata_tags(GVariantBuilder *builder, mpv_node_list *list);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
 				const gchar *object_path,
@@ -95,6 +96,82 @@ static void emit_prop_changed(gmpv_mpris *inst, const gmpv_mpris_prop *prop_list
 
 	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
 	gmpv_mpris_emit_prop_changed(inst, iface->name, prop_list);
+}
+
+static void append_metadata_tags(GVariantBuilder *builder, mpv_node_list *list)
+{
+	const struct
+	{
+		const gchar *mpv_name;
+		const gchar *tag_name;
+		const gboolean is_array;
+	}
+	tag_map[] = {	{"Album", "xesam:album", FALSE},
+			{"Album_Artist", "xesam:albumArtist", TRUE},
+			{"Artist", "xesam:artist", TRUE},
+			{"Comment", "xesam:comment", TRUE},
+			{"Composer", "xesam:composer", FALSE},
+			{"Genre", "xesam:genre", TRUE},
+			{"Title", "xesam:title", FALSE},
+			{NULL, NULL, FALSE} };
+
+	g_assert(list);
+
+	for(gint i = 0; i < list->num; i++)
+	{
+		GVariantBuilder tag_builder;
+		mpv_node mpv_value = list->values[i];
+		const gchar *mpv_key = list->keys[i];
+		const gchar *tag_name;
+		GVariant *tag_value;
+		gboolean is_array = TRUE;
+		gboolean valid = TRUE;
+		gint j = -1;
+
+		g_assert(mpv_key);
+
+		while(	tag_map[++j].mpv_name &&
+			g_ascii_strcasecmp(mpv_key, tag_map[j].mpv_name) != 0 );
+		tag_name = tag_map[j].mpv_name?tag_map[j].tag_name:mpv_key;
+		is_array = tag_map[j].mpv_name?tag_map[j].is_array:FALSE;
+
+		if(!is_array && mpv_value.format == MPV_FORMAT_STRING)
+		{
+			tag_value = g_variant_new_string(mpv_value.u.string);
+		}
+		else if(is_array && mpv_value.format == MPV_FORMAT_STRING)
+		{
+			GVariant *elem_value = 	g_variant_new_string
+						(mpv_value.u.string);
+
+			g_variant_builder_init
+				(&tag_builder, G_VARIANT_TYPE("as"));
+			g_variant_builder_add_value
+				(&tag_builder, elem_value);
+
+			tag_value = g_variant_new("as", &tag_builder);
+		}
+		else
+		{
+			valid = FALSE;
+		}
+
+		if(valid)
+		{
+			g_debug(	"Adding metadata tag %s with type %d",
+					tag_name, mpv_value.format);
+
+			g_variant_builder_add
+				(builder, "{sv}", tag_name, tag_value);
+		}
+		else
+		{
+			g_warning(	"Ignoring metadata entry \"%s\" "
+					"with unsupported format %d",
+					tag_name,
+					mpv_value.format );
+		}
+	}
 }
 
 static void method_handler(	GDBusConnection *connection,
@@ -416,24 +493,10 @@ static void speed_update_handler(gmpv_mpris *inst)
 
 static void metadata_update_handler(gmpv_mpris *inst)
 {
-	const struct
-	{
-		const gchar *mpv_name;
-		const gchar *xesam_name;
-		const gboolean is_array;
-	}
-	tag_map[] = {	{"Album", "xesam:album", FALSE},
-			{"Album_Artist", "xesam:albumArtist", TRUE},
-			{"Artist", "xesam:artist", TRUE},
-			{"Comment", "xesam:comment", TRUE},
-			{"Composer", "xesam:composer", FALSE},
-			{"Genre", "xesam:genre", TRUE},
-			{"Title", "xesam:title", FALSE},
-			{NULL, NULL, FALSE} };
-
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 	gmpv_mpris_prop *prop_list;
+	mpv_node metadata;
 	GVariantBuilder builder;
 	GVariant *value;
 	gchar *uri;
@@ -442,7 +505,6 @@ static void metadata_update_handler(gmpv_mpris *inst)
 	gdouble duration;
 	gint64 playlist_pos;
 	gint rc;
-	gint i;
 
 	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
 
@@ -462,7 +524,6 @@ static void metadata_update_handler(gmpv_mpris *inst)
 					"duration",
 					MPV_FORMAT_DOUBLE,
 					&duration );
-
 	g_variant_builder_add(	&builder,
 				"{sv}",
 				"mpris:length",
@@ -473,56 +534,25 @@ static void metadata_update_handler(gmpv_mpris *inst)
 					"playlist-pos",
 					MPV_FORMAT_INT64,
 					&playlist_pos );
-
 	playlist_pos_str = g_strdup_printf(	"%" G_GINT64_FORMAT,
 						(rc >= 0)*playlist_pos );
 
 	trackid = g_strconcat(	MPRIS_TRACK_ID_PREFIX,
 				playlist_pos_str,
 				NULL );
-
 	g_variant_builder_add(	&builder,
 				"{sv}",
 				"mpris:trackid",
 				g_variant_new_object_path(trackid) );
 
-	for(i = 0; tag_map[i].mpv_name; i++)
+	rc = gmpv_mpv_obj_get_property(	mpv,
+					"metadata",
+					MPV_FORMAT_NODE,
+					&metadata );
+
+	if(rc >= 0)
 	{
-		GVariantBuilder tag_builder;
-		GVariant *tag_value;
-		gchar *mpv_prop;
-		gchar *value_buf;
-
-		mpv_prop = g_strconcat(	"metadata/by-key/",
-					tag_map[i].mpv_name,
-					NULL );
-		value_buf = gmpv_mpv_obj_get_property_string(mpv, mpv_prop);
-
-		if(value_buf)
-		{
-			tag_value = g_variant_new_string(value_buf?:"");
-
-			if(tag_map[i].is_array)
-			{
-				g_variant_builder_init
-					(&tag_builder, G_VARIANT_TYPE("as"));
-
-				g_variant_builder_add_value
-					(&tag_builder, tag_value);
-			}
-
-			g_variant_builder_add
-				(	&builder,
-					"{sv}",
-					tag_map[i].xesam_name,
-					tag_map[i].is_array?
-					g_variant_new("as", &tag_builder):
-					tag_value );
-
-			mpv_free(value_buf);
-		}
-
-		g_free(mpv_prop);
+		append_metadata_tags(&builder, metadata.u.list);
 	}
 
 	value = g_variant_new("a{sv}", &builder);
@@ -533,10 +563,11 @@ static void metadata_update_handler(gmpv_mpris *inst)
 
 	prop_list =	(gmpv_mpris_prop[])
 			{{"Metadata", value}, {NULL, NULL}};
-
 	emit_prop_changed(inst, prop_list);
+
 	mpv_playback_restart_handler(wnd, inst);
 
+	mpv_free_node_contents(&metadata);
 	g_free(playlist_pos_str);
 	g_free(trackid);
 }
