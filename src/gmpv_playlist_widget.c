@@ -38,6 +38,8 @@ struct _GmpvPlaylistWidget
 	GmpvPlaylist *store;
 	GtkTreeViewColumn *title_column;
 	GtkCellRenderer *title_renderer;
+	gint last_x;
+	gint last_y;
 	gboolean dnd_delete;
 };
 
@@ -55,6 +57,9 @@ static void gmpv_playlist_widget_get_property(	GObject *object,
 						guint property_id,
 						GValue *value,
 						GParamSpec *pspec );
+static void drag_begin_handler(	GtkWidget *widget,
+				GdkDragContext *context,
+				gpointer data );
 static void drag_data_get_handler(	GtkWidget *widget,
 					GdkDragContext *context,
 					GtkSelectionData *sel_data,
@@ -100,7 +105,11 @@ static void gmpv_playlist_widget_constructed(GObject *object)
 	g_signal_connect(	self->tree_view,
 				"button-press-event",
 				G_CALLBACK(mouse_press_handler),
-				NULL );
+				self );
+	g_signal_connect_after(	self->tree_view,
+				"drag-begin",
+				G_CALLBACK(drag_begin_handler),
+				self );
 	g_signal_connect(	self->tree_view,
 				"drag-data-get",
 				G_CALLBACK(drag_data_get_handler),
@@ -183,6 +192,87 @@ static void gmpv_playlist_widget_get_property(	GObject *object,
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 	}
+}
+
+static void drag_begin_handler(	GtkWidget *widget,
+				GdkDragContext *context,
+				gpointer data )
+{
+	const gint padding = 6;
+	const gint border_width = 1;
+	GmpvPlaylistWidget *wgt = data;
+	GtkTreeView *tree_view = GTK_TREE_VIEW(widget);
+	GtkStyleContext *style = gtk_widget_get_style_context(widget);
+	GtkTreeModel *model = gtk_tree_view_get_model(tree_view);
+	GtkTreePath *path = NULL;
+	GtkTreeIter iter;
+	GdkWindow *window = gtk_widget_get_window(widget);
+	PangoContext *pango_ctx = gtk_widget_get_pango_context(widget);
+	PangoLayout *layout = pango_layout_new(pango_ctx);
+	gint width = 0, height = 0;
+	gint text_width = 0, text_height = 0;
+	gint cell_x = 0, cell_y = 0;
+	gchar *name = NULL;
+	GdkRGBA *border_color = NULL;
+	GdkRGBA *fg_color = NULL;
+	cairo_surface_t *surface = NULL;
+	cairo_t *cr = NULL;
+
+	gtk_tree_view_get_path_at_pos(	tree_view,
+					wgt->last_x, wgt->last_y,
+					NULL,
+					NULL,
+					&cell_x, &cell_y );
+
+	gtk_tree_view_get_cursor(tree_view, &path, NULL);
+	gtk_tree_model_get_iter(model, &iter, path);
+	gtk_tree_model_get(model, &iter, PLAYLIST_NAME_COLUMN, &name, -1);
+	pango_layout_set_text(layout, name, (gint)strlen(name));
+	pango_layout_get_pixel_size(layout, &text_width, &text_height);
+
+	gtk_cell_renderer_get_preferred_height(	wgt->title_renderer,
+						widget,
+						NULL,
+						&height );
+
+	width = text_width+2*(padding+border_width);
+	height += 2*border_width;
+
+	surface =	gdk_window_create_similar_surface
+			(window, CAIRO_CONTENT_COLOR, width, height);
+	cr = cairo_create(surface);
+
+	gtk_style_context_get(	style,
+				GTK_STATE_FLAG_NORMAL,
+				GTK_STYLE_PROPERTY_COLOR, &fg_color,
+				GTK_STYLE_PROPERTY_BORDER_COLOR, &border_color,
+				NULL);
+
+	gtk_render_background(style, cr, 0, 0, width, height);
+
+	/* Draw border */
+	gdk_cairo_set_source_rgba(cr, border_color);
+	cairo_set_line_width(cr, border_width);
+	cairo_rectangle(	cr,
+				border_width/2.0, border_width/2.0,
+				width-border_width, height-border_width );
+	cairo_stroke(cr);
+
+	/* Draw text */
+	gdk_cairo_set_source_rgba(cr, fg_color);
+	cairo_translate(cr, padding, (height-text_height)/2.0);
+	pango_cairo_show_layout(cr, layout);
+
+	cairo_surface_set_device_offset
+		(	surface,
+			(-1)*(MIN(cell_x+border_width, width-border_width)),
+			(-1)*(cell_y+border_width) );
+	gtk_drag_set_icon_surface(context, surface);
+
+	gdk_rgba_free(fg_color);
+	gdk_rgba_free(border_color);
+	cairo_destroy(cr);
+	g_object_unref(layout);
 }
 
 static void drag_data_get_handler(	GtkWidget *widget,
@@ -389,8 +479,12 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data )
 {
+	GmpvPlaylistWidget *wgt = data;
 	GdkEventButton *btn_event = (GdkEventButton *)event;
 	gboolean handled;
+
+	wgt->last_x = (gint)btn_event->x;
+	wgt->last_y = (gint)btn_event->y;
 
 	handled = (	btn_event->type == GDK_BUTTON_PRESS &&
 			btn_event->button == 3 );
