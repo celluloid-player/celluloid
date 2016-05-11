@@ -54,7 +54,7 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			$(mpris_files) $(marshal_files) $(media_key_files) \
 			$(authors_files)
 
-if !OLD_GTK
+if NEW_GTK
 gnome_mpv_SOURCES += gmpv_shortcuts_window.c gmpv_shortcuts_window.h
 endif
 
