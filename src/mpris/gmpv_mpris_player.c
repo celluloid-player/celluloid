@@ -228,16 +228,16 @@ static void method_handler(	GDBusConnection *connection,
 		g_variant_get(parameters, "(x)", &offset_us);
 
 		gmpv_mpv_obj_get_property(	mpv,
-					"time-pos",
-					MPV_FORMAT_DOUBLE,
-					&position );
+						"time-pos",
+						MPV_FORMAT_DOUBLE,
+						&position );
 
 		position += (gdouble)offset_us/1.0e6;
 
 		gmpv_mpv_obj_set_property(	mpv,
-					"time-pos",
-					MPV_FORMAT_DOUBLE,
-					&position );
+						"time-pos",
+						MPV_FORMAT_DOUBLE,
+						&position );
 
 		g_dbus_connection_emit_signal
 			(	inst->session_bus_conn,
@@ -350,18 +350,18 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 		gdouble rate = g_variant_get_double(value);
 
 		gmpv_mpv_obj_set_property(	mpv,
-					"speed",
-					MPV_FORMAT_DOUBLE,
-					&rate );
+						"speed",
+						MPV_FORMAT_DOUBLE,
+						&rate );
 	}
 	else if(g_strcmp0(property_name, "Volume") == 0)
 	{
 		gdouble volume = 100*g_variant_get_double(value);
 
 		gmpv_mpv_obj_set_property(	mpv,
-					"volume",
-					MPV_FORMAT_DOUBLE,
-					&volume );
+						"volume",
+						MPV_FORMAT_DOUBLE,
+						&volume );
 	}
 
 	g_hash_table_replace(	inst->player_prop_table,
@@ -624,16 +624,16 @@ static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data)
 		inst->pending_seek = -1;
 
 		gmpv_mpv_obj_set_property(	mpv,
-					"time-pos",
-					MPV_FORMAT_DOUBLE,
-					&position );
+						"time-pos",
+						MPV_FORMAT_DOUBLE,
+						&position );
 	}
 	else
 	{
 		gmpv_mpv_obj_get_property(	mpv,
-					"time-pos",
-					MPV_FORMAT_DOUBLE,
-					&position );
+						"time-pos",
+						MPV_FORMAT_DOUBLE,
+						&position );
 	}
 
 	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
