@@ -653,28 +653,35 @@ static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 					gpointer data )
 {
 	gmpv_mpris *inst = data;
+	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpvObjState state;
+
+	gmpv_mpv_obj_get_state(mpv, &state);
 
 	if(g_strcmp0(name, "core-idle") == 0
 	|| g_strcmp0(name, "idle") == 0)
 	{
 		playback_status_update_handler(inst);
 	}
-	else if(g_strcmp0(name, "playlist-pos") == 0
-	|| g_strcmp0(name, "playlist-count") == 0)
+	else if(state.loaded)
 	{
-		playlist_update_handler(inst);
-	}
-	else if(g_strcmp0(name, "speed") == 0)
-	{
-		speed_update_handler(inst);
-	}
-	else if(g_strcmp0(name, "metadata") == 0)
-	{
-		metadata_update_handler(inst);
-	}
-	else if(g_strcmp0(name, "volume") == 0)
-	{
-		volume_update_handler(inst);
+		if(g_strcmp0(name, "playlist-pos") == 0
+		|| g_strcmp0(name, "playlist-count") == 0)
+		{
+			playlist_update_handler(inst);
+		}
+		else if(g_strcmp0(name, "speed") == 0)
+		{
+			speed_update_handler(inst);
+		}
+		else if(g_strcmp0(name, "metadata") == 0)
+		{
+			metadata_update_handler(inst);
+		}
+		else if(g_strcmp0(name, "volume") == 0)
+		{
+			volume_update_handler(inst);
+		}
 	}
 }
 
