@@ -91,11 +91,11 @@ AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_44], [Prevents using newer
 AM_CONDITIONAL([NEW_GTK], PKG_CHECK_EXISTS([gtk+-3.0 >= 3.20], true, false))
 
 AM_COND_IF([NEW_GTK],[
-	AC_DEFINE([GDK_VERSION_MIN_REQUIRED], [GDK_VERSION_3_18], [Dont warn using older APIs])
-	AC_DEFINE([GDK_VERSION_MAX_ALLOWED], [GDK_VERSION_3_18], [Prevents using newer APIs])
-],[
 	AC_DEFINE([GDK_VERSION_MIN_REQUIRED], [GDK_VERSION_3_20], [Dont warn using older APIs])
 	AC_DEFINE([GDK_VERSION_MAX_ALLOWED], [GDK_VERSION_3_20], [Prevents using newer APIs])
+],[
+	AC_DEFINE([GDK_VERSION_MIN_REQUIRED], [GDK_VERSION_3_18], [Dont warn using older APIs])
+	AC_DEFINE([GDK_VERSION_MAX_ALLOWED], [GDK_VERSION_3_18], [Prevents using newer APIs])
 ])
 
 # Checks for header files.
