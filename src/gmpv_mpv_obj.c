@@ -116,6 +116,8 @@ static void wakeup_callback(void *data)
 
 static void mpv_prop_change_handler(GmpvMpvObj *mpv, mpv_event_property* prop)
 {
+	g_debug("Received mpv property change event for \"%s\"", prop->name);
+
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
 		gboolean idle;

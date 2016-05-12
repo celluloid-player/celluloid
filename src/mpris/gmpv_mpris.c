@@ -94,12 +94,16 @@ void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
 	GVariantBuilder builder;
 	GVariant *sig_args;
 
+	g_debug("Emitting property change event on interface %s", iface_name);
+
 	current = prop_list;
 
 	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
 
 	while(current && current->name != NULL)
 	{
+		g_debug("Adding property: %s", current->name);
+
 		g_variant_builder_add(	&builder,
 					"{sv}",
 					current->name,

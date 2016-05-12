@@ -158,8 +158,10 @@ static void append_metadata_tags(GVariantBuilder *builder, mpv_node_list *list)
 
 		if(valid)
 		{
-			g_debug(	"Adding metadata tag %s with type %d",
-					tag_name, mpv_value.format);
+			g_debug(	"Adding metadata tag \"%s\" "
+					"with type %d",
+					tag_name,
+					mpv_value.format );
 
 			g_variant_builder_add
 				(builder, "{sv}", tag_name, tag_value);
