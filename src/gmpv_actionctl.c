@@ -433,7 +433,7 @@ static void track_select_handler(	GSimpleAction *action,
 
 	mpv = gmpv_application_get_mpv_obj(app);
 
-	if(id >= 0)
+	if(id > 0)
 	{
 		gmpv_mpv_obj_set_property(mpv, mpv_prop, MPV_FORMAT_INT64, &id);
 	}

@@ -512,41 +512,44 @@ static GmpvTrack *parse_track_list(mpv_node_list *node)
 
 static void update_track_list(GmpvApplication *app, mpv_node* track_list)
 {
+	const struct
+	{
+		const gchar *prop_name;
+		const gchar *action_name;
+	}
+	track_map[] = {	{"aid", "audio_select"},
+			{"vid", "video_select"},
+			{"sid", "sub_select"},
+			{NULL, NULL} };
+
 	GmpvMpvObj *mpv = app->mpv;
 	mpv_node_list *org_list = track_list->u.list;
 	GSList *audio_list = NULL;
 	GSList *video_list = NULL;
 	GSList *sub_list = NULL;
-	GAction *action = NULL;
-	gint64 aid = -1;
-	gint64 sid = -1;
 
-	gmpv_mpv_obj_get_property(	mpv,
-					"aid",
-					MPV_FORMAT_INT64,
-					&aid );
-	gmpv_mpv_obj_get_property(	mpv,
-					"sid",
-					MPV_FORMAT_INT64,
-					&sid );
+	for(gint i = 0; track_map[i].prop_name; i++)
+	{
+		GAction *action;
+		gchar *buf;
+		gint64 val;
 
-	action = g_action_map_lookup_action
-			(G_ACTION_MAP(app), "audio_select");
-	g_simple_action_set_state
-		(G_SIMPLE_ACTION(action), g_variant_new_int64(aid));
+		action =	g_action_map_lookup_action
+				(G_ACTION_MAP(app), track_map[i].action_name);
+		buf =	gmpv_mpv_obj_get_property_string
+			(mpv, track_map[i].prop_name);
+		val = g_ascii_strtoll(buf, NULL, 10);
 
-	action = g_action_map_lookup_action
-			(G_ACTION_MAP(app), "sub_select");
-	g_simple_action_set_state
-		(G_SIMPLE_ACTION(action), g_variant_new_int64(sid));
+		g_simple_action_set_state
+			(G_SIMPLE_ACTION(action), g_variant_new_int64(val));
+
+		mpv_free(buf);
+	}
 
 	for(gint i = 0; i < org_list->num; i++)
 	{
-		GmpvTrack *entry;
+		GmpvTrack *entry = parse_track_list(org_list->values[i].u.list);
 		GSList **list;
-
-		entry = parse_track_list
-			(org_list->values[i].u.list);
 
 		if(entry->type == TRACK_TYPE_AUDIO)
 		{
@@ -562,7 +565,7 @@ static void update_track_list(GmpvApplication *app, mpv_node* track_list)
 		}
 		else
 		{
-			g_assert(FALSE);
+			g_assert_not_reached();
 		}
 
 		*list = g_slist_prepend(*list, entry);
@@ -675,10 +678,11 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	{
 		GmpvControlBox *control_box;
 		GmpvPlaylist *playlist;
-		gint64 aid = -1;
+		gchar *title;
+		gchar *aid_str;
+		gint64 aid;
 		gint64 pos = -1;
 		gdouble length = 0;
-		gchar *title = NULL;
 
 		control_box = gmpv_main_window_get_control_box(app->gui);
 		playlist = gmpv_mpv_obj_get_playlist(mpv);
@@ -695,11 +699,12 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		}
 
 		gmpv_mpv_obj_get_property
-			(mpv, "aid", MPV_FORMAT_INT64, &aid);
-		gmpv_mpv_obj_get_property
 			(mpv, "playlist-pos", MPV_FORMAT_INT64, &pos);
 		gmpv_mpv_obj_get_property
 			(mpv, "length", MPV_FORMAT_DOUBLE, &length);
+
+		aid_str = gmpv_mpv_obj_get_property_string(mpv, "aid");
+		aid = g_ascii_strtoll(aid_str, NULL, 10);
 
 		title = gmpv_mpv_obj_get_property_string(mpv, "media-title");
 
@@ -710,6 +715,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		gmpv_control_box_set_seek_bar_length(control_box, (gint)length);
 		gtk_window_set_title(GTK_WINDOW(app->gui), title);
 
+		mpv_free(aid_str);
 		mpv_free(title);
 	}
 	else if(event->event_id == MPV_EVENT_CLIENT_MESSAGE)

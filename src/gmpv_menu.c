@@ -34,7 +34,7 @@ void build_menu_from_track_list(	GMenu *menu,
 	const glong max_len = 32;
 	gchar *detailed_action;
 
-	detailed_action = g_strdup_printf("app.%s(@x -1)", action);
+	detailed_action = g_strdup_printf("app.%s(@x 0)", action);
 
 	g_menu_append(menu, _("None"), detailed_action);
 	g_free(detailed_action);
