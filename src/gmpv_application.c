@@ -709,7 +709,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		title = gmpv_mpv_obj_get_property_string(mpv, "media-title");
 
 		gmpv_control_box_set_enabled(control_box, TRUE);
-		gmpv_control_box_set_volume_enabled(control_box, (aid != -1));
+		gmpv_control_box_set_volume_enabled(control_box, (aid > 0));
 		gmpv_control_box_set_playing_state(control_box, !state.paused);
 		gmpv_playlist_set_indicator_pos(playlist, (gint)pos);
 		gmpv_control_box_set_seek_bar_length(control_box, (gint)length);
