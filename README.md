@@ -4,6 +4,8 @@ GNOME MPV is a simple GTK+ frontend for mpv. GNOME MPV interacts with mpv via
 the client API exported by libmpv, allowing access to mpv's powerful playback
 capabilities.
 
+![Screenshot](https://gnome-mpv.github.io/images/screenshot-0.png)
+
 ## Dependencies
 
 - appstream-glib<sup>[[1]](#note)</sup> (build)
