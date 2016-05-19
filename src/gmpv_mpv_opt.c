@@ -21,6 +21,7 @@
 #include <mpv/client.h>
 
 #include "gmpv_mpv_opt.h"
+#include "gmpv_mpv_obj.h"
 #include "gmpv_mpv_obj_private.h"
 #include "gmpv_def.h"
 
@@ -218,6 +219,21 @@ void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv)
 	mpv_free(autofit_str);
 	mpv_free(larger_str);
 	mpv_free(smaller_str);
+}
+
+void gmpv_mpv_opt_handle_fs(GmpvMpvObj *mpv)
+{
+	gchar *optbuf;
+
+	optbuf = gmpv_mpv_obj_get_property_string(mpv, "options/fs");
+
+	if(g_strcmp0(optbuf, "yes") == 0)
+	{
+		gmpv_mpv_obj_command_string
+			(mpv, "script-message gmpv-action fullscreen_toggle");
+	}
+
+	mpv_free(optbuf);
 }
 
 void gmpv_mpv_opt_handle_msg_level(GmpvMpvObj *mpv)

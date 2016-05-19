@@ -1037,6 +1037,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 		}
 
 		gmpv_mpv_opt_handle_msg_level(mpv);
+		gmpv_mpv_opt_handle_fs(mpv);
 
 		mpv->force_opengl = FALSE;
 		mpv->state.ready = TRUE;
