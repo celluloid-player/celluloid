@@ -156,7 +156,7 @@ static gboolean mpv_event_handler(gpointer data)
 
 			g_signal_emit_by_name(	mpv,
 						"mpv-prop-change",
-						g_strdup(prop->name) );
+						prop->name );
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
@@ -203,6 +203,8 @@ static gboolean mpv_event_handler(gpointer data)
 				gmpv_mpv_obj_set_property_flag
 					(mpv, "pause", TRUE);
 				g_signal_emit_by_name(mpv, "mpv-error", msg);
+
+				g_free(msg);
 			}
 		}
 		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
@@ -559,7 +561,6 @@ static void gmpv_mpv_obj_class_init(GmpvMpvObjClass* klass)
 			G_MAXINT64,
 			-1,
 			G_PARAM_READWRITE );
-
 	g_object_class_install_property(obj_class, PROP_WID, pspec);
 
 	pspec = g_param_spec_pointer
@@ -567,7 +568,6 @@ static void gmpv_mpv_obj_class_init(GmpvMpvObjClass* klass)
 			"Playlist",
 			"GmpvPlaylist to use for storage",
 			G_PARAM_READWRITE );
-
 	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
 
 	g_signal_new(	"mpv-init",
@@ -579,7 +579,6 @@ static void gmpv_mpv_obj_class_init(GmpvMpvObjClass* klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-
 	g_signal_new(	"mpv-error",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -590,7 +589,6 @@ static void gmpv_mpv_obj_class_init(GmpvMpvObjClass* klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
-
 	g_signal_new(	"mpv-playback-restart",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -600,7 +598,6 @@ static void gmpv_mpv_obj_class_init(GmpvMpvObjClass* klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-
 	g_signal_new(	"mpv-event",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -611,7 +608,6 @@ static void gmpv_mpv_obj_class_init(GmpvMpvObjClass* klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_INT );
-
 	g_signal_new(	"mpv-prop-change",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -983,7 +979,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 		const gchar *msg
 			= _("Failed to apply one or more MPV options.");
 
-		g_signal_emit_by_name(mpv, "mpv-error", g_strdup(msg));
+		g_signal_emit_by_name(mpv, "mpv-error", msg);
 	}
 
 	if(mpv->force_opengl)
@@ -1023,7 +1019,6 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 		mpv->force_opengl = TRUE;
 		mpv->state.paused = FALSE;
 
-		mpv_free(current_vo);
 		gmpv_mpv_obj_reset(mpv);
 	}
 	else
@@ -1048,6 +1043,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	g_clear_object(&win_settings);
 	g_free(config_dir);
 	g_free(mpvopt);
+	mpv_free(current_vo);
 }
 
 void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
