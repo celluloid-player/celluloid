@@ -275,30 +275,36 @@ static void mpv_obj_update_playlist(GmpvMpvObj *mpv)
 
 	for(i = 0; i < playlist_count; i++)
 	{
-		gint prop_count = mpv_playlist.u.list->values[i].u.list->num;
+		mpv_node_list *prop_list = mpv_playlist.u.list->values[i].u.list;
 		gchar *uri = NULL;
 		gchar *title = NULL;
 		gchar *name = NULL;
-		gchar *old_name = NULL;
-		gchar *old_uri = NULL;
 
-		/* The first entry must always exist */
-		uri =	mpv_playlist.u.list
-			->values[i].u.list
-			->values[0].u.string;
-
-		/* Try retrieving the title from mpv playlist */
-		if(prop_count >= 4)
+		for(gint j = 0; j < prop_list->num; j++)
 		{
-			title = mpv_playlist.u.list
-				->values[i].u.list
-				->values[3].u.string;
+			const gchar *key = prop_list->keys[j];
+			const mpv_node value = prop_list->values[j];
+
+			if(g_strcmp0(key, "filename") == 0)
+			{
+				g_assert(value.format == MPV_FORMAT_STRING);
+				uri = value.u.string;
+			}
+			else if(g_strcmp0(key, "title") == 0)
+			{
+				g_assert(value.format == MPV_FORMAT_STRING);
+				title = value.u.string;
+			}
 		}
 
 		name = title?g_strdup(title):get_name_from_path(uri);
 
+		/* Overwrite current entry if it doesn't match the new value */
 		if(!iter_end)
 		{
+			gchar *old_name = NULL;
+			gchar *old_uri = NULL;
+
 			gtk_tree_model_get
 				(	GTK_TREE_MODEL(store), &iter,
 					PLAYLIST_NAME_COLUMN, &old_name,
