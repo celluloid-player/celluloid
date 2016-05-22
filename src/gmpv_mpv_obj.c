@@ -304,20 +304,30 @@ static void mpv_obj_update_playlist(GmpvMpvObj *mpv)
 		{
 			gchar *old_name = NULL;
 			gchar *old_uri = NULL;
+			gboolean name_update;
+			gboolean uri_update;
 
 			gtk_tree_model_get
 				(	GTK_TREE_MODEL(store), &iter,
 					PLAYLIST_NAME_COLUMN, &old_name,
 					PLAYLIST_URI_COLUMN, &old_uri, -1 );
 
-			if(g_strcmp0(name, old_name) != 0)
+			name_update = (g_strcmp0(name, old_name) != 0);
+			uri_update = (g_strcmp0(uri, old_uri) != 0);
+
+			/* Only set the name if either the title can be
+			 * retrieved or the name is unset. This preserves the
+			 * correct title if it becomes unavailable later such as
+			 * when restarting mpv.
+			 */
+			if(name_update && (!old_name || title || uri_update))
 			{
 				gtk_list_store_set
 					(	store, &iter,
 						PLAYLIST_NAME_COLUMN, name, -1 );
 			}
 
-			if(g_strcmp0(uri, old_uri) != 0)
+			if(uri_update)
 			{
 				gtk_list_store_set
 					(	store, &iter,
