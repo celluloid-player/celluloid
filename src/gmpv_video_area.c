@@ -169,11 +169,13 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	gtk_widget_add_events(	area->draw_area,
 				GDK_BUTTON_PRESS_MASK|
 				GDK_BUTTON_RELEASE_MASK|
-				GDK_POINTER_MOTION_MASK );
+				GDK_POINTER_MOTION_MASK|
+				GDK_SCROLL_MASK );
 	gtk_widget_add_events(	area->gl_area,
 				GDK_BUTTON_PRESS_MASK|
 				GDK_BUTTON_RELEASE_MASK|
-				GDK_POINTER_MOTION_MASK );
+				GDK_POINTER_MOTION_MASK|
+				GDK_SCROLL_MASK );
 
 	gtk_widget_set_vexpand(area->fs_revealer, FALSE);
 	gtk_widget_set_hexpand(area->fs_revealer, FALSE);

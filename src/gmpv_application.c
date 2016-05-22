@@ -114,6 +114,9 @@ static gboolean key_release_handler(	GtkWidget *widget,
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
+static gboolean scroll_handler(	GtkWidget *widget,
+				GdkEvent *event,
+				gpointer data );
 static gboolean queue_render(GtkGLArea *area);
 static void opengl_cb_update_callback(void *cb_ctx);
 static void set_playlist_pos(GmpvApplication *app, gint64 pos);
@@ -934,6 +937,74 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	return TRUE;
 }
 
+static gboolean scroll_handler(	GtkWidget *widget,
+				GdkEvent *event,
+				gpointer data )
+{
+	GdkEventScroll *scroll_event = (GdkEventScroll *)event;
+	guint button = 0;
+	gint count = 0;
+
+	/* Only one axis will be used at a time to prevent accidental activation
+	 * of commands bound to buttons associated with the other axis.
+	 */
+	if(ABS(scroll_event->delta_x) > ABS(scroll_event->delta_y))
+	{
+		count = (gint)ABS(scroll_event->delta_x);
+
+		if(scroll_event->delta_x <= -1)
+		{
+			button = 6;
+		}
+		else if(scroll_event->delta_x >= 1)
+		{
+			button = 7;
+		}
+	}
+	else
+	{
+		count = (gint)ABS(scroll_event->delta_y);
+
+		if(scroll_event->delta_y <= -1)
+		{
+			button = 4;
+		}
+		else if(scroll_event->delta_y >= 1)
+		{
+			button = 5;
+		}
+	}
+
+	if(button > 0)
+	{
+		GdkEventButton btn_event;
+
+		btn_event.type = scroll_event->type;
+		btn_event.window = scroll_event->window;
+		btn_event.send_event = scroll_event->send_event;
+		btn_event.time = scroll_event->time;
+		btn_event.x = scroll_event->x;
+		btn_event.y = scroll_event->y;
+		btn_event.axes = NULL;
+		btn_event.state = scroll_event->state;
+		btn_event.button = button;
+		btn_event.device = scroll_event->device;
+		btn_event.x_root = scroll_event->x_root;
+		btn_event.y_root = scroll_event->y_root;
+
+		for(gint i = 0; i < count; i++)
+		{
+			/* Not used */
+			gboolean rc;
+
+			g_signal_emit_by_name
+				(widget, "button-press-event", &btn_event, &rc);
+		}
+	}
+
+	return TRUE;
+}
+
 static gboolean queue_render(GtkGLArea *area)
 {
 	gtk_gl_area_queue_render(area);
@@ -1060,6 +1131,10 @@ static void connect_signals(GmpvApplication *app)
 	g_signal_connect(	video_area,
 				"button-press-event",
 				G_CALLBACK(mouse_press_handler),
+				app );
+	g_signal_connect(	video_area,
+				"scroll-event",
+				G_CALLBACK(scroll_handler),
 				app );
 	g_signal_connect(	playlist,
 				"row-activated",
