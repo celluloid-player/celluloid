@@ -264,11 +264,22 @@ gint64 gmpv_video_area_get_xid(GmpvVideoArea *area)
 #ifdef GDK_WINDOWING_X11
 	if(GDK_IS_X11_DISPLAY(gdk_display_get_default()))
 	{
-		GdkWindow *window = gtk_widget_get_window(area->draw_area);
+		GtkWidget *parent = gtk_widget_get_parent(GTK_WIDGET(area));
+		GdkWindow *window = NULL;
 
-		g_assert(window);
+		if(parent && !gtk_widget_get_realized(area->draw_area))
+		{
+			gtk_widget_realize(area->draw_area);
+		}
 
-		return (gint64)gdk_x11_window_get_xid(window);
+		window = gtk_widget_get_window(area->draw_area);
+
+		if(!window)
+		{
+			g_critical("Failed to get XID of video area");
+		}
+
+		return window?(gint64)gdk_x11_window_get_xid(window):-1;
 	}
 #endif
 
