@@ -933,6 +933,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 			{"window-scale", "1"},
 			{"pause", "no"},
 			{"ytdl", "yes"},
+			{"osd-bar", "no"},
 			{"input-cursor", "no"},
 			{"cursor-autohide", "no"},
 			{"softvol-max", "100"},
