@@ -29,7 +29,7 @@
 #include "gmpv_common.h"
 #include "gmpv_authors.h"
 
-#if (GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 20)
+#if GTK_CHECK_VERSION(3, 20, 0)
 #include "gmpv_shortcuts_window.h"
 #endif
 
@@ -205,7 +205,7 @@ static void show_shortcuts_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-#if (GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 20)
+#if GTK_CHECK_VERSION(3, 20, 0)
 	GmpvApplication *app = data;
 	GmpvMainWindow *mwnd = gmpv_application_get_main_window(app);
 	GtkWidget *wnd = gmpv_shortcuts_window_new(GTK_WINDOW(mwnd));

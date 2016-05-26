@@ -492,7 +492,7 @@ void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
 	 * size_allocate_handler() will be called so that the event handler will
 	 * be disconnected.
 	 */
-#if (GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 20)
+#if GTK_CHECK_VERSION(3, 20, 0)
 	gtk_widget_queue_allocate(wnd->vid_area);
 #else
 	gtk_widget_queue_resize(wnd->vid_area);
@@ -610,7 +610,7 @@ void gmpv_main_window_set_playlist_visible(GmpvMainWindow *wnd, gboolean visible
 
 		if(!maximized)
 		{
-#if (GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 20)
+#if GTK_CHECK_VERSION(3, 20, 0)
 			gtk_window_resize(	GTK_WINDOW(wnd),
 						visible?
 						width+wnd->playlist_width:
