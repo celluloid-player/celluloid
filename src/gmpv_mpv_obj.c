@@ -912,8 +912,6 @@ inline mpv_opengl_cb_context *gmpv_mpv_obj_get_opengl_cb_context(GmpvMpvObj *mpv
 void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);
-	GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
-	gdouble volume = g_settings_get_double(win_settings, "volume")*100;
 	gchar *config_dir = get_config_dir_path();
 	gchar *mpvopt = NULL;
 	gchar *current_vo = NULL;
@@ -954,9 +952,6 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 					options[i].name,
 					options[i].value );
 	}
-
-	g_debug("Setting volume to %f", volume);
-	mpv_set_option(mpv->mpv_ctx, "volume", MPV_FORMAT_DOUBLE, &volume);
 
 	if(g_settings_get_boolean(main_settings, "mpv-config-enable"))
 	{
@@ -1040,6 +1035,18 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	}
 	else
 	{
+		GSettings *win_settings;
+		gdouble volume;
+
+		win_settings = g_settings_new(CONFIG_WIN_STATE);
+		volume = g_settings_get_double(win_settings, "volume")*100;
+
+		g_debug("Setting volume to %f", volume);
+		mpv_set_property(	mpv->mpv_ctx,
+					"volume",
+					MPV_FORMAT_DOUBLE,
+					&volume );
+
 		/* The vo should be opengl-cb if current_vo is NULL*/
 		if(!current_vo)
 		{
@@ -1054,10 +1061,11 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 		mpv->force_opengl = FALSE;
 		mpv->state.ready = TRUE;
 		g_signal_emit_by_name(mpv, "mpv-init");
+
+		g_clear_object(&win_settings);
 	}
 
 	g_clear_object(&main_settings);
-	g_clear_object(&win_settings);
 	g_free(config_dir);
 	g_free(mpvopt);
 	mpv_free(current_vo);

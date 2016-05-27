@@ -31,7 +31,6 @@ G_DECLARE_FINAL_TYPE(GmpvControlBox, gmpv_control_box, GMPV, CONTROL_BOX, GtkBox
 GtkWidget *gmpv_control_box_new(void);
 void gmpv_control_box_set_enabled(GmpvControlBox *box, gboolean enabled);
 void gmpv_control_box_set_chapter_enabled(GmpvControlBox *box, gboolean enabled);
-void gmpv_control_box_set_volume_enabled(GmpvControlBox *box, gboolean enabled);
 void gmpv_control_box_set_seek_bar_pos(GmpvControlBox *box, gdouble pos);
 void gmpv_control_box_set_seek_bar_length(GmpvControlBox *box, gint length);
 void gmpv_control_box_set_volume(GmpvControlBox *box, gdouble volume);

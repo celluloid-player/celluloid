@@ -230,7 +230,6 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 		(	gtk_widget_get_style_context(GTK_WIDGET(box)),
 			GTK_STYLE_CLASS_BACKGROUND );
 	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
-	gtk_widget_set_sensitive(box->volume_button, FALSE);
 
 	gtk_widget_set_tooltip_text(box->play_button, _("Play"));
 	gtk_widget_set_tooltip_text(box->stop_button, _("Stop"));
@@ -365,11 +364,6 @@ void gmpv_control_box_set_chapter_enabled(GmpvControlBox *box, gboolean enabled)
 	}
 }
 
-void gmpv_control_box_set_volume_enabled(GmpvControlBox *box, gboolean enabled)
-{
-	gtk_widget_set_sensitive(box->volume_button, enabled);
-}
-
 void gmpv_control_box_set_seek_bar_pos(GmpvControlBox *box, gdouble pos)
 {
 	gtk_range_set_value(GTK_RANGE(box->seek_bar), pos);
@@ -447,5 +441,4 @@ void gmpv_control_box_reset(GmpvControlBox *box)
 	gmpv_control_box_set_playing_state(box, FALSE);
 	gmpv_control_box_set_chapter_enabled(box, FALSE);
 	gmpv_control_box_set_fullscreen_state(box, FALSE);
-	gmpv_control_box_set_volume_enabled(box, FALSE);
 }

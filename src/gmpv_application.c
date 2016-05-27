@@ -621,11 +621,6 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 
 		gmpv_control_box_set_volume(control_box, volume);
 	}
-	else if(g_strcmp0(prop->name, "aid") == 0)
-	{
-		/* prop->data == NULL iff there is no audio track */
-		gmpv_control_box_set_volume_enabled(control_box, !!prop->data);
-	}
 	else if(g_strcmp0(prop->name, "length") == 0 && prop->data)
 	{
 		gdouble length = *((gdouble *) prop->data);
@@ -682,8 +677,6 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		GmpvControlBox *control_box;
 		GmpvPlaylist *playlist;
 		gchar *title;
-		gchar *aid_str;
-		gint64 aid;
 		gint64 pos = -1;
 		gdouble length = 0;
 
@@ -706,19 +699,14 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		gmpv_mpv_obj_get_property
 			(mpv, "length", MPV_FORMAT_DOUBLE, &length);
 
-		aid_str = gmpv_mpv_obj_get_property_string(mpv, "aid");
-		aid = g_ascii_strtoll(aid_str, NULL, 10);
-
 		title = gmpv_mpv_obj_get_property_string(mpv, "media-title");
 
 		gmpv_control_box_set_enabled(control_box, TRUE);
-		gmpv_control_box_set_volume_enabled(control_box, (aid > 0));
 		gmpv_control_box_set_playing_state(control_box, !state.paused);
 		gmpv_playlist_set_indicator_pos(playlist, (gint)pos);
 		gmpv_control_box_set_seek_bar_length(control_box, (gint)length);
 		gtk_window_set_title(GTK_WINDOW(app->gui), title);
 
-		mpv_free(aid_str);
 		mpv_free(title);
 	}
 	else if(event->event_id == MPV_EVENT_CLIENT_MESSAGE)
