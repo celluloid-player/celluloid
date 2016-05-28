@@ -515,7 +515,7 @@ void gmpv_main_window_enable_csd(GmpvMainWindow *wnd)
 	fullscreen_icon = g_themed_icon_new_with_default_fallbacks
 				("view-fullscreen-symbolic");
 	menu_icon = g_themed_icon_new_with_default_fallbacks
-				("view-list-symbolic");
+				("open-menu-symbolic");
 
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->open_hdr_btn = gtk_menu_button_new();
