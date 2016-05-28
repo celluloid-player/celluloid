@@ -27,7 +27,7 @@
 #include "gmpv_mpris_gdbus.h" /* auto-generated */
 #include "gmpv_def.h"
 
-static void bus_acquired_handler(	GDBusConnection *connection,
+static void name_acquired_handler(	GDBusConnection *connection,
 					const gchar *name,
 					gpointer data );
 static void name_lost_handler(	GDBusConnection *connection,
@@ -38,7 +38,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 				gpointer data );
 static void unregister(gmpv_mpris *inst);
 
-static void bus_acquired_handler(	GDBusConnection *connection,
+static void name_acquired_handler(	GDBusConnection *connection,
 					const gchar *name,
 					gpointer data )
 {
@@ -144,7 +144,19 @@ GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list)
 
 void gmpv_mpris_init(GmpvApplication *gmpv_ctx)
 {
-	gmpv_mpris *inst = g_malloc(sizeof(gmpv_mpris));
+	gmpv_mpris *inst;
+	GmpvMainWindow* main_window;
+	gchar *name;
+
+	inst = g_malloc(sizeof(gmpv_mpris));
+	main_window = gmpv_application_get_main_window(gmpv_ctx);
+
+	/* sizeof(pid_t) can theoretically be larger than sizeof(gint64), but
+	 * even then the chance of collision would be minimal.
+	 */
+	name =	g_strdup_printf
+		(	MPRIS_BUS_NAME ".instance%" G_GINT64_FORMAT,
+			ABS((gint64)getpid()) );
 
 	inst->gmpv_ctx = gmpv_ctx;
 	inst->name_id = 0;
@@ -157,22 +169,21 @@ void gmpv_mpris_init(GmpvApplication *gmpv_ctx)
 	inst->base_prop_table = NULL;
 	inst->player_prop_table = NULL;
 	inst->session_bus_conn = NULL;
-
-	inst->shutdown_sig_id
-		= g_signal_connect
-			(	gmpv_application_get_main_window(gmpv_ctx),
-				"delete-event",
-				G_CALLBACK(delete_handler),
-				inst );
-
+	inst->shutdown_sig_id =	g_signal_connect
+				(	main_window,
+					"delete-event",
+					G_CALLBACK(delete_handler),
+					inst );
 	inst->name_id = g_bus_own_name(	G_BUS_TYPE_SESSION,
-					MPRIS_BUS_NAME,
+					name,
 					G_BUS_NAME_OWNER_FLAGS_NONE,
-					(GBusAcquiredCallback)
-					bus_acquired_handler,
 					NULL,
+					(GBusNameAcquiredCallback)
+					name_acquired_handler,
 					(GBusNameLostCallback)
 					name_lost_handler,
 					inst,
 					NULL );
+
+	g_free(name);
 }
