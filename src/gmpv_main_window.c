@@ -597,7 +597,7 @@ void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 		{
 			gint new_pos = width-(maximized?wnd->playlist_width:0);
 
-#if GTK_CHECK_VERSION(3, 20, 0)
+#if !GTK_CHECK_VERSION(3, 20, 0)
 			/* Workaround for window sizing bug affecting
 			 * GTK+ < 3.20
 			 */
