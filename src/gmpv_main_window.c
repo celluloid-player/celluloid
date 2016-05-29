@@ -596,6 +596,13 @@ void gmpv_main_window_set_playlist_visible(GmpvMainWindow *wnd, gboolean visible
 		{
 			gint new_pos = width-(maximized?wnd->playlist_width:0);
 
+#if GTK_CHECK_VERSION(3, 20, 0)
+			/* Workaround for window sizing bug affecting
+			 * GTK+ < 3.20
+			 */
+			new_pos -= 52;
+#endif
+
 			gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
 						new_pos );
 		}
@@ -617,7 +624,7 @@ void gmpv_main_window_set_playlist_visible(GmpvMainWindow *wnd, gboolean visible
 						handle_pos,
 						height );
 #else
-			/* Workaround for window sizing bug on Wayland affecting
+			/* Workaround for window sizing bug affecting
 			 * GTK+ < 3.20
 			 */
 			gint wnd_offset;
