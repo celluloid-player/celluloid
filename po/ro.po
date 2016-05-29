@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-11 04:21+0700\n"
+"POT-Creation-Date: 2016-05-29 16:11+0700\n"
 "PO-Revision-Date: 2016-03-04 02:20-0500\n"
 "Last-Translator: gnome-mpv <gnome-mpv@openmailbox.org>\n"
 "Language-Team: Romanian Translations\n"
@@ -37,63 +37,67 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:4
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5
+#: ../data/io.github.GnomeMpv.gschema.xml.h:6
 msgid "Options to pass to mpv"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:5
-#: ../data/io.github.GnomeMpv.gschema.xml.h:6
+#: ../data/io.github.GnomeMpv.gschema.xml.h:7
 msgid "Path to mpv configuration file"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:6
-#: ../data/io.github.GnomeMpv.gschema.xml.h:7
+#: ../data/io.github.GnomeMpv.gschema.xml.h:8
 msgid "Load or don't load mpv configuration file"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:7
-#: ../data/io.github.GnomeMpv.gschema.xml.h:8
+#: ../data/io.github.GnomeMpv.gschema.xml.h:9
 msgid "Path to mpv input configuration file"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:8
-#: ../data/io.github.GnomeMpv.gschema.xml.h:9
+#: ../data/io.github.GnomeMpv.gschema.xml.h:10
 msgid "Load or don't load mpv input configuration file"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:9
-#: ../data/io.github.GnomeMpv.gschema.xml.h:10
+#: ../data/io.github.GnomeMpv.gschema.xml.h:11
 msgid "Width of the window"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:10
-#: ../data/io.github.GnomeMpv.gschema.xml.h:11
+#: ../data/io.github.GnomeMpv.gschema.xml.h:12
 msgid "Height of the window"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:11
-#: ../data/io.github.GnomeMpv.gschema.xml.h:12
+#: ../data/io.github.GnomeMpv.gschema.xml.h:13
 msgid "Volume of player"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:12
-#: ../data/io.github.GnomeMpv.gschema.xml.h:13
+#: ../data/io.github.GnomeMpv.gschema.xml.h:14
 msgid "Width of the playlist"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:13
-#: ../data/io.github.GnomeMpv.gschema.xml.h:14
+#: ../data/io.github.GnomeMpv.gschema.xml.h:15
 msgid "Show or not show the playlist"
 msgstr ""
 
 #: ../data/org.gnome-mpv.gschema.xml.h:14
-#: ../data/io.github.GnomeMpv.gschema.xml.h:15
+#: ../data/io.github.GnomeMpv.gschema.xml.h:16
 msgid "URI of the last folder accessed"
 msgstr ""
 
 #: ../data/io.github.GnomeMpv.gschema.xml.h:1
 msgid ""
 "Whether the settings has already been migrated from the previous version"
+msgstr ""
+
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:308
+msgid "Allow multiple instances"
 msgstr ""
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
@@ -133,7 +137,7 @@ msgstr ""
 msgid "The main window with playlist open"
 msgstr ""
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:196
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:232
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -151,7 +155,7 @@ msgstr "Deschide Fișier"
 
 #: ../src/gmpv_actionctl.c:93 ../src/gmpv_actionctl.c:255
 #: ../src/gmpv_actionctl.c:463 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:348
+#: ../src/gmpv_pref_dialog.c:351
 msgid "_Cancel"
 msgstr "_Anulează"
 
@@ -165,7 +169,7 @@ msgstr "_Deschide"
 msgid "Save Playlist"
 msgstr "Salvează Lista de Redare"
 
-#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:350
+#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:353
 msgid "_Save"
 msgstr "_Salvează"
 
@@ -190,43 +194,47 @@ msgstr "O interfață GTK pentru MPV"
 msgid "translator-credits"
 msgstr "Robert Datcu"
 
-#: ../src/gmpv_application.c:987
+#: ../src/gmpv_application.c:1085
 msgid "Playing"
+msgstr ""
+
+#: ../src/gmpv_application.c:1219
+msgid "Don't connect to an already-running instance"
 msgstr ""
 
 #: ../src/gmpv_common.c:249
 msgid "Error"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:235 ../src/gmpv_control_box.c:417
+#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:411
 msgid "Play"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:236
+#: ../src/gmpv_control_box.c:235
 msgid "Stop"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:237
+#: ../src/gmpv_control_box.c:236
 msgid "Forward"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:238
+#: ../src/gmpv_control_box.c:237
 msgid "Rewind"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:239
+#: ../src/gmpv_control_box.c:238
 msgid "Next Chapter"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:240
+#: ../src/gmpv_control_box.c:239
 msgid "Previous Chapter"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:241 ../src/gmpv_main_window.c:559
+#: ../src/gmpv_control_box.c:240 ../src/gmpv_main_window.c:559
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:417
+#: ../src/gmpv_control_box.c:411
 msgid "Pause"
 msgstr ""
 
@@ -313,12 +321,12 @@ msgstr ""
 msgid "S_ubtitle Track"
 msgstr ""
 
-#: ../src/gmpv_mpv_obj.c:197
+#: ../src/gmpv_mpv_obj.c:199
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr ""
 
-#: ../src/gmpv_mpv_obj.c:983
+#: ../src/gmpv_mpv_obj.c:992
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
@@ -330,15 +338,15 @@ msgstr "Adresă:"
 msgid "Open Location"
 msgstr "Deschide Adresa"
 
-#: ../src/gmpv_playlist_widget.c:406
+#: ../src/gmpv_playlist_widget.c:500
 msgid "_Add…"
 msgstr ""
 
-#: ../src/gmpv_playlist_widget.c:407
+#: ../src/gmpv_playlist_widget.c:501
 msgid "Loop"
 msgstr "Buclă"
 
-#: ../src/gmpv_playlist_widget.c:504
+#: ../src/gmpv_playlist_widget.c:598
 msgid "Playlist"
 msgstr "Listă de redare"
 
@@ -421,19 +429,19 @@ msgstr "fișier MPV configurare combinații taste:"
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Diverse</b>"
 
-#: ../src/gmpv_pref_dialog.c:308
+#: ../src/gmpv_pref_dialog.c:311
 msgid "Extra MPV options:"
 msgstr "Extraopțiuni MPV:"
 
-#: ../src/gmpv_pref_dialog.c:341
+#: ../src/gmpv_pref_dialog.c:344
 msgid "General"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:345
+#: ../src/gmpv_pref_dialog.c:348
 msgid "Lua Scripts"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:367
+#: ../src/gmpv_pref_dialog.c:370
 msgid "Preferences"
 msgstr "Preferințe"
 

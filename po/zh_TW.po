@@ -39,63 +39,67 @@ msgid ""
 msgstr "是否讓檔案選擇對話窗記住最近訪問的資料夾"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:4
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5
+#: ../data/io.github.GnomeMpv.gschema.xml.h:6
 msgid "Options to pass to mpv"
 msgstr "要傳遞給 mpv 的選項"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:5
-#: ../data/io.github.GnomeMpv.gschema.xml.h:6
+#: ../data/io.github.GnomeMpv.gschema.xml.h:7
 msgid "Path to mpv configuration file"
 msgstr "mpv 配置檔的路徑"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:6
-#: ../data/io.github.GnomeMpv.gschema.xml.h:7
+#: ../data/io.github.GnomeMpv.gschema.xml.h:8
 msgid "Load or don't load mpv configuration file"
 msgstr "是否載入 mpv 配置檔"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:7
-#: ../data/io.github.GnomeMpv.gschema.xml.h:8
+#: ../data/io.github.GnomeMpv.gschema.xml.h:9
 msgid "Path to mpv input configuration file"
 msgstr "mpv 輸入配置檔的路徑"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:8
-#: ../data/io.github.GnomeMpv.gschema.xml.h:9
+#: ../data/io.github.GnomeMpv.gschema.xml.h:10
 msgid "Load or don't load mpv input configuration file"
 msgstr "是否載入 mpv 輸入配置檔"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:9
-#: ../data/io.github.GnomeMpv.gschema.xml.h:10
+#: ../data/io.github.GnomeMpv.gschema.xml.h:11
 msgid "Width of the window"
 msgstr "視窗寬度"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:10
-#: ../data/io.github.GnomeMpv.gschema.xml.h:11
+#: ../data/io.github.GnomeMpv.gschema.xml.h:12
 msgid "Height of the window"
 msgstr "視窗高度"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:11
-#: ../data/io.github.GnomeMpv.gschema.xml.h:12
+#: ../data/io.github.GnomeMpv.gschema.xml.h:13
 msgid "Volume of player"
 msgstr "播放器音量"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:12
-#: ../data/io.github.GnomeMpv.gschema.xml.h:13
+#: ../data/io.github.GnomeMpv.gschema.xml.h:14
 msgid "Width of the playlist"
 msgstr "播放列表寬度"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:13
-#: ../data/io.github.GnomeMpv.gschema.xml.h:14
+#: ../data/io.github.GnomeMpv.gschema.xml.h:15
 msgid "Show or not show the playlist"
 msgstr "是否顯示播放列表"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:14
-#: ../data/io.github.GnomeMpv.gschema.xml.h:15
+#: ../data/io.github.GnomeMpv.gschema.xml.h:16
 msgid "URI of the last folder accessed"
 msgstr "最近訪問的資料夾 URI"
 
 #: ../data/io.github.GnomeMpv.gschema.xml.h:1
 msgid ""
 "Whether the settings has already been migrated from the previous version"
+msgstr ""
+
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:308
+msgid "Allow multiple instances"
 msgstr ""
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
@@ -138,7 +142,7 @@ msgstr "關閉了 CSD 的主視窗"
 msgid "The main window with playlist open"
 msgstr "打開了播放列表的主視窗"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:196
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:232
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -156,7 +160,7 @@ msgstr "開啟檔案"
 
 #: ../src/gmpv_actionctl.c:93 ../src/gmpv_actionctl.c:255
 #: ../src/gmpv_actionctl.c:463 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:348
+#: ../src/gmpv_pref_dialog.c:351
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -170,7 +174,7 @@ msgstr "開啟(_O)"
 msgid "Save Playlist"
 msgstr "儲存播放列表"
 
-#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:350
+#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:353
 msgid "_Save"
 msgstr "儲存(_S)"
 
@@ -195,43 +199,47 @@ msgstr ""
 "Mingye Wang\n"
 "Sun"
 
-#: ../src/gmpv_application.c:987
+#: ../src/gmpv_application.c:1085
 msgid "Playing"
 msgstr "正在播放"
+
+#: ../src/gmpv_application.c:1219
+msgid "Don't connect to an already-running instance"
+msgstr ""
 
 #: ../src/gmpv_common.c:249
 msgid "Error"
 msgstr "錯誤"
 
-#: ../src/gmpv_control_box.c:235 ../src/gmpv_control_box.c:417
+#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:411
 msgid "Play"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:236
+#: ../src/gmpv_control_box.c:235
 msgid "Stop"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:237
+#: ../src/gmpv_control_box.c:236
 msgid "Forward"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:238
+#: ../src/gmpv_control_box.c:237
 msgid "Rewind"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:239
+#: ../src/gmpv_control_box.c:238
 msgid "Next Chapter"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:240
+#: ../src/gmpv_control_box.c:239
 msgid "Previous Chapter"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:241 ../src/gmpv_main_window.c:559
+#: ../src/gmpv_control_box.c:240 ../src/gmpv_main_window.c:559
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:417
+#: ../src/gmpv_control_box.c:411
 msgid "Pause"
 msgstr ""
 
@@ -318,12 +326,12 @@ msgstr "音軌(_A)"
 msgid "S_ubtitle Track"
 msgstr "字幕軌道(_U)"
 
-#: ../src/gmpv_mpv_obj.c:197
+#: ../src/gmpv_mpv_obj.c:199
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "回放被異常終止。原因：%s。"
 
-#: ../src/gmpv_mpv_obj.c:983
+#: ../src/gmpv_mpv_obj.c:992
 msgid "Failed to apply one or more MPV options."
 msgstr "套用一個或多個 MPV 選項失敗。"
 
@@ -335,15 +343,15 @@ msgstr "位置："
 msgid "Open Location"
 msgstr "開啟位置"
 
-#: ../src/gmpv_playlist_widget.c:406
+#: ../src/gmpv_playlist_widget.c:500
 msgid "_Add…"
 msgstr "新增(_A)…"
 
-#: ../src/gmpv_playlist_widget.c:407
+#: ../src/gmpv_playlist_widget.c:501
 msgid "Loop"
 msgstr "迴圈"
 
-#: ../src/gmpv_playlist_widget.c:504
+#: ../src/gmpv_playlist_widget.c:598
 msgid "Playlist"
 msgstr "播放列表"
 
@@ -426,19 +434,19 @@ msgstr "MPV 輸入配置檔："
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>雜項</b>"
 
-#: ../src/gmpv_pref_dialog.c:308
+#: ../src/gmpv_pref_dialog.c:311
 msgid "Extra MPV options:"
 msgstr "額外的 MPV 選項："
 
-#: ../src/gmpv_pref_dialog.c:341
+#: ../src/gmpv_pref_dialog.c:344
 msgid "General"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:345
+#: ../src/gmpv_pref_dialog.c:348
 msgid "Lua Scripts"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:367
+#: ../src/gmpv_pref_dialog.c:370
 msgid "Preferences"
 msgstr "偏好設定"
 

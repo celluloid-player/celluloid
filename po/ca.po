@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-11 04:21+0700\n"
+"POT-Creation-Date: 2016-05-29 16:11+0700\n"
 "PO-Revision-Date: 2016-04-27 01:06-0400\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Catalan\n"
@@ -33,57 +33,57 @@ msgstr ""
 "carpeta accedida"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:4
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5
+#: ../data/io.github.GnomeMpv.gschema.xml.h:6
 msgid "Options to pass to mpv"
 msgstr "Opcions que passar a l’MPV"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:5
-#: ../data/io.github.GnomeMpv.gschema.xml.h:6
+#: ../data/io.github.GnomeMpv.gschema.xml.h:7
 msgid "Path to mpv configuration file"
 msgstr "Camí al fitxer de configuració de l’MPV"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:6
-#: ../data/io.github.GnomeMpv.gschema.xml.h:7
+#: ../data/io.github.GnomeMpv.gschema.xml.h:8
 msgid "Load or don't load mpv configuration file"
 msgstr "Carrega o no un fitxer de configuració de l’MPV"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:7
-#: ../data/io.github.GnomeMpv.gschema.xml.h:8
+#: ../data/io.github.GnomeMpv.gschema.xml.h:9
 msgid "Path to mpv input configuration file"
 msgstr "Camí al fitxer de configuració d’entrada de l’MPV"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:8
-#: ../data/io.github.GnomeMpv.gschema.xml.h:9
+#: ../data/io.github.GnomeMpv.gschema.xml.h:10
 msgid "Load or don't load mpv input configuration file"
 msgstr "Carrega o no un fitxer de configuració d’entrada de l’MPV"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:9
-#: ../data/io.github.GnomeMpv.gschema.xml.h:10
+#: ../data/io.github.GnomeMpv.gschema.xml.h:11
 msgid "Width of the window"
 msgstr "Amplada de la finestra"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:10
-#: ../data/io.github.GnomeMpv.gschema.xml.h:11
+#: ../data/io.github.GnomeMpv.gschema.xml.h:12
 msgid "Height of the window"
 msgstr "Alçada de la finestra"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:11
-#: ../data/io.github.GnomeMpv.gschema.xml.h:12
+#: ../data/io.github.GnomeMpv.gschema.xml.h:13
 msgid "Volume of player"
 msgstr "Volum del reproductor"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:12
-#: ../data/io.github.GnomeMpv.gschema.xml.h:13
+#: ../data/io.github.GnomeMpv.gschema.xml.h:14
 msgid "Width of the playlist"
 msgstr "Amplada de la llista de reproducció"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:13
-#: ../data/io.github.GnomeMpv.gschema.xml.h:14
+#: ../data/io.github.GnomeMpv.gschema.xml.h:15
 msgid "Show or not show the playlist"
 msgstr "Mostra o amaga la llista de reproducció"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:14
-#: ../data/io.github.GnomeMpv.gschema.xml.h:15
+#: ../data/io.github.GnomeMpv.gschema.xml.h:16
 msgid "URI of the last folder accessed"
 msgstr "URI de la darrera carpeta accedida"
 
@@ -91,6 +91,10 @@ msgstr "URI de la darrera carpeta accedida"
 msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr "Si els paràmetres ja s’han migrat des d’una versió anterior"
+
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:308
+msgid "Allow multiple instances"
+msgstr ""
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
 msgid ""
@@ -137,7 +141,7 @@ msgstr "La finestra principal amb la CSD inhabilitada"
 msgid "The main window with playlist open"
 msgstr "La finestra principal amb la llista de reproducció oberta"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:196
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:232
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -155,7 +159,7 @@ msgstr "Obre un fitxer"
 
 #: ../src/gmpv_actionctl.c:93 ../src/gmpv_actionctl.c:255
 #: ../src/gmpv_actionctl.c:463 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:348
+#: ../src/gmpv_pref_dialog.c:351
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -169,7 +173,7 @@ msgstr "_Obre"
 msgid "Save Playlist"
 msgstr "Desa la llista de reproducció"
 
-#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:350
+#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:353
 msgid "_Save"
 msgstr "_Desa"
 
@@ -194,43 +198,47 @@ msgstr "Un frontal en GTK per a l’MPV"
 msgid "translator-credits"
 msgstr "Adolfo Jayme Barrientos <fitojb@ubuntu.com>"
 
-#: ../src/gmpv_application.c:987
+#: ../src/gmpv_application.c:1085
 msgid "Playing"
 msgstr "En reproducció"
+
+#: ../src/gmpv_application.c:1219
+msgid "Don't connect to an already-running instance"
+msgstr ""
 
 #: ../src/gmpv_common.c:249
 msgid "Error"
 msgstr "Error"
 
-#: ../src/gmpv_control_box.c:235 ../src/gmpv_control_box.c:417
+#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:411
 msgid "Play"
 msgstr "Reprodueix"
 
-#: ../src/gmpv_control_box.c:236
+#: ../src/gmpv_control_box.c:235
 msgid "Stop"
 msgstr "Atura"
 
-#: ../src/gmpv_control_box.c:237
+#: ../src/gmpv_control_box.c:236
 msgid "Forward"
 msgstr "Avança"
 
-#: ../src/gmpv_control_box.c:238
+#: ../src/gmpv_control_box.c:237
 msgid "Rewind"
 msgstr "Rebobina"
 
-#: ../src/gmpv_control_box.c:239
+#: ../src/gmpv_control_box.c:238
 msgid "Next Chapter"
 msgstr "Capítol següent"
 
-#: ../src/gmpv_control_box.c:240
+#: ../src/gmpv_control_box.c:239
 msgid "Previous Chapter"
 msgstr "Capítol anterior"
 
-#: ../src/gmpv_control_box.c:241 ../src/gmpv_main_window.c:559
+#: ../src/gmpv_control_box.c:240 ../src/gmpv_main_window.c:559
 msgid "Toggle Fullscreen"
 msgstr "Commuta la pantalla completa"
 
-#: ../src/gmpv_control_box.c:417
+#: ../src/gmpv_control_box.c:411
 msgid "Pause"
 msgstr "Posa en pausa"
 
@@ -317,12 +325,12 @@ msgstr "Pista d’_àudio"
 msgid "S_ubtitle Track"
 msgstr "Pista de s_ubtítols"
 
-#: ../src/gmpv_mpv_obj.c:197
+#: ../src/gmpv_mpv_obj.c:199
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "La reproducció ha terminat de forma anòmala. Motiu: %s"
 
-#: ../src/gmpv_mpv_obj.c:983
+#: ../src/gmpv_mpv_obj.c:992
 msgid "Failed to apply one or more MPV options."
 msgstr "No s’han pogut aplicar alguns paràmetres de l’MPV."
 
@@ -334,15 +342,15 @@ msgstr "Ubicació:"
 msgid "Open Location"
 msgstr "Obre una ubicació"
 
-#: ../src/gmpv_playlist_widget.c:406
+#: ../src/gmpv_playlist_widget.c:500
 msgid "_Add…"
 msgstr "_Afegeix…"
 
-#: ../src/gmpv_playlist_widget.c:407
+#: ../src/gmpv_playlist_widget.c:501
 msgid "Loop"
 msgstr "Repetició"
 
-#: ../src/gmpv_playlist_widget.c:504
+#: ../src/gmpv_playlist_widget.c:598
 msgid "Playlist"
 msgstr "Llista de reproducció"
 
@@ -427,19 +435,19 @@ msgstr "Fitxer de configuració d’entrada de l’MPV:"
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Altres</b>"
 
-#: ../src/gmpv_pref_dialog.c:308
+#: ../src/gmpv_pref_dialog.c:311
 msgid "Extra MPV options:"
 msgstr "Opcions addicionals de l’MPV:"
 
-#: ../src/gmpv_pref_dialog.c:341
+#: ../src/gmpv_pref_dialog.c:344
 msgid "General"
 msgstr "Generals"
 
-#: ../src/gmpv_pref_dialog.c:345
+#: ../src/gmpv_pref_dialog.c:348
 msgid "Lua Scripts"
 msgstr "«Scripts» en Lua"
 
-#: ../src/gmpv_pref_dialog.c:367
+#: ../src/gmpv_pref_dialog.c:370
 msgid "Preferences"
 msgstr "Preferències"
 

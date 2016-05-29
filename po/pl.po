@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-11 04:21+0700\n"
+"POT-Creation-Date: 2016-05-29 16:11+0700\n"
 "PO-Revision-Date: 2016-04-27 10:30-0400\n"
 "Last-Translator: Piotr Sokół <psokol.l10n@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -33,57 +33,57 @@ msgstr ""
 "wyboru pliku"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:4
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5
+#: ../data/io.github.GnomeMpv.gschema.xml.h:6
 msgid "Options to pass to mpv"
 msgstr "Określa opcje przekazywane do mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:5
-#: ../data/io.github.GnomeMpv.gschema.xml.h:6
+#: ../data/io.github.GnomeMpv.gschema.xml.h:7
 msgid "Path to mpv configuration file"
 msgstr "Wskazuje ścieżkę pliku konfiguracyjnego mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:6
-#: ../data/io.github.GnomeMpv.gschema.xml.h:7
+#: ../data/io.github.GnomeMpv.gschema.xml.h:8
 msgid "Load or don't load mpv configuration file"
 msgstr "Przełącza wczytywanie pliku konfiguracyjnego mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:7
-#: ../data/io.github.GnomeMpv.gschema.xml.h:8
+#: ../data/io.github.GnomeMpv.gschema.xml.h:9
 msgid "Path to mpv input configuration file"
 msgstr "Wskazuje ścieżkę pliku konfiguracyjnego skrótów programu mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:8
-#: ../data/io.github.GnomeMpv.gschema.xml.h:9
+#: ../data/io.github.GnomeMpv.gschema.xml.h:10
 msgid "Load or don't load mpv input configuration file"
 msgstr "Przełącza wczytywanie pliku konfiguracyjnego skrótów programu mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:9
-#: ../data/io.github.GnomeMpv.gschema.xml.h:10
+#: ../data/io.github.GnomeMpv.gschema.xml.h:11
 msgid "Width of the window"
 msgstr "Określa szerokość okna"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:10
-#: ../data/io.github.GnomeMpv.gschema.xml.h:11
+#: ../data/io.github.GnomeMpv.gschema.xml.h:12
 msgid "Height of the window"
 msgstr "Określa wysokość okna"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:11
-#: ../data/io.github.GnomeMpv.gschema.xml.h:12
+#: ../data/io.github.GnomeMpv.gschema.xml.h:13
 msgid "Volume of player"
 msgstr "Ustala głośność odtwarzania dźwięku"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:12
-#: ../data/io.github.GnomeMpv.gschema.xml.h:13
+#: ../data/io.github.GnomeMpv.gschema.xml.h:14
 msgid "Width of the playlist"
 msgstr "Określa szerokość listy odtwarzania"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:13
-#: ../data/io.github.GnomeMpv.gschema.xml.h:14
+#: ../data/io.github.GnomeMpv.gschema.xml.h:15
 msgid "Show or not show the playlist"
 msgstr "Przełącza wyświetlanie listy odtwarzania"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:14
-#: ../data/io.github.GnomeMpv.gschema.xml.h:15
+#: ../data/io.github.GnomeMpv.gschema.xml.h:16
 msgid "URI of the last folder accessed"
 msgstr "Przechowuje adres URI ostatnio używanego katalogu"
 
@@ -92,6 +92,10 @@ msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr ""
 "Określa czy ustawienia zostały zaimportowane z poprzedniej wersji programu"
+
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:308
+msgid "Allow multiple instances"
+msgstr ""
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
 msgid ""
@@ -136,7 +140,7 @@ msgstr "Głowne okno programu z wyłączonym obramowaniem po stronie klienta"
 msgid "The main window with playlist open"
 msgstr "Główne okno programu z listą odtwarzania"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:196
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:232
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -154,7 +158,7 @@ msgstr "Wybór pliku"
 
 #: ../src/gmpv_actionctl.c:93 ../src/gmpv_actionctl.c:255
 #: ../src/gmpv_actionctl.c:463 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:348
+#: ../src/gmpv_pref_dialog.c:351
 msgid "_Cancel"
 msgstr "_Anuluj"
 
@@ -168,7 +172,7 @@ msgstr "_Otwórz"
 msgid "Save Playlist"
 msgstr "Zapisywanie listy odtwarzania"
 
-#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:350
+#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:353
 msgid "_Save"
 msgstr "_Zapisz"
 
@@ -193,43 +197,47 @@ msgstr "Wykorzystuje interfejs GTK do obsługi programu MPV"
 msgid "translator-credits"
 msgstr "Piotr Sokół <psokol.l10n@gmail.com>, 2016"
 
-#: ../src/gmpv_application.c:987
+#: ../src/gmpv_application.c:1085
 msgid "Playing"
 msgstr "Odtwarzanie"
+
+#: ../src/gmpv_application.c:1219
+msgid "Don't connect to an already-running instance"
+msgstr ""
 
 #: ../src/gmpv_common.c:249
 msgid "Error"
 msgstr "Błąd"
 
-#: ../src/gmpv_control_box.c:235 ../src/gmpv_control_box.c:417
+#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:411
 msgid "Play"
 msgstr "Rozpoczyna odtwarznie"
 
-#: ../src/gmpv_control_box.c:236
+#: ../src/gmpv_control_box.c:235
 msgid "Stop"
 msgstr "Zatrzymuje odtwarzanie"
 
-#: ../src/gmpv_control_box.c:237
+#: ../src/gmpv_control_box.c:236
 msgid "Forward"
 msgstr "Przechodzi naprzód"
 
-#: ../src/gmpv_control_box.c:238
+#: ../src/gmpv_control_box.c:237
 msgid "Rewind"
 msgstr "Przechodzi wstecz"
 
-#: ../src/gmpv_control_box.c:239
+#: ../src/gmpv_control_box.c:238
 msgid "Next Chapter"
 msgstr "Następny rozdział"
 
-#: ../src/gmpv_control_box.c:240
+#: ../src/gmpv_control_box.c:239
 msgid "Previous Chapter"
 msgstr "Poprzedni rozdział"
 
-#: ../src/gmpv_control_box.c:241 ../src/gmpv_main_window.c:559
+#: ../src/gmpv_control_box.c:240 ../src/gmpv_main_window.c:559
 msgid "Toggle Fullscreen"
 msgstr "Przełącza wyświetlanie na pełnym ekranie"
 
-#: ../src/gmpv_control_box.c:417
+#: ../src/gmpv_control_box.c:411
 msgid "Pause"
 msgstr "Wstrzymuje odtwarzanie"
 
@@ -316,12 +324,12 @@ msgstr "Ścieżka _dźwiękowa"
 msgid "S_ubtitle Track"
 msgstr "Ścieżka _napisów"
 
-#: ../src/gmpv_mpv_obj.c:197
+#: ../src/gmpv_mpv_obj.c:199
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Zakończono odtwarzanie w nieprawidłowy sposób. Powód: %s"
 
-#: ../src/gmpv_mpv_obj.c:983
+#: ../src/gmpv_mpv_obj.c:992
 msgid "Failed to apply one or more MPV options."
 msgstr "Nie udało się wprowadzić jednej lub więcej opcji MPV."
 
@@ -333,15 +341,15 @@ msgstr "Położenie:"
 msgid "Open Location"
 msgstr "Otwieranie położenia"
 
-#: ../src/gmpv_playlist_widget.c:406
+#: ../src/gmpv_playlist_widget.c:500
 msgid "_Add…"
 msgstr "_Dodaj..."
 
-#: ../src/gmpv_playlist_widget.c:407
+#: ../src/gmpv_playlist_widget.c:501
 msgid "Loop"
 msgstr "Powtarzanie"
 
-#: ../src/gmpv_playlist_widget.c:504
+#: ../src/gmpv_playlist_widget.c:598
 msgid "Playlist"
 msgstr "Lista odtwarzania"
 
@@ -424,19 +432,19 @@ msgstr "Plik konfiguracji skrótów MPV:"
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Różne</b>"
 
-#: ../src/gmpv_pref_dialog.c:308
+#: ../src/gmpv_pref_dialog.c:311
 msgid "Extra MPV options:"
 msgstr "Dodatkowe opcje MPV:"
 
-#: ../src/gmpv_pref_dialog.c:341
+#: ../src/gmpv_pref_dialog.c:344
 msgid "General"
 msgstr "Ogólne"
 
-#: ../src/gmpv_pref_dialog.c:345
+#: ../src/gmpv_pref_dialog.c:348
 msgid "Lua Scripts"
 msgstr "Skrypty Lua"
 
-#: ../src/gmpv_pref_dialog.c:367
+#: ../src/gmpv_pref_dialog.c:370
 msgid "Preferences"
 msgstr "Preferencje"
 
