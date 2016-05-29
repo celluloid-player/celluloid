@@ -35,7 +35,7 @@ G_DECLARE_FINAL_TYPE(GmpvMainWindow, gmpv_main_window, GMPV, MAIN_WINDOW, GtkApp
 
 typedef struct _GmpvApplication GmpvApplication;
 
-GtkWidget *gmpv_main_window_new(GmpvApplication *app, GmpvPlaylist *gmpv_playlist);
+GtkWidget *gmpv_main_window_new(GmpvApplication *app, GmpvPlaylist *playlist);
 GmpvPlaylistWidget *gmpv_main_window_get_playlist(GmpvMainWindow *wnd);
 GmpvControlBox *gmpv_main_window_get_control_box(GmpvMainWindow *wnd);
 GmpvVideoArea *gmpv_main_window_get_video_area(GmpvMainWindow *wnd);
@@ -46,15 +46,16 @@ void gmpv_main_window_reset(GmpvMainWindow *wnd);
 void gmpv_main_window_save_state(GmpvMainWindow *wnd);
 void gmpv_main_window_load_state(GmpvMainWindow *wnd);
 void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
-					const GSList *audio_list,
-					const GSList *video_list,
-					const GSList *sub_list );
+						const GSList *audio_list,
+						const GSList *video_list,
+						const GSList *sub_list );
 void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
-					gint width,
-					gint height );
+						gint width,
+						gint height );
 void gmpv_main_window_enable_csd(GmpvMainWindow *wnd);
 gboolean gmpv_main_window_get_csd_enabled(GmpvMainWindow *wnd);
-void gmpv_main_window_set_playlist_visible(GmpvMainWindow *wnd, gboolean visible);
+void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
+						gboolean visible );
 gboolean gmpv_main_window_get_playlist_visible(GmpvMainWindow *wnd);
 
 G_END_DECLS

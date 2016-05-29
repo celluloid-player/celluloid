@@ -443,9 +443,9 @@ void gmpv_main_window_load_state(GmpvMainWindow *wnd)
 }
 
 void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
-					const GSList *audio_list,
-					const GSList *video_list,
-					const GSList *sub_list )
+						const GSList *audio_list,
+						const GSList *video_list,
+						const GSList *sub_list )
 {
 	if(gmpv_main_window_get_csd_enabled(wnd))
 	{
@@ -476,8 +476,8 @@ void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
 }
 
 void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
-					gint width,
-					gint height )
+						gint width,
+						gint height )
 {
 	g_signal_connect(	wnd->vid_area,
 				"size-allocate",
@@ -577,7 +577,8 @@ gboolean gmpv_main_window_get_csd_enabled(GmpvMainWindow *wnd)
 		wnd->menu_hdr_btn;
 }
 
-void gmpv_main_window_set_playlist_visible(GmpvMainWindow *wnd, gboolean visible)
+void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
+						gboolean visible )
 {
 	if(visible != wnd->playlist_visible && !wnd->fullscreen)
 	{
