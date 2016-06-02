@@ -25,10 +25,12 @@
 
 int main(int argc, char **argv)
 {
+	GApplicationFlags flags;
 	GmpvApplication *app;
 	gint status;
 
-	app = gmpv_application_new(APP_ID, G_APPLICATION_HANDLES_OPEN);
+	flags = G_APPLICATION_HANDLES_COMMAND_LINE|G_APPLICATION_HANDLES_OPEN;
+	app = gmpv_application_new(APP_ID, flags);
 	status = g_application_run(G_APPLICATION(app), argc, argv);
 
 	g_object_unref(app);

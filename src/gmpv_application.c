@@ -74,6 +74,9 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 static gint options_handler(	GApplication *gapp,
 				GVariantDict *options,
 				gpointer data );
+static gint command_line_handler(	GApplication *app,
+					GApplicationCommandLine *cli,
+					gpointer data );
 static void startup_handler(GApplication *gapp, gpointer data);
 static void activate_handler(GApplication *gapp, gpointer data);
 static void open_handler(	GApplication *gapp,
@@ -125,7 +128,9 @@ static gboolean queue_render(GtkGLArea *area);
 static void opengl_cb_update_callback(void *cb_ctx);
 static void set_playlist_pos(GmpvApplication *app, gint64 pos);
 static void set_inhibit_idle(GmpvApplication *app, gboolean inhibit);
-static gboolean load_files(GmpvApplication* app, const gchar **files);
+static gboolean load_files(	GmpvApplication* app,
+				const gchar **files,
+				gboolean append );
 static void connect_signals(GmpvApplication *app);
 static inline void add_accelerator(	GtkApplication *app,
 					const char *accel,
@@ -214,6 +219,40 @@ static gint options_handler(	GApplication *gapp,
 	g_clear_object(&settings);
 
 	return -1;
+}
+
+static gint command_line_handler(	GApplication *app,
+					GApplicationCommandLine *cli,
+					gpointer data )
+{
+	gint argc = 1;
+	gchar **argv = g_application_command_line_get_arguments(cli, &argc);
+	GVariantDict *options = g_application_command_line_get_options_dict(cli);
+	gboolean enqueue = FALSE;
+	const gint n_files = argc-1;
+	GFile *files[n_files];
+
+	g_variant_dict_lookup(options, "enqueue", "b", &enqueue);
+
+	for(gint i = 0; i < n_files; i++)
+	{
+		files[i] =	g_application_command_line_create_file_for_arg
+				(cli, argv[i+1]);
+	}
+
+	if(n_files > 0)
+	{
+		g_application_open(app, files, n_files, enqueue?"enqueue":"");
+	}
+
+	for(gint i = 0; i < n_files; i++)
+	{
+		g_object_unref(files[i]);
+	}
+
+	g_strfreev(argv);
+
+	return 0;
 }
 
 static void startup_handler(GApplication *gapp, gpointer data)
@@ -375,7 +414,7 @@ static void mpv_init_handler(GmpvMpvObj *mpv, gpointer data)
 	}
 
 	mpv_free(current_vo);
-	load_files(app, (const gchar **)app->files);
+	load_files(app, (const gchar **)app->files, FALSE);
 }
 
 static void open_handler(	GApplication *gapp,
@@ -385,6 +424,7 @@ static void open_handler(	GApplication *gapp,
 				gpointer data )
 {
 	GmpvApplication *app = data;
+	gboolean append = (g_strcmp0(hint, "enqueue") == 0);
 	gint i;
 
 	if(n_files > 0)
@@ -404,7 +444,7 @@ static void open_handler(	GApplication *gapp,
 
 		if(state.ready)
 		{
-			load_files(app, (const gchar **)app->files);
+			load_files(app, (const gchar **)app->files, append);
 		}
 	}
 
@@ -1093,7 +1133,9 @@ static void set_inhibit_idle(GmpvApplication *app, gboolean inhibit)
 	}
 }
 
-static gboolean load_files(GmpvApplication *app, const gchar **files)
+static gboolean load_files(	GmpvApplication *app,
+				const gchar **files,
+				gboolean append )
 {
 	GmpvMpvObjState state;
 
@@ -1101,7 +1143,7 @@ static gboolean load_files(GmpvApplication *app, const gchar **files)
 
 	if(files)
 	{
-		gmpv_mpv_obj_load_list(app->mpv, files, FALSE, TRUE);
+		gmpv_mpv_obj_load_list(app->mpv, files, append, TRUE);
 
 		g_strfreev(app->files);
 
@@ -1201,7 +1243,6 @@ static void setup_accelerators(GmpvApplication *app)
 	add_accelerator(gtk_app, "F11", "app.fullscreen_toggle");
 }
 
-
 static void gmpv_application_class_init(GmpvApplicationClass *klass)
 {
 }
@@ -1210,6 +1251,14 @@ static void gmpv_application_init(GmpvApplication *app)
 {
 	app->no_existing_session = FALSE;
 
+	g_application_add_main_option
+		(	G_APPLICATION(app),
+			"enqueue",
+			'\0',
+			G_OPTION_FLAG_NONE,
+			G_OPTION_ARG_NONE,
+			_("Enqueue"),
+			NULL );
 	g_application_add_main_option
 		(	G_APPLICATION(app),
 			"no-existing-session",
@@ -1221,6 +1270,8 @@ static void gmpv_application_init(GmpvApplication *app)
 
 	g_signal_connect
 		(app, "handle-local-options", G_CALLBACK(options_handler), app);
+	g_signal_connect
+		(app, "command-line", G_CALLBACK(command_line_handler), app);
 	g_signal_connect
 		(app, "startup", G_CALLBACK(startup_handler), app);
 	g_signal_connect
