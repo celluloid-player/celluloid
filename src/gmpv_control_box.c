@@ -293,6 +293,10 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	gtk_container_add
 		(GTK_CONTAINER(box), box->fullscreen_button);
 
+	g_signal_connect(	box,
+				"button-press-event",
+				G_CALLBACK(gtk_true),
+				NULL );
 	g_signal_connect(	box->seek_bar,
 				"format-value",
 				G_CALLBACK(seek_bar_format_handler),
