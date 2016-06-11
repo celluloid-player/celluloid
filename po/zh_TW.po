@@ -98,7 +98,7 @@ msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr ""
 
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:308
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:311
 msgid "Allow multiple instances"
 msgstr ""
 
@@ -142,7 +142,7 @@ msgstr "關閉了 CSD 的主視窗"
 msgid "The main window with playlist open"
 msgstr "打開了播放列表的主視窗"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:232
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:271
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -160,7 +160,7 @@ msgstr "開啟檔案"
 
 #: ../src/gmpv_actionctl.c:93 ../src/gmpv_actionctl.c:255
 #: ../src/gmpv_actionctl.c:463 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:351
+#: ../src/gmpv_pref_dialog.c:354
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -174,7 +174,7 @@ msgstr "開啟(_O)"
 msgid "Save Playlist"
 msgstr "儲存播放列表"
 
-#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:353
+#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:356
 msgid "_Save"
 msgstr "儲存(_S)"
 
@@ -199,11 +199,15 @@ msgstr ""
 "Mingye Wang\n"
 "Sun"
 
-#: ../src/gmpv_application.c:1085
+#: ../src/gmpv_application.c:1125
 msgid "Playing"
 msgstr "正在播放"
 
-#: ../src/gmpv_application.c:1219
+#: ../src/gmpv_application.c:1260
+msgid "Enqueue"
+msgstr ""
+
+#: ../src/gmpv_application.c:1268
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
@@ -211,7 +215,7 @@ msgstr ""
 msgid "Error"
 msgstr "錯誤"
 
-#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:411
+#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:415
 msgid "Play"
 msgstr ""
 
@@ -239,7 +243,7 @@ msgstr ""
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:411
+#: ../src/gmpv_control_box.c:415
 msgid "Pause"
 msgstr ""
 
@@ -390,63 +394,63 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:275
+#: ../src/gmpv_pref_dialog.c:278
 msgid "<b>User Interface</b>"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:278
+#: ../src/gmpv_pref_dialog.c:281
 msgid "Enable client-side decorations"
 msgstr "啟用客戶端裝飾"
 
-#: ../src/gmpv_pref_dialog.c:281
+#: ../src/gmpv_pref_dialog.c:284
 msgid "Enable dark theme"
 msgstr "啟用暗色主題"
 
-#: ../src/gmpv_pref_dialog.c:284
+#: ../src/gmpv_pref_dialog.c:287
 msgid "Remember last file's location"
 msgstr "記住最後一次開啟位置"
 
-#: ../src/gmpv_pref_dialog.c:287
+#: ../src/gmpv_pref_dialog.c:290
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>MPV 配置</b>"
 
-#: ../src/gmpv_pref_dialog.c:290
+#: ../src/gmpv_pref_dialog.c:293
 msgid "Load MPV configuration file"
 msgstr "載入 MPV 配置檔"
 
-#: ../src/gmpv_pref_dialog.c:293
+#: ../src/gmpv_pref_dialog.c:296
 msgid "MPV configuration file:"
 msgstr "MPV 配置檔："
 
-#: ../src/gmpv_pref_dialog.c:296
+#: ../src/gmpv_pref_dialog.c:299
 msgid "<b>Keybindings</b>"
 msgstr "<b>鍵繫結</b>"
 
-#: ../src/gmpv_pref_dialog.c:299
+#: ../src/gmpv_pref_dialog.c:302
 msgid "Load MPV input configuration file"
 msgstr "載入 MPV 輸入配置檔"
 
-#: ../src/gmpv_pref_dialog.c:302
+#: ../src/gmpv_pref_dialog.c:305
 msgid "MPV input configuration file:"
 msgstr "MPV 輸入配置檔："
 
-#: ../src/gmpv_pref_dialog.c:305
+#: ../src/gmpv_pref_dialog.c:308
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>雜項</b>"
 
-#: ../src/gmpv_pref_dialog.c:311
+#: ../src/gmpv_pref_dialog.c:314
 msgid "Extra MPV options:"
 msgstr "額外的 MPV 選項："
 
-#: ../src/gmpv_pref_dialog.c:344
+#: ../src/gmpv_pref_dialog.c:347
 msgid "General"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:348
+#: ../src/gmpv_pref_dialog.c:351
 msgid "Lua Scripts"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:370
+#: ../src/gmpv_pref_dialog.c:373
 msgid "Preferences"
 msgstr "偏好設定"
 

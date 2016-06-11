@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-23 10:58-0500\n"
-"PO-Revision-Date: 2016-05-14 09:47-0400\n"
+"PO-Revision-Date: 2016-05-30 11:42-0400\n"
 "Last-Translator: Vincent Bermel <willovince@openmailbox.org>\n"
 "Language-Team: German Translations\n"
 "MIME-Version: 1.0\n"
@@ -93,15 +93,13 @@ msgid "URI of the last folder accessed"
 msgstr "Zuletzt geöffnetes Verzeichnis"
 
 #: ../data/io.github.GnomeMpv.gschema.xml.h:1
-#, fuzzy
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr ""
-"Ob die Einstellungen schon von der vorherigen Version übernommen wurden"
+msgstr "Ob Einstellungen schon von der vorherigen Version übernommen wurden"
 
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:308
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:311
 msgid "Allow multiple instances"
-msgstr ""
+msgstr "Mehrere Instanzen gleichzeitig zulassen"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
 msgid ""
@@ -146,7 +144,7 @@ msgstr "Das Hauptfenster ohne CSD-Titelleiste"
 msgid "The main window with playlist open"
 msgstr "Das Hauptfenster mit Wiedergabeliste"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:232
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:271
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -164,7 +162,7 @@ msgstr "Datei öffnen"
 
 #: ../src/gmpv_actionctl.c:93 ../src/gmpv_actionctl.c:255
 #: ../src/gmpv_actionctl.c:463 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:351
+#: ../src/gmpv_pref_dialog.c:354
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -178,7 +176,7 @@ msgstr "Ö_ffnen"
 msgid "Save Playlist"
 msgstr "Wiedergabeliste speichern"
 
-#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:353
+#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:356
 msgid "_Save"
 msgstr "_Speichern"
 
@@ -201,20 +199,24 @@ msgstr "Eine GTK-Oberfläche für MPV"
 msgid "translator-credits"
 msgstr "Vincent Bermel"
 
-#: ../src/gmpv_application.c:1085
+#: ../src/gmpv_application.c:1125
 #, fuzzy
 msgid "Playing"
 msgstr "Wiedergabe"
 
-#: ../src/gmpv_application.c:1219
-msgid "Don't connect to an already-running instance"
+#: ../src/gmpv_application.c:1260
+msgid "Enqueue"
 msgstr ""
+
+#: ../src/gmpv_application.c:1268
+msgid "Don't connect to an already-running instance"
+msgstr "Nicht mit einer bereits laufenden Instanz verbinden"
 
 #: ../src/gmpv_common.c:249
 msgid "Error"
 msgstr "Fehler"
 
-#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:411
+#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:415
 msgid "Play"
 msgstr "Abspielen"
 
@@ -242,7 +244,7 @@ msgstr "Zurückspringen"
 msgid "Toggle Fullscreen"
 msgstr "Vollbild"
 
-#: ../src/gmpv_control_box.c:411
+#: ../src/gmpv_control_box.c:415
 msgid "Pause"
 msgstr "Pause"
 
@@ -393,63 +395,63 @@ msgstr "Wollen Sie dieses Skript unwiderruflich entfernen?"
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Datei '%s' konnte nicht gelöscht werden. Grund: %s."
 
-#: ../src/gmpv_pref_dialog.c:275
+#: ../src/gmpv_pref_dialog.c:278
 msgid "<b>User Interface</b>"
 msgstr "<b>Benutzeroberfläche</b>"
 
-#: ../src/gmpv_pref_dialog.c:278
+#: ../src/gmpv_pref_dialog.c:281
 msgid "Enable client-side decorations"
 msgstr "Kombinierte Titel-/Menüleiste (CSD)"
 
-#: ../src/gmpv_pref_dialog.c:281
+#: ../src/gmpv_pref_dialog.c:284
 msgid "Enable dark theme"
 msgstr "Dunkles Thema verwenden"
 
-#: ../src/gmpv_pref_dialog.c:284
+#: ../src/gmpv_pref_dialog.c:287
 msgid "Remember last file's location"
 msgstr "Speicherort der zuletzt gespielten Datei merken"
 
-#: ../src/gmpv_pref_dialog.c:287
+#: ../src/gmpv_pref_dialog.c:290
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>MPV-Einstellungen</b>"
 
-#: ../src/gmpv_pref_dialog.c:290
+#: ../src/gmpv_pref_dialog.c:293
 msgid "Load MPV configuration file"
 msgstr "MPV-Konfiguration aus Datei laden"
 
-#: ../src/gmpv_pref_dialog.c:293
+#: ../src/gmpv_pref_dialog.c:296
 msgid "MPV configuration file:"
 msgstr "MPV-Konfigurationsdatei"
 
-#: ../src/gmpv_pref_dialog.c:296
+#: ../src/gmpv_pref_dialog.c:299
 msgid "<b>Keybindings</b>"
 msgstr "<b>Tastenbelegungen</b>"
 
-#: ../src/gmpv_pref_dialog.c:299
+#: ../src/gmpv_pref_dialog.c:302
 msgid "Load MPV input configuration file"
 msgstr "MPV-Tastenbelegung aus Datei laden"
 
-#: ../src/gmpv_pref_dialog.c:302
+#: ../src/gmpv_pref_dialog.c:305
 msgid "MPV input configuration file:"
 msgstr "Datei mit MPV-Tastenbelegungen"
 
-#: ../src/gmpv_pref_dialog.c:305
+#: ../src/gmpv_pref_dialog.c:308
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Sonstiges</b>"
 
-#: ../src/gmpv_pref_dialog.c:311
+#: ../src/gmpv_pref_dialog.c:314
 msgid "Extra MPV options:"
 msgstr "Weitere Optionen für MPV"
 
-#: ../src/gmpv_pref_dialog.c:344
+#: ../src/gmpv_pref_dialog.c:347
 msgid "General"
 msgstr "Allgemein"
 
-#: ../src/gmpv_pref_dialog.c:348
+#: ../src/gmpv_pref_dialog.c:351
 msgid "Lua Scripts"
 msgstr "Lua-Skripte"
 
-#: ../src/gmpv_pref_dialog.c:370
+#: ../src/gmpv_pref_dialog.c:373
 msgid "Preferences"
 msgstr "Einstellungen"
 

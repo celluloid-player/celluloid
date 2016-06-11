@@ -99,7 +99,7 @@ msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr ""
 
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:308
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:311
 msgid "Allow multiple instances"
 msgstr ""
 
@@ -140,7 +140,7 @@ msgstr ""
 msgid "The main window with playlist open"
 msgstr ""
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:232
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:271
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -159,7 +159,7 @@ msgstr "Ouvrir un fichier"
 
 #: ../src/gmpv_actionctl.c:93 ../src/gmpv_actionctl.c:255
 #: ../src/gmpv_actionctl.c:463 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:351
+#: ../src/gmpv_pref_dialog.c:354
 msgid "_Cancel"
 msgstr "_Annuler"
 
@@ -174,7 +174,7 @@ msgstr "_Ouvrir"
 msgid "Save Playlist"
 msgstr "_Enregistrer la liste de lecture"
 
-#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:353
+#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:356
 msgid "_Save"
 msgstr "_Enregistrer"
 
@@ -199,11 +199,15 @@ msgstr "Une interface GTK pour MPV"
 msgid "translator-credits"
 msgstr "Harenome Ranaivorarivony Razanajato"
 
-#: ../src/gmpv_application.c:1085
+#: ../src/gmpv_application.c:1125
 msgid "Playing"
 msgstr ""
 
-#: ../src/gmpv_application.c:1219
+#: ../src/gmpv_application.c:1260
+msgid "Enqueue"
+msgstr ""
+
+#: ../src/gmpv_application.c:1268
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
@@ -211,7 +215,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:411
+#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:415
 msgid "Play"
 msgstr ""
 
@@ -239,7 +243,7 @@ msgstr ""
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: ../src/gmpv_control_box.c:411
+#: ../src/gmpv_control_box.c:415
 msgid "Pause"
 msgstr ""
 
@@ -390,63 +394,63 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:275
+#: ../src/gmpv_pref_dialog.c:278
 msgid "<b>User Interface</b>"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:278
+#: ../src/gmpv_pref_dialog.c:281
 msgid "Enable client-side decorations"
 msgstr "Activer les décorations fenêtre"
 
-#: ../src/gmpv_pref_dialog.c:281
+#: ../src/gmpv_pref_dialog.c:284
 msgid "Enable dark theme"
 msgstr "Activer le thème sombre"
 
-#: ../src/gmpv_pref_dialog.c:284
+#: ../src/gmpv_pref_dialog.c:287
 msgid "Remember last file's location"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:287
+#: ../src/gmpv_pref_dialog.c:290
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>Configuration MPV</b>"
 
-#: ../src/gmpv_pref_dialog.c:290
+#: ../src/gmpv_pref_dialog.c:293
 msgid "Load MPV configuration file"
 msgstr "Charger un fichier de configuration MPV"
 
-#: ../src/gmpv_pref_dialog.c:293
+#: ../src/gmpv_pref_dialog.c:296
 msgid "MPV configuration file:"
 msgstr "Fichier de configuration MPV:"
 
-#: ../src/gmpv_pref_dialog.c:296
+#: ../src/gmpv_pref_dialog.c:299
 msgid "<b>Keybindings</b>"
 msgstr "<b>Raccourcis clavier</b>"
 
-#: ../src/gmpv_pref_dialog.c:299
+#: ../src/gmpv_pref_dialog.c:302
 msgid "Load MPV input configuration file"
 msgstr "Charger un fichier de configuration des raccourcis clavier MPV"
 
-#: ../src/gmpv_pref_dialog.c:302
+#: ../src/gmpv_pref_dialog.c:305
 msgid "MPV input configuration file:"
 msgstr "Fichier de configuration des raccourcis clavier MPV:"
 
-#: ../src/gmpv_pref_dialog.c:305
+#: ../src/gmpv_pref_dialog.c:308
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Divers</b>"
 
-#: ../src/gmpv_pref_dialog.c:311
+#: ../src/gmpv_pref_dialog.c:314
 msgid "Extra MPV options:"
 msgstr "Options supplémentaires pour MPV"
 
-#: ../src/gmpv_pref_dialog.c:344
+#: ../src/gmpv_pref_dialog.c:347
 msgid "General"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:348
+#: ../src/gmpv_pref_dialog.c:351
 msgid "Lua Scripts"
 msgstr ""
 
-#: ../src/gmpv_pref_dialog.c:370
+#: ../src/gmpv_pref_dialog.c:373
 msgid "Preferences"
 msgstr "Préférences"
 

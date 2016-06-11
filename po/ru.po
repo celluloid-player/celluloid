@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-04 00:00+0700\n"
-"PO-Revision-Date: 2016-05-29 06:03-0400\n"
+"PO-Revision-Date: 2016-06-08 03:19-0400\n"
 "Last-Translator: Maxim Orlov <murmansksity@gmail.com>\n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +90,7 @@ msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr "Перенос (миграция) пользовательских настроек из предыдущей версии"
 
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:308
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:311
 msgid "Allow multiple instances"
 msgstr "Разрешить запуск нескольких экземпляров"
 
@@ -136,7 +136,7 @@ msgstr "Главное окно с отключённым CSD"
 msgid "The main window with playlist open"
 msgstr "Главное окно с открытым списком воспроизведения"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:232
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:271
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -154,7 +154,7 @@ msgstr "Открыть файл"
 
 #: ../src/gmpv_actionctl.c:93 ../src/gmpv_actionctl.c:255
 #: ../src/gmpv_actionctl.c:463 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:351
+#: ../src/gmpv_pref_dialog.c:354
 msgid "_Cancel"
 msgstr "_Отмена"
 
@@ -168,7 +168,7 @@ msgstr "_Открыть"
 msgid "Save Playlist"
 msgstr "Сохранить список воспроизведения"
 
-#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:353
+#: ../src/gmpv_actionctl.c:256 ../src/gmpv_pref_dialog.c:356
 msgid "_Save"
 msgstr "_Сохранить"
 
@@ -192,19 +192,23 @@ msgstr "GTK интерфейс для MPV"
 msgid "translator-credits"
 msgstr "Maxim Orlov <murmansksity@gmail.com>, 2016."
 
-#: ../src/gmpv_application.c:1085
+#: ../src/gmpv_application.c:1125
 msgid "Playing"
 msgstr "Воспроизводится"
 
-#: ../src/gmpv_application.c:1219
+#: ../src/gmpv_application.c:1260
+msgid "Enqueue"
+msgstr "Enqueue"
+
+#: ../src/gmpv_application.c:1268
 msgid "Don't connect to an already-running instance"
-msgstr "Не подключайте к уже работающему экземпляру"
+msgstr "Не подключаться к уже работающему экземпляру"
 
 #: ../src/gmpv_common.c:249
 msgid "Error"
 msgstr "Ошибка"
 
-#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:411
+#: ../src/gmpv_control_box.c:234 ../src/gmpv_control_box.c:415
 msgid "Play"
 msgstr "Воспроизвести"
 
@@ -232,7 +236,7 @@ msgstr "Предыдущая глава"
 msgid "Toggle Fullscreen"
 msgstr "Переход в полноэкранный режим и обратно"
 
-#: ../src/gmpv_control_box.c:411
+#: ../src/gmpv_control_box.c:415
 msgid "Pause"
 msgstr "Приостановить"
 
@@ -385,63 +389,63 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Не удалось удалить файл '%s'. Причина: %s"
 
-#: ../src/gmpv_pref_dialog.c:275
+#: ../src/gmpv_pref_dialog.c:278
 msgid "<b>User Interface</b>"
 msgstr "<b>Пользовательский интерфейс</b>"
 
-#: ../src/gmpv_pref_dialog.c:278
+#: ../src/gmpv_pref_dialog.c:281
 msgid "Enable client-side decorations"
 msgstr "Включить декорирование на стороне клиента"
 
-#: ../src/gmpv_pref_dialog.c:281
+#: ../src/gmpv_pref_dialog.c:284
 msgid "Enable dark theme"
 msgstr "Использовать тёмный вариант темы"
 
-#: ../src/gmpv_pref_dialog.c:284
+#: ../src/gmpv_pref_dialog.c:287
 msgid "Remember last file's location"
 msgstr "Запомнить последнее расположение файла(ов)"
 
-#: ../src/gmpv_pref_dialog.c:287
+#: ../src/gmpv_pref_dialog.c:290
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>Конфигурация MPV</b>"
 
-#: ../src/gmpv_pref_dialog.c:290
+#: ../src/gmpv_pref_dialog.c:293
 msgid "Load MPV configuration file"
 msgstr "Загрузить файл конфигурации MPV"
 
-#: ../src/gmpv_pref_dialog.c:293
+#: ../src/gmpv_pref_dialog.c:296
 msgid "MPV configuration file:"
 msgstr "Файл конфигурации MPV:"
 
-#: ../src/gmpv_pref_dialog.c:296
+#: ../src/gmpv_pref_dialog.c:299
 msgid "<b>Keybindings</b>"
 msgstr "<b>Комбинации клавиш</b>"
 
-#: ../src/gmpv_pref_dialog.c:299
+#: ../src/gmpv_pref_dialog.c:302
 msgid "Load MPV input configuration file"
 msgstr "Загрузить файл конфигурации ввода MPV"
 
-#: ../src/gmpv_pref_dialog.c:302
+#: ../src/gmpv_pref_dialog.c:305
 msgid "MPV input configuration file:"
 msgstr "Файл конфигурации ввода MPV:"
 
-#: ../src/gmpv_pref_dialog.c:305
+#: ../src/gmpv_pref_dialog.c:308
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Разное</b>"
 
-#: ../src/gmpv_pref_dialog.c:311
+#: ../src/gmpv_pref_dialog.c:314
 msgid "Extra MPV options:"
 msgstr "Дополнительные опции MPV:"
 
-#: ../src/gmpv_pref_dialog.c:344
+#: ../src/gmpv_pref_dialog.c:347
 msgid "General"
 msgstr "Общие"
 
-#: ../src/gmpv_pref_dialog.c:348
+#: ../src/gmpv_pref_dialog.c:351
 msgid "Lua Scripts"
 msgstr "Lua скрипты"
 
-#: ../src/gmpv_pref_dialog.c:370
+#: ../src/gmpv_pref_dialog.c:373
 msgid "Preferences"
 msgstr "Настройки"
 
