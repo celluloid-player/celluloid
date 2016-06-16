@@ -109,6 +109,7 @@ void gmpv_menu_build_full(	GMenu *menu,
 	GMenuItem *double_size_menu_item;
 	GMenuItem *half_size_menu_item;
 	GMenuItem *help_menu_item;
+	GMenuItem *shortcuts_menu_item;
 	GMenuItem *about_menu_item;
 
 	/* File */
@@ -166,6 +167,8 @@ void gmpv_menu_build_full(	GMenu *menu,
 		= g_menu_item_new_submenu
 			(_("_Help"), G_MENU_MODEL(help_menu));
 
+	shortcuts_menu_item = g_menu_item_new(	_("_Keyboard Shortcuts"),
+						"app.show_shortcuts" );
 	about_menu_item = g_menu_item_new(_("_About"), "app.about");
 
 	if(video_list)
@@ -238,6 +241,7 @@ void gmpv_menu_build_full(	GMenu *menu,
 	g_menu_append_item(view_menu, half_size_menu_item);
 
 	g_menu_append_item(menu, help_menu_item);
+	g_menu_append_item(help_menu, shortcuts_menu_item);
 	g_menu_append_item(help_menu, about_menu_item);
 
 	g_object_unref(file_menu_item);
@@ -254,6 +258,7 @@ void gmpv_menu_build_full(	GMenu *menu,
 	g_object_unref(double_size_menu_item);
 	g_object_unref(half_size_menu_item);
 	g_object_unref(help_menu_item);
+	g_object_unref(shortcuts_menu_item);
 	g_object_unref(about_menu_item);
 }
 
@@ -404,18 +409,22 @@ void gmpv_menu_build_app_menu(GMenu *menu)
 	GMenu *top_section;
 	GMenu *bottom_section;
 	GMenuItem *pref_menu_item;
+	GMenuItem *shortcuts_menu_item;
 	GMenuItem *about_menu_item;
 	GMenuItem *quit_menu_item;
 
 	top_section = g_menu_new();
 	bottom_section = g_menu_new();
 	pref_menu_item = g_menu_item_new(_("_Preferences"), "app.pref");
+	shortcuts_menu_item = g_menu_item_new(	_("_Keyboard Shortcuts"),
+						"app.show_shortcuts" );
 	about_menu_item = g_menu_item_new(_("_About"), "app.about");
 	quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
 
 	g_menu_append_section(menu, NULL, G_MENU_MODEL(top_section));
 	g_menu_append_section(menu, NULL, G_MENU_MODEL(bottom_section));
 	g_menu_append_item(top_section, pref_menu_item);
+	g_menu_append_item(bottom_section, shortcuts_menu_item);
 	g_menu_append_item(bottom_section, about_menu_item);
 	g_menu_append_item(bottom_section, quit_menu_item);
 }
