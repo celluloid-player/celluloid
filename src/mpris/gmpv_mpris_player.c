@@ -555,6 +555,7 @@ static void metadata_update_handler(gmpv_mpris *inst)
 	if(rc >= 0)
 	{
 		append_metadata_tags(&builder, metadata.u.list);
+		mpv_free_node_contents(&metadata);
 	}
 
 	value = g_variant_new("a{sv}", &builder);
@@ -569,7 +570,6 @@ static void metadata_update_handler(gmpv_mpris *inst)
 
 	mpv_playback_restart_handler(wnd, inst);
 
-	mpv_free_node_contents(&metadata);
 	g_free(playlist_pos_str);
 	g_free(trackid);
 }
