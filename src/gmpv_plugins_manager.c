@@ -140,7 +140,7 @@ static void add_handler(GtkButton *button, gpointer data)
 					pmgr->parent_window,
 					GTK_FILE_CHOOSER_ACTION_OPEN,
 					_("Open"),
-					_("Cancel")	);
+					_("Cancel") );
 
 	if(gmpv_file_chooser_run(dialog) == GTK_RESPONSE_ACCEPT)
 	{

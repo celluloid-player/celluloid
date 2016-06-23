@@ -54,8 +54,10 @@ void load_keybind(	GmpvApplication *app,
 #define gmpv_file_chooser_destroy(x) gtk_widget_destroy(GTK_WIDGET(x))
 #define gmpv_file_chooser_run(x) gtk_dialog_run(GTK_DIALOG(x))
 #define gmpv_file_chooser_new(title,parent,action,accept,cancel) \
-	gtk_file_chooser_dialog_new(title,parent,action,cancel,\
-				    GTK_RESPONSE_CANCEL,accept,GTK_RESPONSE_ACCEPT,NULL)
+	gtk_file_chooser_dialog_new(	title,parent,action,\
+					cancel,GTK_RESPONSE_CANCEL,\
+					accept,GTK_RESPONSE_ACCEPT,\
+					NULL )
 #endif
 
 G_END_DECLS

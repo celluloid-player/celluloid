@@ -86,15 +86,13 @@ static void open_handler(	GSimpleAction *action,
 	g_variant_get(param, "b", &append);
 
 	wnd = gmpv_application_get_main_window(app);
-	open_dialog
-		= gmpv_file_chooser_new (	append?
+	open_dialog = gmpv_file_chooser_new(	append?
 						_("Add File to Playlist"):
 						_("Open File"),
 						GTK_WINDOW(wnd),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						_("_Open"),
 						_("_Cancel"));
-
 	main_config = g_settings_new(CONFIG_ROOT);
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
 	last_folder_enable =	g_settings_get_boolean
@@ -256,7 +254,7 @@ static void playlist_save_handler(	GSimpleAction *action,
 				GTK_WINDOW(wnd),
 				GTK_FILE_CHOOSER_ACTION_SAVE,
 				_("_Save"),
-				_("_Cancel")	);
+				_("_Cancel") );
 	file_chooser = GTK_FILE_CHOOSER(save_dialog);
 	error = NULL;
 	rc = FALSE;
