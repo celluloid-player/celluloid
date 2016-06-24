@@ -32,6 +32,7 @@ G_DECLARE_FINAL_TYPE(GmpvPlaylistWidget, gmpv_playlist_widget, GMPV, PLAYLIST_WI
 
 GtkWidget *gmpv_playlist_widget_new(GmpvPlaylist *store);
 void gmpv_playlist_widget_remove_selected(GmpvPlaylistWidget *wgt);
+void gmpv_playlist_widget_queue_draw(GmpvPlaylistWidget *wgt);
 GmpvPlaylist *gmpv_playlist_widget_get_store(GmpvPlaylistWidget *wgt);
 
 G_END_DECLS

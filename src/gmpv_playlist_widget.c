@@ -638,6 +638,12 @@ void gmpv_playlist_widget_remove_selected(GmpvPlaylistWidget *wgt)
 	}
 }
 
+void gmpv_playlist_widget_queue_draw(GmpvPlaylistWidget *wgt)
+{
+	gtk_widget_queue_draw(GTK_WIDGET(wgt));
+	gtk_widget_queue_draw(wgt->tree_view);
+}
+
 GmpvPlaylist *gmpv_playlist_widget_get_store(GmpvPlaylistWidget *wgt)
 {
 	return wgt->store;

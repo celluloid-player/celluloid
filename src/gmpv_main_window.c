@@ -180,6 +180,12 @@ static gboolean resize_to_target(gpointer data)
 				target_width+wnd->width_offset,
 				target_height+wnd->height_offset );
 
+	/* Prevent graphical glitches that appear when calling
+	 * gmpv_main_window_resize_video_area() with the current size as the
+	 * target size.
+	 */
+	gmpv_playlist_widget_queue_draw(GMPV_PLAYLIST_WIDGET(wnd->playlist));
+
 	return FALSE;
 }
 
