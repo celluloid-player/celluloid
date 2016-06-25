@@ -134,6 +134,8 @@ static void add_handler(GtkButton *button, gpointer data)
 {
 	GmpvPluginsManager *pmgr = data;
 	GmpvFileChooser *dialog = NULL;
+	GtkFileFilter *filter;
+	GtkFileChooser *chooser;
 	GFile *src = NULL;
 
 	dialog = gmpv_file_chooser_new(	_("Add Lua Script"),
@@ -141,11 +143,14 @@ static void add_handler(GtkButton *button, gpointer data)
 					GTK_FILE_CHOOSER_ACTION_OPEN,
 					_("Open"),
 					_("Cancel") );
+	filter = gtk_file_filter_new();
+	chooser = GTK_FILE_CHOOSER(dialog);
+
+	gtk_file_filter_add_mime_type(filter, "text/x-lua");
+	gtk_file_chooser_set_filter(chooser, filter);
 
 	if(gmpv_file_chooser_run(dialog) == GTK_RESPONSE_ACCEPT)
 	{
-		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
-
 		src = gtk_file_chooser_get_file(chooser);
 	}
 
