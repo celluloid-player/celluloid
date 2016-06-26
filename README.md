@@ -38,6 +38,20 @@ capabilities.
 - Solus: https://packages.solus-project.com/v1/g/gnome-mpv/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
+### Flatpak
+Flatpak builds can be obtained from https://dl.tingping.se/flatpak/. The build
+file is available at
+https://github.com/TingPing/flatpak-packages/blob/master/io.github.GnomeMpv.json.
+
+Run the commands below to install:
+
+```sh
+wget https://dl.tingping.se/keys/tingping.gpg
+flatpak --user remote-add --gpg-import=tingping.gpg tingping
+https://dl.tingping.se/flatpak/
+flatpak --user install tingping io.github.GnomeMpv
+```
+
 ### Source code
 Run the following command in the source code directory to build and install:
 
