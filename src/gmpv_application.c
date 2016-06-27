@@ -118,7 +118,7 @@ static gboolean key_press_handler(	GtkWidget *widget,
 static gboolean key_release_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
-static gboolean mouse_press_handler(	GtkWidget *widget,
+static gboolean mouse_button_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data );
 static gboolean scroll_handler(	GtkWidget *widget,
@@ -973,28 +973,38 @@ static gboolean key_release_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
-static gboolean mouse_press_handler(	GtkWidget *widget,
+static gboolean mouse_button_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data )
 {
-	GmpvApplication *app = data;
 	GdkEventButton *btn_event = (GdkEventButton *)event;
-	gchar *x_str = g_strdup_printf("%d", (gint)btn_event->x);
-	gchar *y_str = g_strdup_printf("%d", (gint)btn_event->y);
-	gchar *btn_str = g_strdup_printf("%u", btn_event->button-1);
-	const gchar *type_str =	(btn_event->type == GDK_2BUTTON_PRESS)?
-				"double":"single";
 
-	const gchar *cmd[] = {"mouse", x_str, y_str, btn_str, type_str, NULL};
+	if(btn_event->type == GDK_BUTTON_PRESS
+	|| btn_event->type == GDK_BUTTON_RELEASE
+	|| btn_event->type == GDK_SCROLL)
+	{
+		GmpvApplication *app = data;
+		gchar *x_str = g_strdup_printf("%d", (gint)btn_event->x);
+		gchar *y_str = g_strdup_printf("%d", (gint)btn_event->y);
+		gchar *btn_str =	g_strdup_printf
+					("MOUSE_BTN%u", btn_event->button-1);
+		const gchar *type_str =	(btn_event->type == GDK_SCROLL)?
+					"keypress":
+					(btn_event->type == GDK_BUTTON_PRESS)?
+					"keydown":"keyup";
+		const gchar *move_cmd[] = {"mouse", x_str, y_str, NULL};
+		const gchar *key_cmd[] = {type_str, btn_str, NULL};
 
-	g_debug(	"Sent %s button %s click at %sx%s to mpv",
-			type_str, btn_str, x_str, y_str );
+		g_debug(	"Sent %s event for button %s at (%s, %s) to mpv",
+				type_str, btn_str, x_str, y_str );
 
-	gmpv_mpv_obj_command(app->mpv, cmd);
+		gmpv_mpv_obj_command(app->mpv, move_cmd);
+		gmpv_mpv_obj_command(app->mpv, key_cmd);
 
-	g_free(x_str);
-	g_free(y_str);
-	g_free(btn_str);
+		g_free(x_str);
+		g_free(y_str);
+		g_free(btn_str);
+	}
 
 	return TRUE;
 }
@@ -1194,7 +1204,11 @@ static void connect_signals(GmpvApplication *app)
 				app );
 	g_signal_connect(	video_area,
 				"button-press-event",
-				G_CALLBACK(mouse_press_handler),
+				G_CALLBACK(mouse_button_handler),
+				app );
+	g_signal_connect(	video_area,
+				"button-release-event",
+				G_CALLBACK(mouse_button_handler),
 				app );
 	g_signal_connect(	video_area,
 				"scroll-event",
