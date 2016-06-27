@@ -87,9 +87,9 @@ void build_menu_from_track_list(	GMenu *menu,
 }
 
 void gmpv_menu_build_full(	GMenu *menu,
-			const GSList *audio_list,
-			const GSList *video_list,
-			const GSList *sub_list )
+				const GSList *audio_list,
+				const GSList *video_list,
+				const GSList *sub_list )
 {
 	GMenu *file_menu;
 	GMenu *edit_menu;
@@ -103,6 +103,7 @@ void gmpv_menu_build_full(	GMenu *menu,
 	GMenuItem *edit_menu_item;
 	GMenuItem *pref_menu_item;
 	GMenuItem *view_menu_item;
+	GMenuItem *controls_menu_item;
 	GMenuItem *playlist_menu_item;
 	GMenuItem *fullscreen_menu_item;
 	GMenuItem *normal_size_menu_item;
@@ -144,6 +145,9 @@ void gmpv_menu_build_full(	GMenu *menu,
 	view_menu_item
 		= g_menu_item_new_submenu
 			(_("_View"), G_MENU_MODEL(view_menu));
+
+	controls_menu_item
+		= g_menu_item_new(_("_Toggle Controls"), "app.controls_toggle");
 
 	playlist_menu_item
 		= g_menu_item_new(_("_Toggle Playlist"), "app.playlist_toggle");
@@ -234,6 +238,7 @@ void gmpv_menu_build_full(	GMenu *menu,
 	g_menu_append_item(edit_menu, pref_menu_item);
 
 	g_menu_append_item(menu, view_menu_item);
+	g_menu_append_item(view_menu, controls_menu_item);
 	g_menu_append_item(view_menu, playlist_menu_item);
 	g_menu_append_item(view_menu, fullscreen_menu_item);
 	g_menu_append_item(view_menu, normal_size_menu_item);
@@ -252,6 +257,7 @@ void gmpv_menu_build_full(	GMenu *menu,
 	g_object_unref(edit_menu_item);
 	g_object_unref(pref_menu_item);
 	g_object_unref(view_menu_item);
+	g_object_unref(controls_menu_item);
 	g_object_unref(playlist_menu_item);
 	g_object_unref(fullscreen_menu_item);
 	g_object_unref(normal_size_menu_item);
@@ -267,21 +273,28 @@ void gmpv_menu_build_menu_btn(	GMenu *menu,
 				const GSList *video_list,
 				const GSList *sub_list )
 {
+	GMenu *controls;
 	GMenu *playlist;
 	GMenu *track;
 	GMenu *view;
+	GMenuItem *controls_section;
 	GMenuItem *playlist_section;
 	GMenuItem *track_section;
 	GMenuItem *view_section;
+	GMenuItem *controls_toggle_menu_item;
 	GMenuItem *playlist_toggle_menu_item;
 	GMenuItem *playlist_save_menu_item;
 	GMenuItem *normal_size_menu_item;
 	GMenuItem *double_size_menu_item;
 	GMenuItem *half_size_menu_item;
 
+	controls = g_menu_new();
 	playlist = g_menu_new();
 	track = g_menu_new();
 	view = g_menu_new();
+
+	controls_section
+		= g_menu_item_new_section(NULL, G_MENU_MODEL(controls));
 
 	playlist_section
 		= g_menu_item_new_section(NULL, G_MENU_MODEL(playlist));
@@ -291,6 +304,10 @@ void gmpv_menu_build_menu_btn(	GMenu *menu,
 
 	view_section
 		= g_menu_item_new_section(NULL, G_MENU_MODEL(view));
+
+	controls_toggle_menu_item
+		= g_menu_item_new
+			(_("_Toggle Controls"), "app.controls_toggle");
 
 	playlist_toggle_menu_item
 		= g_menu_item_new
@@ -367,20 +384,24 @@ void gmpv_menu_build_menu_btn(	GMenu *menu,
 		g_object_unref(load_sub_menu_item);
 	}
 
+	g_menu_append_item(controls, controls_toggle_menu_item);
 	g_menu_append_item(playlist, playlist_toggle_menu_item);
 	g_menu_append_item(playlist, playlist_save_menu_item);
 	g_menu_append_item(view, normal_size_menu_item);
 	g_menu_append_item(view, double_size_menu_item);
 	g_menu_append_item(view, half_size_menu_item);
+	g_menu_append_item(menu, controls_section);
 	g_menu_append_item(menu, playlist_section);
 	g_menu_append_item(menu, track_section);
 	g_menu_append_item(menu, view_section);
 
+	g_object_unref(controls_toggle_menu_item);
 	g_object_unref(playlist_toggle_menu_item);
 	g_object_unref(playlist_save_menu_item);
 	g_object_unref(normal_size_menu_item);
 	g_object_unref(double_size_menu_item);
 	g_object_unref(half_size_menu_item);
+	g_object_unref(controls_section);
 	g_object_unref(playlist_section);
 	g_object_unref(track_section);
 	g_object_unref(view_section);

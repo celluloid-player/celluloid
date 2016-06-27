@@ -55,6 +55,7 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
 			{"<Ctrl>L", _("Open location")},
 			{"<Ctrl>Q", _("Quit")},
 			{"<Ctrl>P", _("Show preferences dialog")},
+			{"<Ctrl>H", _("Toggle controls")},
 			{"F9", _("Toggle playlist")},
 			{"<Ctrl>S", _("Save playlist")},
 			{"Delete", _("Remove selected playlist item")},

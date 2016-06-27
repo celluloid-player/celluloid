@@ -1273,6 +1273,7 @@ static void setup_accelerators(GmpvApplication *app)
 	add_accelerator(gtk_app, "<Control>1", "app.video_size(@d 1)");
 	add_accelerator(gtk_app, "<Control>2", "app.video_size(@d 2)");
 	add_accelerator(gtk_app, "<Control>3", "app.video_size(@d 0.5)");
+	add_accelerator(gtk_app, "<Ctrl>h", "app.controls_toggle");
 	add_accelerator(gtk_app, "F9", "app.playlist_toggle");
 	add_accelerator(gtk_app, "F11", "app.fullscreen_toggle");
 }

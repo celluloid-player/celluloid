@@ -215,6 +215,18 @@ static void show_shortcuts_handler(	GSimpleAction *action,
 #endif
 }
 
+static void controls_toggle_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	GmpvApplication *app = data;
+	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
+	GmpvControlBox *ctrl = gmpv_main_window_get_control_box(wnd);
+	gboolean visible = gtk_widget_get_visible(GTK_WIDGET(ctrl));
+
+	gtk_widget_set_visible(GTK_WIDGET(ctrl), !visible);
+}
+
 static void playlist_toggle_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
@@ -571,6 +583,8 @@ void gmpv_actionctl_map_actions(GmpvApplication *app)
 		.change_state = loop_handler},
 		{.name = "show_shortcuts",
 		.activate = show_shortcuts_handler},
+		{.name = "controls_toggle",
+		.activate = controls_toggle_handler},
 		{.name = "playlist_toggle",
 		.activate = playlist_toggle_handler},
 		{.name = "playlist_save",
