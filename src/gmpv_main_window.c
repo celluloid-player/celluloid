@@ -94,6 +94,10 @@ static void gmpv_main_window_constructed(GObject *object)
 	gtk_widget_hide(self->playlist);
 	gtk_widget_set_no_show_all(self->playlist, TRUE);
 
+	gtk_widget_show_all(self->control_box);
+	gtk_widget_hide(self->control_box);
+	gtk_widget_set_no_show_all(self->control_box, TRUE);
+
 	gtk_paned_pack1(	GTK_PANED(self->vid_area_paned),
 				self->vid_area,
 				TRUE,
@@ -387,16 +391,19 @@ void gmpv_main_window_save_state(GmpvMainWindow *wnd)
 	gint height;
 	gint handle_pos;
 	gdouble volume;
+	gboolean controls_visible;
 
 	settings = g_settings_new(CONFIG_WIN_STATE);
 	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
 	volume = gmpv_control_box_get_volume(GMPV_CONTROL_BOX(wnd->control_box));
+	controls_visible = gtk_widget_get_visible(wnd->control_box);
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
 	g_settings_set_int(settings, "width", width);
 	g_settings_set_int(settings, "height", height);
 	g_settings_set_double(settings, "volume", volume);
+	g_settings_set_boolean(settings, "show-controls", controls_visible);
 	g_settings_set_boolean(settings, "show-playlist", wnd->playlist_visible);
 
 	if(gmpv_main_window_get_playlist_visible(wnd))
@@ -423,17 +430,21 @@ void gmpv_main_window_load_state(GmpvMainWindow *wnd)
 		gint width = g_settings_get_int(settings, "width");
 		gint height = g_settings_get_int(settings, "height");
 		gint handle_pos;
+		gboolean controls_visible;
 		gdouble volume;
 
 		wnd->playlist_width
 			= g_settings_get_int(settings, "playlist-width");
 		wnd->playlist_visible
 			= g_settings_get_boolean(settings, "show-playlist");
+		controls_visible
+			= g_settings_get_boolean(settings, "show-controls");
 		volume = g_settings_get_double(settings, "volume");
 		handle_pos = width-(wnd->playlist_visible?wnd->playlist_width:0);
 
 		gmpv_control_box_set_volume
 			(GMPV_CONTROL_BOX(wnd->control_box), volume);
+		gtk_widget_set_visible(wnd->control_box, controls_visible);
 		gtk_widget_set_visible(wnd->playlist, wnd->playlist_visible);
 		gtk_window_resize(GTK_WINDOW(wnd), width, height);
 		gtk_paned_set_position
