@@ -221,10 +221,9 @@ static void controls_toggle_handler(	GSimpleAction *action,
 {
 	GmpvApplication *app = data;
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-	GmpvControlBox *ctrl = gmpv_main_window_get_control_box(wnd);
-	gboolean visible = gtk_widget_get_visible(GTK_WIDGET(ctrl));
+	gboolean visible = gmpv_main_window_get_controls_visible(wnd);
 
-	gtk_widget_set_visible(GTK_WIDGET(ctrl), !visible);
+	gmpv_main_window_set_controls_visible(wnd, !visible);
 }
 
 static void playlist_toggle_handler(	GSimpleAction *action,

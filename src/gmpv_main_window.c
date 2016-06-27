@@ -81,6 +81,9 @@ static void size_allocate_handler(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data );
 static gboolean resize_to_target(gpointer data);
+static void load_state_finalize(	GmpvMainWindow *wnd,
+					cairo_t *cr,
+					gpointer data );
 
 G_DEFINE_TYPE(GmpvMainWindow, gmpv_main_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -191,6 +194,19 @@ static gboolean resize_to_target(gpointer data)
 	gmpv_playlist_widget_queue_draw(GMPV_PLAYLIST_WIDGET(wnd->playlist));
 
 	return FALSE;
+}
+
+static void load_state_finalize(	GmpvMainWindow *wnd,
+					cairo_t *cr,
+					gpointer data )
+{
+	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
+	gboolean visible = g_settings_get_boolean(settings, "show-controls");
+
+	g_signal_handlers_disconnect_by_func(wnd, load_state_finalize, data);
+	gmpv_main_window_set_controls_visible(wnd, visible);
+
+	g_clear_object(&settings);
 }
 
 static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
@@ -396,7 +412,7 @@ void gmpv_main_window_save_state(GmpvMainWindow *wnd)
 	settings = g_settings_new(CONFIG_WIN_STATE);
 	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
 	volume = gmpv_control_box_get_volume(GMPV_CONTROL_BOX(wnd->control_box));
-	controls_visible = gtk_widget_get_visible(wnd->control_box);
+	controls_visible = gmpv_main_window_get_controls_visible(wnd);
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
@@ -430,25 +446,26 @@ void gmpv_main_window_load_state(GmpvMainWindow *wnd)
 		gint width = g_settings_get_int(settings, "width");
 		gint height = g_settings_get_int(settings, "height");
 		gint handle_pos;
-		gboolean controls_visible;
 		gdouble volume;
 
 		wnd->playlist_width
 			= g_settings_get_int(settings, "playlist-width");
 		wnd->playlist_visible
 			= g_settings_get_boolean(settings, "show-playlist");
-		controls_visible
-			= g_settings_get_boolean(settings, "show-controls");
 		volume = g_settings_get_double(settings, "volume");
 		handle_pos = width-(wnd->playlist_visible?wnd->playlist_width:0);
 
 		gmpv_control_box_set_volume
 			(GMPV_CONTROL_BOX(wnd->control_box), volume);
-		gtk_widget_set_visible(wnd->control_box, controls_visible);
 		gtk_widget_set_visible(wnd->playlist, wnd->playlist_visible);
 		gtk_window_resize(GTK_WINDOW(wnd), width, height);
 		gtk_paned_set_position
 			(GTK_PANED(wnd->vid_area_paned), handle_pos);
+
+		g_signal_connect_after(	wnd,
+					"draw",
+					G_CALLBACK(load_state_finalize),
+					NULL );
 
 		g_clear_object(&settings);
 	}
@@ -592,6 +609,19 @@ gboolean gmpv_main_window_get_csd_enabled(GmpvMainWindow *wnd)
 	return	wnd->open_hdr_btn &&
 		wnd->fullscreen_hdr_btn &&
 		wnd->menu_hdr_btn;
+}
+
+void gmpv_main_window_set_controls_visible(	GmpvMainWindow *wnd,
+						gboolean visible )
+{
+	gtk_widget_set_visible(wnd->control_box, visible);
+	gtk_application_window_set_show_menubar
+		(GTK_APPLICATION_WINDOW(wnd), visible);
+}
+
+gboolean gmpv_main_window_get_controls_visible(GmpvMainWindow *wnd)
+{
+	return gtk_widget_get_visible(wnd->control_box);
 }
 
 void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
