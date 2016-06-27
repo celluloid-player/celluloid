@@ -47,8 +47,7 @@ Run the commands below to install:
 
 ```sh
 wget https://dl.tingping.se/keys/tingping.gpg
-flatpak --user remote-add --gpg-import=tingping.gpg tingping
-https://dl.tingping.se/flatpak/
+flatpak --user remote-add --gpg-import=tingping.gpg tingping https://dl.tingping.se/flatpak/
 flatpak --user install tingping io.github.GnomeMpv
 ```
 
