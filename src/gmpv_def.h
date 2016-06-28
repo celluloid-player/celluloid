@@ -54,7 +54,19 @@
 				.info = 0} }
 
 #define DEFAULT_KEYBINDS \
-	{	"f script-message gmpv-action fullscreen_toggle",\
+	{	"Ctrl+o script-message gmpv-action open(false)",\
+		"Ctrl+l script-message gmpv-action openloc",\
+		"Ctrl+s script-message gmpv-action playlist_save",\
+		"Ctrl+q script-message gmpv-action quit",\
+		"Ctrl+? script-message gmpv-action show_shortcuts",\
+		"Ctrl+p script-message gmpv-action pref",\
+		"Ctrl+1 script-message gmpv-action video_size(@d 1)",\
+		"Ctrl+2 script-message gmpv-action video_size(@d 2)",\
+		"Ctrl+3 script-message gmpv-action video_size(@d 0.5)",\
+		"Ctrl+h script-message gmpv-action controls_toggle",\
+		"F9 script-message gmpv-action playlist_toggle",\
+		"F11 script-message gmpv-action fullscreen_toggle",\
+		"f script-message gmpv-action fullscreen_toggle",\
 		"ESC script-message gmpv-action fullscreen_leave",\
 		"v osd-msg cycle sub-visibility",\
 		"s osd-msg screenshot",\

@@ -131,6 +131,7 @@ void activate_action_string(GmpvApplication *app, const gchar *str)
 
 	if(action && param_match)
 	{
+		g_debug("Activating action %s", str);
 		g_action_activate(action, param);
 	}
 	else

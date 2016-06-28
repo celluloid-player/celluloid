@@ -53,6 +53,7 @@ struct _GmpvApplication
 	GtkApplication parent;
 	gboolean no_existing_session;
 	GmpvMpvObj *mpv;
+	GQueue *action_queue;
 	gchar **files;
 	guint inhibit_cookie;
 	gint64 target_playlist_pos;
@@ -100,6 +101,10 @@ static void playlist_row_reodered_handler(	GmpvPlaylistWidget *playlist,
 						gpointer data );
 static GmpvTrack *parse_track_list(mpv_node_list *node);
 static void update_track_list(GmpvApplication *app, mpv_node* track_list);
+static gchar *strnjoinv(	const gchar *separator,
+				const gchar **str_array,
+				gsize count );
+static gboolean process_action(gpointer data);
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data);
 static void mpv_event_handler(mpv_event *event, gpointer data);
 static void mpv_error_handler(GmpvMpvObj *mpv, const gchar *err, gpointer data);
@@ -138,7 +143,6 @@ static void connect_signals(GmpvApplication *app);
 static inline void add_accelerator(	GtkApplication *app,
 					const char *accel,
 					const char *action );
-static void setup_accelerators(GmpvApplication *app);
 static void gmpv_application_class_init(GmpvApplicationClass *klass);
 static void gmpv_application_init(GmpvApplication *app);
 
@@ -334,7 +338,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
 	}
 
-	setup_accelerators(app);
 	gmpv_actionctl_map_actions(app);
 	gmpv_main_window_load_state(app->gui);
 	gtk_widget_show_all(GTK_WIDGET(app->gui));
@@ -663,6 +666,35 @@ static void update_track_list(GmpvApplication *app, mpv_node* track_list)
 	g_slist_free_full(sub_list, (GDestroyNotify)gmpv_track_free);
 }
 
+static gchar *strnjoinv(	const gchar *separator,
+				const gchar **str_array,
+				gsize count )
+{
+	gsize args_size = ((gsize)count+1)*sizeof(gchar *);
+	gchar **args = g_malloc(args_size);
+	gchar *result;
+
+	memcpy(args, str_array, args_size-sizeof(gchar *));
+	args[count] = NULL;
+	result = g_strjoinv(separator, args);
+
+	g_free(args);
+
+	return result;
+}
+
+static gboolean process_action(gpointer data)
+{
+	GmpvApplication *app = data;
+	gchar *action_str = g_queue_pop_tail(app->action_queue);
+
+	activate_action_string(app, action_str);
+
+	g_free(action_str);
+
+	return FALSE;
+}
+
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 {
 	GmpvApplication *app = data;
@@ -790,23 +822,25 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	{
 		mpv_event_client_message *event_cmsg = event->data;
 
-		if(event_cmsg->num_args == 2
+		if(event_cmsg->num_args >= 2
 		&& g_strcmp0(event_cmsg->args[0], "gmpv-action") == 0)
 		{
-			activate_action_string(app, event_cmsg->args[1]);
+			gchar *action_str;
+
+			action_str = strnjoinv(	" ",
+						event_cmsg->args+1,
+						(gsize)event_cmsg->num_args-1 );
+
+			g_queue_push_head(app->action_queue, action_str);
+			g_idle_add(process_action, app);
 		}
 		else
 		{
-			gint num_args = event_cmsg->num_args;
-			gsize args_size = ((gsize)num_args+1)*sizeof(gchar *);
-			gchar **args = g_malloc(args_size);
-			gchar *full_str = NULL;
+			gchar *full_str;
 
-			/* Concatenate arguments into one string */
-			memcpy(args, event_cmsg->args, args_size);
-
-			args[num_args] = NULL;
-			full_str = g_strjoinv(" ", args);
+			full_str = strnjoinv(	" ",
+						event_cmsg->args,
+						(gsize)event_cmsg->num_args);
 
 			g_warning(	"Invalid client message received: %s",
 					full_str );
@@ -1260,24 +1294,6 @@ static inline void add_accelerator(	GtkApplication *app,
 	gtk_application_set_accels_for_action(app, action, accels);
 }
 
-static void setup_accelerators(GmpvApplication *app)
-{
-	GtkApplication *gtk_app = GTK_APPLICATION(app);
-
-	add_accelerator(gtk_app, "<Control>o", "app.open(false)");
-	add_accelerator(gtk_app, "<Control>l", "app.openloc");
-	add_accelerator(gtk_app, "<Control>s", "app.playlist_save");
-	add_accelerator(gtk_app, "<Control>q", "app.quit");
-	add_accelerator(gtk_app, "<Control>question", "app.show_shortcuts");
-	add_accelerator(gtk_app, "<Control>p", "app.pref");
-	add_accelerator(gtk_app, "<Control>1", "app.video_size(@d 1)");
-	add_accelerator(gtk_app, "<Control>2", "app.video_size(@d 2)");
-	add_accelerator(gtk_app, "<Control>3", "app.video_size(@d 0.5)");
-	add_accelerator(gtk_app, "<Ctrl>h", "app.controls_toggle");
-	add_accelerator(gtk_app, "F9", "app.playlist_toggle");
-	add_accelerator(gtk_app, "F11", "app.fullscreen_toggle");
-}
-
 static void gmpv_application_class_init(GmpvApplicationClass *klass)
 {
 }
@@ -1285,6 +1301,7 @@ static void gmpv_application_class_init(GmpvApplicationClass *klass)
 static void gmpv_application_init(GmpvApplication *app)
 {
 	app->no_existing_session = FALSE;
+	app->action_queue = g_queue_new();
 
 	g_application_add_main_option
 		(	G_APPLICATION(app),
