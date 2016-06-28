@@ -77,7 +77,7 @@ static void gmpv_main_window_get_property(	GObject *object,
 						guint property_id,
 						GValue *value,
 						GParamSpec *pspec );
-static void size_allocate_handler(	GtkWidget *widget,
+static void resize_video_area_finalize(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data );
 static gboolean resize_to_target(gpointer data);
@@ -148,7 +148,7 @@ static void gmpv_main_window_get_property(	GObject *object,
 	}
 }
 
-static void size_allocate_handler(	GtkWidget *widget,
+static void resize_video_area_finalize(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data )
 {
@@ -162,7 +162,7 @@ static void size_allocate_handler(	GtkWidget *widget,
 	gint target_height = wnd->resize_target[1];
 
 	g_signal_handlers_disconnect_by_func
-		(widget, size_allocate_handler, data);
+		(widget, resize_video_area_finalize, data);
 
 	/* Adjust resize offset */
 	if((width != target_width || height != target_height)
@@ -515,7 +515,7 @@ void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
 {
 	g_signal_connect(	wnd->vid_area,
 				"size-allocate",
-				G_CALLBACK(size_allocate_handler),
+				G_CALLBACK(resize_video_area_finalize),
 				wnd );
 
 	wnd->resize_target[0] = width;
@@ -523,8 +523,8 @@ void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
 	resize_to_target(wnd);
 
 	/* The size may not change, so this is needed to ensure that
-	 * size_allocate_handler() will be called so that the event handler will
-	 * be disconnected.
+	 * resize_video_area_finalize() will be called so that the event handler
+	 * will be disconnected.
 	 */
 #if GTK_CHECK_VERSION(3, 20, 0)
 	gtk_widget_queue_allocate(wnd->vid_area);
