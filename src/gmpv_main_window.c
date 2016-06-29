@@ -644,12 +644,13 @@ void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 		{
 			gint new_pos = width-(maximized?wnd->playlist_width:0);
 
-#if !GTK_CHECK_VERSION(3, 20, 0)
-			/* Workaround for window sizing bug affecting
-			 * GTK+ < 3.20
-			 */
-			new_pos -= 52;
-#endif
+			if(gtk_check_version(3, 20, 0))
+			{
+				/* Workaround for window sizing bug affecting
+				 * GTK+ < 3.20
+				 */
+				new_pos -= 52;
+			}
 
 			gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
 						new_pos );
@@ -659,32 +660,42 @@ void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 			wnd->playlist_width = width-handle_pos;
 		}
 
-
 		wnd->playlist_visible = visible;
 		gtk_widget_set_visible(wnd->playlist, visible);
 
 		if(!maximized)
 		{
-#if GTK_CHECK_VERSION(3, 20, 0)
-			gtk_window_resize(	GTK_WINDOW(wnd),
-						visible?
+			if(!gtk_check_version(3, 20, 0))
+			{
+				gint new_width;
+
+				new_width =	visible?
 						width+wnd->playlist_width:
-						handle_pos,
-						height );
-#else
-			/* Workaround for window sizing bug affecting
-			 * GTK+ < 3.20
-			 */
-			gint wnd_offset;
+						handle_pos;
 
-			wnd_offset = gmpv_main_window_get_csd_enabled(wnd)?52:0;
+				gtk_window_resize(	GTK_WINDOW(wnd),
+							new_width,
+							height );
+			}
+			else
+			{
+				/* Workaround for window sizing bug affecting
+				 * GTK+ < 3.20
+				 */
+				gboolean csd;
+				gint wnd_offset;
+				gint new_width;
 
-			gtk_window_resize(	GTK_WINDOW(wnd),
-						visible?
+				csd = gmpv_main_window_get_csd_enabled(wnd);
+				wnd_offset = csd?52:0;
+				new_width =	visible?
 						width+wnd->playlist_width-wnd_offset:
-						handle_pos+wnd_offset,
-						height );
-#endif
+						handle_pos+wnd_offset;
+
+				gtk_window_resize(	GTK_WINDOW(wnd),
+							new_width,
+							height );
+			}
 		}
 
 		wnd->playlist_first_toggle = FALSE;
