@@ -21,8 +21,6 @@
 #define APPLICATION_H
 
 #include <gtk/gtk.h>
-#include <mpv/client.h>
-#include <mpv/opengl_cb.h>
 
 #include "gmpv_main_window.h"
 #include "gmpv_playlist.h"

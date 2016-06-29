@@ -1271,6 +1271,11 @@ void gmpv_mpv_obj_load(	GmpvMpvObj *mpv,
 	}
 }
 
+void gmpv_mpv_obj_free(gpointer data)
+{
+	mpv_free(data);
+}
+
 void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
 				const gchar **uri_list,
 				gboolean append,

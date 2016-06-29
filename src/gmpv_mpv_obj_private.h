@@ -54,6 +54,8 @@ struct _GmpvMpvObjClass
 	GObjectClass parent_class;
 };
 
+void mpv_check_error(int status);
+
 G_END_DECLS
 
 #endif

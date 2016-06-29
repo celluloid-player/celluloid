@@ -196,10 +196,7 @@ static void loop_handler(	GSimpleAction *action,
 	gboolean loop = g_variant_get_boolean(value);
 
 	g_simple_action_set_state(action, value);
-
-	mpv_check_error(gmpv_mpv_obj_set_property_string(	mpv,
-							"loop",
-							loop?"inf":"no" ));
+	gmpv_mpv_obj_set_property_string(mpv, "loop", loop?"inf":"no");
 }
 
 static void show_shortcuts_handler(	GSimpleAction *action,

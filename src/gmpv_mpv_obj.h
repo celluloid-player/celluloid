@@ -68,7 +68,6 @@ void gmpv_mpv_obj_set_event_callback(	GmpvMpvObj *mpv,
 void gmpv_mpv_obj_set_opengl_cb_callback(	GmpvMpvObj *mpv,
 						mpv_opengl_cb_update_fn func,
 						void *data );
-void mpv_check_error(int status);
 gboolean gmpv_mpv_obj_is_loaded(GmpvMpvObj *mpv);
 void gmpv_mpv_obj_get_state(GmpvMpvObj *mpv, GmpvMpvObjState *state);
 gdouble gmpv_mpv_obj_get_autofit_ratio(GmpvMpvObj *mpv);
@@ -86,6 +85,7 @@ void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
 			const gchar **uri_list,
 			gboolean append,
 			gboolean update );
+void gmpv_mpv_obj_free(gpointer data);
 
 G_END_DECLS
 

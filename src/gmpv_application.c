@@ -519,7 +519,7 @@ static void playlist_row_deleted_handler(	GmpvPlaylistWidget *playlist,
 
 		cmd[1] = index_str;
 
-		mpv_check_error(gmpv_mpv_obj_command(app->mpv, cmd));
+		gmpv_mpv_obj_command(app->mpv, cmd);
 
 		g_free(index_str);
 	}
@@ -626,7 +626,7 @@ static void update_track_list(GmpvApplication *app, mpv_node* track_list)
 		g_simple_action_set_state
 			(G_SIMPLE_ACTION(action), g_variant_new_int64(val));
 
-		mpv_free(buf);
+		gmpv_mpv_obj_free(buf);
 	}
 
 	for(gint i = 0; i < org_list->num; i++)
@@ -816,7 +816,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		gmpv_control_box_set_seek_bar_length(control_box, (gint)length);
 		gtk_window_set_title(GTK_WINDOW(app->gui), title);
 
-		mpv_free(title);
+		gmpv_mpv_obj_free(title);
 	}
 	else if(event->event_id == MPV_EVENT_CLIENT_MESSAGE)
 	{
