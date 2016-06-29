@@ -600,9 +600,9 @@ static void update_track_list(GmpvApplication *app, mpv_node* track_list)
 		const gchar *prop_name;
 		const gchar *action_name;
 	}
-	track_map[] = {	{"aid", "audio_select"},
-			{"vid", "video_select"},
-			{"sid", "sub_select"},
+	track_map[] = {	{"aid", "set-audio-track"},
+			{"vid", "set-video-track"},
+			{"sid", "set-subtitle-track"},
 			{NULL, NULL} };
 
 	GmpvMpvObj *mpv = app->mpv;

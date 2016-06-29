@@ -594,7 +594,7 @@ void gmpv_main_window_enable_csd(GmpvMainWindow *wnd)
 
 	gtk_actionable_set_action_name
 		(	GTK_ACTIONABLE(wnd->fullscreen_hdr_btn),
-			"app.fullscreen_toggle" );
+			"app.toggle-fullscreen" );
 
 	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
 				MAIN_WINDOW_DEFAULT_WIDTH
