@@ -755,6 +755,12 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 
 		gmpv_control_box_set_chapter_enabled(control_box, (count > 1));
 	}
+	else if(g_strcmp0(prop->name, "fullscreen") == 0 && prop->data)
+	{
+		gboolean fullscreen = *((gboolean *)prop->data);
+
+		gmpv_main_window_set_fullscreen(app->gui, fullscreen);
+	}
 }
 
 static void mpv_event_handler(mpv_event *event, gpointer data)
