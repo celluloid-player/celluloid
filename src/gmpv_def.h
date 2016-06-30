@@ -60,9 +60,6 @@
 		"Ctrl+q script-message gmpv-action quit",\
 		"Ctrl+? script-message gmpv-action show-shortcuts-dialog",\
 		"Ctrl+p script-message gmpv-action show-preferences-dialog",\
-		"Ctrl+1 script-message gmpv-action set-video-size(@d 1)",\
-		"Ctrl+2 script-message gmpv-action set-video-size(@d 2)",\
-		"Ctrl+3 script-message gmpv-action set-video-size(@d 0.5)",\
 		"Ctrl+h script-message gmpv-action toggle-controls",\
 		"F9 script-message gmpv-action toggle-playlist",\
 		"F11 script-message gmpv-action toggle-fullscreen",\

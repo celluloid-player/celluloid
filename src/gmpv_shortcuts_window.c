@@ -61,9 +61,6 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
 			{"Delete", _("Remove selected playlist item")},
 			{"F11", _("Toggle fullscreen mode")},
 			{"Escape", _("Leave fullscreen mode")},
-			{"<Ctrl>1", _("Normal size")},
-			{"<Ctrl>2", _("Double size")},
-			{"<Ctrl>3", _("Half size")},
 			{NULL, NULL} };
 	const ShortcutEntry mpv_seeking[]
 		= {	{"leftarrow rightarrow", _("Seek backward/forward 5 seconds")},
