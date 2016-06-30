@@ -8,22 +8,23 @@ capabilities.
 
 ## Dependencies
 
-- appstream-glib<sup>[[1]](#note)</sup> (build)
-- autoconf >= 2.69<sup>[[1]](#note)</sup> (build)
-- autoconf-archive<sup>[[1]](#note)</sup> (build)
-- automake >= 1.12<sup>[[1]](#note)</sup> (build)
-- python2<sup>[[1]](#note)</sup> (build)
+- appstream-glib<sup>[[1]](#note1)</sup> (build)
+- autoconf >= 2.69<sup>[[1]](#note1)</sup> (build)
+- autoconf-archive<sup>[[1]](#note1)</sup> (build)
+- automake >= 1.12<sup>[[1]](#note1)</sup> (build)
+- python2<sup>[[1]](#note1)</sup> (build)
 - intltool >= 0.40.6 (build)
 - pkg-config (build)
 - gcc (build)
-- glib2 >= 2.44
-- gtk3 >= 3.18
+- glib >= 2.44
+- gtk >= 3.18<sup>[[2]](#note2)</sup>
 - mpv >= 0.17
 - epoxy
 - lua (optional)
 - youtube-dl (optional)
 
 <a name="note">[1]</a>: Not required when building from release tarballs
+<a name="note">[2]</a>: Some features may be unavailable with gtk < 3.20
 
 ## Installation
 
@@ -33,7 +34,8 @@ capabilities.
 - Debian testing: https://packages.debian.org/testing/gnome-mpv
 - Debian unstable: https://packages.debian.org/sid/gnome-mpv
 - Fedora (russianfedora): http://koji.russianfedora.pro/koji/packageinfo?packageID=155
-- Fedora/OpenSUSE: https://build.opensuse.org/package/show/home:mermoldy:multimedia/gnome-mpv
+- Frugalware: http://www4.frugalware.org/pub/linux/distributions/frugalware/frugalware-current/source/xapps-extra/gnome-mpv/
+- OpenSUSE: https://build.opensuse.org/package/show/home:mermoldy:multimedia/gnome-mpv
 - Gentoo: http://gpo.zugaina.org/media-video/gnome-mpv
 - Solus: https://packages.solus-project.com/v1/g/gnome-mpv/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
@@ -61,6 +63,7 @@ Run the following command in the source code directory to build and install:
 ## Usage
 
 ### Opening files
+
 There are 4 ways to open files in GNOME MPV.
 
 1. Passing files and/or URIs as command line arguments.
@@ -70,6 +73,7 @@ There are 4 ways to open files in GNOME MPV.
 4. Dragging and dropping files or URIs onto GNOME MPV.
 
 ### Manipulating playlist
+
 The playlist is hidden by default. To show the playlist, click the "Playlist"
 menu item or press F9. Files can be added by dragging and dropping files or URIs
 onto the playlist. Dropping files or URIs onto the video area will replace the
@@ -81,54 +85,27 @@ the playlist, select the item by clicking on it then press the delete button on
 your keyboard.
 
 ### Configuration
-GNOME MPV can be configured using the preferences dialog box accessible via the
-"Preferences" menu item. Playback-related settings can be loaded from an
-external file using the same syntax as mpv's `mpv.conf`. It is possible to load
-mpv's `mpv.conf` directly with no modification. GNOME MPV will not write to the
-file, so it is not necessary to make a separate copy of the file. The file must
-be specified and enabled in the preferences dialog under the "MPV Configuration"
-section.
 
-Options can also be passed to mpv using the "Extra MPV Options" text box in the
+GNOME MPV can be configured using the preferences dialog accessible via the
+"Preferences" menu item. Additional configuration options can be set from an
+external file using the same syntax as mpv's `mpv.conf`. See mpv's man page for
+the full list of options. The file must be specified and enabled in the
+preferences dialog under the "MPV Configuration" section.
+
+Options can also be set using the "Extra MPV Options" text box in the
 preferences dialog. The syntax used is the same as mpv's command line options.
 
-### Default keybindings
-Default GUI-related keybindings are defined as following:
+### Keybindings
 
-|Keys		|Action			|
-|---------------|-----------------------|
-|Ctrl+O		|Open			|
-|Ctrl+L		|Open location		|
-|Ctrl+S		|Save playlist		|
-|Ctrl+Q		|Quit			|
-|Ctrl+P		|Preferences		|
-|F9		|Toggle playlist	|
-|F11 or F	|Toggle fullscreen mode	|
-|ESC   		|Exit fullscreen mode	|
-|Ctrl+1		|Normal size		|
-|Ctrl+2		|Double size		|
-|Ctrl+3		|Half size		|
-
-"Normal size", "Double size", and "Half size" resizes GNOME MPV window such that
-the video area is proportional to the size of the playing video. "Normal size"
-will resize the window so that the video area will be the same size as the
-video. "Double size" and "Half size" will resize the window so that the video
-area will be double and half the actual size of the video respectively. Because
-this requires information from the playing video, these actions will have no
-effect if no file is loaded or the current file is an audio file.
-
-There is also another set of default keybindings used for playback-related
-actions. They are defined in the macro `DEFAULT_KEYBINDS`, which can be found
-in [src/def.h](https://github.com/gnome-mpv/gnome-mpv/blob/master/src/def.h).
-The syntax used is exactly the same as mpv's `input.conf`.
+GNOME MPV defines a set of keybindings in the macro `DEFAULT_KEYBINDS`, which
+can be found in
+[src/def.h](https://github.com/gnome-mpv/gnome-mpv/blob/master/src/def.h). The
+syntax used is exactly the same as mpv's `input.conf`. These keybindings are
+applied on top of default keybindings provided by mpv.
 
 Additional keybindings can be defined in an external file using mpv's
-`input.conf` syntax. Because the syntax is the same, it is possible to load
-mpv's `input.conf` directly with no modification. It is not necessary to create
-a separate copy of the file as GNOME MPV will not write to the file. The file
-has to be loaded via the preferences dialog under the "Keybindings" section. In
-case of conflict with default keybindings, keybindings defined in external file
-will be given priority.
+`input.conf` syntax. The file can be set in the preferences dialog under the
+"Keybindings" section.
 
 ## Contributing Translations
 
