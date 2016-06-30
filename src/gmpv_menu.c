@@ -22,19 +22,33 @@
 #include "gmpv_menu.h"
 #include "gmpv_track.h"
 
-static void build_menu_from_track_list(	GMenu *menu,
-					const GSList *list,
-					const gchar *action );
+typedef struct GmpvMenuEntry GmpvMenuEntry;
 
-void build_menu_from_track_list(	GMenu *menu,
-					const GSList *list,
-					const gchar *action )
+struct GmpvMenuEntry
 {
+	gchar *title;
+	gchar *action;
+	GMenu *submenu;
+};
+
+static GMenu *build_menu_from_track_list(	const GSList *list,
+						const gchar *action,
+						const gchar *load_action );
+static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat);
+static GMenu *build_video_track_menu(const GSList *list);
+static GMenu *build_audio_track_menu(const GSList *list);
+static GMenu *build_subtitle_track_menu(const GSList *list);
+
+static GMenu *build_menu_from_track_list(	const GSList *list,
+						const gchar *action,
+						const gchar *load_action )
+{
+	GMenu *menu = g_menu_new();
 	const GSList *iter = list;
 	const glong max_len = 32;
 	gchar *detailed_action;
 
-	detailed_action = g_strdup_printf("app.%s(@x 0)", action);
+	detailed_action = g_strdup_printf("%s(@x 0)", action);
 
 	g_menu_append(menu, _("None"), detailed_action);
 	g_free(detailed_action);
@@ -63,8 +77,7 @@ void build_menu_from_track_list(	GMenu *menu,
 		}
 
 		detailed_action
-			= g_strdup_printf(	"app.%s"
-						"(@x %" G_GINT64_FORMAT ")",
+			= g_strdup_printf(	"%s(@x %" G_GINT64_FORMAT ")",
 						action,
 						entry->id );
 
@@ -84,6 +97,83 @@ void build_menu_from_track_list(	GMenu *menu,
 		g_free(entry_title);
 		g_free(title);
 	}
+
+	if(load_action)
+	{
+		g_menu_append(menu, _("_Load External…"), load_action);
+	}
+
+	return menu;
+}
+
+static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat)
+{
+	GMenu *current_submenu = NULL;
+
+	for(	gint i = 0;
+		entries[i].title || entries[i].action || entries[i].submenu;
+		i++ )
+	{
+		const gchar *title = entries[i].title;
+		const gchar *action = entries[i].action;
+		const GMenu *submenu = entries[i].submenu;
+
+		if(title && (action || submenu))
+		{
+			GMenuItem *item;
+
+			if(submenu)
+			{
+				item =	g_menu_item_new_submenu
+					(title, G_MENU_MODEL(submenu));
+			}
+			else
+			{
+				item = g_menu_item_new(title, action);
+			}
+
+			g_menu_append_item(current_submenu, item);
+			g_object_unref(item);
+		}
+		else
+		{
+			GMenuModel *model;
+
+			current_submenu = g_menu_new();
+			model = G_MENU_MODEL(current_submenu);
+
+			if(flat)
+			{
+				g_menu_append_section(menu, title, model);
+			}
+			else
+			{
+				g_menu_append_submenu(menu, title, model);
+			}
+		}
+	}
+}
+
+static GMenu *build_video_track_menu(const GSList *list)
+{
+	return	build_menu_from_track_list
+		(list, "app.set-video-track", NULL);
+}
+
+static GMenu *build_audio_track_menu(const GSList *list)
+{
+	return	build_menu_from_track_list
+		(	list,
+			"app.set-audio-track",
+			"app.load-track('audio-add')" );
+}
+
+static GMenu *build_subtitle_track_menu(const GSList *list)
+{
+	return	build_menu_from_track_list
+		(	list,
+			"app.set-subtitle-track",
+			"app.load-track('sub-add')" );
 }
 
 void gmpv_menu_build_full(	GMenu *menu,
@@ -91,181 +181,38 @@ void gmpv_menu_build_full(	GMenu *menu,
 				const GSList *video_list,
 				const GSList *sub_list )
 {
-	GMenu *file_menu;
-	GMenu *edit_menu;
-	GMenu *view_menu;
-	GMenu *help_menu;
-	GMenuItem *file_menu_item;
-	GMenuItem *open_menu_item;
-	GMenuItem *quit_menu_item;
-	GMenuItem *open_loc_menu_item;
-	GMenuItem *save_playlist_menu_item;
-	GMenuItem *edit_menu_item;
-	GMenuItem *pref_menu_item;
-	GMenuItem *view_menu_item;
-	GMenuItem *controls_menu_item;
-	GMenuItem *playlist_menu_item;
-	GMenuItem *fullscreen_menu_item;
-	GMenuItem *normal_size_menu_item;
-	GMenuItem *double_size_menu_item;
-	GMenuItem *half_size_menu_item;
-	GMenuItem *help_menu_item;
-	GMenuItem *shortcuts_menu_item;
-	GMenuItem *about_menu_item;
+	GMenu *video_menu = build_video_track_menu(video_list);
+	GMenu *audio_menu = build_audio_track_menu(audio_list);
+	GMenu *sub_menu = build_subtitle_track_menu(sub_list);
 
-	/* File */
-	file_menu = g_menu_new();
+	const GmpvMenuEntry entries[]
+		= {	{_("_File"), NULL, NULL},
+			{_("_Open"), "app.show-open-dialog(false)", NULL},
+			{_("Open _Location"), "app.show-open-location-dialog", NULL},
+			{_("_Save Playlist"), "app.save-playlist", NULL},
+			{_("_Quit"), "app.quit", NULL},
+			{_("_Edit"), NULL, NULL},
+			{_("_Preferences"), "app.show-preferences-dialog", NULL},
+			{_("_Video Track"), NULL, video_menu},
+			{_("_Audio Track"), NULL, audio_menu},
+			{_("S_ubtitle Track"), NULL, sub_menu},
+			{_("_View"), NULL, NULL},
+			{_("_Toggle Controls"), "app.toggle-controls", NULL},
+			{_("_Toggle Playlist"), "app.toggle-playlist", NULL},
+			{_("_Fullscreen"), "app.toggle-fullscreen", NULL},
+			{_("_Normal Size"), "app.set-video-size(@d 1)", NULL},
+			{_("_Double Size"), "app.set-video-size(@d 2)", NULL},
+			{_("_Half Size"), "app.set-video-size(@d 0.5)", NULL},
+			{_("_Help"), NULL, NULL},
+			{_("_Keyboard Shortcuts"), "app.show-shortcuts-dialog" , NULL},
+			{_("_About"), "app.show-about-dialog", NULL},
+			{NULL, NULL, NULL} };
 
-	file_menu_item
-		= g_menu_item_new_submenu
-			(_("_File"), G_MENU_MODEL(file_menu));
+	build_menu(menu, entries, FALSE);
 
-	open_menu_item = g_menu_item_new(_("_Open"), "app.show-open-dialog(false)");
-	quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
-
-	open_loc_menu_item
-		= g_menu_item_new(_("Open _Location"), "app.show-open-location-dialog");
-
-	save_playlist_menu_item
-		= g_menu_item_new(_("_Save Playlist"), "app.save-playlist");
-
-	/* Edit */
-	edit_menu = g_menu_new();
-
-	edit_menu_item
-		= g_menu_item_new_submenu
-			(_("_Edit"), G_MENU_MODEL(edit_menu));
-
-	pref_menu_item
-		= g_menu_item_new(_("_Preferences"), "app.show-preferences-dialog");
-
-	/* View */
-	view_menu = g_menu_new();
-
-	view_menu_item
-		= g_menu_item_new_submenu
-			(_("_View"), G_MENU_MODEL(view_menu));
-
-	controls_menu_item
-		= g_menu_item_new(_("_Toggle Controls"), "app.toggle-controls");
-
-	playlist_menu_item
-		= g_menu_item_new(_("_Toggle Playlist"), "app.toggle-playlist");
-
-	fullscreen_menu_item
-		= g_menu_item_new(_("_Fullscreen"), "app.toggle-fullscreen");
-
-	normal_size_menu_item
-		= g_menu_item_new(_("_Normal Size"), "app.set-video-size(@d 1)");
-
-	double_size_menu_item
-		= g_menu_item_new(_("_Double Size"), "app.set-video-size(@d 2)");
-
-	half_size_menu_item
-		= g_menu_item_new(_("_Half Size"), "app.set-video-size(@d 0.5)");
-
-	/* Help */
-	help_menu = g_menu_new();
-
-	help_menu_item
-		= g_menu_item_new_submenu
-			(_("_Help"), G_MENU_MODEL(help_menu));
-
-	shortcuts_menu_item = g_menu_item_new(	_("_Keyboard Shortcuts"),
-						"app.show-shortcuts-dialog" );
-	about_menu_item = g_menu_item_new(_("_About"), "app.show-about-dialog");
-
-	if(video_list)
-	{
-		GMenu *video_menu = g_menu_new();
-
-		build_menu_from_track_list
-			(video_menu, video_list, "set-video-track");
-
-		g_menu_append_submenu(	edit_menu,
-					_("_Video Track"),
-					G_MENU_MODEL(video_menu) );
-	}
-
-	/* If there is no track, then no file is playing and we can just leave
-	 * out track-related menu items. However, if there is something playing,
-	 * show both menu items for audio and subtitle tracks even if they are
-	 * empty so that the users can load external ones if they want.
-	 */
-	if(video_list || audio_list || sub_list)
-	{
-		GMenu *audio_menu = g_menu_new();
-		GMenu *sub_menu = g_menu_new();
-		GMenuItem *load_audio_menu_item;
-		GMenuItem *load_sub_menu_item;
-
-		load_audio_menu_item
-			= g_menu_item_new(	_("_Load External…"),
-						"app.load-track('audio-add')" );
-
-		load_sub_menu_item
-			= g_menu_item_new(	_("_Load External…"),
-						"app.load-track('sub-add')" );
-
-		build_menu_from_track_list
-			(audio_menu, audio_list, "set-audio-track");
-
-		build_menu_from_track_list
-			(sub_menu, sub_list, "set-subtitle-track");
-
-		g_menu_append_submenu(	edit_menu,
-					_("_Audio Track"),
-					G_MENU_MODEL(audio_menu) );
-
-		g_menu_append_submenu(	edit_menu,
-					_("S_ubtitle Track"),
-					G_MENU_MODEL(sub_menu) );
-
-		g_menu_append_item(audio_menu, load_audio_menu_item);
-		g_menu_append_item(sub_menu, load_sub_menu_item);
-
-		g_object_unref(load_audio_menu_item);
-		g_object_unref(load_sub_menu_item);
-	}
-
-	g_menu_append_item(menu, file_menu_item);
-	g_menu_append_item(file_menu, open_menu_item);
-	g_menu_append_item(file_menu, open_loc_menu_item);
-	g_menu_append_item(file_menu, save_playlist_menu_item);
-	g_menu_append_item(file_menu, quit_menu_item);
-
-	g_menu_append_item(menu, edit_menu_item);
-	g_menu_append_item(edit_menu, pref_menu_item);
-
-	g_menu_append_item(menu, view_menu_item);
-	g_menu_append_item(view_menu, controls_menu_item);
-	g_menu_append_item(view_menu, playlist_menu_item);
-	g_menu_append_item(view_menu, fullscreen_menu_item);
-	g_menu_append_item(view_menu, normal_size_menu_item);
-	g_menu_append_item(view_menu, double_size_menu_item);
-	g_menu_append_item(view_menu, half_size_menu_item);
-
-	g_menu_append_item(menu, help_menu_item);
-	g_menu_append_item(help_menu, shortcuts_menu_item);
-	g_menu_append_item(help_menu, about_menu_item);
-
-	g_object_unref(file_menu_item);
-	g_object_unref(open_menu_item);
-	g_object_unref(open_loc_menu_item);
-	g_object_unref(save_playlist_menu_item);
-	g_object_unref(quit_menu_item);
-	g_object_unref(edit_menu_item);
-	g_object_unref(pref_menu_item);
-	g_object_unref(view_menu_item);
-	g_object_unref(controls_menu_item);
-	g_object_unref(playlist_menu_item);
-	g_object_unref(fullscreen_menu_item);
-	g_object_unref(normal_size_menu_item);
-	g_object_unref(double_size_menu_item);
-	g_object_unref(half_size_menu_item);
-	g_object_unref(help_menu_item);
-	g_object_unref(shortcuts_menu_item);
-	g_object_unref(about_menu_item);
+	g_object_unref(video_menu);
+	g_object_unref(audio_menu);
+	g_object_unref(sub_menu);
 }
 
 void gmpv_menu_build_menu_btn(	GMenu *menu,
@@ -273,180 +220,55 @@ void gmpv_menu_build_menu_btn(	GMenu *menu,
 				const GSList *video_list,
 				const GSList *sub_list )
 {
-	GMenu *controls;
-	GMenu *playlist;
-	GMenu *track;
-	GMenu *view;
-	GMenuItem *controls_section;
-	GMenuItem *playlist_section;
-	GMenuItem *track_section;
-	GMenuItem *view_section;
-	GMenuItem *controls_toggle_menu_item;
-	GMenuItem *playlist_toggle_menu_item;
-	GMenuItem *playlist_save_menu_item;
-	GMenuItem *normal_size_menu_item;
-	GMenuItem *double_size_menu_item;
-	GMenuItem *half_size_menu_item;
+	GMenu *video_menu = build_video_track_menu(video_list);
+	GMenu *audio_menu = build_audio_track_menu(audio_list);
+	GMenu *sub_menu = build_subtitle_track_menu(sub_list);
 
-	controls = g_menu_new();
-	playlist = g_menu_new();
-	track = g_menu_new();
-	view = g_menu_new();
+	const GmpvMenuEntry entries[]
+		= {	{NULL, "", NULL},
+			{_("_Toggle Controls"), "app.toggle-controls", NULL},
+			{NULL, "", NULL},
+			{_("_Toggle Playlist"), "app.toggle-playlist", NULL},
+			{_("_Save Playlist"), "app.save-playlist", NULL},
+			{NULL, "", NULL},
+			{_("_Video Track"), NULL, video_menu},
+			{_("_Audio Track"), NULL, audio_menu},
+			{_("S_ubtitle Track"), NULL, sub_menu},
+			{NULL, "", NULL},
+			{_("_Normal Size"), "app.set-video-size(@d 1)", NULL},
+			{_("_Double Size"), "app.set-video-size(@d 2)", NULL},
+			{_("_Half Size"), "app.set-video-size(@d 0.5)", NULL},
+			{NULL, NULL, NULL} };
 
-	controls_section
-		= g_menu_item_new_section(NULL, G_MENU_MODEL(controls));
+	build_menu(menu, entries, TRUE);
 
-	playlist_section
-		= g_menu_item_new_section(NULL, G_MENU_MODEL(playlist));
-
-	track_section
-		= g_menu_item_new_section(NULL, G_MENU_MODEL(track));
-
-	view_section
-		= g_menu_item_new_section(NULL, G_MENU_MODEL(view));
-
-	controls_toggle_menu_item
-		= g_menu_item_new
-			(_("_Toggle Controls"), "app.toggle-controls");
-
-	playlist_toggle_menu_item
-		= g_menu_item_new
-			(_("_Toggle Playlist"), "app.toggle-playlist");
-
-	playlist_save_menu_item
-		= g_menu_item_new
-			(_("_Save Playlist"), "app.save-playlist");
-
-	normal_size_menu_item
-		= g_menu_item_new
-			(_("_Normal Size"), "app.set-video-size(@d 1)");
-
-	double_size_menu_item
-		= g_menu_item_new
-			(_("_Double Size"), "app.set-video-size(@d 2)");
-
-	half_size_menu_item
-		= g_menu_item_new
-			(_("_Half Size"), "app.set-video-size(@d 0.5)");
-
-	if(video_list)
-	{
-		GMenu *video = g_menu_new();
-		GMenuItem *video_menu_item;
-
-		video_menu_item = g_menu_item_new_submenu
-					(	_("_Video Track"),
-						G_MENU_MODEL(video) );
-
-		build_menu_from_track_list(video, video_list, "set-video-track");
-		g_menu_append_item(track, video_menu_item);
-		g_object_unref(video_menu_item);
-	}
-
-	if(video_list || audio_list || sub_list)
-	{
-		GMenu *audio = g_menu_new();
-		GMenu *subtitle = g_menu_new();
-		GMenuItem *audio_menu_item;
-		GMenuItem *subtitle_menu_item;
-		GMenuItem *load_audio_menu_item;
-		GMenuItem *load_sub_menu_item;
-
-		audio_menu_item
-			= g_menu_item_new_submenu
-				(_("_Audio Track"), G_MENU_MODEL(audio));
-
-		subtitle_menu_item
-			= g_menu_item_new_submenu
-				(_("S_ubtitle Track"), G_MENU_MODEL(subtitle));
-
-		build_menu_from_track_list(audio, audio_list, "set-audio-track");
-		build_menu_from_track_list(subtitle, sub_list, "set-subtitle-track");
-
-		load_audio_menu_item
-			= g_menu_item_new
-				(	_("_Load External…"),
-					"app.load-track('audio-add')" );
-
-		load_sub_menu_item
-			= g_menu_item_new
-				(	_("_Load External…"),
-					"app.load-track('sub-add')" );
-
-		g_menu_append_item(track, audio_menu_item);
-		g_menu_append_item(track, subtitle_menu_item);
-		g_menu_append_item(audio, load_audio_menu_item);
-		g_menu_append_item(subtitle, load_sub_menu_item);
-
-		g_object_unref(audio_menu_item);
-		g_object_unref(subtitle_menu_item);
-		g_object_unref(load_audio_menu_item);
-		g_object_unref(load_sub_menu_item);
-	}
-
-	g_menu_append_item(controls, controls_toggle_menu_item);
-	g_menu_append_item(playlist, playlist_toggle_menu_item);
-	g_menu_append_item(playlist, playlist_save_menu_item);
-	g_menu_append_item(view, normal_size_menu_item);
-	g_menu_append_item(view, double_size_menu_item);
-	g_menu_append_item(view, half_size_menu_item);
-	g_menu_append_item(menu, controls_section);
-	g_menu_append_item(menu, playlist_section);
-	g_menu_append_item(menu, track_section);
-	g_menu_append_item(menu, view_section);
-
-	g_object_unref(controls_toggle_menu_item);
-	g_object_unref(playlist_toggle_menu_item);
-	g_object_unref(playlist_save_menu_item);
-	g_object_unref(normal_size_menu_item);
-	g_object_unref(double_size_menu_item);
-	g_object_unref(half_size_menu_item);
-	g_object_unref(controls_section);
-	g_object_unref(playlist_section);
-	g_object_unref(track_section);
-	g_object_unref(view_section);
+	g_object_unref(video_menu);
+	g_object_unref(audio_menu);
+	g_object_unref(sub_menu);
 }
 
 void gmpv_menu_build_open_btn(GMenu *menu)
 {
-	GMenuItem *open_menu_item;
-	GMenuItem *open_loc_menu_item;
+	const GmpvMenuEntry entries[]
+		= {	{NULL, "", NULL},
+			{_("_Open"), "app.show-open-dialog(false)", NULL},
+			{_("Open _Location"), "app.show-open-location-dialog", NULL},
+			{NULL, NULL, NULL} };
 
-	open_menu_item
-		= g_menu_item_new(_("_Open"), "app.show-open-dialog(false)");
-
-	open_loc_menu_item
-		= g_menu_item_new(_("Open _Location"), "app.show-open-location-dialog");
-
-	g_menu_append_item(menu, open_menu_item);
-	g_menu_append_item(menu, open_loc_menu_item);
-
-	g_object_unref(open_menu_item);
-	g_object_unref(open_loc_menu_item);
+	build_menu(menu, entries, TRUE);
 }
 
 void gmpv_menu_build_app_menu(GMenu *menu)
 {
-	GMenu *top_section;
-	GMenu *bottom_section;
-	GMenuItem *pref_menu_item;
-	GMenuItem *shortcuts_menu_item;
-	GMenuItem *about_menu_item;
-	GMenuItem *quit_menu_item;
+	const GmpvMenuEntry entries[]
+		= {	{NULL, "", NULL},
+			{_("_Preferences"), "app.show-preferences-dialog", NULL},
+			{NULL, "", NULL},
+			{_("_Keyboard Shortcuts"), "app.show-shortcuts-dialog", NULL},
+			{_("_About"), "app.show-about-dialog", NULL},
+			{_("_Quit"), "app.quit", NULL},
+			{NULL, NULL, NULL} };
 
-	top_section = g_menu_new();
-	bottom_section = g_menu_new();
-	pref_menu_item = g_menu_item_new(_("_Preferences"), "app.show-preferences-dialog");
-	shortcuts_menu_item = g_menu_item_new(	_("_Keyboard Shortcuts"),
-						"app.show-shortcuts-dialog" );
-	about_menu_item = g_menu_item_new(_("_About"), "app.show-about-dialog");
-	quit_menu_item = g_menu_item_new(_("_Quit"), "app.quit");
-
-	g_menu_append_section(menu, NULL, G_MENU_MODEL(top_section));
-	g_menu_append_section(menu, NULL, G_MENU_MODEL(bottom_section));
-	g_menu_append_item(top_section, pref_menu_item);
-	g_menu_append_item(bottom_section, shortcuts_menu_item);
-	g_menu_append_item(bottom_section, about_menu_item);
-	g_menu_append_item(bottom_section, quit_menu_item);
+	build_menu(menu, entries, TRUE);
 }
 

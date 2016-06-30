@@ -418,8 +418,8 @@ static void quit_handler(	GSimpleAction *action,
 }
 
 static void set_track_handler(	GSimpleAction *action,
-					GVariant *value,
-					gpointer data )
+				GVariant *value,
+				gpointer data )
 {
 	GmpvApplication *app = data;
 	GmpvMpvObj *mpv;
@@ -598,15 +598,15 @@ void gmpv_actionctl_map_actions(GmpvApplication *app)
 			.activate = remove_selected_playlist_item_handler},
 			{.name = "set-audio-track",
 			.change_state = set_track_handler,
-			.state = "@x 1",
+			.state = "@x 0",
 			.parameter_type = "x"},
 			{.name = "set-video-track",
 			.change_state = set_track_handler,
-			.state = "@x 1",
+			.state = "@x 0",
 			.parameter_type = "x"},
 			{.name = "set-subtitle-track",
 			.change_state = set_track_handler,
-			.state = "@x 1",
+			.state = "@x 0",
 			.parameter_type = "x"},
 			{.name = "load-track",
 			.activate = load_track_handler,
