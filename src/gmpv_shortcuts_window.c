@@ -77,7 +77,7 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
 			{"BackSpace", _("Reset playback speed to normal")},
 			{"less greater", _("Go backward/forward in the playlist")},
 			{"Delete", _("Remove selected playlist item")},
-			{"<Ctrl>s", _("Save playlist")},
+			{"<Ctrl><Shift>s", _("Save playlist")},
 			{"l", _("Set/clear A-B loop points")},
 			{"<Shift>l", _("Toggle infinite looping")},
 			{"p space", _("Pause or unpause")},
