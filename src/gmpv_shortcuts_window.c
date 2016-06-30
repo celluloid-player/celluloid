@@ -51,18 +51,18 @@ G_DEFINE_TYPE(GmpvShortcutsWindow, gmpv_shortcuts_window, GTK_TYPE_SHORTCUTS_WIN
 static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
 {
 	const ShortcutEntry general[]
-		= {	{"<Ctrl>O", _("Open file")},
-			{"<Ctrl>L", _("Open location")},
-			{"<Ctrl>Q", _("Quit")},
-			{"<Ctrl>P", _("Show preferences dialog")},
-			{"<Ctrl>H", _("Toggle controls")},
+		= {	{"<Ctrl>o", _("Open file")},
+			{"<Ctrl>l", _("Open location")},
+			{"<Ctrl>p", _("Show preferences dialog")},
+			{"<Ctrl>h", _("Toggle controls")},
 			{"F9", _("Toggle playlist")},
-			{"<Ctrl>S", _("Save playlist")},
-			{"Delete", _("Remove selected playlist item")},
-			{"F11", _("Toggle fullscreen mode")},
+			{"F11 f", _("Toggle fullscreen mode")},
 			{"Escape", _("Leave fullscreen mode")},
+			{"<Shift>o", _("Toggle OSD states between normal and playback time/duration")},
+			{"<Shift>i", _("Show filename on the OSD")},
+			{"o <Shift>p", _("Show progress, elapsed time, and duration on the OSD")},
 			{NULL, NULL} };
-	const ShortcutEntry mpv_seeking[]
+	const ShortcutEntry seeking[]
 		= {	{"leftarrow rightarrow", _("Seek backward/forward 5 seconds")},
 			{"<Shift>leftarrow <Shift>rightarrow", _("Exact seek backward/forward 1 second")},
 			{"downarrow uparrow", _("Seek backward/forward 1 minute")},
@@ -71,32 +71,27 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
 			{"comma period", _("Step backward/forward a single frame")},
 			{"Page_Up Page_Down", _("Seek to the beginning of the previous/next chapter")},
 			{NULL, NULL} };
-	const ShortcutEntry mpv_playback_speed[]
+	const ShortcutEntry playback[]
 		= {	{"bracketleft bracketright", _("Decrease/increase playback speed by 10%")},
 			{"braceleft braceright", _("Halve/double current playback speed")},
 			{"BackSpace", _("Reset playback speed to normal")},
-			{NULL, NULL} };
-	const ShortcutEntry mpv_playback[]
-		= {	{"less greater", _("Go backward/forward in the playlist")},
+			{"less greater", _("Go backward/forward in the playlist")},
+			{"Delete", _("Remove selected playlist item")},
+			{"<Ctrl>s", _("Save playlist")},
 			{"l", _("Set/clear A-B loop points")},
 			{"<Shift>l", _("Toggle infinite looping")},
 			{"p space", _("Pause or unpause")},
-			{"q", _("Quit")},
+			{"<Ctrl>q q", _("Quit")},
 			{"<Shift>q", _("Save current playback position and quit")},
 			{NULL, NULL} };
-	const ShortcutEntry mpv_audio[]
+	const ShortcutEntry audio[]
 		= {	{"numbersign", _("Cycle through audio tracks")},
 			{"slash asterisk", _("Decrease/increase volume")},
 			{"9 0", _("Decrease/increase volume")},
 			{"m", _("Mute or unmute")},
 			{"<Ctrl>plus <Ctrl>minus", _("Adjust audio delay by +/- 0.1 seconds")},
 			{NULL, NULL} };
-	const ShortcutEntry mpv_osd[]
-		= {	{"<Shift>o", _("Toggle OSD states between normal and playback time/duration")},
-			{"<Shift>I", _("Show filename on the OSD")},
-			{"o <Shift>p", _("Show progress, elapsed time, and duration on the OSD")},
-			{NULL, NULL} };
-	const ShortcutEntry mpv_subtitle[]
+	const ShortcutEntry subtitle[]
 		= {	{"v", _("Toggle subtitle visibility")},
 			{"i j", _("Cycle through available subtitles")},
 			{"x z", _("Adjust subtitle delay by +/- 0.1 seconds")},
@@ -104,9 +99,12 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
 			{"r t", _("Move subtitles up/down")},
 			{"<Shift>v", _("Toggle VSFilter aspect compatibility mode")},
 			{NULL, NULL} };
-	const ShortcutEntry mpv_video[]
+	const ShortcutEntry video[]
 		= {	{"underscore", _("Cycle through video tracks")},
 			{"w e", _("Decrease/increase pan-and-scan range")},
+			{"s", _("Take a screenshot")},
+			{"<Shift>s", _("Take a screenshot, without subtitles")},
+			{"<Ctrl>s", _("Take a screenshot, as the window shows it")},
 			{"<Alt>0", _("Resize video to half its original size")},
 			{"<Alt>1", _("Resize video to its original size")},
 			{"<Alt>2", _("Resize video to double its original size")},
@@ -117,81 +115,45 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
 			{"d", _("Activate or deactivate deinterlacer")},
 			{"<Shift>a", _("Cycle aspect ratio override")},
 			{NULL, NULL} };
-	const ShortcutEntry mpv_misc[]
-		= {	{"f", _("Toggle fullscreen mode")},
-			{"Escape", _("Exit fullscreen mode")},
-			{"s", _("Take a screenshot")},
-			{"<Shift>s", _("Take a screenshot, without subtitles")},
-			{"<Ctrl>s", _("Take a screenshot, as the window shows it")},
+	const ShortcutGroup groups[]
+		= {	{_("User Interface"), general},
+			{_("Video"), video},
+			{_("Audio"), audio},
+			{_("Subtitle"), subtitle},
+			{_("Playback"), playback},
+			{_("Seeking"), seeking},
 			{NULL, NULL} };
-	const ShortcutGroup mpv_groups[]
-		= {	{_("Seeking"), mpv_seeking},
-			{_("Playback Speed"), mpv_playback_speed},
-			{_("Playback"), mpv_playback},
-			{_("Audio"), mpv_audio},
-			{_("On-Screen Display"), mpv_osd},
-			{_("Subtitle"), mpv_subtitle},
-			{_("Video"), mpv_video},
-			{_("Miscellaneous"), mpv_misc},
-			{NULL, NULL} };
-	GtkWidget *general_section;
-	GtkWidget *mpv_section;
-	GtkWidget *general_group;
-
-	general_section = g_object_new(	gtk_shortcuts_section_get_type(),
+	GtkWidget *section =	g_object_new
+				(	gtk_shortcuts_section_get_type(),
 					"section-name", "shortcuts",
-					"title", _("GNOME MPV"),
 					"visible", TRUE,
 					NULL );
-	mpv_section = g_object_new(	gtk_shortcuts_section_get_type(),
-					"section-name", "mpv_shortcuts",
-					"title", _("MPV"),
-					"visible", FALSE,
-					NULL );
-	general_group = g_object_new(	gtk_shortcuts_group_get_type(),
-					"title", _("General"),
-					NULL );
 
-	for(gint i  = 0; general[i].accel; i++)
+	for(gint i  = 0; groups[i].title; i++)
 	{
-		GtkWidget *entry;
-
-		entry = g_object_new(	gtk_shortcuts_shortcut_get_type(),
-					"accelerator", general[i].accel,
-					"title", general[i].title,
-					NULL );
-
-		gtk_container_add(GTK_CONTAINER(general_group), entry);
-	}
-
-	gtk_container_add(GTK_CONTAINER(general_section), general_group);
-
-	for(gint i  = 0; mpv_groups[i].title; i++)
-	{
-		const ShortcutEntry *entries = mpv_groups[i].entries;
-		GtkWidget *mpv_group =	g_object_new
+		const ShortcutEntry *entries = groups[i].entries;
+		GtkWidget *group =	g_object_new
 					(	gtk_shortcuts_group_get_type(),
-						"title", mpv_groups[i].title,
+						"title", groups[i].title,
 						NULL );
 
 		for(gint j  = 0; entries[j].accel; j++)
 		{
-			GtkWidget *mpv_entry;
+			GtkWidget *entry;
 
-			mpv_entry =	g_object_new
+			entry =	g_object_new
 				(	gtk_shortcuts_shortcut_get_type(),
 					"accelerator", entries[j].accel,
 					"title", entries[j].title,
 					NULL );
 
-			gtk_container_add(GTK_CONTAINER(mpv_group), mpv_entry);
+			gtk_container_add(GTK_CONTAINER(group), entry);
 		}
 
-		gtk_container_add(GTK_CONTAINER(mpv_section), mpv_group);
+		gtk_container_add(GTK_CONTAINER(section), group);
 	}
 
-	gtk_container_add(GTK_CONTAINER(wnd), general_section);
-	gtk_container_add(GTK_CONTAINER(wnd), mpv_section);
+	gtk_container_add(GTK_CONTAINER(wnd), section);
 }
 
 static void gmpv_shortcuts_window_class_init(GmpvShortcutsWindowClass *klass)
