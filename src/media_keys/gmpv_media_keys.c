@@ -43,11 +43,35 @@ static gboolean delete_handler(	GtkWidget *widget,
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
 	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
+	g_signal_handler_disconnect(wnd, inst->focus_sig_id);
 	g_signal_handler_disconnect(inst->proxy, inst->g_signal_sig_id);
 
 	g_object_unref(inst->proxy);
 	g_object_unref(inst->session_bus_conn);
 	g_free(inst);
+
+	return FALSE;
+}
+
+static gboolean window_state_handler( GtkWidget *widget,
+				      GdkEventWindowState *event,
+				      gpointer data )
+{
+	gmpv_media_keys *inst = data;
+
+	if (event->changed_mask & GDK_WINDOW_STATE_FOCUSED
+	    && event->new_window_state & GDK_WINDOW_STATE_FOCUSED
+	    && inst->proxy != NULL)
+	{
+		g_dbus_proxy_call(	inst->proxy,
+					"GrabMediaPlayerKeys",
+					g_variant_new("(su)", APP_ID, 0),
+					G_DBUS_CALL_FLAGS_NONE,
+					-1,
+					NULL,
+					NULL,
+					inst );
+	}
 
 	return FALSE;
 }
@@ -161,18 +185,21 @@ static void session_ready_handler(	GObject *source_object,
 
 void gmpv_media_keys_init(GmpvApplication *gmpv_ctx)
 {
-	gmpv_media_keys *inst = g_malloc(sizeof(gmpv_media_keys));
+	gmpv_media_keys *inst = g_new0(gmpv_media_keys, 1);
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(gmpv_ctx);
 
 	inst->gmpv_ctx = gmpv_ctx;
-	inst->shutdown_sig_id = 0;
-	inst->proxy = NULL;
-	inst->session_bus_conn = NULL;
 
 	inst->shutdown_sig_id =	g_signal_connect
 				(	wnd,
 					"delete-event",
 					G_CALLBACK(delete_handler),
+					inst );
+
+	inst->focus_sig_id = g_signal_connect
+				(	wnd,
+					"window-state-event",
+					G_CALLBACK(window_state_handler),
 					inst );
 
 	g_bus_get(G_BUS_TYPE_SESSION, NULL, session_ready_handler, inst);

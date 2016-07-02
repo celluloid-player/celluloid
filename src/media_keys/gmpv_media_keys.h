@@ -29,6 +29,7 @@ struct gmpv_media_keys
 	GmpvApplication *gmpv_ctx;
 	gulong g_signal_sig_id;
 	gulong shutdown_sig_id;
+	gulong focus_sig_id;
 	GDBusProxy *proxy;
 	GDBusConnection *session_bus_conn;
 };
