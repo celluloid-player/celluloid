@@ -89,6 +89,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data );
+static void grab_handler(GtkWidget *widget, gboolean was_grabbed, gpointer data);
 static void playlist_row_activated_handler(	GmpvPlaylistWidget *playlist,
 						gint64 pos,
 						gpointer data );
@@ -497,6 +498,19 @@ static gboolean delete_handler(	GtkWidget *widget,
 	quit(data);
 
 	return TRUE;
+}
+
+static void grab_handler(GtkWidget *widget, gboolean was_grabbed, gpointer data)
+{
+	GmpvApplication *app = data;
+
+	if(!was_grabbed)
+	{
+		g_debug(	"Main window has been shadowed; "
+				"sending global keyup to mpv" );
+
+		gmpv_mpv_obj_command_string(app->mpv, "keyup");
+	}
 }
 
 static void playlist_row_activated_handler(	GmpvPlaylistWidget *playlist,
@@ -1244,6 +1258,10 @@ static void connect_signals(GmpvApplication *app)
 	g_signal_connect(	playlist,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
+				app );
+	g_signal_connect(	app->gui,
+				"grab-notify",
+				G_CALLBACK(grab_handler),
 				app );
 	g_signal_connect(	app->gui,
 				"delete-event",
