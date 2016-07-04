@@ -63,6 +63,9 @@ static gchar *seek_bar_format_handler(	GtkScale *scale,
 	gint length = GMPV_CONTROL_BOX(data)->seek_bar_length;
 	char *output = NULL;
 
+	if (length == 0)
+		return g_strdup("");
+
 	/* Longer than one hour */
 	if(length > 3600 && sec >= 0)
 	{
@@ -373,8 +376,28 @@ void gmpv_control_box_set_seek_bar_pos(GmpvControlBox *box, gdouble pos)
 	gtk_range_set_value(GTK_RANGE(box->seek_bar), pos);
 }
 
+static void gmpv_control_box_set_seekable(GmpvControlBox *box, gboolean seekable)
+{
+	if (seekable)
+	{
+		gtk_widget_show(box->forward_button);
+		gtk_widget_show(box->rewind_button);
+		g_signal_handlers_unblock_by_func(box->seek_bar, seek_handler, box);
+	}
+	else
+	{
+		gtk_widget_hide(box->forward_button);
+		gtk_widget_hide(box->rewind_button);
+		g_signal_handlers_block_by_func(box->seek_bar, seek_handler, box);
+	}
+}
+
 void gmpv_control_box_set_seek_bar_length(GmpvControlBox *box, gint length)
 {
+	if ((length == 0 || box->seek_bar_length == 0) && box->seek_bar_length != length)
+	{
+		gmpv_control_box_set_seekable(box, length != 0);
+	}
 	box->seek_bar_length = length;
 
 	gtk_range_set_range(GTK_RANGE(box->seek_bar), 0, length);
