@@ -267,8 +267,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 {
 	GmpvApplication *app = data;
 	GmpvControlBox *control_box;
-	const gchar *style =	".gmpv-vid-area{background-color: black}"
-				"scale value{color: currentColor}";
+	const gchar *style = ".gmpv-vid-area{background-color: black}";
 	GtkCssProvider *style_provider;
 	gboolean css_loaded;
 	gboolean csd_enable;

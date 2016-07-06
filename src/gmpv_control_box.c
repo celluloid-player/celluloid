@@ -20,11 +20,11 @@
 #include <glib/gi18n.h>
 
 #include "gmpv_control_box.h"
+#include "gmpv_seek_bar.h"
 
 struct _GmpvControlBox
 {
 	GtkBox parent_instance;
-	gint seek_bar_length;
 	GtkWidget *play_button;
 	GtkWidget *stop_button;
 	GtkWidget *forward_button;
@@ -41,9 +41,6 @@ struct _GmpvControlBoxClass
 	GtkBoxClass parent_class;
 };
 
-static gchar *seek_bar_format_handler(	GtkScale *scale,
-					gdouble value,
-					gpointer data );
 static void seek_handler(	GtkWidget *widget,
 				GtkScrollType scroll,
 				gdouble value,
@@ -55,42 +52,6 @@ static void simple_signal_handler(GtkWidget *widget, gpointer data);
 
 G_DEFINE_TYPE(GmpvControlBox, gmpv_control_box, GTK_TYPE_BOX)
 
-static gchar *seek_bar_format_handler(	GtkScale *scale,
-					gdouble value,
-					gpointer data )
-{
-	gint sec = (gint)value;
-	gint length = GMPV_CONTROL_BOX(data)->seek_bar_length;
-	char *output = NULL;
-
-	/* Longer than one hour */
-	if(length > 3600 && sec >= 0)
-	{
-		output = g_strdup_printf(	"%02d:%02d:%02d/"
-						"%02d:%02d:%02d",
-						sec/3600,
-						(sec%3600)/60,
-						sec%60,
-						length/3600,
-						(length%3600)/60,
-						length%60 );
-	}
-	else
-	{
-		/* Set variable to 0 if the value is negative */
-		length *= (length >= 0);
-		sec *= (sec >= 0);
-		output = g_strdup_printf(	"%02d:%02d/"
-						"%02d:%02d",
-						(sec%3600)/60,
-						sec%60,
-						(length%3600)/60,
-						length%60 );
-	}
-
-	return output;
-}
-
 static void seek_handler(	GtkWidget *widget,
 				GtkScrollType scroll,
 				gdouble value,
@@ -98,7 +59,6 @@ static void seek_handler(	GtkWidget *widget,
 {
 	g_signal_emit_by_name(data, "seek", value);
 }
-
 
 static void volume_changed_handler(	GtkVolumeButton *button,
 					gdouble value,
@@ -193,7 +153,6 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	GtkWidget *next_icon;
 	GtkWidget *fullscreen_icon;
 
-	box->seek_bar_length = -1;
 	box->play_button = gtk_button_new_with_label(NULL);
 	box->stop_button = gtk_button_new_with_label(NULL);
 	box->forward_button = gtk_button_new_with_label(NULL);
@@ -202,7 +161,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->previous_button = gtk_button_new_with_label(NULL);
 	box->fullscreen_button = gtk_button_new_with_label(NULL);
 	box->volume_button = gtk_volume_button_new();
-	box->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+	box->seek_bar = gmpv_seek_bar_new();
 
 	play_icon
 		= gtk_image_new_from_icon_name
@@ -229,7 +188,6 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	gtk_style_context_add_class
 		(	gtk_widget_get_style_context(GTK_WIDGET(box)),
 			GTK_STYLE_CLASS_BACKGROUND );
-	gtk_range_set_increments(GTK_RANGE(box->seek_bar), 10, 10);
 
 	gtk_widget_set_tooltip_text(box->play_button, _("Play"));
 	gtk_widget_set_tooltip_text(box->stop_button, _("Stop"));
@@ -246,8 +204,6 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	g_object_set(box->next_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->previous_button, "relief", GTK_RELIEF_NONE, NULL);
 	g_object_set(box->fullscreen_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(box->seek_bar, "value-pos", GTK_POS_RIGHT, NULL);
-	g_object_set(box->seek_bar, "digits", 2, NULL);
 
 	gtk_widget_set_can_focus(box->previous_button, FALSE);
 	gtk_widget_set_can_focus(box->rewind_button, FALSE);
@@ -297,10 +253,6 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 				"button-press-event",
 				G_CALLBACK(gtk_true),
 				NULL );
-	g_signal_connect(	box->seek_bar,
-				"format-value",
-				G_CALLBACK(seek_bar_format_handler),
-				box );
 	g_signal_connect(	box->play_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
@@ -310,7 +262,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 				G_CALLBACK(simple_signal_handler),
 				box );
 	g_signal_connect(	box->seek_bar,
-				"change-value",
+				"seek",
 				G_CALLBACK(seek_handler),
 				box );
 	g_signal_connect(	box->forward_button,
@@ -370,14 +322,12 @@ void gmpv_control_box_set_chapter_enabled(GmpvControlBox *box, gboolean enabled)
 
 void gmpv_control_box_set_seek_bar_pos(GmpvControlBox *box, gdouble pos)
 {
-	gtk_range_set_value(GTK_RANGE(box->seek_bar), pos);
+	gmpv_seek_bar_set_pos(GMPV_SEEK_BAR(box->seek_bar), pos);
 }
 
 void gmpv_control_box_set_seek_bar_length(GmpvControlBox *box, gint length)
 {
-	box->seek_bar_length = length;
-
-	gtk_range_set_range(GTK_RANGE(box->seek_bar), 0, length);
+	gmpv_seek_bar_set_length(GMPV_SEEK_BAR(box->seek_bar), length);
 }
 
 void gmpv_control_box_set_volume(GmpvControlBox *box, gdouble volume)
@@ -441,6 +391,7 @@ void gmpv_control_box_set_fullscreen_btn_visible(	GmpvControlBox *box,
 
 void gmpv_control_box_reset(GmpvControlBox *box)
 {
+	gmpv_control_box_set_seek_bar_pos(box, 0);
 	gmpv_control_box_set_seek_bar_length(box, 0);
 	gmpv_control_box_set_playing_state(box, FALSE);
 	gmpv_control_box_set_chapter_enabled(box, FALSE);
