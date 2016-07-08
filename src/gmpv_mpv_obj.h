@@ -75,6 +75,7 @@ GmpvPlaylist *gmpv_mpv_obj_get_playlist(GmpvMpvObj *mpv);
 mpv_handle *gmpv_mpv_obj_get_mpv_handle(GmpvMpvObj *mpv);
 mpv_opengl_cb_context *gmpv_mpv_obj_get_opengl_cb_context(GmpvMpvObj *mpv);
 void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv);
+void gmpv_mpv_obj_init_gl(GmpvMpvObj *mpv);
 void gmpv_mpv_obj_reset(GmpvMpvObj *mpv);
 void gmpv_mpv_obj_quit(GmpvMpvObj *mpv);
 void gmpv_mpv_obj_load(	GmpvMpvObj *mpv,

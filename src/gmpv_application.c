@@ -20,20 +20,7 @@
 #include <glib/gi18n.h>
 #include <gdk/gdk.h>
 #include <locale.h>
-
 #include <epoxy/gl.h>
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#include <epoxy/glx.h>
-#endif
-#ifdef GDK_WINDOWING_WAYLAND
-#include <gdk/gdkwayland.h>
-#include <epoxy/egl.h>
-#endif
-#ifdef GDK_WINDOWING_WIN32
-#include <gdk/gdkwin32.h>
-#include <epoxy/wgl.h>
-#endif
 
 #include "gmpv_application.h"
 #include "gmpv_control_box.h"
@@ -68,7 +55,6 @@ struct _GmpvApplicationClass
 	GtkApplicationClass parent_class;
 };
 
-static void *get_proc_address(void *fn_ctx, const gchar *name);
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
 						gpointer data );
@@ -148,26 +134,6 @@ static void gmpv_application_class_init(GmpvApplicationClass *klass);
 static void gmpv_application_init(GmpvApplication *app);
 
 G_DEFINE_TYPE(GmpvApplication, gmpv_application, GTK_TYPE_APPLICATION)
-
-static void *get_proc_address(void *fn_ctx, const gchar *name)
-{
-	GdkDisplay *display = gdk_display_get_default();
-
-#ifdef GDK_WINDOWING_WAYLAND
-	if (GDK_IS_WAYLAND_DISPLAY(display))
-		return eglGetProcAddress(name);
-#endif
-#ifdef GDK_WINDOWING_X11
-	if (GDK_IS_X11_DISPLAY(display))
-		return	(void *)(intptr_t)
-			glXGetProcAddressARB((const GLubyte *)name);
-#endif
-#ifdef GDK_WINDOWING_WIN32
-	if (GDK_IS_WIN32_DISPLAY(display))
-		return wglGetProcAddress(name);
-#endif
-	g_assert_not_reached();
-}
 
 static gboolean vid_area_render_handler(	GtkGLArea *area,
 						GdkGLContext *context,
@@ -393,31 +359,15 @@ static void mpv_init_handler(GmpvMpvObj *mpv, gpointer data)
 	/* current_vo should be NULL if the selected vo is opengl-cb */
 	if(!current_vo)
 	{
-		GtkGLArea *gl_area;
-		mpv_opengl_cb_context *opengl_ctx;
-		gint rc;
+		GtkGLArea *gl_area = gmpv_video_area_get_gl_area(vid_area);
 
-		gl_area = gmpv_video_area_get_gl_area(vid_area);
 		g_signal_connect(	gl_area,
 					"render",
 					G_CALLBACK(vid_area_render_handler),
 					app );
 
 		gtk_gl_area_make_current(gl_area);
-		opengl_ctx = gmpv_mpv_obj_get_opengl_cb_context(mpv);
-		rc = mpv_opengl_cb_init_gl(	opengl_ctx,
-						NULL,
-						get_proc_address,
-						NULL );
-
-		if(rc >= 0)
-		{
-			g_debug("Initialized opengl-cb");
-		}
-		else
-		{
-			g_critical("Failed to initialize opengl-cb");
-		}
+		gmpv_mpv_obj_init_gl(app->mpv);
 	}
 
 	mpv_free(current_vo);

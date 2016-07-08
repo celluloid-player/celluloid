@@ -49,6 +49,7 @@
 #include "gmpv_control_box.h"
 #include "gmpv_playlist_widget.h"
 
+static void *get_proc_address(void *fn_ctx, const gchar *name);
 static void gmpv_mpv_obj_set_inst_property(	GObject *object,
 						guint property_id,
 						const GValue *value,
@@ -66,6 +67,26 @@ static void mpv_obj_log_handler(GmpvMpvObj *mpv, mpv_event_log_message* message)
 static void load_input_conf(GmpvMpvObj *mpv, const gchar *input_conf);
 
 G_DEFINE_TYPE(GmpvMpvObj, gmpv_mpv_obj, G_TYPE_OBJECT)
+
+static void *get_proc_address(void *fn_ctx, const gchar *name)
+{
+	GdkDisplay *display = gdk_display_get_default();
+
+#ifdef GDK_WINDOWING_WAYLAND
+	if (GDK_IS_WAYLAND_DISPLAY(display))
+		return eglGetProcAddress(name);
+#endif
+#ifdef GDK_WINDOWING_X11
+	if (GDK_IS_X11_DISPLAY(display))
+		return	(void *)(intptr_t)
+			glXGetProcAddressARB((const GLubyte *)name);
+#endif
+#ifdef GDK_WINDOWING_WIN32
+	if (GDK_IS_WIN32_DISPLAY(display))
+		return wglGetProcAddress(name);
+#endif
+	g_assert_not_reached();
+}
 
 static void gmpv_mpv_obj_set_inst_property(	GObject *object,
 						guint property_id,
@@ -1070,6 +1091,27 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	g_free(config_dir);
 	g_free(mpvopt);
 	mpv_free(current_vo);
+}
+
+void gmpv_mpv_obj_init_gl(GmpvMpvObj *mpv)
+{
+	mpv_opengl_cb_context *opengl_ctx;
+	gint rc;
+
+	opengl_ctx = gmpv_mpv_obj_get_opengl_cb_context(mpv);
+	rc = mpv_opengl_cb_init_gl(	opengl_ctx,
+					NULL,
+					get_proc_address,
+					NULL );
+
+	if(rc >= 0)
+	{
+		g_debug("Initialized opengl-cb");
+	}
+	else
+	{
+		g_critical("Failed to initialize opengl-cb");
+	}
 }
 
 void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
