@@ -54,9 +54,6 @@ void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
 						gint height );
 void gmpv_main_window_enable_csd(GmpvMainWindow *wnd);
 gboolean gmpv_main_window_get_csd_enabled(GmpvMainWindow *wnd);
-void gmpv_main_window_set_controls_visible(	GmpvMainWindow *wnd,
-						gboolean visible );
-gboolean gmpv_main_window_get_controls_visible(GmpvMainWindow *wnd);
 void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 						gboolean visible );
 gboolean gmpv_main_window_get_playlist_visible(GmpvMainWindow *wnd);
