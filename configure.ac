@@ -35,7 +35,7 @@ GM_CHECK_MACRO([APPSTREAM_XML], [appstream-glib])
 APPSTREAM_XML
 
 AS_IF([test "x$enable_debug" = "xyes"], [
-	AX_APPEND_COMPILE_FLAGS([-O0 -g -fsanitize=address])
+	AX_APPEND_COMPILE_FLAGS([-O0 -g])
 ], [
 	AX_APPEND_COMPILE_FLAGS([-O2])
 ])
