@@ -936,6 +936,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	gchar *config_dir = get_config_dir_path();
 	gchar *mpvopt = NULL;
 	gchar *current_vo = NULL;
+	gchar *mpv_version = NULL;
 
 	const struct
 	{
@@ -1042,7 +1043,11 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	mpv_set_wakeup_callback(mpv->mpv_ctx, wakeup_callback, mpv);
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 
+
+	mpv_version = gmpv_mpv_obj_get_property_string(mpv, "mpv-version");
 	current_vo = gmpv_mpv_obj_get_property_string(mpv, "current-vo");
+
+	g_info("Using %s", mpv_version);
 
 	if(current_vo && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
 	{
@@ -1091,6 +1096,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	g_free(config_dir);
 	g_free(mpvopt);
 	mpv_free(current_vo);
+	mpv_free(mpv_version);
 }
 
 void gmpv_mpv_obj_init_gl(GmpvMpvObj *mpv)
