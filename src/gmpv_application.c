@@ -18,6 +18,7 @@
  */
 
 #include <glib/gi18n.h>
+#include <glib/gprintf.h>
 #include <gdk/gdk.h>
 #include <locale.h>
 #include <epoxy/gl.h>
@@ -170,27 +171,40 @@ static gint options_handler(	GApplication *gapp,
 				GVariantDict *options,
 				gpointer data )
 {
-	GmpvApplication *app = data;
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	gboolean version = FALSE;
 
-	g_variant_dict_lookup(	options,
-				"no-existing-session",
-				"b",
-				&app->no_existing_session );
+	g_variant_dict_lookup(options, "version", "b", &version);
 
-	app->no_existing_session |=	g_settings_get_boolean
-					(	settings,
-						"multiple-instances-enable" );
-
-	if(app->no_existing_session)
+	if(version)
 	{
-		GApplicationFlags flags = g_application_get_flags(gapp);
-
-		g_info("Single instance negotiation is disabled");
-		g_application_set_flags(gapp, flags|G_APPLICATION_NON_UNIQUE);
+		g_printf("GNOME MPV " VERSION "\n");
 	}
+	else
+	{
+		GmpvApplication *app = data;
+		GSettings *settings = g_settings_new(CONFIG_ROOT);
 
-	g_clear_object(&settings);
+		g_variant_dict_lookup(	options,
+					"no-existing-session",
+					"b",
+					&app->no_existing_session );
+
+		app->no_existing_session
+			|=	g_settings_get_boolean
+				(	settings,
+					"multiple-instances-enable" );
+
+		if(app->no_existing_session)
+		{
+			GApplicationFlags flags = g_application_get_flags(gapp);
+
+			g_info("Single instance negotiation is disabled");
+			g_application_set_flags
+				(gapp, flags|G_APPLICATION_NON_UNIQUE);
+		}
+
+		g_clear_object(&settings);
+	}
 
 	return -1;
 }
@@ -1276,6 +1290,14 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->no_existing_session = FALSE;
 	app->action_queue = g_queue_new();
 
+	g_application_add_main_option
+		(	G_APPLICATION(app),
+			"version",
+			'\0',
+			G_OPTION_FLAG_NONE,
+			G_OPTION_ARG_NONE,
+			_("Show release version"),
+			NULL );
 	g_application_add_main_option
 		(	G_APPLICATION(app),
 			"enqueue",
