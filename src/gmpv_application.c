@@ -263,6 +263,8 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
 
+	g_info("Starting GNOME MPV " VERSION);
+
 	app->files = NULL;
 	app->inhibit_cookie = 0;
 	app->target_playlist_pos = -1;
