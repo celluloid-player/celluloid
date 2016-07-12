@@ -38,6 +38,7 @@ capabilities.
 - Frugalware: http://www4.frugalware.org/pub/linux/distributions/frugalware/frugalware-current/source/xapps-extra/gnome-mpv/
 - OpenSUSE: https://build.opensuse.org/package/show/home:mermoldy:multimedia/gnome-mpv
 - Gentoo: http://gpo.zugaina.org/media-video/gnome-mpv
+- Guix: https://www.gnu.org/software/guix/packages/#gnome-mpv
 - Solus: https://packages.solus-project.com/v1/g/gnome-mpv/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
