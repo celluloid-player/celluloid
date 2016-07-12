@@ -23,9 +23,9 @@ capabilities.
 - lua (optional)
 - youtube-dl (optional)
 
-<a name="note">[1]</a>: Not required when building from release tarballs
+<a name="note1">[1]</a>: Not required when building from release tarballs
 
-<a name="note">[2]</a>: Some features may be unavailable with gtk < 3.20
+<a name="note2">[2]</a>: Some features may be unavailable with gtk < 3.20
 
 ## Installation
 
