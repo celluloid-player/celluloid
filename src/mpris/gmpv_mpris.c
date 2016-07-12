@@ -94,7 +94,7 @@ void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
 	GVariantBuilder builder;
 	GVariant *sig_args;
 
-	g_debug("Emitting property change event on interface %s", iface_name);
+	g_debug("Preparing property change event");
 
 	current = prop_list;
 
@@ -102,7 +102,7 @@ void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
 
 	while(current && current->name != NULL)
 	{
-		g_debug("Adding property: %s", current->name);
+		g_debug("Adding property \"%s\"", current->name);
 
 		g_variant_builder_add(	&builder,
 					"{sv}",
@@ -116,6 +116,8 @@ void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
 					iface_name,
 					&builder,
 					NULL );
+
+	g_debug("Emitting property change event on interface %s", iface_name);
 
 	g_dbus_connection_emit_signal
 		(	inst->session_bus_conn,
