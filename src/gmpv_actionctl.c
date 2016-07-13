@@ -88,6 +88,7 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 	GSettings *main_config = NULL;
 	GSettings *win_config = NULL;
 	GtkFileChooser *file_chooser = NULL;
+	GtkFileFilter *filter = NULL;
 	GmpvFileChooser *open_dialog = NULL;
 	gboolean last_folder_enable = FALSE;
 	gboolean append = FALSE;
@@ -104,6 +105,12 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 						_("_Cancel"));
 	main_config = g_settings_new(CONFIG_ROOT);
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
+
+	filter = gtk_file_filter_new();
+	gtk_file_filter_add_mime_type(filter, "video/*");
+	gtk_file_filter_add_mime_type(filter, "audio/*");
+	gtk_file_chooser_set_filter(file_chooser, filter);
+
 	last_folder_enable =	g_settings_get_boolean
 				(main_config, "last-folder-enable");
 
@@ -468,6 +475,7 @@ static void load_track_handler(	GSimpleAction *action,
 	GmpvApplication *app = data;
 	GmpvMainWindow *wnd;
 	GtkFileChooser *file_chooser;
+	GtkFileFilter *filter;
 	GtkWidget *open_dialog;
 	const gchar *cmd_name;
 
@@ -482,6 +490,18 @@ static void load_track_handler(	GSimpleAction *action,
 				_("_Open"), GTK_RESPONSE_ACCEPT,
 				NULL );
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
+	filter = gtk_file_filter_new();
+	gtk_file_chooser_set_filter(file_chooser, filter);
+
+	if (g_strcmp0(cmd_name, "audio-add") == 0)
+	{
+		gtk_file_filter_add_mime_type(filter, "audio/*");
+	}
+	else if (g_strcmp0(cmd_name, "sub-add") == 0)
+	{
+		gtk_file_filter_add_mime_type(filter, "text/x-ssa");
+		gtk_file_filter_add_mime_type(filter, "application/x-subrip");
+	}
 
 	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
 
