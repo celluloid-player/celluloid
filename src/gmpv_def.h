@@ -40,6 +40,32 @@
 #define FS_CONTROL_HIDE_DELAY 1
 #define KEYSTRING_MAX_LEN 16
 
+#define SUBTITLE_EXTS	{	"utf",\
+				"utf8",\
+				"utf-8",\
+				"idx",\
+				"sub",\
+				"srt",\
+				"smi",\
+				"rt",\
+				"txt",\
+				"ssa",\
+				"aqt",\
+				"jss",\
+				"js",\
+				"ass",\
+				"mks",\
+				"vtt",\
+				"sup",\
+				NULL }
+
+#define PLAYLIST_EXTS	{	"m3u",\
+				"m3u8",\
+				"ini",\
+				"pls",\
+				"txt",\
+				NULL }
+
 #define DND_TARGETS	{	{.target = "PLAYLIST_PATH",\
 				.flags = GTK_TARGET_SAME_APP,\
 				.info = 0},\

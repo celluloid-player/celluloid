@@ -1330,10 +1330,7 @@ void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
 				gboolean append,
 				gboolean update )
 {
-	static const char *const sub_exts[]
-		= {	"utf", "utf8", "utf-8", "idx", "sub", "srt", "smi",
-			"rt", "txt", "ssa", "aqt", "jss", "js", "ass", "mks",
-			"vtt", "sup", NULL };
+	static const char *const sub_exts[] = SUBTITLE_EXTS;
 
 	for(gint i = 0; uri_list[i]; i++)
 	{
