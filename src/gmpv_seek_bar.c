@@ -116,6 +116,7 @@ static void gmpv_seek_bar_init(GmpvSeekBar *bar)
 	update_label(bar);
 	gtk_scale_set_draw_value(GTK_SCALE(bar->seek_bar), FALSE);
 	gtk_range_set_increments(GTK_RANGE(bar->seek_bar), 10, 10);
+	gtk_widget_set_can_focus(bar->seek_bar, FALSE);
 
 	g_signal_connect(	bar->seek_bar,
 				"change-value",
