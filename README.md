@@ -44,14 +44,17 @@ capabilities.
 
 ### Flatpak
 Flatpak builds can be obtained from https://dl.tingping.se/flatpak/. The build
-file is available at
-https://github.com/TingPing/flatpak-packages/blob/master/io.github.GnomeMpv.json.
+file is available in [TingPing/flatpak-packages](https://github.com/TingPing/flatpak-packages/blob/master/io.github.GnomeMpv.json).
 
 Run the commands below to install:
 
 ```sh
-wget https://dl.tingping.se/keys/tingping.gpg
-flatpak --user remote-add --gpg-import=tingping.gpg tingping https://dl.tingping.se/flatpak/
+wget https://sdk.gnome.org/gnome.flatpakrepo
+flatpak --user remote-add gnome --from=gnome.flatpakrepo
+flatpak --user install org.gnome.Platform 3.20
+
+wget https://dl.tingping.se/flatpak/tingping.flatpakrepo
+flatpak --user remote-add tingping --from=tingping.flatpakrepo
 flatpak --user install tingping io.github.GnomeMpv
 ```
 
