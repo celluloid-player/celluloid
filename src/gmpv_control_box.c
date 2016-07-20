@@ -41,8 +41,7 @@ struct _GmpvControlBoxClass
 	GtkBoxClass parent_class;
 };
 
-static void seek_handler(	GtkWidget *widget,
-				GtkScrollType scroll,
+static void seek_handler(	GmpvSeekBar *seek_bar,
 				gdouble value,
 				gpointer data );
 static void volume_changed_handler(	GtkVolumeButton *button,
@@ -52,8 +51,7 @@ static void simple_signal_handler(GtkWidget *widget, gpointer data);
 
 G_DEFINE_TYPE(GmpvControlBox, gmpv_control_box, GTK_TYPE_BOX)
 
-static void seek_handler(	GtkWidget *widget,
-				GtkScrollType scroll,
+static void seek_handler(	GmpvSeekBar *seek_bar,
 				gdouble value,
 				gpointer data )
 {
