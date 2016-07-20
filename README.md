@@ -51,7 +51,7 @@ Run the commands below to install:
 ```sh
 wget https://sdk.gnome.org/gnome.flatpakrepo
 flatpak --user remote-add gnome --from=gnome.flatpakrepo
-flatpak --user install org.gnome.Platform 3.20
+flatpak --user install gnome org.gnome.Platform 3.20
 
 wget https://dl.tingping.se/flatpak/tingping.flatpakrepo
 flatpak --user remote-add tingping --from=tingping.flatpakrepo
