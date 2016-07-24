@@ -144,6 +144,15 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 {
 	GtkTargetEntry targets[] = DND_TARGETS;
 
+	/* GDK_BUTTON_RELEASE_MASK is needed so that GtkMenuButtons can
+	 * hide their menus when vid_area is clicked.
+	 */
+	const gint extra_events =	GDK_BUTTON_PRESS_MASK|
+					GDK_BUTTON_RELEASE_MASK|
+					GDK_POINTER_MOTION_MASK|
+					GDK_SMOOTH_SCROLL_MASK|
+					GDK_SCROLL_MASK;
+
 	area->stack = gtk_stack_new();
 	area->draw_area = gtk_drawing_area_new();
 	area->gl_area = gtk_gl_area_new();
@@ -163,19 +172,8 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 				G_N_ELEMENTS(targets),
 				GDK_ACTION_COPY );
 
-	/* GDK_BUTTON_RELEASE_MASK is needed so that GtkMenuButtons can
-	 * hide their menus when vid_area is clicked.
-	 */
-	gtk_widget_add_events(	area->draw_area,
-				GDK_BUTTON_PRESS_MASK|
-				GDK_BUTTON_RELEASE_MASK|
-				GDK_POINTER_MOTION_MASK|
-				GDK_SCROLL_MASK );
-	gtk_widget_add_events(	area->gl_area,
-				GDK_BUTTON_PRESS_MASK|
-				GDK_BUTTON_RELEASE_MASK|
-				GDK_POINTER_MOTION_MASK|
-				GDK_SCROLL_MASK );
+	gtk_widget_add_events(area->draw_area, extra_events);
+	gtk_widget_add_events(area->gl_area, extra_events);
 
 	gtk_widget_set_vexpand(area->fs_revealer, FALSE);
 	gtk_widget_set_hexpand(area->fs_revealer, FALSE);
