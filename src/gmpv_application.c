@@ -693,14 +693,14 @@ static void set_window_geometry(GmpvApplication *app, const GmpvGeometry *geom)
 		}
 		else
 		{
-			gmpv_mpv_obj_get_property(	app->mpv,
-							"osd-width",
-							MPV_FORMAT_INT64,
-							&width );
-			gmpv_mpv_obj_get_property(	app->mpv,
-							"osd-height",
-							MPV_FORMAT_INT64,
-							&height );
+			GmpvVideoArea *area;
+			GtkWidget *wgt;
+
+			area = gmpv_main_window_get_video_area(app->gui);
+			wgt = GTK_WIDGET(area);
+
+			width = gtk_widget_get_allocated_width(wgt);
+			height = gtk_widget_get_allocated_height(wgt);
 		}
 
 		if(!(geom->flags&GMPV_GEOMETRY_IGNORE_POS))
