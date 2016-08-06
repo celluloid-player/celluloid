@@ -705,6 +705,8 @@ static void set_window_geometry(GmpvApplication *app, const GmpvGeometry *geom)
 
 		if(!(geom->flags&GMPV_GEOMETRY_IGNORE_POS))
 		{
+			GmpvControlBox *box =	gmpv_main_window_get_control_box
+						(app->gui);
 			GdkScreen *screen = gdk_screen_get_default();
 			gint screen_w = gdk_screen_get_width(screen);
 			gint screen_h = gdk_screen_get_height(screen);
@@ -712,6 +714,15 @@ static void set_window_geometry(GmpvApplication *app, const GmpvGeometry *geom)
 			gboolean flip_y = geom->flags&GMPV_GEOMETRY_FLIP_Y;
 			gint64 x = flip_x?screen_w-width-geom->x:geom->x;
 			gint64 y = flip_y?screen_h-height-geom->y:geom->y;
+
+			/* Adjust the y-position to account for the height of
+			 * the control box.
+			 */
+			if(flip_y && gtk_widget_get_visible(GTK_WIDGET(box)))
+			{
+				y -=	gtk_widget_get_allocated_height
+					(GTK_WIDGET(box));
+			}
 
 			gtk_window_move(GTK_WINDOW(app->gui), (gint)x, (gint)y);
 		}
