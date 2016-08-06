@@ -665,6 +665,7 @@ static void gmpv_mpv_obj_init(GmpvMpvObj *mpv)
 	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = -1;
+	mpv->geometry = NULL;
 
 	mpv->state.ready = FALSE;
 	mpv->state.paused = TRUE;
@@ -910,6 +911,11 @@ inline void gmpv_mpv_obj_get_state(GmpvMpvObj *mpv, GmpvMpvObjState *state)
 	memcpy(state, &mpv->state, sizeof(GmpvMpvObjState));
 }
 
+inline GmpvGeometry *gmpv_mpv_obj_get_geometry(GmpvMpvObj *mpv)
+{
+	return mpv->geometry;
+}
+
 inline gdouble gmpv_mpv_obj_get_autofit_ratio(GmpvMpvObj *mpv)
 {
 	return mpv->autofit_ratio;
@@ -1084,6 +1090,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 
 		gmpv_mpv_opt_handle_msg_level(mpv);
 		gmpv_mpv_opt_handle_fs(mpv);
+		gmpv_mpv_opt_handle_geometry(mpv);
 
 		mpv->force_opengl = FALSE;
 		mpv->state.ready = TRUE;

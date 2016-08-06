@@ -32,7 +32,26 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(GmpvMpvObj, gmpv_mpv_obj, GMPV, MPV_OBJ, GObject)
 
+typedef enum _GmpvGeometryFlag GmpvGeometryFlag;
+typedef struct _GmpvGeometry GmpvGeometry;
 typedef struct _GmpvMpvObjState GmpvMpvObjState;
+
+enum _GmpvGeometryFlag
+{
+	GMPV_GEOMETRY_IGNORE_POS	= 1 << 0,
+	GMPV_GEOMETRY_IGNORE_DIM	= 1 << 1,
+	GMPV_GEOMETRY_FLIP_X		= 1 << 2,
+	GMPV_GEOMETRY_FLIP_Y		= 1 << 3
+};
+
+struct _GmpvGeometry
+{
+	gint flags;
+	gint64 x;
+	gint64 y;
+	gint64 width;
+	gint64 height;
+};
 
 struct _GmpvMpvObjState
 {
@@ -70,6 +89,7 @@ void gmpv_mpv_obj_set_opengl_cb_callback(	GmpvMpvObj *mpv,
 						void *data );
 gboolean gmpv_mpv_obj_is_loaded(GmpvMpvObj *mpv);
 void gmpv_mpv_obj_get_state(GmpvMpvObj *mpv, GmpvMpvObjState *state);
+GmpvGeometry *gmpv_mpv_obj_get_geometry(GmpvMpvObj *mpv);
 gdouble gmpv_mpv_obj_get_autofit_ratio(GmpvMpvObj *mpv);
 GmpvPlaylist *gmpv_mpv_obj_get_playlist(GmpvMpvObj *mpv);
 mpv_handle *gmpv_mpv_obj_get_mpv_handle(GmpvMpvObj *mpv);

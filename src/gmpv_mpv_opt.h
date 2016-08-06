@@ -34,6 +34,7 @@ struct module_log_level
 	mpv_log_level level;
 };
 
+void gmpv_mpv_opt_handle_geometry(GmpvMpvObj *mpv);
 void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv);
 void gmpv_mpv_opt_handle_fs(GmpvMpvObj *mpv);
 void gmpv_mpv_opt_handle_msg_level(GmpvMpvObj *mpv);

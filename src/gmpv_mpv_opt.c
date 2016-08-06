@@ -25,9 +25,15 @@
 #include "gmpv_mpv_obj_private.h"
 #include "gmpv_def.h"
 
-static void parse_dim_string(const gchar *geom_str, gint dim[2]);
+static gboolean parse_dim_string(const gchar *geom_str, gint64 dim[2]);
+static gboolean parse_pos_string(	const gchar *geom_str,
+					gboolean flip[2],
+					gint64 pos[2] );
+static void parse_geom_string(	GmpvMpvObj *mpv,
+				const gchar *geom_str,
+				GmpvGeometry **geom );
 
-static void parse_dim_string(const gchar *geom_str, gint dim[2])
+static gboolean parse_dim_string(const gchar *geom_str, gint64 dim[2])
 {
 	GdkScreen *screen = gdk_screen_get_default();
 	gint screen_dim[2] = {0, 0};
@@ -35,6 +41,8 @@ static void parse_dim_string(const gchar *geom_str, gint dim[2])
 	gchar **tokens = g_strsplit(geom_str, "x", 2);
 	gint i = -1;
 
+	dim[0] = -1;
+	dim[1] = -1;
 	screen_dim[0] = gdk_screen_get_width(screen);
 	screen_dim[1] = gdk_screen_get_height(screen);
 
@@ -65,6 +73,129 @@ static void parse_dim_string(const gchar *geom_str, gint dim[2])
 	}
 
 	g_strfreev(tokens);
+
+	return (dim[0] > 0 && dim[1] > 0);
+}
+
+static gboolean parse_pos_string(	const gchar *geom_str,
+					gboolean flip[2],
+					gint64 pos[2] )
+{
+	char *prefix = NULL;
+	gint part = 0;
+	const gchar *start = geom_str;
+	const gchar *end = geom_str;
+	gboolean set[2] = {FALSE, FALSE};
+	gboolean rc = TRUE;
+
+	/* part == 0 when parsing the x-position and part == 1 when parsing
+	 * y-position.
+	 */
+	while(*end && rc && part < 2)
+	{
+		if(!prefix)
+		{
+			if(*end != '+' && *end != '-')
+			{
+				prefix = g_strndup(start, (gsize)(end-start));
+				start = end;
+			}
+		}
+		else if(!set[part])
+		{
+			const gboolean at_end = !*(end+1);
+
+			if(!g_ascii_isdigit(*end) || at_end)
+			{
+				gsize size = (gsize)(end-start+at_end);
+				gchar *buf = g_strndup(start, size);
+				gchar *bufend;
+
+				pos[part] = (gint)g_ascii_strtoll(	buf,
+									&bufend,
+									10 );
+				rc = !!bufend;
+				set[part] = TRUE;
+				start = end;
+
+				if(prefix[0] && prefix[1] == '-')
+				{
+					pos[part] *= -1;
+				}
+
+				flip[part] = (prefix[0] == '-');
+
+				part++;
+
+				g_free(buf);
+				g_clear_pointer(&prefix, g_free);
+			}
+		}
+
+		end++;
+	}
+
+	return rc;
+}
+
+static void parse_geom_string(	GmpvMpvObj *mpv,
+				const gchar *geom_str,
+				GmpvGeometry **geom )
+{
+	gint64 dim[2] = {0, 0};
+	gint64 pos[2] = {0, 0};
+	gboolean flip[2] = {FALSE, FALSE};
+	gboolean dim_valid = FALSE;
+	gboolean pos_valid = FALSE;
+
+	if(!!geom_str)
+	{
+		*geom = g_new0(GmpvGeometry, 1);
+
+		if(geom_str[0] != '+' && geom_str[0] != '-')
+		{
+			dim_valid = parse_dim_string(geom_str, dim);
+		}
+
+		/* Move the beginning of the string to the 'position' section */
+		while(*geom_str && *geom_str != '+' && *geom_str != '-')
+		{
+			geom_str++;
+		}
+
+		pos_valid = parse_pos_string(geom_str, flip, pos);
+
+		(*geom)->flags |= !dim_valid*GMPV_GEOMETRY_IGNORE_DIM;
+		(*geom)->flags |= !pos_valid*GMPV_GEOMETRY_IGNORE_POS;
+		(*geom)->flags |= flip[0]*GMPV_GEOMETRY_FLIP_X;
+		(*geom)->flags |= flip[1]*GMPV_GEOMETRY_FLIP_Y;
+
+		(*geom)->x = pos[0];
+		(*geom)->y = pos[1];
+		(*geom)->width = dim[0];
+		(*geom)->height = dim[1];
+	}
+	else
+	{
+		*geom = NULL;
+
+		g_warning("Failed to parse geometry string: %s", geom_str);
+	}
+}
+
+void gmpv_mpv_opt_handle_geometry(GmpvMpvObj *mpv)
+{
+	gchar *opt_buf;
+
+	opt_buf  =	mpv_get_property_string
+			(mpv->mpv_ctx, "options/geometry");
+
+	if(opt_buf)
+	{
+		parse_geom_string(mpv, opt_buf, &mpv->geometry);
+
+		mpv_free(opt_buf);
+	}
 }
 
 void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv)
@@ -94,9 +225,9 @@ void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv)
 
 	if(scale_set || autofit_set || larger_set || smaller_set)
 	{
-		gint larger_dim[2] = {G_MAXINT, G_MAXINT};
-		gint smaller_dim[2] = {0, 0};
-		gint autofit_dim[2] = {0, 0};
+		gint64 larger_dim[2] = {G_MAXINT, G_MAXINT};
+		gint64 smaller_dim[2] = {0, 0};
+		gint64 autofit_dim[2] = {0, 0};
 		gint64 vid_dim[2];
 		gdouble ratio[2];
 		gdouble scale = 1;
@@ -157,16 +288,16 @@ void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv)
 			}
 			else
 			{
-				autofit_dim[0] = (gint)vid_dim[0];
-				autofit_dim[1] = (gint)vid_dim[1];
+				autofit_dim[0] = vid_dim[0];
+				autofit_dim[1] = vid_dim[1];
 			}
 
 			if(scale_set)
 			{
 				autofit_dim[0]
-					= (gint)(scale*(gdouble)autofit_dim[0]);
+					= (gint64)(scale*(gdouble)autofit_dim[0]);
 				autofit_dim[1]
-					= (gint)(scale*(gdouble)autofit_dim[1]);
+					= (gint64)(scale*(gdouble)autofit_dim[1]);
 			}
 		}
 
@@ -191,11 +322,15 @@ void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv)
 			}
 			else
 			{
-				g_debug(	"Target video area size: %dx%d",
+				g_debug(	"Target video area size: "
+						"%" G_GINT64_FORMAT
+						"x%" G_GINT64_FORMAT,
 						autofit_dim[0], autofit_dim[1] );
 
-				ratio[0] = autofit_dim[0]/(gdouble)vid_dim[0];
-				ratio[1] = autofit_dim[1]/(gdouble)vid_dim[1];
+				ratio[0] =	(gdouble)autofit_dim[0]/
+						(gdouble)vid_dim[0];
+				ratio[1] =	(gdouble)autofit_dim[1]/
+						(gdouble)vid_dim[1];
 			}
 		}
 

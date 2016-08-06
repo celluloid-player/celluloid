@@ -20,6 +20,8 @@
 #ifndef MPV_OBJ_PRIVATE_H
 #define MPV_OBJ_PRIVATE_H
 
+#include "gmpv_mpv_opt.h"
+
 G_BEGIN_DECLS
 
 enum
@@ -41,6 +43,7 @@ struct _GmpvMpvObj
 	gchar *tmp_input_file;
 	GSList *log_level_list;
 	gdouble autofit_ratio;
+	GmpvGeometry *geometry;
 	gboolean force_opengl;
 	gint64 wid;
 	void *event_callback_data;
