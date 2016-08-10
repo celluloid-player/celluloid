@@ -365,7 +365,7 @@ void gmpv_mpv_opt_handle_fs(GmpvMpvObj *mpv)
 	if(g_strcmp0(optbuf, "yes") == 0)
 	{
 		gmpv_mpv_obj_command_string
-			(mpv, "script-message gmpv-action fullscreen_toggle");
+			(mpv, "script-message gmpv-action toggle-fullscreen");
 	}
 
 	mpv_free(optbuf);
