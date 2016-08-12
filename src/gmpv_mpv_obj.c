@@ -49,6 +49,7 @@
 #include "gmpv_control_box.h"
 #include "gmpv_playlist_widget.h"
 
+static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name);
 static void *get_proc_address(void *fn_ctx, const gchar *name);
 static void gmpv_mpv_obj_set_inst_property(	GObject *object,
 						guint property_id,
@@ -68,9 +69,28 @@ static void load_input_conf(GmpvMpvObj *mpv, const gchar *input_conf);
 
 G_DEFINE_TYPE(GmpvMpvObj, gmpv_mpv_obj, G_TYPE_OBJECT)
 
+static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name)
+{
+       GdkDisplay *display = gdk_display_get_default();
+
+#ifdef GDK_WINDOWING_WAYLAND
+       if(GDK_IS_WAYLAND_DISPLAY(display) && g_strcmp0(name, "wl") == 0)
+               return gdk_wayland_display_get_wl_display(display);
+#endif
+#ifdef GDK_WINDOWING_X11
+       if(GDK_IS_X11_DISPLAY(display) && g_strcmp0(name, "x11") == 0)
+               return gdk_x11_display_get_xdisplay(display);
+#endif
+
+       return NULL;
+}
+
 static void *get_proc_address(void *fn_ctx, const gchar *name)
 {
 	GdkDisplay *display = gdk_display_get_default();
+
+	if(g_strcmp0(name, "glMPGetNativeDisplay") == 0)
+		return glMPGetNativeDisplay;
 
 #ifdef GDK_WINDOWING_WAYLAND
 	if (GDK_IS_WAYLAND_DISPLAY(display))
@@ -1113,7 +1133,7 @@ void gmpv_mpv_obj_init_gl(GmpvMpvObj *mpv)
 
 	opengl_ctx = gmpv_mpv_obj_get_opengl_cb_context(mpv);
 	rc = mpv_opengl_cb_init_gl(	opengl_ctx,
-					NULL,
+					"GL_MP_MPGetNativeDisplay",
 					get_proc_address,
 					NULL );
 
