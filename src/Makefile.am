@@ -8,20 +8,24 @@ mpris_files =	mpris/gmpv_mpris.c mpris/gmpv_mpris.h \
 		mpris/gmpv_mpris_player.c mpris/gmpv_mpris_player.h \
 		$(mpris_generated)
 $(mpris_generated): $(top_srcdir)/data/gmpv_mpris_gdbus.xml
+	$(AM_V_GEN) \
 	$(GDBUS_CODEGEN) --c-namespace gmpv_mpris --generate-c-code mpris/gmpv_mpris_gdbus $< && \
 	$(SED) -i '1i#pragma GCC diagnostic ignored \"-Wconversion\"' mpris/gmpv_mpris_gdbus.c
 
 marshal_generated = gmpv_marshal.c gmpv_marshal.h
 marshal_files = $(marshal_generated)
 gmpv_marshal.h: $(top_srcdir)/data/gmpv_marshal.lst
+	$(AM_V_GEN) \
 	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --header $< > $@
 gmpv_marshal.c: $(top_srcdir)/data/gmpv_marshal.lst
-	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --body $< > $@
+	$(AM_V_GEN) \
+	$(GLIB_GENMARSHAL) --prefix="g_cclosure_gen_marshal" --body $< > $@ && \
 	$(SED) -i '1i#pragma GCC diagnostic ignored \"-Wmissing-prototypes\"' $@
 
 authors_generated = gmpv_authors.h
 authors_files = $(authors_generated)
 gmpv_authors.h: $(top_srcdir)/AUTHORS
+	$(AM_V_GEN) \
 	$(AWK)	'BEGIN{print	"#ifndef AUTHORS_H\n" \
 				"#define AUTHORS_H\n\n" \
 				"#define AUTHORS {\\"} \
