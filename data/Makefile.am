@@ -9,7 +9,7 @@ dbusdir = $(datadir)/dbus-1/services
 dbus_in_files = io.github.GnomeMpv.service.in
 dbus_DATA = $(dbus_in_files:.service.in=.service)
 $(dbus_DATA): $(dbus_in_files)
-	sed "s|BINDIR|$(bindir)|g" $^ > $@
+	$(SED) "s|BINDIR|$(bindir)|g" $^ > $@
 
 @INTLTOOL_XML_RULE@
 @APPSTREAM_XML_RULES@

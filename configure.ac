@@ -72,6 +72,8 @@ AX_APPEND_LINK_FLAGS([ \
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_CC_STDC
+AC_PROG_AWK
+AC_PROG_SED
 AC_PATH_PROG(GDBUS_CODEGEN, [gdbus-codegen], [])
 AC_PATH_PROG(GLIB_GENMARSHAL, [glib-genmarshal], [])
 
