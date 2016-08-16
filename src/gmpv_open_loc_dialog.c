@@ -79,10 +79,10 @@ static void gmpv_open_loc_dialog_init(GmpvOpenLocDialog *dlg)
 	dlg->loc_entry = gtk_entry_new();
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
-				_("_Open"),
-				GTK_RESPONSE_ACCEPT,
 				_("_Cancel"),
 				GTK_RESPONSE_REJECT,
+				_("_Open"),
+				GTK_RESPONSE_ACCEPT,
 				NULL );
 
 	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
