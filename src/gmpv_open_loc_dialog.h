@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 gnome-mpv
+ * Copyright (c) 2014, 2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(GmpvOpenLocDialog, gmpv_open_loc_dialog, GMPV, OPEN_LOC_DIALOG, GtkDialog)
 
-GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent);
+GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent, const gchar *title);
 const gchar *gmpv_open_loc_dialog_get_string(GmpvOpenLocDialog *dlg);
 guint64 gmpv_open_loc_dialog_get_string_length(GmpvOpenLocDialog *dlg);
 

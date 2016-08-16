@@ -196,7 +196,15 @@ static void show_open_location_dialog_handler(	GSimpleAction *action,
 {
 	GmpvApplication *app = data;
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-	GtkWidget *dlg = gmpv_open_loc_dialog_new(GTK_WINDOW(wnd));
+	GtkWidget *dlg = NULL;
+	gboolean append = FALSE;
+
+	g_variant_get(param, "b", &append);
+
+	dlg = gmpv_open_loc_dialog_new(	GTK_WINDOW(wnd),
+					append?
+					_("Add Location to Playlist"):
+					_("Open Location") );
 
 	if(gtk_dialog_run(GTK_DIALOG(dlg)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -207,7 +215,7 @@ static void show_open_location_dialog_handler(	GSimpleAction *action,
 				(GMPV_OPEN_LOC_DIALOG(dlg));
 
 		gmpv_mpv_obj_set_property_flag(mpv, "pause", FALSE);
-		gmpv_mpv_obj_load(mpv, loc_str, FALSE, TRUE);
+		gmpv_mpv_obj_load(mpv, loc_str, append, TRUE);
 	}
 
 	gtk_widget_destroy(dlg);
@@ -621,7 +629,8 @@ void gmpv_actionctl_map_actions(GmpvApplication *app)
 			{.name = "show-preferences-dialog",
 			.activate = show_preferences_dialog_handler},
 			{.name = "show-open-location-dialog",
-			.activate = show_open_location_dialog_handler},
+			.activate = show_open_location_dialog_handler,
+			.parameter_type = "b"},
 			{.name = "toggle-loop",
 			.state = "false",
 			.change_state = toggle_loop_handler},
