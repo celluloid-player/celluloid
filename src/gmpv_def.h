@@ -81,7 +81,7 @@
 
 #define DEFAULT_KEYBINDS \
 	{	"Ctrl+o script-message gmpv-action show-open-dialog(false)",\
-		"Ctrl+l script-message gmpv-action show-open-location-dialog",\
+		"Ctrl+l script-message gmpv-action show-open-location-dialog(false)",\
 		"Ctrl+Shift+s script-message gmpv-action save-playlist",\
 		"Ctrl+q script-message gmpv-action quit",\
 		"Ctrl+? script-message gmpv-action show-shortcuts-dialog",\

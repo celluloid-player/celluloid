@@ -188,7 +188,7 @@ void gmpv_menu_build_full(	GMenu *menu,
 	const GmpvMenuEntry entries[]
 		= {	{_("_File"), NULL, NULL},
 			{_("_Open"), "app.show-open-dialog(false)", NULL},
-			{_("Open _Location"), "app.show-open-location-dialog", NULL},
+			{_("Open _Location"), "app.show-open-location-dialog(false)", NULL},
 			{_("_Save Playlist"), "app.save-playlist", NULL},
 			{_("_Quit"), "app.quit", NULL},
 			{_("_Edit"), NULL, NULL},
@@ -252,7 +252,7 @@ void gmpv_menu_build_open_btn(GMenu *menu)
 	const GmpvMenuEntry entries[]
 		= {	{NULL, "", NULL},
 			{_("_Open"), "app.show-open-dialog(false)", NULL},
-			{_("Open _Location"), "app.show-open-location-dialog", NULL},
+			{_("Open _Location"), "app.show-open-location-dialog(false)", NULL},
 			{NULL, NULL, NULL} };
 
 	build_menu(menu, entries, TRUE);
