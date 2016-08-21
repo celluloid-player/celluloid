@@ -95,7 +95,7 @@ static void method_handler(	GDBusConnection *connection,
 	}
 	else if(g_strcmp0(method_name, "Quit") == 0)
 	{
-		quit(inst->gmpv_ctx);
+		gmpv_application_quit(inst->gmpv_ctx);
 	}
 
 	g_dbus_method_invocation_return_value

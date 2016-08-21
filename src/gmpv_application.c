@@ -447,7 +447,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data )
 {
-	quit(data);
+	gmpv_application_quit(data);
 
 	return TRUE;
 }
@@ -883,7 +883,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	}
 	else if(event->event_id == MPV_EVENT_SHUTDOWN)
 	{
-		quit(app);
+		gmpv_application_quit(app);
 	}
 }
 
@@ -1137,6 +1137,14 @@ static void gmpv_application_init(GmpvApplication *app)
 		(app, "open", G_CALLBACK(open_handler), app);
 }
 
+GmpvApplication *gmpv_application_new(gchar *id, GApplicationFlags flags)
+{
+	return GMPV_APPLICATION(g_object_new(	gmpv_application_get_type(),
+						"application-id", id,
+						"flags", flags,
+						NULL ));
+}
+
 GmpvMainWindow *gmpv_application_get_main_window(GmpvApplication *app)
 {
 	return app->gui;
@@ -1147,10 +1155,34 @@ GmpvMpvObj *gmpv_application_get_mpv_obj(GmpvApplication *app)
 	return app->mpv;
 }
 
-GmpvApplication *gmpv_application_new(gchar *id, GApplicationFlags flags)
+void gmpv_application_quit(GmpvApplication *app)
 {
-	return GMPV_APPLICATION(g_object_new(	gmpv_application_get_type(),
-						"application-id", id,
-						"flags", flags,
-						NULL ));
+	const gchar *cmd[] = {"quit", NULL};
+	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
+
+	if(gmpv_mpv_obj_get_mpv_handle(mpv))
+	{
+		GmpvVideoArea *vid_area = gmpv_main_window_get_video_area(wnd);
+		GtkGLArea *gl_area = gmpv_video_area_get_gl_area(vid_area);
+
+		if(gtk_widget_get_realized(GTK_WIDGET(gl_area)))
+		{
+			/* Needed by gmpv_mpv_obj_quit() to uninitialize
+			 * opengl-cb
+			 */
+			gtk_gl_area_make_current(GTK_GL_AREA(gl_area));
+		}
+
+		gmpv_mpv_obj_command(mpv, cmd);
+		gmpv_mpv_obj_quit(mpv);
+	}
+
+	if(!gmpv_main_window_get_fullscreen(wnd))
+	{
+		gmpv_main_window_save_state(wnd);
+	}
+
+	g_application_quit(G_APPLICATION(app));
 }
+

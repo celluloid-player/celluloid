@@ -32,7 +32,6 @@ gchar *get_config_dir_path(void);
 gchar *get_scripts_dir_path(void);
 gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
-gboolean quit(gpointer data);
 gboolean update_seek_bar(gpointer data);
 void activate_action_string(GmpvApplication *app, const gchar *str);
 void migrate_config(GmpvApplication *app);

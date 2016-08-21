@@ -71,40 +71,6 @@ gchar *get_name_from_path(const gchar *path)
 	return basename?basename:g_strdup(path);
 }
 
-gboolean quit(gpointer data)
-{
-	const gchar *cmd[] = {"quit", NULL};
-	GmpvApplication *app = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-
-	if(gmpv_mpv_obj_get_mpv_handle(mpv))
-	{
-		GmpvVideoArea *vid_area = gmpv_main_window_get_video_area(wnd);
-		GtkGLArea *gl_area = gmpv_video_area_get_gl_area(vid_area);
-
-		if(gtk_widget_get_realized(GTK_WIDGET(gl_area)))
-		{
-			/* Needed by gmpv_mpv_obj_quit() to uninitialize
-			 * opengl-cb
-			 */
-			gtk_gl_area_make_current(GTK_GL_AREA(gl_area));
-		}
-
-		gmpv_mpv_obj_command(mpv, cmd);
-		gmpv_mpv_obj_quit(mpv);
-	}
-
-	if(!gmpv_main_window_get_fullscreen(wnd))
-	{
-		gmpv_main_window_save_state(wnd);
-	}
-
-	g_application_quit(G_APPLICATION(app));
-
-	return FALSE;
-}
-
 void activate_action_string(GmpvApplication *app, const gchar *str)
 {
 	GActionMap *map = G_ACTION_MAP(app);

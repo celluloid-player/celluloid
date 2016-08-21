@@ -440,7 +440,7 @@ static void quit_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	quit(data);
+	gmpv_application_quit(data);
 }
 
 static void set_track_handler(	GSimpleAction *action,
