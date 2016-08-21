@@ -114,9 +114,6 @@ static gboolean load_files(	GmpvApplication* app,
 				const gchar **files,
 				gboolean append );
 static void connect_signals(GmpvApplication *app);
-static inline void add_accelerator(	GtkApplication *app,
-					const char *accel,
-					const char *action );
 static void gmpv_application_class_init(GmpvApplicationClass *klass);
 static void gmpv_application_init(GmpvApplication *app);
 
@@ -1080,15 +1077,6 @@ static void connect_signals(GmpvApplication *app)
 				"mpv-error",
 				G_CALLBACK(mpv_error_handler),
 				app );
-}
-
-static inline void add_accelerator(	GtkApplication *app,
-					const char *accel,
-					const char *action )
-{
-	const char *const accels[] = {accel, NULL};
-
-	gtk_application_set_accels_for_action(app, action, accels);
 }
 
 static void gmpv_application_class_init(GmpvApplicationClass *klass)
