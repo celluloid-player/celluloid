@@ -471,7 +471,7 @@ static void playlist_row_deleted_handler(	GmpvPlaylistWidget *playlist,
 {
 	GmpvApplication *app = data;
 
-	if(gmpv_mpv_obj_is_loaded(app->mpv))
+	if(gmpv_mpv_obj_get_state(app->mpv)->loaded)
 	{
 		const gchar *cmd[] = {"playlist_remove", NULL, NULL};
 		gchar *index_str = g_strdup_printf("%d", pos);

@@ -179,7 +179,7 @@ void seek(GmpvApplication *app, gdouble time)
 	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
 
-	if(!gmpv_mpv_obj_is_loaded(mpv))
+	if(!gmpv_mpv_obj_get_state(mpv)->loaded)
 	{
 		gmpv_mpv_obj_load(mpv, NULL, FALSE, TRUE);
 	}

@@ -921,11 +921,6 @@ void mpv_check_error(int status)
 	}
 }
 
-inline gboolean gmpv_mpv_obj_is_loaded(GmpvMpvObj *mpv)
-{
-	return mpv->state.loaded;
-}
-
 inline const GmpvMpvObjState *gmpv_mpv_obj_get_state(GmpvMpvObj *mpv)
 {
 	return &mpv->state;
@@ -1379,7 +1374,7 @@ void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
 		 * already is a file loaded. Try to load the file as a
 		 * media file otherwise.
 		 */
-		if(ext && sub_exts[j] && gmpv_mpv_obj_is_loaded(mpv))
+		if(ext && sub_exts[j] && gmpv_mpv_obj_get_state(mpv)->loaded)
 		{
 			const gchar *cmd[] = {"sub-add", NULL, NULL};
 			gchar *path;

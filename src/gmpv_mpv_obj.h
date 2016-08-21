@@ -87,7 +87,6 @@ void gmpv_mpv_obj_set_event_callback(	GmpvMpvObj *mpv,
 void gmpv_mpv_obj_set_opengl_cb_callback(	GmpvMpvObj *mpv,
 						mpv_opengl_cb_update_fn func,
 						void *data );
-gboolean gmpv_mpv_obj_is_loaded(GmpvMpvObj *mpv);
 const GmpvMpvObjState *gmpv_mpv_obj_get_state(GmpvMpvObj *mpv);
 GmpvGeometry *gmpv_mpv_obj_get_geometry(GmpvMpvObj *mpv);
 gdouble gmpv_mpv_obj_get_autofit_ratio(GmpvMpvObj *mpv);
