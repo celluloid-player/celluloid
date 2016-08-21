@@ -926,9 +926,9 @@ inline gboolean gmpv_mpv_obj_is_loaded(GmpvMpvObj *mpv)
 	return mpv->state.loaded;
 }
 
-inline void gmpv_mpv_obj_get_state(GmpvMpvObj *mpv, GmpvMpvObjState *state)
+inline const GmpvMpvObjState *gmpv_mpv_obj_get_state(GmpvMpvObj *mpv)
 {
-	memcpy(state, &mpv->state, sizeof(GmpvMpvObjState));
+	return &mpv->state;
 }
 
 inline GmpvGeometry *gmpv_mpv_obj_get_geometry(GmpvMpvObj *mpv)

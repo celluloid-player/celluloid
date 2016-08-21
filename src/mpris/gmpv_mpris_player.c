@@ -656,16 +656,13 @@ static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 {
 	gmpv_mpris *inst = data;
 	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
-	GmpvMpvObjState state;
-
-	gmpv_mpv_obj_get_state(mpv, &state);
 
 	if(g_strcmp0(name, "core-idle") == 0
 	|| g_strcmp0(name, "idle") == 0)
 	{
 		playback_status_update_handler(inst);
 	}
-	else if(state.loaded)
+	else if(gmpv_mpv_obj_get_state(mpv)->loaded)
 	{
 		if(g_strcmp0(name, "playlist-pos") == 0
 		|| g_strcmp0(name, "playlist-count") == 0)

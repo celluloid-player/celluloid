@@ -385,8 +385,6 @@ static void open_handler(	GApplication *gapp,
 
 	if(n_files > 0)
 	{
-		GmpvMpvObjState state;
-
 		app->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
 
 		for(i = 0; i < n_files; i++)
@@ -396,9 +394,7 @@ static void open_handler(	GApplication *gapp,
 
 		app->files[i] = NULL;
 
-		gmpv_mpv_obj_get_state(app->mpv, &state);
-
-		if(state.ready)
+		if(gmpv_mpv_obj_get_state(app->mpv)->ready)
 		{
 			load_files(app, (const gchar **)app->files, append);
 		}
@@ -714,14 +710,9 @@ static void set_window_geometry(GmpvApplication *app, const GmpvGeometry *geom)
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 {
 	GmpvApplication *app = data;
-	GmpvMpvObj *mpv;
-	GmpvControlBox *control_box;
-	GmpvMpvObjState state;
-
-	mpv = app->mpv;
-	control_box = gmpv_main_window_get_control_box(app->gui);
-
-	gmpv_mpv_obj_get_state(mpv, &state);
+	GmpvMpvObj *mpv = app->mpv;
+	GmpvControlBox *control_box = gmpv_main_window_get_control_box(app->gui);
+	const GmpvMpvObjState *state = gmpv_mpv_obj_get_state(mpv);
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
@@ -740,7 +731,7 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 		update_track_list(app, prop->data);
 	}
 	else if(g_strcmp0(prop->name, "volume") == 0
-	&& (state.init_load || state.loaded))
+	&& (state->init_load || state->loaded))
 	{
 		gdouble volume = prop->data?*((double *)prop->data)/100.0:0;
 
@@ -783,22 +774,20 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 {
 	GmpvApplication *app = data;
 	GmpvMpvObj *mpv = app->mpv;
-	GmpvMpvObjState state;
-
-	gmpv_mpv_obj_get_state(mpv, &state);
+	const GmpvMpvObjState *state = gmpv_mpv_obj_get_state(mpv);
 
 	if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
 	{
 		gdouble autofit_ratio = gmpv_mpv_obj_get_autofit_ratio(app->mpv);
 
-		if(state.new_file && autofit_ratio > 0)
+		if(state->new_file && autofit_ratio > 0)
 		{
 			resize_window_to_fit(app, autofit_ratio);
 		}
 	}
 	else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
 	{
-		if(state.loaded)
+		if(state->loaded)
 		{
 			mpv_prop_change_handler(event->data, data);
 		}
@@ -833,7 +822,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		title = gmpv_mpv_obj_get_property_string(mpv, "media-title");
 
 		gmpv_control_box_set_enabled(control_box, TRUE);
-		gmpv_control_box_set_playing_state(control_box, !state.paused);
+		gmpv_control_box_set_playing_state(control_box, !state->paused);
 		gmpv_playlist_set_indicator_pos(playlist, (gint)pos);
 		gmpv_control_box_set_seek_bar_length(control_box, (gint)length);
 		gtk_window_set_title(GTK_WINDOW(app->gui), title);
@@ -872,7 +861,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 	}
 	else if(event->event_id == MPV_EVENT_IDLE)
 	{
-		if(!state.init_load && !state.loaded)
+		if(!state->init_load && !state->loaded)
 		{
 			gmpv_main_window_reset(app->gui);
 			set_inhibit_idle(app, FALSE);
@@ -1010,10 +999,6 @@ static gboolean load_files(	GmpvApplication *app,
 				const gchar **files,
 				gboolean append )
 {
-	GmpvMpvObjState state;
-
-	gmpv_mpv_obj_get_state(app->mpv, &state);
-
 	if(files)
 	{
 		gmpv_mpv_obj_load_list(app->mpv, files, append, TRUE);
