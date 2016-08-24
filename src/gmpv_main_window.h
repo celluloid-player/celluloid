@@ -26,6 +26,7 @@
 #include "gmpv_playlist_widget.h"
 #include "gmpv_control_box.h"
 #include "gmpv_video_area.h"
+#include "gmpv_geometry.h"
 
 G_BEGIN_DECLS
 
@@ -45,6 +46,8 @@ void gmpv_main_window_toggle_fullscreen(GmpvMainWindow *wnd);
 void gmpv_main_window_reset(GmpvMainWindow *wnd);
 void gmpv_main_window_save_state(GmpvMainWindow *wnd);
 void gmpv_main_window_load_state(GmpvMainWindow *wnd);
+void gmpv_main_window_set_geometry(	GmpvMainWindow *wnd,
+					const GmpvGeometry *geom );
 void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
 						const GSList *audio_list,
 						const GSList *video_list,

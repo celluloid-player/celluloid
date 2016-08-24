@@ -25,13 +25,44 @@
 #include "gmpv_mpv_obj_private.h"
 #include "gmpv_def.h"
 
+static gboolean parse_geom_token(const gchar **iter, GValue *value);
 static gboolean parse_dim_string(const gchar *geom_str, gint64 dim[2]);
+static gboolean parse_pos_token_prefix(const gchar **iter, gchar **prefix);
+static gboolean parse_pos_token(	const gchar **iter,
+					GValue *value,
+					gboolean *flip );
 static gboolean parse_pos_string(	const gchar *geom_str,
 					gboolean flip[2],
-					gint64 pos[2] );
+					GValue pos[2] );
 static void parse_geom_string(	GmpvMpvObj *mpv,
 				const gchar *geom_str,
 				GmpvGeometry **geom );
+
+static gboolean parse_geom_token(const gchar **iter, GValue *value)
+{
+	gchar *end = NULL;
+	gint64 token_value = g_ascii_strtoll(*iter, &end, 10);
+
+	if(end)
+	{
+		if(*end == '%')
+		{
+			g_value_init(value, G_TYPE_DOUBLE);
+			g_value_set_double(value, (gdouble)token_value/100.0);
+
+			end++;
+		}
+		else
+		{
+			g_value_init(value, G_TYPE_INT64);
+			g_value_set_int64(value, token_value);
+		}
+
+		*iter = end;
+	}
+
+	return !!end;
+}
 
 static gboolean parse_dim_string(const gchar *geom_str, gint64 dim[2])
 {
@@ -77,63 +108,57 @@ static gboolean parse_dim_string(const gchar *geom_str, gint64 dim[2])
 	return (dim[0] > 0 && dim[1] > 0);
 }
 
-static gboolean parse_pos_string(	const gchar *geom_str,
-					gboolean flip[2],
-					gint64 pos[2] )
+static gboolean parse_pos_token_prefix(const gchar **iter, gchar **prefix)
 {
-	char *prefix = NULL;
-	gint part = 0;
-	const gchar *start = geom_str;
-	const gchar *end = geom_str;
-	gboolean set[2] = {FALSE, FALSE};
-	gboolean rc = TRUE;
+	const gchar *start = *iter;
+	const gchar *end = *iter;
+	gboolean rc = FALSE;
 
-	/* part == 0 when parsing the x-position and part == 1 when parsing
-	 * y-position.
-	 */
-	while(*end && rc && part < 2)
+	while(*end && (*end == '+' || *end == '-'))
 	{
-		if(!prefix)
-		{
-			if(*end != '+' && *end != '-')
-			{
-				prefix = g_strndup(start, (gsize)(end-start));
-				start = end;
-			}
-		}
-		else if(!set[part])
-		{
-			const gboolean at_end = !*(end+1);
-
-			if(!g_ascii_isdigit(*end) || at_end)
-			{
-				gsize size = (gsize)(end-start+at_end);
-				gchar *buf = g_strndup(start, size);
-				gchar *bufend;
-
-				pos[part] = (gint)g_ascii_strtoll(	buf,
-									&bufend,
-									10 );
-				rc = !!bufend;
-				set[part] = TRUE;
-				start = end;
-
-				if(prefix[0] && prefix[1] == '-')
-				{
-					pos[part] *= -1;
-				}
-
-				flip[part] = (prefix[0] == '-');
-
-				part++;
-
-				g_free(buf);
-				g_clear_pointer(&prefix, g_free);
-			}
-		}
-
 		end++;
 	}
+
+	rc = (end-start <= 2);
+
+	if(rc)
+	{
+		if(end-start == 2)
+		{
+			end--;
+		}
+
+		*prefix = g_strndup(start, (gsize)(end-start));
+		*iter = end;
+	}
+
+	return rc;
+}
+
+static gboolean parse_pos_token(	const gchar **iter,
+					GValue *value,
+					gboolean *flip )
+{
+	gchar *prefix = NULL;
+	gboolean rc = TRUE;
+
+	rc = rc && parse_pos_token_prefix(iter, &prefix);
+	rc = rc && parse_geom_token(iter, value);
+	*flip = (prefix && *prefix == '-');
+
+	g_free(prefix);
+
+	return rc;
+}
+
+static gboolean parse_pos_string(	const gchar *geom_str,
+					gboolean flip[2],
+					GValue pos[2] )
+{
+	gboolean rc = TRUE;
+
+	rc = rc && parse_pos_token(&geom_str, &pos[0], &flip[0]);
+	rc = rc && parse_pos_token(&geom_str, &pos[1], &flip[1]);
 
 	return rc;
 }
@@ -143,7 +168,7 @@ static void parse_geom_string(	GmpvMpvObj *mpv,
 				GmpvGeometry **geom )
 {
 	gint64 dim[2] = {0, 0};
-	gint64 pos[2] = {0, 0};
+	GValue pos[2] = {G_VALUE_INIT, G_VALUE_INIT};
 	gboolean flip[2] = {FALSE, FALSE};
 	gboolean dim_valid = FALSE;
 	gboolean pos_valid = FALSE;

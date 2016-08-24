@@ -81,6 +81,7 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data );
 static gboolean resize_to_target(gpointer data);
+static void set_window_pos(GmpvMainWindow *wnd, const GmpvGeometry *geom);
 
 G_DEFINE_TYPE(GmpvMainWindow, gmpv_main_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -191,6 +192,69 @@ static gboolean resize_to_target(gpointer data)
 	gmpv_playlist_widget_queue_draw(GMPV_PLAYLIST_WIDGET(wnd->playlist));
 
 	return FALSE;
+}
+
+static void set_window_pos(GmpvMainWindow *wnd, const GmpvGeometry *geom)
+{
+	GmpvControlBox *box;
+	GdkScreen *screen;
+	gint screen_dim[2];
+	gint window_dim[2];
+	gboolean flip[2];
+	GValue geom_pos[2];
+	gint64 pos[2];
+
+	g_assert(geom);
+
+	box = gmpv_main_window_get_control_box(wnd);
+	screen = gdk_screen_get_default();
+	screen_dim[0] = gdk_screen_get_width(screen);
+	screen_dim[1] = gdk_screen_get_height(screen);
+	window_dim[0] = 0;
+	window_dim[1] = 0;
+	geom_pos[0] = geom->x;
+	geom_pos[1] = geom->y;
+	flip[0] = geom->flags&GMPV_GEOMETRY_FLIP_X;
+	flip[1] = geom->flags&GMPV_GEOMETRY_FLIP_Y;
+	pos[0] = 0;
+	pos[1] = 0;
+
+	gtk_window_get_size(GTK_WINDOW(wnd), &window_dim[0], &window_dim[1]);
+
+	for(gint i = 0; i < 2; i++)
+	{
+		GType type = G_VALUE_TYPE(&geom_pos[i]);
+
+		if(type == G_TYPE_INT64)
+		{
+			gint64 value =	g_value_get_int64(&geom_pos[i]);
+
+			pos[i] =	flip[i]?
+					screen_dim[i]-window_dim[i]-value:
+					value;
+		}
+		else if(type == G_TYPE_DOUBLE)
+		{
+			gdouble value =	g_value_get_double(&geom_pos[i]);
+
+			pos[i] = (gint64)(value*(screen_dim[i]-window_dim[i]));
+		}
+		else
+		{
+			g_assert_not_reached();
+		}
+	}
+
+	/* Adjust the y-position to account for the height of
+	 * the control box.
+	 */
+	if(flip[1] && gtk_widget_get_visible(GTK_WIDGET(box)))
+	{
+		pos[1] -=	gtk_widget_get_allocated_height
+				(GTK_WIDGET(box));
+	}
+
+	gtk_window_move(GTK_WINDOW(wnd), (gint)pos[0], (gint)pos[1]);
 }
 
 static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
@@ -456,6 +520,24 @@ void gmpv_main_window_load_state(GmpvMainWindow *wnd)
 	{
 		g_critical(	"Attempted to call gmpv_main_window_load_state() "
 				"on realized window" );
+	}
+}
+
+void gmpv_main_window_set_geometry(	GmpvMainWindow *wnd,
+					const GmpvGeometry *geom )
+{
+	if(geom)
+	{
+		if(!(geom->flags&GMPV_GEOMETRY_IGNORE_DIM))
+		{
+			gmpv_main_window_resize_video_area
+				(wnd, (gint)geom->width, (gint)geom->height);
+		}
+
+		if(!(geom->flags&GMPV_GEOMETRY_IGNORE_POS))
+		{
+			set_window_pos(wnd, geom);
+		}
 	}
 }
 

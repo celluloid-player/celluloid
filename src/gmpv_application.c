@@ -93,7 +93,6 @@ static void update_track_list(GmpvApplication *app, mpv_node* track_list);
 static gchar *strnjoinv(	const gchar *separator,
 				const gchar **str_array,
 				gsize count );
-static void set_window_geometry(GmpvApplication *app, const GmpvGeometry *geom);
 static gboolean process_action(gpointer data);
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data);
 static void mpv_event_handler(mpv_event *event, gpointer data);
@@ -418,7 +417,8 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						app );
 
 	gmpv_mpv_obj_initialize(app->mpv);
-	set_window_geometry(app, gmpv_mpv_obj_get_geometry(app->mpv));
+	gmpv_main_window_set_geometry
+		(app->gui, gmpv_mpv_obj_get_geometry(app->mpv));
 	gmpv_mpv_obj_set_opengl_cb_callback
 		(app->mpv, opengl_cb_update_callback, app);
 	gmpv_mpv_obj_set_event_callback
@@ -652,59 +652,6 @@ static gboolean process_action(gpointer data)
 	g_free(action_str);
 
 	return FALSE;
-}
-
-static void set_window_geometry(GmpvApplication *app, const GmpvGeometry *geom)
-{
-	if(geom)
-	{
-		gint64 width;
-		gint64 height;
-
-		if(!(geom->flags&GMPV_GEOMETRY_IGNORE_DIM))
-		{
-			gmpv_main_window_resize_video_area
-				(app->gui, (gint)geom->width, (gint)geom->height);
-
-			width = geom->width;
-			height = geom->height;
-		}
-		else
-		{
-			GmpvVideoArea *area;
-			GtkWidget *wgt;
-
-			area = gmpv_main_window_get_video_area(app->gui);
-			wgt = GTK_WIDGET(area);
-
-			width = gtk_widget_get_allocated_width(wgt);
-			height = gtk_widget_get_allocated_height(wgt);
-		}
-
-		if(!(geom->flags&GMPV_GEOMETRY_IGNORE_POS))
-		{
-			GmpvControlBox *box =	gmpv_main_window_get_control_box
-						(app->gui);
-			GdkScreen *screen = gdk_screen_get_default();
-			gint screen_w = gdk_screen_get_width(screen);
-			gint screen_h = gdk_screen_get_height(screen);
-			gboolean flip_x = geom->flags&GMPV_GEOMETRY_FLIP_X;
-			gboolean flip_y = geom->flags&GMPV_GEOMETRY_FLIP_Y;
-			gint64 x = flip_x?screen_w-width-geom->x:geom->x;
-			gint64 y = flip_y?screen_h-height-geom->y:geom->y;
-
-			/* Adjust the y-position to account for the height of
-			 * the control box.
-			 */
-			if(flip_y && gtk_widget_get_visible(GTK_WIDGET(box)))
-			{
-				y -=	gtk_widget_get_allocated_height
-					(GTK_WIDGET(box));
-			}
-
-			gtk_window_move(GTK_WINDOW(app->gui), (gint)x, (gint)y);
-		}
-	}
 }
 
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)

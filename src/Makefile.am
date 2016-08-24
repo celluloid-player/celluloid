@@ -41,6 +41,7 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_application.c gmpv_application.h \
 			gmpv_common.c gmpv_common.h \
 			gmpv_control_box.c gmpv_control_box.h \
+			gmpv_geometry.h \
 			gmpv_inputctl.c gmpv_inputctl.h \
 			gmpv_main_window.c gmpv_main_window.h \
 			gmpv_menu.c gmpv_menu.h \

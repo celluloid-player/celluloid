@@ -25,6 +25,7 @@
 #include <mpv/opengl_cb.h>
 
 #include "gmpv_playlist.h"
+#include "gmpv_geometry.h"
 
 G_BEGIN_DECLS
 
@@ -32,26 +33,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(GmpvMpvObj, gmpv_mpv_obj, GMPV, MPV_OBJ, GObject)
 
-typedef enum _GmpvGeometryFlag GmpvGeometryFlag;
-typedef struct _GmpvGeometry GmpvGeometry;
 typedef struct _GmpvMpvObjState GmpvMpvObjState;
-
-enum _GmpvGeometryFlag
-{
-	GMPV_GEOMETRY_IGNORE_POS	= 1 << 0,
-	GMPV_GEOMETRY_IGNORE_DIM	= 1 << 1,
-	GMPV_GEOMETRY_FLIP_X		= 1 << 2,
-	GMPV_GEOMETRY_FLIP_Y		= 1 << 3
-};
-
-struct _GmpvGeometry
-{
-	gint flags;
-	gint64 x;
-	gint64 y;
-	gint64 width;
-	gint64 height;
-};
 
 struct _GmpvMpvObjState
 {
