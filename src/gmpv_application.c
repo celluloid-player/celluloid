@@ -19,6 +19,7 @@
 
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
+#include <glib-unix.h>
 #include <gdk/gdk.h>
 #include <locale.h>
 #include <epoxy/gl.h>
@@ -97,6 +98,7 @@ static gboolean process_action(gpointer data);
 static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data);
 static void mpv_event_handler(mpv_event *event, gpointer data);
 static void mpv_error_handler(GmpvMpvObj *mpv, const gchar *err, gpointer data);
+static gboolean shutdown_signal_handler(gpointer data);
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -828,6 +830,14 @@ static void mpv_error_handler(GmpvMpvObj *mpv, const gchar *err, gpointer data)
 	show_error_dialog(app, NULL, err);
 }
 
+static gboolean shutdown_signal_handler(gpointer data)
+{
+	g_info("Shutdown signal received. Terminating...");
+	gmpv_application_quit(data);
+
+	return FALSE;
+}
+
 static void drag_data_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gint x,
@@ -968,6 +978,10 @@ static void connect_signals(GmpvApplication *app)
 
 	gmpv_inputctl_connect_signals(app);
 	gmpv_playbackctl_connect_signals(app);
+
+	g_unix_signal_add(SIGHUP, shutdown_signal_handler, app);
+	g_unix_signal_add(SIGINT, shutdown_signal_handler, app);
+	g_unix_signal_add(SIGTERM, shutdown_signal_handler, app);
 
 	g_signal_connect_after(	app->gui,
 				"draw",
