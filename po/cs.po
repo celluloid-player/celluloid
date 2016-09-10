@@ -10,99 +10,101 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-23 10:58-0500\n"
-"PO-Revision-Date: 2016-03-04 02:03-0500\n"
+"PO-Revision-Date: 2016-08-29 17:20+0200\n"
 "Last-Translator: gnome-mpv <gnome-mpv@openmailbox.org>\n"
 "Language-Team: \n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
-"X-Generator: Zanata 3.9.1\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:1
 #: ../data/io.github.GnomeMpv.gschema.xml.h:2
 msgid "Enable or disable dark theme"
-msgstr ""
+msgstr "Povolit nebo zakázat tmavý motiv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:2
 #: ../data/io.github.GnomeMpv.gschema.xml.h:3
 msgid "Enable or disable client-side decorations"
-msgstr ""
+msgstr "Povolit nebo zakázat dekorace na straně klienta"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:3
 #: ../data/io.github.GnomeMpv.gschema.xml.h:4
 msgid ""
 "Whether or not to make file chooser dialog remember last folder accessed"
 msgstr ""
+"Zda si dialogové okno výběru souboru má či nemá pamatovat složku s posledním "
+"přístupem"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:4
 #: ../data/io.github.GnomeMpv.gschema.xml.h:6
 msgid "Options to pass to mpv"
-msgstr ""
+msgstr "Volby, které budou předány mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:5
 #: ../data/io.github.GnomeMpv.gschema.xml.h:7
 msgid "Path to mpv configuration file"
-msgstr ""
+msgstr "Cesta ke konfiguračnímu souboru mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:6
 #: ../data/io.github.GnomeMpv.gschema.xml.h:8
 msgid "Load or don't load mpv configuration file"
-msgstr ""
+msgstr "Načíst nebo nenačíst konfigurační soubor mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:7
 #: ../data/io.github.GnomeMpv.gschema.xml.h:9
 msgid "Path to mpv input configuration file"
-msgstr ""
+msgstr "Cesta ke vstupnímu konfiguračnímu souboru mpv "
 
 #: ../data/org.gnome-mpv.gschema.xml.h:8
 #: ../data/io.github.GnomeMpv.gschema.xml.h:10
 msgid "Load or don't load mpv input configuration file"
-msgstr ""
+msgstr "Načíst nebo nenačíst vstupní konfigurační soubor mpv"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:9
 #: ../data/io.github.GnomeMpv.gschema.xml.h:11
 msgid "Width of the window"
-msgstr ""
+msgstr "Šířka okna"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:10
 #: ../data/io.github.GnomeMpv.gschema.xml.h:12
 msgid "Height of the window"
-msgstr ""
+msgstr "Výška okna"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:11
 #: ../data/io.github.GnomeMpv.gschema.xml.h:13
 msgid "Volume of player"
-msgstr ""
+msgstr "Hlasitost přehrávače"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:12
 #: ../data/io.github.GnomeMpv.gschema.xml.h:14
 msgid "Width of the playlist"
-msgstr ""
+msgstr "Šířka seznamu skladeb"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:13
 #: ../data/io.github.GnomeMpv.gschema.xml.h:16
 msgid "Show or not show the playlist"
-msgstr ""
+msgstr "Zobrazovat nebo nezobrazovat seznam skladeb"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:14
 #: ../data/io.github.GnomeMpv.gschema.xml.h:17
 msgid "URI of the last folder accessed"
-msgstr ""
+msgstr "URI složky s posledním přístupem"
 
 #: ../data/io.github.GnomeMpv.gschema.xml.h:1
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr ""
+msgstr "Zda už byla provedena migrace nastavení z předchozí verze"
 
 #: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:311
 msgid "Allow multiple instances"
-msgstr ""
+msgstr "Povolit více instancí"
 
 #: ../data/io.github.GnomeMpv.gschema.xml.h:15
 msgid "Show or not show the controls"
-msgstr ""
+msgstr "Zobrazit či nezobrazovat ovládací prvky"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:1
 msgid ""
@@ -112,34 +114,39 @@ msgid ""
 "libraries. GNOME MPV also offers an option to disable client-side "
 "decorations (CSD) for better compatibility with non-GNOME systems."
 msgstr ""
+"GNOME MPV je jednoduché GTK+ rozhraní pro MPV, což je velmi výkonný "
+"multimediální přehrávač schopný přehrát prakticky všechny formáty videa a "
+"audia. Návrh GNOME MPV je založen na GNOME HIG, i když není závislý na "
+"žádných knihovnách GNOME. GNOME MPV také nabízí možnost zakázat dekorace na "
+"straně klienta (CSD) pro lepší kompatibilitu se systémy mimo GNOME."
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:2
 msgid "Features:"
-msgstr ""
+msgstr "Funkce:"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:3
 msgid "Drag and drop playlist"
-msgstr ""
+msgstr "Seznam skladeb s podporou přetahování souborů (táhni a pusť)"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:4
 msgid "Loading external mpv configuration files"
-msgstr ""
+msgstr "Načítání externích konfiguračních souborů mpv"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:5
 msgid "MPRIS2 D-Bus interface"
-msgstr ""
+msgstr "Rozhraní MPRIS2 D-Bus"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:6
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Hlavní okno zobrazující aplikaci v akci"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:7
 msgid "The main window with CSD disabled"
-msgstr ""
+msgstr "Hlavní okno se zakázanými CSD"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:8
 msgid "The main window with playlist open"
-msgstr ""
+msgstr "Hlavní okno s otevřeným seznamem skladeb"
 
 #: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:259
 msgid "GNOME MPV"
@@ -147,12 +154,11 @@ msgstr "GNOME MPV"
 
 #: ../data/io.github.GnomeMpv.desktop.in.h:2
 msgid "GTK+ frontend for mpv"
-msgstr ""
+msgstr "GTK+ frontend pro mpv"
 
 #: ../src/gmpv_actionctl.c:99
-#, fuzzy
 msgid "Add File to Playlist"
-msgstr "_Přepnout seznam skladeb"
+msgstr "Přidat soubor do seznamu skladeb"
 
 #: ../src/gmpv_actionctl.c:100
 msgid "Open File"
@@ -171,9 +177,8 @@ msgid "_Cancel"
 msgstr "_Zrušit"
 
 #: ../src/gmpv_actionctl.c:271
-#, fuzzy
 msgid "Save Playlist"
-msgstr "_Uložit seznam skladeb"
+msgstr "Uložit seznam skladeb"
 
 #: ../src/gmpv_actionctl.c:274 ../src/gmpv_pref_dialog.c:356
 msgid "_Save"
@@ -182,14 +187,14 @@ msgstr "_Uložit"
 #: ../src/gmpv_actionctl.c:392
 #, c-format
 msgid ""
-"Enabling or disabling client-side decorations requires restarting %s to take"
-" effect."
+"Enabling or disabling client-side decorations requires restarting %s to take "
+"effect."
 msgstr ""
 "Povolení nebo zakázání dekorací na straně klienta vyžaduje restartování %s."
 
 #: ../src/gmpv_actionctl.c:478
 msgid "Load External…"
-msgstr ""
+msgstr "Načíst externí…"
 
 #: ../src/gmpv_actionctl.c:559
 msgid "A GTK frontend for MPV"
@@ -201,69 +206,69 @@ msgstr "Tomáš Marný"
 
 #: ../src/gmpv_application.c:1170
 msgid "Playing"
-msgstr ""
+msgstr "Přehrávání"
 
 #: ../src/gmpv_application.c:1301
 msgid "Show release version"
-msgstr ""
+msgstr "Zobrazit verzi vydání"
 
 #: ../src/gmpv_application.c:1309
 msgid "Enqueue"
-msgstr ""
+msgstr "Zařadit do fronty"
 
 #: ../src/gmpv_application.c:1317
 msgid "Don't connect to an already-running instance"
-msgstr ""
+msgstr "Nelze se připojit k již běžící instanci"
 
 #: ../src/gmpv_common.c:250
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: ../src/gmpv_control_box.c:192 ../src/gmpv_control_box.c:365
 msgid "Play"
-msgstr ""
+msgstr "Přehrát"
 
 #: ../src/gmpv_control_box.c:193
 msgid "Stop"
-msgstr ""
+msgstr "Zastavit"
 
 #: ../src/gmpv_control_box.c:194
 msgid "Forward"
-msgstr ""
+msgstr "Vpřed"
 
 #: ../src/gmpv_control_box.c:195
 msgid "Rewind"
-msgstr ""
+msgstr "Zpět"
 
 #: ../src/gmpv_control_box.c:196
 msgid "Next Chapter"
-msgstr ""
+msgstr "Následující kapitola"
 
 #: ../src/gmpv_control_box.c:197
 msgid "Previous Chapter"
-msgstr ""
+msgstr "Předchozí kapitola"
 
 #: ../src/gmpv_control_box.c:198 ../src/gmpv_main_window.c:576
 msgid "Toggle Fullscreen"
-msgstr ""
+msgstr "Přepnout režim celé obrazovky"
 
 #: ../src/gmpv_control_box.c:365
 msgid "Pause"
-msgstr ""
+msgstr "Pozastavit"
 
 #: ../src/gmpv_menu.c:53
 msgid "None"
-msgstr ""
+msgstr "Žádná"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
 #: ../src/gmpv_menu.c:68
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámá"
 
 #: ../src/gmpv_menu.c:103
 msgid "_Load External…"
-msgstr ""
+msgstr "_Načíst externí…"
 
 #: ../src/gmpv_menu.c:189
 msgid "_File"
@@ -291,15 +296,15 @@ msgstr "_Předvolby"
 
 #: ../src/gmpv_menu.c:196 ../src/gmpv_menu.c:234
 msgid "_Video Track"
-msgstr ""
+msgstr "_Video stopa"
 
 #: ../src/gmpv_menu.c:197 ../src/gmpv_menu.c:235
 msgid "_Audio Track"
-msgstr ""
+msgstr "_Zvuková stopa"
 
 #: ../src/gmpv_menu.c:198 ../src/gmpv_menu.c:236
 msgid "S_ubtitle Track"
-msgstr ""
+msgstr "_Stopa titulků"
 
 #: ../src/gmpv_menu.c:199
 msgid "_View"
@@ -307,7 +312,7 @@ msgstr "_Zobrazit"
 
 #: ../src/gmpv_menu.c:200 ../src/gmpv_menu.c:229
 msgid "_Toggle Controls"
-msgstr ""
+msgstr "_Přepnout ovládací prvky"
 
 #: ../src/gmpv_menu.c:201 ../src/gmpv_menu.c:231
 msgid "_Toggle Playlist"
@@ -335,20 +340,20 @@ msgstr "_Nápověda"
 
 #: ../src/gmpv_menu.c:207 ../src/gmpv_menu.c:267
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Klávesové zkratky"
 
 #: ../src/gmpv_menu.c:208 ../src/gmpv_menu.c:268
 msgid "_About"
-msgstr "_O programu"
+msgstr "_O aplikaci"
 
 #: ../src/gmpv_mpv_obj.c:220
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr ""
+msgstr "Přehrávání bylo ukončeno nestandardně. Důvod: %s."
 
 #: ../src/gmpv_mpv_obj.c:1014
 msgid "Failed to apply one or more MPV options."
-msgstr ""
+msgstr "Nepodařilo se aplikovat jednu nebo více voleb MPV."
 
 #: ../src/gmpv_open_loc_dialog.c:78
 msgid "Location:"
@@ -360,11 +365,11 @@ msgstr "Otevřít umístění"
 
 #: ../src/gmpv_playlist_widget.c:501
 msgid "_Add…"
-msgstr ""
+msgstr "_Přidat…"
 
 #: ../src/gmpv_playlist_widget.c:503
 msgid "Loop"
-msgstr ""
+msgstr "Smyčka"
 
 #: ../src/gmpv_playlist_widget.c:600
 msgid "Playlist"
@@ -372,42 +377,42 @@ msgstr "Seznam skladeb"
 
 #: ../src/gmpv_plugins_manager.c:141 ../src/gmpv_plugins_manager.c:366
 msgid "Add Lua Script"
-msgstr ""
+msgstr "Přidat Lua skript"
 
 #: ../src/gmpv_plugins_manager.c:144
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: ../src/gmpv_plugins_manager.c:145
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: ../src/gmpv_plugins_manager.c:293
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr ""
+msgstr "Nepodařilo se zkopírovat soubor z '%s' do '%s'. Důvod: %s"
 
 #: ../src/gmpv_plugins_manager.c:342
 msgid "No Lua script found"
-msgstr ""
+msgstr "Nenalezen žádný Lua skript "
 
 #: ../src/gmpv_plugins_manager_item.c:65
 msgid "Remove"
-msgstr ""
+msgstr "Odstranit"
 
 #: ../src/gmpv_plugins_manager_item.c:159
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
-msgstr ""
+msgstr "Opravdu chcete odstranit tento skript? Tuto akci nelze vrátit zpět."
 
 #: ../src/gmpv_plugins_manager_item.c:180
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr ""
+msgstr "Nepodařilo se odstranit soubor '%s'. Důvod: %s"
 
 #: ../src/gmpv_pref_dialog.c:278
 msgid "<b>User Interface</b>"
-msgstr ""
+msgstr "<b>Uživatelské rozhraní</b>"
 
 #: ../src/gmpv_pref_dialog.c:281
 msgid "Enable client-side decorations"
@@ -419,7 +424,7 @@ msgstr "Povolit tmavý motiv"
 
 #: ../src/gmpv_pref_dialog.c:287
 msgid "Remember last file's location"
-msgstr ""
+msgstr "Zapamatovat si poslední umístění souboru"
 
 #: ../src/gmpv_pref_dialog.c:290
 msgid "<b>MPV Configuration</b>"
@@ -455,11 +460,11 @@ msgstr "Extra možnosti MPV:"
 
 #: ../src/gmpv_pref_dialog.c:347
 msgid "General"
-msgstr ""
+msgstr "Obecné"
 
 #: ../src/gmpv_pref_dialog.c:351
 msgid "Lua Scripts"
-msgstr ""
+msgstr "Skripty v jazyce Lua"
 
 #: ../src/gmpv_pref_dialog.c:373
 msgid "Preferences"
@@ -467,232 +472,232 @@ msgstr "Předvolby"
 
 #: ../src/gmpv_shortcuts_window.c:54
 msgid "Open file"
-msgstr ""
+msgstr "Otevřít soubor"
 
 #: ../src/gmpv_shortcuts_window.c:55
 msgid "Open location"
-msgstr ""
+msgstr "Otevřít umístění"
 
 #: ../src/gmpv_shortcuts_window.c:56
 msgid "Show preferences dialog"
-msgstr ""
+msgstr "Zobrazit dialogové okno předvoleb"
 
 #: ../src/gmpv_shortcuts_window.c:57
 msgid "Toggle controls"
-msgstr ""
+msgstr "Přepnout ovládací prvky"
 
 #: ../src/gmpv_shortcuts_window.c:58
 msgid "Toggle playlist"
-msgstr ""
+msgstr "Přepnout seznam skladeb"
 
 #: ../src/gmpv_shortcuts_window.c:59
 msgid "Toggle fullscreen mode"
-msgstr ""
+msgstr "Přepnout režim celé obrazovky"
 
 #: ../src/gmpv_shortcuts_window.c:60
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Opustit režim celé obrazovky"
 
 #: ../src/gmpv_shortcuts_window.c:61
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
+msgstr "Přepínat zobrazení OSD mezi normálním a dobou přehrávání/trvání"
 
 #: ../src/gmpv_shortcuts_window.c:62
 msgid "Show filename on the OSD"
-msgstr ""
+msgstr "Zobrazovat název souboru přes OSD"
 
 #: ../src/gmpv_shortcuts_window.c:63
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr ""
+msgstr "Ukázat průběh, uplynulý čas a trvání na OSD"
 
 #: ../src/gmpv_shortcuts_window.c:66
 msgid "Seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Přeskočit dopředu/dozadu o 5 sekund"
 
 #: ../src/gmpv_shortcuts_window.c:67
 msgid "Exact seek backward/forward 1 second"
-msgstr ""
+msgstr "Přesněji přeskočit dopředu/dozadu o 1 sekundu"
 
 #: ../src/gmpv_shortcuts_window.c:68
 msgid "Seek backward/forward 1 minute"
-msgstr ""
+msgstr "Přeskočit dopředu/dozadu o 1 minutu"
 
 #: ../src/gmpv_shortcuts_window.c:69
 msgid "Exact seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Přesněji přeskočit dopředu/dozadu o 5 sekund"
 
 #: ../src/gmpv_shortcuts_window.c:70
 msgid "Seek to previous/next subtitle"
-msgstr ""
+msgstr "Přeskočit na předchozí/další titulky"
 
 #: ../src/gmpv_shortcuts_window.c:71
 msgid "Step backward/forward a single frame"
-msgstr ""
+msgstr "Krok zpět/vpřed o jeden snímek"
 
 #: ../src/gmpv_shortcuts_window.c:72
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr ""
+msgstr "Přeskočit na začátek předchozí/následující kapitoly"
 
 #: ../src/gmpv_shortcuts_window.c:75
 msgid "Decrease/increase playback speed by 10%"
-msgstr ""
+msgstr "Snížení/zvýšení rychlosti přehrávání o 10%"
 
 #: ../src/gmpv_shortcuts_window.c:76
 msgid "Halve/double current playback speed"
-msgstr ""
+msgstr "Polovina/dvojnásobek aktuální rychlosti přehrávání"
 
 #: ../src/gmpv_shortcuts_window.c:77
 msgid "Reset playback speed to normal"
-msgstr ""
+msgstr "Vrátit rychlost přehrávání na normální"
 
 #: ../src/gmpv_shortcuts_window.c:78
 msgid "Go backward/forward in the playlist"
-msgstr ""
+msgstr "Přejít zpět/vpřed v seznamu skladeb"
 
 #: ../src/gmpv_shortcuts_window.c:79
 msgid "Remove selected playlist item"
-msgstr ""
+msgstr "Odebrat vybranou položku seznamu skladeb"
 
 #: ../src/gmpv_shortcuts_window.c:80
 msgid "Save playlist"
-msgstr ""
+msgstr "Uložit seznam skladeb"
 
 #: ../src/gmpv_shortcuts_window.c:81
 msgid "Set/clear A-B loop points"
-msgstr ""
+msgstr "Nastavit/zrušit A-B body smyčky"
 
 #: ../src/gmpv_shortcuts_window.c:82
 msgid "Toggle infinite looping"
-msgstr ""
+msgstr "Přepnout nekonečnou smyčku"
 
 #: ../src/gmpv_shortcuts_window.c:83
 msgid "Pause or unpause"
-msgstr ""
+msgstr "Pozastavit nebo znovu spustit"
 
 #: ../src/gmpv_shortcuts_window.c:84
 msgid "Quit"
-msgstr ""
+msgstr "Ukončit"
 
 #: ../src/gmpv_shortcuts_window.c:85
 msgid "Save current playback position and quit"
-msgstr ""
+msgstr "Uložit aktuální polohy přehrávání a ukončit aplikaci"
 
 #: ../src/gmpv_shortcuts_window.c:88
 msgid "Cycle through audio tracks"
-msgstr ""
+msgstr "Procházet zvukové stopy"
 
 #: ../src/gmpv_shortcuts_window.c:89 ../src/gmpv_shortcuts_window.c:90
 msgid "Decrease/increase volume"
-msgstr ""
+msgstr "Snížení/zvýšení hlasitosti"
 
 #: ../src/gmpv_shortcuts_window.c:91
 msgid "Mute or unmute"
-msgstr ""
+msgstr "Ztlumit nebo zapnout zvuk"
 
 #: ../src/gmpv_shortcuts_window.c:92
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Nastavit zpoždění zvuku o +/- 0.1 sekundy"
 
 #: ../src/gmpv_shortcuts_window.c:95
 msgid "Toggle subtitle visibility"
-msgstr ""
+msgstr "Přepnout viditelnost titulků"
 
 #: ../src/gmpv_shortcuts_window.c:96
 msgid "Cycle through available subtitles"
-msgstr ""
+msgstr "Procházet dostupné titulky"
 
 #: ../src/gmpv_shortcuts_window.c:97
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Nastavit zpoždění titulků o +/- 0.1 sekundy"
 
 #: ../src/gmpv_shortcuts_window.c:98
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr ""
+msgstr "Přepnout potlačení stylu SSA/ASS titulků"
 
 #: ../src/gmpv_shortcuts_window.c:99
 msgid "Move subtitles up/down"
-msgstr ""
+msgstr "Posun titulků nahoru/dolů"
 
 #: ../src/gmpv_shortcuts_window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr ""
+msgstr "Přepnout režim kompatibility VSFilter"
 
 #: ../src/gmpv_shortcuts_window.c:103
 msgid "Cycle through video tracks"
-msgstr ""
+msgstr "Procházet video stopy"
 
 #: ../src/gmpv_shortcuts_window.c:104
 msgid "Decrease/increase pan-and-scan range"
-msgstr ""
+msgstr "Snížení/zvýšení rozsahu Pan and Scan"
 
 #: ../src/gmpv_shortcuts_window.c:105
 msgid "Take a screenshot"
-msgstr ""
+msgstr "Zachytit snímek obrazovky"
 
 #: ../src/gmpv_shortcuts_window.c:106
 msgid "Take a screenshot, without subtitles"
-msgstr ""
+msgstr "Zachytit snímek obrazovky, bez titulků"
 
 #: ../src/gmpv_shortcuts_window.c:107
 msgid "Take a screenshot, as the window shows it"
-msgstr ""
+msgstr "Pořídit snímek obrazovky, tak jak ho zobrazuje okno"
 
 #: ../src/gmpv_shortcuts_window.c:108
 msgid "Resize video to half its original size"
-msgstr ""
+msgstr "Změnit velikost videa na polovinu původní velikosti"
 
 #: ../src/gmpv_shortcuts_window.c:109
 msgid "Resize video to its original size"
-msgstr ""
+msgstr "Změnit velikost videa na původní velikost"
 
 #: ../src/gmpv_shortcuts_window.c:110
 msgid "Resize video to double its original size"
-msgstr ""
+msgstr "Změnit velikost videa na dvojnásobek původní velikosti"
 
 #: ../src/gmpv_shortcuts_window.c:111
 msgid "Adjust contrast"
-msgstr ""
+msgstr "Úprava kontrastu"
 
 #: ../src/gmpv_shortcuts_window.c:112
 msgid "Adjust brightness"
-msgstr ""
+msgstr "Úprava jasu"
 
 #: ../src/gmpv_shortcuts_window.c:113
 msgid "Adjust gamma"
-msgstr ""
+msgstr "Úprava gammy"
 
 #: ../src/gmpv_shortcuts_window.c:114
 msgid "Adjust saturation"
-msgstr ""
+msgstr "Úprava sytosti"
 
 #: ../src/gmpv_shortcuts_window.c:115
 msgid "Activate or deactivate deinterlacer"
-msgstr ""
+msgstr "Aktivovat nebo deaktivovat deinterlaci"
 
 #: ../src/gmpv_shortcuts_window.c:116
 msgid "Cycle aspect ratio override"
-msgstr ""
+msgstr "Procházet vynucené poměry stran"
 
 #: ../src/gmpv_shortcuts_window.c:119
 msgid "User Interface"
-msgstr ""
+msgstr "Uživatelské rozhraní"
 
 #: ../src/gmpv_shortcuts_window.c:120
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: ../src/gmpv_shortcuts_window.c:121
 msgid "Audio"
-msgstr ""
+msgstr "Zvuk"
 
 #: ../src/gmpv_shortcuts_window.c:122
 msgid "Subtitle"
-msgstr ""
+msgstr "Titulky"
 
 #: ../src/gmpv_shortcuts_window.c:123
 msgid "Playback"
-msgstr ""
+msgstr "Přehrávání"
 
 #: ../src/gmpv_shortcuts_window.c:124
 msgid "Seeking"
-msgstr ""
+msgstr "Posunování"
