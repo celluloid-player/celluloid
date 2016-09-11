@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-13 17:12+0700\n"
+"POT-Creation-Date: 2016-08-16 23:25+0700\n"
 "PO-Revision-Date: 2016-04-27 01:06-0400\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Catalan\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Zanata 3.9.1\n"
+"X-Generator: Zanata 3.9.5\n"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:1
 #: ../data/io.github.GnomeMpv.gschema.xml.h:2
@@ -92,7 +92,7 @@ msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr "Si els paràmetres ja s’han migrat des d’una versió anterior"
 
-#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:311
+#: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:315
 msgid "Allow multiple instances"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr "La finestra principal amb la CSD inhabilitada"
 msgid "The main window with playlist open"
 msgstr "La finestra principal amb la llista de reproducció oberta"
 
-#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:259
+#: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:260
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -153,35 +153,43 @@ msgstr "GNOME MPV"
 msgid "GTK+ frontend for mpv"
 msgstr "Frontal en GTK+ per a l’mpv"
 
-#: ../src/gmpv_actionctl.c:99
+#: ../src/gmpv_actionctl.c:101
 msgid "Add File to Playlist"
 msgstr "Afegeix un fitxer a una llista de reproducció"
 
-#: ../src/gmpv_actionctl.c:100
+#: ../src/gmpv_actionctl.c:102
 msgid "Open File"
 msgstr "Obre un fitxer"
 
-#: ../src/gmpv_actionctl.c:103 ../src/gmpv_actionctl.c:482
+#: ../src/gmpv_actionctl.c:105 ../src/gmpv_actionctl.c:508
 #: ../src/gmpv_menu.c:190 ../src/gmpv_menu.c:254
-#: ../src/gmpv_open_loc_dialog.c:82
+#: ../src/gmpv_open_loc_dialog.c:84
 msgid "_Open"
 msgstr "_Obre"
 
-#: ../src/gmpv_actionctl.c:104 ../src/gmpv_actionctl.c:275
-#: ../src/gmpv_actionctl.c:481 ../src/gmpv_open_loc_dialog.c:84
-#: ../src/gmpv_pref_dialog.c:354
+#: ../src/gmpv_actionctl.c:106 ../src/gmpv_actionctl.c:300
+#: ../src/gmpv_actionctl.c:507 ../src/gmpv_open_loc_dialog.c:82
+#: ../src/gmpv_pref_dialog.c:358
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: ../src/gmpv_actionctl.c:271
+#: ../src/gmpv_actionctl.c:206
+msgid "Add Location to Playlist"
+msgstr ""
+
+#: ../src/gmpv_actionctl.c:207
+msgid "Open Location"
+msgstr "Obre una ubicació"
+
+#: ../src/gmpv_actionctl.c:296
 msgid "Save Playlist"
 msgstr "Desa la llista de reproducció"
 
-#: ../src/gmpv_actionctl.c:274 ../src/gmpv_pref_dialog.c:356
+#: ../src/gmpv_actionctl.c:299 ../src/gmpv_pref_dialog.c:360
 msgid "_Save"
 msgstr "_Desa"
 
-#: ../src/gmpv_actionctl.c:392
+#: ../src/gmpv_actionctl.c:417
 #, c-format
 msgid ""
 "Enabling or disabling client-side decorations requires restarting %s to take"
@@ -190,31 +198,31 @@ msgstr ""
 "Cal que reinicieu el %s per tal d’habilitar o inhabilitar les decoracions "
 "del client."
 
-#: ../src/gmpv_actionctl.c:478
+#: ../src/gmpv_actionctl.c:504
 msgid "Load External…"
 msgstr ""
 
-#: ../src/gmpv_actionctl.c:559
+#: ../src/gmpv_actionctl.c:605
 msgid "A GTK frontend for MPV"
 msgstr "Un frontal en GTK per a l’MPV"
 
-#: ../src/gmpv_actionctl.c:569
+#: ../src/gmpv_actionctl.c:615
 msgid "translator-credits"
 msgstr "Adolfo Jayme Barrientos <fitojb@ubuntu.com>"
 
-#: ../src/gmpv_application.c:1170
+#: ../src/gmpv_application.c:1225
 msgid "Playing"
 msgstr "En reproducció"
 
-#: ../src/gmpv_application.c:1301
+#: ../src/gmpv_application.c:1356
 msgid "Show release version"
 msgstr ""
 
-#: ../src/gmpv_application.c:1309
+#: ../src/gmpv_application.c:1364
 msgid "Enqueue"
 msgstr ""
 
-#: ../src/gmpv_application.c:1317
+#: ../src/gmpv_application.c:1372
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
@@ -222,35 +230,35 @@ msgstr ""
 msgid "Error"
 msgstr "Error"
 
-#: ../src/gmpv_control_box.c:192 ../src/gmpv_control_box.c:365
+#: ../src/gmpv_control_box.c:190 ../src/gmpv_control_box.c:363
 msgid "Play"
 msgstr "Reprodueix"
 
-#: ../src/gmpv_control_box.c:193
+#: ../src/gmpv_control_box.c:191
 msgid "Stop"
 msgstr "Atura"
 
-#: ../src/gmpv_control_box.c:194
+#: ../src/gmpv_control_box.c:192
 msgid "Forward"
 msgstr "Avança"
 
-#: ../src/gmpv_control_box.c:195
+#: ../src/gmpv_control_box.c:193
 msgid "Rewind"
 msgstr "Rebobina"
 
-#: ../src/gmpv_control_box.c:196
+#: ../src/gmpv_control_box.c:194
 msgid "Next Chapter"
 msgstr "Capítol següent"
 
-#: ../src/gmpv_control_box.c:197
+#: ../src/gmpv_control_box.c:195
 msgid "Previous Chapter"
 msgstr "Capítol anterior"
 
-#: ../src/gmpv_control_box.c:198 ../src/gmpv_main_window.c:576
+#: ../src/gmpv_control_box.c:196 ../src/gmpv_main_window.c:576
 msgid "Toggle Fullscreen"
 msgstr "Commuta la pantalla completa"
 
-#: ../src/gmpv_control_box.c:365
+#: ../src/gmpv_control_box.c:363
 msgid "Pause"
 msgstr "Posa en pausa"
 
@@ -344,12 +352,12 @@ msgstr ""
 msgid "_About"
 msgstr "_Quant a"
 
-#: ../src/gmpv_mpv_obj.c:220
-#, c-format
+#: ../src/gmpv_mpv_obj.c:240
+#, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "La reproducció ha terminat de forma anòmala. Motiu: %s"
 
-#: ../src/gmpv_mpv_obj.c:1014
+#: ../src/gmpv_mpv_obj.c:1040
 msgid "Failed to apply one or more MPV options."
 msgstr "No s’han pogut aplicar alguns paràmetres de l’MPV."
 
@@ -357,19 +365,19 @@ msgstr "No s’han pogut aplicar alguns paràmetres de l’MPV."
 msgid "Location:"
 msgstr "Ubicació:"
 
-#: ../src/gmpv_open_loc_dialog.c:94
-msgid "Open Location"
-msgstr "Obre una ubicació"
-
-#: ../src/gmpv_playlist_widget.c:501
+#: ../src/gmpv_playlist_widget.c:503
 msgid "_Add…"
 msgstr "_Afegeix…"
 
-#: ../src/gmpv_playlist_widget.c:503
+#: ../src/gmpv_playlist_widget.c:507
+msgid "Add _Location…"
+msgstr ""
+
+#: ../src/gmpv_playlist_widget.c:509
 msgid "Loop"
 msgstr "Repetició"
 
-#: ../src/gmpv_playlist_widget.c:600
+#: ../src/gmpv_playlist_widget.c:607
 msgid "Playlist"
 msgstr "Llista de reproducció"
 
@@ -386,7 +394,7 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #: ../src/gmpv_plugins_manager.c:293
-#, c-format
+#, fuzzy, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "No s’ha pogut copiar el fitxer de «%s» a «%s». Motiu: %s"
 
@@ -406,67 +414,67 @@ msgstr ""
 "desfer."
 
 #: ../src/gmpv_plugins_manager_item.c:180
-#, c-format
+#, fuzzy, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "No s’ha pogut suprimir el fitxer «%s». Motiu: %s"
 
-#: ../src/gmpv_pref_dialog.c:278
+#: ../src/gmpv_pref_dialog.c:282
 msgid "<b>User Interface</b>"
 msgstr "<b>Interfície de l’usuari</b>"
 
-#: ../src/gmpv_pref_dialog.c:281
+#: ../src/gmpv_pref_dialog.c:285
 msgid "Enable client-side decorations"
 msgstr "Habilita les decoracions del client"
 
-#: ../src/gmpv_pref_dialog.c:284
+#: ../src/gmpv_pref_dialog.c:288
 msgid "Enable dark theme"
 msgstr "Habilita el tema fosc"
 
-#: ../src/gmpv_pref_dialog.c:287
+#: ../src/gmpv_pref_dialog.c:291
 msgid "Remember last file's location"
 msgstr "Recorda la ubicació del darrer fitxer"
 
-#: ../src/gmpv_pref_dialog.c:290
+#: ../src/gmpv_pref_dialog.c:294
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>Paràmetres de l’MPV</b>"
 
-#: ../src/gmpv_pref_dialog.c:293
+#: ../src/gmpv_pref_dialog.c:297
 msgid "Load MPV configuration file"
 msgstr "Carrega un fitxer de configuració de l’MPV"
 
-#: ../src/gmpv_pref_dialog.c:296
+#: ../src/gmpv_pref_dialog.c:300
 msgid "MPV configuration file:"
 msgstr "Fitxer de configuració de l’MPV:"
 
-#: ../src/gmpv_pref_dialog.c:299
+#: ../src/gmpv_pref_dialog.c:303
 msgid "<b>Keybindings</b>"
 msgstr "<b>Assignacions de tecles</b>"
 
-#: ../src/gmpv_pref_dialog.c:302
+#: ../src/gmpv_pref_dialog.c:306
 msgid "Load MPV input configuration file"
 msgstr "Carrega un fitxer de configuració d’entrada de l’MPV"
 
-#: ../src/gmpv_pref_dialog.c:305
+#: ../src/gmpv_pref_dialog.c:309
 msgid "MPV input configuration file:"
 msgstr "Fitxer de configuració d’entrada de l’MPV:"
 
-#: ../src/gmpv_pref_dialog.c:308
+#: ../src/gmpv_pref_dialog.c:312
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Altres</b>"
 
-#: ../src/gmpv_pref_dialog.c:314
+#: ../src/gmpv_pref_dialog.c:318
 msgid "Extra MPV options:"
 msgstr "Opcions addicionals de l’MPV:"
 
-#: ../src/gmpv_pref_dialog.c:347
+#: ../src/gmpv_pref_dialog.c:351
 msgid "General"
 msgstr "Generals"
 
-#: ../src/gmpv_pref_dialog.c:351
+#: ../src/gmpv_pref_dialog.c:355
 msgid "Lua Scripts"
 msgstr "«Scripts» en Lua"
 
-#: ../src/gmpv_pref_dialog.c:373
+#: ../src/gmpv_pref_dialog.c:377
 msgid "Preferences"
 msgstr "Preferències"
 
