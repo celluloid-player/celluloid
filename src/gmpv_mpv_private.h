@@ -32,10 +32,10 @@ enum
 	N_PROPERTIES
 };
 
-struct _GmpvMpvObj
+struct _GmpvMpv
 {
 	GObject parent;
-	GmpvMpvObjState state;
+	GmpvMpvState state;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	GmpvPlaylist *playlist;
@@ -52,7 +52,7 @@ struct _GmpvMpvObj
 	void (*opengl_cb_callback)(void *data);
 };
 
-struct _GmpvMpvObjClass
+struct _GmpvMpvClass
 {
 	GObjectClass parent_class;
 };

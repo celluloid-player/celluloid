@@ -22,7 +22,7 @@
 #include "gmpv_actionctl.h"
 #include "gmpv_playlist_widget.h"
 #include "gmpv_def.h"
-#include "gmpv_mpv_obj.h"
+#include "gmpv_mpv.h"
 #include "gmpv_playlist.h"
 #include "gmpv_open_loc_dialog.h"
 #include "gmpv_pref_dialog.h"
@@ -162,9 +162,9 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 
 		if(uri_slist)
 		{
-			GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+			GmpvMpv *mpv = gmpv_application_get_mpv(app);
 
-			gmpv_mpv_obj_load_list(mpv, uri_list, append, TRUE);
+			gmpv_mpv_load_list(mpv, uri_list, append, TRUE);
 		}
 
 		if(last_folder_enable)
@@ -209,13 +209,13 @@ static void show_open_location_dialog_handler(	GSimpleAction *action,
 	if(gtk_dialog_run(GTK_DIALOG(dlg)) == GTK_RESPONSE_ACCEPT)
 	{
 		const gchar *loc_str;
-		GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+		GmpvMpv *mpv = gmpv_application_get_mpv(app);
 
 		loc_str =	gmpv_open_loc_dialog_get_string
 				(GMPV_OPEN_LOC_DIALOG(dlg));
 
-		gmpv_mpv_obj_set_property_flag(mpv, "pause", FALSE);
-		gmpv_mpv_obj_load(mpv, loc_str, append, TRUE);
+		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
+		gmpv_mpv_load(mpv, loc_str, append, TRUE);
 	}
 
 	gtk_widget_destroy(dlg);
@@ -226,11 +226,11 @@ static void toggle_loop_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	GmpvApplication *app = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+	GmpvMpv *mpv = gmpv_application_get_mpv(app);
 	gboolean loop = g_variant_get_boolean(value);
 
 	g_simple_action_set_state(action, value);
-	gmpv_mpv_obj_set_property_string(mpv, "loop", loop?"inf":"no");
+	gmpv_mpv_set_property_string(mpv, "loop", loop?"inf":"no");
 }
 
 static void show_shortcuts_dialog_handler(	GSimpleAction *action,
@@ -274,7 +274,7 @@ static void save_playlist_handler(	GSimpleAction *action,
 					gpointer data )
 {
 	GmpvApplication *app = data;
-	GmpvMpvObj *mpv;
+	GmpvMpv *mpv;
 	GmpvMainWindow *wnd;
 	GmpvPlaylist *playlist;
 	GtkTreeModel *model;
@@ -286,9 +286,9 @@ static void save_playlist_handler(	GSimpleAction *action,
 	GtkTreeIter iter;
 	gboolean rc;
 
-	mpv = gmpv_application_get_mpv_obj(app);
+	mpv = gmpv_application_get_mpv(app);
 	wnd = gmpv_application_get_main_window(app);
-	playlist = gmpv_mpv_obj_get_playlist(mpv);
+	playlist = gmpv_mpv_get_playlist(mpv);
 	model = GTK_TREE_MODEL(gmpv_playlist_get_store(playlist));
 	dest_file = NULL;
 	dest_stream = NULL;
@@ -396,11 +396,11 @@ static void show_preferences_dialog_handler(	GSimpleAction *action,
 
 	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		GmpvMpvObj *mpv;
+		GmpvMpv *mpv;
 		gboolean csd_enable;
 		gboolean dark_theme_enable;
 
-		mpv = gmpv_application_get_mpv_obj(app);
+		mpv = gmpv_application_get_mpv(app);
 		csd_enable = g_settings_get_boolean(settings, "csd-enable");
 		dark_theme_enable =	g_settings_get_boolean
 					(settings, "dark-theme-enable");
@@ -429,7 +429,7 @@ static void show_preferences_dialog_handler(	GSimpleAction *action,
 				dark_theme_enable,
 				NULL );
 
-		gmpv_mpv_obj_reset(mpv);
+		gmpv_mpv_reset(mpv);
 		gtk_widget_queue_draw(GTK_WIDGET(wnd));
 	}
 
@@ -448,7 +448,7 @@ static void set_track_handler(	GSimpleAction *action,
 				gpointer data )
 {
 	GmpvApplication *app = data;
-	GmpvMpvObj *mpv;
+	GmpvMpv *mpv;
 	gint64 id;
 	gchar *name;
 	const gchar *mpv_prop;
@@ -474,15 +474,15 @@ static void set_track_handler(	GSimpleAction *action,
 		g_assert_not_reached();
 	}
 
-	mpv = gmpv_application_get_mpv_obj(app);
+	mpv = gmpv_application_get_mpv(app);
 
 	if(id > 0)
 	{
-		gmpv_mpv_obj_set_property(mpv, mpv_prop, MPV_FORMAT_INT64, &id);
+		gmpv_mpv_set_property(mpv, mpv_prop, MPV_FORMAT_INT64, &id);
 	}
 	else
 	{
-		gmpv_mpv_obj_set_property_string(mpv, mpv_prop, "no");
+		gmpv_mpv_set_property_string(mpv, mpv_prop, "no");
 	}
 }
 
@@ -534,7 +534,7 @@ static void load_track_handler(	GSimpleAction *action,
 	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		const gchar *cmd[] = {cmd_name, NULL, NULL};
-		GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+		GmpvMpv *mpv = gmpv_application_get_mpv(app);
 		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
 		GSList *uri = uri_list;
 
@@ -542,7 +542,7 @@ static void load_track_handler(	GSimpleAction *action,
 		{
 			cmd[1] = uri->data;
 
-			gmpv_mpv_obj_command(mpv, cmd);
+			gmpv_mpv_command(mpv, cmd);
 
 			uri = g_slist_next(uri);
 		}

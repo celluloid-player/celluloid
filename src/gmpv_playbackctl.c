@@ -22,7 +22,7 @@
 #include "gmpv_playbackctl.h"
 #include "gmpv_control_box.h"
 #include "gmpv_common.h"
-#include "gmpv_mpv_obj.h"
+#include "gmpv_mpv.h"
 
 static void play_handler(GtkWidget *widget, gpointer data);
 static void stop_handler(GtkWidget *widget, gpointer data);
@@ -37,12 +37,12 @@ static void fullscreen_handler(GtkWidget *button, gpointer data);
 static void play_handler(GtkWidget *widget, gpointer data)
 {
 	GmpvApplication *app = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+	GmpvMpv *mpv = gmpv_application_get_mpv(app);
 
-	gmpv_mpv_obj_set_property_flag
+	gmpv_mpv_set_property_flag
 		(	mpv,
 			"pause",
-			!gmpv_mpv_obj_get_property_flag(mpv, "pause") );
+			!gmpv_mpv_get_property_flag(mpv, "pause") );
 }
 
 static void stop_handler(GtkWidget *widget, gpointer data)
@@ -50,7 +50,7 @@ static void stop_handler(GtkWidget *widget, gpointer data)
 	GmpvApplication *app = data;
 	const gchar *cmd[] = {"stop", NULL};
 
-	gmpv_mpv_obj_command(gmpv_application_get_mpv_obj(app), cmd);
+	gmpv_mpv_command(gmpv_application_get_mpv(app), cmd);
 }
 
 static void seek_handler(GtkWidget *widget, gdouble value, gpointer data)
@@ -63,7 +63,7 @@ static void forward_handler(GtkWidget *widget, gpointer data)
 	GmpvApplication *app = data;
 	const gchar *cmd[] = {"seek", "10", NULL};
 
-	gmpv_mpv_obj_command(gmpv_application_get_mpv_obj(app), cmd);
+	gmpv_mpv_command(gmpv_application_get_mpv(app), cmd);
 }
 
 static void rewind_handler(GtkWidget *widget, gpointer data)
@@ -71,7 +71,7 @@ static void rewind_handler(GtkWidget *widget, gpointer data)
 	GmpvApplication *app = data;
 	const gchar *cmd[] = {"seek", "-10", NULL};
 
-	gmpv_mpv_obj_command(gmpv_application_get_mpv_obj(app), cmd);
+	gmpv_mpv_command(gmpv_application_get_mpv(app), cmd);
 }
 
 static void chapter_previous_handler(GtkWidget *widget, gpointer data)
@@ -79,7 +79,7 @@ static void chapter_previous_handler(GtkWidget *widget, gpointer data)
 	GmpvApplication *app = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
-	gmpv_mpv_obj_command(gmpv_application_get_mpv_obj(app), cmd);
+	gmpv_mpv_command(gmpv_application_get_mpv(app), cmd);
 }
 
 static void chapter_next_handler(GtkWidget *widget, gpointer data)
@@ -87,16 +87,16 @@ static void chapter_next_handler(GtkWidget *widget, gpointer data)
 	GmpvApplication *app = data;
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
-	gmpv_mpv_obj_command(gmpv_application_get_mpv_obj(app), cmd);
+	gmpv_mpv_command(gmpv_application_get_mpv(app), cmd);
 }
 
 static void volume_handler(GtkWidget *widget, gdouble value, gpointer data)
 {
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(GMPV_APPLICATION(data));
+	GmpvMpv *mpv = gmpv_application_get_mpv(GMPV_APPLICATION(data));
 
 	value *= 100;
 
-	gmpv_mpv_obj_set_property(mpv, "volume", MPV_FORMAT_DOUBLE, &value);
+	gmpv_mpv_set_property(mpv, "volume", MPV_FORMAT_DOUBLE, &value);
 }
 
 static void fullscreen_handler(GtkWidget *widget, gpointer data)

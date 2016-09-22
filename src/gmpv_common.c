@@ -23,7 +23,7 @@
 
 #include "gmpv_common.h"
 #include "gmpv_def.h"
-#include "gmpv_mpv_obj.h"
+#include "gmpv_mpv.h"
 #include "gmpv_main_window.h"
 #include "gmpv_video_area.h"
 #include "gmpv_control_box.h"
@@ -147,14 +147,14 @@ void migrate_config(GmpvApplication *app)
 gboolean update_seek_bar(gpointer data)
 {
 	GmpvApplication *app = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
-	mpv_handle *mpv_ctx = gmpv_mpv_obj_get_mpv_handle(mpv);
+	GmpvMpv *mpv = gmpv_application_get_mpv(app);
+	mpv_handle *mpv_ctx = gmpv_mpv_get_mpv_handle(mpv);
 	gdouble time_pos = -1;
 	gint rc = -1;
 
-	if(gmpv_mpv_obj_get_state(mpv)->loaded)
+	if(gmpv_mpv_get_state(mpv)->loaded)
 	{
-		rc = gmpv_mpv_obj_get_property(	mpv,
+		rc = gmpv_mpv_get_property(	mpv,
 						"time-pos",
 						MPV_FORMAT_DOUBLE,
 						&time_pos );
@@ -177,11 +177,11 @@ gboolean update_seek_bar(gpointer data)
 void seek(GmpvApplication *app, gdouble time)
 {
 	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+	GmpvMpv *mpv = gmpv_application_get_mpv(app);
 
-	if(!gmpv_mpv_obj_get_state(mpv)->loaded)
+	if(!gmpv_mpv_get_state(mpv)->loaded)
 	{
-		gmpv_mpv_obj_load(mpv, NULL, FALSE, TRUE);
+		gmpv_mpv_load(mpv, NULL, FALSE, TRUE);
 	}
 	else
 	{
@@ -189,7 +189,7 @@ void seek(GmpvApplication *app, gdouble time)
 
 		cmd[1] = value_str;
 
-		gmpv_mpv_obj_command(mpv, cmd);
+		gmpv_mpv_command(mpv, cmd);
 		update_seek_bar(app);
 
 		g_free(value_str);
@@ -256,21 +256,21 @@ void show_error_dialog(GmpvApplication *app, const gchar *prefix, const gchar *m
 
 void resize_window_to_fit(GmpvApplication *app, gdouble multiplier)
 {
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
-	gchar *video = gmpv_mpv_obj_get_property_string(mpv, "video");
+	GmpvMpv *mpv = gmpv_application_get_mpv(app);
+	gchar *video = gmpv_mpv_get_property_string(mpv, "video");
 	gint64 width;
 	gint64 height;
 	gint mpv_width_rc;
 	gint mpv_height_rc;
 
-	mpv_width_rc = gmpv_mpv_obj_get_property(	mpv,
-							"dwidth",
-							MPV_FORMAT_INT64,
-							&width );
-	mpv_height_rc = gmpv_mpv_obj_get_property(	mpv,
-							"dheight",
-							MPV_FORMAT_INT64,
-							&height );
+	mpv_width_rc = gmpv_mpv_get_property(	mpv,
+						"dwidth",
+						MPV_FORMAT_INT64,
+						&width );
+	mpv_height_rc = gmpv_mpv_get_property(	mpv,
+						"dheight",
+						MPV_FORMAT_INT64,
+						&height );
 
 	if(video
 	&& strncmp(video, "no", 3) != 0
@@ -290,5 +290,5 @@ void resize_window_to_fit(GmpvApplication *app, gdouble multiplier)
 		gmpv_main_window_resize_video_area(wnd, new_width, new_height);
 	}
 
-	gmpv_mpv_obj_free(video);
+	gmpv_mpv_free(video);
 }

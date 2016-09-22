@@ -18,6 +18,7 @@
  */
 
 #include "gmpv_media_keys.h"
+#include "gmpv_mpv.h"
 #include "gmpv_def.h"
 
 static gboolean delete_handler(	GtkWidget *widget,
@@ -93,49 +94,49 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 
 	if(g_strcmp0(gmpv_application, APP_ID) == 0)
 	{
-		GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+		GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 
 		if(g_strcmp0(key, "Next") == 0)
 		{
 			const gchar *cmd[] = {"playlist_next", "weak", NULL};
 
-			gmpv_mpv_obj_command(mpv, cmd);
+			gmpv_mpv_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Previous") == 0)
 		{
 			const gchar *cmd[] = {"playlist_prev", "weak", NULL};
 
-			gmpv_mpv_obj_command(mpv, cmd);
+			gmpv_mpv_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Pause") == 0)
 		{
-			gmpv_mpv_obj_set_property_flag(mpv, "pause", TRUE);
+			gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
 		}
 		else if(g_strcmp0(key, "Stop") == 0)
 		{
 			const gchar *cmd[] = {"stop", NULL};
 
-			gmpv_mpv_obj_command(mpv, cmd);
+			gmpv_mpv_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
 			gboolean paused;
 
-			paused = gmpv_mpv_obj_get_property_flag(mpv, "pause");
+			paused = gmpv_mpv_get_property_flag(mpv, "pause");
 
-			gmpv_mpv_obj_set_property_flag(mpv, "pause", !paused);
+			gmpv_mpv_set_property_flag(mpv, "pause", !paused);
 		}
 		else if(g_strcmp0(key, "FastForward") == 0)
 		{
 			const gchar *cmd[] = {"seek", "10", NULL};
 
-			gmpv_mpv_obj_command(mpv, cmd);
+			gmpv_mpv_command(mpv, cmd);
 		}
 		else if(g_strcmp0(key, "Rewind") == 0)
 		{
 			const gchar *cmd[] = {"seek", "-10", NULL};
 
-			gmpv_mpv_obj_command(mpv, cmd);
+			gmpv_mpv_command(mpv, cmd);
 		}
 	}
 }

@@ -101,10 +101,10 @@ static gboolean key_press_handler(	GtkWidget *widget,
 
 	if(keystr)
 	{
-		GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+		GmpvMpv *mpv = gmpv_application_get_mpv(app);
 
 		g_debug("Sent '%s' key down to mpv", keystr);
-		gmpv_mpv_obj_command(mpv, cmd);
+		gmpv_mpv_command(mpv, cmd);
 
 		g_free(keystr);
 	}
@@ -126,10 +126,10 @@ static gboolean key_release_handler(	GtkWidget *widget,
 
 	if(keystr)
 	{
-		GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+		GmpvMpv *mpv = gmpv_application_get_mpv(app);
 
 		g_debug("Sent '%s' key up to mpv", keystr);
-		gmpv_mpv_obj_command(mpv, cmd);
+		gmpv_mpv_command(mpv, cmd);
 
 		g_free(keystr);
 	}
@@ -148,7 +148,7 @@ static gboolean mouse_button_handler(	GtkWidget *widget,
 	|| btn_event->type == GDK_SCROLL)
 	{
 		GmpvApplication *app = data;
-		GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+		GmpvMpv *mpv = gmpv_application_get_mpv(app);
 		gchar *btn_str =	g_strdup_printf
 					("MOUSE_BTN%u", btn_event->button-1);
 		const gchar *type_str =	(btn_event->type == GDK_SCROLL)?
@@ -160,7 +160,7 @@ static gboolean mouse_button_handler(	GtkWidget *widget,
 		g_debug(	"Sent %s event for button %s to mpv",
 				type_str, btn_str );
 
-		gmpv_mpv_obj_command(mpv, key_cmd);
+		gmpv_mpv_command(mpv, key_cmd);
 
 		g_free(btn_str);
 	}
@@ -173,13 +173,13 @@ static gboolean mouse_move_handler(	GtkWidget *widget,
 					gpointer data )
 {
 	GmpvApplication *app = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(app);
+	GmpvMpv *mpv = gmpv_application_get_mpv(app);
 	GdkEventMotion *motion_event = (GdkEventMotion *)event;
 	gchar *x_str = g_strdup_printf("%d", (gint)motion_event->x);
 	gchar *y_str = g_strdup_printf("%d", (gint)motion_event->y);
 	const gchar *cmd[] = {"mouse", x_str, y_str, NULL};
 
-	gmpv_mpv_obj_command(mpv, cmd);
+	gmpv_mpv_command(mpv, cmd);
 
 	g_free(x_str);
 	g_free(y_str);

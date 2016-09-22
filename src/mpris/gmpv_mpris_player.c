@@ -21,7 +21,7 @@
 
 #include "gmpv_mpris_player.h"
 #include "gmpv_mpris_gdbus.h"
-#include "gmpv_mpv_obj.h"
+#include "gmpv_mpv.h"
 #include "gmpv_def.h"
 
 static void prop_table_init(gmpv_mpris *inst);
@@ -186,41 +186,41 @@ static void method_handler(	GDBusConnection *connection,
 				gpointer data )
 {
 	gmpv_mpris *inst = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 
 	if(g_strcmp0(method_name, "Next") == 0)
 	{
 		const gchar *cmd[] = {"playlist_next", "weak", NULL};
 
-		gmpv_mpv_obj_command(mpv, cmd);
+		gmpv_mpv_command(mpv, cmd);
 	}
 	else if(g_strcmp0(method_name, "Previous") == 0)
 	{
 		const gchar *cmd[] = {"playlist_prev", "weak", NULL};
 
-		gmpv_mpv_obj_command(mpv, cmd);
+		gmpv_mpv_command(mpv, cmd);
 	}
 	else if(g_strcmp0(method_name, "Pause") == 0)
 	{
-		gmpv_mpv_obj_set_property_flag(mpv, "pause", TRUE);
+		gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
 	}
 	else if(g_strcmp0(method_name, "PlayPause") == 0)
 	{
 		gboolean paused;
 
-		paused = gmpv_mpv_obj_get_property_flag(mpv, "pause");
+		paused = gmpv_mpv_get_property_flag(mpv, "pause");
 
-		gmpv_mpv_obj_set_property_flag(mpv, "pause", !paused);
+		gmpv_mpv_set_property_flag(mpv, "pause", !paused);
 	}
 	else if(g_strcmp0(method_name, "Stop") == 0)
 	{
 		const gchar *cmd[] = {"stop", NULL};
 
-		gmpv_mpv_obj_command(mpv, cmd);
+		gmpv_mpv_command(mpv, cmd);
 	}
 	else if(g_strcmp0(method_name, "Play") == 0)
 	{
-		gmpv_mpv_obj_set_property_flag(mpv, "pause", FALSE);
+		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 	}
 	else if(g_strcmp0(method_name, "Seek") == 0)
 	{
@@ -229,17 +229,17 @@ static void method_handler(	GDBusConnection *connection,
 
 		g_variant_get(parameters, "(x)", &offset_us);
 
-		gmpv_mpv_obj_get_property(	mpv,
-						"time-pos",
-						MPV_FORMAT_DOUBLE,
-						&position );
+		gmpv_mpv_get_property(	mpv,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
 
 		position += (gdouble)offset_us/1.0e6;
 
-		gmpv_mpv_obj_set_property(	mpv,
-						"time-pos",
-						MPV_FORMAT_DOUBLE,
-						&position );
+		gmpv_mpv_set_property(	mpv,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
 
 		g_dbus_connection_emit_signal
 			(	inst->session_bus_conn,
@@ -266,17 +266,17 @@ static void method_handler(	GDBusConnection *connection,
 			inst->pending_seek = (gdouble)time_us/1.0e6;
 			index = g_ascii_strtoll(track_id+prefix_len, NULL, 0);
 
-			gmpv_mpv_obj_get_property(	mpv,
-							"playlist-pos",
-							MPV_FORMAT_INT64,
-							&old_index );
+			gmpv_mpv_get_property(	mpv,
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&old_index );
 
 			if(index != old_index)
 			{
-				gmpv_mpv_obj_set_property(	mpv,
-								"playlist-pos",
-								MPV_FORMAT_INT64,
-								&index );
+				gmpv_mpv_set_property(	mpv,
+							"playlist-pos",
+							MPV_FORMAT_INT64,
+							&index );
 			}
 			else
 			{
@@ -293,7 +293,7 @@ static void method_handler(	GDBusConnection *connection,
 		const gchar *uri;
 
 		g_variant_get(parameters, "(&s)", &uri);
-		gmpv_mpv_obj_load(mpv, uri, FALSE, TRUE);
+		gmpv_mpv_load(mpv, uri, FALSE, TRUE);
 	}
 
 	g_dbus_method_invocation_return_value
@@ -313,13 +313,13 @@ static GVariant *get_prop_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(property_name, "Position") == 0)
 	{
-		GmpvMpvObj *mpv;
+		GmpvMpv *mpv;
 		mpv_handle *mpv_ctx;
 		gdouble position;
 		gint rc;
 
-		mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
-		mpv_ctx = gmpv_mpv_obj_get_mpv_handle(mpv);
+		mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
+		mpv_ctx = gmpv_mpv_get_mpv_handle(mpv);
 		rc = mpv_get_property(	mpv_ctx,
 					"time-pos",
 					MPV_FORMAT_DOUBLE,
@@ -345,25 +345,25 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					gpointer data )
 {
 	gmpv_mpris *inst = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 
 	if(g_strcmp0(property_name, "Rate") == 0)
 	{
 		gdouble rate = g_variant_get_double(value);
 
-		gmpv_mpv_obj_set_property(	mpv,
-						"speed",
-						MPV_FORMAT_DOUBLE,
-						&rate );
+		gmpv_mpv_set_property(	mpv,
+					"speed",
+					MPV_FORMAT_DOUBLE,
+					&rate );
 	}
 	else if(g_strcmp0(property_name, "Volume") == 0)
 	{
 		gdouble volume = 100*g_variant_get_double(value);
 
-		gmpv_mpv_obj_set_property(	mpv,
-						"volume",
-						MPV_FORMAT_DOUBLE,
-						&volume );
+		gmpv_mpv_set_property(	mpv,
+					"volume",
+					MPV_FORMAT_DOUBLE,
+					&volume );
 	}
 
 	g_hash_table_replace(	inst->player_prop_table,
@@ -375,7 +375,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 
 static void playback_status_update_handler(gmpv_mpris *inst)
 {
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 	const gchar *state;
 	gmpv_mpris_prop *prop_list;
 	GVariant *state_value;
@@ -384,8 +384,8 @@ static void playback_status_update_handler(gmpv_mpris *inst)
 	gint core_idle;
 	gboolean can_seek;
 
-	gmpv_mpv_obj_get_property(mpv, "idle", MPV_FORMAT_FLAG, &idle);
-	gmpv_mpv_obj_get_property(mpv, "core-idle", MPV_FORMAT_FLAG, &core_idle);
+	gmpv_mpv_get_property(mpv, "idle", MPV_FORMAT_FLAG, &idle);
+	gmpv_mpv_get_property(mpv, "core-idle", MPV_FORMAT_FLAG, &core_idle);
 
 	if(!core_idle && !idle)
 	{
@@ -429,7 +429,7 @@ static void playback_status_update_handler(gmpv_mpris *inst)
 
 static void playlist_update_handler(gmpv_mpris *inst)
 {
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 	gmpv_mpris_prop *prop_list;
 	GVariant *can_prev_value;
 	GVariant *can_next_value;
@@ -439,14 +439,14 @@ static void playlist_update_handler(gmpv_mpris *inst)
 	gint64 playlist_pos;
 	gint rc = 0;
 
-	rc |= gmpv_mpv_obj_get_property(	mpv,
-						"playlist-count",
-						MPV_FORMAT_INT64,
-						&playlist_count );
-	rc |= gmpv_mpv_obj_get_property(	mpv,
-						"playlist-pos",
-						MPV_FORMAT_INT64,
-						&playlist_pos );
+	rc |= gmpv_mpv_get_property(	mpv,
+					"playlist-count",
+					MPV_FORMAT_INT64,
+					&playlist_count );
+	rc |= gmpv_mpv_get_property(	mpv,
+					"playlist-pos",
+					MPV_FORMAT_INT64,
+					&playlist_pos );
 
 	can_prev = (rc >= 0 && playlist_pos > 0);
 	can_next = (rc >= 0 && playlist_pos < playlist_count-1);
@@ -475,8 +475,8 @@ static void speed_update_handler(gmpv_mpris *inst)
 	GVariant *value;
 	gmpv_mpris_prop *prop_list;
 
-	gmpv_mpv_obj_get_property
-		(	gmpv_application_get_mpv_obj(inst->gmpv_ctx),
+	gmpv_mpv_get_property
+		(	gmpv_application_get_mpv(inst->gmpv_ctx),
 			"speed",
 			MPV_FORMAT_DOUBLE,
 			&speed );
@@ -495,7 +495,7 @@ static void speed_update_handler(gmpv_mpris *inst)
 
 static void metadata_update_handler(gmpv_mpris *inst)
 {
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 	gmpv_mpris_prop *prop_list;
 	mpv_node metadata;
@@ -510,7 +510,7 @@ static void metadata_update_handler(gmpv_mpris *inst)
 
 	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
 
-	uri = gmpv_mpv_obj_get_property_string(mpv, "path");
+	uri = gmpv_mpv_get_property_string(mpv, "path");
 
 	if(uri)
 	{
@@ -522,7 +522,7 @@ static void metadata_update_handler(gmpv_mpris *inst)
 		mpv_free(uri);
 	}
 
-	rc = gmpv_mpv_obj_get_property(	mpv,
+	rc = gmpv_mpv_get_property(	mpv,
 					"duration",
 					MPV_FORMAT_DOUBLE,
 					&duration );
@@ -532,7 +532,7 @@ static void metadata_update_handler(gmpv_mpris *inst)
 				g_variant_new_int64
 				((gint64)((rc >= 0)*duration*1e6)) );
 
-	rc = gmpv_mpv_obj_get_property(	mpv,
+	rc = gmpv_mpv_get_property(	mpv,
 					"playlist-pos",
 					MPV_FORMAT_INT64,
 					&playlist_pos );
@@ -547,7 +547,7 @@ static void metadata_update_handler(gmpv_mpris *inst)
 				"mpris:trackid",
 				g_variant_new_object_path(trackid) );
 
-	rc = gmpv_mpv_obj_get_property(	mpv,
+	rc = gmpv_mpv_get_property(	mpv,
 					"metadata",
 					MPV_FORMAT_NODE,
 					&metadata );
@@ -580,8 +580,8 @@ static void volume_update_handler(gmpv_mpris *inst)
 	gdouble volume;
 	GVariant *value;
 
-	gmpv_mpv_obj_get_property
-		(	gmpv_application_get_mpv_obj(inst->gmpv_ctx),
+	gmpv_mpv_get_property
+		(	gmpv_application_get_mpv(inst->gmpv_ctx),
 			"volume",
 			MPV_FORMAT_DOUBLE,
 			&volume );
@@ -601,8 +601,8 @@ static void volume_update_handler(gmpv_mpris *inst)
 static void mpv_init_handler(GmpvMainWindow *wnd, gpointer data)
 {
 	gmpv_mpris *inst = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
-	mpv_handle *mpv_ctx = gmpv_mpv_obj_get_mpv_handle(mpv);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
+	mpv_handle *mpv_ctx = gmpv_mpv_get_mpv_handle(mpv);
 
 	mpv_observe_property(mpv_ctx, 0, "idle", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
@@ -616,7 +616,7 @@ static void mpv_init_handler(GmpvMainWindow *wnd, gpointer data)
 static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data)
 {
 	gmpv_mpris *inst = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 	GDBusInterfaceInfo *iface;
 	gdouble position;
 
@@ -625,17 +625,17 @@ static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data)
 		position = inst->pending_seek;
 		inst->pending_seek = -1;
 
-		gmpv_mpv_obj_set_property(	mpv,
-						"time-pos",
-						MPV_FORMAT_DOUBLE,
-						&position );
+		gmpv_mpv_set_property(	mpv,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
 	}
 	else
 	{
-		gmpv_mpv_obj_get_property(	mpv,
-						"time-pos",
-						MPV_FORMAT_DOUBLE,
-						&position );
+		gmpv_mpv_get_property(	mpv,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&position );
 	}
 
 	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
@@ -655,14 +655,14 @@ static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 					gpointer data )
 {
 	gmpv_mpris *inst = data;
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 
 	if(g_strcmp0(name, "core-idle") == 0
 	|| g_strcmp0(name, "idle") == 0)
 	{
 		playback_status_update_handler(inst);
 	}
-	else if(gmpv_mpv_obj_get_state(mpv)->loaded)
+	else if(gmpv_mpv_get_state(mpv)->loaded)
 	{
 		if(g_strcmp0(name, "playlist-pos") == 0
 		|| g_strcmp0(name, "playlist-count") == 0)
@@ -686,7 +686,7 @@ static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 
 void gmpv_mpris_player_register(gmpv_mpris *inst)
 {
-	GmpvMpvObj *mpv = gmpv_application_get_mpv_obj(inst->gmpv_ctx);
+	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 	GDBusInterfaceInfo *iface;
 	GDBusInterfaceVTable vtable;
 

@@ -38,8 +38,8 @@
 #include <epoxy/wgl.h>
 #endif
 
-#include "gmpv_mpv_obj.h"
-#include "gmpv_mpv_obj_private.h"
+#include "gmpv_mpv.h"
+#include "gmpv_mpv_private.h"
 #include "gmpv_mpv_opt.h"
 #include "gmpv_application.h"
 #include "gmpv_common.h"
@@ -51,23 +51,23 @@
 
 static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name);
 static void *get_proc_address(void *fn_ctx, const gchar *name);
-static void gmpv_mpv_obj_set_inst_property(	GObject *object,
-						guint property_id,
-						const GValue *value,
-						GParamSpec *pspec );
-static void gmpv_mpv_obj_get_inst_property(	GObject *object,
-						guint property_id,
-						GValue *value,
-						GParamSpec *pspec );
+static void set_inst_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec );
+static void get_inst_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec );
 static void wakeup_callback(void *data);
-static void mpv_prop_change_handler(GmpvMpvObj *mpv, mpv_event_property* prop);
+static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
 static gboolean mpv_event_handler(gpointer data);
-static void mpv_obj_update_playlist(GmpvMpvObj *mpv);
-static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args);
-static void mpv_obj_log_handler(GmpvMpvObj *mpv, mpv_event_log_message* message);
-static void load_input_conf(GmpvMpvObj *mpv, const gchar *input_conf);
+static void update_playlist(GmpvMpv *mpv);
+static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
+static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
+static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
 
-G_DEFINE_TYPE(GmpvMpvObj, gmpv_mpv_obj, G_TYPE_OBJECT)
+G_DEFINE_TYPE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
 static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name)
 {
@@ -108,12 +108,12 @@ static void *get_proc_address(void *fn_ctx, const gchar *name)
 	g_assert_not_reached();
 }
 
-static void gmpv_mpv_obj_set_inst_property(	GObject *object,
-						guint property_id,
-						const GValue *value,
-						GParamSpec *pspec )
+static void set_inst_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec )
 {
-	GmpvMpvObj *self = GMPV_MPV_OBJ(object);
+	GmpvMpv *self = GMPV_MPV_OBJ(object);
 
 	if(property_id == PROP_WID)
 	{
@@ -129,12 +129,12 @@ static void gmpv_mpv_obj_set_inst_property(	GObject *object,
 	}
 }
 
-static void gmpv_mpv_obj_get_inst_property(	GObject *object,
-						guint property_id,
-						GValue *value,
-						GParamSpec *pspec )
+static void get_inst_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec )
 {
-	GmpvMpvObj *self = GMPV_MPV_OBJ(object);
+	GmpvMpv *self = GMPV_MPV_OBJ(object);
 
 	if(property_id == PROP_WID)
 	{
@@ -155,7 +155,7 @@ static void wakeup_callback(void *data)
 	g_idle_add((GSourceFunc)mpv_event_handler, data);
 }
 
-static void mpv_prop_change_handler(GmpvMpvObj *mpv, mpv_event_property* prop)
+static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 {
 	g_debug("Received mpv property change event for \"%s\"", prop->name);
 
@@ -169,14 +169,14 @@ static void mpv_prop_change_handler(GmpvMpvObj *mpv, mpv_event_property* prop)
 
 		if(idle && !mpv->state.paused)
 		{
-			gmpv_mpv_obj_load(mpv, NULL, FALSE, TRUE);
+			gmpv_mpv_load(mpv, NULL, FALSE, TRUE);
 		}
 	}
 }
 
 static gboolean mpv_event_handler(gpointer data)
 {
-	GmpvMpvObj *mpv = data;
+	GmpvMpv *mpv = data;
 	gboolean done = !mpv;
 
 	while(!done)
@@ -205,7 +205,7 @@ static gboolean mpv_event_handler(gpointer data)
 			{
 				mpv->state.loaded = FALSE;
 
-				gmpv_mpv_obj_set_property_flag
+				gmpv_mpv_set_property_flag
 					(mpv, "pause", TRUE);
 				gmpv_playlist_reset(mpv->playlist);
 			}
@@ -217,7 +217,7 @@ static gboolean mpv_event_handler(gpointer data)
 			mpv->state.loaded = TRUE;
 			mpv->state.init_load = FALSE;
 
-			mpv_obj_update_playlist(mpv);
+			update_playlist(mpv);
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
@@ -241,7 +241,7 @@ static gboolean mpv_event_handler(gpointer data)
 						"abnormally. Reason: %s."),
 						err );
 
-				gmpv_mpv_obj_set_property_flag
+				gmpv_mpv_set_property_flag
 					(mpv, "pause", TRUE);
 				g_signal_emit_by_name(mpv, "mpv-error", msg);
 
@@ -261,7 +261,7 @@ static gboolean mpv_event_handler(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
 		{
-			mpv_obj_log_handler(mpv, event->data);
+			log_handler(mpv, event->data);
 		}
 		else if(event->event_id == MPV_EVENT_SHUTDOWN
 		|| event->event_id == MPV_EVENT_NONE)
@@ -292,7 +292,7 @@ static gboolean mpv_event_handler(gpointer data)
 	return FALSE;
 }
 
-static void mpv_obj_update_playlist(GmpvMpvObj *mpv)
+static void update_playlist(GmpvMpv *mpv)
 {
 	/* The length of "playlist//filename" including null-terminator (19)
 	 * plus the number of digits in the maximum value of 64 bit int (19).
@@ -404,7 +404,7 @@ static void mpv_obj_update_playlist(GmpvMpvObj *mpv)
 	mpv_free_node_contents(&mpv_playlist);
 }
 
-static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
+static gint apply_args(mpv_handle *mpv_ctx, gchar *args)
 {
 	gchar *opt_begin = args?strstr(args, "--"):NULL;
 	gint fail_count = 0;
@@ -472,7 +472,7 @@ static gint mpv_obj_apply_args(mpv_handle *mpv_ctx, gchar *args)
 	return fail_count*(-1);
 }
 
-static void mpv_obj_log_handler(GmpvMpvObj *mpv, mpv_event_log_message* message)
+static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
 {
 	GSList *iter = mpv->log_level_list;
 	module_log_level *level = NULL;
@@ -534,7 +534,7 @@ static void mpv_obj_log_handler(GmpvMpvObj *mpv, mpv_event_log_message* message)
 	}
 }
 
-static void load_input_conf(GmpvMpvObj *mpv, const gchar *input_conf)
+static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
 {
 	const gchar *default_keybinds[] = DEFAULT_KEYBINDS;
 	gchar *tmp_path;
@@ -602,13 +602,13 @@ static void load_input_conf(GmpvMpvObj *mpv, const gchar *input_conf)
 	fclose(tmp_file);
 }
 
-static void gmpv_mpv_obj_class_init(GmpvMpvObjClass* klass)
+static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
-	obj_class->set_property = gmpv_mpv_obj_set_inst_property;
-	obj_class->get_property = gmpv_mpv_obj_get_inst_property;
+	obj_class->set_property = set_inst_property;
+	obj_class->get_property = get_inst_property;
 
 	pspec = g_param_spec_int64
 		(	"wid",
@@ -677,7 +677,7 @@ static void gmpv_mpv_obj_class_init(GmpvMpvObjClass* klass)
 			G_TYPE_STRING );
 }
 
-static void gmpv_mpv_obj_init(GmpvMpvObj *mpv)
+static void gmpv_mpv_init(GmpvMpv *mpv)
 {
 	mpv->mpv_ctx = mpv_create();
 	mpv->opengl_ctx = NULL;
@@ -702,15 +702,15 @@ static void gmpv_mpv_obj_init(GmpvMpvObj *mpv)
 	mpv->opengl_cb_callback = NULL;
 }
 
-GmpvMpvObj *gmpv_mpv_obj_new(GmpvPlaylist *playlist, gint64 wid)
+GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid)
 {
-	return GMPV_MPV_OBJ(g_object_new(	gmpv_mpv_obj_get_type(),
+	return GMPV_MPV_OBJ(g_object_new(	gmpv_mpv_get_type(),
 						"playlist", playlist,
 						"wid", wid,
 						NULL ));
 }
 
-gint gmpv_mpv_obj_command(GmpvMpvObj *mpv, const gchar **cmd)
+gint gmpv_mpv_command(GmpvMpv *mpv, const gchar **cmd)
 {
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
@@ -733,7 +733,7 @@ gint gmpv_mpv_obj_command(GmpvMpvObj *mpv, const gchar **cmd)
 	return rc;
 }
 
-gint gmpv_mpv_obj_command_string(GmpvMpvObj *mpv, const gchar *cmd)
+gint gmpv_mpv_command_string(GmpvMpv *mpv, const gchar *cmd)
 {
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
@@ -753,7 +753,7 @@ gint gmpv_mpv_obj_command_string(GmpvMpvObj *mpv, const gchar *cmd)
 	return rc;
 }
 
-gint gmpv_mpv_obj_get_property(	GmpvMpvObj *mpv,
+gint gmpv_mpv_get_property(	GmpvMpv *mpv,
 				const gchar *name,
 				mpv_format format,
 				void *data )
@@ -777,7 +777,7 @@ gint gmpv_mpv_obj_get_property(	GmpvMpvObj *mpv,
 	return rc;
 }
 
-gchar *gmpv_mpv_obj_get_property_string(GmpvMpvObj *mpv, const gchar *name)
+gchar *gmpv_mpv_get_property_string(GmpvMpv *mpv, const gchar *name)
 {
 	gchar *value = NULL;
 
@@ -794,7 +794,7 @@ gchar *gmpv_mpv_obj_get_property_string(GmpvMpvObj *mpv, const gchar *name)
 	return value;
 }
 
-gboolean gmpv_mpv_obj_get_property_flag(GmpvMpvObj *mpv, const gchar *name)
+gboolean gmpv_mpv_get_property_flag(GmpvMpv *mpv, const gchar *name)
 {
 	gboolean value = FALSE;
 	gint rc = MPV_ERROR_UNINITIALIZED;
@@ -816,7 +816,7 @@ gboolean gmpv_mpv_obj_get_property_flag(GmpvMpvObj *mpv, const gchar *name)
 	return value;
 }
 
-gint gmpv_mpv_obj_set_property(	GmpvMpvObj *mpv,
+gint gmpv_mpv_set_property(	GmpvMpv *mpv,
 				const gchar *name,
 				mpv_format format,
 				void *data )
@@ -840,7 +840,7 @@ gint gmpv_mpv_obj_set_property(	GmpvMpvObj *mpv,
 	return rc;
 }
 
-gint gmpv_mpv_obj_set_property_string(	GmpvMpvObj *mpv,
+gint gmpv_mpv_set_property_string(	GmpvMpv *mpv,
 					const gchar *name,
 					const char *data )
 {
@@ -861,7 +861,7 @@ gint gmpv_mpv_obj_set_property_string(	GmpvMpvObj *mpv,
 	return rc;
 }
 
-gint gmpv_mpv_obj_set_property_flag(	GmpvMpvObj *mpv,
+gint gmpv_mpv_set_property_flag(	GmpvMpv *mpv,
 					const gchar *name,
 					gboolean value )
 {
@@ -883,7 +883,7 @@ gint gmpv_mpv_obj_set_property_flag(	GmpvMpvObj *mpv,
 	return rc;
 }
 
-void gmpv_mpv_obj_set_event_callback(	GmpvMpvObj *mpv,
+void gmpv_mpv_set_event_callback(	GmpvMpv *mpv,
 					void (*func)(mpv_event *, void *),
 					void *data )
 {
@@ -891,9 +891,9 @@ void gmpv_mpv_obj_set_event_callback(	GmpvMpvObj *mpv,
 	mpv->event_callback_data = data;
 }
 
-void gmpv_mpv_obj_set_opengl_cb_callback(	GmpvMpvObj *mpv,
-						mpv_opengl_cb_update_fn func,
-						void *data )
+void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,
+					mpv_opengl_cb_update_fn func,
+					void *data )
 {
 	mpv->opengl_cb_callback = func;
 	mpv->opengl_cb_callback_data = data;
@@ -921,37 +921,37 @@ void mpv_check_error(int status)
 	}
 }
 
-inline const GmpvMpvObjState *gmpv_mpv_obj_get_state(GmpvMpvObj *mpv)
+inline const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv)
 {
 	return &mpv->state;
 }
 
-inline GmpvGeometry *gmpv_mpv_obj_get_geometry(GmpvMpvObj *mpv)
+inline GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv)
 {
 	return mpv->geometry;
 }
 
-inline gdouble gmpv_mpv_obj_get_autofit_ratio(GmpvMpvObj *mpv)
+inline gdouble gmpv_mpv_get_autofit_ratio(GmpvMpv *mpv)
 {
 	return mpv->autofit_ratio;
 }
 
-inline GmpvPlaylist *gmpv_mpv_obj_get_playlist(GmpvMpvObj *mpv)
+inline GmpvPlaylist *gmpv_mpv_get_playlist(GmpvMpv *mpv)
 {
 	return mpv->playlist;
 }
 
-inline mpv_handle *gmpv_mpv_obj_get_mpv_handle(GmpvMpvObj *mpv)
+inline mpv_handle *gmpv_mpv_get_mpv_handle(GmpvMpv *mpv)
 {
 	return mpv->mpv_ctx;
 }
 
-inline mpv_opengl_cb_context *gmpv_mpv_obj_get_opengl_cb_context(GmpvMpvObj *mpv)
+inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 {
 	return mpv->opengl_ctx;
 }
 
-void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
+void gmpv_mpv_initialize(GmpvMpv *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);
 	gchar *config_dir = get_config_dir_path();
@@ -1029,7 +1029,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	g_debug("Applying extra mpv options: %s", mpvopt);
 
 	/* Apply extra options */
-	if(mpv_obj_apply_args(mpv->mpv_ctx, mpvopt) < 0)
+	if(apply_args(mpv->mpv_ctx, mpvopt) < 0)
 	{
 		const gchar *msg
 			= _("Failed to apply one or more MPV options.");
@@ -1065,8 +1065,8 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
 
 
-	mpv_version = gmpv_mpv_obj_get_property_string(mpv, "mpv-version");
-	current_vo = gmpv_mpv_obj_get_property_string(mpv, "current-vo");
+	mpv_version = gmpv_mpv_get_property_string(mpv, "mpv-version");
+	current_vo = gmpv_mpv_get_property_string(mpv, "current-vo");
 
 	g_info("Using %s", mpv_version);
 
@@ -1079,7 +1079,7 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 		mpv->force_opengl = TRUE;
 		mpv->state.paused = FALSE;
 
-		gmpv_mpv_obj_reset(mpv);
+		gmpv_mpv_reset(mpv);
 	}
 	else
 	{
@@ -1121,12 +1121,12 @@ void gmpv_mpv_obj_initialize(GmpvMpvObj *mpv)
 	mpv_free(mpv_version);
 }
 
-void gmpv_mpv_obj_init_gl(GmpvMpvObj *mpv)
+void gmpv_mpv_init_gl(GmpvMpv *mpv)
 {
 	mpv_opengl_cb_context *opengl_ctx;
 	gint rc;
 
-	opengl_ctx = gmpv_mpv_obj_get_opengl_cb_context(mpv);
+	opengl_ctx = gmpv_mpv_get_opengl_cb_context(mpv);
 	rc = mpv_opengl_cb_init_gl(	opengl_ctx,
 					"GL_MP_MPGetNativeDisplay",
 					get_proc_address,
@@ -1142,7 +1142,7 @@ void gmpv_mpv_obj_init_gl(GmpvMpvObj *mpv)
 	}
 }
 
-void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
+void gmpv_mpv_reset(GmpvMpv *mpv)
 {
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 	gchar *loop_str;
@@ -1152,7 +1152,7 @@ void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
 
 	g_assert(mpv->mpv_ctx);
 
-	loop_str = gmpv_mpv_obj_get_property_string(mpv, "loop");
+	loop_str = gmpv_mpv_get_property_string(mpv, "loop");
 	loop = (g_strcmp0(loop_str, "inf") == 0);
 
 	mpv_free(loop_str);
@@ -1165,22 +1165,22 @@ void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
 	/* Reset mpv->mpv_ctx */
 	mpv->state.ready = FALSE;
 
-	mpv_check_error(gmpv_mpv_obj_command(mpv, quit_cmd));
-	gmpv_mpv_obj_quit(mpv);
+	mpv_check_error(gmpv_mpv_command(mpv, quit_cmd));
+	gmpv_mpv_quit(mpv);
 
 	mpv->mpv_ctx = mpv_create();
-	gmpv_mpv_obj_initialize(mpv);
+	gmpv_mpv_initialize(mpv);
 
-	gmpv_mpv_obj_set_event_callback
+	gmpv_mpv_set_event_callback
 		(	mpv,
 			mpv->event_callback,
 			mpv->event_callback_data );
-	gmpv_mpv_obj_set_opengl_cb_callback
+	gmpv_mpv_set_opengl_cb_callback
 		(	mpv,
 			mpv->opengl_cb_callback,
 			mpv->opengl_cb_callback_data );
 
-	gmpv_mpv_obj_set_property_string(mpv, "loop", loop?"inf":"no");
+	gmpv_mpv_set_property_string(mpv, "loop", loop?"inf":"no");
 
 	if(mpv->playlist)
 	{
@@ -1192,7 +1192,7 @@ void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
 				(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
 			mpv_check_error(rc);
 
-			gmpv_mpv_obj_load(mpv, NULL, FALSE, TRUE);
+			gmpv_mpv_load(mpv, NULL, FALSE, TRUE);
 
 			rc =	mpv_request_event
 				(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
@@ -1201,20 +1201,20 @@ void gmpv_mpv_obj_reset(GmpvMpvObj *mpv)
 
 		if(playlist_pos_rc >= 0 && playlist_pos > 0)
 		{
-			gmpv_mpv_obj_set_property(	mpv,
-							"playlist-pos",
-							MPV_FORMAT_INT64,
-							&playlist_pos );
+			gmpv_mpv_set_property(	mpv,
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&playlist_pos );
 		}
 
-		gmpv_mpv_obj_set_property(	mpv,
-						"pause",
-						MPV_FORMAT_FLAG,
-						&mpv->state.paused );
+		gmpv_mpv_set_property(	mpv,
+					"pause",
+					MPV_FORMAT_FLAG,
+					&mpv->state.paused );
 	}
 }
 
-void gmpv_mpv_obj_quit(GmpvMpvObj *mpv)
+void gmpv_mpv_quit(GmpvMpv *mpv)
 {
 	g_info("Terminating mpv");
 
@@ -1237,7 +1237,7 @@ void gmpv_mpv_obj_quit(GmpvMpvObj *mpv)
 	mpv->mpv_ctx = NULL;
 }
 
-void gmpv_mpv_obj_load(	GmpvMpvObj *mpv,
+void gmpv_mpv_load(	GmpvMpv *mpv,
 			const gchar *uri,
 			gboolean append,
 			gboolean update )
@@ -1272,7 +1272,7 @@ void gmpv_mpv_obj_load(	GmpvMpvObj *mpv,
 
 		if(!mpv->state.init_load)
 		{
-			gmpv_mpv_obj_set_property_flag(mpv, "pause", FALSE);
+			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
 
 		rc = gtk_tree_model_get_iter_first
@@ -1289,7 +1289,7 @@ void gmpv_mpv_obj_load(	GmpvMpvObj *mpv,
 						-1 );
 
 			/* append = FALSE only on first iteration */
-			gmpv_mpv_obj_load(mpv, uri, append, FALSE);
+			gmpv_mpv_load(mpv, uri, append, FALSE);
 
 			append = TRUE;
 
@@ -1312,7 +1312,7 @@ void gmpv_mpv_obj_load(	GmpvMpvObj *mpv,
 
 			if(!mpv->state.init_load)
 			{
-				gmpv_mpv_obj_set_property_flag
+				gmpv_mpv_set_property_flag
 					(mpv, "pause", FALSE);
 			}
 		}
@@ -1342,12 +1342,12 @@ void gmpv_mpv_obj_load(	GmpvMpvObj *mpv,
 	}
 }
 
-void gmpv_mpv_obj_free(gpointer data)
+void gmpv_mpv_free(gpointer data)
 {
 	mpv_free(data);
 }
 
-void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
+void gmpv_mpv_load_list(	GmpvMpv *mpv,
 				const gchar **uri_list,
 				gboolean append,
 				gboolean update )
@@ -1374,7 +1374,7 @@ void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
 		 * already is a file loaded. Try to load the file as a
 		 * media file otherwise.
 		 */
-		if(ext && sub_exts[j] && gmpv_mpv_obj_get_state(mpv)->loaded)
+		if(ext && sub_exts[j] && gmpv_mpv_get_state(mpv)->loaded)
 		{
 			const gchar *cmd[] = {"sub-add", NULL, NULL};
 			gchar *path;
@@ -1387,7 +1387,7 @@ void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
 
 			cmd[1] = path?:uri_list[i];
 
-			gmpv_mpv_obj_command(mpv, cmd);
+			gmpv_mpv_command(mpv, cmd);
 
 			g_free(path);
 		}
@@ -1395,10 +1395,10 @@ void gmpv_mpv_obj_load_list(	GmpvMpvObj *mpv,
 		{
 			gboolean empty = gmpv_playlist_empty(mpv->playlist);
 
-			gmpv_mpv_obj_load(	mpv,
-						uri_list[i],
-						((append && !empty) || i != 0),
-						TRUE );
+			gmpv_mpv_load(	mpv,
+					uri_list[i],
+					((append && !empty) || i != 0),
+					TRUE );
 		}
 	}
 }

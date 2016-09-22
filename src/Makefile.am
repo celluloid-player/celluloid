@@ -45,8 +45,8 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_inputctl.c gmpv_inputctl.h \
 			gmpv_main_window.c gmpv_main_window.h \
 			gmpv_menu.c gmpv_menu.h \
-			gmpv_mpv_obj.c gmpv_mpv_obj.h \
-			gmpv_mpv_obj_private.h \
+			gmpv_mpv.c gmpv_mpv.h \
+			gmpv_mpv_private.h \
 			gmpv_mpv_opt.c gmpv_mpv_opt.h \
 			gmpv_open_loc_dialog.c gmpv_open_loc_dialog.h \
 			gmpv_playbackctl.c gmpv_playbackctl.h \

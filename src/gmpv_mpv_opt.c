@@ -21,8 +21,8 @@
 #include <mpv/client.h>
 
 #include "gmpv_mpv_opt.h"
-#include "gmpv_mpv_obj.h"
-#include "gmpv_mpv_obj_private.h"
+#include "gmpv_mpv.h"
+#include "gmpv_mpv_private.h"
 #include "gmpv_def.h"
 
 static gboolean parse_geom_token(const gchar **iter, GValue *value);
@@ -34,7 +34,7 @@ static gboolean parse_pos_token(	const gchar **iter,
 static gboolean parse_pos_string(	const gchar *geom_str,
 					gboolean flip[2],
 					GValue pos[2] );
-static void parse_geom_string(	GmpvMpvObj *mpv,
+static void parse_geom_string(	GmpvMpv *mpv,
 				const gchar *geom_str,
 				GmpvGeometry **geom );
 
@@ -163,7 +163,7 @@ static gboolean parse_pos_string(	const gchar *geom_str,
 	return rc;
 }
 
-static void parse_geom_string(	GmpvMpvObj *mpv,
+static void parse_geom_string(	GmpvMpv *mpv,
 				const gchar *geom_str,
 				GmpvGeometry **geom )
 {
@@ -208,7 +208,7 @@ static void parse_geom_string(	GmpvMpvObj *mpv,
 	}
 }
 
-void gmpv_mpv_opt_handle_geometry(GmpvMpvObj *mpv)
+void gmpv_mpv_opt_handle_geometry(GmpvMpv *mpv)
 {
 	gchar *opt_buf;
 
@@ -223,7 +223,7 @@ void gmpv_mpv_opt_handle_geometry(GmpvMpvObj *mpv)
 	}
 }
 
-void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv)
+void gmpv_mpv_opt_handle_autofit(GmpvMpv *mpv)
 {
 	gchar *scale_str = NULL;
 	gchar *autofit_str = NULL;
@@ -381,22 +381,22 @@ void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv)
 	mpv_free(smaller_str);
 }
 
-void gmpv_mpv_opt_handle_fs(GmpvMpvObj *mpv)
+void gmpv_mpv_opt_handle_fs(GmpvMpv *mpv)
 {
 	gchar *optbuf;
 
-	optbuf = gmpv_mpv_obj_get_property_string(mpv, "options/fs");
+	optbuf = gmpv_mpv_get_property_string(mpv, "options/fs");
 
 	if(g_strcmp0(optbuf, "yes") == 0)
 	{
-		gmpv_mpv_obj_command_string
+		gmpv_mpv_command_string
 			(mpv, "script-message gmpv-action toggle-fullscreen");
 	}
 
 	mpv_free(optbuf);
 }
 
-void gmpv_mpv_opt_handle_msg_level(GmpvMpvObj *mpv)
+void gmpv_mpv_opt_handle_msg_level(GmpvMpv *mpv)
 {
 	const struct
 	{

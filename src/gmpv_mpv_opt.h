@@ -22,7 +22,7 @@
 
 #include <mpv/client.h>
 
-#include "gmpv_mpv_obj.h"
+#include "gmpv_mpv.h"
 
 G_BEGIN_DECLS
 
@@ -34,10 +34,10 @@ struct module_log_level
 	mpv_log_level level;
 };
 
-void gmpv_mpv_opt_handle_geometry(GmpvMpvObj *mpv);
-void gmpv_mpv_opt_handle_autofit(GmpvMpvObj *mpv);
-void gmpv_mpv_opt_handle_fs(GmpvMpvObj *mpv);
-void gmpv_mpv_opt_handle_msg_level(GmpvMpvObj *mpv);
+void gmpv_mpv_opt_handle_geometry(GmpvMpv *mpv);
+void gmpv_mpv_opt_handle_autofit(GmpvMpv *mpv);
+void gmpv_mpv_opt_handle_fs(GmpvMpv *mpv);
+void gmpv_mpv_opt_handle_msg_level(GmpvMpv *mpv);
 
 G_END_DECLS
 

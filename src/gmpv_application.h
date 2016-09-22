@@ -24,7 +24,7 @@
 
 #include "gmpv_main_window.h"
 #include "gmpv_playlist.h"
-#include "gmpv_mpv_obj.h"
+#include "gmpv_mpv.h"
 
 G_BEGIN_DECLS
 
@@ -34,7 +34,7 @@ G_DECLARE_FINAL_TYPE(GmpvApplication, gmpv_application, GMPV, APPLICATION, GtkAp
 
 GmpvApplication *gmpv_application_new(gchar *id, GApplicationFlags flags);
 GmpvMainWindow *gmpv_application_get_main_window(GmpvApplication *app);
-GmpvMpvObj *gmpv_application_get_mpv_obj(GmpvApplication *app);
+GmpvMpv *gmpv_application_get_mpv(GmpvApplication *app);
 void gmpv_application_quit(GmpvApplication *app);
 
 G_END_DECLS
