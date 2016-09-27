@@ -345,84 +345,49 @@ void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 {
 	if(fullscreen != wnd->fullscreen)
 	{
-		GmpvControlBox *control_box = GMPV_CONTROL_BOX(wnd->control_box);
 		GmpvVideoArea *vid_area = GMPV_VIDEO_AREA(wnd->vid_area);
-		GtkContainer* main_box = GTK_CONTAINER(wnd->main_box);
+		GtkContainer *main_box = GTK_CONTAINER(wnd->main_box);
 
 		if(fullscreen)
 		{
-			GdkScreen *screen;
-			GdkWindow *window;
-			GdkRectangle monitor_geom;
-			gint width;
-			gint monitor;
-
-			screen = gtk_window_get_screen(GTK_WINDOW(wnd));
-			window = gtk_widget_get_window(GTK_WIDGET(wnd));
-			monitor =	gdk_screen_get_monitor_at_window
-					(screen, window);
-
-			gdk_screen_get_monitor_geometry
-				(screen, monitor, &monitor_geom);
-
-			width = monitor_geom.width/2;
-
-			gtk_widget_set_size_request
-				(wnd->control_box, width, -1);
-
 			g_object_ref(wnd->control_box);
 			gtk_container_remove(main_box, wnd->control_box);
 			gmpv_video_area_set_control_box
 				(vid_area, wnd->control_box);
 			g_object_unref(wnd->control_box);
 
-			gmpv_video_area_set_fullscreen_state(vid_area, TRUE);
 			gtk_window_fullscreen(GTK_WINDOW(wnd));
 			gtk_window_present(GTK_WINDOW(wnd));
 
-			if(gmpv_main_window_get_csd_enabled(wnd))
-			{
-				gmpv_control_box_set_fullscreen_btn_visible
-					(control_box, TRUE);
-			}
-			else
-			{
-				gtk_application_window_set_show_menubar
-					(GTK_APPLICATION_WINDOW(wnd), FALSE);
-			}
-
 			wnd->pre_fs_playlist_visible = wnd->playlist_visible;
-			gtk_widget_set_visible(wnd->playlist, FALSE);
 		}
 		else
 		{
-			gtk_widget_set_halign(wnd->control_box, GTK_ALIGN_FILL);
-			gtk_widget_set_valign(wnd->control_box, GTK_ALIGN_FILL);
-			gtk_widget_set_size_request(wnd->control_box, -1, -1);
-
 			g_object_ref(wnd->control_box);
 			gmpv_video_area_set_control_box(vid_area, NULL);
 			gtk_container_add(main_box, wnd->control_box);
 			g_object_unref(wnd->control_box);
 
-			gmpv_video_area_set_fullscreen_state(vid_area, FALSE);
 			gtk_window_unfullscreen(GTK_WINDOW(wnd));
 
-			if(gmpv_main_window_get_csd_enabled(wnd))
-			{
-				gmpv_control_box_set_fullscreen_btn_visible
-					(control_box, FALSE);
-			}
-			else
-			{
-				gtk_application_window_set_show_menubar
-					(GTK_APPLICATION_WINDOW(wnd), TRUE);
-			}
-
 			wnd->playlist_visible = wnd->pre_fs_playlist_visible;
-			gtk_widget_set_visible
-				(wnd->playlist, wnd->pre_fs_playlist_visible);
 		}
+
+		if(gmpv_main_window_get_csd_enabled(wnd))
+		{
+			gmpv_control_box_set_fullscreen_btn_visible
+				(GMPV_CONTROL_BOX(wnd->control_box), fullscreen);
+		}
+		else
+		{
+			gtk_application_window_set_show_menubar
+				(GTK_APPLICATION_WINDOW(wnd), !fullscreen);
+		}
+
+		gmpv_video_area_set_fullscreen_state(vid_area, fullscreen);
+		gtk_widget_set_visible(	wnd->playlist,
+					!fullscreen &&
+					wnd->pre_fs_playlist_visible );
 
 		wnd->fullscreen = fullscreen;
 	}

@@ -175,9 +175,6 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	gtk_widget_add_events(area->draw_area, extra_events);
 	gtk_widget_add_events(area->gl_area, extra_events);
 
-	gtk_widget_set_vexpand(area->fs_revealer, FALSE);
-	gtk_widget_set_hexpand(area->fs_revealer, FALSE);
-	gtk_widget_set_halign(area->fs_revealer, GTK_ALIGN_CENTER);
 	gtk_widget_set_valign(area->fs_revealer, GTK_ALIGN_END);
 	gtk_widget_show(area->fs_revealer);
 	gtk_revealer_set_reveal_child(GTK_REVEALER(area->fs_revealer), FALSE);
