@@ -17,27 +17,23 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIDEO_AREA_H
-#define VIDEO_AREA_H
+#ifndef HEADER_BAR_H
+#define HEADER_BAR_H
 
 #include <gtk/gtk.h>
 
-#define GMPV_TYPE_VIDEO_AREA (gmpv_video_area_get_type ())
+#define GMPV_TYPE_HEADER_BAR (gmpv_header_bar_get_type ())
 
-G_DECLARE_FINAL_TYPE(GmpvVideoArea, gmpv_video_area, GMPV, VIDEO_AREA, GtkOverlay)
+G_DECLARE_FINAL_TYPE(GmpvHeaderBar, gmpv_header_bar, GMPV, HEADER_BAR, GtkHeaderBar)
 
-GtkWidget *gmpv_video_area_new(void);
-void gmpv_video_area_update_track_list(	GmpvVideoArea *hdr,
+GtkWidget *gmpv_header_bar_new(void);
+gboolean gmpv_header_bar_get_open_button_popup_visible(GmpvHeaderBar *hdr);
+gboolean gmpv_header_bar_get_menu_button_popup_visible(GmpvHeaderBar *hdr);
+void gmpv_header_bar_set_fullscreen_state(	GmpvHeaderBar *hdr,
+						gboolean fullscreen );
+void gmpv_header_bar_update_track_list(	GmpvHeaderBar *hdr,
 					const GSList *audio_list,
 					const GSList *video_list,
 					const GSList *sub_list );
-void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
-						gboolean fullscreen );
-void gmpv_video_area_set_control_box(	GmpvVideoArea *area,
-					GtkWidget *control_box );
-void gmpv_video_area_set_use_opengl(GmpvVideoArea *area, gboolean use_opengl);
-GtkDrawingArea *gmpv_video_area_get_draw_area(GmpvVideoArea *area);
-GtkGLArea *gmpv_video_area_get_gl_area(GmpvVideoArea *area);
-gint64 gmpv_video_area_get_xid(GmpvVideoArea *area);
 
 #endif

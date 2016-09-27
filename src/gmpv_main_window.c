@@ -29,6 +29,7 @@
 #include "gmpv_application.h"
 #include "gmpv_playlist_widget.h"
 #include "gmpv_main_window.h"
+#include "gmpv_header_bar.h"
 #include "gmpv_control_box.h"
 #include "gmpv_video_area.h"
 
@@ -46,6 +47,7 @@ struct _GmpvMainWindow
 	gint width_offset;
 	gint height_offset;
 	gint resize_target[2];
+	gboolean csd;
 	gboolean fullscreen;
 	gboolean playlist_visible;
 	gboolean playlist_first_toggle;
@@ -53,9 +55,6 @@ struct _GmpvMainWindow
 	gint playlist_width;
 	guint timeout_tag;
 	GtkWidget *header_bar;
-	GtkWidget *open_hdr_btn;
-	GtkWidget *fullscreen_hdr_btn;
-	GtkWidget *menu_hdr_btn;
 	GtkWidget *main_box;
 	GtkWidget *vid_area_paned;
 	GtkWidget *vid_area;
@@ -277,15 +276,13 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 
 static void gmpv_main_window_init(GmpvMainWindow *wnd)
 {
+	wnd->csd = FALSE;
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
 	wnd->pre_fs_playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
-	wnd->header_bar = gtk_header_bar_new();
-	wnd->open_hdr_btn = NULL;
-	wnd->fullscreen_hdr_btn = NULL;
-	wnd->menu_hdr_btn = NULL;
+	wnd->header_bar = gmpv_header_bar_new();
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
 	wnd->vid_area = gmpv_video_area_new();
@@ -298,9 +295,6 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	gtk_widget_add_events(	wnd->vid_area,
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
-
-	gtk_header_bar_set_show_close_button(	GTK_HEADER_BAR(wnd->header_bar),
-						TRUE );
 
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 
@@ -373,12 +367,7 @@ void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 			wnd->playlist_visible = wnd->pre_fs_playlist_visible;
 		}
 
-		if(gmpv_main_window_get_csd_enabled(wnd))
-		{
-			gmpv_control_box_set_fullscreen_btn_visible
-				(GMPV_CONTROL_BOX(wnd->control_box), fullscreen);
-		}
-		else
+		if(!gmpv_main_window_get_csd_enabled(wnd))
 		{
 			gtk_application_window_set_show_menubar
 				(GTK_APPLICATION_WINDOW(wnd), !fullscreen);
@@ -513,14 +502,16 @@ void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
 {
 	if(gmpv_main_window_get_csd_enabled(wnd))
 	{
-		GMenu *menu = g_menu_new();
-
-		gmpv_menu_build_menu_btn
-			(menu, audio_list, video_list, sub_list);
-
-		gtk_menu_button_set_menu_model
-			(	GTK_MENU_BUTTON(wnd->menu_hdr_btn),
-				G_MENU_MODEL(menu) );
+		gmpv_header_bar_update_track_list
+			(	GMPV_HEADER_BAR(wnd->header_bar),
+				audio_list,
+				video_list,
+				sub_list );
+		gmpv_video_area_update_track_list
+			(	GMPV_VIDEO_AREA(wnd->vid_area),
+				audio_list,
+				video_list,
+				sub_list );
 	}
 	else
 	{
@@ -565,66 +556,8 @@ void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
 
 void gmpv_main_window_enable_csd(GmpvMainWindow *wnd)
 {
-	GMenu *menu_btn_menu;
-	GMenu *open_btn_menu;
-	GIcon *open_icon;
-	GIcon *fullscreen_icon;
-	GIcon *menu_icon;
-
-	open_btn_menu = g_menu_new();
-	menu_btn_menu = g_menu_new();
-
-	open_icon = g_themed_icon_new_with_default_fallbacks
-				("list-add-symbolic");
-	fullscreen_icon = g_themed_icon_new_with_default_fallbacks
-				("view-fullscreen-symbolic");
-	menu_icon = g_themed_icon_new_with_default_fallbacks
-				("open-menu-symbolic");
-
+	wnd->csd = TRUE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
-	wnd->open_hdr_btn = gtk_menu_button_new();
-	wnd->fullscreen_hdr_btn = gtk_button_new();
-	wnd->menu_hdr_btn = gtk_menu_button_new();
-
-	gmpv_menu_build_open_btn(open_btn_menu);
-	gmpv_menu_build_menu_btn(menu_btn_menu, NULL, NULL, NULL);
-
-	gtk_widget_set_can_focus(wnd->open_hdr_btn, FALSE);
-	gtk_widget_set_can_focus(wnd->fullscreen_hdr_btn, FALSE);
-	gtk_widget_set_can_focus(wnd->menu_hdr_btn, FALSE);
-
-	gtk_button_set_image
-		(	GTK_BUTTON(wnd->fullscreen_hdr_btn),
-			gtk_image_new_from_gicon
-				(fullscreen_icon, GTK_ICON_SIZE_MENU ));
-	gtk_button_set_image
-		(	GTK_BUTTON(wnd->open_hdr_btn),
-			gtk_image_new_from_gicon
-				(open_icon, GTK_ICON_SIZE_MENU ));
-	gtk_button_set_image
-		(	GTK_BUTTON(wnd->menu_hdr_btn),
-			gtk_image_new_from_gicon
-				(menu_icon, GTK_ICON_SIZE_MENU ));
-	gtk_menu_button_set_menu_model
-		(	GTK_MENU_BUTTON(wnd->open_hdr_btn),
-			G_MENU_MODEL(open_btn_menu) );
-	gtk_menu_button_set_menu_model
-		(	GTK_MENU_BUTTON(wnd->menu_hdr_btn),
-			G_MENU_MODEL(menu_btn_menu) );
-
-	gtk_header_bar_pack_start
-		(GTK_HEADER_BAR(wnd->header_bar), wnd->open_hdr_btn);
-	gtk_header_bar_pack_end
-		(GTK_HEADER_BAR(wnd->header_bar), wnd->menu_hdr_btn);
-	gtk_header_bar_pack_end
-		(GTK_HEADER_BAR(wnd->header_bar), wnd->fullscreen_hdr_btn);
-
-	gtk_widget_set_tooltip_text(	wnd->fullscreen_hdr_btn,
-					_("Toggle Fullscreen") );
-
-	gtk_actionable_set_action_name
-		(	GTK_ACTIONABLE(wnd->fullscreen_hdr_btn),
-			"app.toggle-fullscreen" );
 
 	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
 				MAIN_WINDOW_DEFAULT_WIDTH
@@ -636,9 +569,7 @@ void gmpv_main_window_enable_csd(GmpvMainWindow *wnd)
 
 gboolean gmpv_main_window_get_csd_enabled(GmpvMainWindow *wnd)
 {
-	return	wnd->open_hdr_btn &&
-		wnd->fullscreen_hdr_btn &&
-		wnd->menu_hdr_btn;
+	return wnd->csd;
 }
 
 void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,

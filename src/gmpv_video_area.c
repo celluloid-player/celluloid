@@ -18,6 +18,7 @@
  */
 
 #include "gmpv_video_area.h"
+#include "gmpv_header_bar.h"
 #include "gmpv_control_box.h"
 #include "gmpv_def.h"
 
@@ -36,7 +37,9 @@ struct _GmpvVideoArea
 	GtkWidget *draw_area;
 	GtkWidget *gl_area;
 	GtkWidget *control_box;
-	GtkWidget *fs_revealer;
+	GtkWidget *header_bar;
+	GtkWidget *control_box_revealer;
+	GtkWidget *header_bar_revealer;
 	guint timeout_tag;
 	gboolean fullscreen;
 	gboolean fs_control_hover;
@@ -82,14 +85,19 @@ static gboolean timeout_handler(gpointer data)
 {
 	GmpvVideoArea *area = data;
 	GmpvControlBox *control_box = GMPV_CONTROL_BOX(area->control_box);
+	GmpvHeaderBar *header_bar = GMPV_HEADER_BAR(area->header_bar);
 
 	if(area->fullscreen
 	&& !area->fs_control_hover
-	&& !gmpv_control_box_get_volume_popup_visible(control_box))
+	&& !gmpv_control_box_get_volume_popup_visible(control_box)
+	&& !gmpv_header_bar_get_open_button_popup_visible(header_bar)
+	&& !gmpv_header_bar_get_menu_button_popup_visible(header_bar))
 	{
 		set_cursor_visible(area, FALSE);
 		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->fs_revealer), FALSE);
+			(GTK_REVEALER(area->control_box_revealer), FALSE);
+		gtk_revealer_set_reveal_child
+			(GTK_REVEALER(area->header_bar_revealer), FALSE);
 	}
 
 	area->timeout_tag = 0;
@@ -108,7 +116,9 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 	if(area->fullscreen)
 	{
 		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->fs_revealer), TRUE);
+			(GTK_REVEALER(area->control_box_revealer), TRUE);
+		gtk_revealer_set_reveal_child
+			(GTK_REVEALER(area->header_bar_revealer), TRUE);
 	}
 
 	if(area->timeout_tag > 0)
@@ -122,6 +132,29 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 
 	return	GTK_WIDGET_CLASS(gmpv_video_area_parent_class)
 		->motion_notify_event(widget, event);
+}
+
+static void notify_handler(	GObject *gobject,
+				GParamSpec *pspec,
+				gpointer data )
+{
+	/* Due to a GTK+ bug, the header bar isn't hidden completely if hidden
+	 * by a GtkRevealer. Workaround this by manually hiding the revealer
+	 * along with the header bar when the revealer completes its transition
+	 * to hidden state.
+	 */
+	GmpvVideoArea *area = data;
+	gboolean reveal_child = TRUE;
+	gboolean child_revealed = TRUE;
+
+	g_object_get(	gobject,
+			"reveal-child", &reveal_child,
+			"child-revealed", &child_revealed,
+			NULL );
+
+	gtk_widget_set_visible(	GTK_WIDGET(area),
+				area->fullscreen &&
+				(reveal_child || child_revealed) );
 }
 
 static gboolean fs_control_crossing_handler(	GtkWidget *widget,
@@ -157,7 +190,9 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	area->draw_area = gtk_drawing_area_new();
 	area->gl_area = gtk_gl_area_new();
 	area->control_box = NULL;
-	area->fs_revealer = gtk_revealer_new();
+	area->header_bar = gmpv_header_bar_new();
+	area->control_box_revealer = gtk_revealer_new();
+	area->header_bar_revealer = gtk_revealer_new();
 	area->timeout_tag = 0;
 	area->fullscreen = FALSE;
 	area->fs_control_hover = FALSE;
@@ -175,10 +210,28 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	gtk_widget_add_events(area->draw_area, extra_events);
 	gtk_widget_add_events(area->gl_area, extra_events);
 
-	gtk_widget_set_valign(area->fs_revealer, GTK_ALIGN_END);
-	gtk_widget_show(area->fs_revealer);
-	gtk_revealer_set_reveal_child(GTK_REVEALER(area->fs_revealer), FALSE);
+	gtk_widget_set_valign(area->control_box_revealer, GTK_ALIGN_END);
+	gtk_widget_show(area->control_box_revealer);
+	gtk_revealer_set_reveal_child
+		(GTK_REVEALER(area->control_box_revealer), FALSE);
 
+	gtk_widget_set_valign(area->header_bar_revealer, GTK_ALIGN_START);
+	gtk_widget_show(area->header_bar_revealer);
+	gtk_revealer_set_reveal_child
+		(GTK_REVEALER(area->header_bar_revealer), FALSE);
+
+	gtk_widget_show_all(area->header_bar);
+	gtk_widget_hide(area->header_bar_revealer);
+	gtk_widget_set_no_show_all(area->header_bar_revealer, TRUE);
+
+	g_signal_connect(	area->header_bar_revealer,
+				"notify::reveal-child",
+				G_CALLBACK(notify_handler),
+				area->header_bar_revealer );
+	g_signal_connect(	area->header_bar_revealer,
+				"notify::child-revealed",
+				G_CALLBACK(notify_handler),
+				area->header_bar_revealer );
 	g_signal_connect(	area,
 				"enter-notify-event",
 				G_CALLBACK(fs_control_crossing_handler),
@@ -192,13 +245,29 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	gtk_stack_add_named(GTK_STACK(area->stack), area->gl_area, "gl");
 	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->draw_area);
 
-	gtk_overlay_add_overlay(GTK_OVERLAY(area), area->fs_revealer);
+	gtk_container_add(	GTK_CONTAINER(area->header_bar_revealer),
+				area->header_bar );
+
+	gtk_overlay_add_overlay(GTK_OVERLAY(area), area->control_box_revealer);
+	gtk_overlay_add_overlay(GTK_OVERLAY(area), area->header_bar_revealer);
 	gtk_container_add(GTK_CONTAINER(area), area->stack);
 }
 
 GtkWidget *gmpv_video_area_new()
 {
 	return GTK_WIDGET(g_object_new(gmpv_video_area_get_type(), NULL));
+}
+
+void gmpv_video_area_update_track_list(	GmpvVideoArea *area,
+					const GSList *audio_list,
+					const GSList *video_list,
+					const GSList *sub_list )
+{
+	gmpv_header_bar_update_track_list
+		(	GMPV_HEADER_BAR(area->header_bar),
+			audio_list,
+			video_list,
+			sub_list );
 }
 
 void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
@@ -208,8 +277,17 @@ void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 	{
 		area->fullscreen = fullscreen;
 
-		gtk_widget_set_visible(area->fs_revealer, fullscreen);
+		gtk_widget_set_visible(area->control_box_revealer, fullscreen);
+		gtk_widget_hide(area->header_bar_revealer);
 		set_cursor_visible(area, !fullscreen);
+
+		gtk_revealer_set_reveal_child
+			(GTK_REVEALER(area->control_box_revealer), FALSE);
+		gtk_revealer_set_reveal_child
+			(GTK_REVEALER(area->header_bar_revealer), FALSE);
+
+		gmpv_header_bar_set_fullscreen_state
+			(GMPV_HEADER_BAR(area->header_bar), fullscreen);
 
 		if(area->control_box)
 		{
@@ -222,18 +300,18 @@ void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 void gmpv_video_area_set_control_box(	GmpvVideoArea *area,
 					GtkWidget *control_box )
 {
+	GtkContainer *revealer = GTK_CONTAINER(area->control_box_revealer);
+
 	if(area->control_box)
 	{
-		gtk_container_remove
-			(GTK_CONTAINER(area->fs_revealer), area->control_box);
+		gtk_container_remove(revealer, area->control_box);
 	}
 
 	area->control_box = control_box;
 
 	if(control_box)
 	{
-		gtk_container_add
-			(GTK_CONTAINER(area->fs_revealer), control_box);
+		gtk_container_add(revealer, control_box);
 	}
 }
 
