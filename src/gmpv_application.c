@@ -107,6 +107,9 @@ static void drag_data_handler(	GtkWidget *widget,
 				guint info,
 				guint time,
 				gpointer data);
+static gboolean window_state_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data );
 static gboolean queue_render(GtkGLArea *area);
 static void opengl_cb_update_callback(void *cb_ctx);
 static void set_playlist_pos(GmpvApplication *app, gint64 pos);
@@ -885,6 +888,33 @@ static void drag_data_handler(	GtkWidget *widget,
 	g_free(type);
 }
 
+static gboolean window_state_handler(	GtkWidget *widget,
+					GdkEvent *event,
+					gpointer data )
+{
+	GtkApplication *app = data;
+	GdkEventWindowState *state = (GdkEventWindowState *)event;
+
+	if(state->changed_mask&GDK_WINDOW_STATE_FULLSCREEN)
+	{
+		gboolean fullscreen;
+		GAction *action;
+
+		fullscreen =	state->new_window_state&
+				GDK_WINDOW_STATE_FULLSCREEN;
+
+		action = g_action_map_lookup_action(	G_ACTION_MAP(app),
+							"toggle-playlist" );
+		g_object_set(action, "enabled", !fullscreen, NULL);
+
+		action = g_action_map_lookup_action(	G_ACTION_MAP(app),
+							"set-video-size" );
+		g_object_set(action, "enabled", !fullscreen, NULL);
+	}
+
+	return FALSE;
+}
+
 static gboolean queue_render(GtkGLArea *area)
 {
 	gtk_gl_area_queue_render(area);
@@ -998,6 +1028,10 @@ static void connect_signals(GmpvApplication *app)
 	g_signal_connect(	playlist,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
+				app );
+	g_signal_connect(	app->gui,
+				"window-state-event",
+				G_CALLBACK(window_state_handler),
 				app );
 	g_signal_connect(	app->gui,
 				"grab-notify",
