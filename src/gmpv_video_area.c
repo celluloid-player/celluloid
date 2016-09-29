@@ -98,11 +98,11 @@ static gboolean timeout_handler(gpointer data)
 			(GTK_REVEALER(area->control_box_revealer), FALSE);
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->header_bar_revealer), FALSE);
+
+		area->timeout_tag = 0;
 	}
 
-	area->timeout_tag = 0;
-
-	return FALSE;
+	return (area->timeout_tag != 0);
 }
 
 static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
