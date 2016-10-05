@@ -106,6 +106,19 @@ preferences dialog under the "MPV Configuration" section.
 Options can also be set using the "Extra MPV Options" text box in the
 preferences dialog. The syntax used is the same as mpv's command line options.
 
+### Lua Scripts
+
+GNOME MPV can use most mpv Lua scripts as-is. Some Lua scripts may define
+keybindings that conflict with GNOME MPV, in which case you'll need to resolve
+the conflict by explicitly defining new keybindings using `input.conf`. See
+[mpv's manual](https://mpv.io/manual/stable/#lua-scripting-[,flags]]%29) for
+more details.
+
+Lua scripts can be installed by switching to the `Lua Scripts` tab in the
+preferences dialog and dropping script files there. A list of mpv Lua scripts
+can be found
+[here](https://github.com/mpv-player/mpv/wiki/User-Scripts#lua-scripts).
+
 ### Keybindings
 
 GNOME MPV defines a set of keybindings in the macro `DEFAULT_KEYBINDS`, which
