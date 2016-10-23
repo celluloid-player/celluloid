@@ -33,6 +33,9 @@
 #include "gmpv_shortcuts_window.h"
 #endif
 
+static void preferences_dialog_response_handler(	GtkDialog *dialog,
+							gint response_id,
+							gpointer data );
 static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
@@ -78,6 +81,63 @@ static void set_video_size_handler(	GSimpleAction *action,
 static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
+
+static void preferences_dialog_response_handler(	GtkDialog *dialog,
+							gint response_id,
+							gpointer data )
+{
+	if(response_id == GTK_RESPONSE_ACCEPT)
+	{
+		GmpvApplication *app;
+		GmpvMainWindow *wnd;
+		GmpvMpv *mpv;
+		GSettings *settings;
+		gboolean csd_enable;
+		gboolean dark_theme_enable;
+
+		app = data;
+		wnd = gmpv_application_get_main_window(app);
+		mpv = gmpv_application_get_mpv(app);
+		settings = g_settings_new(CONFIG_ROOT);
+		csd_enable = g_settings_get_boolean(settings, "csd-enable");
+		dark_theme_enable =	g_settings_get_boolean
+					(settings, "dark-theme-enable");
+
+		if(gmpv_main_window_get_csd_enabled(wnd) != csd_enable)
+		{
+			GtkWidget *dialog;
+
+			dialog =	gtk_message_dialog_new
+					(	GTK_WINDOW(wnd),
+						GTK_DIALOG_DESTROY_WITH_PARENT,
+						GTK_MESSAGE_INFO,
+						GTK_BUTTONS_OK,
+						_("Enabling or disabling "
+						"client-side decorations "
+						"requires restarting %s to "
+						"take effect." ),
+						g_get_application_name() );
+
+			g_signal_connect(	dialog,
+						"response",
+						G_CALLBACK(gtk_widget_destroy),
+						NULL );
+
+			gtk_widget_show_all(dialog);
+		}
+
+		g_object_set(	gtk_settings_get_default(),
+				"gtk-application-prefer-dark-theme",
+				dark_theme_enable,
+				NULL );
+
+		gmpv_mpv_reset(mpv);
+		gtk_widget_queue_draw(GTK_WIDGET(wnd));
+		g_object_unref(settings);
+	}
+
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+}
 
 static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
@@ -387,53 +447,14 @@ static void show_preferences_dialog_handler(	GSimpleAction *action,
 {
 	GmpvApplication *app = data;
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	GmpvPrefDialog *pref_dialog;
-	gboolean csd_enable_old;
+	GtkWidget *pref_dialog = gmpv_pref_dialog_new(GTK_WINDOW(wnd));
 
-	csd_enable_old = g_settings_get_boolean(settings, "csd-enable");
-	pref_dialog = GMPV_PREF_DIALOG(gmpv_pref_dialog_new(GTK_WINDOW(wnd)));
+	g_signal_connect_after(	pref_dialog,
+				"response",
+				G_CALLBACK(preferences_dialog_response_handler),
+				app );
 
-	if(gtk_dialog_run(GTK_DIALOG(pref_dialog)) == GTK_RESPONSE_ACCEPT)
-	{
-		GmpvMpv *mpv;
-		gboolean csd_enable;
-		gboolean dark_theme_enable;
-
-		mpv = gmpv_application_get_mpv(app);
-		csd_enable = g_settings_get_boolean(settings, "csd-enable");
-		dark_theme_enable =	g_settings_get_boolean
-					(settings, "dark-theme-enable");
-
-		if(csd_enable_old != csd_enable)
-		{
-			GtkWidget *dialog;
-
-			dialog =	gtk_message_dialog_new
-					(	GTK_WINDOW(wnd),
-						GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_INFO,
-						GTK_BUTTONS_OK,
-						_("Enabling or disabling "
-						"client-side decorations "
-						"requires restarting %s to "
-						"take effect." ),
-						g_get_application_name() );
-
-			gtk_dialog_run(GTK_DIALOG(dialog));
-			gtk_widget_destroy(dialog);
-		}
-
-		g_object_set(	gtk_settings_get_default(),
-				"gtk-application-prefer-dark-theme",
-				dark_theme_enable,
-				NULL );
-
-		gmpv_mpv_reset(mpv);
-		gtk_widget_queue_draw(GTK_WIDGET(wnd));
-	}
-
-	gtk_widget_destroy(GTK_WIDGET(pref_dialog));
+	gtk_widget_show_all(pref_dialog);
 }
 
 static void quit_handler(	GSimpleAction *action,
