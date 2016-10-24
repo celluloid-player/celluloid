@@ -33,6 +33,9 @@
 #include "gmpv_shortcuts_window.h"
 #endif
 
+static void open_location_dialog_response_handler(	GtkDialog *dialog,
+							gint response_id,
+							gpointer data );
 static void preferences_dialog_response_handler(	GtkDialog *dialog,
 							gint response_id,
 							gpointer data );
@@ -81,6 +84,33 @@ static void set_video_size_handler(	GSimpleAction *action,
 static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
+
+static void open_location_dialog_response_handler(	GtkDialog *dialog,
+							gint response_id,
+							gpointer data )
+{
+	GPtrArray *args = data;
+	gboolean *append = g_ptr_array_index(args, 1);
+
+	if(response_id == GTK_RESPONSE_ACCEPT)
+	{
+		GmpvApplication *app;
+		GmpvMpv *mpv;
+		const gchar *loc_str;
+
+		app = g_ptr_array_index(args, 0);
+		mpv = gmpv_application_get_mpv(app);
+		loc_str =	gmpv_open_loc_dialog_get_string
+				(GMPV_OPEN_LOC_DIALOG(dialog));
+
+		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
+		gmpv_mpv_load(mpv, loc_str, *append, TRUE);
+	}
+
+	g_free(append);
+	g_ptr_array_free(args, TRUE);
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+}
 
 static void preferences_dialog_response_handler(	GtkDialog *dialog,
 							gint response_id,
@@ -257,28 +287,25 @@ static void show_open_location_dialog_handler(	GSimpleAction *action,
 	GmpvApplication *app = data;
 	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
 	GtkWidget *dlg = NULL;
-	gboolean append = FALSE;
+	gboolean *append = g_malloc(sizeof(gboolean));
+	GPtrArray *args = g_ptr_array_sized_new(2);
 
-	g_variant_get(param, "b", &append);
+	g_variant_get(param, "b", append);
 
 	dlg = gmpv_open_loc_dialog_new(	GTK_WINDOW(wnd),
-					append?
+					(*append)?
 					_("Add Location to Playlist"):
 					_("Open Location") );
+	g_ptr_array_add(args, app);
+	g_ptr_array_add(args, append);
 
-	if(gtk_dialog_run(GTK_DIALOG(dlg)) == GTK_RESPONSE_ACCEPT)
-	{
-		const gchar *loc_str;
-		GmpvMpv *mpv = gmpv_application_get_mpv(app);
+	g_signal_connect
+		(	dlg,
+			"response",
+			G_CALLBACK(open_location_dialog_response_handler),
+			args );
 
-		loc_str =	gmpv_open_loc_dialog_get_string
-				(GMPV_OPEN_LOC_DIALOG(dlg));
-
-		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
-		gmpv_mpv_load(mpv, loc_str, append, TRUE);
-	}
-
-	gtk_widget_destroy(dlg);
+	gtk_widget_show_all(dlg);
 }
 
 static void toggle_loop_handler(	GSimpleAction *action,
