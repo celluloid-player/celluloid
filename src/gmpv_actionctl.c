@@ -33,6 +33,9 @@
 #include "gmpv_shortcuts_window.h"
 #endif
 
+static void open_dialog_response_handler(	GtkDialog *dialog,
+						gint response_id,
+						gpointer data );
 static void open_location_dialog_response_handler(	GtkDialog *dialog,
 							gint response_id,
 							gpointer data );
@@ -84,6 +87,75 @@ static void set_video_size_handler(	GSimpleAction *action,
 static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
+
+static void open_dialog_response_handler(	GtkDialog *dialog,
+						gint response_id,
+						gpointer data )
+{
+	GPtrArray *args = data;
+	GmpvApplication *app = g_ptr_array_index(args, 0);
+	gboolean *append = g_ptr_array_index(args, 1);
+
+	if(response_id == GTK_RESPONSE_ACCEPT)
+	{
+		GtkFileChooser *file_chooser;
+		GSList *uri_slist;
+		GSList *uri;
+		GSettings *main_config;
+		GSettings *win_config;
+		gboolean last_folder_enable;
+		gsize uri_list_size;
+		const gchar **uri_list;
+		gint i;
+
+		file_chooser = GTK_FILE_CHOOSER(dialog);
+		uri_slist = gtk_file_chooser_get_filenames(file_chooser);
+		uri = uri_slist;
+		main_config = g_settings_new(CONFIG_ROOT);
+		win_config = g_settings_new(CONFIG_WIN_STATE);
+		last_folder_enable =	g_settings_get_boolean
+					(main_config, "last-folder-enable");
+		uri_list_size =	sizeof(gchar **)*(g_slist_length(uri_slist)+1);
+		uri_list = g_malloc(uri_list_size);
+
+		for(i = 0; uri; i++)
+		{
+			uri_list[i] = uri->data;
+			uri = g_slist_next(uri);
+		}
+
+		uri_list[i] = NULL;
+
+		if(uri_slist)
+		{
+			GmpvMpv *mpv = gmpv_application_get_mpv(app);
+
+			gmpv_mpv_load_list(mpv, uri_list, *append, TRUE);
+		}
+
+		if(last_folder_enable)
+		{
+			gchar *last_folder_uri
+				= gtk_file_chooser_get_current_folder_uri
+					(file_chooser);
+
+			g_settings_set_string(	win_config,
+						"last-folder-uri",
+						last_folder_uri?:"" );
+
+			g_free(last_folder_uri);
+		}
+
+		g_free(uri_list);
+		g_slist_free_full(uri_slist, g_free);
+		g_object_unref(main_config);
+		g_object_unref(win_config);
+	}
+
+	g_free(append);
+	g_ptr_array_free(args, TRUE);
+	gmpv_file_chooser_destroy(dialog);
+}
 
 static void open_location_dialog_response_handler(	GtkDialog *dialog,
 							gint response_id,
@@ -182,12 +254,13 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 	GtkFileFilter *filter = NULL;
 	GmpvFileChooser *open_dialog = NULL;
 	gboolean last_folder_enable = FALSE;
-	gboolean append = FALSE;
+	gboolean *append = g_malloc(sizeof(gboolean));
+	GPtrArray *args = g_ptr_array_sized_new(2);
 
-	g_variant_get(param, "b", &append);
+	g_variant_get(param, "b", append);
 
 	wnd = gmpv_application_get_main_window(app);
-	open_dialog = gmpv_file_chooser_new(	append?
+	open_dialog = gmpv_file_chooser_new(	(*append)?
 						_("Add File to Playlist"):
 						_("Open File"),
 						GTK_WINDOW(wnd),
@@ -199,6 +272,14 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 	last_folder_enable =	g_settings_get_boolean
 				(main_config, "last-folder-enable");
 	filter = gtk_file_filter_new();
+
+	g_ptr_array_add(args, app);
+	g_ptr_array_add(args, append);
+
+	g_signal_connect(	open_dialog,
+				"response",
+				G_CALLBACK(open_dialog_response_handler),
+				args );
 
 	gtk_file_filter_add_mime_type(filter, "video/*");
 	gtk_file_filter_add_mime_type(filter, "audio/*");
@@ -232,52 +313,11 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 	}
 
 	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
+	gmpv_file_chooser_set_modal(open_dialog, TRUE);
+	gmpv_file_chooser_show(open_dialog);
 
-	if(gmpv_file_chooser_run(open_dialog) == GTK_RESPONSE_ACCEPT)
-	{
-		GSList *uri_slist = gtk_file_chooser_get_filenames(file_chooser);
-		GSList *uri = uri_slist;
-		gsize uri_list_size =	sizeof(gchar **)*
-					(g_slist_length(uri_slist)+1);
-		const gchar **uri_list = g_malloc(uri_list_size);
-		gint i;
-
-		for(i = 0; uri; i++)
-		{
-			uri_list[i] = uri->data;
-			uri = g_slist_next(uri);
-		}
-
-		uri_list[i] = NULL;
-
-		if(uri_slist)
-		{
-			GmpvMpv *mpv = gmpv_application_get_mpv(app);
-
-			gmpv_mpv_load_list(mpv, uri_list, append, TRUE);
-		}
-
-		if(last_folder_enable)
-		{
-			gchar *last_folder_uri
-				= gtk_file_chooser_get_current_folder_uri
-					(file_chooser);
-
-			g_settings_set_string(	win_config,
-						"last-folder-uri",
-						last_folder_uri?:"" );
-
-			g_free(last_folder_uri);
-		}
-
-		g_free(uri_list);
-		g_slist_free_full(uri_slist, g_free);
-	}
-
-
-	gmpv_file_chooser_destroy(open_dialog);
-	g_clear_object(&main_config);
-	g_clear_object(&win_config);
+	g_object_unref(main_config);
+	g_object_unref(win_config);
 }
 
 static void show_open_location_dialog_handler(	GSimpleAction *action,
