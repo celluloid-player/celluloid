@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-16 23:25+0700\n"
-"PO-Revision-Date: 2016-08-21 02:00-0400\n"
+"PO-Revision-Date: 2016-10-28 10:15-0400\n"
 "Last-Translator: Bendegúz Gyönki <gyonkibendeguz@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
@@ -12,17 +12,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Zanata 3.9.5\n"
+"X-Generator: Zanata 3.9.6\n"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:1
 #: ../data/io.github.GnomeMpv.gschema.xml.h:2
 msgid "Enable or disable dark theme"
-msgstr ""
+msgstr "Sötét téma engedélyezése/tiltása"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:2
 #: ../data/io.github.GnomeMpv.gschema.xml.h:3
 msgid "Enable or disable client-side decorations"
-msgstr ""
+msgstr "Kliensoldali díszítések engedélyezése/tiltása"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:3
 #: ../data/io.github.GnomeMpv.gschema.xml.h:4
@@ -33,12 +33,12 @@ msgstr ""
 #: ../data/org.gnome-mpv.gschema.xml.h:4
 #: ../data/io.github.GnomeMpv.gschema.xml.h:6
 msgid "Options to pass to mpv"
-msgstr ""
+msgstr "Az mpv-nek átadandó opciók"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:5
 #: ../data/io.github.GnomeMpv.gschema.xml.h:7
 msgid "Path to mpv configuration file"
-msgstr ""
+msgstr "Az mpv konfigurációs fájl útvonala"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:6
 #: ../data/io.github.GnomeMpv.gschema.xml.h:8
@@ -48,7 +48,7 @@ msgstr ""
 #: ../data/org.gnome-mpv.gschema.xml.h:7
 #: ../data/io.github.GnomeMpv.gschema.xml.h:9
 msgid "Path to mpv input configuration file"
-msgstr ""
+msgstr "Az mpv bemeneti konfigurációs fájl útvonala"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:8
 #: ../data/io.github.GnomeMpv.gschema.xml.h:10
@@ -58,22 +58,22 @@ msgstr ""
 #: ../data/org.gnome-mpv.gschema.xml.h:9
 #: ../data/io.github.GnomeMpv.gschema.xml.h:11
 msgid "Width of the window"
-msgstr ""
+msgstr "Az ablak szélessége"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:10
 #: ../data/io.github.GnomeMpv.gschema.xml.h:12
 msgid "Height of the window"
-msgstr ""
+msgstr "Az ablak magassága"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:11
 #: ../data/io.github.GnomeMpv.gschema.xml.h:13
 msgid "Volume of player"
-msgstr ""
+msgstr "A lejátszó hangereje"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:12
 #: ../data/io.github.GnomeMpv.gschema.xml.h:14
 msgid "Width of the playlist"
-msgstr ""
+msgstr "A lejátszási lista szélessége"
 
 #: ../data/org.gnome-mpv.gschema.xml.h:13
 #: ../data/io.github.GnomeMpv.gschema.xml.h:16
@@ -92,7 +92,7 @@ msgstr ""
 
 #: ../data/io.github.GnomeMpv.gschema.xml.h:5 ../src/gmpv_pref_dialog.c:315
 msgid "Allow multiple instances"
-msgstr ""
+msgstr "Több példány engedélyezése"
 
 #: ../data/io.github.GnomeMpv.gschema.xml.h:15
 msgid "Show or not show the controls"
@@ -106,78 +106,84 @@ msgid ""
 "libraries. GNOME MPV also offers an option to disable client-side "
 "decorations (CSD) for better compatibility with non-GNOME systems."
 msgstr ""
+"A GNOME MPV egy egyszerű GTK+ felület az mpv-hez, egy rendkívül erőteljes "
+"médialejátszóhoz, amely gyakorlatilag az összes videó- és hangformátum "
+"lejátszására képes. A GNOME MPV dizájnja a GNOME HIG-en alapszik, habár nem "
+"függ egyetlen GNOME könyvtártól sem. A GNOME MPV továbbá lehetővé teszi a "
+"kliensoldali díszítések letiltását a GNOME-tól eltérő rendszerekkel való "
+"jobb kompatibilitás érdekében."
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:2
 msgid "Features:"
-msgstr ""
+msgstr "Funkciók:"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:3
 msgid "Drag and drop playlist"
-msgstr ""
+msgstr "Fogd és vidd lejátszási lista"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:4
 msgid "Loading external mpv configuration files"
-msgstr ""
+msgstr "Külső mpv konfigurációs fájlok betöltése"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:5
 msgid "MPRIS2 D-Bus interface"
-msgstr ""
+msgstr "MPRIS2 D-Bus interfész"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:6
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Az alkalmazás működés közben"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:7
 msgid "The main window with CSD disabled"
-msgstr ""
+msgstr "A főablak letiltott díszítésekkel"
 
 #: ../data/io.github.GnomeMpv.appdata.xml.in.h:8
 msgid "The main window with playlist open"
-msgstr ""
+msgstr "A főablak megnyitott lejátszási listával"
 
 #: ../data/io.github.GnomeMpv.desktop.in.h:1 ../src/gmpv_application.c:260
 msgid "GNOME MPV"
-msgstr ""
+msgstr "GNOME MPV"
 
 #: ../data/io.github.GnomeMpv.desktop.in.h:2
 msgid "GTK+ frontend for mpv"
-msgstr ""
+msgstr "GTK+ felület az mpv-hez"
 
 #: ../src/gmpv_actionctl.c:101
 msgid "Add File to Playlist"
-msgstr ""
+msgstr "Fájl hozzáadása a lejátszási listához"
 
 #: ../src/gmpv_actionctl.c:102
 msgid "Open File"
-msgstr ""
+msgstr "Fájl megnyitása"
 
 #: ../src/gmpv_actionctl.c:105 ../src/gmpv_actionctl.c:508
 #: ../src/gmpv_menu.c:190 ../src/gmpv_menu.c:254
 #: ../src/gmpv_open_loc_dialog.c:84
 msgid "_Open"
-msgstr ""
+msgstr "_Megnyitás"
 
 #: ../src/gmpv_actionctl.c:106 ../src/gmpv_actionctl.c:300
 #: ../src/gmpv_actionctl.c:507 ../src/gmpv_open_loc_dialog.c:82
 #: ../src/gmpv_pref_dialog.c:358
 msgid "_Cancel"
-msgstr ""
+msgstr "_Mégse"
 
 #: ../src/gmpv_actionctl.c:206
 msgid "Add Location to Playlist"
-msgstr ""
+msgstr "Hely hozzáadása a lejátszási listához"
 
 #: ../src/gmpv_actionctl.c:207
 msgid "Open Location"
-msgstr ""
+msgstr "Hely megnyitása"
 
 #: ../src/gmpv_actionctl.c:296
 msgid "Save Playlist"
-msgstr ""
+msgstr "Lejátszási lista mentése"
 
 #: ../src/gmpv_actionctl.c:299 ../src/gmpv_pref_dialog.c:360
 msgid "_Save"
-msgstr ""
+msgstr "_Mentés"
 
 #: ../src/gmpv_actionctl.c:417
 #, c-format
@@ -192,7 +198,7 @@ msgstr ""
 
 #: ../src/gmpv_actionctl.c:605
 msgid "A GTK frontend for MPV"
-msgstr ""
+msgstr "Egy GTK felület az MPV-hez"
 
 #: ../src/gmpv_actionctl.c:615
 msgid "translator-credits"
@@ -216,35 +222,35 @@ msgstr ""
 
 #: ../src/gmpv_common.c:250
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 #: ../src/gmpv_control_box.c:190 ../src/gmpv_control_box.c:363
 msgid "Play"
-msgstr ""
+msgstr "Lejátszás"
 
 #: ../src/gmpv_control_box.c:191
 msgid "Stop"
-msgstr ""
+msgstr "Állj"
 
 #: ../src/gmpv_control_box.c:192
 msgid "Forward"
-msgstr ""
+msgstr "VIsszatekerés"
 
 #: ../src/gmpv_control_box.c:193
 msgid "Rewind"
-msgstr ""
+msgstr "Előretekerés"
 
 #: ../src/gmpv_control_box.c:194
 msgid "Next Chapter"
-msgstr ""
+msgstr "Következő fejezet"
 
 #: ../src/gmpv_control_box.c:195
 msgid "Previous Chapter"
-msgstr ""
+msgstr "Előző fejezet"
 
 #: ../src/gmpv_control_box.c:196 ../src/gmpv_main_window.c:576
 msgid "Toggle Fullscreen"
-msgstr ""
+msgstr "Átváltás teljes képernyőre"
 
 #: ../src/gmpv_control_box.c:363
 msgid "Pause"
@@ -302,52 +308,52 @@ msgstr "F_eliratsáv"
 
 #: ../src/gmpv_menu.c:199
 msgid "_View"
-msgstr ""
+msgstr "_Nézet"
 
 #: ../src/gmpv_menu.c:200 ../src/gmpv_menu.c:229
 msgid "_Toggle Controls"
-msgstr ""
+msgstr "_Vezérlők BE/KI"
 
 #: ../src/gmpv_menu.c:201 ../src/gmpv_menu.c:231
 msgid "_Toggle Playlist"
-msgstr ""
+msgstr "_Lejátszási lista BE/KI"
 
 #: ../src/gmpv_menu.c:202
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Teljes képernyő"
 
 #: ../src/gmpv_menu.c:203 ../src/gmpv_menu.c:238
 msgid "_Normal Size"
-msgstr ""
+msgstr "_Normál méret"
 
 #: ../src/gmpv_menu.c:204 ../src/gmpv_menu.c:239
 msgid "_Double Size"
-msgstr ""
+msgstr "_Kétszeres méret"
 
 #: ../src/gmpv_menu.c:205 ../src/gmpv_menu.c:240
 msgid "_Half Size"
-msgstr ""
+msgstr "_Fele méret"
 
 #: ../src/gmpv_menu.c:206
 msgid "_Help"
-msgstr ""
+msgstr "_Súgó"
 
 #: ../src/gmpv_menu.c:207 ../src/gmpv_menu.c:267
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Billentyűkombinációk"
 
 #: ../src/gmpv_menu.c:208 ../src/gmpv_menu.c:268
 msgid "_About"
-msgstr ""
+msgstr "_Névjegy"
 
 #: ../src/gmpv_mpv_obj.c:240
 #, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr ""
+msgstr "A lejátszás nem megfelelően lett leállítva. Ok: %s."
 
 #: ../src/gmpv_mpv_obj.c:1040
 msgid "Failed to apply one or more MPV options."
-msgstr ""
+msgstr "Egy vagy több MPV beállítás alkalmazása nem sikerült"
 
 #: ../src/gmpv_open_loc_dialog.c:78
 msgid "Location:"
@@ -363,7 +369,7 @@ msgstr "_Hely hozzáadása..."
 
 #: ../src/gmpv_playlist_widget.c:509
 msgid "Loop"
-msgstr ""
+msgstr "Ismétlés"
 
 #: ../src/gmpv_playlist_widget.c:607
 msgid "Playlist"
@@ -420,7 +426,7 @@ msgstr "Sötét téma engedélyezése"
 
 #: ../src/gmpv_pref_dialog.c:291
 msgid "Remember last file's location"
-msgstr ""
+msgstr "Az utolsó fájl pozíciójának megjegyzése"
 
 #: ../src/gmpv_pref_dialog.c:294
 msgid "<b>MPV Configuration</b>"
@@ -480,15 +486,15 @@ msgstr "Beállítások párbeszédablak mutatása"
 
 #: ../src/gmpv_shortcuts_window.c:57
 msgid "Toggle controls"
-msgstr ""
+msgstr "Vezérlők BE/KI"
 
 #: ../src/gmpv_shortcuts_window.c:58
 msgid "Toggle playlist"
-msgstr ""
+msgstr "Lejátszási lista BE/KI"
 
 #: ../src/gmpv_shortcuts_window.c:59
 msgid "Toggle fullscreen mode"
-msgstr ""
+msgstr "Teljes képernyős mód BE/KI"
 
 #: ../src/gmpv_shortcuts_window.c:60
 msgid "Leave fullscreen mode"
@@ -496,7 +502,7 @@ msgstr "Kilépés a teljes képernyős módból"
 
 #: ../src/gmpv_shortcuts_window.c:61
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
+msgstr "Váltás a normál és a lejátszási idő/hossz OSD között"
 
 #: ../src/gmpv_shortcuts_window.c:62
 msgid "Show filename on the OSD"
@@ -652,23 +658,23 @@ msgstr "Videó átméretezése az eredeti méret kétszeresére"
 
 #: ../src/gmpv_shortcuts_window.c:111
 msgid "Adjust contrast"
-msgstr ""
+msgstr "Kontraszt beállítása"
 
 #: ../src/gmpv_shortcuts_window.c:112
 msgid "Adjust brightness"
-msgstr ""
+msgstr "Világosság beállítása"
 
 #: ../src/gmpv_shortcuts_window.c:113
 msgid "Adjust gamma"
-msgstr ""
+msgstr "Gamma beállítása"
 
 #: ../src/gmpv_shortcuts_window.c:114
 msgid "Adjust saturation"
-msgstr ""
+msgstr "Telítettség beállítása"
 
 #: ../src/gmpv_shortcuts_window.c:115
 msgid "Activate or deactivate deinterlacer"
-msgstr ""
+msgstr "Váltottsorosság-mentesítés be/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:116
 msgid "Cycle aspect ratio override"
