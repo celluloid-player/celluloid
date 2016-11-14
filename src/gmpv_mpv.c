@@ -1037,7 +1037,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		g_signal_emit_by_name(mpv, "mpv-error", msg);
 	}
 
-	if(mpv->force_opengl)
+	if(mpv->force_opengl || mpv->wid <= 0)
 	{
 		g_info("Forcing --vo=opengl-cb");
 		mpv_set_option_string(mpv->mpv_ctx, "vo", "opengl-cb");
