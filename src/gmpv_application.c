@@ -313,22 +313,13 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	if(csd_enable)
 	{
-		gmpv_control_box_set_fullscreen_btn_visible
-			(control_box, FALSE);
+		gmpv_control_box_set_fullscreen_btn_visible(control_box, FALSE);
 	}
 
 	gmpv_control_box_set_chapter_enabled(control_box, FALSE);
 
 	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
 	app->mpv = gmpv_mpv_new(app->playlist_store, wid);
-
-	if(csd_enable)
-	{
-		gmpv_control_box_set_fullscreen_btn_visible
-			(control_box, FALSE);
-	}
-
-	gmpv_control_box_set_chapter_enabled(control_box, FALSE);
 
 	connect_signals(app);
 	gmpv_mpris_init(app);
