@@ -17,14 +17,17 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <unistd.h>
 #include <glib.h>
+#include <glib-object.h>
 #include <gio/gio.h>
 #include <gtk/gtk.h>
+#include <gdk/gdk.h>
 
 #include "gmpv_mpris.h"
 #include "gmpv_mpris_base.h"
 #include "gmpv_mpris_player.h"
-#include "gmpv_mpris_gdbus.h" /* auto-generated */
+#include "gmpv_main_window.h"
 #include "gmpv_def.h"
 
 static void name_acquired_handler(	GDBusConnection *connection,

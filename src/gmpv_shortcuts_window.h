@@ -20,6 +20,8 @@
 #ifndef SHORTCUTS_WINDOW_H
 #define SHORTCUTS_WINDOW_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

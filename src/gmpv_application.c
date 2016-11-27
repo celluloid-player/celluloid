@@ -31,6 +31,7 @@
 #include "gmpv_playbackctl.h"
 #include "gmpv_playlist_widget.h"
 #include "gmpv_track.h"
+#include "gmpv_common.h"
 #include "gmpv_menu.h"
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_wrapper.h"

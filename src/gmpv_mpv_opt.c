@@ -17,6 +17,9 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gdk/gdk.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <string.h>
 #include <mpv/client.h>
 
@@ -24,6 +27,7 @@
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_private.h"
 #include "gmpv_mpv_wrapper.h"
+#include "gmpv_geometry.h"
 #include "gmpv_def.h"
 
 static gboolean parse_geom_token(const gchar **iter, GValue *value);

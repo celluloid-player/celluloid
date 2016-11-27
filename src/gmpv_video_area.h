@@ -20,6 +20,8 @@
 #ifndef VIDEO_AREA_H
 #define VIDEO_AREA_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 #define GMPV_TYPE_VIDEO_AREA (gmpv_video_area_get_type ())

@@ -20,8 +20,8 @@
 #ifndef PLAYBACKCTL_H
 #define PLAYBACKCTL_H
 
-#include "gmpv_playbackctl.h"
-#include "gmpv_common.h"
+#include <glib.h>
+#include "gmpv_application.h"
 
 G_BEGIN_DECLS
 

@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gio.h>
+#include <glib.h>
 #include <glib/gi18n.h>
 
 #include "gmpv_header_bar.h"

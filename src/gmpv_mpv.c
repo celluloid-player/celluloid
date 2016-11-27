@@ -17,6 +17,11 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gio.h>
+#include <gtk/gtk.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <glib-object.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdk.h>
@@ -42,13 +47,9 @@
 #include "gmpv_mpv_private.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_mpv_opt.h"
-#include "gmpv_application.h"
 #include "gmpv_common.h"
 #include "gmpv_def.h"
-#include "gmpv_track.h"
 #include "gmpv_playlist.h"
-#include "gmpv_control_box.h"
-#include "gmpv_playlist_widget.h"
 
 static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name);
 static void *get_proc_address(void *fn_ctx, const gchar *name);

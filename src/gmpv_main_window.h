@@ -20,6 +20,8 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 #include "gmpv_playlist.h"

@@ -20,6 +20,7 @@
 #ifndef MPV_OPT_H
 #define MPV_OPT_H
 
+#include <glib.h>
 #include <mpv/client.h>
 
 #include "gmpv_mpv.h"

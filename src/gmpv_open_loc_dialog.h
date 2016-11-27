@@ -20,6 +20,8 @@
 #ifndef OPEN_LOC_DIALOG_H
 #define OPEN_LOC_DIALOG_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

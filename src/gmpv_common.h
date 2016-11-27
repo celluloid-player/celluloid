@@ -20,10 +20,9 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <mpv/client.h>
-#include <mpv/opengl_cb.h>
+#include <glib.h>
+#include <gtk/gtk.h>
 
-#include "gmpv_playlist.h"
 #include "gmpv_application.h"
 
 G_BEGIN_DECLS

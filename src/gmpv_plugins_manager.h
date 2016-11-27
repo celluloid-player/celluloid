@@ -20,6 +20,8 @@
 #ifndef PLUGINS_MANAGER_H
 #define PLUGINS_MANAGER_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

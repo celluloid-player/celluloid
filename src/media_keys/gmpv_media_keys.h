@@ -20,7 +20,10 @@
 #ifndef MEDIA_KEYS_H
 #define MEDIA_KEYS_H
 
-#include "gmpv_common.h"
+#include <gio/gio.h>
+#include <glib.h>
+
+#include "gmpv_application.h"
 
 typedef struct gmpv_media_keys gmpv_media_keys;
 

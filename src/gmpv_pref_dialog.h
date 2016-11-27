@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 gnome-mpv
+ * Copyright (c) 2014-2016 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -20,6 +20,8 @@
 #ifndef PREF_DIALOG_H
 #define PREF_DIALOG_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

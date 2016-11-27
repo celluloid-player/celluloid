@@ -20,6 +20,8 @@
 #ifndef HEADER_BAR_H
 #define HEADER_BAR_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 #define GMPV_TYPE_HEADER_BAR (gmpv_header_bar_get_type ())

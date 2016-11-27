@@ -17,7 +17,10 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gio.h>
 #include <gio/gsettingsbackend.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <glib/gi18n.h>
 #include <string.h>
 
@@ -26,9 +29,7 @@
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_main_window.h"
-#include "gmpv_video_area.h"
 #include "gmpv_control_box.h"
-#include "gmpv_playlist_widget.h"
 
 gchar *get_config_dir_path(void)
 {

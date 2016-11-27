@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib.h>
+#include <glib-object.h>
 #include <glib/gi18n.h>
 
 #include "gmpv_control_box.h"

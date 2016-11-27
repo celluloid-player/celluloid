@@ -17,14 +17,11 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <glib/gi18n.h>
+#include <glib.h>
+#include <glib-object.h>
 
 #include "gmpv_playlist.h"
 #include "gmpv_marshal.h"
-#include "gmpv_common.h"
-#include "gmpv_mpv.h"
-#include "gmpv_control_box.h"
-#include "gmpv_playlist_widget.h"
 
 struct _GmpvPlaylist
 {

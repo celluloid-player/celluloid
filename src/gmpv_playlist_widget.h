@@ -20,6 +20,8 @@
 #ifndef PLAYLIST_WIDGET_H
 #define PLAYLIST_WIDGET_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 #include "gmpv_playlist.h"

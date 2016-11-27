@@ -17,6 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 #include "gmpv_seek_bar.h"

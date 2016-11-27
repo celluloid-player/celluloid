@@ -17,6 +17,10 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gio.h>
+#include <gdk/gdk.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <glib/gi18n.h>
 
 #include "gmpv_pref_dialog.h"

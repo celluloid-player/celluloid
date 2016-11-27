@@ -17,6 +17,11 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <string.h>
+#include <cairo.h>
+#include <glib.h>
+#include <gio/gio.h>
+#include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
 #include "gmpv_playlist_widget.h"

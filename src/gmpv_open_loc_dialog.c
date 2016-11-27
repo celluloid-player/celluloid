@@ -17,6 +17,7 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
 #include "gmpv_open_loc_dialog.h"

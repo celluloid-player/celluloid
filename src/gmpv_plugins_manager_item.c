@@ -17,6 +17,10 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gdk/gdk.h>
+#include <gio/gio.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <glib/gi18n.h>
 
 #include "gmpv_plugins_manager_item.h"

@@ -22,9 +22,9 @@
 #include "gmpv_control_box.h"
 #include "gmpv_def.h"
 
-#ifdef GDK_WINDOWING_WAYLAND
-#include <gdk/gdkwayland.h>
-#endif
+#include <gtk/gtk.h>
+#include <gdk/gdk.h>
+#include <glib-object.h>
 
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>

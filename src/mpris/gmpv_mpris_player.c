@@ -17,8 +17,15 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gio/gio.h>
+#include <glib.h>
+#include <glib-object.h>
+#include <mpv/client.h>
 #include <string.h>
 
+#include "gmpv_application.h"
+#include "gmpv_main_window.h"
+#include "gmpv_mpris.h"
 #include "gmpv_mpris_player.h"
 #include "gmpv_mpris_gdbus.h"
 #include "gmpv_mpv.h"

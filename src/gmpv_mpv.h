@@ -20,7 +20,8 @@
 #ifndef MPV_OBJ_H
 #define MPV_OBJ_H
 
-#include <gtk/gtk.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
 

@@ -20,6 +20,8 @@
 #ifndef INPUTCTL_H
 #define INPUTCTL_H
 
+#include <glib.h>
+
 #include "gmpv_application.h"
 
 G_BEGIN_DECLS

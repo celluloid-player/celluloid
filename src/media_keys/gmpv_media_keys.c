@@ -17,6 +17,11 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib-object.h>
+#include <gtk/gtk.h>
+#include <gdk/gdk.h>
+
+#include "gmpv_main_window.h"
 #include "gmpv_media_keys.h"
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_wrapper.h"

@@ -20,6 +20,8 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

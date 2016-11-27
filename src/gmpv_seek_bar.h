@@ -20,6 +20,8 @@
 #ifndef SEEK_BAR_H
 #define SEEK_BAR_H
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

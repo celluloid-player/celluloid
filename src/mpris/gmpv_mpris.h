@@ -20,7 +20,10 @@
 #ifndef MPRIS_H
 #define MPRIS_H
 
-#include "gmpv_common.h"
+#include <gio/gio.h>
+#include <glib.h>
+
+#include "gmpv_application.h"
 
 typedef struct gmpv_mpris gmpv_mpris;
 typedef struct gmpv_mpris_prop gmpv_mpris_prop;

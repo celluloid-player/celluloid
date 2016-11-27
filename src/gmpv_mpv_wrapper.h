@@ -20,6 +20,10 @@
 #ifndef MPV_WRAPPER_H
 #define MPV_WRAPPER_H
 
+#include <glib.h>
+#include <mpv/client.h>
+#include <mpv/opengl_cb.h>
+
 #include "gmpv_mpv.h"
 
 gint gmpv_mpv_command(GmpvMpv *mpv, const gchar **cmd);

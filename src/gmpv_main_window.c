@@ -17,12 +17,10 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <glib/gi18n.h>
+#include <glib.h>
+#include <glib-object.h>
+#include <gio/gio.h>
 #include <gdk/gdk.h>
-
-#ifdef GDK_WINDOWING_WAYLAND
-#include <gdk/gdkwayland.h>
-#endif
 
 #include "gmpv_def.h"
 #include "gmpv_menu.h"
