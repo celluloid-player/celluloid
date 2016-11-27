@@ -1164,24 +1164,28 @@ void gmpv_mpv_load_list(	GmpvMpv *mpv,
 	for(gint i = 0; uri_list[i]; i++)
 	{
 		const gchar *ext = strrchr(uri_list[i], '.');
-		gint j;
+		gboolean subtitle = FALSE;
 
 		/* Only start checking the extension if there is at
 		 * least one character after the dot.
 		 */
 		if(ext && ++ext)
 		{
-			for(	j = 0;
-				sub_exts[j] &&
-				g_strcmp0(ext, sub_exts[j]) != 0;
-				j++ );
+			const gchar *const *cur = sub_exts;
+
+			/* Check if the file extension matches one of the
+			 * supported subtitle formats.
+			 */
+			while(*cur && g_strcmp0(ext, *(cur++)) != 0);
+
+			subtitle = !!(*cur);
 		}
 
 		/* Only attempt to load file as subtitle if there
 		 * already is a file loaded. Try to load the file as a
 		 * media file otherwise.
 		 */
-		if(ext && sub_exts[j] && gmpv_mpv_get_state(mpv)->loaded)
+		if(ext && subtitle && gmpv_mpv_get_state(mpv)->loaded)
 		{
 			const gchar *cmd[] = {"sub-add", NULL, NULL};
 			gchar *path;
@@ -1189,9 +1193,7 @@ void gmpv_mpv_load_list(	GmpvMpv *mpv,
 			/* Convert to path if possible to get rid of
 			 * percent encoding.
 			 */
-			path =	g_filename_from_uri
-				(uri_list[i], NULL, NULL);
-
+			path = g_filename_from_uri(uri_list[i], NULL, NULL);
 			cmd[1] = path?:uri_list[i];
 
 			gmpv_mpv_command(mpv, cmd);
