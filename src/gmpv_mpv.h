@@ -45,30 +45,6 @@ struct _GmpvMpvState
 };
 
 GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid);
-gint gmpv_mpv_command(GmpvMpv *mpv, const gchar **cmd);
-gint gmpv_mpv_command_string(GmpvMpv *mpv, const gchar *cmd);
-gint gmpv_mpv_get_property(	GmpvMpv *mpv,
-				const gchar *name,
-				mpv_format format,
-				void *data );
-gchar *gmpv_mpv_get_property_string(GmpvMpv *mpv, const gchar *name);
-gboolean gmpv_mpv_get_property_flag(GmpvMpv *mpv, const gchar *name);
-gint gmpv_mpv_set_property(	GmpvMpv *mpv,
-				const gchar *name,
-				mpv_format format,
-				void *data );
-gint gmpv_mpv_set_property_flag(	GmpvMpv *mpv,
-					const gchar *name,
-					gboolean value);
-gint gmpv_mpv_set_property_string(	GmpvMpv *mpv,
-					const gchar *name,
-					const char *data );
-void gmpv_mpv_set_event_callback(	GmpvMpv *mpv,
-					void (*func)(mpv_event *, void *),
-					void *data );
-void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,
-					mpv_opengl_cb_update_fn func,
-					void *data );
 const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv);
 GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv);
 gdouble gmpv_mpv_get_autofit_ratio(GmpvMpv *mpv);

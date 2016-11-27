@@ -33,6 +33,7 @@
 #include "gmpv_track.h"
 #include "gmpv_menu.h"
 #include "gmpv_mpv.h"
+#include "gmpv_mpv_wrapper.h"
 #include "gmpv_video_area.h"
 #include "gmpv_def.h"
 #include "mpris/gmpv_mpris.h"

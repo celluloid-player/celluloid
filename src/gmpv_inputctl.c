@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "gmpv_inputctl.h"
+#include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
 
 static gchar *get_full_keystr(guint keyval, guint state);

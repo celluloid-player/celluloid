@@ -19,6 +19,7 @@
 
 #include "gmpv_media_keys.h"
 #include "gmpv_mpv.h"
+#include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
 
 static gboolean delete_handler(	GtkWidget *widget,

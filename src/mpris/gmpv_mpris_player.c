@@ -22,6 +22,7 @@
 #include "gmpv_mpris_player.h"
 #include "gmpv_mpris_gdbus.h"
 #include "gmpv_mpv.h"
+#include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
 
 static void prop_table_init(gmpv_mpris *inst);

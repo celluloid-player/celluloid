@@ -23,6 +23,7 @@
 #include "gmpv_control_box.h"
 #include "gmpv_common.h"
 #include "gmpv_mpv.h"
+#include "gmpv_mpv_wrapper.h"
 
 static void play_handler(GtkWidget *widget, gpointer data);
 static void stop_handler(GtkWidget *widget, gpointer data);

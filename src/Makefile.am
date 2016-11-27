@@ -59,6 +59,7 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_seek_bar.c gmpv_seek_bar.h \
 			gmpv_track.c gmpv_track.h \
 			gmpv_video_area.c gmpv_video_area.h \
+			gmpv_mpv_wrapper.c gmpv_mpv_wrapper.h \
 			$(mpris_files) $(marshal_files) $(media_key_files) \
 			$(authors_files)
 

@@ -23,6 +23,7 @@
 #include "gmpv_mpv_opt.h"
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_private.h"
+#include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
 
 static gboolean parse_geom_token(const gchar **iter, GValue *value);

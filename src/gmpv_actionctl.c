@@ -23,6 +23,7 @@
 #include "gmpv_playlist_widget.h"
 #include "gmpv_def.h"
 #include "gmpv_mpv.h"
+#include "gmpv_mpv_wrapper.h"
 #include "gmpv_playlist.h"
 #include "gmpv_open_loc_dialog.h"
 #include "gmpv_pref_dialog.h"

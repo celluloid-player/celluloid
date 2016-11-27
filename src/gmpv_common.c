@@ -24,6 +24,7 @@
 #include "gmpv_common.h"
 #include "gmpv_def.h"
 #include "gmpv_mpv.h"
+#include "gmpv_mpv_wrapper.h"
 #include "gmpv_main_window.h"
 #include "gmpv_video_area.h"
 #include "gmpv_control_box.h"
