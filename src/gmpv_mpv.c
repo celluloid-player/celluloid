@@ -1196,6 +1196,7 @@ void gmpv_mpv_load_list(	GmpvMpv *mpv,
 			path = g_filename_from_uri(uri_list[i], NULL, NULL);
 			cmd[1] = path?:uri_list[i];
 
+			g_debug("Loading external subtitle: %s", cmd[1]);
 			gmpv_mpv_command(mpv, cmd);
 
 			g_free(path);
