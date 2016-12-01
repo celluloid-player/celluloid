@@ -31,7 +31,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(GmpvSeekBar, gmpv_seek_bar, GMPV, SEEK_BAR, GtkBox)
 
 GtkWidget *gmpv_seek_bar_new(void);
-void gmpv_seek_bar_set_length(GmpvSeekBar *bar, gdouble length);
+void gmpv_seek_bar_set_duration(GmpvSeekBar *bar, gdouble duration);
 void gmpv_seek_bar_set_pos(GmpvSeekBar *bar, gdouble pos);
 
 G_END_DECLS

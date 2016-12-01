@@ -163,13 +163,16 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
-		gboolean idle;
+		gboolean idle_active;
 
 		mpv->state.paused = prop->data?*((int *)prop->data):TRUE;
 
-		mpv_get_property(mpv->mpv_ctx, "idle", MPV_FORMAT_FLAG, &idle);
+		mpv_get_property(	mpv->mpv_ctx,
+					"idle-active",
+					MPV_FORMAT_FLAG,
+					&idle_active );
 
-		if(idle && !mpv->state.paused)
+		if(idle_active && !mpv->state.paused)
 		{
 			gmpv_mpv_load(mpv, NULL, FALSE, TRUE);
 		}
@@ -864,7 +867,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 	mpv_observe_property(mpv->mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "length", MPV_FORMAT_DOUBLE);
+	mpv_observe_property(mpv->mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
 	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);

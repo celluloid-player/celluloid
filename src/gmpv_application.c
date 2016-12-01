@@ -682,11 +682,12 @@ static void mpv_prop_change_handler(mpv_event_property *prop, gpointer data)
 
 		gmpv_control_box_set_volume(control_box, volume);
 	}
-	else if(g_strcmp0(prop->name, "length") == 0 && prop->data)
+	else if(g_strcmp0(prop->name, "duration") == 0 && prop->data)
 	{
-		gdouble length = *((gdouble *) prop->data);
+		gdouble duration = *((gdouble *) prop->data);
 
-		gmpv_control_box_set_seek_bar_length(control_box, (gint)length);
+		gmpv_control_box_set_seek_bar_duration
+			(control_box, (gint)duration);
 	}
 	else if(g_strcmp0(prop->name, "media-title") == 0 && prop->data)
 	{
@@ -743,7 +744,7 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		GmpvPlaylist *playlist;
 		gchar *title;
 		gint64 pos = -1;
-		gdouble length = 0;
+		gdouble duration = 0;
 
 		control_box = gmpv_main_window_get_control_box(app->gui);
 		playlist = gmpv_mpv_get_playlist(mpv);
@@ -762,14 +763,14 @@ static void mpv_event_handler(mpv_event *event, gpointer data)
 		gmpv_mpv_get_property
 			(mpv, "playlist-pos", MPV_FORMAT_INT64, &pos);
 		gmpv_mpv_get_property
-			(mpv, "length", MPV_FORMAT_DOUBLE, &length);
+			(mpv, "duration", MPV_FORMAT_DOUBLE, &duration);
 
 		title = gmpv_mpv_get_property_string(mpv, "media-title");
 
 		gmpv_control_box_set_enabled(control_box, TRUE);
 		gmpv_control_box_set_playing_state(control_box, !state->paused);
 		gmpv_playlist_set_indicator_pos(playlist, (gint)pos);
-		gmpv_control_box_set_seek_bar_length(control_box, (gint)length);
+		gmpv_control_box_set_seek_bar_duration(control_box, (gint)duration);
 		gtk_window_set_title(GTK_WINDOW(app->gui), title);
 
 		gmpv_mpv_free(title);

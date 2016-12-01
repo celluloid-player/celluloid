@@ -388,14 +388,14 @@ static void playback_status_update_handler(gmpv_mpris *inst)
 	gmpv_mpris_prop *prop_list;
 	GVariant *state_value;
 	GVariant *can_seek_value;
-	gint idle;
+	gint idle_active;
 	gint core_idle;
 	gboolean can_seek;
 
-	gmpv_mpv_get_property(mpv, "idle", MPV_FORMAT_FLAG, &idle);
+	gmpv_mpv_get_property(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
 	gmpv_mpv_get_property(mpv, "core-idle", MPV_FORMAT_FLAG, &core_idle);
 
-	if(!core_idle && !idle)
+	if(!core_idle && !idle_active)
 	{
 		GmpvMainWindow *wnd =	gmpv_application_get_main_window
 					(inst->gmpv_ctx);
@@ -405,7 +405,7 @@ static void playback_status_update_handler(gmpv_mpris *inst)
 
 		mpv_playback_restart_handler(wnd, inst);
 	}
-	else if(core_idle && idle)
+	else if(core_idle && idle_active)
 	{
 		state = "Stopped";
 		can_seek = FALSE;
@@ -612,7 +612,7 @@ static void mpv_init_handler(GmpvMainWindow *wnd, gpointer data)
 	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 	mpv_handle *mpv_ctx = gmpv_mpv_get_mpv_handle(mpv);
 
-	mpv_observe_property(mpv_ctx, 0, "idle", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv_ctx, 0, "idle-active", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
@@ -666,7 +666,7 @@ static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 	GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
 
 	if(g_strcmp0(name, "core-idle") == 0
-	|| g_strcmp0(name, "idle") == 0)
+	|| g_strcmp0(name, "idle-active") == 0)
 	{
 		playback_status_update_handler(inst);
 	}

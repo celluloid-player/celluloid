@@ -325,9 +325,9 @@ void gmpv_control_box_set_seek_bar_pos(GmpvControlBox *box, gdouble pos)
 	gmpv_seek_bar_set_pos(GMPV_SEEK_BAR(box->seek_bar), pos);
 }
 
-void gmpv_control_box_set_seek_bar_length(GmpvControlBox *box, gint length)
+void gmpv_control_box_set_seek_bar_duration(GmpvControlBox *box, gint duration)
 {
-	gmpv_seek_bar_set_length(GMPV_SEEK_BAR(box->seek_bar), length);
+	gmpv_seek_bar_set_duration(GMPV_SEEK_BAR(box->seek_bar), duration);
 }
 
 void gmpv_control_box_set_volume(GmpvControlBox *box, gdouble volume)
@@ -392,7 +392,7 @@ void gmpv_control_box_set_fullscreen_btn_visible(	GmpvControlBox *box,
 void gmpv_control_box_reset(GmpvControlBox *box)
 {
 	gmpv_control_box_set_seek_bar_pos(box, 0);
-	gmpv_control_box_set_seek_bar_length(box, 0);
+	gmpv_control_box_set_seek_bar_duration(box, 0);
 	gmpv_control_box_set_playing_state(box, FALSE);
 	gmpv_control_box_set_chapter_enabled(box, FALSE);
 	gmpv_control_box_set_fullscreen_state(box, FALSE);
