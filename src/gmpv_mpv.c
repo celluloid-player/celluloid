@@ -1070,8 +1070,6 @@ void gmpv_mpv_load(	GmpvMpv *mpv,
 
 	if(!append && uri && update)
 	{
-		gmpv_playlist_clear(mpv->playlist);
-
 		mpv->state.new_file = TRUE;
 		mpv->state.loaded = FALSE;
 	}
