@@ -1,10 +1,11 @@
 # Bendegúz Gyönki <gyonkibendeguz@gmail.com>, 2016. #zanata
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-16 23:25+0700\n"
-"PO-Revision-Date: 2016-10-28 10:15-0400\n"
+"PO-Revision-Date: 2016-12-12 07:14-0500\n"
 "Last-Translator: Bendegúz Gyönki <gyonkibendeguz@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
@@ -194,7 +195,7 @@ msgstr ""
 
 #: ../src/gmpv_actionctl.c:504
 msgid "Load External…"
-msgstr ""
+msgstr "Külső betöltése..."
 
 #: ../src/gmpv_actionctl.c:605
 msgid "A GTK frontend for MPV"
@@ -218,7 +219,7 @@ msgstr ""
 
 #: ../src/gmpv_application.c:1372
 msgid "Don't connect to an already-running instance"
-msgstr ""
+msgstr "Ne csatlakozzon egy már futó példányhoz"
 
 #: ../src/gmpv_common.c:250
 msgid "Error"
@@ -230,15 +231,15 @@ msgstr "Lejátszás"
 
 #: ../src/gmpv_control_box.c:191
 msgid "Stop"
-msgstr "Állj"
+msgstr "Megállítás"
 
 #: ../src/gmpv_control_box.c:192
 msgid "Forward"
-msgstr "VIsszatekerés"
+msgstr "Előretekerés"
 
 #: ../src/gmpv_control_box.c:193
 msgid "Rewind"
-msgstr "Előretekerés"
+msgstr "Visszatekerés"
 
 #: ../src/gmpv_control_box.c:194
 msgid "Next Chapter"
@@ -258,7 +259,7 @@ msgstr "Szünet"
 
 #: ../src/gmpv_menu.c:53
 msgid "None"
-msgstr ""
+msgstr "Egyik sem"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
@@ -268,7 +269,7 @@ msgstr "Ismeretlen"
 
 #: ../src/gmpv_menu.c:103
 msgid "_Load External…"
-msgstr ""
+msgstr "_Külső betöltése..."
 
 #: ../src/gmpv_menu.c:189
 msgid "_File"
@@ -312,11 +313,11 @@ msgstr "_Nézet"
 
 #: ../src/gmpv_menu.c:200 ../src/gmpv_menu.c:229
 msgid "_Toggle Controls"
-msgstr "_Vezérlők BE/KI"
+msgstr "_Vezérlők be-/kikapcsolása"
 
 #: ../src/gmpv_menu.c:201 ../src/gmpv_menu.c:231
 msgid "_Toggle Playlist"
-msgstr "_Lejátszási lista BE/KI"
+msgstr "_Lejátszási lista be-/kikapcsolása"
 
 #: ../src/gmpv_menu.c:202
 msgid "_Fullscreen"
@@ -486,15 +487,15 @@ msgstr "Beállítások párbeszédablak mutatása"
 
 #: ../src/gmpv_shortcuts_window.c:57
 msgid "Toggle controls"
-msgstr "Vezérlők BE/KI"
+msgstr "Vezérlők be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:58
 msgid "Toggle playlist"
-msgstr "Lejátszási lista BE/KI"
+msgstr "Lejátszási lista be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:59
 msgid "Toggle fullscreen mode"
-msgstr "Teljes képernyős mód BE/KI"
+msgstr "Teljes képernyős mód be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:60
 msgid "Leave fullscreen mode"
@@ -506,7 +507,7 @@ msgstr "Váltás a normál és a lejátszási idő/hossz OSD között"
 
 #: ../src/gmpv_shortcuts_window.c:62
 msgid "Show filename on the OSD"
-msgstr ""
+msgstr "Fájlnév megjelenítése az OSD-n"
 
 #: ../src/gmpv_shortcuts_window.c:63
 msgid "Show progress, elapsed time, and duration on the OSD"
@@ -554,11 +555,11 @@ msgstr ""
 
 #: ../src/gmpv_shortcuts_window.c:78
 msgid "Go backward/forward in the playlist"
-msgstr ""
+msgstr "Ugrás előre/hátra a lejátszási listában"
 
 #: ../src/gmpv_shortcuts_window.c:79
 msgid "Remove selected playlist item"
-msgstr ""
+msgstr "Kiválasztott lejátszási elem eltávolítása"
 
 #: ../src/gmpv_shortcuts_window.c:80
 msgid "Save playlist"
@@ -566,15 +567,15 @@ msgstr "Lejátszási lista mentése"
 
 #: ../src/gmpv_shortcuts_window.c:81
 msgid "Set/clear A-B loop points"
-msgstr ""
+msgstr "A-B ismétlési szakasz beállítása/törlése"
 
 #: ../src/gmpv_shortcuts_window.c:82
 msgid "Toggle infinite looping"
-msgstr ""
+msgstr "Végtelen ismétlés be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:83
 msgid "Pause or unpause"
-msgstr ""
+msgstr "Szünet vagy folytatás"
 
 #: ../src/gmpv_shortcuts_window.c:84
 msgid "Quit"
@@ -586,7 +587,7 @@ msgstr "Jelenlegi lejátszási pozíció mentése és kilépés"
 
 #: ../src/gmpv_shortcuts_window.c:88
 msgid "Cycle through audio tracks"
-msgstr ""
+msgstr "Váltás a hangsávok között"
 
 #: ../src/gmpv_shortcuts_window.c:89 ../src/gmpv_shortcuts_window.c:90
 msgid "Decrease/increase volume"
@@ -594,27 +595,27 @@ msgstr "Hangerő csökkentése/növelése"
 
 #: ../src/gmpv_shortcuts_window.c:91
 msgid "Mute or unmute"
-msgstr ""
+msgstr "Némítás be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:92
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Hangsáv eltolásának beállítása 0,1 mp időközökkel"
 
 #: ../src/gmpv_shortcuts_window.c:95
 msgid "Toggle subtitle visibility"
-msgstr ""
+msgstr "Felirat láthatóságának be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:96
 msgid "Cycle through available subtitles"
-msgstr ""
+msgstr "Váltás az elérhető feliratok között"
 
 #: ../src/gmpv_shortcuts_window.c:97
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Feliratok eltolásának beállítása 0,1 mp időközökkel"
 
 #: ../src/gmpv_shortcuts_window.c:98
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr ""
+msgstr "SSA/ASS feliratstílus felülbírálásának be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:99
 msgid "Move subtitles up/down"
@@ -622,11 +623,11 @@ msgstr "Feliratok mozgatása fel/le"
 
 #: ../src/gmpv_shortcuts_window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr ""
+msgstr "VSFilter képarány-kompatibilitási mód be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:103
 msgid "Cycle through video tracks"
-msgstr ""
+msgstr "Váltás a videósávok között"
 
 #: ../src/gmpv_shortcuts_window.c:104
 msgid "Decrease/increase pan-and-scan range"
@@ -642,7 +643,7 @@ msgstr "Képernyőkép készítése feliratok nélkül"
 
 #: ../src/gmpv_shortcuts_window.c:107
 msgid "Take a screenshot, as the window shows it"
-msgstr ""
+msgstr "Képernyőkép készítése az ablak tartalmáról"
 
 #: ../src/gmpv_shortcuts_window.c:108
 msgid "Resize video to half its original size"
@@ -674,7 +675,7 @@ msgstr "Telítettség beállítása"
 
 #: ../src/gmpv_shortcuts_window.c:115
 msgid "Activate or deactivate deinterlacer"
-msgstr "Váltottsorosság-mentesítés be/kikapcsolása"
+msgstr "Váltottsorosság-mentesítés be-/kikapcsolása"
 
 #: ../src/gmpv_shortcuts_window.c:116
 msgid "Cycle aspect ratio override"
