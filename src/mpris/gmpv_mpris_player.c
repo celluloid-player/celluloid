@@ -68,6 +68,7 @@ static void mpv_init_handler(GmpvMainWindow *wnd, gpointer data);
 static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data);
 static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 					gchar *name,
+					gpointer value,
 					gpointer data );
 
 static void prop_table_init(gmpv_mpris *inst)
@@ -660,6 +661,7 @@ static void mpv_playback_restart_handler(GmpvMainWindow *wnd, gpointer data)
 
 static void mpv_prop_change_handler(	GmpvMainWindow *wnd,
 					gchar *name,
+					gpointer value,
 					gpointer data )
 {
 	gmpv_mpris *inst = data;

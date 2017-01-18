@@ -294,3 +294,19 @@ void resize_window_to_fit(GmpvApplication *app, gdouble multiplier)
 
 	gmpv_mpv_free(video);
 }
+
+gchar *strnjoinv(const gchar *separator, const gchar **str_array, gsize count)
+{
+	gsize args_size = ((gsize)count+1)*sizeof(gchar *);
+	gchar **args = g_malloc(args_size);
+	gchar *result;
+
+	memcpy(args, str_array, args_size-sizeof(gchar *));
+	args[count] = NULL;
+	result = g_strjoinv(separator, args);
+
+	g_free(args);
+
+	return result;
+}
+

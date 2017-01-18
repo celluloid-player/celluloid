@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -46,9 +46,7 @@ struct _GmpvMpv
 	GmpvGeometry *geometry;
 	gboolean force_opengl;
 	gint64 wid;
-	void *event_callback_data;
 	void *opengl_cb_callback_data;
-	void (*event_callback)(mpv_event *, void *data);
 	void (*opengl_cb_callback)(void *data);
 };
 

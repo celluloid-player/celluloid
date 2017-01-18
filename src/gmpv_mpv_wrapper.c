@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -191,14 +191,6 @@ gint gmpv_mpv_set_property_flag(	GmpvMpv *mpv,
 	}
 
 	return rc;
-}
-
-void gmpv_mpv_set_event_callback(	GmpvMpv *mpv,
-					void (*func)(mpv_event *, void *),
-					void *data )
-{
-	mpv->event_callback = func;
-	mpv->event_callback_data = data;
 }
 
 void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,

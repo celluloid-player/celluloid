@@ -40,6 +40,7 @@ void resize_window_to_fit(GmpvApplication *app, gdouble multiplier);
 void load_keybind(	GmpvApplication *app,
 			const gchar *config_path,
 			gboolean notify_ignore );
+gchar *strnjoinv(const gchar *separator, const gchar **str_array, gsize count);
 
 #if GTK_CHECK_VERSION(3, 19, 7)
 #define GmpvFileChooser GtkFileChooserNative

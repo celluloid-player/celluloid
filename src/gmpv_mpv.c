@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -50,6 +50,7 @@
 #include "gmpv_common.h"
 #include "gmpv_def.h"
 #include "gmpv_playlist.h"
+#include "gmpv_marshal.h"
 
 static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name);
 static void *get_proc_address(void *fn_ctx, const gchar *name);
@@ -202,7 +203,8 @@ static gboolean mpv_event_handler(gpointer data)
 
 			g_signal_emit_by_name(	mpv,
 						"mpv-prop-change",
-						prop->name );
+						prop->name,
+						prop->data );
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
@@ -215,6 +217,11 @@ static gboolean mpv_event_handler(gpointer data)
 				gmpv_playlist_reset(mpv->playlist);
 			}
 
+			if(!mpv->state.init_load && !mpv->state.loaded)
+			{
+				g_signal_emit_by_name(mpv, "idle");
+			}
+
 			mpv->state.init_load = FALSE;
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
@@ -223,6 +230,8 @@ static gboolean mpv_event_handler(gpointer data)
 			mpv->state.init_load = FALSE;
 
 			update_playlist(mpv);
+
+			g_signal_emit_by_name(mpv, "load");
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
@@ -259,6 +268,8 @@ static gboolean mpv_event_handler(gpointer data)
 			{
 				gmpv_mpv_opt_handle_autofit(mpv);
 			}
+
+			g_signal_emit_by_name(mpv, "video-reconfig");
 		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
 		{
@@ -268,20 +279,29 @@ static gboolean mpv_event_handler(gpointer data)
 		{
 			log_handler(mpv, event->data);
 		}
-		else if(event->event_id == MPV_EVENT_SHUTDOWN
-		|| event->event_id == MPV_EVENT_NONE)
+		else if(event->event_id == MPV_EVENT_CLIENT_MESSAGE)
+		{
+			mpv_event_client_message *event_cmsg = event->data;
+			gchar* msg = strnjoinv(	" ",
+						event_cmsg->args,
+						(gsize)event_cmsg->num_args );
+
+			g_signal_emit_by_name(mpv, "message", msg);
+			g_free(msg);
+		}
+		else if(event->event_id == MPV_EVENT_SHUTDOWN)
+		{
+			g_signal_emit_by_name(mpv, "shutdown");
+
+			done = TRUE;
+		}
+		else if(event->event_id == MPV_EVENT_NONE)
 		{
 			done = TRUE;
 		}
 
 		if(event)
 		{
-			if(mpv->event_callback)
-			{
-				mpv->event_callback
-					(event, mpv->event_callback_data);
-			}
-
 			if(mpv->mpv_ctx)
 			{
 				g_signal_emit_by_name
@@ -676,10 +696,58 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			0,
 			NULL,
 			NULL,
+			g_cclosure_gen_marshal_VOID__STRING_POINTER,
+			G_TYPE_NONE,
+			2,
+			G_TYPE_STRING,
+			G_TYPE_POINTER );
+
+	g_signal_new(	"idle",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+	g_signal_new(	"load",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+	g_signal_new(	"message",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
 			g_cclosure_marshal_VOID__STRING,
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
+	g_signal_new(	"video-reconfig",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+	g_signal_new(	"shutdown",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
 }
 
 static void gmpv_mpv_init(GmpvMpv *mpv)
@@ -701,9 +769,7 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->force_opengl = FALSE;
 	mpv->glarea = NULL;
 	mpv->wid = -1;
-	mpv->event_callback_data = NULL;
 	mpv->opengl_cb_callback_data = NULL;
-	mpv->event_callback = NULL;
 	mpv->opengl_cb_callback = NULL;
 }
 
@@ -982,10 +1048,6 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 	mpv->mpv_ctx = mpv_create();
 	gmpv_mpv_initialize(mpv);
 
-	gmpv_mpv_set_event_callback
-		(	mpv,
-			mpv->event_callback,
-			mpv->event_callback_data );
 	gmpv_mpv_set_opengl_cb_callback
 		(	mpv,
 			mpv->opengl_cb_callback,
