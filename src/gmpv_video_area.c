@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -87,21 +87,29 @@ static gboolean timeout_handler(gpointer data)
 	GmpvControlBox *control_box = GMPV_CONTROL_BOX(area->control_box);
 	GmpvHeaderBar *header_bar = GMPV_HEADER_BAR(area->header_bar);
 
-	if(area->fullscreen
+	if(control_box
 	&& !area->fs_control_hover
 	&& !gmpv_control_box_get_volume_popup_visible(control_box)
 	&& !gmpv_header_bar_get_open_button_popup_visible(header_bar)
 	&& !gmpv_header_bar_get_menu_button_popup_visible(header_bar))
 	{
-		set_cursor_visible(area, FALSE);
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->control_box_revealer), FALSE);
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
+		set_cursor_visible(area, !area->fullscreen);
+		area->timeout_tag = 0;
+	}
+	else if(!control_box)
+	{
 		area->timeout_tag = 0;
 	}
 
+	/* Try again later if timeout_tag has not been cleared. This means that
+	 * either one of the popups is visible or the cursor is hovering over
+	 * the control box, preventing it from being hidden.
+	 */
 	return (area->timeout_tag != 0);
 }
 
@@ -113,12 +121,12 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 	cursor = gdk_cursor_new_from_name(gdk_display_get_default(), "default");
 	gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 
-	if(area->fullscreen)
+	if(area->control_box)
 	{
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->control_box_revealer), TRUE);
 		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->header_bar_revealer), TRUE);
+			(GTK_REVEALER(area->header_bar_revealer), area->fullscreen);
 	}
 
 	if(area->timeout_tag > 0)
@@ -277,7 +285,6 @@ void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 	{
 		area->fullscreen = fullscreen;
 
-		gtk_widget_set_visible(area->control_box_revealer, fullscreen);
 		gtk_widget_hide(area->header_bar_revealer);
 		set_cursor_visible(area, !fullscreen);
 

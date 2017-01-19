@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -204,6 +204,7 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 		GSettings *settings;
 		gboolean csd_enable;
 		gboolean dark_theme_enable;
+		gboolean always_floating;
 
 		app = data;
 		wnd = gmpv_application_get_main_window(app);
@@ -212,6 +213,8 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 		csd_enable = g_settings_get_boolean(settings, "csd-enable");
 		dark_theme_enable =	g_settings_get_boolean
 					(settings, "dark-theme-enable");
+		always_floating =	g_settings_get_boolean
+					(settings, "always-use-floating-controls");
 
 		if(gmpv_main_window_get_csd_enabled(wnd) != csd_enable)
 		{
@@ -239,6 +242,10 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 		g_object_set(	gtk_settings_get_default(),
 				"gtk-application-prefer-dark-theme",
 				dark_theme_enable,
+				NULL );
+		g_object_set(	wnd,
+				"always-use-floating-controls",
+				always_floating,
 				NULL );
 
 		gmpv_mpv_reset(mpv);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -291,6 +291,9 @@ static void gmpv_pref_dialog_init(GmpvPrefDialog *dlg)
 			ITEM_TYPE_CHECK_BOX},
 			{_("Enable dark theme"),
 			"dark-theme-enable",
+			ITEM_TYPE_CHECK_BOX},
+			{_("Use floating controls in windowed mode"),
+			"always-use-floating-controls",
 			ITEM_TYPE_CHECK_BOX},
 			{_("Remember last file's location"),
 			"last-folder-enable",

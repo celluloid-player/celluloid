@@ -49,7 +49,6 @@ struct _GmpvApplication
 	gchar **files;
 	guint inhibit_cookie;
 	gint64 target_playlist_pos;
-	GSettings *config;
 	GmpvMainWindow *gui;
 	GtkWidget *fs_control;
 	GmpvPlaylist *playlist_store;
@@ -240,11 +239,13 @@ static void startup_handler(GApplication *gapp, gpointer data)
 {
 	GmpvApplication *app = data;
 	GmpvControlBox *control_box;
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	const gchar *style = ".gmpv-vid-area{background-color: black}";
 	GtkCssProvider *style_provider;
 	gboolean css_loaded;
 	gboolean csd_enable;
 	gboolean dark_theme_enable;
+	gboolean always_floating;
 	gint64 wid;
 	gchar *mpvinput;
 
@@ -258,12 +259,22 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	g_info("Starting GNOME MPV " VERSION);
 
+	csd_enable = g_settings_get_boolean
+				(settings, "csd-enable");
+	dark_theme_enable = g_settings_get_boolean
+				(settings, "dark-theme-enable");
+	always_floating = g_settings_get_boolean
+				(settings, "always-use-floating-controls");
+	mpvinput = g_settings_get_string
+				(settings, "mpv-input-config-file");
+
 	app->files = NULL;
 	app->inhibit_cookie = 0;
 	app->target_playlist_pos = -1;
-	app->config = g_settings_new(CONFIG_ROOT);
 	app->playlist_store = gmpv_playlist_new();
-	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(app, app->playlist_store));
+	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(	app,
+								app->playlist_store,
+								always_floating));
 	app->fs_control = NULL;
 
 	migrate_config(app);
@@ -284,13 +295,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
 
 	g_object_unref(style_provider);
-
-	csd_enable = g_settings_get_boolean
-				(app->config, "csd-enable");
-	dark_theme_enable = g_settings_get_boolean
-				(app->config, "dark-theme-enable");
-	mpvinput = g_settings_get_string
-				(app->config, "mpv-input-config-file");
 
 	if(csd_enable)
 	{

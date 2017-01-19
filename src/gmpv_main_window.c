@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -35,6 +35,7 @@ enum
 {
 	PROP_0,
 	PROP_PLAYLIST,
+	PROP_ALWAYS_FLOATING,
 	N_PROPERTIES
 };
 
@@ -46,6 +47,8 @@ struct _GmpvMainWindow
 	gint height_offset;
 	gint resize_target[2];
 	gboolean csd;
+	gboolean always_floating;
+	gboolean use_floating_controls;
 	gboolean fullscreen;
 	gboolean playlist_visible;
 	gboolean playlist_first_toggle;
@@ -74,6 +77,7 @@ static void gmpv_main_window_get_property(	GObject *object,
 						guint property_id,
 						GValue *value,
 						GParamSpec *pspec );
+static void gmpv_main_window_notify(GObject *object, GParamSpec *pspec);
 static void resize_video_area_finalize(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data );
@@ -118,7 +122,10 @@ static void gmpv_main_window_set_property(	GObject *object,
 	if(property_id == PROP_PLAYLIST)
 	{
 		self->playlist_store = g_value_get_pointer(value);
-
+	}
+	else if(property_id == PROP_ALWAYS_FLOATING)
+	{
+		self->always_floating = g_value_get_boolean(value);
 	}
 	else
 	{
@@ -137,9 +144,24 @@ static void gmpv_main_window_get_property(	GObject *object,
 	{
 		g_value_set_pointer(value, self->playlist_store);
 	}
+	else if(property_id == PROP_ALWAYS_FLOATING)
+	{
+		g_value_set_boolean(value, self->always_floating);
+	}
 	else
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
+
+static void gmpv_main_window_notify(GObject *object, GParamSpec *pspec)
+{
+	if(g_strcmp0(pspec->name, "always-use-floating-controls") == 0)
+	{
+		GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(object);
+		gboolean floating = wnd->always_floating || wnd->fullscreen;
+
+		gmpv_main_window_set_use_floating_controls(wnd, floating);
 	}
 }
 
@@ -262,19 +284,29 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 	obj_class->constructed = gmpv_main_window_constructed;
 	obj_class->set_property = gmpv_main_window_set_property;
 	obj_class->get_property = gmpv_main_window_get_property;
+	obj_class->notify = gmpv_main_window_notify;
 
 	pspec = g_param_spec_pointer
 		(	"playlist",
 			"Playlist",
 			"Playlist object used to store playlist items",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-
 	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"always-use-floating-controls",
+			"Always use floating controls",
+			"Whether or not to use floating controls in windowed mode",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING, pspec);
 }
 
 static void gmpv_main_window_init(GmpvMainWindow *wnd)
 {
 	wnd->csd = FALSE;
+	wnd->always_floating = FALSE;
+	wnd->use_floating_controls = FALSE;
 	wnd->fullscreen = FALSE;
 	wnd->playlist_visible = FALSE;
 	wnd->pre_fs_playlist_visible = FALSE;
@@ -310,11 +342,17 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	gtk_container_add(GTK_CONTAINER(wnd), wnd->main_box);
 }
 
-GtkWidget *gmpv_main_window_new(GmpvApplication *app, GmpvPlaylist *playlist)
+GtkWidget *gmpv_main_window_new(	GmpvApplication *app,
+					GmpvPlaylist *playlist,
+					gboolean always_floating )
 {
 	return GTK_WIDGET(g_object_new(	gmpv_main_window_get_type(),
-					"application", app,
-					"playlist", playlist,
+					"application",
+					app,
+					"playlist",
+					playlist,
+					"always-use-floating-controls",
+					always_floating,
 					NULL ));
 }
 
@@ -333,14 +371,15 @@ GmpvVideoArea *gmpv_main_window_get_video_area(GmpvMainWindow *wnd)
 	return GMPV_VIDEO_AREA(wnd->vid_area);
 }
 
-void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
+void gmpv_main_window_set_use_floating_controls(	GmpvMainWindow *wnd,
+							gboolean floating )
 {
-	if(fullscreen != wnd->fullscreen)
+	if(floating != wnd->use_floating_controls)
 	{
 		GmpvVideoArea *vid_area = GMPV_VIDEO_AREA(wnd->vid_area);
 		GtkContainer *main_box = GTK_CONTAINER(wnd->main_box);
 
-		if(fullscreen)
+		if(floating)
 		{
 			g_object_ref(wnd->control_box);
 			gtk_container_remove(main_box, wnd->control_box);
@@ -348,10 +387,6 @@ void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 				(vid_area, wnd->control_box);
 			g_object_unref(wnd->control_box);
 
-			gtk_window_fullscreen(GTK_WINDOW(wnd));
-			gtk_window_present(GTK_WINDOW(wnd));
-
-			wnd->pre_fs_playlist_visible = wnd->playlist_visible;
 		}
 		else
 		{
@@ -359,7 +394,35 @@ void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 			gmpv_video_area_set_control_box(vid_area, NULL);
 			gtk_container_add(main_box, wnd->control_box);
 			g_object_unref(wnd->control_box);
+		}
 
+		wnd->use_floating_controls = floating;
+	}
+}
+
+gboolean gmpv_main_window_get_use_floating_controls(GmpvMainWindow *wnd)
+{
+	return wnd->use_floating_controls;
+}
+
+void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
+{
+	if(fullscreen != wnd->fullscreen)
+	{
+		GmpvVideoArea *vid_area = GMPV_VIDEO_AREA(wnd->vid_area);
+		gboolean floating = wnd->always_floating || fullscreen;
+		gboolean playlist_visible =	!fullscreen &&
+						wnd->pre_fs_playlist_visible;
+
+		if(fullscreen)
+		{
+			gtk_window_fullscreen(GTK_WINDOW(wnd));
+			gtk_window_present(GTK_WINDOW(wnd));
+
+			wnd->pre_fs_playlist_visible = wnd->playlist_visible;
+		}
+		else
+		{
 			gtk_window_unfullscreen(GTK_WINDOW(wnd));
 
 			wnd->playlist_visible = wnd->pre_fs_playlist_visible;
@@ -372,9 +435,8 @@ void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 		}
 
 		gmpv_video_area_set_fullscreen_state(vid_area, fullscreen);
-		gtk_widget_set_visible(	wnd->playlist,
-					!fullscreen &&
-					wnd->pre_fs_playlist_visible );
+		gmpv_main_window_set_use_floating_controls(wnd, floating);
+		gtk_widget_set_visible(wnd->playlist, playlist_visible);
 
 		wnd->fullscreen = fullscreen;
 	}

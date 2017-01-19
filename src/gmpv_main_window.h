@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -38,10 +38,15 @@ G_DECLARE_FINAL_TYPE(GmpvMainWindow, gmpv_main_window, GMPV, MAIN_WINDOW, GtkApp
 
 typedef struct _GmpvApplication GmpvApplication;
 
-GtkWidget *gmpv_main_window_new(GmpvApplication *app, GmpvPlaylist *playlist);
+GtkWidget *gmpv_main_window_new(	GmpvApplication *app,
+					GmpvPlaylist *playlist,
+					gboolean always_floating );
 GmpvPlaylistWidget *gmpv_main_window_get_playlist(GmpvMainWindow *wnd);
 GmpvControlBox *gmpv_main_window_get_control_box(GmpvMainWindow *wnd);
 GmpvVideoArea *gmpv_main_window_get_video_area(GmpvMainWindow *wnd);
+void gmpv_main_window_set_use_floating_controls(	GmpvMainWindow *wnd,
+							gboolean floating );
+gboolean gmpv_main_window_get_use_floating_controls(GmpvMainWindow *wnd);
 void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen);
 gboolean gmpv_main_window_get_fullscreen(GmpvMainWindow *wnd);
 void gmpv_main_window_toggle_fullscreen(GmpvMainWindow *wnd);
