@@ -372,30 +372,30 @@ static void save_playlist_handler(	GSimpleAction *action,
 	GmpvMainWindow *wnd;
 	GmpvPlaylist *playlist;
 	GFile *dest_file;
-	GtkFileChooser *file_chooser;
-	GmpvFileChooser *save_dialog;
+	GmpvFileChooser *file_chooser;
+	GtkFileChooser *gtk_chooser;
 	GError *error;
 
 	mpv = gmpv_application_get_mpv(app);
 	wnd = gmpv_application_get_main_window(app);
 	playlist = gmpv_mpv_get_playlist(mpv);
 	dest_file = NULL;
-	save_dialog =	gmpv_file_chooser_new
+	file_chooser =	gmpv_file_chooser_new
 			(	_("Save Playlist"),
 				GTK_WINDOW(wnd),
 				GTK_FILE_CHOOSER_ACTION_SAVE );
-	file_chooser = GTK_FILE_CHOOSER(save_dialog);
+	gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
 	error = NULL;
 
-	gtk_file_chooser_set_current_name(file_chooser, "playlist.m3u");
+	gtk_file_chooser_set_current_name(gtk_chooser, "playlist.m3u");
 
-	if(gmpv_file_chooser_run(save_dialog) == GTK_RESPONSE_ACCEPT)
+	if(gmpv_file_chooser_run(file_chooser) == GTK_RESPONSE_ACCEPT)
 	{
 		/* There should be only one file selected. */
-		dest_file = gtk_file_chooser_get_file(file_chooser);
+		dest_file = gtk_file_chooser_get_file(gtk_chooser);
 	}
 
-	gmpv_file_chooser_destroy(save_dialog);
+	gmpv_file_chooser_destroy(file_chooser);
 
 	if(dest_file)
 	{
