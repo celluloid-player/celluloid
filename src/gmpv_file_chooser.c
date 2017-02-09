@@ -76,6 +76,7 @@ GmpvFileChooser *gmpv_file_chooser_new(	const gchar *title,
 					GtkFileChooserAction action )
 {
 	GmpvFileChooser *chooser;
+	GtkFileChooser *gtk_chooser;
 	GSettings *main_config;
 	gboolean last_folder_enable;
 
@@ -85,6 +86,7 @@ GmpvFileChooser *gmpv_file_chooser_new(	const gchar *title,
 	chooser = gtk_file_chooser_dialog_new(title, parent, action, NULL);
 #endif
 
+	gtk_chooser = GTK_FILE_CHOOSER(chooser);
 	main_config = g_settings_new(CONFIG_ROOT);
 	last_folder_enable =	g_settings_get_boolean
 				(main_config, "last-folder-enable");
@@ -93,6 +95,10 @@ GmpvFileChooser *gmpv_file_chooser_new(	const gchar *title,
 	{
 		load_last_folder(GTK_FILE_CHOOSER(chooser));
 	}
+
+	gmpv_file_chooser_set_modal(chooser, TRUE);
+	gtk_file_chooser_set_select_multiple(gtk_chooser, TRUE);
+	gtk_file_chooser_set_do_overwrite_confirmation(gtk_chooser, TRUE);
 
 	g_signal_connect(chooser, "response", G_CALLBACK(response_handler), NULL);
 

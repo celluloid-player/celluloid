@@ -264,8 +264,6 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 				G_CALLBACK(open_dialog_response_handler),
 				args );
 
-	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
-	gmpv_file_chooser_set_modal(open_dialog, TRUE);
 	gmpv_file_chooser_add_media_filter(file_chooser);
 	gmpv_file_chooser_add_subtitle_filter(file_chooser);
 	gmpv_file_chooser_show(open_dialog);
@@ -378,7 +376,6 @@ static void save_playlist_handler(	GSimpleAction *action,
 	error = NULL;
 	rc = FALSE;
 
-	gtk_file_chooser_set_do_overwrite_confirmation(file_chooser, TRUE);
 	gtk_file_chooser_set_current_name(file_chooser, "playlist.m3u");
 
 	if(gmpv_file_chooser_run(save_dialog) == GTK_RESPONSE_ACCEPT)
@@ -565,8 +562,6 @@ static void load_track_handler(	GSimpleAction *action,
 			g_free(pattern);
 		}
 	}
-
-	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
 
 	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
