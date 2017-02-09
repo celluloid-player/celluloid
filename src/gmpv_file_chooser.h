@@ -25,12 +25,14 @@
 G_BEGIN_DECLS
 
 #if GTK_CHECK_VERSION(3, 19, 7)
+#define GMPV_FILE_CHOOSER GTK_FILE_CHOOSER_NATIVE
 #define GmpvFileChooser GtkFileChooserNative
 #define gmpv_file_chooser_destroy(x) gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(x))
 #define gmpv_file_chooser_show(x) gtk_native_dialog_show(GTK_NATIVE_DIALOG(x))
 #define gmpv_file_chooser_set_modal(x, y) gtk_native_dialog_set_modal(GTK_NATIVE_DIALOG(x), y)
 #define gmpv_file_chooser_run(x) gtk_native_dialog_run(GTK_NATIVE_DIALOG(x))
 #else
+#define GMPV_FILE_CHOOSER GTK_WIDGET
 #define GmpvFileChooser GtkWidget
 #define gmpv_file_chooser_destroy(x) gtk_widget_destroy(GTK_WIDGET(x))
 #define gmpv_file_chooser_show(x) gtk_widget_show_all(GTK_DIALOG(x))
@@ -41,6 +43,8 @@ G_BEGIN_DECLS
 GmpvFileChooser *gmpv_file_chooser_new(	const gchar *title,
 					GtkWindow *parent,
 					GtkFileChooserAction action );
+void gmpv_file_chooser_add_media_filter(GmpvFileChooser *chooser);
+void gmpv_file_chooser_add_subtitle_filter(GmpvFileChooser *chooser);
 
 G_END_DECLS
 

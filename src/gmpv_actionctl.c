@@ -239,11 +239,9 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	const gchar *pl_exts[] = PLAYLIST_EXTS;
 	GmpvApplication *app = data;
 	GmpvMainWindow *wnd = NULL;
-	GtkFileChooser *file_chooser = NULL;
-	GtkFileFilter *filter = NULL;
+	GmpvFileChooser *file_chooser = NULL;
 	GmpvFileChooser *open_dialog = NULL;
 	gboolean *append = g_malloc(sizeof(gboolean));
 	GPtrArray *args = g_ptr_array_sized_new(2);
@@ -256,8 +254,7 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 						_("Open File"),
 						GTK_WINDOW(wnd),
 						GTK_FILE_CHOOSER_ACTION_OPEN );
-	file_chooser = GTK_FILE_CHOOSER(open_dialog);
-	filter = gtk_file_filter_new();
+	file_chooser = GMPV_FILE_CHOOSER(open_dialog);
 
 	g_ptr_array_add(args, app);
 	g_ptr_array_add(args, append);
@@ -267,22 +264,10 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 				G_CALLBACK(open_dialog_response_handler),
 				args );
 
-	gtk_file_filter_add_mime_type(filter, "video/*");
-	gtk_file_filter_add_mime_type(filter, "audio/*");
-	gtk_file_filter_add_mime_type(filter, "image/*");
-
-	for(gint i = 0; pl_exts[i]; i++)
-	{
-		gchar *pattern = g_strdup_printf("*.%s", pl_exts[i]);
-
-		gtk_file_filter_add_pattern(filter, pattern);
-		g_free(pattern);
-	}
-
-	gtk_file_chooser_set_filter(file_chooser, filter);
-
 	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
 	gmpv_file_chooser_set_modal(open_dialog, TRUE);
+	gmpv_file_chooser_add_media_filter(file_chooser);
+	gmpv_file_chooser_add_subtitle_filter(file_chooser);
 	gmpv_file_chooser_show(open_dialog);
 }
 
