@@ -525,6 +525,10 @@ static void load_track_handler(	GSimpleAction *action,
 		gmpv_file_chooser_set_default_filters
 			(file_chooser, FALSE, FALSE, FALSE, TRUE);
 	}
+	else
+	{
+		g_assert_not_reached();
+	}
 
 	if(gmpv_file_chooser_run(file_chooser) == GTK_RESPONSE_ACCEPT)
 	{
