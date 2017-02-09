@@ -127,12 +127,8 @@ static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error)
 
 		gtk_tree_model_get(model, &iter, PLAYLIST_URI_COLUMN, &uri, -1);
 
-		rc &= g_output_stream_printf(	dest_stream,
-						&written,
-						NULL,
-						error,
-						"%s\n",
-						uri );
+		rc &=	g_output_stream_printf
+			(dest_stream, &written, NULL, error, "%s\n", uri);
 		rc &= gtk_tree_model_iter_next(model, &iter);
 	}
 
