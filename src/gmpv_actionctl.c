@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include "gmpv_actionctl.h"
+#include "gmpv_file_chooser.h"
 #include "gmpv_playlist_widget.h"
 #include "gmpv_def.h"
 #include "gmpv_mpv.h"
@@ -109,9 +110,6 @@ static void open_dialog_response_handler(	GtkDialog *dialog,
 		GtkFileChooser *file_chooser;
 		GSList *uri_slist;
 		GSList *uri;
-		GSettings *main_config;
-		GSettings *win_config;
-		gboolean last_folder_enable;
 		gsize uri_list_size;
 		const gchar **uri_list;
 		gint i;
@@ -119,10 +117,6 @@ static void open_dialog_response_handler(	GtkDialog *dialog,
 		file_chooser = GTK_FILE_CHOOSER(dialog);
 		uri_slist = gtk_file_chooser_get_filenames(file_chooser);
 		uri = uri_slist;
-		main_config = g_settings_new(CONFIG_ROOT);
-		win_config = g_settings_new(CONFIG_WIN_STATE);
-		last_folder_enable =	g_settings_get_boolean
-					(main_config, "last-folder-enable");
 		uri_list_size =	sizeof(gchar **)*(g_slist_length(uri_slist)+1);
 		uri_list = g_malloc(uri_list_size);
 
@@ -141,23 +135,8 @@ static void open_dialog_response_handler(	GtkDialog *dialog,
 			gmpv_mpv_load_list(mpv, uri_list, *append, TRUE);
 		}
 
-		if(last_folder_enable)
-		{
-			gchar *last_folder_uri
-				= gtk_file_chooser_get_current_folder_uri
-					(file_chooser);
-
-			g_settings_set_string(	win_config,
-						"last-folder-uri",
-						last_folder_uri?:"" );
-
-			g_free(last_folder_uri);
-		}
-
 		g_free(uri_list);
 		g_slist_free_full(uri_slist, g_free);
-		g_object_unref(main_config);
-		g_object_unref(win_config);
 	}
 
 	g_free(append);
@@ -263,12 +242,9 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 	const gchar *pl_exts[] = PLAYLIST_EXTS;
 	GmpvApplication *app = data;
 	GmpvMainWindow *wnd = NULL;
-	GSettings *main_config = NULL;
-	GSettings *win_config = NULL;
 	GtkFileChooser *file_chooser = NULL;
 	GtkFileFilter *filter = NULL;
 	GmpvFileChooser *open_dialog = NULL;
-	gboolean last_folder_enable = FALSE;
 	gboolean *append = g_malloc(sizeof(gboolean));
 	GPtrArray *args = g_ptr_array_sized_new(2);
 
@@ -279,13 +255,8 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 						_("Add File to Playlist"):
 						_("Open File"),
 						GTK_WINDOW(wnd),
-						GTK_FILE_CHOOSER_ACTION_OPEN,
-						_("_Open"),
-						_("_Cancel"));
-	main_config = g_settings_new(CONFIG_ROOT);
+						GTK_FILE_CHOOSER_ACTION_OPEN );
 	file_chooser = GTK_FILE_CHOOSER(open_dialog);
-	last_folder_enable =	g_settings_get_boolean
-				(main_config, "last-folder-enable");
 	filter = gtk_file_filter_new();
 
 	g_ptr_array_add(args, app);
@@ -310,29 +281,9 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 
 	gtk_file_chooser_set_filter(file_chooser, filter);
 
-	if(last_folder_enable)
-	{
-		gchar *last_folder_uri;
-
-		win_config = g_settings_new(CONFIG_WIN_STATE);
-		last_folder_uri =	g_settings_get_string
-					(win_config, "last-folder-uri");
-
-		if(last_folder_uri && strlen(last_folder_uri) > 0)
-		{
-			gtk_file_chooser_set_current_folder_uri
-				(file_chooser, last_folder_uri);
-		}
-
-		g_free(last_folder_uri);
-	}
-
 	gtk_file_chooser_set_select_multiple(file_chooser, TRUE);
 	gmpv_file_chooser_set_modal(open_dialog, TRUE);
 	gmpv_file_chooser_show(open_dialog);
-
-	g_object_unref(main_config);
-	g_object_unref(win_config);
 }
 
 static void show_open_location_dialog_handler(	GSimpleAction *action,
@@ -437,9 +388,7 @@ static void save_playlist_handler(	GSimpleAction *action,
 	save_dialog =	gmpv_file_chooser_new
 			(	_("Save Playlist"),
 				GTK_WINDOW(wnd),
-				GTK_FILE_CHOOSER_ACTION_SAVE,
-				_("_Save"),
-				_("_Cancel") );
+				GTK_FILE_CHOOSER_ACTION_SAVE );
 	file_chooser = GTK_FILE_CHOOSER(save_dialog);
 	error = NULL;
 	rc = FALSE;

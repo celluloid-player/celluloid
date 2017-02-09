@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -41,27 +41,6 @@ void load_keybind(	GmpvApplication *app,
 			const gchar *config_path,
 			gboolean notify_ignore );
 gchar *strnjoinv(const gchar *separator, const gchar **str_array, gsize count);
-
-#if GTK_CHECK_VERSION(3, 19, 7)
-#define GmpvFileChooser GtkFileChooserNative
-#define gmpv_file_chooser_destroy(x) gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(x))
-#define gmpv_file_chooser_show(x) gtk_native_dialog_show(GTK_NATIVE_DIALOG(x))
-#define gmpv_file_chooser_set_modal(x, y) gtk_native_dialog_set_modal(GTK_NATIVE_DIALOG(x), y)
-#define gmpv_file_chooser_run(x) gtk_native_dialog_run(GTK_NATIVE_DIALOG(x))
-#define gmpv_file_chooser_new(title,parent,action,accept,cancel) \
-	gtk_file_chooser_native_new(title,parent,action,accept,cancel)
-#else
-#define GmpvFileChooser GtkWidget
-#define gmpv_file_chooser_destroy(x) gtk_widget_destroy(GTK_WIDGET(x))
-#define gmpv_file_chooser_show(x) gtk_widget_show_all(GTK_DIALOG(x))
-#define gmpv_file_chooser_set_modal(x, y) gtk_window_set_modal(GTK_WINDOW(x), y)
-#define gmpv_file_chooser_run(x) gtk_dialog_run(GTK_DIALOG(x))
-#define gmpv_file_chooser_new(title,parent,action,accept,cancel) \
-	gtk_file_chooser_dialog_new(	title,parent,action,\
-					cancel,GTK_RESPONSE_CANCEL,\
-					accept,GTK_RESPONSE_ACCEPT,\
-					NULL )
-#endif
 
 G_END_DECLS
 

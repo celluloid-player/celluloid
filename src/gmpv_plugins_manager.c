@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -21,6 +21,7 @@
 
 #include "gmpv_plugins_manager.h"
 #include "gmpv_plugins_manager_item.h"
+#include "gmpv_file_chooser.h"
 #include "gmpv_common.h"
 
 enum
@@ -140,9 +141,7 @@ static void add_handler(GtkButton *button, gpointer data)
 
 	dialog = gmpv_file_chooser_new(	_("Add Lua Script"),
 					pmgr->parent_window,
-					GTK_FILE_CHOOSER_ACTION_OPEN,
-					_("Open"),
-					_("Cancel") );
+					GTK_FILE_CHOOSER_ACTION_OPEN );
 	filter = gtk_file_filter_new();
 	chooser = GTK_FILE_CHOOSER(dialog);
 
