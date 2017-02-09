@@ -42,6 +42,7 @@
 #include "gmpv_shortcuts_window.h"
 #endif
 
+static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error);
 static void open_dialog_response_handler(	GtkDialog *dialog,
 						gint response_id,
 						gpointer data );
@@ -96,6 +97,50 @@ static void set_video_size_handler(	GSimpleAction *action,
 static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
+
+static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error)
+{
+	gboolean rc = TRUE;
+	GOutputStream *dest_stream = NULL;
+	GtkTreeModel *model = GTK_TREE_MODEL(gmpv_playlist_get_store(playlist));
+	GtkTreeIter iter;
+
+	if(file)
+	{
+		GFileOutputStream *file_stream;
+
+		file_stream = g_file_replace(	file,
+						NULL,
+						FALSE,
+						G_FILE_CREATE_NONE,
+						NULL,
+						error );
+		dest_stream = G_OUTPUT_STREAM(file_stream);
+		rc = gtk_tree_model_get_iter_first(model, &iter);
+		rc &= !!dest_stream;
+	}
+
+	while(rc)
+	{
+		gchar *uri;
+		gsize written;
+
+		gtk_tree_model_get(model, &iter, PLAYLIST_URI_COLUMN, &uri, -1);
+
+		rc &= g_output_stream_printf(	dest_stream,
+						&written,
+						NULL,
+						error,
+						"%s\n",
+						uri );
+		rc &= gtk_tree_model_iter_next(model, &iter);
+	}
+
+	if(dest_stream)
+	{
+		g_output_stream_close(dest_stream, NULL, error);
+	}
+}
 
 static void open_dialog_response_handler(	GtkDialog *dialog,
 						gint response_id,
@@ -336,28 +381,21 @@ static void save_playlist_handler(	GSimpleAction *action,
 	GmpvMpv *mpv;
 	GmpvMainWindow *wnd;
 	GmpvPlaylist *playlist;
-	GtkTreeModel *model;
 	GFile *dest_file;
-	GOutputStream *dest_stream;
 	GtkFileChooser *file_chooser;
 	GmpvFileChooser *save_dialog;
 	GError *error;
-	GtkTreeIter iter;
-	gboolean rc;
 
 	mpv = gmpv_application_get_mpv(app);
 	wnd = gmpv_application_get_main_window(app);
 	playlist = gmpv_mpv_get_playlist(mpv);
-	model = GTK_TREE_MODEL(gmpv_playlist_get_store(playlist));
 	dest_file = NULL;
-	dest_stream = NULL;
 	save_dialog =	gmpv_file_chooser_new
 			(	_("Save Playlist"),
 				GTK_WINDOW(wnd),
 				GTK_FILE_CHOOSER_ACTION_SAVE );
 	file_chooser = GTK_FILE_CHOOSER(save_dialog);
 	error = NULL;
-	rc = FALSE;
 
 	gtk_file_chooser_set_current_name(file_chooser, "playlist.m3u");
 
@@ -371,44 +409,7 @@ static void save_playlist_handler(	GSimpleAction *action,
 
 	if(dest_file)
 	{
-		GFileOutputStream *dest_file_stream;
-
-		dest_file_stream = g_file_replace(	dest_file,
-							NULL,
-							FALSE,
-							G_FILE_CREATE_NONE,
-							NULL,
-							&error );
-
-		dest_stream = G_OUTPUT_STREAM(dest_file_stream);
-		rc = gtk_tree_model_get_iter_first(model, &iter);
-		rc &= !!dest_stream;
-	}
-
-	while(rc)
-	{
-		gchar *uri;
-		gsize written;
-
-		gtk_tree_model_get
-			(model, &iter, PLAYLIST_URI_COLUMN, &uri, -1);
-
-		rc &= g_output_stream_printf(	dest_stream,
-						&written,
-						NULL,
-						&error,
-						"%s\n",
-						uri );
-		rc &= gtk_tree_model_iter_next(model, &iter);
-	}
-
-	if(dest_stream)
-	{
-		g_output_stream_close(dest_stream, NULL, &error);
-	}
-
-	if(dest_file)
-	{
+		save_playlist(playlist, dest_file, &error);
 		g_object_unref(dest_file);
 	}
 
