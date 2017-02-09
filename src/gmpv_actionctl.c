@@ -292,8 +292,9 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 				G_CALLBACK(open_dialog_response_handler),
 				args );
 
-	gmpv_file_chooser_add_media_filter(file_chooser);
-	gmpv_file_chooser_add_subtitle_filter(file_chooser);
+	gmpv_file_chooser_set_default_filters
+		(file_chooser, TRUE, TRUE, TRUE, TRUE);
+
 	gmpv_file_chooser_show(open_dialog);
 }
 
@@ -510,63 +511,46 @@ static void load_track_handler(	GSimpleAction *action,
 {
 	GmpvApplication *app = data;
 	GmpvMainWindow *wnd;
-	GtkFileChooser *file_chooser;
-	GtkFileFilter *filter;
-	GtkWidget *open_dialog;
+	GmpvFileChooser *file_chooser;
 	const gchar *cmd_name;
 
 	g_variant_get(param, "s", &cmd_name);
 
 	wnd = gmpv_application_get_main_window(app);
-	open_dialog =	gtk_file_chooser_dialog_new
+	file_chooser =	gmpv_file_chooser_new
 			(	_("Load External…"),
 				GTK_WINDOW(wnd),
-				GTK_FILE_CHOOSER_ACTION_OPEN,
-				_("_Cancel"), GTK_RESPONSE_CANCEL,
-				_("_Open"), GTK_RESPONSE_ACCEPT,
-				NULL );
-	file_chooser = GTK_FILE_CHOOSER(open_dialog);
-	filter = gtk_file_filter_new();
+				GTK_FILE_CHOOSER_ACTION_OPEN );
 
-	gtk_file_chooser_set_filter(file_chooser, filter);
-
-	if (g_strcmp0(cmd_name, "audio-add") == 0)
+	if(g_strcmp0(cmd_name, "audio-add") == 0)
 	{
-		gtk_file_filter_add_mime_type(filter, "audio/*");
+		gmpv_file_chooser_set_default_filters
+			(file_chooser, TRUE, FALSE, FALSE, FALSE);
 	}
-	else if (g_strcmp0(cmd_name, "sub-add") == 0)
+	else if(g_strcmp0(cmd_name, "sub-add") == 0)
 	{
-		static const char *const sub_exts[] = SUBTITLE_EXTS;
-
-		for(gint i = 0; sub_exts[i]; i++)
-		{
-			gchar *pattern = g_strdup_printf("*.%s", sub_exts[i]);
-
-			gtk_file_filter_add_pattern(filter, pattern);
-			g_free(pattern);
-		}
+		gmpv_file_chooser_set_default_filters
+			(file_chooser, FALSE, FALSE, FALSE, TRUE);
 	}
 
-	if(gtk_dialog_run(GTK_DIALOG(open_dialog)) == GTK_RESPONSE_ACCEPT)
+	if(gmpv_file_chooser_run(file_chooser) == GTK_RESPONSE_ACCEPT)
 	{
 		const gchar *cmd[] = {cmd_name, NULL, NULL};
 		GmpvMpv *mpv = gmpv_application_get_mpv(app);
-		GSList *uri_list = gtk_file_chooser_get_filenames(file_chooser);
-		GSList *uri = uri_list;
+		GtkFileChooser *gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
+		GSList *uri_list = gtk_file_chooser_get_filenames(gtk_chooser);
 
-		while(uri)
+		for(GSList *iter = uri_list; iter; iter = g_slist_next(iter))
 		{
-			cmd[1] = uri->data;
+			cmd[1] = iter->data;
 
 			gmpv_mpv_command(mpv, cmd);
-
-			uri = g_slist_next(uri);
 		}
 
 		g_slist_free_full(uri_list, g_free);
 	}
 
-	gtk_widget_destroy(open_dialog);
+	gmpv_file_chooser_destroy(file_chooser);
 }
 
 static void fullscreen_handler(	GSimpleAction *action,

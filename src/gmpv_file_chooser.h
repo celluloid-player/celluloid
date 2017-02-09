@@ -43,8 +43,11 @@ G_BEGIN_DECLS
 GmpvFileChooser *gmpv_file_chooser_new(	const gchar *title,
 					GtkWindow *parent,
 					GtkFileChooserAction action );
-void gmpv_file_chooser_add_media_filter(GmpvFileChooser *chooser);
-void gmpv_file_chooser_add_subtitle_filter(GmpvFileChooser *chooser);
+void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
+						gboolean audio,
+						gboolean video,
+						gboolean image,
+						gboolean subtitle );
 
 G_END_DECLS
 

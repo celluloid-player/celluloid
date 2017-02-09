@@ -107,28 +107,40 @@ GmpvFileChooser *gmpv_file_chooser_new(	const gchar *title,
 	return chooser;
 }
 
-void gmpv_file_chooser_add_media_filter(GmpvFileChooser *chooser)
+void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
+						gboolean audio,
+						gboolean video,
+						gboolean image,
+						gboolean subtitle )
 {
 	GtkFileFilter *filter = gtk_file_filter_new();
 
-	gtk_file_filter_add_mime_type(filter, "video/*");
-	gtk_file_filter_add_mime_type(filter, "audio/*");
-	gtk_file_filter_add_mime_type(filter, "image/*");
-
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(chooser), filter);
-}
-
-void gmpv_file_chooser_add_subtitle_filter(GmpvFileChooser *chooser)
-{
-	GtkFileFilter *filter = gtk_file_filter_new();
-	const gchar *exts[] = PLAYLIST_EXTS;
-
-	for(gint i = 0; exts[i]; i++)
+	if(audio)
 	{
-		gchar *pattern = g_strdup_printf("*.%s", exts[i]);
+		gtk_file_filter_add_mime_type(filter, "audio/*");
+	}
 
-		gtk_file_filter_add_pattern(filter, pattern);
-		g_free(pattern);
+	if(video)
+	{
+		gtk_file_filter_add_mime_type(filter, "video/*");
+	}
+
+	if(image)
+	{
+		gtk_file_filter_add_mime_type(filter, "image/*");
+	}
+
+	if(subtitle)
+	{
+		const gchar *exts[] = PLAYLIST_EXTS;
+
+		for(gint i = 0; exts[i]; i++)
+		{
+			gchar *pattern = g_strdup_printf("*.%s", exts[i]);
+
+			gtk_file_filter_add_pattern(filter, pattern);
+			g_free(pattern);
+		}
 	}
 
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(chooser), filter);
