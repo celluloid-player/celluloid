@@ -806,7 +806,7 @@ static void mpv_error_handler(GmpvMpv *mpv, const gchar *err, gpointer data)
 	GmpvApplication *app = data;
 
 	gmpv_main_window_reset(app->gui);
-	show_error_dialog(app, NULL, err);
+	show_message_dialog(app, GTK_MESSAGE_ERROR, NULL, err, _("Error"));
 }
 
 static gboolean shutdown_signal_handler(gpointer data)

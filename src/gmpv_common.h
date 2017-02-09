@@ -35,7 +35,11 @@ gboolean update_seek_bar(gpointer data);
 void activate_action_string(GmpvApplication *app, const gchar *str);
 void migrate_config(GmpvApplication *app);
 void seek(GmpvApplication *app, gdouble time);
-void show_error_dialog(GmpvApplication *app, const gchar *prefix, const gchar *msg);
+void show_message_dialog(	GmpvApplication *app,
+				GtkMessageType type,
+				const gchar *prefix,
+				const gchar *msg,
+				const gchar *title );
 void resize_window_to_fit(GmpvApplication *app, gdouble multiplier);
 void load_keybind(	GmpvApplication *app,
 			const gchar *config_path,

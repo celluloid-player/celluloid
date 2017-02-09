@@ -225,25 +225,14 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 
 		if(gmpv_main_window_get_csd_enabled(wnd) != csd_enable)
 		{
-			GtkWidget *dialog;
-
-			dialog =	gtk_message_dialog_new
-					(	GTK_WINDOW(wnd),
-						GTK_DIALOG_DESTROY_WITH_PARENT,
+			show_message_dialog(	app,
 						GTK_MESSAGE_INFO,
-						GTK_BUTTONS_OK,
+						NULL,
 						_("Enabling or disabling "
 						"client-side decorations "
 						"requires restarting %s to "
-						"take effect." ),
-						g_get_application_name() );
-
-			g_signal_connect(	dialog,
-						"response",
-						G_CALLBACK(gtk_widget_destroy),
-						NULL );
-
-			gtk_widget_show_all(dialog);
+						"take effect."),
+						g_get_application_name());
 		}
 
 		g_object_set(	gtk_settings_get_default(),
@@ -416,7 +405,11 @@ static void save_playlist_handler(	GSimpleAction *action,
 
 	if(error)
 	{
-		show_error_dialog(app, NULL, error->message);
+		show_message_dialog(	app,
+					GTK_MESSAGE_ERROR,
+					NULL,
+					error->message,
+					_("Error") );
 
 		g_error_free(error);
 	}

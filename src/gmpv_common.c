@@ -199,7 +199,11 @@ void seek(GmpvApplication *app, gdouble time)
 
 }
 
-void show_error_dialog(GmpvApplication *app, const gchar *prefix, const gchar *msg)
+void show_message_dialog(	GmpvApplication *app,
+				GtkMessageType type,
+				const gchar *prefix,
+				const gchar *msg,
+				const gchar *title )
 {
 	GmpvMainWindow *wnd;
 	GtkWidget *dialog;
@@ -210,9 +214,9 @@ void show_error_dialog(GmpvApplication *app, const gchar *prefix, const gchar *m
 	dialog =	gtk_message_dialog_new
 			(	GTK_WINDOW(wnd),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_ERROR,
+				type,
 				GTK_BUTTONS_OK,
-				_("Error") );
+				title );
 	msg_area =	gtk_message_dialog_get_message_area
 			(GTK_MESSAGE_DIALOG(dialog));
 	iter = gtk_container_get_children(GTK_CONTAINER(msg_area));
@@ -252,8 +256,12 @@ void show_error_dialog(GmpvApplication *app, const gchar *prefix, const gchar *m
 			(GTK_MESSAGE_DIALOG(dialog), "%s", msg);
 	}
 
-	gtk_dialog_run(GTK_DIALOG(dialog));
-	gtk_widget_destroy(dialog);
+	g_signal_connect(	dialog,
+				"response",
+				G_CALLBACK(gtk_widget_destroy),
+				NULL );
+
+	gtk_widget_show_all(dialog);
 }
 
 void resize_window_to_fit(GmpvApplication *app, gdouble multiplier)
