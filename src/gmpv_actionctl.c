@@ -107,35 +107,18 @@ static void open_dialog_response_handler(	GtkDialog *dialog,
 
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
-		GtkFileChooser *file_chooser;
-		GSList *uri_slist;
-		GSList *uri;
-		gsize uri_list_size;
-		const gchar **uri_list;
-		gint i;
-
-		file_chooser = GTK_FILE_CHOOSER(dialog);
-		uri_slist = gtk_file_chooser_get_filenames(file_chooser);
-		uri = uri_slist;
-		uri_list_size =	sizeof(gchar **)*(g_slist_length(uri_slist)+1);
-		uri_list = g_malloc(uri_list_size);
-
-		for(i = 0; uri; i++)
-		{
-			uri_list[i] = uri->data;
-			uri = g_slist_next(uri);
-		}
-
-		uri_list[i] = NULL;
+		GtkFileChooser *file_chooser = GTK_FILE_CHOOSER(dialog);
+		GSList *uri_slist = gtk_file_chooser_get_filenames(file_chooser);
 
 		if(uri_slist)
 		{
+			const gchar **uri_list = gslist_to_array(uri_slist);
 			GmpvMpv *mpv = gmpv_application_get_mpv(app);
 
 			gmpv_mpv_load_list(mpv, uri_list, *append, TRUE);
+			g_free(uri_list);
 		}
 
-		g_free(uri_list);
 		g_slist_free_full(uri_slist, g_free);
 	}
 

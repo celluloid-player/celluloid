@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -293,6 +293,21 @@ void resize_window_to_fit(GmpvApplication *app, gdouble multiplier)
 	}
 
 	gmpv_mpv_free(video);
+}
+
+void *gslist_to_array(GSList *slist)
+{
+	void **result = g_malloc(sizeof(void **)*(g_slist_length(slist)+1));
+	gint i = 0;
+
+	for(GSList *iter = slist; iter; iter = g_slist_next(iter))
+	{
+		result[i++] = iter->data;
+	}
+
+	result[i] = NULL;
+
+	return result;
 }
 
 gchar *strnjoinv(const gchar *separator, const gchar **str_array, gsize count)
