@@ -42,6 +42,7 @@
 #include "gmpv_shortcuts_window.h"
 #endif
 
+static void set_track(GmpvMpv *mpv, const gchar *prop, gint64 id);
 static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error);
 static void open_dialog_response_handler(	GtkDialog *dialog,
 						gint response_id,
@@ -82,21 +83,45 @@ static void show_preferences_dialog_handler(	GSimpleAction *action,
 static void quit_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-static void set_track_handler(	GSimpleAction *action,
+static void set_audio_track_handler(	GSimpleAction *action,
+					GVariant *value,
+					gpointer data );
+static void set_video_track_handler(	GSimpleAction *action,
+					GVariant *value,
+					gpointer data );
+static void set_subtitle_track_handler(	GSimpleAction *action,
 					GVariant *value,
 					gpointer data );
 static void load_track_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
-static void fullscreen_handler(	GSimpleAction *action,
-				GVariant *param,
-				gpointer data );
+static void toggle_fullscreen_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
+static void enter_fullscreen_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
+static void leave_fullscreen_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
 static void set_video_size_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
 static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
+
+static void set_track(GmpvMpv *mpv, const gchar *prop, gint64 id)
+{
+	if(id > 0)
+	{
+		gmpv_mpv_set_property(mpv, prop, MPV_FORMAT_INT64, &id);
+	}
+	else
+	{
+		gmpv_mpv_set_property_string(mpv, prop, "no");
+	}
+}
 
 static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error)
 {
@@ -451,47 +476,40 @@ static void quit_handler(	GSimpleAction *action,
 	gmpv_application_quit(data);
 }
 
-static void set_track_handler(	GSimpleAction *action,
-				GVariant *value,
-				gpointer data )
+static void set_audio_track_handler(	GSimpleAction *action,
+					GVariant *value,
+					gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMpv *mpv;
+	GmpvMpv *mpv = gmpv_application_get_mpv(data);
 	gint64 id;
-	gchar *name;
-	const gchar *mpv_prop;
 
-	g_object_get(action, "name", &name, NULL);
-	g_variant_get(value, "x", &id);
 	g_simple_action_set_state(action, value);
+	g_variant_get(value, "x", &id);
+	set_track(mpv, "aid", id);
+}
 
-	if(g_strcmp0(name, "set-audio-track") == 0)
-	{
-		mpv_prop = "aid";
-	}
-	else if(g_strcmp0(name, "set-video-track") == 0)
-	{
-		mpv_prop = "vid";
-	}
-	else if(g_strcmp0(name, "set-subtitle-track") == 0)
-	{
-		mpv_prop = "sid";
-	}
-	else
-	{
-		g_assert_not_reached();
-	}
+static void set_video_track_handler(	GSimpleAction *action,
+					GVariant *value,
+					gpointer data )
+{
+	GmpvMpv *mpv = gmpv_application_get_mpv(data);
+	gint64 id;
 
-	mpv = gmpv_application_get_mpv(app);
+	g_simple_action_set_state(action, value);
+	g_variant_get(value, "x", &id);
+	set_track(mpv, "vid", id);
+}
 
-	if(id > 0)
-	{
-		gmpv_mpv_set_property(mpv, mpv_prop, MPV_FORMAT_INT64, &id);
-	}
-	else
-	{
-		gmpv_mpv_set_property_string(mpv, mpv_prop, "no");
-	}
+static void set_subtitle_track_handler(	GSimpleAction *action,
+					GVariant *value,
+					gpointer data )
+{
+	GmpvMpv *mpv = gmpv_application_get_mpv(data);
+	gint64 id;
+
+	g_simple_action_set_state(action, value);
+	g_variant_get(value, "x", &id);
+	set_track(mpv, "sid", id);
 }
 
 static void load_track_handler(	GSimpleAction *action,
@@ -546,30 +564,34 @@ static void load_track_handler(	GSimpleAction *action,
 	gmpv_file_chooser_destroy(file_chooser);
 }
 
-static void fullscreen_handler(	GSimpleAction *action,
-				GVariant *param,
-				gpointer data )
+static void toggle_fullscreen_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
 {
 	GmpvMainWindow *wnd =	gmpv_application_get_main_window
 				(GMPV_APPLICATION(data));
-	gchar *name;
 
-	g_object_get(action, "name", &name, NULL);
+	gmpv_main_window_toggle_fullscreen(wnd);
+}
 
-	if(g_strcmp0(name, "toggle-fullscreen") == 0)
-	{
-		gmpv_main_window_toggle_fullscreen(wnd);
-	}
-	else if(g_strcmp0(name, "enter-fullscreen") == 0)
-	{
-		gmpv_main_window_set_fullscreen(wnd, TRUE);
-	}
-	else if(g_strcmp0(name, "leave-fullscreen") == 0)
-	{
-		gmpv_main_window_set_fullscreen(wnd, FALSE);
-	}
+static void enter_fullscreen_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	GmpvMainWindow *wnd =	gmpv_application_get_main_window
+				(GMPV_APPLICATION(data));
 
-	g_free(name);
+	gmpv_main_window_set_fullscreen(wnd, TRUE);
+}
+
+static void leave_fullscreen_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	GmpvMainWindow *wnd =	gmpv_application_get_main_window
+				(GMPV_APPLICATION(data));
+
+	gmpv_main_window_set_fullscreen(wnd, FALSE);
 }
 
 static void set_video_size_handler(	GSimpleAction *action,
@@ -638,26 +660,26 @@ void gmpv_actionctl_map_actions(GmpvApplication *app)
 			{.name = "remove-selected-playlist-item",
 			.activate = remove_selected_playlist_item_handler},
 			{.name = "set-audio-track",
-			.change_state = set_track_handler,
+			.change_state = set_audio_track_handler,
 			.state = "@x 0",
 			.parameter_type = "x"},
 			{.name = "set-video-track",
-			.change_state = set_track_handler,
+			.change_state = set_video_track_handler,
 			.state = "@x 0",
 			.parameter_type = "x"},
 			{.name = "set-subtitle-track",
-			.change_state = set_track_handler,
+			.change_state = set_subtitle_track_handler,
 			.state = "@x 0",
 			.parameter_type = "x"},
 			{.name = "load-track",
 			.activate = load_track_handler,
 			.parameter_type = "s"},
 			{.name = "toggle-fullscreen",
-			.activate = fullscreen_handler},
+			.activate = toggle_fullscreen_handler},
 			{.name = "enter-fullscreen",
-			.activate = fullscreen_handler},
+			.activate = enter_fullscreen_handler},
 			{.name = "leave-fullscreen",
-			.activate = fullscreen_handler},
+			.activate = leave_fullscreen_handler},
 			{.name = "set-video-size",
 			.activate = set_video_size_handler,
 			.parameter_type = "d"} };
