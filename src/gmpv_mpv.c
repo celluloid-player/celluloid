@@ -27,7 +27,9 @@
 #include <gdk/gdk.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef HAVE_EXECINFO_H
 #include <execinfo.h>
+#endif
 
 #include <epoxy/gl.h>
 #ifdef GDK_WINDOWING_X11
@@ -783,16 +785,19 @@ GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid)
 
 void mpv_check_error(int status)
 {
-	void *array[10];
-	size_t size;
 
 	if(status < 0)
 	{
-		size = (size_t)backtrace(array, 10);
+#ifdef HAVE_EXECINFO_H
+		void *array[10];
+		size_t size = (size_t)backtrace(array, 10);
+#endif
 
 		g_critical("MPV API error: %s\n", mpv_error_string(status));
 
+#ifdef HAVE_EXECINFO_H
 		backtrace_symbols_fd(array, (int)size, STDERR_FILENO);
+#endif
 
 		exit(EXIT_FAILURE);
 	}
