@@ -198,7 +198,7 @@ static gint options_handler(	GApplication *gapp,
 		g_clear_object(&settings);
 	}
 
-	return -1;
+	return version?0:-1;
 }
 
 static gint command_line_handler(	GApplication *app,
