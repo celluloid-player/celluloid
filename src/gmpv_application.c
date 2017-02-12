@@ -44,6 +44,7 @@ struct _GmpvApplication
 {
 	GtkApplication parent;
 	gboolean no_existing_session;
+	gboolean enqueue;
 	GmpvMpv *mpv;
 	GQueue *action_queue;
 	gchar **files;
@@ -93,6 +94,7 @@ static void playlist_row_reodered_handler(	GmpvPlaylistWidget *playlist,
 static GmpvTrack *parse_track_list(mpv_node_list *node);
 static void update_track_list(GmpvApplication *app, mpv_node* track_list);
 static gboolean process_action(gpointer data);
+static void initialize_gui(GmpvApplication *app);
 static void mpv_prop_change_handler(	GmpvMpv* mpv,
 					const gchar *prop,
 					gpointer value,
@@ -119,9 +121,6 @@ static gboolean queue_render(GtkGLArea *area);
 static void opengl_cb_update_callback(void *cb_ctx);
 static void set_playlist_pos(GmpvApplication *app, gint64 pos);
 static void set_inhibit_idle(GmpvApplication *app, gboolean inhibit);
-static gboolean load_files(	GmpvApplication* app,
-				const gchar **files,
-				gboolean append );
 static void connect_signals(GmpvApplication *app);
 static void gmpv_application_class_init(GmpvApplicationClass *klass);
 static void gmpv_application_init(GmpvApplication *app);
@@ -225,6 +224,8 @@ static gint command_line_handler(	GApplication *app,
 		g_application_open(app, files, n_files, enqueue?"enqueue":"");
 	}
 
+	g_application_activate(app);
+
 	for(gint i = 0; i < n_files; i++)
 	{
 		g_object_unref(files[i]);
@@ -237,18 +238,6 @@ static gint command_line_handler(	GApplication *app,
 
 static void startup_handler(GApplication *gapp, gpointer data)
 {
-	GmpvApplication *app = data;
-	GmpvControlBox *control_box;
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	const gchar *style = ".gmpv-vid-area{background-color: black}";
-	GtkCssProvider *style_provider;
-	gboolean css_loaded;
-	gboolean csd_enable;
-	gboolean dark_theme_enable;
-	gboolean always_floating;
-	gint64 wid;
-	gchar *mpvinput;
-
 	setlocale(LC_NUMERIC, "C");
 	g_set_application_name(_("GNOME MPV"));
 	gtk_window_set_default_icon_name(ICON_NAME);
@@ -258,97 +247,17 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	textdomain(GETTEXT_PACKAGE);
 
 	g_info("Starting GNOME MPV " VERSION);
-
-	csd_enable = g_settings_get_boolean
-				(settings, "csd-enable");
-	dark_theme_enable = g_settings_get_boolean
-				(settings, "dark-theme-enable");
-	always_floating = g_settings_get_boolean
-				(settings, "always-use-floating-controls");
-	mpvinput = g_settings_get_string
-				(settings, "mpv-input-config-file");
-
-	app->files = NULL;
-	app->inhibit_cookie = 0;
-	app->target_playlist_pos = -1;
-	app->playlist_store = gmpv_playlist_new();
-	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(	app,
-								app->playlist_store,
-								always_floating));
-	app->fs_control = NULL;
-
-	migrate_config(app);
-
-	control_box = gmpv_main_window_get_control_box(app->gui);
-	style_provider = gtk_css_provider_new();
-	css_loaded =	gtk_css_provider_load_from_data
-			(style_provider, style, -1, NULL);
-
-	if(!css_loaded)
-	{
-		g_warning ("Failed to apply background color css");
-	}
-
-	gtk_style_context_add_provider_for_screen
-		(	gtk_window_get_screen(GTK_WINDOW(app->gui)),
-			GTK_STYLE_PROVIDER(style_provider),
-			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
-
-	g_object_unref(style_provider);
-
-	if(csd_enable)
-	{
-		GMenu *app_menu = g_menu_new();
-
-		gmpv_menu_build_app_menu(app_menu);
-		gtk_application_set_app_menu
-			(GTK_APPLICATION(app), G_MENU_MODEL(app_menu));
-
-		gmpv_main_window_enable_csd(app->gui);
-	}
-	else
-	{
-		GMenu *full_menu = g_menu_new();
-
-		gmpv_menu_build_full(full_menu, NULL, NULL, NULL);
-		gtk_application_set_app_menu(GTK_APPLICATION(app), NULL);
-
-		gtk_application_set_menubar
-			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
-	}
-
-	gmpv_actionctl_map_actions(app);
-	gmpv_main_window_load_state(app->gui);
-	gtk_widget_show_all(GTK_WIDGET(app->gui));
-
-	if(csd_enable)
-	{
-		gmpv_control_box_set_fullscreen_btn_visible(control_box, FALSE);
-	}
-
-	gmpv_control_box_set_chapter_enabled(control_box, FALSE);
-
-	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
-	app->mpv = gmpv_mpv_new(app->playlist_store, wid);
-
-	connect_signals(app);
-	gmpv_mpris_init(app);
-	gmpv_media_keys_init(app);
-
-	g_object_set(	gtk_settings_get_default(),
-			"gtk-application-prefer-dark-theme",
-			dark_theme_enable,
-			NULL );
-
-	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
-			(GSourceFunc)update_seek_bar,
-			app );
-
-	g_free(mpvinput);
 }
 
 static void activate_handler(GApplication *gapp, gpointer data)
 {
+	GmpvApplication *app = data;
+
+	if(!app->gui)
+	{
+		initialize_gui(app);
+	}
+
 	gtk_window_present(GTK_WINDOW(GMPV_APPLICATION(data)->gui));
 }
 
@@ -374,8 +283,17 @@ static void mpv_init_handler(GmpvMpv *mpv, gpointer data)
 		gmpv_mpv_init_gl(app->mpv);
 	}
 
+	if(app->files)
+	{
+		gmpv_mpv_load_list(	app->mpv,
+					(const gchar **)app->files,
+					app->enqueue,
+					TRUE );
+
+		app->files = NULL;
+	}
+
 	mpv_free(current_vo);
-	load_files(app, (const gchar **)app->files, FALSE);
 }
 
 static void open_handler(	GApplication *gapp,
@@ -385,8 +303,9 @@ static void open_handler(	GApplication *gapp,
 				gpointer data )
 {
 	GmpvApplication *app = data;
-	gboolean append = (g_strcmp0(hint, "enqueue") == 0);
 	gint i;
+
+	app->enqueue = (g_strcmp0(hint, "enqueue") == 0);
 
 	if(n_files > 0)
 	{
@@ -399,9 +318,12 @@ static void open_handler(	GApplication *gapp,
 
 		app->files[i] = NULL;
 
-		if(gmpv_mpv_get_state(app->mpv)->ready)
+		if(app->mpv && gmpv_mpv_get_state(app->mpv)->ready)
 		{
-			load_files(app, (const gchar **)app->files, append);
+			gmpv_mpv_load_list(	app->mpv,
+						(const gchar **)app->files,
+						app->enqueue,
+						TRUE );
 		}
 	}
 
@@ -639,6 +561,102 @@ static gboolean process_action(gpointer data)
 	g_free(action_str);
 
 	return FALSE;
+}
+
+static void initialize_gui(GmpvApplication *app)
+{
+	GmpvControlBox *control_box;
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	const gchar *style = ".gmpv-vid-area{background-color: black}";
+	GtkCssProvider *style_provider;
+	gboolean css_loaded;
+	gboolean csd_enable;
+	gboolean dark_theme_enable;
+	gboolean always_floating;
+	gint64 wid;
+	gchar *mpvinput;
+
+	csd_enable =	g_settings_get_boolean
+			(settings, "csd-enable");
+	dark_theme_enable =	g_settings_get_boolean
+				(settings, "dark-theme-enable");
+	always_floating =	g_settings_get_boolean
+				(settings, "always-use-floating-controls");
+	mpvinput =	g_settings_get_string
+			(settings, "mpv-input-config-file");
+
+	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(	app,
+								app->playlist_store,
+								always_floating));
+
+	migrate_config(app);
+
+	control_box = gmpv_main_window_get_control_box(app->gui);
+	style_provider = gtk_css_provider_new();
+	css_loaded =	gtk_css_provider_load_from_data
+			(style_provider, style, -1, NULL);
+
+	if(!css_loaded)
+	{
+		g_warning ("Failed to apply background color css");
+	}
+
+	gtk_style_context_add_provider_for_screen
+		(	gtk_window_get_screen(GTK_WINDOW(app->gui)),
+			GTK_STYLE_PROVIDER(style_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
+
+	g_object_unref(style_provider);
+
+	if(csd_enable)
+	{
+		GMenu *app_menu = g_menu_new();
+
+		gmpv_menu_build_app_menu(app_menu);
+		gtk_application_set_app_menu
+			(GTK_APPLICATION(app), G_MENU_MODEL(app_menu));
+
+		gmpv_main_window_enable_csd(app->gui);
+	}
+	else
+	{
+		GMenu *full_menu = g_menu_new();
+
+		gmpv_menu_build_full(full_menu, NULL, NULL, NULL);
+		gtk_application_set_app_menu(GTK_APPLICATION(app), NULL);
+
+		gtk_application_set_menubar
+			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
+	}
+
+	gmpv_actionctl_map_actions(app);
+	gmpv_main_window_load_state(app->gui);
+	gtk_widget_show_all(GTK_WIDGET(app->gui));
+
+	if(csd_enable)
+	{
+		gmpv_control_box_set_fullscreen_btn_visible(control_box, FALSE);
+	}
+
+	gmpv_control_box_set_chapter_enabled(control_box, FALSE);
+
+	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
+	app->mpv = gmpv_mpv_new(app->playlist_store, wid);
+
+	connect_signals(app);
+	gmpv_mpris_init(app);
+	gmpv_media_keys_init(app);
+
+	g_object_set(	gtk_settings_get_default(),
+			"gtk-application-prefer-dark-theme",
+			dark_theme_enable,
+			NULL );
+
+	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
+			(GSourceFunc)update_seek_bar,
+			app );
+
+	g_free(mpvinput);
 }
 
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
@@ -950,22 +968,6 @@ static void set_inhibit_idle(GmpvApplication *app, gboolean inhibit)
 	}
 }
 
-static gboolean load_files(	GmpvApplication *app,
-				const gchar **files,
-				gboolean append )
-{
-	if(files)
-	{
-		gmpv_mpv_load_list(app->mpv, files, append, TRUE);
-
-		g_strfreev(app->files);
-
-		app->files = NULL;
-	}
-
-	return FALSE;
-}
-
 static void connect_signals(GmpvApplication *app)
 {
 	GmpvPlaylistWidget *playlist;
@@ -1058,7 +1060,14 @@ static void gmpv_application_class_init(GmpvApplicationClass *klass)
 static void gmpv_application_init(GmpvApplication *app)
 {
 	app->no_existing_session = FALSE;
+	app->enqueue = FALSE;
 	app->action_queue = g_queue_new();
+	app->files = NULL;
+	app->inhibit_cookie = 0;
+	app->target_playlist_pos = -1;
+	app->playlist_store = gmpv_playlist_new();
+	app->gui = NULL;
+	app->fs_control = NULL;
 
 	g_application_add_main_option
 		(	G_APPLICATION(app),
