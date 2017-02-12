@@ -216,7 +216,7 @@ void show_message_dialog(	GmpvApplication *app,
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				type,
 				GTK_BUTTONS_OK,
-				title );
+				"%s", title );
 	msg_area =	gtk_message_dialog_get_message_area
 			(GTK_MESSAGE_DIALOG(dialog));
 	iter = gtk_container_get_children(GTK_CONTAINER(msg_area));
