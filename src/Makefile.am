@@ -70,7 +70,8 @@ endif
 
 gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \
 			-DG_SETTINGS_ENABLE_BACKEND \
-			-DPACKAGE_LOCALEDIR=\""$(localedir)"\"
+			-DPACKAGE_LOCALEDIR=\""$(localedir)"\" \
+			-Impris
 
 gnome_mpv_LDADD = $(DEPS_LIBS)
 
