@@ -163,29 +163,40 @@ static gint options_handler(	GApplication *gapp,
 				GVariantDict *options,
 				gpointer data )
 {
-	GmpvApplication *app = data;
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	gboolean version = FALSE;
 
-	g_variant_dict_lookup(	options,
-				"no-existing-session",
-				"b",
-				&app->no_existing_session );
+	g_variant_dict_lookup(options, "version", "b", &version);
 
-	app->no_existing_session
-		|=	g_settings_get_boolean
-			(	settings,
-				"multiple-instances-enable" );
-
-	if(app->no_existing_session)
+	if(version)
 	{
-		GApplicationFlags flags = g_application_get_flags(gapp);
-
-		g_info("Single instance negotiation is disabled");
-		g_application_set_flags
-			(gapp, flags|G_APPLICATION_NON_UNIQUE);
+		g_printf("GNOME MPV " VERSION "\n");
 	}
+	else
+	{
+		GmpvApplication *app = data;
+		GSettings *settings = g_settings_new(CONFIG_ROOT);
 
-	g_clear_object(&settings);
+		g_variant_dict_lookup(	options,
+					"no-existing-session",
+					"b",
+					&app->no_existing_session );
+
+		app->no_existing_session
+			|=	g_settings_get_boolean
+				(	settings,
+					"multiple-instances-enable" );
+
+		if(app->no_existing_session)
+		{
+			GApplicationFlags flags = g_application_get_flags(gapp);
+
+			g_info("Single instance negotiation is disabled");
+			g_application_set_flags
+				(gapp, flags|G_APPLICATION_NON_UNIQUE);
+		}
+
+		g_clear_object(&settings);
+	}
 
 	return -1;
 }
@@ -195,22 +206,12 @@ static gint command_line_handler(	GApplication *app,
 					gpointer data )
 {
 	gint argc = 1;
-	gchar **argv;
+	gchar **argv = g_application_command_line_get_arguments(cli, &argc);
 	GVariantDict *options = g_application_command_line_get_options_dict(cli);
-	gboolean version = FALSE;
 	gboolean enqueue = FALSE;
 	const gint n_files = argc-1;
 	GFile *files[n_files];
 
-	g_variant_dict_lookup(options, "version", "b", &version);
-
-	if(version)
-	{
-		g_application_command_line_print(cli, "GNOME MPV " VERSION "\n");
-		return 0;
-	}
-
-	argv = g_application_command_line_get_arguments(cli, &argc);
 	g_variant_dict_lookup(options, "enqueue", "b", &enqueue);
 
 	for(gint i = 0; i < n_files; i++)
@@ -223,8 +224,6 @@ static gint command_line_handler(	GApplication *app,
 	{
 		g_application_open(app, files, n_files, enqueue?"enqueue":"");
 	}
-
-	g_application_activate(app);
 
 	for(gint i = 0; i < n_files; i++)
 	{
@@ -239,6 +238,16 @@ static gint command_line_handler(	GApplication *app,
 static void startup_handler(GApplication *gapp, gpointer data)
 {
 	GmpvApplication *app = data;
+	GmpvControlBox *control_box;
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	const gchar *style = ".gmpv-vid-area{background-color: black}";
+	GtkCssProvider *style_provider;
+	gboolean css_loaded;
+	gboolean csd_enable;
+	gboolean dark_theme_enable;
+	gboolean always_floating;
+	gint64 wid;
+	gchar *mpvinput;
 
 	setlocale(LC_NUMERIC, "C");
 	g_set_application_name(_("GNOME MPV"));
@@ -250,114 +259,97 @@ static void startup_handler(GApplication *gapp, gpointer data)
 
 	g_info("Starting GNOME MPV " VERSION);
 
+	csd_enable = g_settings_get_boolean
+				(settings, "csd-enable");
+	dark_theme_enable = g_settings_get_boolean
+				(settings, "dark-theme-enable");
+	always_floating = g_settings_get_boolean
+				(settings, "always-use-floating-controls");
+	mpvinput = g_settings_get_string
+				(settings, "mpv-input-config-file");
+
 	app->files = NULL;
 	app->inhibit_cookie = 0;
 	app->target_playlist_pos = -1;
 	app->playlist_store = gmpv_playlist_new();
+	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(	app,
+								app->playlist_store,
+								always_floating));
 	app->fs_control = NULL;
 
 	migrate_config(app);
+
+	control_box = gmpv_main_window_get_control_box(app->gui);
+	style_provider = gtk_css_provider_new();
+	css_loaded =	gtk_css_provider_load_from_data
+			(style_provider, style, -1, NULL);
+
+	if(!css_loaded)
+	{
+		g_warning ("Failed to apply background color css");
+	}
+
+	gtk_style_context_add_provider_for_screen
+		(	gtk_window_get_screen(GTK_WINDOW(app->gui)),
+			GTK_STYLE_PROVIDER(style_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
+
+	g_object_unref(style_provider);
+
+	if(csd_enable)
+	{
+		GMenu *app_menu = g_menu_new();
+
+		gmpv_menu_build_app_menu(app_menu);
+		gtk_application_set_app_menu
+			(GTK_APPLICATION(app), G_MENU_MODEL(app_menu));
+
+		gmpv_main_window_enable_csd(app->gui);
+	}
+	else
+	{
+		GMenu *full_menu = g_menu_new();
+
+		gmpv_menu_build_full(full_menu, NULL, NULL, NULL);
+		gtk_application_set_app_menu(GTK_APPLICATION(app), NULL);
+
+		gtk_application_set_menubar
+			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
+	}
+
+	gmpv_actionctl_map_actions(app);
+	gmpv_main_window_load_state(app->gui);
+	gtk_widget_show_all(GTK_WIDGET(app->gui));
+
+	if(csd_enable)
+	{
+		gmpv_control_box_set_fullscreen_btn_visible(control_box, FALSE);
+	}
+
+	gmpv_control_box_set_chapter_enabled(control_box, FALSE);
+
+	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
+	app->mpv = gmpv_mpv_new(app->playlist_store, wid);
+
+	connect_signals(app);
+	gmpv_mpris_init(app);
+	gmpv_media_keys_init(app);
+
+	g_object_set(	gtk_settings_get_default(),
+			"gtk-application-prefer-dark-theme",
+			dark_theme_enable,
+			NULL );
+
+	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
+			(GSourceFunc)update_seek_bar,
+			app );
+
+	g_free(mpvinput);
 }
 
 static void activate_handler(GApplication *gapp, gpointer data)
 {
-	GmpvApplication *app = GMPV_APPLICATION(gapp);
-
-	if(app->gui == NULL)
-	{
-		GmpvControlBox *control_box;
-		GSettings *settings = g_settings_new(CONFIG_ROOT);
-		const gchar *style = ".gmpv-vid-area{background-color: black}";
-		GtkCssProvider *style_provider;
-		gboolean css_loaded;
-		gboolean csd_enable;
-		gboolean dark_theme_enable;
-		gboolean always_floating;
-		gint64 wid;
-		gchar *mpvinput;
-
-		csd_enable = g_settings_get_boolean
-			(settings, "csd-enable");
-		dark_theme_enable = g_settings_get_boolean
-					(settings, "dark-theme-enable");
-		always_floating = g_settings_get_boolean
-					(settings, "always-use-floating-controls");
-		mpvinput = g_settings_get_string
-					(settings, "mpv-input-config-file");
-		app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(	app,
-						app->playlist_store,
-						always_floating));
-
-		control_box = gmpv_main_window_get_control_box(app->gui);
-		style_provider = gtk_css_provider_new();
-		css_loaded =	gtk_css_provider_load_from_data
-				(style_provider, style, -1, NULL);
-
-		if(!css_loaded)
-		{
-			g_warning ("Failed to apply background color css");
-		}
-
-		gtk_style_context_add_provider_for_screen
-			(	gtk_window_get_screen(GTK_WINDOW(app->gui)),
-				GTK_STYLE_PROVIDER(style_provider),
-				GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
-
-		g_object_unref(style_provider);
-
-		if(csd_enable)
-		{
-			GMenu *app_menu = g_menu_new();
-
-			gmpv_menu_build_app_menu(app_menu);
-			gtk_application_set_app_menu
-				(GTK_APPLICATION(app), G_MENU_MODEL(app_menu));
-
-			gmpv_main_window_enable_csd(app->gui);
-		}
-		else
-		{
-			GMenu *full_menu = g_menu_new();
-
-			gmpv_menu_build_full(full_menu, NULL, NULL, NULL);
-			gtk_application_set_app_menu(GTK_APPLICATION(app), NULL);
-
-			gtk_application_set_menubar
-				(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
-		}
-
-		gmpv_actionctl_map_actions(app);
-		gmpv_main_window_load_state(app->gui);
-		gtk_widget_show_all(GTK_WIDGET(app->gui));
-
-		if(csd_enable)
-		{
-			gmpv_control_box_set_fullscreen_btn_visible(control_box, FALSE);
-		}
-
-		gmpv_control_box_set_chapter_enabled(control_box, FALSE);
-
-		wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
-		app->mpv = gmpv_mpv_new(app->playlist_store, wid);
-
-		connect_signals(app);
-		gmpv_mpris_init(app);
-		gmpv_media_keys_init(app);
-
-		g_object_set(	gtk_settings_get_default(),
-				"gtk-application-prefer-dark-theme",
-				dark_theme_enable,
-				NULL );
-
-		g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
-				(GSourceFunc)update_seek_bar,
-				app );
-
-		g_free(mpvinput);
-
-	}
-
-	gtk_window_present(GTK_WINDOW(app->gui));
+	gtk_window_present(GTK_WINDOW(GMPV_APPLICATION(data)->gui));
 }
 
 static void mpv_init_handler(GmpvMpv *mpv, gpointer data)
