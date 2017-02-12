@@ -1,0 +1,24 @@
+subdir = po
+top_builddir = ..
+
+DOMAIN = $(PACKAGE)
+
+XGETTEXT_OPTIONS = --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=g_dngettext:2,3 --add-comments
+
+COPYRIGHT_HOLDER = GNOME MPV
+
+PACKAGE_GNU = no
+
+MSGID_BUGS_ADDRESS = https://github.com/gnome-mpv/gnome-mpv/issues
+
+EXTRA_LOCALE_CATEGORIES =
+
+USE_MSGCTXT = no
+
+MSGMERGE_OPTIONS = --quiet
+
+MSGINIT_OPTIONS =
+
+PO_DEPENDS_ON_POT = no
+
+DIST_DEPENDS_ON_UPDATE_PO = no
