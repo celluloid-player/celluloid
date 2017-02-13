@@ -66,7 +66,7 @@ static gboolean vid_area_render_handler(	GtkGLArea *area,
 static gint options_handler(	GApplication *gapp,
 				GVariantDict *options,
 				gpointer data );
-static gint command_line_handler(	GApplication *app,
+static gint command_line_handler(	GApplication *gapp,
 					GApplicationCommandLine *cli,
 					gpointer data );
 static void startup_handler(GApplication *gapp, gpointer data);
@@ -200,7 +200,7 @@ static gint options_handler(	GApplication *gapp,
 	return version?0:-1;
 }
 
-static gint command_line_handler(	GApplication *app,
+static gint command_line_handler(	GApplication *gapp,
 					GApplicationCommandLine *cli,
 					gpointer data )
 {
@@ -221,10 +221,13 @@ static gint command_line_handler(	GApplication *app,
 
 	if(n_files > 0)
 	{
-		g_application_open(app, files, n_files, enqueue?"enqueue":"");
+		g_application_open(gapp, files, n_files, enqueue?"enqueue":"");
 	}
 
-	g_application_activate(app);
+	if(n_files == 0 || !GMPV_APPLICATION(gapp)->gui)
+	{
+		g_application_activate(gapp);
+	}
 
 	for(gint i = 0; i < n_files; i++)
 	{
