@@ -77,7 +77,6 @@ else
   ]
 endif
 
-
 if target_machine.system() == 'windows'
   libgio = dependency('gio-2.0', version: '>= 2.44')
 else
@@ -90,15 +89,23 @@ generated_gdbus_sources = gnome.gdbus_codegen(
   namespace: 'gmpv_mpris'
 )
 
-# FIXME: gdbus outputs code with warnings, so compile that
-# with extra args
-lib_mpris_gdbus = static_library('mpris-gdbus',
-  generated_gdbus_sources,
-  c_args: cflags + ['-Wno-conversion'],
-  dependencies: libgio,
-  include_directories: include_directories('..'), # FIXME
-)
-
+includes = []
+extra_libs = []
+if libgio.version().version_compare('<= 2.51.2')
+  # We want to be warning free and due to https://bugzilla.gnome.org/show_bug.cgi?id=778581
+  # gdbus-codegen caused this warning previous to this release.
+  extra_libs += static_library('mpris-gdbus',
+    generated_gdbus_sources,
+    c_args: cflags + ['-Wno-conversion'],
+    dependencies: libgio,
+    include_directories: include_directories('..'),
+  )
+else
+  sources += generated_gdbus_sources
+  # FIXME: Our invocation of `gdbus-codegen` creates an include of `src/...`
+  # https://github.com/mesonbuild/meson/issues/1387
+  includes = include_directories('..')
+endif
 
 executable('gnome-mpv', sources,
   dependencies: [
@@ -107,7 +114,8 @@ executable('gnome-mpv', sources,
     dependency('mpv', version: '>= 1.20'),
     dependency('epoxy')
   ],
-  link_with: lib_mpris_gdbus,
+  link_with: extra_libs,
+  include_directories: includes,
   c_args: cflags,
   install: true
 )
