@@ -13,7 +13,6 @@ capabilities.
 - autoconf-archive<sup>[[1]](#note1)</sup> (build)
 - automake >= 1.12<sup>[[1]](#note1)</sup> (build)
 - python2<sup>[[1]](#note1)</sup> (build)
-- intltool >= 0.40.6 (build)
 - pkg-config (build)
 - gcc (build)
 - glib >= 2.44
