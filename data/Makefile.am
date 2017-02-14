@@ -27,6 +27,7 @@ EXTRA_DIST =	$(appstream_in_files) $(desktop_in_files) \
 		gnome-mpv.svg gnome-mpv-symbolic.svg \
 		org.gnome-mpv.gschema.xml \
 		io.github.GnomeMpv.gschema.xml \
-		gmpv_mpris_gdbus.xml gmpv_marshal.lst
+		gmpv_mpris_gdbus.xml gmpv_marshal.lst \
+		meson.build
 
 DISTCLEANFILES = $(appstream_XML) $(desktop_DATA)

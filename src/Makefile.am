@@ -76,3 +76,4 @@ gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \
 gnome_mpv_LDADD = $(DEPS_LIBS)
 
 CLEANFILES = $(mpris_generated) $(marshal_generated) $(authors_generated)
+EXTRA_DIST = meson.build generate_authors.py
