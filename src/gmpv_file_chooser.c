@@ -143,6 +143,6 @@ void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
 		}
 	}
 
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(chooser), filter);
+	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(chooser), filter);
 }
 
