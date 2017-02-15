@@ -17,6 +17,7 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib/gi18n.h>
 #include <string.h>
 
 #include "gmpv_file_chooser.h"
@@ -113,26 +114,63 @@ void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
 						gboolean image,
 						gboolean subtitle )
 {
-	GtkFileFilter *filter = gtk_file_filter_new();
+	GtkFileChooser *gtk_chooser = GTK_FILE_CHOOSER(chooser);
+	GSList *filters = gtk_file_chooser_list_filters(gtk_chooser);
+
+	for(GSList *iter = filters; iter; iter = g_slist_next(iter))
+	{
+		gtk_file_chooser_remove_filter(gtk_chooser, iter->data);
+	}
+
+	if(audio || video || image || subtitle)
+	{
+		GtkFileFilter *filter = gtk_file_filter_new();
+		gtk_file_filter_set_name(filter, _("All Files"));
+		gtk_file_filter_add_pattern(filter, "*");
+		gtk_file_chooser_add_filter(gtk_chooser, filter);
+	}
+
+	if(audio || video || image)
+	{
+		GtkFileFilter *filter = gtk_file_filter_new();
+		gtk_file_filter_set_name(filter, _("Media Files"));
+		gtk_file_filter_add_mime_type(filter, "audio/*");
+		gtk_file_filter_add_mime_type(filter, "video/*");
+		gtk_file_filter_add_mime_type(filter, "images/*");
+		gtk_file_chooser_add_filter(gtk_chooser, filter);
+		gtk_file_chooser_set_filter(gtk_chooser, filter);
+	}
 
 	if(audio)
 	{
+		GtkFileFilter *filter = gtk_file_filter_new();
+		gtk_file_filter_set_name(filter, _("Audio Files"));
 		gtk_file_filter_add_mime_type(filter, "audio/*");
+		gtk_file_chooser_add_filter(gtk_chooser, filter);
 	}
 
 	if(video)
 	{
+		GtkFileFilter *filter = gtk_file_filter_new();
+		gtk_file_filter_set_name(filter, _("Video Files"));
 		gtk_file_filter_add_mime_type(filter, "video/*");
+		gtk_file_chooser_add_filter(gtk_chooser, filter);
 	}
 
 	if(image)
 	{
+		GtkFileFilter *filter = gtk_file_filter_new();
+		gtk_file_filter_set_name(filter, _("Image Files"));
 		gtk_file_filter_add_mime_type(filter, "image/*");
+		gtk_file_chooser_add_filter(gtk_chooser, filter);
 	}
 
 	if(subtitle)
 	{
+		GtkFileFilter *filter = gtk_file_filter_new();
 		const gchar *exts[] = PLAYLIST_EXTS;
+
+		gtk_file_filter_set_name(filter, _("Subtitle Files"));
 
 		for(gint i = 0; exts[i]; i++)
 		{
@@ -141,8 +179,13 @@ void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
 			gtk_file_filter_add_pattern(filter, pattern);
 			g_free(pattern);
 		}
-	}
 
-	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(chooser), filter);
+		gtk_file_chooser_add_filter(gtk_chooser, filter);
+
+		if(!(audio || video || image))
+		{
+			gtk_file_chooser_set_filter(gtk_chooser, filter);
+		}
+	}
 }
 
