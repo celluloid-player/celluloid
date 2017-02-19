@@ -44,8 +44,16 @@
 #include "gmpv_shortcuts_window.h"
 #endif
 
-static void set_track(GmpvMpv *mpv, const gchar *prop, gint64 id);
+static gboolean state_to_track_id(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data );
+static gboolean track_id_to_state(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data );
 static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error);
+static void bind_tracks(GmpvApplication *app);
 static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
@@ -104,16 +112,30 @@ static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
 
-static void set_track(GmpvMpv *mpv, const gchar *prop, gint64 id)
+static gboolean state_to_track_id(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data )
 {
-	if(id > 0)
-	{
-		gmpv_mpv_set_property(mpv, prop, MPV_FORMAT_INT64, &id);
-	}
-	else
-	{
-		gmpv_mpv_set_property_string(mpv, prop, "no");
-	}
+	GVariant *from = g_value_get_variant(from_value);
+	gint64 id = g_variant_get_int64(from);
+
+	g_value_set_int(to_value, (gint)id);
+
+	return TRUE;
+}
+
+static gboolean track_id_to_state(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data )
+{
+	gint64 id = g_value_get_int(from_value);
+	GVariant *to = g_variant_new("x", id);
+
+	g_value_set_variant(to_value, to);
+
+	return TRUE;
 }
 
 static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error)
@@ -153,6 +175,37 @@ static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error)
 	if(dest_stream)
 	{
 		g_output_stream_close(dest_stream, NULL, error);
+	}
+}
+
+static void bind_tracks(GmpvApplication *app)
+{
+	const struct
+	{
+		const gchar *action_name;
+		const gchar *track_name;
+	}
+	tracks[] = {	{"set-audio-track", "aid"},
+			{"set-video-track", "vid"},
+			{"set-subtitle-track", "sid"},
+			{NULL, NULL} };
+
+	for(gint i = 0; tracks[i].action_name; i++)
+	{
+		GAction *action;
+
+		action =	g_action_map_lookup_action
+				(G_ACTION_MAP(app), tracks[i].action_name);
+
+		g_object_bind_property_full(	app->controller,
+						tracks[i].track_name,
+						action,
+						"state",
+						G_BINDING_BIDIRECTIONAL,
+						track_id_to_state,
+						state_to_track_id,
+						NULL,
+						NULL );
 	}
 }
 
@@ -305,36 +358,21 @@ static void set_audio_track_handler(	GSimpleAction *action,
 					GVariant *value,
 					gpointer data )
 {
-	GmpvMpv *mpv = gmpv_application_get_mpv(data);
-	gint64 id;
-
 	g_simple_action_set_state(action, value);
-	g_variant_get(value, "x", &id);
-	set_track(mpv, "aid", id);
 }
 
 static void set_video_track_handler(	GSimpleAction *action,
 					GVariant *value,
 					gpointer data )
 {
-	GmpvMpv *mpv = gmpv_application_get_mpv(data);
-	gint64 id;
-
 	g_simple_action_set_state(action, value);
-	g_variant_get(value, "x", &id);
-	set_track(mpv, "vid", id);
 }
 
 static void set_subtitle_track_handler(	GSimpleAction *action,
 					GVariant *value,
 					gpointer data )
 {
-	GmpvMpv *mpv = gmpv_application_get_mpv(data);
-	gint64 id;
-
 	g_simple_action_set_state(action, value);
-	g_variant_get(value, "x", &id);
-	set_track(mpv, "sid", id);
 }
 
 static void load_track_handler(	GSimpleAction *action,
@@ -460,4 +498,6 @@ void gmpv_actionctl_map_actions(GmpvApplication *app)
 						entries,
 						G_N_ELEMENTS(entries),
 						app );
+
+	bind_tracks(app);
 }

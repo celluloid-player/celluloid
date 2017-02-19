@@ -47,6 +47,7 @@ struct _GmpvModel
 {
 	GObject parent;
 	GmpvMpv *mpv;
+	gboolean update_mpv_properties;
 	gchar *aid;
 	gchar *vid;
 	gchar *sid;
@@ -75,6 +76,10 @@ static void set_property(	GObject *object,
 static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
+				GParamSpec *pspec );
+static void set_mpv_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
 				GParamSpec *pspec );
 static void g_value_set_by_type(GValue *gvalue, GType type, gpointer value);
 static GParamSpec *g_param_spec_by_type(	const gchar *name,
@@ -136,28 +141,16 @@ static void set_property(	GObject *object,
 		case PROP_AID:
 		g_free(self->aid);
 		self->aid = g_value_dup_string(value);
-		gmpv_mpv_set_property(	self->mpv,
-					"aid",
-					MPV_FORMAT_STRING,
-					&self->aid );
 		break;
 
 		case PROP_VID:
 		g_free(self->vid);
 		self->vid = g_value_dup_string(value);
-		gmpv_mpv_set_property(	self->mpv,
-					"vid",
-					MPV_FORMAT_STRING,
-					&self->vid );
 		break;
 
 		case PROP_SID:
 		g_free(self->sid);
 		self->sid = g_value_dup_string(value);
-		gmpv_mpv_set_property(	self->mpv,
-					"sid",
-					MPV_FORMAT_STRING,
-					&self->sid );
 		break;
 
 		case PROP_CHAPTERS:
@@ -174,18 +167,10 @@ static void set_property(	GObject *object,
 
 		case PROP_FULLSCREEN:
 		self->fullscreen = g_value_get_boolean(value);
-		gmpv_mpv_set_property(	self->mpv,
-					"fullscreen",
-					MPV_FORMAT_FLAG,
-					&self->fullscreen );
 		break;
 
 		case PROP_PAUSE:
 		self->pause = g_value_get_boolean(value);
-		gmpv_mpv_set_property(	self->mpv,
-					"pause",
-					MPV_FORMAT_FLAG,
-					&self->pause );
 		break;
 
 		case PROP_DURATION:
@@ -195,21 +180,10 @@ static void set_property(	GObject *object,
 		case PROP_MEDIA_TITLE:
 		g_free(self->media_title);
 		self->media_title = g_value_dup_string(value);
-		gmpv_mpv_set_property(	self->mpv,
-					"media-title",
-					MPV_FORMAT_INT64,
-					&self->media_title );
 		break;
 
 		case PROP_PLAYLIST_POS:
-		if(self->playlist_pos != g_value_get_int64(value))
-		{
-			self->playlist_pos = g_value_get_int64(value);
-			gmpv_mpv_set_property(	self->mpv,
-						"playlist-pos",
-						MPV_FORMAT_INT64,
-						&self->playlist_pos );
-		}
+		self->playlist_pos = g_value_get_int64(value);
 		break;
 
 		case PROP_TRACK_LIST:
@@ -220,15 +194,17 @@ static void set_property(	GObject *object,
 
 		case PROP_VOLUME:
 		self->volume = g_value_get_double(value);
-		gmpv_mpv_set_property(	self->mpv,
-					"volume",
-					MPV_FORMAT_DOUBLE,
-					&self->volume );
 		break;
 
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
+	}
+
+	/* Do not propagate changes from mpv back to itself */
+	if(self->update_mpv_properties)
+	{
+		set_mpv_property(object, property_id, value, pspec);
 	}
 }
 
@@ -299,6 +275,73 @@ static void get_property(	GObject *object,
 
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void set_mpv_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec )
+{
+	GmpvModel *self = GMPV_MODEL(object);
+
+	switch(property_id)
+	{
+		case PROP_AID:
+		gmpv_mpv_set_property(	self->mpv,
+					"aid",
+					MPV_FORMAT_STRING,
+					&self->aid );
+		break;
+
+		case PROP_VID:
+		gmpv_mpv_set_property(	self->mpv,
+					"vid",
+					MPV_FORMAT_STRING,
+					&self->vid );
+		break;
+
+		case PROP_SID:
+		gmpv_mpv_set_property(	self->mpv,
+					"sid",
+					MPV_FORMAT_STRING,
+					&self->sid );
+		break;
+
+		case PROP_FULLSCREEN:
+		gmpv_mpv_set_property(	self->mpv,
+					"fullscreen",
+					MPV_FORMAT_FLAG,
+					&self->fullscreen );
+		break;
+
+		case PROP_PAUSE:
+		gmpv_mpv_set_property(	self->mpv,
+					"pause",
+					MPV_FORMAT_FLAG,
+					&self->pause );
+		break;
+
+		case PROP_MEDIA_TITLE:
+		gmpv_mpv_set_property(	self->mpv,
+					"media-title",
+					MPV_FORMAT_INT64,
+					&self->media_title );
+		break;
+
+		case PROP_PLAYLIST_POS:
+		gmpv_mpv_set_property(	self->mpv,
+					"playlist-pos",
+					MPV_FORMAT_INT64,
+					&self->playlist_pos );
+		break;
+
+		case PROP_VOLUME:
+		gmpv_mpv_set_property(	self->mpv,
+					"volume",
+					MPV_FORMAT_DOUBLE,
+					&self->volume );
 		break;
 	}
 }
@@ -421,8 +464,12 @@ static void mpv_prop_change_handler(	GmpvMpv *mpv,
 
 	if(pspec && value)
 	{
+		GMPV_MODEL(data)->update_mpv_properties = FALSE;
+
 		g_value_set_by_type(&gvalue, pspec->value_type, value);
 		g_object_set_property(data, name, &gvalue);
+
+		GMPV_MODEL(data)->update_mpv_properties = TRUE;
 	}
 
 }
@@ -541,6 +588,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 static void gmpv_model_init(GmpvModel *model)
 {
 	model->mpv = NULL;
+	model->update_mpv_properties = TRUE;
 	model->aid = NULL;
 	model->vid = NULL;
 	model->sid = NULL;

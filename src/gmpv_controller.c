@@ -44,6 +44,10 @@ static gboolean track_str_to_int(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
 					gpointer data );
+static gboolean int_to_track_str(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data );
 static gboolean is_more_than_one(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
@@ -221,23 +225,23 @@ static void connect_signals(GmpvController *controller)
 {
 	g_object_bind_property_full(	controller->model, "aid",
 					controller, "aid",
-					G_BINDING_DEFAULT,
+					G_BINDING_BIDIRECTIONAL,
 					track_str_to_int,
-					NULL,
+					int_to_track_str,
 					NULL,
 					NULL );
 	g_object_bind_property_full(	controller->model, "vid",
 					controller, "vid",
-					G_BINDING_DEFAULT,
+					G_BINDING_BIDIRECTIONAL,
 					track_str_to_int,
-					NULL,
+					int_to_track_str,
 					NULL,
 					NULL );
 	g_object_bind_property_full(	controller->model, "sid",
 					controller, "sid",
-					G_BINDING_DEFAULT,
+					G_BINDING_BIDIRECTIONAL,
 					track_str_to_int,
-					NULL,
+					int_to_track_str,
 					NULL,
 					NULL );
 	g_object_bind_property(	controller->model, "idle-active",
@@ -385,6 +389,20 @@ static gboolean track_str_to_int(	GBinding *binding,
 	}
 
 	g_value_set_int(to_value, to);
+
+	return TRUE;
+}
+
+static gboolean int_to_track_str(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data )
+{
+	gint from = g_value_get_int(from_value);
+	gchar buf[16] = "no";
+
+	g_snprintf(buf, 16, "%d", from);
+	g_value_set_string(to_value, buf);
 
 	return TRUE;
 }
