@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -67,7 +67,7 @@ static void gmpv_header_bar_init(GmpvHeaderBar *hdr)
 	hdr->menu_btn = gtk_menu_button_new();
 
 	gmpv_menu_build_open_btn(open_btn_menu);
-	gmpv_menu_build_menu_btn(menu_btn_menu, NULL, NULL, NULL);
+	gmpv_menu_build_menu_btn(menu_btn_menu, NULL);
 
 	gtk_button_set_image
 		(	GTK_BUTTON(hdr->open_btn),
@@ -132,14 +132,11 @@ void gmpv_header_bar_set_fullscreen_state(	GmpvHeaderBar *hdr,
 }
 
 void gmpv_header_bar_update_track_list(	GmpvHeaderBar *hdr,
-					const GSList *audio_list,
-					const GSList *video_list,
-					const GSList *sub_list )
+					const GSList *track_list )
 {
 	GMenu *menu = g_menu_new();
 
-	gmpv_menu_build_menu_btn
-		(menu, audio_list, video_list, sub_list);
+	gmpv_menu_build_menu_btn(menu, track_list);
 	gtk_menu_button_set_menu_model
 		(GTK_MENU_BUTTON(hdr->menu_btn), G_MENU_MODEL(menu));
 }

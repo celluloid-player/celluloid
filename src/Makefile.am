@@ -39,7 +39,10 @@ BUILT_SOURCES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_actionctl.c gmpv_actionctl.h \
 			gmpv_application.c gmpv_application.h \
+			gmpv_application_private.h \
 			gmpv_common.c gmpv_common.h \
+			gmpv_controller.c gmpv_controller.h \
+			gmpv_controller_private.h \
 			gmpv_control_box.c gmpv_control_box.h \
 			gmpv_file_chooser.c gmpv_file_chooser.h \
 			gmpv_geometry.h \
@@ -47,6 +50,7 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_inputctl.c gmpv_inputctl.h \
 			gmpv_main_window.c gmpv_main_window.h \
 			gmpv_menu.c gmpv_menu.h \
+			gmpv_model.c gmpv_model.h \
 			gmpv_mpv.c gmpv_mpv.h \
 			gmpv_mpv_private.h \
 			gmpv_mpv_opt.c gmpv_mpv_opt.h \
@@ -60,6 +64,7 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_seek_bar.c gmpv_seek_bar.h \
 			gmpv_track.c gmpv_track.h \
 			gmpv_video_area.c gmpv_video_area.h \
+			gmpv_view.c gmpv_view.h \
 			gmpv_mpv_wrapper.c gmpv_mpv_wrapper.h \
 			$(mpris_files) $(marshal_files) $(media_key_files) \
 			$(authors_files)

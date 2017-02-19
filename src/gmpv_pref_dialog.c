@@ -62,28 +62,6 @@ struct PrefDialogItem
 
 G_DEFINE_TYPE(GmpvPrefDialog, gmpv_pref_dialog, GTK_TYPE_DIALOG)
 
-static gchar *capitalize(const gchar *str);
-static void file_set_handler(GtkFileChooserButton *widget, gpointer data);
-static void response_handler(GtkDialog *dialog, gint response_id);
-static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event);
-static GtkWidget *build_page(const PrefDialogItem *items, GSettings *settings);
-static void pref_dialog_constructed(GObject *obj);
-
-static gchar *capitalize(const gchar *str)
-{
-	const gchar *regex_str;
-	GRegex *regex;
-	gchar *result;
-
-	regex_str = "\\b(a|an|the|but|for|nor|on|at|to|from|by)|(\\w+)";
-	regex = g_regex_new(regex_str, 0, 0, NULL);
-	result = g_regex_replace(regex, str, -1, 0, "\\1\\u\\2", 0, NULL);
-
-	g_regex_unref(regex);
-
-	return result;
-}
-
 static void file_set_handler(GtkFileChooserButton *widget, gpointer data)
 {
 	GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(widget));
@@ -177,39 +155,17 @@ static GtkWidget *build_page(const PrefDialogItem *items, GSettings *settings)
 		{
 			GtkFileChooser *chooser;
 			GtkFileFilter *filter;
-			gchar *title;
 			gchar *filename;
-			gsize title_len;
 
 			widget = gtk_file_chooser_button_new
 					(label, GTK_FILE_CHOOSER_ACTION_OPEN);
 			chooser = GTK_FILE_CHOOSER(widget);
-			filter = NULL;
-			title = capitalize(label);
+			filter = gtk_file_filter_new();
 			filename = g_settings_get_string(settings, key);
-			title_len = strlen(title);
 			separate_label = TRUE;
 			xpos = 1;
 
-			/* Remove trailing colon, if any */
-			if(title[title_len-1] == ':')
-			{
-				title[title_len-1] = '\0';
-			}
-
-			gtk_file_chooser_button_set_title
-				(GTK_FILE_CHOOSER_BUTTON(widget), title);
-
-			filter = gtk_file_filter_new();
-			gtk_file_filter_set_name(filter, _("All Files"));
-			gtk_file_filter_add_pattern(filter, "*");
-			gtk_file_chooser_add_filter(chooser, filter);
-
-			filter = gtk_file_filter_new();
-			gtk_file_filter_set_name(filter, _("Configuration Files"));
-			gtk_file_filter_add_pattern(filter, "*.conf");
-			gtk_file_filter_add_pattern(filter, "*.cfg");
-			gtk_file_chooser_add_filter(chooser, filter);
+			gtk_file_filter_add_mime_type(filter, "text/plain");
 			gtk_file_chooser_set_filter(chooser, filter);
 
 			gtk_widget_set_hexpand(widget, TRUE);
@@ -228,7 +184,6 @@ static GtkWidget *build_page(const PrefDialogItem *items, GSettings *settings)
 						0 );
 
 			g_free(filename);
-			g_free(title);
 		}
 		else if(type == ITEM_TYPE_TEXT_BOX)
 		{

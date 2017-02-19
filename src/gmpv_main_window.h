@@ -56,9 +56,7 @@ void gmpv_main_window_load_state(GmpvMainWindow *wnd);
 void gmpv_main_window_set_geometry(	GmpvMainWindow *wnd,
 					const GmpvGeometry *geom );
 void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
-						const GSList *audio_list,
-						const GSList *video_list,
-						const GSList *sub_list );
+						const GSList *track_list );
 void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
 						gint width,
 						gint height );

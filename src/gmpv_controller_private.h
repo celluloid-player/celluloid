@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 gnome-mpv
+ * Copyright (c) 2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,23 +17,46 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HEADER_BAR_H
-#define HEADER_BAR_H
+#ifndef CONTROLLER_PRIVATE_H
+#define CONTROLLER_PRIVATE_H
 
-#include <glib.h>
-#include <glib-object.h>
-#include <gtk/gtk.h>
+#include "gmpv_model.h"
+#include "gmpv_view.h"
 
-#define GMPV_TYPE_HEADER_BAR (gmpv_header_bar_get_type ())
+G_BEGIN_DECLS
 
-G_DECLARE_FINAL_TYPE(GmpvHeaderBar, gmpv_header_bar, GMPV, HEADER_BAR, GtkHeaderBar)
+enum
+{
+	PROP_0,
+	PROP_MODEL,
+	PROP_VIEW,
+	PROP_AID,
+	PROP_VID,
+	PROP_SID,
+	PROP_IDLE,
+	N_PROPERTIES
+};
 
-GtkWidget *gmpv_header_bar_new(void);
-gboolean gmpv_header_bar_get_open_button_popup_visible(GmpvHeaderBar *hdr);
-gboolean gmpv_header_bar_get_menu_button_popup_visible(GmpvHeaderBar *hdr);
-void gmpv_header_bar_set_fullscreen_state(	GmpvHeaderBar *hdr,
-						gboolean fullscreen );
-void gmpv_header_bar_update_track_list(	GmpvHeaderBar *hdr,
-					const GSList *track_list );
+struct _GmpvController
+{
+	GObject parent;
+	GmpvModel *model;
+	GmpvView *view;
+	gint aid;
+	gint vid;
+	gint sid;
+	gboolean idle;
+	GQueue *action_queue;
+	gchar **files;
+	guint inhibit_cookie;
+	gint64 target_playlist_pos;
+};
+
+struct _GmpvControllerClass
+{
+	GObjectClass parent_class;
+};
+
+G_END_DECLS
 
 #endif

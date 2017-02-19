@@ -26,6 +26,8 @@
 
 #include "gmpv_actionctl.h"
 #include "gmpv_file_chooser.h"
+#include "gmpv_application_private.h"
+#include "gmpv_controller.h"
 #include "gmpv_playlist_widget.h"
 #include "gmpv_def.h"
 #include "gmpv_mpv.h"
@@ -44,15 +46,6 @@
 
 static void set_track(GmpvMpv *mpv, const gchar *prop, gint64 id);
 static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error);
-static void open_dialog_response_handler(	GtkDialog *dialog,
-						gint response_id,
-						gpointer data );
-static void open_location_dialog_response_handler(	GtkDialog *dialog,
-							gint response_id,
-							gpointer data );
-static void preferences_dialog_response_handler(	GtkDialog *dialog,
-							gint response_id,
-							gpointer data );
 static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
@@ -163,177 +156,24 @@ static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error)
 	}
 }
 
-static void open_dialog_response_handler(	GtkDialog *dialog,
-						gint response_id,
-						gpointer data )
-{
-	GPtrArray *args = data;
-	GmpvApplication *app = g_ptr_array_index(args, 0);
-	gboolean *append = g_ptr_array_index(args, 1);
-
-	if(response_id == GTK_RESPONSE_ACCEPT)
-	{
-		GtkFileChooser *file_chooser = GTK_FILE_CHOOSER(dialog);
-		GSList *uri_slist = gtk_file_chooser_get_filenames(file_chooser);
-
-		if(uri_slist)
-		{
-			const gchar **uri_list = gslist_to_array(uri_slist);
-			GmpvMpv *mpv = gmpv_application_get_mpv(app);
-
-			gmpv_mpv_load_list(mpv, uri_list, *append, TRUE);
-			g_free(uri_list);
-		}
-
-		g_slist_free_full(uri_slist, g_free);
-	}
-
-	g_free(append);
-	g_ptr_array_free(args, TRUE);
-	gmpv_file_chooser_destroy(dialog);
-}
-
-static void open_location_dialog_response_handler(	GtkDialog *dialog,
-							gint response_id,
-							gpointer data )
-{
-	GPtrArray *args = data;
-	gboolean *append = g_ptr_array_index(args, 1);
-
-	if(response_id == GTK_RESPONSE_ACCEPT)
-	{
-		GmpvApplication *app;
-		GmpvMpv *mpv;
-		const gchar *loc_str;
-
-		app = g_ptr_array_index(args, 0);
-		mpv = gmpv_application_get_mpv(app);
-		loc_str =	gmpv_open_loc_dialog_get_string
-				(GMPV_OPEN_LOC_DIALOG(dialog));
-
-		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
-		gmpv_mpv_load(mpv, loc_str, *append, TRUE);
-	}
-
-	g_free(append);
-	g_ptr_array_free(args, TRUE);
-	gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
-static void preferences_dialog_response_handler(	GtkDialog *dialog,
-							gint response_id,
-							gpointer data )
-{
-	if(response_id == GTK_RESPONSE_ACCEPT)
-	{
-		GmpvApplication *app;
-		GmpvMainWindow *wnd;
-		GmpvMpv *mpv;
-		GSettings *settings;
-		gboolean csd_enable;
-		gboolean dark_theme_enable;
-		gboolean always_floating;
-
-		app = data;
-		wnd = gmpv_application_get_main_window(app);
-		mpv = gmpv_application_get_mpv(app);
-		settings = g_settings_new(CONFIG_ROOT);
-		csd_enable = g_settings_get_boolean(settings, "csd-enable");
-		dark_theme_enable =	g_settings_get_boolean
-					(settings, "dark-theme-enable");
-		always_floating =	g_settings_get_boolean
-					(settings, "always-use-floating-controls");
-
-		if(gmpv_main_window_get_csd_enabled(wnd) != csd_enable)
-		{
-			show_message_dialog(	app,
-						GTK_MESSAGE_INFO,
-						NULL,
-						_("Enabling or disabling "
-						"client-side decorations "
-						"requires restarting %s to "
-						"take effect."),
-						g_get_application_name());
-		}
-
-		g_object_set(	gtk_settings_get_default(),
-				"gtk-application-prefer-dark-theme",
-				dark_theme_enable,
-				NULL );
-		g_object_set(	wnd,
-				"always-use-floating-controls",
-				always_floating,
-				NULL );
-
-		gmpv_mpv_reset(mpv);
-		gtk_widget_queue_draw(GTK_WIDGET(wnd));
-		g_object_unref(settings);
-	}
-
-	gtk_widget_destroy(GTK_WIDGET(dialog));
-}
-
 static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMainWindow *wnd = NULL;
-	GmpvFileChooser *file_chooser = NULL;
-	GmpvFileChooser *open_dialog = NULL;
-	gboolean *append = g_malloc(sizeof(gboolean));
-	GPtrArray *args = g_ptr_array_sized_new(2);
+	gboolean append = g_variant_get_boolean(param);
 
-	g_variant_get(param, "b", append);
-
-	wnd = gmpv_application_get_main_window(app);
-	open_dialog = gmpv_file_chooser_new(	(*append)?
-						_("Add File to Playlist"):
-						_("Open File"),
-						GTK_WINDOW(wnd),
-						GTK_FILE_CHOOSER_ACTION_OPEN );
-	file_chooser = GMPV_FILE_CHOOSER(open_dialog);
-
-	g_ptr_array_add(args, app);
-	g_ptr_array_add(args, append);
-
-	g_signal_connect(	open_dialog,
-				"response",
-				G_CALLBACK(open_dialog_response_handler),
-				args );
-
-	gmpv_file_chooser_set_default_filters
-		(file_chooser, TRUE, TRUE, TRUE, TRUE);
-
-	gmpv_file_chooser_show(open_dialog);
+	gmpv_view_show_open_dialog
+		(GMPV_APPLICATION(data)->view, append);
 }
 
 static void show_open_location_dialog_handler(	GSimpleAction *action,
 						GVariant *param,
 						gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-	GtkWidget *dlg = NULL;
-	gboolean *append = g_malloc(sizeof(gboolean));
-	GPtrArray *args = g_ptr_array_sized_new(2);
+	gboolean append = g_variant_get_boolean(param);
 
-	g_variant_get(param, "b", append);
-
-	dlg = gmpv_open_loc_dialog_new(	GTK_WINDOW(wnd),
-					(*append)?
-					_("Add Location to Playlist"):
-					_("Open Location") );
-	g_ptr_array_add(args, app);
-	g_ptr_array_add(args, append);
-
-	g_signal_connect
-		(	dlg,
-			"response",
-			G_CALLBACK(open_location_dialog_response_handler),
-			args );
-
-	gtk_widget_show_all(dlg);
+	gmpv_view_show_open_location_dialog
+		(GMPV_APPLICATION(data)->view, append);
 }
 
 static void toggle_loop_handler(	GSimpleAction *action,
@@ -352,13 +192,7 @@ static void show_shortcuts_dialog_handler(	GSimpleAction *action,
 						GVariant *param,
 						gpointer data )
 {
-#if GTK_CHECK_VERSION(3, 20, 0)
-	GmpvApplication *app = data;
-	GmpvMainWindow *mwnd = gmpv_application_get_main_window(app);
-	GtkWidget *wnd = gmpv_shortcuts_window_new(GTK_WINDOW(mwnd));
-
-	gtk_widget_show_all(wnd);
-#endif
+	gmpv_view_show_shortcuts_dialog(GMPV_APPLICATION(data)->view);
 }
 
 static void toggle_controls_handler(	GSimpleAction *action,
@@ -426,7 +260,7 @@ static void save_playlist_handler(	GSimpleAction *action,
 
 	if(error)
 	{
-		show_message_dialog(	app,
+		show_message_dialog(	wnd,
 					GTK_MESSAGE_ERROR,
 					NULL,
 					error->message,
@@ -457,16 +291,7 @@ static void show_preferences_dialog_handler(	GSimpleAction *action,
 						GVariant *param,
 						gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-	GtkWidget *pref_dialog = gmpv_pref_dialog_new(GTK_WINDOW(wnd));
-
-	g_signal_connect_after(	pref_dialog,
-				"response",
-				G_CALLBACK(preferences_dialog_response_handler),
-				app );
-
-	gtk_widget_show_all(pref_dialog);
+	gmpv_view_show_preferences_dialog(GMPV_APPLICATION(data)->view);
 }
 
 static void quit_handler(	GSimpleAction *action,
@@ -517,118 +342,65 @@ static void load_track_handler(	GSimpleAction *action,
 				gpointer data )
 {
 	GmpvApplication *app = data;
-	GmpvMainWindow *wnd;
-	GmpvFileChooser *file_chooser;
-	const gchar *cmd_name;
+	gchar *cmd_name = NULL;
 
 	g_variant_get(param, "s", &cmd_name);
 
-	wnd = gmpv_application_get_main_window(app);
-	file_chooser =	gmpv_file_chooser_new
-			(	_("Load External…"),
-				GTK_WINDOW(wnd),
-				GTK_FILE_CHOOSER_ACTION_OPEN );
-
 	if(g_strcmp0(cmd_name, "audio-add") == 0)
 	{
-		gmpv_file_chooser_set_default_filters
-			(file_chooser, TRUE, FALSE, FALSE, FALSE);
+		gmpv_view_show_open_audio_track_dialog(app->view);
 	}
 	else if(g_strcmp0(cmd_name, "sub-add") == 0)
 	{
-		gmpv_file_chooser_set_default_filters
-			(file_chooser, FALSE, FALSE, FALSE, TRUE);
+		gmpv_view_show_open_subtitle_track_dialog(app->view);
 	}
 	else
 	{
 		g_assert_not_reached();
 	}
 
-	if(gmpv_file_chooser_run(file_chooser) == GTK_RESPONSE_ACCEPT)
-	{
-		const gchar *cmd[] = {cmd_name, NULL, NULL};
-		GmpvMpv *mpv = gmpv_application_get_mpv(app);
-		GtkFileChooser *gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
-		GSList *uri_list = gtk_file_chooser_get_filenames(gtk_chooser);
-
-		for(GSList *iter = uri_list; iter; iter = g_slist_next(iter))
-		{
-			cmd[1] = iter->data;
-
-			gmpv_mpv_command(mpv, cmd);
-		}
-
-		g_slist_free_full(uri_list, g_free);
-	}
-
-	gmpv_file_chooser_destroy(file_chooser);
+	g_free(cmd_name);
 }
 
 static void toggle_fullscreen_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvMainWindow *wnd =	gmpv_application_get_main_window
-				(GMPV_APPLICATION(data));
+	GmpvView *view = GMPV_APPLICATION(data)->view;
+	gboolean fullscreen = FALSE;
 
-	gmpv_main_window_toggle_fullscreen(wnd);
+	g_object_get(view, "fullscreen", &fullscreen, NULL);
+	gmpv_view_set_fullscreen(view, !fullscreen);
 }
 
 static void enter_fullscreen_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvMainWindow *wnd =	gmpv_application_get_main_window
-				(GMPV_APPLICATION(data));
-
-	gmpv_main_window_set_fullscreen(wnd, TRUE);
+	gmpv_view_set_fullscreen(GMPV_APPLICATION(data)->view, TRUE);
 }
 
 static void leave_fullscreen_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvMainWindow *wnd =	gmpv_application_get_main_window
-				(GMPV_APPLICATION(data));
-
-	gmpv_main_window_set_fullscreen(wnd, FALSE);
+	gmpv_view_set_fullscreen(GMPV_APPLICATION(data)->view, FALSE);
 }
 
 static void set_video_size_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	gdouble value = g_variant_get_double (param);
+	gdouble value = g_variant_get_double(param);
 
-	resize_window_to_fit((GmpvApplication *)data, value);
+	resize_window_to_fit(GMPV_APPLICATION(data), value);
 }
 
 static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-	const gchar *authors[] = AUTHORS;
-
-	gtk_show_about_dialog(	GTK_WINDOW(wnd),
-				"logo-icon-name",
-				ICON_NAME,
-				"version",
-				VERSION,
-				"comments",
-				_("A GTK frontend for MPV"),
-				"website",
-				"https://github.com/gnome-mpv/gnome-mpv",
-				"license-type",
-				GTK_LICENSE_GPL_3_0,
-				"copyright",
-				"\u00A9 2014-2017 The GNOME MPV authors",
-				"authors",
-				authors,
-				"translator-credits",
-				_("translator-credits"),
-				NULL );
+	gmpv_view_show_about_dialog(GMPV_APPLICATION(data)->view);
 }
 
 void gmpv_actionctl_map_actions(GmpvApplication *app)

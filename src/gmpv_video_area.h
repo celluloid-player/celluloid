@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -30,14 +30,13 @@ G_DECLARE_FINAL_TYPE(GmpvVideoArea, gmpv_video_area, GMPV, VIDEO_AREA, GtkOverla
 
 GtkWidget *gmpv_video_area_new(void);
 void gmpv_video_area_update_track_list(	GmpvVideoArea *hdr,
-					const GSList *audio_list,
-					const GSList *video_list,
-					const GSList *sub_list );
+					const GSList *track_list );
 void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 						gboolean fullscreen );
 void gmpv_video_area_set_control_box(	GmpvVideoArea *area,
 					GtkWidget *control_box );
 void gmpv_video_area_set_use_opengl(GmpvVideoArea *area, gboolean use_opengl);
+void gmpv_video_area_queue_render(GmpvVideoArea *area);
 GtkDrawingArea *gmpv_video_area_get_draw_area(GmpvVideoArea *area);
 GtkGLArea *gmpv_video_area_get_gl_area(GmpvVideoArea *area);
 gint64 gmpv_video_area_get_xid(GmpvVideoArea *area);

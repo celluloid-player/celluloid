@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -34,6 +34,10 @@ struct GmpvMenuEntry
 	GMenu *submenu;
 };
 
+static void split_track_list(	const GSList *track_list,
+				GSList **audio_tracks,
+				GSList **video_tracks,
+				GSList **subtitle_tracks );
 static GMenu *build_menu_from_track_list(	const GSList *list,
 						const gchar *action,
 						const gchar *load_action );
@@ -41,6 +45,40 @@ static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat)
 static GMenu *build_video_track_menu(const GSList *list);
 static GMenu *build_audio_track_menu(const GSList *list);
 static GMenu *build_subtitle_track_menu(const GSList *list);
+
+static void split_track_list(	const GSList *track_list,
+				GSList **audio_tracks,
+				GSList **video_tracks,
+				GSList **subtitle_tracks )
+{
+	*audio_tracks = NULL;
+	*video_tracks = NULL;
+	*subtitle_tracks = NULL;
+
+	for(const GSList *iter = track_list; iter; iter = g_slist_next(iter))
+	{
+		GmpvTrack *track = iter->data;
+
+		switch(track->type)
+		{
+			case TRACK_TYPE_AUDIO:
+			*audio_tracks = g_slist_prepend(*audio_tracks, track);
+			break;
+
+			case TRACK_TYPE_VIDEO:
+			*video_tracks = g_slist_prepend(*video_tracks, track);
+			break;
+
+			case TRACK_TYPE_SUBTITLE:
+			*subtitle_tracks = g_slist_prepend(*subtitle_tracks, track);
+			break;
+
+			default:
+			g_assert_not_reached();
+			break;
+		}
+	}
+}
 
 static GMenu *build_menu_from_track_list(	const GSList *list,
 						const gchar *action,
@@ -179,14 +217,21 @@ static GMenu *build_subtitle_track_menu(const GSList *list)
 			"app.load-track('sub-add')" );
 }
 
-void gmpv_menu_build_full(	GMenu *menu,
-				const GSList *audio_list,
-				const GSList *video_list,
-				const GSList *sub_list )
+void gmpv_menu_build_full(GMenu *menu, const GSList *track_list)
 {
-	GMenu *video_menu = build_video_track_menu(video_list);
-	GMenu *audio_menu = build_audio_track_menu(audio_list);
-	GMenu *sub_menu = build_subtitle_track_menu(sub_list);
+	GSList *audio_tracks = NULL;
+	GSList *video_tracks = NULL;
+	GSList *subtitle_tracks = NULL;
+	GMenu *video_menu = NULL;
+	GMenu *audio_menu = NULL;
+	GMenu *subtitle_menu = NULL;
+
+	split_track_list
+		(track_list, &audio_tracks, &video_tracks, &subtitle_tracks);
+
+	video_menu = build_video_track_menu(video_tracks);
+	audio_menu = build_audio_track_menu(audio_tracks);
+	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
 
 	const GmpvMenuEntry entries[]
 		= {	{_("_File"), NULL, NULL},
@@ -198,7 +243,7 @@ void gmpv_menu_build_full(	GMenu *menu,
 			{_("_Preferences"), "app.show-preferences-dialog", NULL},
 			{_("_Video Track"), NULL, video_menu},
 			{_("_Audio Track"), NULL, audio_menu},
-			{_("S_ubtitle Track"), NULL, sub_menu},
+			{_("S_ubtitle Track"), NULL, subtitle_menu},
 			{_("_View"), NULL, NULL},
 			{_("_Toggle Controls"), "app.toggle-controls", NULL},
 			{_("_Toggle Playlist"), "app.toggle-playlist", NULL},
@@ -215,17 +260,24 @@ void gmpv_menu_build_full(	GMenu *menu,
 
 	g_object_unref(video_menu);
 	g_object_unref(audio_menu);
-	g_object_unref(sub_menu);
+	g_object_unref(subtitle_menu);
 }
 
-void gmpv_menu_build_menu_btn(	GMenu *menu,
-				const GSList *audio_list,
-				const GSList *video_list,
-				const GSList *sub_list )
+void gmpv_menu_build_menu_btn(GMenu *menu, const GSList *track_list)
 {
-	GMenu *video_menu = build_video_track_menu(video_list);
-	GMenu *audio_menu = build_audio_track_menu(audio_list);
-	GMenu *sub_menu = build_subtitle_track_menu(sub_list);
+	GSList *audio_tracks = NULL;
+	GSList *video_tracks = NULL;
+	GSList *subtitle_tracks = NULL;
+	GMenu *video_menu = NULL;
+	GMenu *audio_menu = NULL;
+	GMenu *subtitle_menu = NULL;
+
+	split_track_list
+		(track_list, &audio_tracks, &video_tracks, &subtitle_tracks);
+
+	video_menu = build_video_track_menu(video_tracks);
+	audio_menu = build_audio_track_menu(audio_tracks);
+	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
 
 	const GmpvMenuEntry entries[]
 		= {	{NULL, "", NULL},
@@ -236,7 +288,7 @@ void gmpv_menu_build_menu_btn(	GMenu *menu,
 			{NULL, "", NULL},
 			{_("_Video Track"), NULL, video_menu},
 			{_("_Audio Track"), NULL, audio_menu},
-			{_("S_ubtitle Track"), NULL, sub_menu},
+			{_("S_ubtitle Track"), NULL, subtitle_menu},
 			{NULL, "", NULL},
 			{_("_Normal Size"), "app.set-video-size(@d 1)", NULL},
 			{_("_Double Size"), "app.set-video-size(@d 2)", NULL},
@@ -247,7 +299,7 @@ void gmpv_menu_build_menu_btn(	GMenu *menu,
 
 	g_object_unref(video_menu);
 	g_object_unref(audio_menu);
-	g_object_unref(sub_menu);
+	g_object_unref(subtitle_menu);
 }
 
 void gmpv_menu_build_open_btn(GMenu *menu)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -86,6 +86,7 @@ static void row_activated_handler(	GtkTreeView *tree_view,
 					GtkTreePath *path,
 					GtkTreeViewColumn *column,
 					gpointer data );
+static void row_inserted_handler(GmpvPlaylist *pl, gint pos, gpointer data);
 static void row_deleted_handler(GmpvPlaylist *pl, gint pos, gpointer data);
 static void row_reodered_handler(	GmpvPlaylist *pl,
 					gint src,
@@ -130,6 +131,10 @@ static void gmpv_playlist_widget_constructed(GObject *object)
 	g_signal_connect(	self->tree_view,
 				"row-activated",
 				G_CALLBACK(row_activated_handler),
+				self );
+	g_signal_connect(	self->store,
+				"row-inserted",
+				G_CALLBACK(row_inserted_handler),
 				self );
 	g_signal_connect(	self->store,
 				"row-deleted",
@@ -467,6 +472,11 @@ static void row_activated_handler(	GtkTreeView *tree_view,
 	g_signal_emit_by_name(data, "row-activated", index);
 }
 
+static void row_inserted_handler(GmpvPlaylist *pl, gint pos, gpointer data)
+{
+	g_signal_emit_by_name(data, "row-inserted", pos);
+}
+
 static void row_deleted_handler(GmpvPlaylist *pl, gint pos, gpointer data)
 {
 	g_signal_emit_by_name(data, "row-deleted", pos);
@@ -578,6 +588,16 @@ static void gmpv_playlist_widget_class_init(GmpvPlaylistWidgetClass *klass)
 			NULL,
 			NULL,
 			g_cclosure_gen_marshal_VOID__INT64,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_INT );
+	g_signal_new(	"row-inserted",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__INT,
 			G_TYPE_NONE,
 			1,
 			G_TYPE_INT );

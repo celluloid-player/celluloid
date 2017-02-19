@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -25,14 +25,8 @@
 
 G_BEGIN_DECLS
 
-void gmpv_menu_build_full(	GMenu *gmpv_menu,
-			const GSList *audio_list,
-			const GSList *video_list,
-			const GSList *sub_list );
-void gmpv_menu_build_menu_btn(	GMenu *gmpv_menu,
-				const GSList *audio_list,
-				const GSList *video_list,
-				const GSList *sub_list );
+void gmpv_menu_build_full(GMenu *gmpv_menu, const GSList *track_list);
+void gmpv_menu_build_menu_btn(GMenu *gmpv_menu, const GSList *track_list);
 void gmpv_menu_build_open_btn(GMenu *gmpv_menu);
 void gmpv_menu_build_app_menu(GMenu *gmpv_menu);
 

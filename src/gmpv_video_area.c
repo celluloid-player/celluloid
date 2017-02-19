@@ -142,6 +142,15 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 		->motion_notify_event(widget, event);
 }
 
+static gboolean render_handler(	GtkGLArea *gl_area,
+				GdkGLContext *context,
+				gpointer data )
+{
+	g_signal_emit_by_name(data, "render");
+
+	return FALSE;
+}
+
 static void notify_handler(	GObject *gobject,
 				GParamSpec *pspec,
 				gpointer data )
@@ -179,6 +188,16 @@ static void gmpv_video_area_class_init(GmpvVideoAreaClass *klass)
 	GtkWidgetClass *wgt_class = GTK_WIDGET_CLASS(klass);
 
 	wgt_class->motion_notify_event = motion_notify_handler;
+
+	g_signal_new(	"render",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
 }
 
 static void gmpv_video_area_init(GmpvVideoArea *area)
@@ -232,6 +251,10 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	gtk_widget_hide(area->header_bar_revealer);
 	gtk_widget_set_no_show_all(area->header_bar_revealer, TRUE);
 
+	g_signal_connect(	area->gl_area,
+				"render",
+				G_CALLBACK(render_handler),
+				area );
 	g_signal_connect(	area->header_bar_revealer,
 				"notify::reveal-child",
 				G_CALLBACK(notify_handler),
@@ -267,15 +290,10 @@ GtkWidget *gmpv_video_area_new()
 }
 
 void gmpv_video_area_update_track_list(	GmpvVideoArea *area,
-					const GSList *audio_list,
-					const GSList *video_list,
-					const GSList *sub_list )
+					const GSList *track_list )
 {
 	gmpv_header_bar_update_track_list
-		(	GMPV_HEADER_BAR(area->header_bar),
-			audio_list,
-			video_list,
-			sub_list );
+		(GMPV_HEADER_BAR(area->header_bar), track_list);
 }
 
 void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
@@ -327,6 +345,11 @@ void gmpv_video_area_set_use_opengl(GmpvVideoArea *area, gboolean use_opengl)
 	gtk_stack_set_visible_child
 		(	GTK_STACK(area->stack),
 			use_opengl?area->gl_area:area->draw_area );
+}
+
+void gmpv_video_area_queue_render(GmpvVideoArea *area)
+{
+	gtk_gl_area_queue_render(GTK_GL_AREA(area->gl_area));
 }
 
 GtkDrawingArea *gmpv_video_area_get_draw_area(GmpvVideoArea *area)

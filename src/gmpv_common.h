@@ -35,7 +35,7 @@ gboolean update_seek_bar(gpointer data);
 void activate_action_string(GmpvApplication *app, const gchar *str);
 void migrate_config(GmpvApplication *app);
 void seek(GmpvApplication *app, gdouble time);
-void show_message_dialog(	GmpvApplication *app,
+void show_message_dialog(	GmpvMainWindow *wnd,
 				GtkMessageType type,
 				const gchar *prefix,
 				const gchar *msg,

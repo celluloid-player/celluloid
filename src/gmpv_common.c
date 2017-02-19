@@ -199,24 +199,23 @@ void seek(GmpvApplication *app, gdouble time)
 
 }
 
-void show_message_dialog(	GmpvApplication *app,
+void show_message_dialog(	GmpvMainWindow *wnd,
 				GtkMessageType type,
 				const gchar *prefix,
 				const gchar *msg,
 				const gchar *title )
 {
-	GmpvMainWindow *wnd;
 	GtkWidget *dialog;
 	GtkWidget *msg_area;
 	GList *iter;
 
-	wnd = gmpv_application_get_main_window(app);
 	dialog =	gtk_message_dialog_new
 			(	GTK_WINDOW(wnd),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				type,
 				GTK_BUTTONS_OK,
-				"%s", title );
+				"%s",
+				title );
 	msg_area =	gtk_message_dialog_get_message_area
 			(GTK_MESSAGE_DIALOG(dialog));
 	iter = gtk_container_get_children(GTK_CONTAINER(msg_area));

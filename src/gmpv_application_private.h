@@ -17,23 +17,37 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HEADER_BAR_H
-#define HEADER_BAR_H
+#ifndef APPLICATION_PRIVATE_H
+#define APPLICATION_PRIVATE_H
 
-#include <glib.h>
-#include <glib-object.h>
-#include <gtk/gtk.h>
+#include "gmpv_controller.h"
+#include "gmpv_model.h"
+#include "gmpv_view.h"
 
-#define GMPV_TYPE_HEADER_BAR (gmpv_header_bar_get_type ())
+G_BEGIN_DECLS
 
-G_DECLARE_FINAL_TYPE(GmpvHeaderBar, gmpv_header_bar, GMPV, HEADER_BAR, GtkHeaderBar)
+struct _GmpvApplication
+{
+	GtkApplication parent;
+	GmpvController *controller;
+	GmpvModel *model;
+	GmpvView *view;
+	gboolean enqueue;
+	gboolean no_existing_session;
+	GmpvMpv *mpv;
+	GQueue *action_queue;
+	gchar **files;
+	guint inhibit_cookie;
+	gint64 target_playlist_pos;
+	GmpvMainWindow *gui;
+	GmpvPlaylist *playlist;
+};
 
-GtkWidget *gmpv_header_bar_new(void);
-gboolean gmpv_header_bar_get_open_button_popup_visible(GmpvHeaderBar *hdr);
-gboolean gmpv_header_bar_get_menu_button_popup_visible(GmpvHeaderBar *hdr);
-void gmpv_header_bar_set_fullscreen_state(	GmpvHeaderBar *hdr,
-						gboolean fullscreen );
-void gmpv_header_bar_update_track_list(	GmpvHeaderBar *hdr,
-					const GSList *track_list );
+struct _GmpvApplicationClass
+{
+	GtkApplicationClass parent_class;
+};
+
+G_END_DECLS
 
 #endif

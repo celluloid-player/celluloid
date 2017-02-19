@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -22,11 +22,11 @@
 
 #include <glib.h>
 
-#include "gmpv_application.h"
+#include "gmpv_controller.h"
 
 G_BEGIN_DECLS
 
-void gmpv_inputctl_connect_signals(GmpvApplication *app);
+void gmpv_inputctl_connect_signals(GmpvController *controller);
 
 G_END_DECLS
 

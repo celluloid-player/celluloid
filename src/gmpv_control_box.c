@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -24,6 +24,13 @@
 #include "gmpv_control_box.h"
 #include "gmpv_seek_bar.h"
 
+enum
+{
+	PROP_0,
+	PROP_VOLUME,
+	N_PROPERTIES
+};
+
 struct _GmpvControlBox
 {
 	GtkBox parent_instance;
@@ -36,6 +43,7 @@ struct _GmpvControlBox
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
+	gdouble volume;
 };
 
 struct _GmpvControlBoxClass
@@ -43,6 +51,22 @@ struct _GmpvControlBoxClass
 	GtkBoxClass parent_class;
 };
 
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec );
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec );
+static gboolean gtk_to_mpv_volume(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data );
+static gboolean mpv_to_gtk_volume(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data );
 static void seek_handler(	GmpvSeekBar *seek_bar,
 				gdouble value,
 				gpointer data );
@@ -52,6 +76,62 @@ static void volume_changed_handler(	GtkVolumeButton *button,
 static void simple_signal_handler(GtkWidget *widget, gpointer data);
 
 G_DEFINE_TYPE(GmpvControlBox, gmpv_control_box, GTK_TYPE_BOX)
+
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec )
+{
+	GmpvControlBox *self = GMPV_CONTROL_BOX(object);
+
+	if(property_id == PROP_VOLUME)
+	{
+		self->volume = g_value_get_double(value);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
+
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec )
+{
+	GmpvControlBox *self = GMPV_CONTROL_BOX(object);
+
+	if(property_id == PROP_VOLUME)
+	{
+		g_value_set_double(value, self->volume);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
+
+static gboolean gtk_to_mpv_volume(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data )
+{
+	gdouble from = g_value_get_double(from_value);
+	g_value_set_double(to_value, from*100);
+
+	return TRUE;
+}
+
+static gboolean mpv_to_gtk_volume(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data )
+{
+	gdouble from = g_value_get_double(from_value);
+	g_value_set_double(to_value, from/100.0);
+
+	return TRUE;
+}
 
 static void seek_handler(	GmpvSeekBar *seek_bar,
 				gdouble value,
@@ -64,7 +144,7 @@ static void volume_changed_handler(	GtkVolumeButton *button,
 					gdouble value,
 					gpointer data )
 {
-	g_signal_emit_by_name(data, "volume-changed", value);
+	g_signal_emit_by_name(data, "volume-changed", value*100.0);
 }
 
 static void simple_signal_handler(GtkWidget *widget, gpointer data)
@@ -106,6 +186,21 @@ static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 						"next-button-clicked",
 						"fullscreen-button-clicked",
 						NULL };
+	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+	GParamSpec *pspec = NULL;
+
+	object_class->set_property = set_property;
+	object_class->get_property = get_property;
+
+	pspec = g_param_spec_double
+		(	"volume",
+			"Volume",
+			"The value of the volume button",
+			0.0,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_VOLUME, pspec);
 
 	for(gint i = 0; simple_signals[i]; i++)
 	{
@@ -249,6 +344,14 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	gtk_container_add
 		(GTK_CONTAINER(box), box->fullscreen_button);
 
+	g_object_bind_property_full(	box->volume_button, "value",
+					box, "volume",
+					G_BINDING_BIDIRECTIONAL,
+					gtk_to_mpv_volume,
+					mpv_to_gtk_volume,
+					NULL,
+					NULL );
+
 	g_signal_connect(	box,
 				"button-press-event",
 				G_CALLBACK(gtk_true),
@@ -335,7 +438,7 @@ void gmpv_control_box_set_volume(GmpvControlBox *box, gdouble volume)
 	g_signal_handlers_block_by_func(box, volume_changed_handler, box);
 
 	gtk_scale_button_set_value
-		(GTK_SCALE_BUTTON(box->volume_button), volume);
+		(GTK_SCALE_BUTTON(box->volume_button), volume/100.0);
 
 	g_signal_handlers_unblock_by_func(box, volume_changed_handler, box);
 }

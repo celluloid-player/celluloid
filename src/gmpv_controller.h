@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 gnome-mpv
+ * Copyright (c) 2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,23 +17,27 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HEADER_BAR_H
-#define HEADER_BAR_H
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
 #include <glib.h>
-#include <glib-object.h>
-#include <gtk/gtk.h>
 
-#define GMPV_TYPE_HEADER_BAR (gmpv_header_bar_get_type ())
+#include "gmpv_model.h"
+#include "gmpv_view.h"
 
-G_DECLARE_FINAL_TYPE(GmpvHeaderBar, gmpv_header_bar, GMPV, HEADER_BAR, GtkHeaderBar)
+G_BEGIN_DECLS
 
-GtkWidget *gmpv_header_bar_new(void);
-gboolean gmpv_header_bar_get_open_button_popup_visible(GmpvHeaderBar *hdr);
-gboolean gmpv_header_bar_get_menu_button_popup_visible(GmpvHeaderBar *hdr);
-void gmpv_header_bar_set_fullscreen_state(	GmpvHeaderBar *hdr,
-						gboolean fullscreen );
-void gmpv_header_bar_update_track_list(	GmpvHeaderBar *hdr,
-					const GSList *track_list );
+#define GMPV_TYPE_CONTROLLER (gmpv_controller_get_type())
+
+G_DECLARE_FINAL_TYPE(GmpvController, gmpv_controller, GMPV, CONTROLLER, GObject)
+
+GmpvController *gmpv_controller_new(GmpvModel *model, GmpvView *view);
+void gmpv_controller_quit(GmpvController *controller);
+void gmpv_controller_present(GmpvController *controller);
+void gmpv_controller_open(	GmpvController *controller,
+				const gchar *urii,
+				gboolean append );
+
+G_END_DECLS
 
 #endif

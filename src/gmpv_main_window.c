@@ -556,22 +556,14 @@ void gmpv_main_window_set_geometry(	GmpvMainWindow *wnd,
 }
 
 void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
-						const GSList *audio_list,
-						const GSList *video_list,
-						const GSList *sub_list )
+						const GSList *track_list )
 {
 	if(gmpv_main_window_get_csd_enabled(wnd))
 	{
 		gmpv_header_bar_update_track_list
-			(	GMPV_HEADER_BAR(wnd->header_bar),
-				audio_list,
-				video_list,
-				sub_list );
+			(GMPV_HEADER_BAR(wnd->header_bar), track_list);
 		gmpv_video_area_update_track_list
-			(	GMPV_VIDEO_AREA(wnd->vid_area),
-				audio_list,
-				video_list,
-				sub_list );
+			(GMPV_VIDEO_AREA(wnd->vid_area), track_list);
 	}
 	else
 	{
@@ -584,8 +576,7 @@ void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
 		if(menu)
 		{
 			g_menu_remove_all(menu);
-			gmpv_menu_build_full
-				(menu, audio_list, video_list, sub_list);
+			gmpv_menu_build_full(menu, track_list);
 		}
 	}
 }

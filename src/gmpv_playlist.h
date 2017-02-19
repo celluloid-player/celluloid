@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
- *
+ * Copyright (c) 2014-2016 gnome-mpv *
  * This file is part of GNOME MPV.
  *
  * GNOME MPV is free software: you can redistribute it and/or modify

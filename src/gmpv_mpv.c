@@ -27,9 +27,7 @@
 #include <gdk/gdk.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_EXECINFO_H
 #include <execinfo.h>
-#endif
 
 #include <epoxy/gl.h>
 #ifdef GDK_WINDOWING_X11
@@ -65,6 +63,7 @@ static void get_inst_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec );
 static void wakeup_callback(void *data);
+static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
 static gboolean mpv_event_handler(gpointer data);
 static void update_playlist(GmpvMpv *mpv);
@@ -158,6 +157,46 @@ static void get_inst_property(	GObject *object,
 static void wakeup_callback(void *data)
 {
 	g_idle_add((GSourceFunc)mpv_event_handler, data);
+}
+
+static GmpvTrack *parse_track_entry(mpv_node_list *node)
+{
+	GmpvTrack *entry = gmpv_track_new();
+
+	for(gint i = 0; i < node->num; i++)
+	{
+		if(g_strcmp0(node->keys[i], "type") == 0)
+		{
+			const gchar *type = node->values[i].u.string;
+
+			if(g_strcmp0(type, "audio") == 0)
+			{
+				entry->type = TRACK_TYPE_AUDIO;
+			}
+			else if(g_strcmp0(type, "video") == 0)
+			{
+				entry->type = TRACK_TYPE_VIDEO;
+			}
+			else if(g_strcmp0(type, "sub") == 0)
+			{
+				entry->type = TRACK_TYPE_SUBTITLE;
+			}
+		}
+		else if(g_strcmp0(node->keys[i], "title") == 0)
+		{
+			entry->title = g_strdup(node->values[i].u.string);
+		}
+		else if(g_strcmp0(node->keys[i], "lang") == 0)
+		{
+			entry->lang = g_strdup(node->values[i].u.string);
+		}
+		else if(g_strcmp0(node->keys[i], "id") == 0)
+		{
+			entry->id = node->values[i].u.int64;
+		}
+	}
+
+	return entry;
 }
 
 static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
@@ -785,19 +824,16 @@ GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid)
 
 void mpv_check_error(int status)
 {
+	void *array[10];
+	size_t size;
 
 	if(status < 0)
 	{
-#ifdef HAVE_EXECINFO_H
-		void *array[10];
-		size_t size = (size_t)backtrace(array, 10);
-#endif
+		size = (size_t)backtrace(array, 10);
 
 		g_critical("MPV API error: %s\n", mpv_error_string(status));
 
-#ifdef HAVE_EXECINFO_H
 		backtrace_symbols_fd(array, (int)size, STDERR_FILENO);
-#endif
 
 		exit(EXIT_FAILURE);
 	}
@@ -833,6 +869,32 @@ inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 	return mpv->opengl_ctx;
 }
 
+GSList *gmpv_mpv_get_track_list(GmpvMpv *mpv)
+{
+	GSList *result = NULL;
+	mpv_node_list *org_list = NULL;
+	mpv_node track_list;
+
+	gmpv_mpv_get_property(mpv, "track-list", MPV_FORMAT_NODE, &track_list);
+
+	if(track_list.format == MPV_FORMAT_NODE_ARRAY)
+	{
+		org_list = track_list.u.list;
+
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			GmpvTrack *entry =	parse_track_entry
+						(org_list->values[i].u.list);
+
+			result = g_slist_prepend(result, entry);
+		}
+
+		mpv_free_node_contents(&track_list);
+	}
+
+	return g_slist_reverse(result);
+}
+
 void gmpv_mpv_initialize(GmpvMpv *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);
@@ -854,7 +916,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 			{"title", "${media-title}"},
 			{"autofit-larger", "75%"},
 			{"window-scale", "1"},
-			{"pause", "no"},
+			{"pause", "yes"},
 			{"ytdl", "yes"},
 			{"osd-bar", "no"},
 			{"input-cursor", "no"},
@@ -933,19 +995,22 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		mpv_set_option(mpv->mpv_ctx, "wid", MPV_FORMAT_INT64, &mpv->wid);
 	}
 
-	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "vid", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "sub", MPV_FORMAT_STRING);
 	mpv_observe_property(mpv->mpv_ctx, 0, "chapters", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "idle-active", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 	mpv_set_wakeup_callback(mpv->mpv_ctx, wakeup_callback, mpv);
 	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
-
 
 	mpv_version = gmpv_mpv_get_property_string(mpv, "mpv-version");
 	current_vo = gmpv_mpv_get_property_string(mpv, "current-vo");
@@ -1130,8 +1195,7 @@ void gmpv_mpv_load(	GmpvMpv *mpv,
 		update?"TRUE":"FALSE",
 		uri?:"<PLAYLIST_ITEMS>" );
 
-	empty = !gtk_tree_model_get_iter_first
-			(GTK_TREE_MODEL(playlist_store), &iter);
+	empty = gmpv_playlist_empty(mpv->playlist);
 
 	load_cmd[2] = (append && !empty)?"append":"replace";
 

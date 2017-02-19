@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -23,11 +23,20 @@
 #include "gmpv_playlist.h"
 #include "gmpv_marshal.h"
 
+enum
+{
+	PROP_0,
+	PROP_ROW_COUNT,
+	N_PROPERTIES
+};
+
 struct _GmpvPlaylist
 {
 	GObject parent;
 	GtkListStore *store;
 	gboolean move_dest;
+	gint indicator_pos;
+	gint row_count;
 };
 
 struct _GmpvPlaylistClass
@@ -35,6 +44,14 @@ struct _GmpvPlaylistClass
 	GObjectClass parent_class;
 };
 
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec );
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec );
 static void row_inserted_handler(	GtkTreeModel *tree_model,
 					GtkTreePath *path,
 					GtkTreeIter *iter,
@@ -44,6 +61,40 @@ static void row_deleted_handler(	GtkTreeModel *tree_model,
 					gpointer data );
 
 G_DEFINE_TYPE(GmpvPlaylist, gmpv_playlist, G_TYPE_OBJECT)
+
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec )
+{
+	GmpvPlaylist *self = GMPV_PLAYLIST(object);
+
+	if(property_id == PROP_ROW_COUNT)
+	{
+		self->row_count = g_value_get_int(value);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
+
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec )
+{
+	GmpvPlaylist *self = GMPV_PLAYLIST(object);
+
+	if(property_id == PROP_ROW_COUNT)
+	{
+		g_value_set_int(value, self->row_count);
+	}
+	else
+	{
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+	}
+}
 
 static void row_inserted_handler(	GtkTreeModel *tree_model,
 					GtkTreePath *path,
@@ -55,6 +106,7 @@ static void row_inserted_handler(	GtkTreeModel *tree_model,
 
 	pl->move_dest = dest;
 
+	g_object_set(pl, "row-count", pl->row_count+1, NULL);
 	g_signal_emit_by_name(pl, "row-inserted", dest);
 }
 
@@ -66,6 +118,8 @@ static void row_deleted_handler(	GtkTreeModel *tree_model,
 	const gint src = gtk_tree_path_get_indices(path)[0];
 	const gint dest = pl->move_dest;
 
+	gmpv_playlist_set_indicator_pos(pl, pl->indicator_pos);
+
 	if(dest >= 0)
 	{
 		g_signal_emit_by_name(pl, "row-reordered", src, dest);
@@ -74,12 +128,29 @@ static void row_deleted_handler(	GtkTreeModel *tree_model,
 	}
 	else
 	{
+		g_object_set(pl, "row-count", pl->row_count-1, NULL);
 		g_signal_emit_by_name(pl, "row-deleted", src);
 	}
 }
 
 static void gmpv_playlist_class_init(GmpvPlaylistClass *klass)
 {
+	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+	GParamSpec *pspec = NULL;
+
+	object_class->set_property = set_property;
+	object_class->get_property = get_property;
+
+	pspec = g_param_spec_int
+		(	"row-count",
+			"Row count",
+			"The number of rows",
+			0,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_ROW_COUNT, pspec);
+
 	g_signal_new(	"row-inserted",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -119,14 +190,14 @@ static void gmpv_playlist_init(GmpvPlaylist *pl)
 					G_TYPE_STRING,
 					G_TYPE_STRING,
 					G_TYPE_INT );
-
 	pl->move_dest = -1;
+	pl->row_count = 0;
 
-	g_signal_connect(	pl->store,
+	g_signal_connect_after(	pl->store,
 				"row-inserted",
 				G_CALLBACK(row_inserted_handler),
 				pl );
-	g_signal_connect(	pl->store,
+	g_signal_connect_after(	pl->store,
 				"row-deleted",
 				G_CALLBACK(row_deleted_handler),
 				pl );
@@ -189,6 +260,7 @@ void gmpv_playlist_set_indicator_pos(GmpvPlaylist *pl, gint pos)
 	GtkTreeIter iter;
 	gboolean rc;
 
+	pl->indicator_pos = pos;
 	rc = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(pl->store), &iter);
 
 	while(rc)
