@@ -48,6 +48,14 @@ static gboolean int_to_track_str(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
 					gpointer data );
+static gboolean loop_str_to_boolean(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data );
+static gboolean boolean_to_loop_str(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data );
 static gboolean is_more_than_one(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
@@ -104,6 +112,10 @@ static void set_property(	GObject *object,
 	{
 		self->sid = g_value_get_int(value);
 	}
+	else if(property_id == PROP_LOOP)
+	{
+		self->loop = g_value_get_boolean(value);
+	}
 	else if(property_id == PROP_IDLE)
 	{
 		self->idle = g_value_get_boolean(value);
@@ -140,6 +152,10 @@ static void get_property(	GObject *object,
 	else if(property_id == PROP_SID)
 	{
 		g_value_set_int(value, self->sid);
+	}
+	else if(property_id == PROP_LOOP)
+	{
+		g_value_set_boolean(value, self->loop);
 	}
 	else if(property_id == PROP_IDLE)
 	{
@@ -242,6 +258,13 @@ static void connect_signals(GmpvController *controller)
 					G_BINDING_BIDIRECTIONAL,
 					track_str_to_int,
 					int_to_track_str,
+					NULL,
+					NULL );
+	g_object_bind_property_full(	controller->model, "loop",
+					controller, "loop",
+					G_BINDING_BIDIRECTIONAL,
+					loop_str_to_boolean,
+					boolean_to_loop_str,
 					NULL,
 					NULL );
 	g_object_bind_property(	controller->model, "idle-active",
@@ -403,6 +426,30 @@ static gboolean int_to_track_str(	GBinding *binding,
 
 	g_snprintf(buf, 16, "%d", from);
 	g_value_set_string(to_value, buf);
+
+	return TRUE;
+}
+
+static gboolean loop_str_to_boolean(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data )
+{
+	const gchar *from = g_value_get_string(from_value);
+
+	g_value_set_boolean(to_value, g_strcmp0(from, "no") != 0);
+
+	return TRUE;
+}
+
+static gboolean boolean_to_loop_str(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data )
+{
+	gboolean from = g_value_get_boolean(from_value);
+
+	g_value_set_string(to_value, from?"inf":"no");
 
 	return TRUE;
 }
@@ -591,6 +638,14 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 	g_object_class_install_property(obj_class, PROP_SID, pspec);
 
 	pspec = g_param_spec_boolean
+		(	"loop",
+			"Loop",
+			"Whether or not to loop when the playlist ends",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_LOOP, pspec);
+
+	pspec = g_param_spec_boolean
 		(	"idle",
 			"Idle",
 			"Whether or not the player is idle",
@@ -635,6 +690,7 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->aid = 0;
 	controller->vid = 0;
 	controller->sid = 0;
+	controller->loop = FALSE;
 	controller->idle = TRUE;
 	controller->action_queue = g_queue_new();
 	controller->files = NULL;

@@ -35,6 +35,7 @@ enum
 	PROP_IDLE_ACTIVE,
 	PROP_FULLSCREEN,
 	PROP_PAUSE,
+	PROP_LOOP,
 	PROP_DURATION,
 	PROP_MEDIA_TITLE,
 	PROP_PLAYLIST_POS,
@@ -56,6 +57,7 @@ struct _GmpvModel
 	gboolean idle_active;
 	gboolean fullscreen;
 	gboolean pause;
+	gchar *loop;
 	gdouble duration;
 	gchar *media_title;
 	gint64 playlist_pos;
@@ -173,6 +175,10 @@ static void set_property(	GObject *object,
 		self->pause = g_value_get_boolean(value);
 		break;
 
+		case PROP_LOOP:
+		self->loop = g_value_dup_string(value);
+		break;
+
 		case PROP_DURATION:
 		self->duration = g_value_get_double(value);
 		break;
@@ -253,6 +259,10 @@ static void get_property(	GObject *object,
 		g_value_set_boolean(value, self->pause);
 		break;
 
+		case PROP_LOOP:
+		g_value_set_string(value, self->loop);
+		break;
+
 		case PROP_DURATION:
 		g_value_set_double(value, self->duration);
 		break;
@@ -321,6 +331,13 @@ static void set_mpv_property(	GObject *object,
 					"pause",
 					MPV_FORMAT_FLAG,
 					&self->pause );
+		break;
+
+		case PROP_LOOP:
+		gmpv_mpv_set_property(	self->mpv,
+					"loop",
+					MPV_FORMAT_STRING,
+					&self->loop );
 		break;
 
 		case PROP_MEDIA_TITLE:
@@ -504,6 +521,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			{"idle-active", PROP_IDLE_ACTIVE, G_TYPE_BOOLEAN},
 			{"fullscreen", PROP_FULLSCREEN, G_TYPE_BOOLEAN},
 			{"pause", PROP_PAUSE, G_TYPE_BOOLEAN},
+			{"loop", PROP_LOOP, G_TYPE_STRING},
 			{"duration", PROP_DURATION, G_TYPE_DOUBLE},
 			{"media-title", PROP_MEDIA_TITLE, G_TYPE_STRING},
 			{"playlist-pos", PROP_PLAYLIST_POS, G_TYPE_INT64},
@@ -597,6 +615,7 @@ static void gmpv_model_init(GmpvModel *model)
 	model->idle_active = FALSE;
 	model->fullscreen = FALSE;
 	model->pause = TRUE;
+	model->loop = NULL;
 	model->duration = 0.0;
 	model->media_title = NULL;
 	model->playlist_pos = 0;

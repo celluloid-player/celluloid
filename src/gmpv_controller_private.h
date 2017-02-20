@@ -33,6 +33,7 @@ enum
 	PROP_AID,
 	PROP_VID,
 	PROP_SID,
+	PROP_LOOP,
 	PROP_IDLE,
 	N_PROPERTIES
 };
@@ -45,6 +46,7 @@ struct _GmpvController
 	gint aid;
 	gint vid;
 	gint sid;
+	gboolean loop;
 	gboolean idle;
 	GQueue *action_queue;
 	gchar **files;

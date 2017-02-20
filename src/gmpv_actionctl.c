@@ -44,16 +44,23 @@
 #include "gmpv_shortcuts_window.h"
 #endif
 
-static gboolean state_to_track_id(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer user_data );
 static gboolean track_id_to_state(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
 					gpointer user_data );
-static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error);
-static void bind_tracks(GmpvApplication *app);
+static gboolean state_to_track_id(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data );
+static gboolean boolean_to_state(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data );
+static gboolean state_to_boolean(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data );
+static void bind_properties(GmpvApplication *app);
 static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
@@ -112,6 +119,19 @@ static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
 
+static gboolean track_id_to_state(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data )
+{
+	gint64 id = g_value_get_int(from_value);
+	GVariant *to = g_variant_new("x", id);
+
+	g_value_set_variant(to_value, to);
+
+	return TRUE;
+}
+
 static gboolean state_to_track_id(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
@@ -125,15 +145,28 @@ static gboolean state_to_track_id(	GBinding *binding,
 	return TRUE;
 }
 
-static gboolean track_id_to_state(	GBinding *binding,
+static gboolean boolean_to_state(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
 					gpointer user_data )
 {
-	gint64 id = g_value_get_int(from_value);
-	GVariant *to = g_variant_new("x", id);
+	gboolean from = g_value_get_boolean(from_value);
+	GVariant *to = g_variant_new("b", from);
 
 	g_value_set_variant(to_value, to);
+
+	return TRUE;
+}
+
+static gboolean state_to_boolean(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer user_data )
+{
+	GVariant *from = g_value_get_variant(from_value);
+	gboolean to = g_variant_get_boolean(from);
+
+	g_value_set_boolean(to_value, to);
 
 	return TRUE;
 }
@@ -178,35 +211,49 @@ static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error)
 	}
 }
 
-static void bind_tracks(GmpvApplication *app)
+static void bind_properties(GmpvApplication *app)
 {
-	const struct
-	{
-		const gchar *action_name;
-		const gchar *track_name;
-	}
-	tracks[] = {	{"set-audio-track", "aid"},
-			{"set-video-track", "vid"},
-			{"set-subtitle-track", "sid"},
-			{NULL, NULL} };
+	GAction *action = NULL;
 
-	for(gint i = 0; tracks[i].action_name; i++)
-	{
-		GAction *action;
+	action =	g_action_map_lookup_action
+			(G_ACTION_MAP(app), "set-audio-track");
+	g_object_bind_property_full(	app->controller, "aid",
+					action, "state",
+					G_BINDING_BIDIRECTIONAL,
+					track_id_to_state,
+					state_to_track_id,
+					NULL,
+					NULL );
 
-		action =	g_action_map_lookup_action
-				(G_ACTION_MAP(app), tracks[i].action_name);
+	action =	g_action_map_lookup_action
+			(G_ACTION_MAP(app), "set-video-track");
+	g_object_bind_property_full(	app->controller, "vid",
+					action, "state",
+					G_BINDING_BIDIRECTIONAL,
+					track_id_to_state,
+					state_to_track_id,
+					NULL,
+					NULL );
 
-		g_object_bind_property_full(	app->controller,
-						tracks[i].track_name,
-						action,
-						"state",
-						G_BINDING_BIDIRECTIONAL,
-						track_id_to_state,
-						state_to_track_id,
-						NULL,
-						NULL );
-	}
+	action =	g_action_map_lookup_action
+			(G_ACTION_MAP(app), "set-subtitle-track");
+	g_object_bind_property_full(	app->controller, "sid",
+					action, "state",
+					G_BINDING_BIDIRECTIONAL,
+					track_id_to_state,
+					state_to_track_id,
+					NULL,
+					NULL );
+
+	action =	g_action_map_lookup_action
+			(G_ACTION_MAP(app), "toggle-loop");
+	g_object_bind_property_full(	app->controller, "loop",
+					action, "state",
+					G_BINDING_BIDIRECTIONAL,
+					boolean_to_state,
+					state_to_boolean,
+					NULL,
+					NULL );
 }
 
 static void show_open_dialog_handler(	GSimpleAction *action,
@@ -233,12 +280,7 @@ static void toggle_loop_handler(	GSimpleAction *action,
 					GVariant *value,
 					gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMpv *mpv = gmpv_application_get_mpv(app);
-	gboolean loop = g_variant_get_boolean(value);
-
 	g_simple_action_set_state(action, value);
-	gmpv_mpv_set_property_string(mpv, "loop", loop?"inf":"no");
 }
 
 static void show_shortcuts_dialog_handler(	GSimpleAction *action,
@@ -499,5 +541,5 @@ void gmpv_actionctl_map_actions(GmpvApplication *app)
 						G_N_ELEMENTS(entries),
 						app );
 
-	bind_tracks(app);
+	bind_properties(app);
 }
