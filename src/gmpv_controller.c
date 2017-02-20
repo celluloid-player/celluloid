@@ -92,37 +92,39 @@ static void set_property(	GObject *object,
 {
 	GmpvController *self = GMPV_CONTROLLER(object);
 
-	if(property_id == PROP_MODEL)
+	switch(property_id)
 	{
+		case PROP_MODEL:
 		self->model = g_value_get_pointer(value);
-	}
-	else if(property_id == PROP_VIEW)
-	{
+		break;
+
+		case PROP_VIEW:
 		self->view = g_value_get_pointer(value);
-	}
-	else if(property_id == PROP_AID)
-	{
+		break;
+
+		case PROP_AID:
 		self->aid = g_value_get_int(value);
-	}
-	else if(property_id == PROP_VID)
-	{
+		break;
+
+		case PROP_VID:
 		self->vid = g_value_get_int(value);
-	}
-	else if(property_id == PROP_SID)
-	{
+		break;
+
+		case PROP_SID:
 		self->sid = g_value_get_int(value);
-	}
-	else if(property_id == PROP_LOOP)
-	{
+		break;
+
+		case PROP_LOOP:
 		self->loop = g_value_get_boolean(value);
-	}
-	else if(property_id == PROP_IDLE)
-	{
+		break;
+
+		case PROP_IDLE:
 		self->idle = g_value_get_boolean(value);
-	}
-	else
-	{
+		break;
+
+		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
 	}
 }
 
@@ -133,37 +135,39 @@ static void get_property(	GObject *object,
 {
 	GmpvController *self = GMPV_CONTROLLER(object);
 
-	if(property_id == PROP_MODEL)
+	switch(property_id)
 	{
+		case PROP_MODEL:
 		g_value_set_pointer(value, self->model);
-	}
-	else if(property_id == PROP_VIEW)
-	{
+		break;
+
+		case PROP_VIEW:
 		g_value_set_pointer(value, self->view);
-	}
-	else if(property_id == PROP_AID)
-	{
+		break;
+
+		case PROP_AID:
 		g_value_set_int(value, self->aid);
-	}
-	else if(property_id == PROP_VID)
-	{
+		break;
+
+		case PROP_VID:
 		g_value_set_int(value, self->vid);
-	}
-	else if(property_id == PROP_SID)
-	{
+		break;
+
+		case PROP_SID:
 		g_value_set_int(value, self->sid);
-	}
-	else if(property_id == PROP_LOOP)
-	{
+		break;
+
+		case PROP_LOOP:
 		g_value_set_boolean(value, self->loop);
-	}
-	else if(property_id == PROP_IDLE)
-	{
+		break;
+
+		case PROP_IDLE:
 		g_value_set_boolean(value, self->idle);
-	}
-	else
-	{
+		break;
+
+		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
 	}
 }
 
