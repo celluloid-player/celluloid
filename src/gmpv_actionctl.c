@@ -17,32 +17,12 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <gio/gio.h>
-#include <glib-object.h>
-#include <glib.h>
 #include <glib/gi18n.h>
-#include <mpv/client.h>
-#include <string.h>
 
 #include "gmpv_actionctl.h"
 #include "gmpv_file_chooser.h"
 #include "gmpv_application_private.h"
-#include "gmpv_controller.h"
-#include "gmpv_playlist_widget.h"
-#include "gmpv_def.h"
-#include "gmpv_mpv.h"
-#include "gmpv_mpv_wrapper.h"
-#include "gmpv_main_window.h"
-#include "gmpv_playlist.h"
-#include "gmpv_open_loc_dialog.h"
-#include "gmpv_pref_dialog.h"
 #include "gmpv_common.h"
-#include "gmpv_control_box.h"
-#include "gmpv_authors.h"
-
-#if GTK_CHECK_VERSION(3, 20, 0)
-#include "gmpv_shortcuts_window.h"
-#endif
 
 static gboolean track_id_to_state(	GBinding *binding,
 					const GValue *from_value,
