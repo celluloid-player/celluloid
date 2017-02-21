@@ -324,6 +324,8 @@ static gint command_line_handler(	GApplication *gapp,
 		g_object_unref(files[i]);
 	}
 
+	gdk_notify_startup_complete();
+
 	g_strfreev(argv);
 
 	return 0;
