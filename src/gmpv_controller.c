@@ -61,7 +61,7 @@ static gboolean is_more_than_one(	GBinding *binding,
 					GValue *to_value,
 					gpointer data );
 static void idle_active_handler(GObject *object, GParamSpec *pspec, gpointer data);
-static void init_handler(GmpvModel *model, gpointer data);
+static void controller_ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
 static void frame_ready_handler(GmpvModel *model, gpointer data);
 static void autofit_handler(GmpvModel *model, gdouble multiplier, gpointer data);
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
@@ -100,6 +100,10 @@ static void set_property(	GObject *object,
 
 		case PROP_VIEW:
 		self->view = g_value_get_pointer(value);
+		break;
+
+		case PROP_READY:
+		self->ready = g_value_get_boolean(value);
 		break;
 
 		case PROP_AID:
@@ -143,6 +147,10 @@ static void get_property(	GObject *object,
 
 		case PROP_VIEW:
 		g_value_set_pointer(value, self->view);
+		break;
+
+		case PROP_READY:
+		g_value_set_boolean(value, self->ready);
 		break;
 
 		case PROP_AID:
@@ -243,6 +251,9 @@ static void playlist_reordered_handler(GmpvView *view, gint src, gint dst, gpoin
 
 static void connect_signals(GmpvController *controller)
 {
+	g_object_bind_property(	controller->model, "ready",
+				controller, "ready",
+				G_BINDING_DEFAULT );
 	g_object_bind_property_full(	controller->model, "aid",
 					controller, "aid",
 					G_BINDING_BIDIRECTIONAL,
@@ -302,12 +313,12 @@ static void connect_signals(GmpvController *controller)
 					NULL );
 
 	g_signal_connect(	controller->model,
-				"notify::idle-active",
-				G_CALLBACK(idle_active_handler),
+				"notify::ready",
+				G_CALLBACK(controller_ready_handler),
 				controller );
 	g_signal_connect(	controller->model,
-				"init",
-				G_CALLBACK(init_handler),
+				"notify::idle-active",
+				G_CALLBACK(idle_active_handler),
 				controller );
 	g_signal_connect(	controller->model,
 				"frame-ready",
@@ -482,7 +493,7 @@ static void idle_active_handler(GObject *object, GParamSpec *pspec, gpointer dat
 	}
 }
 
-static void init_handler(GmpvModel *model, gpointer data)
+static void controller_ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 {
 	GmpvController *controller = data;
 
@@ -642,6 +653,14 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 	g_object_class_install_property(obj_class, PROP_SID, pspec);
 
 	pspec = g_param_spec_boolean
+		(	"ready",
+			"Ready",
+			"Whether mpv is ready to receive commands",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_READY, pspec);
+
+	pspec = g_param_spec_boolean
 		(	"loop",
 			"Loop",
 			"Whether or not to loop when the playlist ends",
@@ -657,15 +676,6 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_IDLE, pspec);
 
-	g_signal_new(	"init",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
 	g_signal_new(	"message",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -694,6 +704,7 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->aid = 0;
 	controller->vid = 0;
 	controller->sid = 0;
+	controller->ready = FALSE;
 	controller->loop = FALSE;
 	controller->idle = TRUE;
 	controller->action_queue = g_queue_new();

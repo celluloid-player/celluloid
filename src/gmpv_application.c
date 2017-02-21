@@ -63,7 +63,7 @@ static void sid_handler(	GObject *object,
 static void idle_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data );
-static void init_handler(GmpvController *controller, gpointer data);
+static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
 static void message_handler(	GmpvController *controller,
 				const gchar *message,
 				gpointer data );
@@ -164,8 +164,8 @@ static void initialize_gui(GmpvApplication *app)
 				G_CALLBACK(idle_handler),
 				app );
 	g_signal_connect(	app->controller,
-				"init",
-				G_CALLBACK(init_handler),
+				"notify::ready",
+				G_CALLBACK(ready_handler),
 				app );
 	g_signal_connect(	app->controller,
 				"message",
@@ -372,7 +372,7 @@ static void idle_handler(	GObject *object,
 	}
 }
 
-static void init_handler(GmpvController *controller, gpointer data)
+static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 {
 	GmpvApplication *app = data;
 

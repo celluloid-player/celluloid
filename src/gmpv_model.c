@@ -27,6 +27,7 @@ enum
 {
 	PROP_INVALID,
 	PROP_MPV,
+	PROP_READY,
 	PROP_AID,
 	PROP_VID,
 	PROP_SID,
@@ -48,6 +49,7 @@ struct _GmpvModel
 {
 	GObject parent;
 	GmpvMpv *mpv;
+	gboolean ready;
 	gboolean update_mpv_properties;
 	gchar *aid;
 	gchar *vid;
@@ -140,6 +142,10 @@ static void set_property(	GObject *object,
 		self->mpv = g_value_get_pointer(value);
 		break;
 
+		case PROP_READY:
+		self->ready = g_value_get_boolean(value);
+		break;
+
 		case PROP_AID:
 		g_free(self->aid);
 		self->aid = g_value_dup_string(value);
@@ -225,6 +231,10 @@ static void get_property(	GObject *object,
 	{
 		case PROP_MPV:
 		g_value_set_pointer(value, self->mpv);
+		break;
+
+		case PROP_READY:
+		g_value_set_boolean(value, self->ready);
 		break;
 
 		case PROP_AID:
@@ -464,7 +474,8 @@ static void video_reconfig_handler(GmpvMpv *mpv, gpointer data)
 
 static void mpv_init_handler(GmpvMpv *mpv, gpointer data)
 {
-	g_signal_emit_by_name(data, "init");
+	GMPV_MODEL(data)->ready = TRUE;
+	g_object_notify(data, "ready");
 }
 
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
@@ -543,6 +554,14 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_MPV, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"ready",
+			"Ready",
+			"Whether mpv is ready to receive commands",
+			FALSE,
+			G_PARAM_READABLE );
+	g_object_class_install_property(obj_class, PROP_READY, pspec);
+
 	for(int i = 0; mpv_props[i].name; i++)
 	{
 		pspec = g_param_spec_by_type(	mpv_props[i].name,
@@ -554,15 +573,6 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			(obj_class, mpv_props[i].id, pspec);
 	}
 
-	g_signal_new(	"init",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
 	g_signal_new(	"frame-ready",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -606,6 +616,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 static void gmpv_model_init(GmpvModel *model)
 {
 	model->mpv = NULL;
+	model->ready = FALSE;
 	model->update_mpv_properties = TRUE;
 	model->aid = NULL;
 	model->vid = NULL;
