@@ -37,6 +37,7 @@ void gmpv_view_show_open_dialog(GmpvView *view, gboolean append);
 void gmpv_view_show_open_location_dialog(GmpvView *view, gboolean append);
 void gmpv_view_show_open_audio_track_dialog(GmpvView *view);
 void gmpv_view_show_open_subtitle_track_dialog(GmpvView *view);
+void gmpv_view_show_save_playlist_dialog(GmpvView *view);
 void gmpv_view_show_preferences_dialog(GmpvView *view);
 void gmpv_view_show_shortcuts_dialog(GmpvView *view);
 void gmpv_view_show_about_dialog(GmpvView *view);

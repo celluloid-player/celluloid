@@ -151,46 +151,6 @@ static gboolean state_to_boolean(	GBinding *binding,
 	return TRUE;
 }
 
-static void save_playlist(GmpvPlaylist *playlist, GFile *file, GError **error)
-{
-	gboolean rc = TRUE;
-	GOutputStream *dest_stream = NULL;
-	GtkTreeModel *model = GTK_TREE_MODEL(gmpv_playlist_get_store(playlist));
-	GtkTreeIter iter;
-
-	if(file)
-	{
-		GFileOutputStream *file_stream;
-
-		file_stream = g_file_replace(	file,
-						NULL,
-						FALSE,
-						G_FILE_CREATE_NONE,
-						NULL,
-						error );
-		dest_stream = G_OUTPUT_STREAM(file_stream);
-		rc = gtk_tree_model_get_iter_first(model, &iter);
-		rc &= !!dest_stream;
-	}
-
-	while(rc)
-	{
-		gchar *uri;
-		gsize written;
-
-		gtk_tree_model_get(model, &iter, PLAYLIST_URI_COLUMN, &uri, -1);
-
-		rc &=	g_output_stream_printf
-			(dest_stream, &written, NULL, error, "%s\n", uri);
-		rc &= gtk_tree_model_iter_next(model, &iter);
-	}
-
-	if(dest_stream)
-	{
-		g_output_stream_close(dest_stream, NULL, error);
-	}
-}
-
 static void bind_properties(GmpvApplication *app)
 {
 	GAction *action = NULL;
@@ -297,52 +257,7 @@ static void save_playlist_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMpv *mpv;
-	GmpvMainWindow *wnd;
-	GmpvPlaylist *playlist;
-	GFile *dest_file;
-	GmpvFileChooser *file_chooser;
-	GtkFileChooser *gtk_chooser;
-	GError *error;
-
-	mpv = gmpv_application_get_mpv(app);
-	wnd = gmpv_application_get_main_window(app);
-	playlist = gmpv_mpv_get_playlist(mpv);
-	dest_file = NULL;
-	file_chooser =	gmpv_file_chooser_new
-			(	_("Save Playlist"),
-				GTK_WINDOW(wnd),
-				GTK_FILE_CHOOSER_ACTION_SAVE );
-	gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
-	error = NULL;
-
-	gtk_file_chooser_set_current_name(gtk_chooser, "playlist.m3u");
-
-	if(gmpv_file_chooser_run(file_chooser) == GTK_RESPONSE_ACCEPT)
-	{
-		/* There should be only one file selected. */
-		dest_file = gtk_file_chooser_get_file(gtk_chooser);
-	}
-
-	gmpv_file_chooser_destroy(file_chooser);
-
-	if(dest_file)
-	{
-		save_playlist(playlist, dest_file, &error);
-		g_object_unref(dest_file);
-	}
-
-	if(error)
-	{
-		show_message_dialog(	wnd,
-					GTK_MESSAGE_ERROR,
-					NULL,
-					error->message,
-					_("Error") );
-
-		g_error_free(error);
-	}
+	gmpv_view_show_save_playlist_dialog(GMPV_APPLICATION(data)->view);
 }
 
 static void remove_selected_playlist_item_handler(	GSimpleAction *action,

@@ -81,6 +81,7 @@ static void get_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec );
 static void load_css(GmpvView *view);
+static void save_playlist(GmpvView *view, GFile *file, GError **error);
 
 /* Property changes */
 static void play_button_handler(GtkButton *button, gpointer data);
@@ -470,6 +471,48 @@ static void load_css(GmpvView *view)
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
 
 	g_object_unref(style_provider);
+}
+
+static void save_playlist(GmpvView *view, GFile *file, GError **error)
+{
+	GmpvPlaylistWidget *widget = gmpv_main_window_get_playlist(view->wnd);
+	GmpvPlaylist *playlist = gmpv_playlist_widget_get_store(widget);
+	gboolean rc = TRUE;
+	GOutputStream *dest_stream = NULL;
+	GtkTreeModel *model = GTK_TREE_MODEL(gmpv_playlist_get_store(playlist));
+	GtkTreeIter iter;
+
+	if(file)
+	{
+		GFileOutputStream *file_stream;
+
+		file_stream = g_file_replace(	file,
+						NULL,
+						FALSE,
+						G_FILE_CREATE_NONE,
+						NULL,
+						error );
+		dest_stream = G_OUTPUT_STREAM(file_stream);
+		rc = gtk_tree_model_get_iter_first(model, &iter);
+		rc &= !!dest_stream;
+	}
+
+	while(rc)
+	{
+		gchar *uri;
+		gsize written;
+
+		gtk_tree_model_get(model, &iter, PLAYLIST_URI_COLUMN, &uri, -1);
+
+		rc &=	g_output_stream_printf
+			(dest_stream, &written, NULL, error, "%s\n", uri);
+		rc &= gtk_tree_model_iter_next(model, &iter);
+	}
+
+	if(dest_stream)
+	{
+		g_output_stream_close(dest_stream, NULL, error);
+	}
 }
 
 static void play_button_handler(GtkButton *button, gpointer data)
@@ -1248,6 +1291,49 @@ void gmpv_view_show_open_subtitle_track_dialog(GmpvView *view)
 		(chooser, FALSE, FALSE, FALSE, TRUE);
 
 	gmpv_file_chooser_show(chooser);
+}
+
+void gmpv_view_show_save_playlist_dialog(GmpvView *view)
+{
+	GFile *dest_file;
+	GmpvFileChooser *file_chooser;
+	GtkFileChooser *gtk_chooser;
+	GError *error;
+
+	dest_file = NULL;
+	file_chooser =	gmpv_file_chooser_new
+			(	_("Save Playlist"),
+				GTK_WINDOW(view->wnd),
+				GTK_FILE_CHOOSER_ACTION_SAVE );
+	gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
+	error = NULL;
+
+	gtk_file_chooser_set_current_name(gtk_chooser, "playlist.m3u");
+
+	if(gmpv_file_chooser_run(file_chooser) == GTK_RESPONSE_ACCEPT)
+	{
+		/* There should be only one file selected. */
+		dest_file = gtk_file_chooser_get_file(gtk_chooser);
+	}
+
+	gmpv_file_chooser_destroy(file_chooser);
+
+	if(dest_file)
+	{
+		save_playlist(view, dest_file, &error);
+		g_object_unref(dest_file);
+	}
+
+	if(error)
+	{
+		show_message_dialog(	view->wnd,
+					GTK_MESSAGE_ERROR,
+					NULL,
+					error->message,
+					_("Error") );
+
+		g_error_free(error);
+	}
 }
 
 void gmpv_view_show_preferences_dialog(GmpvView *view)
