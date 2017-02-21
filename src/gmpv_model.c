@@ -91,6 +91,7 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 						const gchar *blurb,
 						GType type,
 						GParamFlags flags );
+static gboolean emit_frame_ready(gpointer data);
 static void opengl_cb_update_callback(gpointer opengl_cb_ctx);
 static void video_reconfig_handler(GmpvMpv *mpv, gpointer data);
 static void mpv_init_handler(GmpvMpv *mpv, gpointer data);
@@ -456,9 +457,19 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 	return result;
 }
 
-static void opengl_cb_update_callback(gpointer data)
+static gboolean emit_frame_ready(gpointer data)
 {
 	g_signal_emit_by_name(data, "frame-ready");
+
+	return FALSE;
+}
+
+static void opengl_cb_update_callback(gpointer data)
+{
+	g_idle_add_full(	G_PRIORITY_HIGH,
+				emit_frame_ready,
+				data,
+				NULL );
 }
 
 static void video_reconfig_handler(GmpvMpv *mpv, gpointer data)
