@@ -214,19 +214,37 @@ static void open_handler(	GApplication *gapp,
 				gpointer data )
 {
 	GmpvApplication *app = data;
+	gboolean ready = FALSE;
+
+	g_object_get(app->controller, "ready", &ready, NULL);
 
 	app->enqueue = (g_strcmp0(hint, "enqueue") == 0);
 
 	if(n_files > 0)
 	{
-		app->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
-
-		for(gint i = 0; i < n_files; i++)
+		if(ready)
 		{
-			app->files[i] = g_file_get_uri(((GFile **)files)[i]);
-		}
+			for(gint i = 0; i < n_files; i++)
+			{
+				gchar *uri = g_file_get_uri(((GFile **)files)[i]);
 
-		app->files[n_files] = NULL;
+				gmpv_controller_open
+					(app->controller, uri, i != 0);
+
+				g_free(uri);
+			}
+		}
+		else
+		{
+			app->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
+
+			for(gint i = 0; i < n_files; i++)
+			{
+				app->files[i] = g_file_get_uri(((GFile **)files)[i]);
+			}
+
+			app->files[n_files] = NULL;
+		}
 	}
 }
 

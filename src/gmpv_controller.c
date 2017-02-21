@@ -504,8 +504,6 @@ static void controller_ready_handler(GObject *object, GParamSpec *pspec, gpointe
 		gmpv_view_make_gl_context_current(controller->view);
 		gmpv_model_initialize_gl(controller->model);
 	}
-
-	g_signal_emit_by_name(data, "init");
 }
 
 static void frame_ready_handler(GmpvModel *model, gpointer data)
