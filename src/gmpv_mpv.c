@@ -997,7 +997,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 
 	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_STRING);
 	mpv_observe_property(mpv->mpv_ctx, 0, "vid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "sub", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "sid", MPV_FORMAT_STRING);
 	mpv_observe_property(mpv->mpv_ctx, 0, "chapters", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "idle-active", MPV_FORMAT_FLAG);
