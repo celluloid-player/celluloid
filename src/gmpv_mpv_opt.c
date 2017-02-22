@@ -479,9 +479,7 @@ void gmpv_mpv_opt_handle_msg_level(GmpvMpv *mpv)
 	}
 
 	for(i = 0; level_map[i].level != min_level; i++);
-
-	mpv_check_error
-		(mpv_request_log_messages(mpv->mpv_ctx, level_map[i].name));
+	mpv_request_log_messages(mpv->mpv_ctx, level_map[i].name);
 
 	mpv_free(optbuf);
 	g_strfreev(tokens);

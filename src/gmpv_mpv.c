@@ -27,7 +27,6 @@
 #include <gdk/gdk.h>
 #include <stdlib.h>
 #include <string.h>
-#include <execinfo.h>
 
 #include <epoxy/gl.h>
 #ifdef GDK_WINDOWING_X11
@@ -410,10 +409,11 @@ static void update_playlist(GmpvMpv *mpv)
 	gint playlist_count;
 	gint i;
 
-	mpv_check_error(mpv_get_property(	mpv->mpv_ctx,
-						"playlist",
-						MPV_FORMAT_NODE,
-						&mpv_playlist ));
+	mpv_get_property(	mpv->mpv_ctx,
+				"playlist",
+				MPV_FORMAT_NODE,
+				&mpv_playlist );
+
 	playlist_count = mpv_playlist.u.list->num;
 
 	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
@@ -860,23 +860,6 @@ GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid)
 						NULL ));
 }
 
-void mpv_check_error(int status)
-{
-	void *array[10];
-	size_t size;
-
-	if(status < 0)
-	{
-		size = (size_t)backtrace(array, 10);
-
-		g_critical("MPV API error: %s\n", mpv_error_string(status));
-
-		backtrace_symbols_fd(array, (int)size, STDERR_FILENO);
-
-		exit(EXIT_FAILURE);
-	}
-}
-
 inline const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv)
 {
 	return &mpv->state;
@@ -1049,7 +1032,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 	mpv_set_wakeup_callback(mpv->mpv_ctx, wakeup_callback, mpv);
-	mpv_check_error(mpv_initialize(mpv->mpv_ctx));
+	mpv_initialize(mpv->mpv_ctx);
 
 	mpv_version = gmpv_mpv_get_property_string(mpv, "mpv-version");
 	current_vo = gmpv_mpv_get_property_string(mpv, "current-vo");
@@ -1151,7 +1134,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 	/* Reset mpv->mpv_ctx */
 	mpv->state.ready = FALSE;
 
-	mpv_check_error(gmpv_mpv_command(mpv, quit_cmd));
+	gmpv_mpv_command(mpv, quit_cmd);
 	gmpv_mpv_quit(mpv);
 
 	mpv->mpv_ctx = mpv_create();
@@ -1168,17 +1151,9 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 	{
 		if(mpv->state.loaded)
 		{
-			gint rc;
-
-			rc =	mpv_request_event
-				(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
-			mpv_check_error(rc);
-
+			mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
 			load_from_playlist(mpv);
-
-			rc =	mpv_request_event
-				(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
-			mpv_check_error(rc);
+			mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
 		}
 
 		if(playlist_pos_rc >= 0 && playlist_pos > 0)
@@ -1302,15 +1277,9 @@ void gmpv_mpv_load_file(	GmpvMpv *mpv,
 
 		g_assert(mpv->mpv_ctx);
 
-		mpv_check_error(mpv_request_event(	mpv->mpv_ctx,
-							MPV_EVENT_END_FILE,
-							0 ));
-
-		mpv_check_error(mpv_command(mpv->mpv_ctx, load_cmd));
-
-		mpv_check_error(mpv_request_event(	mpv->mpv_ctx,
-							MPV_EVENT_END_FILE,
-							1 ));
+		mpv_request_event(mpv->mpv_ctx, MPV_EVENT_END_FILE, 0);
+		mpv_command(mpv->mpv_ctx, load_cmd);
+		mpv_request_event(mpv->mpv_ctx, MPV_EVENT_END_FILE, 1);
 
 		g_free(path);
 	}
