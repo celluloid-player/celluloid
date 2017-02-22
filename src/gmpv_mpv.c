@@ -62,6 +62,7 @@ static void get_inst_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void load_from_playlist(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
@@ -154,6 +155,43 @@ static void get_inst_property(	GObject *object,
 	}
 }
 
+static void load_from_playlist(GmpvMpv *mpv)
+{
+	GtkListStore *playlist_store = gmpv_playlist_get_store(mpv->playlist);
+	gboolean append = FALSE;
+	GtkTreeIter iter;
+	gboolean rc;
+
+	if(!mpv->state.init_load)
+	{
+		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
+	}
+
+	rc = gtk_tree_model_get_iter_first
+		(GTK_TREE_MODEL(playlist_store), &iter);
+
+	while(rc)
+	{
+		gchar *uri;
+
+		gtk_tree_model_get(	GTK_TREE_MODEL(playlist_store),
+					&iter,
+					PLAYLIST_URI_COLUMN,
+					&uri,
+					-1 );
+
+		/* append = FALSE only on first iteration */
+		gmpv_mpv_load(mpv, uri, append, FALSE);
+
+		append = TRUE;
+
+		rc = gtk_tree_model_iter_next
+			(GTK_TREE_MODEL(playlist_store), &iter);
+
+		g_free(uri);
+	}
+}
+
 static void wakeup_callback(void *data)
 {
 	g_idle_add((GSourceFunc)mpv_event_handler, data);
@@ -216,7 +254,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 
 		if(idle_active && !mpv->state.paused)
 		{
-			gmpv_mpv_load(mpv, NULL, FALSE, TRUE);
+			load_from_playlist(mpv);
 		}
 	}
 }
@@ -1136,7 +1174,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 				(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
 			mpv_check_error(rc);
 
-			gmpv_mpv_load(mpv, NULL, FALSE, TRUE);
+			load_from_playlist(mpv);
 
 			rc =	mpv_request_event
 				(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
@@ -1214,7 +1252,6 @@ void gmpv_mpv_load_file(	GmpvMpv *mpv,
 {
 	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
 	GtkListStore *playlist_store = gmpv_playlist_get_store(mpv->playlist);
-	GtkTreeIter iter;
 	gboolean empty;
 
 	g_info(	"Loading file (append=%s, update=%s): %s",
@@ -1234,37 +1271,7 @@ void gmpv_mpv_load_file(	GmpvMpv *mpv,
 
 	if(!uri)
 	{
-		gboolean append = FALSE;
-		gboolean rc;
-
-		if(!mpv->state.init_load)
-		{
-			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
-		}
-
-		rc = gtk_tree_model_get_iter_first
-			(GTK_TREE_MODEL(playlist_store), &iter);
-
-		while(rc)
-		{
-			gchar *uri;
-
-			gtk_tree_model_get(	GTK_TREE_MODEL(playlist_store),
-						&iter,
-						PLAYLIST_URI_COLUMN,
-						&uri,
-						-1 );
-
-			/* append = FALSE only on first iteration */
-			gmpv_mpv_load(mpv, uri, append, FALSE);
-
-			append = TRUE;
-
-			rc = gtk_tree_model_iter_next
-				(GTK_TREE_MODEL(playlist_store), &iter);
-
-			g_free(uri);
-		}
+		load_from_playlist(mpv);
 	}
 
 	if(uri && playlist_store)
