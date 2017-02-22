@@ -1181,10 +1181,36 @@ void gmpv_mpv_quit(GmpvMpv *mpv)
 	mpv->mpv_ctx = NULL;
 }
 
-void gmpv_mpv_load(	GmpvMpv *mpv,
-			const gchar *uri,
-			gboolean append,
-			gboolean update )
+void gmpv_mpv_load_track(GmpvMpv *mpv, const gchar *uri, TrackType type)
+{
+	const gchar *cmd[3] = {NULL};
+	gchar *path = g_filename_from_uri(uri, NULL, NULL);
+
+	if(type == TRACK_TYPE_AUDIO)
+	{
+		cmd[0] = "audio-add";
+	}
+	else if(type == TRACK_TYPE_SUBTITLE)
+	{
+		cmd[0] = "sub-add";
+	}
+	else
+	{
+		g_assert_not_reached();
+	}
+
+	cmd[1] = path?:uri;
+
+	g_debug("Loading external track %s with type %d", cmd[1], type);
+	gmpv_mpv_command(mpv, cmd);
+
+	g_free(path);
+}
+
+void gmpv_mpv_load_file(	GmpvMpv *mpv,
+				const gchar *uri,
+				gboolean append,
+				gboolean update )
 {
 	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
 	GtkListStore *playlist_store = gmpv_playlist_get_store(mpv->playlist);
@@ -1283,66 +1309,24 @@ void gmpv_mpv_load(	GmpvMpv *mpv,
 	}
 }
 
+void gmpv_mpv_load(	GmpvMpv *mpv,
+			const gchar *uri,
+			gboolean append,
+			gboolean update )
+{
+	const gchar *subtitle_exts[] = SUBTITLE_EXTS;
+
+	if(extension_matches(uri, subtitle_exts))
+	{
+		gmpv_mpv_load_track(mpv, uri, TRACK_TYPE_SUBTITLE);
+	}
+	else
+	{
+		gmpv_mpv_load_file(mpv, uri, append, update);
+	}
+}
+
 void gmpv_mpv_free(gpointer data)
 {
 	mpv_free(data);
-}
-
-void gmpv_mpv_load_list(	GmpvMpv *mpv,
-				const gchar **uri_list,
-				gboolean append,
-				gboolean update )
-{
-	static const char *const sub_exts[] = SUBTITLE_EXTS;
-
-	for(gint i = 0; uri_list[i]; i++)
-	{
-		const gchar *ext = strrchr(uri_list[i], '.');
-		gboolean subtitle = FALSE;
-
-		/* Only start checking the extension if there is at
-		 * least one character after the dot.
-		 */
-		if(ext && ++ext)
-		{
-			const gchar *const *cur = sub_exts;
-
-			/* Check if the file extension matches one of the
-			 * supported subtitle formats.
-			 */
-			while(*cur && g_strcmp0(ext, *(cur++)) != 0);
-
-			subtitle = !!(*cur);
-		}
-
-		/* Only attempt to load file as subtitle if there
-		 * already is a file loaded. Try to load the file as a
-		 * media file otherwise.
-		 */
-		if(ext && subtitle && gmpv_mpv_get_state(mpv)->loaded)
-		{
-			const gchar *cmd[] = {"sub-add", NULL, NULL};
-			gchar *path;
-
-			/* Convert to path if possible to get rid of
-			 * percent encoding.
-			 */
-			path = g_filename_from_uri(uri_list[i], NULL, NULL);
-			cmd[1] = path?:uri_list[i];
-
-			g_debug("Loading external subtitle: %s", cmd[1]);
-			gmpv_mpv_command(mpv, cmd);
-
-			g_free(path);
-		}
-		else
-		{
-			gboolean empty = gmpv_playlist_empty(mpv->playlist);
-
-			gmpv_mpv_load(	mpv,
-					uri_list[i],
-					((append && !empty) || i != 0),
-					TRUE );
-		}
-	}
 }

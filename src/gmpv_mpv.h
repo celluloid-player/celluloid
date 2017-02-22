@@ -58,14 +58,15 @@ void gmpv_mpv_initialize(GmpvMpv *mpv);
 void gmpv_mpv_init_gl(GmpvMpv *mpv);
 void gmpv_mpv_reset(GmpvMpv *mpv);
 void gmpv_mpv_quit(GmpvMpv *mpv);
+void gmpv_mpv_load_track(GmpvMpv *mpv, const gchar *uri, TrackType type);
+void gmpv_mpv_load_file(	GmpvMpv *mpv,
+				const gchar *uri,
+				gboolean append,
+				gboolean update );
 void gmpv_mpv_load(	GmpvMpv *mpv,
 			const gchar *uri,
 			gboolean append,
 			gboolean update );
-void gmpv_mpv_load_list(	GmpvMpv *mpv,
-				const gchar **uri_list,
-				gboolean append,
-				gboolean update );
 void gmpv_mpv_free(gpointer data);
 
 G_END_DECLS

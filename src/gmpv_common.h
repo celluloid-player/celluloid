@@ -44,6 +44,7 @@ void resize_window_to_fit(GmpvApplication *app, gdouble multiplier);
 void load_keybind(	GmpvApplication *app,
 			const gchar *config_path,
 			gboolean notify_ignore );
+gboolean extension_matches(const gchar *filename, const gchar **extensions);
 void *gslist_to_array(GSList *slist);
 gchar *strnjoinv(const gchar *separator, const gchar **str_array, gsize count);
 

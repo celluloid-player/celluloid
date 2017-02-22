@@ -302,6 +302,29 @@ void resize_window_to_fit(GmpvApplication *app, gdouble multiplier)
 	gmpv_mpv_free(video);
 }
 
+gboolean extension_matches(const gchar *filename, const gchar **extensions)
+{
+	const gchar *ext = strrchr(filename, '.');
+	gboolean result = FALSE;
+
+	/* Only start checking the extension if there is at
+	 * least one character after the dot.
+	 */
+	if(ext && ++ext)
+	{
+		const gchar **iter = extensions;
+
+		/* Check if the file extension matches one of the
+		 * supported subtitle formats.
+		 */
+		while(*iter && g_strcmp0(ext, *(iter++)) != 0);
+
+		result = !!(*iter);
+	}
+
+	return result;
+}
+
 void *gslist_to_array(GSList *slist)
 {
 	void **result = g_malloc(sizeof(void **)*(g_slist_length(slist)+1));
