@@ -757,16 +757,12 @@ void gmpv_model_seek(GmpvModel *model, gdouble value)
 
 void gmpv_model_load_audio_track(GmpvModel *model, const gchar *filename)
 {
-	const gchar *cmd[] = {"audio-add", filename, NULL};
-
-	gmpv_mpv_command(model->mpv, cmd);
+	gmpv_mpv_load_track(model->mpv, filename, TRACK_TYPE_AUDIO);
 }
 
 void gmpv_model_load_subtitle_track(GmpvModel *model, const gchar *filename)
 {
-	const gchar *cmd[] = {"sub-add", filename, NULL};
-
-	gmpv_mpv_command(model->mpv, cmd);
+	gmpv_mpv_load_track(model->mpv, filename, TRACK_TYPE_SUBTITLE);
 }
 
 void gmpv_model_remove_playlist_entry(GmpvModel *model, gint64 position)
