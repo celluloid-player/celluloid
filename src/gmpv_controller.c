@@ -199,6 +199,11 @@ static void render_handler(GmpvView *view, gpointer data)
 	}
 }
 
+static void preferences_updated_handler(GmpvView *view, gpointer data)
+{
+	gmpv_model_reset(GMPV_CONTROLLER(data)->model);
+}
+
 static void file_open_handler(	GmpvView *view,
 				const gchar **uri_list,
 				gboolean append,
@@ -377,6 +382,10 @@ static void connect_signals(GmpvController *controller)
 	g_signal_connect(	controller->view,
 				"render",
 				G_CALLBACK(render_handler),
+				controller );
+	g_signal_connect(	controller->view,
+				"preferences-updated",
+				G_CALLBACK(preferences_updated_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"file-open",

@@ -32,6 +32,7 @@ G_DECLARE_FINAL_TYPE(GmpvModel, gmpv_model, GMPV, MODEL, GObject)
 
 GmpvModel *gmpv_model_new(GmpvMpv *mpv);
 void gmpv_model_initialize(GmpvModel *model);
+void gmpv_model_reset(GmpvModel *model);
 void gmpv_model_quit(GmpvModel *model);
 void gmpv_model_mouse(GmpvModel *model, gint x, gint y);
 void gmpv_model_key_down(GmpvModel *model, const gchar* keystr);

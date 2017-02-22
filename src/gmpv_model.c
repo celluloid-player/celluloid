@@ -660,6 +660,11 @@ void gmpv_model_initialize(GmpvModel *model)
 		(model->mpv, opengl_cb_update_callback, model);
 }
 
+void gmpv_model_reset(GmpvModel *model)
+{
+	gmpv_mpv_reset(model->mpv);
+}
+
 void gmpv_model_quit(GmpvModel *model)
 {
 	gmpv_mpv_quit(model->mpv);

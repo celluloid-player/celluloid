@@ -688,6 +688,8 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 				NULL );
 
 		gtk_widget_queue_draw(GTK_WIDGET(view->wnd));
+		g_signal_emit_by_name(data, "preferences-updated");
+
 		g_object_unref(settings);
 	}
 
@@ -1085,6 +1087,15 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 			G_TYPE_NONE,
 			0 );
 	g_signal_new(	"render",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
+	g_signal_new(	"preferences-updated",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
