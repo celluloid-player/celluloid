@@ -39,6 +39,35 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void ready_handler(GmpvView *view, gpointer data);
+static void render_handler(GmpvView *view, gpointer data);
+static void preferences_updated_handler(GmpvView *view, gpointer data);
+static void audio_track_load_handler(	GmpvView *view,
+					const gchar *uri,
+					gpointer data );
+static void subtitle_track_load_handler(	GmpvView *view,
+						const gchar *uri,
+						gpointer data );
+static void file_open_handler(	GmpvView *view,
+				const gchar **uri_list,
+				gboolean append,
+				gpointer data );
+static void fullscreen_handler(GmpvView *view, gpointer data);
+static void grab_handler(GmpvView *view, gboolean was_grabbed, gpointer data);
+static void delete_handler(GmpvView *view, gpointer data);
+static void playlist_item_activated_handler(	GmpvView *view,
+						gint pos,
+						gpointer data );
+static void playlist_item_inserted_handler(	GmpvView *view,
+						gint pos,
+						gpointer data );
+static void playlist_item_deleted_handler(	GmpvView *view,
+						gint pos,
+						gpointer data );
+static void playlist_reordered_handler(	GmpvView *view,
+					gint src,
+					gint dst,
+					gpointer data );
 static void connect_signals(GmpvController *controller);
 static gboolean track_str_to_int(	GBinding *binding,
 					const GValue *from_value,
@@ -60,8 +89,12 @@ static gboolean is_more_than_one(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
 					gpointer data );
-static void idle_active_handler(GObject *object, GParamSpec *pspec, gpointer data);
-static void controller_ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
+static void idle_active_handler(	GObject *object,
+					GParamSpec *pspec,
+					gpointer data);
+static void controller_ready_handler(	GObject *object,
+					GParamSpec *pspec,
+					gpointer data );
 static void frame_ready_handler(GmpvModel *model, gpointer data);
 static void autofit_handler(GmpvModel *model, gdouble multiplier, gpointer data);
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
@@ -74,6 +107,8 @@ static void rewind_button_handler(GtkButton *button, gpointer data);
 static void next_button_handler(GtkButton *button, gpointer data);
 static void previous_button_handler(GtkButton *button, gpointer data);
 static void seek_handler(GtkButton *button, gdouble value, gpointer data);
+static void gmpv_controller_class_init(GmpvControllerClass *klass);
+static void gmpv_controller_init(GmpvController *controller);
 
 G_DEFINE_TYPE(GmpvController, gmpv_controller, G_TYPE_OBJECT)
 
@@ -249,21 +284,30 @@ static void delete_handler(GmpvView *view, gpointer data)
 	g_signal_emit_by_name(data, "shutdown");
 }
 
-static void playlist_item_activated_handler(GmpvView *view, gint pos, gpointer data)
+static void playlist_item_activated_handler(	GmpvView *view,
+						gint pos,
+						gpointer data )
 {
 	g_object_set(GMPV_CONTROLLER(data)->model, "playlist-pos", pos, NULL);
 }
 
-static void playlist_item_inserted_handler(GmpvView *view, gint pos, gpointer data)
+static void playlist_item_inserted_handler(	GmpvView *view,
+						gint pos,
+						gpointer data )
 {
 }
 
-static void playlist_item_deleted_handler(GmpvView *view, gint pos, gpointer data)
+static void playlist_item_deleted_handler(	GmpvView *view,
+						gint pos,
+						gpointer data )
 {
 	gmpv_model_remove_playlist_entry(GMPV_CONTROLLER(data)->model, pos);
 }
 
-static void playlist_reordered_handler(GmpvView *view, gint src, gint dst, gpointer data)
+static void playlist_reordered_handler(	GmpvView *view,
+					gint src,
+					gint dst,
+					gpointer data )
 {
 	gmpv_model_move_playlist_entry(GMPV_CONTROLLER(data)->model, src, dst);
 }
@@ -512,7 +556,9 @@ static gboolean is_more_than_one(	GBinding *binding,
 	return TRUE;
 }
 
-static void idle_active_handler(GObject *object, GParamSpec *pspec, gpointer data)
+static void idle_active_handler(	GObject *object,
+					GParamSpec *pspec,
+					gpointer data )
 {
 	gboolean idle_active = TRUE;
 
@@ -524,7 +570,9 @@ static void idle_active_handler(GObject *object, GParamSpec *pspec, gpointer dat
 	}
 }
 
-static void controller_ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
+static void controller_ready_handler(	GObject *object,
+					GParamSpec *pspec,
+					gpointer data )
 {
 	GmpvController *controller = data;
 
