@@ -57,9 +57,6 @@ static void delete_handler(GmpvView *view, gpointer data);
 static void playlist_item_activated_handler(	GmpvView *view,
 						gint pos,
 						gpointer data );
-static void playlist_item_inserted_handler(	GmpvView *view,
-						gint pos,
-						gpointer data );
 static void playlist_item_deleted_handler(	GmpvView *view,
 						gint pos,
 						gpointer data );
@@ -286,12 +283,6 @@ static void playlist_item_activated_handler(	GmpvView *view,
 	g_object_set(GMPV_CONTROLLER(data)->model, "playlist-pos", pos, NULL);
 }
 
-static void playlist_item_inserted_handler(	GmpvView *view,
-						gint pos,
-						gpointer data )
-{
-}
-
 static void playlist_item_deleted_handler(	GmpvView *view,
 						gint pos,
 						gpointer data )
@@ -463,10 +454,6 @@ static void connect_signals(GmpvController *controller)
 	g_signal_connect(	controller->view,
 				"playlist-item-activated",
 				G_CALLBACK(playlist_item_activated_handler),
-				controller );
-	g_signal_connect(	controller->view,
-				"playlist-item-deleted",
-				G_CALLBACK(playlist_item_inserted_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"playlist-item-deleted",
