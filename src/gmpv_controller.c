@@ -204,6 +204,20 @@ static void preferences_updated_handler(GmpvView *view, gpointer data)
 	gmpv_model_reset(GMPV_CONTROLLER(data)->model);
 }
 
+static void audio_track_load_handler(	GmpvView *view,
+					const gchar *uri,
+					gpointer data )
+{
+	gmpv_model_load_audio_track(GMPV_CONTROLLER(data)->model, uri);
+}
+
+static void subtitle_track_load_handler(	GmpvView *view,
+						const gchar *uri,
+						gpointer data )
+{
+	gmpv_model_load_subtitle_track(GMPV_CONTROLLER(data)->model, uri);
+}
+
 static void file_open_handler(	GmpvView *view,
 				const gchar **uri_list,
 				gboolean append,
@@ -386,6 +400,14 @@ static void connect_signals(GmpvController *controller)
 	g_signal_connect(	controller->view,
 				"preferences-updated",
 				G_CALLBACK(preferences_updated_handler),
+				controller );
+	g_signal_connect(	controller->view,
+				"audio-track-load",
+				G_CALLBACK(audio_track_load_handler),
+				controller );
+	g_signal_connect(	controller->view,
+				"subtitle-track-load",
+				G_CALLBACK(subtitle_track_load_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"file-open",
