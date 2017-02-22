@@ -52,7 +52,6 @@ static void file_open_handler(	GmpvView *view,
 				const gchar **uri_list,
 				gboolean append,
 				gpointer data );
-static void fullscreen_handler(GmpvView *view, gpointer data);
 static void grab_handler(GmpvView *view, gboolean was_grabbed, gpointer data);
 static void delete_handler(GmpvView *view, gpointer data);
 static void playlist_item_activated_handler(	GmpvView *view,
@@ -266,10 +265,6 @@ static void file_open_handler(	GmpvView *view,
 	}
 }
 
-static void fullscreen_handler(GmpvView *view, gpointer data)
-{
-}
-
 static void grab_handler(GmpvView *view, gboolean was_grabbed, gpointer data)
 {
 	if(!was_grabbed)
@@ -456,10 +451,6 @@ static void connect_signals(GmpvController *controller)
 	g_signal_connect(	controller->view,
 				"file-open",
 				G_CALLBACK(file_open_handler),
-				controller );
-	g_signal_connect(	controller->view,
-				"fullscreen-notify",
-				G_CALLBACK(fullscreen_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"grab-notify",

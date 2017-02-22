@@ -819,16 +819,15 @@ static gboolean window_state_handler(	GtkWidget *widget,
 					GdkEvent *event,
 					gpointer data )
 {
+	GmpvView *view = data;
 	GdkEventWindowState *state = (GdkEventWindowState *)event;
 
 	if(state->changed_mask&GDK_WINDOW_STATE_FULLSCREEN)
 	{
-		gboolean fullscreen;
+		view->fullscreen =	state->new_window_state&
+					GDK_WINDOW_STATE_FULLSCREEN;
 
-		fullscreen =	state->new_window_state&
-				GDK_WINDOW_STATE_FULLSCREEN;
-
-		g_signal_emit_by_name(data, "fullscreen-notify", fullscreen);
+		g_object_notify(data, "fullscreen");
 	}
 
 	return FALSE;
@@ -1134,16 +1133,6 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 			G_TYPE_NONE,
 			2,
 			G_TYPE_POINTER,
-			G_TYPE_BOOLEAN );
-	g_signal_new(	"fullscreen-notify",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__BOOLEAN,
-			G_TYPE_NONE,
-			1,
 			G_TYPE_BOOLEAN );
 	g_signal_new(	"grab-notify",
 			G_TYPE_FROM_CLASS(klass),
