@@ -1,18 +1,21 @@
 gnome = import('gnome')
 
 sources = [
-  'gmpv_main.c',
   'gmpv_actionctl.c',
   'gmpv_application.c',
   'gmpv_common.c',
   'gmpv_control_box.c',
+  'gmpv_controller.c',
   'gmpv_file_chooser.c',
   'gmpv_header_bar.c',
   'gmpv_inputctl.c',
+  'gmpv_main.c',
   'gmpv_main_window.c',
   'gmpv_menu.c',
+  'gmpv_model.c',
   'gmpv_mpv.c',
   'gmpv_mpv_opt.c',
+  'gmpv_mpv_wrapper.c',
   'gmpv_open_loc_dialog.c',
   'gmpv_playbackctl.c',
   'gmpv_playlist.c',
@@ -21,9 +24,11 @@ sources = [
   'gmpv_plugins_manager_item.c',
   'gmpv_pref_dialog.c',
   'gmpv_seek_bar.c',
+  'gmpv_shortcuts_window.c',
   'gmpv_track.c',
   'gmpv_video_area.c',
-  'gmpv_mpv_wrapper.c',
+  'gmpv_view.c',
+
   'media_keys/gmpv_media_keys.c',
 
   'mpris/gmpv_mpris.c',
