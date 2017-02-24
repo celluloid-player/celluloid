@@ -73,7 +73,8 @@ static gchar *get_full_keystr(guint keyval, guint state)
 		g_strlcat(modstr, "Alt+", max_modstr_len);
 	}
 
-	if((state&GDK_META_MASK) != 0 || (state&GDK_SUPER_MASK) != 0)
+	/* Super is Meta in mpv */
+	if((state&GDK_SUPER_MASK) != 0)
 	{
 		g_strlcat(modstr, "Meta+", max_modstr_len);
 	}
