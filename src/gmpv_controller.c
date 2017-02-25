@@ -39,7 +39,7 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
-static void ready_handler(GmpvView *view, gpointer data);
+static void view_ready_handler(GmpvView *view, gpointer data);
 static void render_handler(GmpvView *view, gpointer data);
 static void preferences_updated_handler(GmpvView *view, gpointer data);
 static void audio_track_load_handler(	GmpvView *view,
@@ -88,7 +88,7 @@ static gboolean is_more_than_one(	GBinding *binding,
 static void idle_active_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data);
-static void controller_ready_handler(	GObject *object,
+static void model_ready_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
 static void frame_ready_handler(GmpvModel *model, gpointer data);
@@ -210,7 +210,7 @@ static void get_property(	GObject *object,
 	}
 }
 
-static void ready_handler(GmpvView *view, gpointer data)
+static void view_ready_handler(GmpvView *view, gpointer data)
 {
 	gmpv_model_initialize(GMPV_CONTROLLER(data)->model);
 }
@@ -363,7 +363,7 @@ static void connect_signals(GmpvController *controller)
 
 	g_signal_connect(	controller->model,
 				"notify::ready",
-				G_CALLBACK(controller_ready_handler),
+				G_CALLBACK(model_ready_handler),
 				controller );
 	g_signal_connect(	controller->model,
 				"notify::idle-active",
@@ -421,7 +421,7 @@ static void connect_signals(GmpvController *controller)
 
 	g_signal_connect(	controller->view,
 				"ready",
-				G_CALLBACK(ready_handler),
+				G_CALLBACK(view_ready_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"render",
@@ -548,7 +548,7 @@ static void idle_active_handler(	GObject *object,
 	}
 }
 
-static void controller_ready_handler(	GObject *object,
+static void model_ready_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data )
 {
