@@ -216,7 +216,10 @@ static void open_handler(	GApplication *gapp,
 	GmpvApplication *app = data;
 	gboolean ready = FALSE;
 
-	g_object_get(app->controller, "ready", &ready, NULL);
+	if(app->controller)
+	{
+		g_object_get(app->controller, "ready", &ready, NULL);
+	}
 
 	app->enqueue = (g_strcmp0(hint, "enqueue") == 0);
 
