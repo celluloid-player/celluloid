@@ -554,7 +554,6 @@ static void controller_ready_handler(	GObject *object,
 {
 	GmpvController *controller = data;
 
-	/* current_vo should be NULL if the selected vo is opengl-cb */
 	if(gmpv_model_get_use_opengl_cb(controller->model))
 	{
 		gmpv_view_set_use_opengl_cb(controller->view, TRUE);
