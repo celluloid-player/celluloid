@@ -550,17 +550,26 @@ static void model_ready_handler(	GObject *object,
 					gpointer data )
 {
 	GmpvController *controller = data;
-	gboolean use_opengl_cb = gmpv_model_get_use_opengl_cb(controller->model);
+	gboolean ready = FALSE;
 
-	gmpv_view_set_use_opengl_cb(controller->view, use_opengl_cb);
+	g_object_get(object, "ready", &ready, NULL);
 
-	if(use_opengl_cb)
+	if(ready)
 	{
-		gmpv_view_make_gl_context_current(controller->view);
-		gmpv_model_initialize_gl(controller->model);
+		gboolean use_opengl_cb;
+
+		use_opengl_cb = gmpv_model_get_use_opengl_cb(controller->model);
+
+		gmpv_view_set_use_opengl_cb(controller->view, use_opengl_cb);
+
+		if(use_opengl_cb)
+		{
+			gmpv_view_make_gl_context_current(controller->view);
+			gmpv_model_initialize_gl(controller->model);
+		}
 	}
 
-	controller->ready = TRUE;
+	controller->ready = ready;
 	g_object_notify(data, "ready");
 }
 

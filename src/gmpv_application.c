@@ -398,8 +398,11 @@ static void idle_handler(	GObject *object,
 static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 {
 	GmpvApplication *app = data;
+	gboolean ready = FALSE;
 
-	if(app->files)
+	g_object_get(object, "ready", &ready, NULL);
+
+	if(ready && app->files)
 	{
 		for(gint i = 0; app->files[i]; i++)
 		{
