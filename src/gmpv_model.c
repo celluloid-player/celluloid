@@ -662,11 +662,17 @@ void gmpv_model_initialize(GmpvModel *model)
 
 void gmpv_model_reset(GmpvModel *model)
 {
+	GMPV_MODEL(model)->ready = FALSE;
+	g_object_notify(G_OBJECT(model), "ready");
+
 	gmpv_mpv_reset(model->mpv);
 }
 
 void gmpv_model_quit(GmpvModel *model)
 {
+	GMPV_MODEL(model)->ready = FALSE;
+	g_object_notify(G_OBJECT(model), "ready");
+
 	gmpv_mpv_quit(model->mpv);
 }
 
