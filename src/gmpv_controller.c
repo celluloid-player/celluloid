@@ -550,10 +550,12 @@ static void model_ready_handler(	GObject *object,
 					gpointer data )
 {
 	GmpvController *controller = data;
+	gboolean use_opengl_cb = gmpv_model_get_use_opengl_cb(controller->model);
 
-	if(gmpv_model_get_use_opengl_cb(controller->model))
+	gmpv_view_set_use_opengl_cb(controller->view, use_opengl_cb);
+
+	if(use_opengl_cb)
 	{
-		gmpv_view_set_use_opengl_cb(controller->view, TRUE);
 		gmpv_view_make_gl_context_current(controller->view);
 		gmpv_model_initialize_gl(controller->model);
 	}
