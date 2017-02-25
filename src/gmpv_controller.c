@@ -300,9 +300,6 @@ static void playlist_reordered_handler(	GmpvView *view,
 
 static void connect_signals(GmpvController *controller)
 {
-	g_object_bind_property(	controller->model, "ready",
-				controller, "ready",
-				G_BINDING_DEFAULT );
 	g_object_bind_property_full(	controller->model, "aid",
 					controller, "aid",
 					G_BINDING_BIDIRECTIONAL,
@@ -560,6 +557,9 @@ static void model_ready_handler(	GObject *object,
 		gmpv_view_make_gl_context_current(controller->view);
 		gmpv_model_initialize_gl(controller->model);
 	}
+
+	controller->ready = TRUE;
+	g_object_notify(data, "ready");
 }
 
 static void frame_ready_handler(GmpvModel *model, gpointer data)
