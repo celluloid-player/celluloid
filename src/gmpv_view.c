@@ -804,8 +804,9 @@ static void drag_data_handler(	GtkWidget *widget,
 	{
 		if(!uri_list)
 		{
-			uri_list = g_malloc(sizeof(gchar *));
+			uri_list = g_malloc(2*sizeof(gchar *));
 			uri_list[0] = g_strdup((gchar *)raw_data);
+			uri_list[1] = NULL;
 		}
 
 		g_signal_emit_by_name(view, "file-open", uri_list, append);
