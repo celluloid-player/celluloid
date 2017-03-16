@@ -45,6 +45,7 @@ struct _GmpvMpv
 	gdouble autofit_ratio;
 	GmpvGeometry *geometry;
 	gboolean force_opengl;
+	gboolean use_opengl;
 	gint64 wid;
 	void *opengl_cb_callback_data;
 	void (*opengl_cb_callback)(void *data);

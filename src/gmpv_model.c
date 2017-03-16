@@ -818,13 +818,7 @@ void gmpv_model_load_file(GmpvModel *model, const gchar *uri, gboolean append)
 
 gboolean gmpv_model_get_use_opengl_cb(GmpvModel *model)
 {
-	/* current_vo should be NULL if the selected vo is opengl-cb */
-	gchar *current_vo = gmpv_mpv_get_property_string(model->mpv, "current-vo");
-	gboolean use_opengl_cb = !current_vo;
-
-	mpv_free(current_vo);
-
-	return use_opengl_cb;
+	return gmpv_mpv_get_use_opengl_cb(model->mpv);
 }
 
 void gmpv_model_initialize_gl(GmpvModel *model)

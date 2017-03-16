@@ -843,6 +843,7 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->state.init_load = TRUE;
 
 	mpv->force_opengl = FALSE;
+	mpv->use_opengl = FALSE;
 	mpv->glarea = NULL;
 	mpv->wid = -1;
 	mpv->opengl_cb_callback_data = NULL;
@@ -885,6 +886,11 @@ inline mpv_handle *gmpv_mpv_get_mpv_handle(GmpvMpv *mpv)
 inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 {
 	return mpv->opengl_ctx;
+}
+
+inline gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv)
+{
+	return mpv->use_opengl;
 }
 
 GSList *gmpv_mpv_get_track_list(GmpvMpv *mpv)
@@ -1033,10 +1039,11 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 
 	mpv_version = gmpv_mpv_get_property_string(mpv, "mpv-version");
 	current_vo = gmpv_mpv_get_property_string(mpv, "current-vo");
+	mpv->use_opengl = !current_vo;
 
 	g_info("Using %s", mpv_version);
 
-	if(current_vo && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
+	if(!mpv->use_opengl && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
 	{
 		g_info(	"The chosen vo is %s but the display is not X11; "
 			"forcing --vo=opengl-cb and resetting",
@@ -1061,8 +1068,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 					MPV_FORMAT_DOUBLE,
 					&volume );
 
-		/* The vo should be opengl-cb if current_vo is NULL*/
-		if(!current_vo)
+		if(mpv->use_opengl)
 		{
 			mpv->opengl_ctx =	mpv_get_sub_api
 						(	mpv->mpv_ctx,
