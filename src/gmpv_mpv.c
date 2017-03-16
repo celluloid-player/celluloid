@@ -397,17 +397,17 @@ static gboolean mpv_event_handler(gpointer data)
 
 static void update_playlist(GmpvMpv *mpv)
 {
-	/* The length of "playlist//filename" including null-terminator (19)
-	 * plus the number of digits in the maximum value of 64 bit int (19).
-	 */
-	const gsize filename_prop_str_size = 38;
 	GtkListStore *store = gmpv_playlist_get_store(mpv->playlist);
-	gchar *filename_prop_str = g_malloc(filename_prop_str_size);
 	gboolean iter_end = FALSE;
 	GtkTreeIter iter;
 	mpv_node mpv_playlist;
 	gint playlist_count;
 	gint i;
+
+	if(!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter))
+	{
+		return;
+	}
 
 	mpv_get_property(	mpv->mpv_ctx,
 				"playlist",
@@ -415,8 +415,6 @@ static void update_playlist(GmpvMpv *mpv)
 				&mpv_playlist );
 
 	playlist_count = mpv_playlist.u.list->num;
-
-	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
 
 	for(i = 0; i < playlist_count; i++)
 	{
@@ -504,7 +502,6 @@ static void update_playlist(GmpvMpv *mpv)
 		while(gtk_list_store_remove(store, &iter));
 	}
 
-	g_free(filename_prop_str);
 	mpv_free_node_contents(&mpv_playlist);
 }
 
