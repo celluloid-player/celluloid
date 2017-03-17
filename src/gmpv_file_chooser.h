@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 #define GMPV_FILE_CHOOSER GTK_WIDGET
 #define GmpvFileChooser GtkWidget
 #define gmpv_file_chooser_destroy(x) gtk_widget_destroy(GTK_WIDGET(x))
-#define gmpv_file_chooser_show(x) gtk_widget_show_all(GTK_DIALOG(x))
+#define gmpv_file_chooser_show(x) gtk_widget_show_all(GTK_WIDGET(x))
 #define gmpv_file_chooser_set_modal(x, y) gtk_window_set_modal(GTK_WINDOW(x), y)
 #define gmpv_file_chooser_run(x) gtk_dialog_run(GTK_DIALOG(x))
 #endif
