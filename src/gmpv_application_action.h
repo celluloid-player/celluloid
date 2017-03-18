@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,8 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONCTL_H
-#define ACTIONCTL_H
+#ifndef APPLICATION_ACTION_H
+#define APPLICATION_ACTION_H
 
 #include <glib.h>
 
@@ -26,7 +26,7 @@
 
 G_BEGIN_DECLS
 
-void gmpv_actionctl_map_actions(GmpvApplication *app);
+void gmpv_application_action_add_actions(GmpvApplication *app);
 
 G_END_DECLS
 

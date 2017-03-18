@@ -37,9 +37,9 @@ media_key_files = media_keys/gmpv_media_keys.c media_keys/gmpv_media_keys.h
 BUILT_SOURCES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 
 gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
-			gmpv_actionctl.c gmpv_actionctl.h \
 			gmpv_application.c gmpv_application.h \
 			gmpv_application_private.h \
+			gmpv_application_action.c gmpv_application_action.h \
 			gmpv_common.c gmpv_common.h \
 			gmpv_controller.c gmpv_controller.h \
 			gmpv_controller_private.h \

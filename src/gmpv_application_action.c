@@ -19,7 +19,7 @@
 
 #include <glib/gi18n.h>
 
-#include "gmpv_actionctl.h"
+#include "gmpv_application_action.h"
 #include "gmpv_file_chooser.h"
 #include "gmpv_application_private.h"
 #include "gmpv_common.h"
@@ -378,7 +378,7 @@ static void show_about_dialog_handler(	GSimpleAction *action,
 	gmpv_view_show_about_dialog(GMPV_APPLICATION(data)->view);
 }
 
-void gmpv_actionctl_map_actions(GmpvApplication *app)
+void gmpv_application_action_add_actions(GmpvApplication *app)
 {
 	const GActionEntry entries[]
 		= {	{.name = "show-open-dialog",

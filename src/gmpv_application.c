@@ -25,7 +25,7 @@
 
 #include "gmpv_application.h"
 #include "gmpv_application_private.h"
-#include "gmpv_actionctl.h"
+#include "gmpv_application_action.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_common.h"
 #include "gmpv_menu.h"
@@ -176,7 +176,7 @@ static void initialize_gui(GmpvApplication *app)
 				G_CALLBACK(shutdown_handler),
 				app );
 
-	gmpv_actionctl_map_actions(app);
+	gmpv_application_action_add_actions(app);
 	gmpv_mpris_init(app);
 	gmpv_media_keys_init(app);
 
