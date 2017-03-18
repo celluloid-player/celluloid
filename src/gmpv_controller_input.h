@@ -17,16 +17,16 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INPUTCTL_H
-#define INPUTCTL_H
+#ifndef CONTROLLER_INPUT_H
+#define CONTROLLER_INPUT_H
 
 #include <glib.h>
 
-#include "gmpv_controller.h"
+#include "gmpv_controller_input.h"
 
 G_BEGIN_DECLS
 
-void gmpv_inputctl_connect_signals(GmpvController *controller);
+void gmpv_controller_input_connect_signals(GmpvController *controller);
 
 G_END_DECLS
 

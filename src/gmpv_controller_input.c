@@ -24,7 +24,8 @@
 #include <string.h>
 
 #include "gmpv_controller_private.h"
-#include "gmpv_inputctl.h"
+#include "gmpv_controller.h"
+#include "gmpv_controller_input.h"
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_main_window.h"
@@ -241,7 +242,7 @@ static gboolean scroll_handler(	GtkWidget *widget,
 	return TRUE;
 }
 
-void gmpv_inputctl_connect_signals(GmpvController *controller)
+void gmpv_controller_input_connect_signals(GmpvController *controller)
 {
 	g_signal_connect(	controller->view,
 				"key-press-event",

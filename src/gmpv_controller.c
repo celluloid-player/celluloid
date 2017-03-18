@@ -26,7 +26,7 @@
 
 #include "gmpv_controller_private.h"
 #include "gmpv_controller.h"
-#include "gmpv_inputctl.h"
+#include "gmpv_controller_input.h"
 #include "gmpv_track.h"
 #include "gmpv_def.h"
 
@@ -113,7 +113,7 @@ static void constructed(GObject *object)
 	GmpvController *controller = GMPV_CONTROLLER(object);
 
 	connect_signals(controller);
-	gmpv_inputctl_connect_signals(controller);
+	gmpv_controller_input_connect_signals(controller);
 }
 
 static void set_property(	GObject *object,
