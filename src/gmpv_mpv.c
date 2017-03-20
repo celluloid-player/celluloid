@@ -345,9 +345,11 @@ static gboolean mpv_event_handler(gpointer data)
 			if(mpv->state.new_file)
 			{
 				gmpv_mpv_opt_handle_autofit(mpv);
-			}
 
-			g_signal_emit_by_name(mpv, "video-reconfig");
+				g_signal_emit_by_name(	mpv,
+							"autofit",
+							mpv->autofit_ratio );
+			}
 		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
 		{
@@ -806,15 +808,16 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
-	g_signal_new(	"video-reconfig",
+	g_signal_new(	"autofit",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
 			NULL,
 			NULL,
-			g_cclosure_marshal_VOID__VOID,
+			g_cclosure_marshal_VOID__DOUBLE,
 			G_TYPE_NONE,
-			0 );
+			1,
+			G_TYPE_DOUBLE );
 	g_signal_new(	"shutdown",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

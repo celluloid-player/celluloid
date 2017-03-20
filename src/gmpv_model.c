@@ -93,7 +93,7 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 						GParamFlags flags );
 static gboolean emit_frame_ready(gpointer data);
 static void opengl_cb_update_callback(gpointer opengl_cb_ctx);
-static void video_reconfig_handler(GmpvMpv *mpv, gpointer data);
+static void autofit_handler(GmpvMpv *mpv, gdouble ratio, gpointer data);
 static void mpv_init_handler(GmpvMpv *mpv, gpointer data);
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
@@ -109,8 +109,8 @@ static void constructed(GObject *object)
 	GmpvModel *model = GMPV_MODEL(object);
 
 	g_signal_connect(	model->mpv,
-				"video-reconfig",
-				G_CALLBACK(video_reconfig_handler),
+				"autofit",
+				G_CALLBACK(autofit_handler),
 				model );
 	g_signal_connect(	model->mpv,
 				"mpv-init",
@@ -472,15 +472,9 @@ static void opengl_cb_update_callback(gpointer data)
 				NULL );
 }
 
-static void video_reconfig_handler(GmpvMpv *mpv, gpointer data)
+static void autofit_handler(GmpvMpv *mpv, gdouble ratio, gpointer data)
 {
-	const GmpvMpvState *state = gmpv_mpv_get_state(mpv);
-	gdouble ratio = gmpv_mpv_get_autofit_ratio(mpv);
-
-	if(state->new_file && ratio > 0)
-	{
-		g_signal_emit_by_name(data, "autofit", ratio);
-	}
+	g_signal_emit_by_name(data, "autofit", ratio);
 }
 
 static void mpv_init_handler(GmpvMpv *mpv, gpointer data)
