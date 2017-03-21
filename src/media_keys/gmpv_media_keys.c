@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -21,10 +21,10 @@
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 
+#include "gmpv_application_private.h"
 #include "gmpv_main_window.h"
 #include "gmpv_media_keys.h"
-#include "gmpv_mpv.h"
-#include "gmpv_mpv_wrapper.h"
+#include "gmpv_model.h"
 #include "gmpv_def.h"
 
 static gboolean delete_handler(	GtkWidget *widget,
@@ -100,49 +100,35 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 
 	if(g_strcmp0(gmpv_application, APP_ID) == 0)
 	{
-		GmpvMpv *mpv = gmpv_application_get_mpv(inst->gmpv_ctx);
+		GmpvModel *model = GMPV_APPLICATION(inst->gmpv_ctx)->model;
 
 		if(g_strcmp0(key, "Next") == 0)
 		{
-			const gchar *cmd[] = {"playlist_next", "weak", NULL};
-
-			gmpv_mpv_command(mpv, cmd);
+			gmpv_model_next_playlist_entry(model);
 		}
 		else if(g_strcmp0(key, "Previous") == 0)
 		{
-			const gchar *cmd[] = {"playlist_prev", "weak", NULL};
-
-			gmpv_mpv_command(mpv, cmd);
+			gmpv_model_previous_playlist_entry(model);
 		}
 		else if(g_strcmp0(key, "Pause") == 0)
 		{
-			gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
+			gmpv_model_pause(model);
 		}
 		else if(g_strcmp0(key, "Stop") == 0)
 		{
-			const gchar *cmd[] = {"stop", NULL};
-
-			gmpv_mpv_command(mpv, cmd);
+			gmpv_model_stop(model);
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
-			gboolean paused;
-
-			paused = gmpv_mpv_get_property_flag(mpv, "pause");
-
-			gmpv_mpv_set_property_flag(mpv, "pause", !paused);
+			gmpv_model_play(model);
 		}
 		else if(g_strcmp0(key, "FastForward") == 0)
 		{
-			const gchar *cmd[] = {"seek", "10", NULL};
-
-			gmpv_mpv_command(mpv, cmd);
+			gmpv_model_forward(model);
 		}
 		else if(g_strcmp0(key, "Rewind") == 0)
 		{
-			const gchar *cmd[] = {"seek", "-10", NULL};
-
-			gmpv_mpv_command(mpv, cmd);
+			gmpv_model_rewind(model);
 		}
 	}
 }
