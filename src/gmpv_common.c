@@ -176,29 +176,6 @@ gboolean update_seek_bar(gpointer data)
 	return !!mpv_ctx;
 }
 
-void seek(GmpvApplication *app, gdouble time)
-{
-	const gchar *cmd[] = {"seek", NULL, "absolute", NULL};
-	GmpvMpv *mpv = gmpv_application_get_mpv(app);
-
-	if(!gmpv_mpv_get_state(mpv)->loaded)
-	{
-		gmpv_mpv_load(mpv, NULL, FALSE, TRUE);
-	}
-	else
-	{
-		gchar *value_str = g_strdup_printf("%.2f", time);
-
-		cmd[1] = value_str;
-
-		gmpv_mpv_command(mpv, cmd);
-		update_seek_bar(app);
-
-		g_free(value_str);
-	}
-
-}
-
 void show_message_dialog(	GmpvMainWindow *wnd,
 				GtkMessageType type,
 				const gchar *prefix,
