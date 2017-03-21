@@ -871,11 +871,6 @@ inline GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv)
 	return mpv->geometry;
 }
 
-inline gdouble gmpv_mpv_get_autofit_ratio(GmpvMpv *mpv)
-{
-	return mpv->autofit_ratio;
-}
-
 inline GmpvPlaylist *gmpv_mpv_get_playlist(GmpvMpv *mpv)
 {
 	return mpv->playlist;

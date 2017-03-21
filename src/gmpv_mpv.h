@@ -49,7 +49,6 @@ struct _GmpvMpvState
 GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid);
 const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv);
 GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv);
-gdouble gmpv_mpv_get_autofit_ratio(GmpvMpv *mpv);
 GmpvPlaylist *gmpv_mpv_get_playlist(GmpvMpv *mpv);
 mpv_handle *gmpv_mpv_get_mpv_handle(GmpvMpv *mpv);
 mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv);
