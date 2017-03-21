@@ -39,7 +39,10 @@ enum
 	PROP_LOOP,
 	PROP_DURATION,
 	PROP_MEDIA_TITLE,
+	PROP_METADATA,
+	PROP_PLAYLIST_COUNT,
 	PROP_PLAYLIST_POS,
+	PROP_SPEED,
 	PROP_TRACK_LIST,
 	PROP_VOLUME,
 	N_PROPERTIES
@@ -62,7 +65,10 @@ struct _GmpvModel
 	gchar *loop;
 	gdouble duration;
 	gchar *media_title;
+	GSList *metadata;
+	gint64 playlist_count;
 	gint64 playlist_pos;
+	gdouble speed;
 	GSList *track_list;
 	gdouble volume;
 };
@@ -95,6 +101,7 @@ static gboolean emit_frame_ready(gpointer data);
 static void opengl_cb_update_callback(gpointer opengl_cb_ctx);
 static void autofit_handler(GmpvMpv *mpv, gdouble ratio, gpointer data);
 static void mpv_init_handler(GmpvMpv *mpv, gpointer data);
+static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data);
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value,
@@ -115,6 +122,10 @@ static void constructed(GObject *object)
 	g_signal_connect(	model->mpv,
 				"mpv-init",
 				G_CALLBACK(mpv_init_handler),
+				model );
+	g_signal_connect(	model->mpv,
+				"mpv-playback-restart",
+				G_CALLBACK(mpv_playback_restart_handler),
 				model );
 	g_signal_connect(	model->mpv,
 				"mpv-prop-change",
@@ -195,8 +206,22 @@ static void set_property(	GObject *object,
 		self->media_title = g_value_dup_string(value);
 		break;
 
+		case PROP_METADATA:
+		g_slist_free_full(	self->metadata,
+					(GDestroyNotify)gmpv_metadata_entry_free );
+		self->metadata = gmpv_mpv_get_metadata(self->mpv);
+		break;
+
+		case PROP_PLAYLIST_COUNT:
+		self->playlist_count = g_value_get_int64(value);
+		break;
+
 		case PROP_PLAYLIST_POS:
 		self->playlist_pos = g_value_get_int64(value);
+		break;
+
+		case PROP_SPEED:
+		self->speed = g_value_get_double(value);
 		break;
 
 		case PROP_TRACK_LIST:
@@ -282,8 +307,20 @@ static void get_property(	GObject *object,
 		g_value_set_string(value, self->media_title);
 		break;
 
+		case PROP_METADATA:
+		g_value_set_pointer(value, self->metadata);
+		break;
+
+		case PROP_PLAYLIST_COUNT:
+		g_value_set_int64(value, self->playlist_count);
+		break;
+
 		case PROP_PLAYLIST_POS:
 		g_value_set_int64(value, self->playlist_pos);
+		break;
+
+		case PROP_SPEED:
+		g_value_set_double(value, self->speed);
 		break;
 
 		case PROP_TRACK_LIST:
@@ -363,6 +400,13 @@ static void set_mpv_property(	GObject *object,
 					"playlist-pos",
 					MPV_FORMAT_INT64,
 					&self->playlist_pos );
+		break;
+
+		case PROP_SPEED:
+		gmpv_mpv_set_property(	self->mpv,
+					"speed",
+					MPV_FORMAT_DOUBLE,
+					&self->speed );
 		break;
 
 		case PROP_VOLUME:
@@ -483,6 +527,11 @@ static void mpv_init_handler(GmpvMpv *mpv, gpointer data)
 	g_object_notify(data, "ready");
 }
 
+static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data)
+{
+	g_signal_emit_by_name(data, "playback-restart");
+}
+
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value,
@@ -540,7 +589,10 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			{"loop", PROP_LOOP, G_TYPE_STRING},
 			{"duration", PROP_DURATION, G_TYPE_DOUBLE},
 			{"media-title", PROP_MEDIA_TITLE, G_TYPE_STRING},
+			{"metadata", PROP_METADATA, G_TYPE_POINTER},
+			{"playlist-count", PROP_PLAYLIST_COUNT, G_TYPE_INT64},
 			{"playlist-pos", PROP_PLAYLIST_POS, G_TYPE_INT64},
+			{"speed", PROP_SPEED, G_TYPE_DOUBLE},
 			{"track-list", PROP_TRACK_LIST, G_TYPE_POINTER},
 			{"volume", PROP_VOLUME, G_TYPE_DOUBLE},
 			{NULL, PROP_INVALID, 0} };
@@ -578,6 +630,15 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			(obj_class, mpv_props[i].id, pspec);
 	}
 
+	g_signal_new(	"playback-restart",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
 	g_signal_new(	"frame-ready",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -634,7 +695,10 @@ static void gmpv_model_init(GmpvModel *model)
 	model->loop = NULL;
 	model->duration = 0.0;
 	model->media_title = NULL;
+	model->metadata = NULL;
+	model->playlist_count = 0;
 	model->playlist_pos = 0;
+	model->speed = 1.0;
 	model->track_list = NULL;
 	model->volume = 1.0;
 }
@@ -774,6 +838,17 @@ void gmpv_model_seek(GmpvModel *model, gdouble value)
 	gmpv_mpv_set_property(model->mpv, "time-pos", MPV_FORMAT_DOUBLE, &value);
 }
 
+void gmpv_model_seek_offset(GmpvModel *model, gdouble offset)
+{
+	const gchar *cmd[] = {"seek", NULL, NULL};
+	gchar buf[G_ASCII_DTOSTR_BUF_SIZE];
+
+	g_ascii_dtostr(buf, G_ASCII_DTOSTR_BUF_SIZE, offset);
+	cmd[1] = buf;
+
+	gmpv_mpv_command(model->mpv, cmd);
+}
+
 void gmpv_model_load_audio_track(GmpvModel *model, const gchar *filename)
 {
 	gmpv_mpv_load_track(model->mpv, filename, TRACK_TYPE_AUDIO);
@@ -782,6 +857,29 @@ void gmpv_model_load_audio_track(GmpvModel *model, const gchar *filename)
 void gmpv_model_load_subtitle_track(GmpvModel *model, const gchar *filename)
 {
 	gmpv_mpv_load_track(model->mpv, filename, TRACK_TYPE_SUBTITLE);
+}
+
+gdouble gmpv_model_get_time_position(GmpvModel *model)
+{
+	gdouble time_pos = 0.0;
+
+	gmpv_mpv_get_property(	model->mpv,
+				"time-pos",
+				MPV_FORMAT_DOUBLE,
+				&time_pos );
+
+	return time_pos;
+}
+
+void gmpv_model_set_playlist_position(GmpvModel *model, gint64 position)
+{
+	if(position != model->playlist_pos)
+	{
+		gmpv_mpv_set_property(	model->mpv,
+					"playlist-pos",
+					MPV_FORMAT_INT64,
+					&position );
+	}
 }
 
 void gmpv_model_remove_playlist_entry(GmpvModel *model, gint64 position)
@@ -855,6 +953,16 @@ void gmpv_model_get_video_geometry(	GmpvModel *model,
 {
 	gmpv_mpv_get_property(model->mpv, "dwidth", MPV_FORMAT_INT64, width);
 	gmpv_mpv_get_property(model->mpv, "dheight", MPV_FORMAT_INT64, height);
+}
+
+gchar *gmpv_model_get_current_path(GmpvModel *model)
+{
+	gchar *path = gmpv_mpv_get_property_string(model->mpv, "path");
+	gchar *buf = g_strdup(path);
+
+	mpv_free(path);
+
+	return buf;
 }
 
 GmpvPlaylist *gmpv_model_get_playlist(GmpvModel *model)

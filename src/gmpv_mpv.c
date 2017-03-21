@@ -853,6 +853,23 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->opengl_cb_callback = NULL;
 }
 
+GmpvMetadataEntry *gmpv_metadata_entry_new(const gchar *key, const gchar *value)
+{
+	GmpvMetadataEntry *entry = g_malloc(sizeof(GmpvMetadataEntry));
+
+	entry->key = g_strdup(key);
+	entry->value = g_strdup(value);
+
+	return entry;
+}
+
+void gmpv_metadata_entry_free(GmpvMetadataEntry *entry)
+{
+	g_free(entry->key);
+	g_free(entry->value);
+	g_free(entry);
+}
+
 GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid)
 {
 	return GMPV_MPV_OBJ(g_object_new(	gmpv_mpv_get_type(),
@@ -889,6 +906,49 @@ inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 inline gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv)
 {
 	return mpv->use_opengl;
+}
+
+GSList *gmpv_mpv_get_metadata(GmpvMpv *mpv)
+{
+	GSList *result = NULL;
+	mpv_node_list *org_list = NULL;
+	mpv_node metadata;
+
+	gmpv_mpv_get_property(mpv, "metadata", MPV_FORMAT_NODE, &metadata);
+
+	if(metadata.format == MPV_FORMAT_NODE_MAP)
+	{
+		org_list = metadata.u.list;
+
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			const gchar *key;
+			mpv_node value;
+
+			key = org_list->keys[i];
+			value = org_list->values[i];
+
+			if(value.format == MPV_FORMAT_STRING)
+			{
+				GmpvMetadataEntry *entry;
+
+				entry =	gmpv_metadata_entry_new
+					(key, value.u.string);
+				result = g_slist_prepend(result, entry);
+			}
+			else
+			{
+				g_warning(	"Ignored metadata field %s "
+						"with unexpected format %d",
+						key,
+						value.format );
+			}
+		}
+
+		mpv_free_node_contents(&metadata);
+	}
+
+	return g_slist_reverse(result);
 }
 
 GSList *gmpv_mpv_get_track_list(GmpvMpv *mpv)
@@ -1028,8 +1088,10 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 	mpv_observe_property(mpv->mpv_ctx, 0, "loop", MPV_FORMAT_STRING);
 	mpv_observe_property(mpv->mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv->mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 	mpv_set_wakeup_callback(mpv->mpv_ctx, wakeup_callback, mpv);

@@ -49,8 +49,11 @@ void gmpv_model_previous_chapter(GmpvModel *model);
 void gmpv_model_next_playlist_entry(GmpvModel *model);
 void gmpv_model_previous_playlist_entry(GmpvModel *model);
 void gmpv_model_seek(GmpvModel *model, gdouble value);
+void gmpv_model_seek_offset(GmpvModel *model, gdouble offset);
 void gmpv_model_load_audio_track(GmpvModel *model, const gchar *filename);
 void gmpv_model_load_subtitle_track(GmpvModel *model, const gchar *filename);
+gdouble gmpv_model_get_time_position(GmpvModel *model);
+void gmpv_model_set_playlist_position(GmpvModel *model, gint64 position);
 void gmpv_model_remove_playlist_entry(GmpvModel *model, gint64 position);
 void gmpv_model_move_playlist_entry(GmpvModel *model, gint64 src, gint64 dst);
 void gmpv_model_load_file(GmpvModel *model, const gchar *uri, gboolean append);
@@ -60,6 +63,7 @@ void gmpv_model_render_frame(GmpvModel *model, gint width, gint height);
 void gmpv_model_get_video_geometry(	GmpvModel *model,
 					gint64 *width,
 					gint64 *height );
+gchar *gmpv_model_get_current_path(GmpvModel *model);
 GmpvPlaylist *gmpv_model_get_playlist(GmpvModel *model);
 
 G_END_DECLS

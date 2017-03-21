@@ -36,6 +36,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV_OBJ, GObject)
 
 typedef struct _GmpvMpvState GmpvMpvState;
+typedef struct _GmpvMetadataEntry GmpvMetadataEntry;
 
 struct _GmpvMpvState
 {
@@ -46,6 +47,15 @@ struct _GmpvMpvState
 	gboolean init_load;
 };
 
+struct _GmpvMetadataEntry
+{
+	gchar *key;
+	gchar *value;
+};
+
+GmpvMetadataEntry *gmpv_metadata_entry_new(const gchar *key, const gchar *value);
+void gmpv_metadata_entry_free(GmpvMetadataEntry *entry);
+
 GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid);
 const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv);
 GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv);
@@ -53,6 +63,7 @@ GmpvPlaylist *gmpv_mpv_get_playlist(GmpvMpv *mpv);
 mpv_handle *gmpv_mpv_get_mpv_handle(GmpvMpv *mpv);
 mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv);
 gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv);
+GSList *gmpv_mpv_get_metadata(GmpvMpv *mpv);
 GSList *gmpv_mpv_get_track_list(GmpvMpv *mpv);
 void gmpv_mpv_initialize(GmpvMpv *mpv);
 void gmpv_mpv_init_gl(GmpvMpv *mpv);
