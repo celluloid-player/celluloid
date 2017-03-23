@@ -216,15 +216,15 @@
 					"rar",\
 					NULL }
 
-#define SUPPORTED_MIME_TYPES	{	"gmpv_application/ogg",\
-					"gmpv_application/x-ogg",\
-					"gmpv_application/sdp",\
-					"gmpv_application/smil",\
-					"gmpv_application/x-smil",\
-					"gmpv_application/streamingmedia",\
-					"gmpv_application/x-streamingmedia",\
-					"gmpv_application/vnd.rn-realmedia",\
-					"gmpv_application/vnd.rn-realmedia-vbr",\
+#define SUPPORTED_MIME_TYPES	{	"application/ogg",\
+					"application/x-ogg",\
+					"application/sdp",\
+					"application/smil",\
+					"application/x-smil",\
+					"application/streamingmedia",\
+					"application/x-streamingmedia",\
+					"application/vnd.rn-realmedia",\
+					"application/vnd.rn-realmedia-vbr",\
 					"audio/aac",\
 					"audio/x-aac",\
 					"audio/m4a",\
