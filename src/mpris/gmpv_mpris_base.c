@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -23,8 +23,8 @@
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 
-#include "gmpv_application.h"
-#include "gmpv_main_window.h"
+#include "gmpv_application_private.h"
+#include "gmpv_view.h"
 #include "gmpv_mpris.h"
 #include "gmpv_mpris_base.h"
 #include "gmpv_mpris_gdbus.h"
@@ -54,9 +54,9 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					GVariant *value,
 					GError **error,
 					gpointer data );
-static gboolean window_state_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data );
+static void fullscreen_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data );
 static GVariant *get_supported_uri_schemes(void);
 static GVariant *get_supported_mime_types(void);
 
@@ -97,10 +97,7 @@ static void method_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(method_name, "Raise") == 0)
 	{
-		GmpvMainWindow *wnd =	gmpv_application_get_main_window
-					(inst->gmpv_ctx);
-
-		gtk_window_present(GTK_WINDOW(wnd));
+		gmpv_view_present(inst->gmpv_ctx->view);
 	}
 	else if(g_strcmp0(method_name, "Quit") == 0)
 	{
@@ -138,12 +135,11 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					gpointer data )
 {
 	gmpv_mpris *inst = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
-	if(g_strcmp0(property_name, "Fullscreen") == 0
-	&& g_variant_get_boolean(value) != gmpv_main_window_get_fullscreen(wnd))
+	if(g_strcmp0(property_name, "Fullscreen") == 0)
 	{
-		gmpv_main_window_toggle_fullscreen(wnd);
+		gmpv_view_set_fullscreen
+			(inst->gmpv_ctx->view, g_variant_get_boolean(value));
 	}
 	else
 	{
@@ -155,23 +151,27 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 	return TRUE; /* This function should always succeed */
 }
 
-static gboolean window_state_handler(	GtkWidget *widget,
-					GdkEvent *event,
-					gpointer data )
+static void fullscreen_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data )
 {
 	gmpv_mpris *inst = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
-	GdkEventWindowState *window_state_event = (GdkEventWindowState *)event;
+	GVariant *old_value = NULL;
+	gboolean fullscreen = FALSE;
 
-	if(window_state_event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
+	old_value = g_hash_table_lookup(	inst->base_prop_table,
+						g_strdup("Fullscreen") );
+
+	g_object_get(object, "fullscreen", &fullscreen, NULL);
+
+	if(g_variant_get_boolean(old_value) != fullscreen)
 	{
 		GDBusInterfaceInfo *iface;
 		GVariant *value;
 		gmpv_mpris_prop *prop_list;
 
 		iface = gmpv_mpris_org_mpris_media_player2_interface_info();
-		value =	g_variant_new_boolean
-			(gmpv_main_window_get_fullscreen(wnd));
+		value =	g_variant_new_boolean(fullscreen);
 
 		g_hash_table_replace(	inst->base_prop_table,
 					g_strdup("Fullscreen"),
@@ -184,7 +184,6 @@ static gboolean window_state_handler(	GtkWidget *widget,
 		gmpv_mpris_emit_prop_changed(inst, iface->name, prop_list);
 	}
 
-	return FALSE;
 }
 
 static GVariant *get_supported_uri_schemes(void)
@@ -203,11 +202,11 @@ static GVariant *get_supported_mime_types(void)
 
 void gmpv_mpris_base_register(gmpv_mpris *inst)
 {
-	GmpvMainWindow *wnd;
+	GmpvView *view;
 	GDBusInterfaceVTable vtable;
 	GDBusInterfaceInfo *iface;
 
-	wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
+	view = inst->gmpv_ctx->view;
 	iface = gmpv_mpris_org_mpris_media_player2_interface_info();
 
 	inst->base_prop_table =	g_hash_table_new_full
@@ -218,9 +217,9 @@ void gmpv_mpris_base_register(gmpv_mpris *inst)
 	inst->base_sig_id_list = g_malloc(2*sizeof(gulong));
 
 	inst->base_sig_id_list[0] =	g_signal_connect
-					(	wnd,
-						"window-state-event",
-						G_CALLBACK(window_state_handler),
+					(	view,
+						"notify::fullscreen",
+						G_CALLBACK(fullscreen_handler),
 						inst );
 	inst->base_sig_id_list[1] = 0;
 
@@ -248,10 +247,8 @@ void gmpv_mpris_base_unregister(gmpv_mpris *inst)
 	{
 		while(current_sig_id && *current_sig_id > 0)
 		{
-			GmpvMainWindow *wnd;
-
-			wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
-			g_signal_handler_disconnect(wnd, *current_sig_id);
+			g_signal_handler_disconnect
+				(inst->gmpv_ctx->view, *current_sig_id);
 
 			current_sig_id++;
 		}
