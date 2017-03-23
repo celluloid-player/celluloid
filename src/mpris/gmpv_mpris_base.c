@@ -69,7 +69,7 @@ static void prop_table_init(gmpv_mpris *inst)
 			"Fullscreen", g_variant_new_boolean(FALSE),
 			"HasTrackList", g_variant_new_boolean(FALSE),
 			"Identity", g_variant_new_string(g_get_application_name()),
-			"DesktopEntry", g_variant_new_string(ICON_NAME),
+			"DesktopEntry", g_variant_new_string(APP_ID),
 			"SupportedUriSchemes", get_supported_uri_schemes(),
 			"SupportedMimeTypes", get_supported_mime_types(),
 			NULL };
@@ -214,8 +214,8 @@ void gmpv_mpris_base_register(gmpv_mpris *inst)
 					g_str_equal,
 					NULL,
 					(GDestroyNotify)g_variant_unref );
-	inst->base_sig_id_list = g_malloc(2*sizeof(gulong));
 
+	inst->base_sig_id_list = g_malloc(2*sizeof(gulong));
 	inst->base_sig_id_list[0] =	g_signal_connect
 					(	view,
 						"notify::fullscreen",
