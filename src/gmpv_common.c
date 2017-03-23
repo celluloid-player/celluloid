@@ -146,36 +146,6 @@ void migrate_config(GmpvApplication *app)
 	g_object_unref(new_settings);
 }
 
-gboolean update_seek_bar(gpointer data)
-{
-	GmpvApplication *app = data;
-	GmpvMpv *mpv = gmpv_application_get_mpv(app);
-	mpv_handle *mpv_ctx = gmpv_mpv_get_mpv_handle(mpv);
-	gdouble time_pos = -1;
-	gint rc = -1;
-
-	if(gmpv_mpv_get_state(mpv)->loaded)
-	{
-		rc = gmpv_mpv_get_property(	mpv,
-						"time-pos",
-						MPV_FORMAT_DOUBLE,
-						&time_pos );
-	}
-
-	if(rc >= 0)
-	{
-		GmpvMainWindow *wnd;
-		GmpvControlBox *control_box;
-
-		wnd = gmpv_application_get_main_window(app);
-		control_box = gmpv_main_window_get_control_box(wnd);
-
-		gmpv_control_box_set_seek_bar_pos(control_box, time_pos);
-	}
-
-	return !!mpv_ctx;
-}
-
 void show_message_dialog(	GmpvMainWindow *wnd,
 				GtkMessageType type,
 				const gchar *prefix,

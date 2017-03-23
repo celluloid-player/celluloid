@@ -1461,3 +1461,11 @@ void gmpv_view_set_fullscreen(GmpvView *view, gboolean fullscreen)
 	g_object_set(view, "fullscreen", fullscreen, NULL);
 	gmpv_main_window_set_fullscreen(view->wnd, fullscreen);
 }
+
+void gmpv_view_set_time_position(GmpvView *view, gdouble position)
+{
+	GmpvControlBox *control_box;
+
+	control_box = gmpv_main_window_get_control_box(view->wnd);
+	gmpv_control_box_set_seek_bar_pos(control_box, position);
+}

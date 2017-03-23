@@ -54,6 +54,7 @@ struct _GmpvController
 	gchar **files;
 	guint inhibit_cookie;
 	gint64 target_playlist_pos;
+	guint update_seekbar_id;
 };
 
 struct _GmpvControllerClass

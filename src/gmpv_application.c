@@ -180,10 +180,6 @@ static void initialize_gui(GmpvApplication *app)
 	gmpv_mpris_init(app);
 	gmpv_media_keys_init(app);
 
-	g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
-			(GSourceFunc)update_seek_bar,
-			app );
-
 	g_free(mpvinput);
 }
 

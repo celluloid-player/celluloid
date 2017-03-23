@@ -65,6 +65,7 @@ static void playlist_reordered_handler(	GmpvView *view,
 					gint dst,
 					gpointer data );
 static void connect_signals(GmpvController *controller);
+static gboolean update_seek_bar(gpointer data);
 static gboolean track_str_to_int(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
@@ -460,6 +461,21 @@ static void connect_signals(GmpvController *controller)
 				"playlist-reordered",
 				G_CALLBACK(playlist_reordered_handler),
 				controller );
+
+	controller->update_seekbar_id
+		= g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
+					(GSourceFunc)update_seek_bar,
+					controller );
+}
+
+gboolean update_seek_bar(gpointer data)
+{
+	GmpvController *controller = data;
+	gdouble time_pos = gmpv_model_get_time_position(controller->model);
+
+	gmpv_view_set_time_position(controller->view, time_pos);
+
+	return TRUE;
 }
 
 static gboolean track_str_to_int(	GBinding *binding,
@@ -609,7 +625,10 @@ static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
 
 static void shutdown_handler(GmpvMpv *mpv, gpointer data)
 {
-	gmpv_view_make_gl_context_current(GMPV_CONTROLLER(data)->view);
+	GmpvController *controller = data;
+
+	g_source_remove(controller->update_seekbar_id);
+	gmpv_view_make_gl_context_current(controller->view);
 }
 
 static void post_shutdown_handler(GmpvMpv *mpv, gpointer data)
@@ -776,6 +795,7 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->files = NULL;
 	controller->inhibit_cookie = 0;
 	controller->target_playlist_pos = -1;
+	controller->update_seekbar_id = 0;
 }
 
 GmpvController *gmpv_controller_new(GmpvModel *model, GmpvView *view)
