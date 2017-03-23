@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -27,7 +27,6 @@
 #include "gmpv_mpris.h"
 #include "gmpv_mpris_base.h"
 #include "gmpv_mpris_player.h"
-#include "gmpv_main_window.h"
 #include "gmpv_def.h"
 
 static void name_acquired_handler(	GDBusConnection *connection,
@@ -36,9 +35,7 @@ static void name_acquired_handler(	GDBusConnection *connection,
 static void name_lost_handler(	GDBusConnection *connection,
 				const gchar *name,
 				gpointer data );
-static gboolean delete_handler(	GtkWidget *widget,
-				GdkEvent *event,
-				gpointer data );
+static gboolean shutdown_handler(GtkApplication *app, gpointer data);
 static void unregister(gmpv_mpris *inst);
 
 static void name_acquired_handler(	GDBusConnection *connection,
@@ -60,14 +57,11 @@ static void name_lost_handler(	GDBusConnection *connection,
 	unregister(data);
 }
 
-static gboolean delete_handler(	GtkWidget *widget,
-				GdkEvent *event,
-				gpointer data )
+static gboolean shutdown_handler(GtkApplication *app, gpointer data)
 {
 	gmpv_mpris *inst = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
 
-	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
+	g_signal_handler_disconnect(app, inst->shutdown_sig_id);
 
 	unregister(inst);
 	g_bus_unown_name(inst->name_id);
@@ -150,11 +144,9 @@ GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list)
 void gmpv_mpris_init(GmpvApplication *gmpv_ctx)
 {
 	gmpv_mpris *inst;
-	GmpvMainWindow* main_window;
 	gchar *name;
 
 	inst = g_malloc(sizeof(gmpv_mpris));
-	main_window = gmpv_application_get_main_window(gmpv_ctx);
 
 	/* sizeof(pid_t) can theoretically be larger than sizeof(gint64), but
 	 * even then the chance of collision would be minimal.
@@ -175,9 +167,9 @@ void gmpv_mpris_init(GmpvApplication *gmpv_ctx)
 	inst->player_prop_table = NULL;
 	inst->session_bus_conn = NULL;
 	inst->shutdown_sig_id =	g_signal_connect
-				(	main_window,
-					"delete-event",
-					G_CALLBACK(delete_handler),
+				(	gmpv_ctx,
+					"shutdown",
+					G_CALLBACK(shutdown_handler),
 					inst );
 	inst->name_id = g_bus_own_name(	G_BUS_TYPE_SESSION,
 					name,
