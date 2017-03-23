@@ -101,11 +101,11 @@ AM_COND_IF([NEW_GTK],[
 ])
 
 # Checks for header files.
-AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h ctype.h execinfo.h],[],[
+AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h],[],[
 	AC_MSG_ERROR([Could not find required headers])
 ])
 
-AC_CHECK_FUNCS([setlocale backtrace backtrace_symbols_fd exit],[],[
+AC_CHECK_FUNCS([setlocale],[],[
 	AC_MSG_ERROR([Could not find required functions])
 ])
 
