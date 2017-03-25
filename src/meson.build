@@ -31,6 +31,7 @@ sources = [
   'media_keys/gmpv_media_keys.c',
 
   'mpris/gmpv_mpris.c',
+  'mpris/gmpv_mpris_module.c',
   'mpris/gmpv_mpris_base.c',
   'mpris/gmpv_mpris_player.c'
 ]

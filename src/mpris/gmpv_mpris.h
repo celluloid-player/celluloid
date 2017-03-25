@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -24,6 +24,7 @@
 #include <glib.h>
 
 #include "gmpv_application.h"
+#include "gmpv_mpris_module.h"
 
 typedef struct gmpv_mpris gmpv_mpris;
 typedef struct gmpv_mpris_prop gmpv_mpris_prop;
@@ -31,14 +32,13 @@ typedef struct gmpv_mpris_prop gmpv_mpris_prop;
 struct gmpv_mpris
 {
 	GmpvApplication* gmpv_ctx;
+	GmpvMprisModule *base;
+	GmpvMprisModule *player;
 	guint name_id;
-	guint base_reg_id;
 	guint player_reg_id;
 	gulong shutdown_sig_id;
-	gulong *base_sig_id_list;
 	gulong *player_sig_id_list;
 	gdouble pending_seek;
-	GHashTable *base_prop_table;
 	GHashTable *player_prop_table;
 	GDBusConnection *session_bus_conn;
 };
@@ -49,7 +49,7 @@ struct gmpv_mpris_prop
 	GVariant *value;
 };
 
-void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
+void gmpv_mpris_emit_prop_changed(	GDBusConnection *conn,
 					const gchar *iface_name,
 					const gmpv_mpris_prop *prop_list );
 GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list);

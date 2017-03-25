@@ -4,6 +4,7 @@ bin_PROGRAMS = gnome-mpv
 
 mpris_generated = mpris/gmpv_mpris_gdbus.c mpris/gmpv_mpris_gdbus.h
 mpris_files =	mpris/gmpv_mpris.c mpris/gmpv_mpris.h \
+		mpris/gmpv_mpris_module.c mpris/gmpv_mpris_module.h \
 		mpris/gmpv_mpris_base.c mpris/gmpv_mpris_base.h \
 		mpris/gmpv_mpris_player.c mpris/gmpv_mpris_player.h \
 		$(mpris_generated)

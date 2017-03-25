@@ -45,9 +45,13 @@ static void name_acquired_handler(	GDBusConnection *connection,
 	gmpv_mpris *inst = data;
 
 	inst->session_bus_conn = connection;
+	inst->base = GMPV_MPRIS_MODULE(gmpv_mpris_base_new(	inst->gmpv_ctx,
+								connection ));
+	inst->player = GMPV_MPRIS_MODULE(gmpv_mpris_player_new(	inst->gmpv_ctx,
+								connection ));
 
-	gmpv_mpris_base_register(inst);
-	gmpv_mpris_player_register(inst);
+	gmpv_mpris_module_register_interface(inst->base);
+	gmpv_mpris_module_register_interface(inst->player);
 }
 
 static void name_lost_handler(	GDBusConnection *connection,
@@ -72,18 +76,11 @@ static gboolean shutdown_handler(GtkApplication *app, gpointer data)
 
 static void unregister(gmpv_mpris *inst)
 {
-	if(inst->base_reg_id > 0)
-	{
-		gmpv_mpris_base_unregister(inst);
-	}
-
-	if(inst->player_reg_id > 0)
-	{
-		gmpv_mpris_player_unregister(inst);
-	}
+	gmpv_mpris_module_unregister_interface(inst->base);
+	gmpv_mpris_module_unregister_interface(inst->player);
 }
 
-void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
+void gmpv_mpris_emit_prop_changed(	GDBusConnection *conn,
 					const gchar *iface_name,
 					const gmpv_mpris_prop *prop_list )
 {
@@ -117,7 +114,7 @@ void gmpv_mpris_emit_prop_changed(	gmpv_mpris *inst,
 	g_debug("Emitting property change event on interface %s", iface_name);
 
 	g_dbus_connection_emit_signal
-		(	inst->session_bus_conn,
+		(	conn,
 			NULL,
 			MPRIS_OBJ_ROOT_PATH,
 			"org.freedesktop.DBus.Properties",
@@ -156,15 +153,11 @@ void gmpv_mpris_init(GmpvApplication *gmpv_ctx)
 			ABS((gint64)getpid()) );
 
 	inst->gmpv_ctx = gmpv_ctx;
+	inst->base = NULL;
+	inst->player = NULL;
 	inst->name_id = 0;
-	inst->base_reg_id = 0;
-	inst->player_reg_id = 0;
 	inst->shutdown_sig_id = 0;
-	inst->base_sig_id_list = NULL;
-	inst->player_sig_id_list = NULL;
 	inst->pending_seek = -1;
-	inst->base_prop_table = NULL;
-	inst->player_prop_table = NULL;
 	inst->session_bus_conn = NULL;
 	inst->shutdown_sig_id =	g_signal_connect
 				(	gmpv_ctx,

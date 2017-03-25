@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 gnome-mpv
+ * Copyright (c) 2015-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -22,7 +22,13 @@
 
 #include "gmpv_mpris.h"
 
-void gmpv_mpris_base_register(gmpv_mpris *inst);
-void gmpv_mpris_base_unregister(gmpv_mpris *inst);
+G_BEGIN_DECLS
+
+#define GMPV_TYPE_MPRIS_BASE (gmpv_mpris_base_get_type())
+G_DECLARE_FINAL_TYPE(GmpvMprisBase, gmpv_mpris_base, GMPV, MPRIS_BASE, GmpvMprisModule)
+
+GmpvMprisBase *gmpv_mpris_base_new(GmpvApplication *app, GDBusConnection *conn);
+
+G_END_DECLS
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 gnome-mpv
+ * Copyright (c) 2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,18 +17,25 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MPRIS_PLAYER_H
-#define MPRIS_PLAYER_H
+#ifndef MPRIS_MODULE_H
+#define MPRIS_MODULE_H
 
-#include "gmpv_mpris.h"
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
-#define GMPV_TYPE_MPRIS_PLAYER (gmpv_mpris_player_get_type())
-G_DECLARE_FINAL_TYPE(GmpvMprisPlayer, gmpv_mpris_player, GMPV, MPRIS_PLAYER, GmpvMprisModule)
+#define GMPV_TYPE_MPRIS_MODULE gmpv_mpris_module_get_type()
+G_DECLARE_DERIVABLE_TYPE(GmpvMprisModule, gmpv_mpris_module, GMPV, MPRIS_MODULE, GObject)
 
-GmpvMprisPlayer *gmpv_mpris_player_new(	GmpvApplication *app,
-					GDBusConnection *conn );
+struct _GmpvMprisModuleClass
+{
+	GObjectClass parent_interface;
+	void (*register_interface)(GmpvMprisModule *module);
+	void (*unregister_interface)(GmpvMprisModule *module);
+};
+
+void gmpv_mpris_module_register_interface(GmpvMprisModule *module);
+void gmpv_mpris_module_unregister_interface(GmpvMprisModule *module);
 
 G_END_DECLS
 
