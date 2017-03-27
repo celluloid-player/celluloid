@@ -43,15 +43,6 @@ struct gmpv_mpris
 	GDBusConnection *session_bus_conn;
 };
 
-struct gmpv_mpris_prop
-{
-	gchar *name;
-	GVariant *value;
-};
-
-void gmpv_mpris_emit_prop_changed(	GDBusConnection *conn,
-					const gchar *iface_name,
-					const gmpv_mpris_prop *prop_list );
 GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list);
 void gmpv_mpris_init(GmpvApplication *gmpv_ctx);
 

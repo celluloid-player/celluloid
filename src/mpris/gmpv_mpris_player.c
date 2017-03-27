@@ -39,10 +39,9 @@ enum
 	N_PROPERTIES
 };
 
-
 struct _GmpvMprisPlayer
 {
-	GObject parent;
+	GmpvMprisModule parent;
 	GmpvApplication *app;
 	GDBusConnection *conn;
 	guint reg_id;
@@ -52,7 +51,7 @@ struct _GmpvMprisPlayer
 
 struct _GmpvMprisPlayerClass
 {
-	GObject parent_class;
+	GmpvMprisModuleClass parent_class;
 };
 
 static void register_interface(GmpvMprisModule *module);
@@ -69,7 +68,7 @@ static void get_property(	GObject *object,
 				GParamSpec *pspec );
 static void prop_table_init(GHashTable *table);
 static void emit_prop_changed(	GmpvMprisPlayer *player,
-				const gmpv_mpris_prop *prop_list );
+				const GmpvMprisProperty *prop_list );
 static void append_metadata_tags(GVariantBuilder *builder, GSList *list);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
@@ -301,12 +300,14 @@ static void prop_table_init(GHashTable *table)
 	}
 }
 
-static void emit_prop_changed(GmpvMprisPlayer *player, const gmpv_mpris_prop *prop_list)
+static void emit_prop_changed(GmpvMprisPlayer *player, const GmpvMprisProperty *prop_list)
 {
 	GDBusInterfaceInfo *iface;
 
 	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
-	gmpv_mpris_emit_prop_changed(player->conn, iface->name, prop_list);
+	gmpv_mpris_module_emit_properties_changed(	player->conn,
+							iface->name,
+							prop_list );
 }
 
 static void append_metadata_tags(GVariantBuilder *builder, GSList *list)
@@ -509,7 +510,7 @@ static void update_playback_status(GmpvMprisPlayer *player)
 {
 	GmpvModel *model = player->app->model;
 	const gchar *state;
-	gmpv_mpris_prop *prop_list;
+	GmpvMprisProperty *prop_list;
 	GVariant *state_value;
 	GVariant *can_seek_value;
 	gint idle_active;
@@ -548,7 +549,7 @@ static void update_playback_status(GmpvMprisPlayer *player)
 				"CanSeek",
 				g_variant_ref(can_seek_value) );
 
-	prop_list =	(gmpv_mpris_prop[])
+	prop_list =	(GmpvMprisProperty[])
 			{	{"PlaybackStatus", state_value},
 				{"CanSeek", can_seek_value},
 				{NULL, NULL} };
@@ -559,7 +560,7 @@ static void update_playback_status(GmpvMprisPlayer *player)
 static void update_playlist_state(GmpvMprisPlayer *player)
 {
 	GmpvModel *model = player->app->model;
-	gmpv_mpris_prop *prop_list;
+	GmpvMprisProperty *prop_list;
 	GVariant *can_prev_value;
 	GVariant *can_next_value;
 	gboolean can_prev;
@@ -585,7 +586,7 @@ static void update_playlist_state(GmpvMprisPlayer *player)
 				"CanGoNext",
 				g_variant_ref(can_next_value) );
 
-	prop_list =	(gmpv_mpris_prop[])
+	prop_list =	(GmpvMprisProperty[])
 			{	{"CanGoPrevious", can_prev_value},
 				{"CanGoNext", can_next_value},
 				{NULL, NULL} };
@@ -628,7 +629,7 @@ static void speed_handler(	GObject *object,
 	GmpvMprisPlayer *player = data;
 	gdouble speed = 1.0;
 	GVariant *value = NULL;
-	gmpv_mpris_prop *prop_list = NULL;
+	GmpvMprisProperty *prop_list = NULL;
 
 	g_object_get(	object,
 			"speed", &speed,
@@ -640,7 +641,7 @@ static void speed_handler(	GObject *object,
 				"Rate",
 				g_variant_ref(value) );
 
-	prop_list =	(gmpv_mpris_prop[])
+	prop_list =	(GmpvMprisProperty[])
 			{{"Rate", value}, {NULL, NULL}};
 
 	emit_prop_changed(player, prop_list);
@@ -652,7 +653,7 @@ static void metadata_handler(	GObject *object,
 {
 	GmpvMprisPlayer *player = data;
 	GmpvModel *model = GMPV_MODEL(object);
-	gmpv_mpris_prop *prop_list;
+	GmpvMprisProperty *prop_list;
 	GSList *metadata = NULL;
 	GVariantBuilder builder;
 	GVariant *value;
@@ -705,7 +706,7 @@ static void metadata_handler(	GObject *object,
 				"Metadata",
 				g_variant_ref(value) );
 
-	prop_list =	(gmpv_mpris_prop[])
+	prop_list =	(GmpvMprisProperty[])
 			{{"Metadata", value}, {NULL, NULL}};
 	emit_prop_changed(player, prop_list);
 
@@ -720,7 +721,7 @@ static void volume_handler(	GObject *object,
 				gpointer data )
 {
 	GmpvMprisPlayer *player = data;
-	gmpv_mpris_prop *prop_list;
+	GmpvMprisProperty *prop_list;
 	gdouble volume = 0.0;
 	GVariant *value;
 
@@ -732,7 +733,7 @@ static void volume_handler(	GObject *object,
 				"Volume",
 				g_variant_ref(value) );
 
-	prop_list =	(gmpv_mpris_prop[])
+	prop_list =	(GmpvMprisProperty[])
 			{{"Volume", value}, {NULL, NULL}};
 
 	emit_prop_changed(player, prop_list);

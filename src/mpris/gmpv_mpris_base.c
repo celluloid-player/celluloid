@@ -42,7 +42,7 @@ enum
 
 struct _GmpvMprisBase
 {
-	GObject parent;
+	GmpvMprisModule parent;
 	GmpvApplication *app;
 	GDBusConnection *conn;
 	guint reg_id;
@@ -52,7 +52,7 @@ struct _GmpvMprisBase
 
 struct _GmpvMprisBaseClass
 {
-	GObject parent_class;
+	GmpvMprisModuleClass parent_class;
 };
 
 static void register_interface(GmpvMprisModule *module);
@@ -305,7 +305,7 @@ static void fullscreen_handler(	GObject *object,
 	{
 		GDBusInterfaceInfo *iface;
 		GVariant *value;
-		gmpv_mpris_prop *prop_list;
+		GmpvMprisProperty *prop_list;
 
 		iface = gmpv_mpris_org_mpris_media_player2_interface_info();
 		value =	g_variant_new_boolean(fullscreen);
@@ -314,11 +314,13 @@ static void fullscreen_handler(	GObject *object,
 					g_strdup("Fullscreen"),
 					g_variant_ref(value) );
 
-		prop_list =	(gmpv_mpris_prop[])
+		prop_list =	(GmpvMprisProperty[])
 				{	{"Fullscreen", value},
 					{NULL, NULL} };
 
-		gmpv_mpris_emit_prop_changed(base->conn, iface->name, prop_list);
+		gmpv_mpris_module_emit_properties_changed(	base->conn,
+								iface->name,
+								prop_list );
 	}
 
 }

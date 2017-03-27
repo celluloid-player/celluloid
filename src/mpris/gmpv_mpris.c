@@ -80,49 +80,6 @@ static void unregister(gmpv_mpris *inst)
 	gmpv_mpris_module_unregister_interface(inst->player);
 }
 
-void gmpv_mpris_emit_prop_changed(	GDBusConnection *conn,
-					const gchar *iface_name,
-					const gmpv_mpris_prop *prop_list )
-{
-	const gmpv_mpris_prop *current;
-	GVariantBuilder builder;
-	GVariant *sig_args;
-
-	g_debug("Preparing property change event");
-
-	current = prop_list;
-
-	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
-
-	while(current && current->name != NULL)
-	{
-		g_debug("Adding property \"%s\"", current->name);
-
-		g_variant_builder_add(	&builder,
-					"{sv}",
-					current->name,
-					current->value );
-
-		current++;
-	}
-
-	sig_args = g_variant_new(	"(sa{sv}as)",
-					iface_name,
-					&builder,
-					NULL );
-
-	g_debug("Emitting property change event on interface %s", iface_name);
-
-	g_dbus_connection_emit_signal
-		(	conn,
-			NULL,
-			MPRIS_OBJ_ROOT_PATH,
-			"org.freedesktop.DBus.Properties",
-			"PropertiesChanged",
-			sig_args,
-			NULL );
-}
-
 GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list)
 {
 	GVariantBuilder builder;

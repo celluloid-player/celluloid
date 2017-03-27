@@ -18,6 +18,7 @@
  */
 
 #include "gmpv_mpris_module.h"
+#include "gmpv_def.h"
 
 G_DEFINE_TYPE(GmpvMprisModule, gmpv_mpris_module, G_TYPE_OBJECT)
 
@@ -30,6 +31,49 @@ static void gmpv_mpris_module_class_init(GmpvMprisModuleClass *klass)
 
 static void gmpv_mpris_module_init(GmpvMprisModule *module)
 {
+}
+
+void gmpv_mpris_module_emit_properties_changed(	GDBusConnection *conn,
+						const gchar *iface_name,
+						const GmpvMprisProperty *props )
+{
+	const GmpvMprisProperty *current;
+	GVariantBuilder builder;
+	GVariant *sig_args;
+
+	g_debug("Preparing property change event");
+
+	current = props;
+
+	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
+
+	while(current && current->name != NULL)
+	{
+		g_debug("Adding property \"%s\"", current->name);
+
+		g_variant_builder_add(	&builder,
+					"{sv}",
+					current->name,
+					current->value );
+
+		current++;
+	}
+
+	sig_args = g_variant_new(	"(sa{sv}as)",
+					iface_name,
+					&builder,
+					NULL );
+
+	g_debug("Emitting property change event on interface %s", iface_name);
+
+	g_dbus_connection_emit_signal
+		(	conn,
+			NULL,
+			MPRIS_OBJ_ROOT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"PropertiesChanged",
+			sig_args,
+			NULL );
 }
 
 void gmpv_mpris_module_register_interface(GmpvMprisModule *module)
