@@ -35,34 +35,40 @@ static void gmpv_mpris_module_init(GmpvMprisModule *module)
 
 void gmpv_mpris_module_emit_properties_changed(	GDBusConnection *conn,
 						const gchar *iface_name,
-						const GmpvMprisProperty *props )
+						... )
 {
-	const GmpvMprisProperty *current;
 	GVariantBuilder builder;
 	GVariant *sig_args;
+	va_list arg;
+	const gchar *name;
+	const GVariant *value;
 
 	g_debug("Preparing property change event");
 
-	current = props;
-
 	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
 
-	while(current && current->name != NULL)
+	va_start(arg, iface_name);
+
+	do
 	{
-		g_debug("Adding property \"%s\"", current->name);
+		name = va_arg(arg, const gchar *);
+		value = va_arg(arg, GVariant *);
 
-		g_variant_builder_add(	&builder,
-					"{sv}",
-					current->name,
-					current->value );
+		if(name && value)
+		{
+			g_debug("Adding property \"%s\"", name);
 
-		current++;
+			g_variant_builder_add(	&builder,
+						"{sv}",
+						name,
+						value );
+		}
 	}
+	while(name && value);
 
-	sig_args = g_variant_new(	"(sa{sv}as)",
-					iface_name,
-					&builder,
-					NULL );
+	va_end(arg);
+
+	sig_args = g_variant_new("(sa{sv}as)", iface_name, &builder, NULL);
 
 	g_debug("Emitting property change event on interface %s", iface_name);
 

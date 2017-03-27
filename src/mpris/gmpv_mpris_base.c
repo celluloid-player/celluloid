@@ -305,7 +305,6 @@ static void fullscreen_handler(	GObject *object,
 	{
 		GDBusInterfaceInfo *iface;
 		GVariant *value;
-		GmpvMprisProperty *prop_list;
 
 		iface = gmpv_mpris_org_mpris_media_player2_interface_info();
 		value =	g_variant_new_boolean(fullscreen);
@@ -314,13 +313,11 @@ static void fullscreen_handler(	GObject *object,
 					g_strdup("Fullscreen"),
 					g_variant_ref(value) );
 
-		prop_list =	(GmpvMprisProperty[])
-				{	{"Fullscreen", value},
-					{NULL, NULL} };
-
 		gmpv_mpris_module_emit_properties_changed(	base->conn,
 								iface->name,
-								prop_list );
+								"Fullscreen",
+								value,
+								NULL );
 	}
 
 }

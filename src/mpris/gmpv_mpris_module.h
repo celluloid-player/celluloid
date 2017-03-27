@@ -28,8 +28,6 @@ G_BEGIN_DECLS
 #define GMPV_TYPE_MPRIS_MODULE gmpv_mpris_module_get_type()
 G_DECLARE_DERIVABLE_TYPE(GmpvMprisModule, gmpv_mpris_module, GMPV, MPRIS_MODULE, GObject)
 
-typedef struct _GmpvMprisProperty GmpvMprisProperty;
-
 struct _GmpvMprisModuleClass
 {
 	GObjectClass parent_interface;
@@ -37,15 +35,9 @@ struct _GmpvMprisModuleClass
 	void (*unregister_interface)(GmpvMprisModule *module);
 };
 
-struct _GmpvMprisProperty
-{
-	gchar *name;
-	GVariant *value;
-};
-
 void gmpv_mpris_module_emit_properties_changed(	GDBusConnection *conn,
 						const gchar *iface_name,
-						const GmpvMprisProperty *props );
+						... );
 void gmpv_mpris_module_register_interface(GmpvMprisModule *module);
 void gmpv_mpris_module_unregister_interface(GmpvMprisModule *module);
 
