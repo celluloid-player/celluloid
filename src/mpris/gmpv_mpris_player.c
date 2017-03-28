@@ -35,7 +35,6 @@ enum
 {
 	PROP_0,
 	PROP_APP,
-	PROP_CONN,
 	N_PROPERTIES
 };
 
@@ -43,9 +42,7 @@ struct _GmpvMprisPlayer
 {
 	GmpvMprisModule parent;
 	GmpvApplication *app;
-	GDBusConnection *conn;
 	guint reg_id;
-	GHashTable *prop_table;
 	gulong *sig_id_list;
 };
 
@@ -57,7 +54,6 @@ struct _GmpvMprisPlayerClass
 static void register_interface(GmpvMprisModule *module);
 static void unregister_interface(GmpvMprisModule *module);
 
-static void constructed(GObject *object);
 static void set_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
@@ -66,7 +62,6 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
-static void prop_table_init(GHashTable *table);
 static void append_metadata_tags(GVariantBuilder *builder, GSList *list);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
@@ -93,7 +88,6 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					gpointer data );
 static void update_playback_status(GmpvMprisPlayer *player);
 static void update_playlist_state(GmpvMprisPlayer *player);
-
 
 static void idle_active_handler(	GObject *object,
 					GParamSpec *pspec,
@@ -127,17 +121,11 @@ static void register_interface(GmpvMprisModule *module)
 {
 	GmpvMprisPlayer *player = GMPV_MPRIS_PLAYER(module);
 	GmpvModel *model = player->app->model;
+	GDBusConnection *conn;
 	GDBusInterfaceInfo *iface;
 	GDBusInterfaceVTable vtable;
 
-	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
-
-	player->prop_table =	g_hash_table_new_full
-				(	g_str_hash,
-					g_str_equal,
-					NULL,
-					(GDestroyNotify)
-					g_variant_unref );
+	g_object_get(module, "conn", &conn, "iface", &iface, NULL);
 
 	player->sig_id_list = g_malloc(9*sizeof(gulong));
 	player->sig_id_list[0] =	g_signal_connect
@@ -182,14 +170,28 @@ static void register_interface(GmpvMprisModule *module)
 						player );
 	player->sig_id_list[8] = 0;
 
-	prop_table_init(player->prop_table);
+	gmpv_mpris_module_set_properties
+		(	module,
+			"PlaybackStatus", g_variant_new_string("Stopped"),
+			"Rate", g_variant_new_double(1.0),
+			"Metadata", g_variant_new("a{sv}", NULL),
+			"Volume", g_variant_new_double(1.0),
+			"MinimumRate", g_variant_new_double(0.01),
+			"MaximumRate", g_variant_new_double(100.0),
+			"CanGoNext", g_variant_new_boolean(FALSE),
+			"CanGoPrevious", g_variant_new_boolean(FALSE),
+			"CanPlay", g_variant_new_boolean(TRUE),
+			"CanPause", g_variant_new_boolean(TRUE),
+			"CanSeek", g_variant_new_boolean(FALSE),
+			"CanControl", g_variant_new_boolean(TRUE),
+			NULL );
 
 	vtable.method_call = (GDBusInterfaceMethodCallFunc)method_handler;
 	vtable.get_property = (GDBusInterfaceGetPropertyFunc)get_prop_handler;
 	vtable.set_property = (GDBusInterfaceSetPropertyFunc)set_prop_handler;
 
 	player->reg_id = g_dbus_connection_register_object
-				(	player->conn,
+				(	conn,
 					MPRIS_OBJ_ROOT_PATH,
 					iface,
 					&vtable,
@@ -201,7 +203,10 @@ static void register_interface(GmpvMprisModule *module)
 static void unregister_interface(GmpvMprisModule *module)
 {
 	GmpvMprisPlayer *player = GMPV_MPRIS_PLAYER(module);
+	GDBusConnection *conn = NULL;
 	gulong *current_sig_id = player->sig_id_list;
+
+	g_object_get(module, "conn", &conn, NULL);
 
 	if(current_sig_id)
 	{
@@ -213,17 +218,10 @@ static void unregister_interface(GmpvMprisModule *module)
 			current_sig_id++;
 		}
 
-		g_dbus_connection_unregister_object(	player->conn,
-							player->reg_id );
+		g_dbus_connection_unregister_object(conn, player->reg_id);
 
-		g_hash_table_remove_all(player->prop_table);
-		g_hash_table_unref(player->prop_table);
 		g_clear_pointer(&player->sig_id_list, g_free);
 	}
-}
-
-static void constructed(GObject *object)
-{
 }
 
 static void set_property(	GObject *object,
@@ -237,10 +235,6 @@ static void set_property(	GObject *object,
 	{
 		case PROP_APP:
 		self->app = g_value_get_pointer(value);
-		break;
-
-		case PROP_CONN:
-		self->conn = g_value_get_pointer(value);
 		break;
 
 		default:
@@ -262,43 +256,11 @@ static void get_property(	GObject *object,
 		g_value_set_pointer(value, self->app);
 		break;
 
-		case PROP_CONN:
-		g_value_set_pointer(value, self->conn);
-		break;
-
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
 	}
 }
-
-static void prop_table_init(GHashTable *table)
-{
-	/* Position is retrieved from mpv on-demand */
-	const gpointer default_values[]
-		= {	"PlaybackStatus", g_variant_new_string("Stopped"),
-			"Rate", g_variant_new_double(1.0),
-			"Metadata", g_variant_new("a{sv}", NULL),
-			"Volume", g_variant_new_double(1.0),
-			"MinimumRate", g_variant_new_double(0.01),
-			"MaximumRate", g_variant_new_double(100.0),
-			"CanGoNext", g_variant_new_boolean(FALSE),
-			"CanGoPrevious", g_variant_new_boolean(FALSE),
-			"CanPlay", g_variant_new_boolean(TRUE),
-			"CanPause", g_variant_new_boolean(TRUE),
-			"CanSeek", g_variant_new_boolean(FALSE),
-			"CanControl", g_variant_new_boolean(TRUE),
-			NULL };
-
-	for(gint i = 0; default_values[i]; i += 2)
-	{
-		g_hash_table_insert(	table,
-					default_values[i],
-					default_values[i+1] );
-	}
-}
-
-#define emit_prop_changed(player, ...) gmpv_mpris_module_emit_properties_changed(player->conn, gmpv_mpris_org_mpris_media_player2_player_interface_info()->name, __VA_ARGS__)
 
 static void append_metadata_tags(GVariantBuilder *builder, GSList *list)
 {
@@ -385,10 +347,7 @@ static void method_handler(	GDBusConnection *connection,
 	{
 		gboolean pause = TRUE;
 
-		g_object_get(	G_OBJECT(model),
-				"pause", &pause,
-				NULL );
-
+		g_object_get(G_OBJECT(model), "pause", &pause, NULL);
 		(pause?gmpv_model_play:gmpv_model_pause)(model);
 	}
 	else if(g_strcmp0(method_name, "Stop") == 0)
@@ -458,7 +417,9 @@ static GVariant *get_prop_handler(	GDBusConnection *connection,
 	}
 	else
 	{
-		value = g_hash_table_lookup(player->prop_table, property_name);
+		gmpv_mpris_module_get_properties(	GMPV_MPRIS_MODULE(data),
+							property_name, &value,
+							NULL );
 	}
 
 	return value?g_variant_ref(value):NULL;
@@ -489,9 +450,9 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 				NULL );
 	}
 
-	g_hash_table_replace(	player->prop_table,
-				g_strdup(property_name),
-				g_variant_ref(value) );
+	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(data),
+						property_name, value,
+						NULL );
 
 	return TRUE; /* This function should always succeed */
 }
@@ -500,8 +461,6 @@ static void update_playback_status(GmpvMprisPlayer *player)
 {
 	GmpvModel *model = player->app->model;
 	const gchar *state;
-	GVariant *state_value;
-	GVariant *can_seek_value;
 	gint idle_active;
 	gint core_idle;
 	gboolean can_seek;
@@ -527,28 +486,17 @@ static void update_playback_status(GmpvMprisPlayer *player)
 		can_seek = TRUE;
 	}
 
-	state_value = g_variant_new_string(state);
-	can_seek_value = g_variant_new_boolean(can_seek);
-
-	g_hash_table_replace(	player->prop_table,
-				"PlaybackStatus",
-				g_variant_ref(state_value) );
-
-	g_hash_table_replace(	player->prop_table,
-				"CanSeek",
-				g_variant_ref(can_seek_value) );
-
-	emit_prop_changed(	player,
-				"PlaybackStatus", state_value,
-				"CanSeek", can_seek_value,
-				NULL );
+	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(player),
+						"PlaybackStatus",
+						g_variant_new_string(state),
+						"CanSeek",
+						g_variant_new_boolean(can_seek),
+						NULL );
 }
 
 static void update_playlist_state(GmpvMprisPlayer *player)
 {
 	GmpvModel *model = player->app->model;
-	GVariant *can_prev_value;
-	GVariant *can_next_value;
 	gboolean can_prev;
 	gboolean can_next;
 	gint64 playlist_count;
@@ -562,20 +510,13 @@ static void update_playlist_state(GmpvMprisPlayer *player)
 
 	can_prev = (rc >= 0 && playlist_pos > 0);
 	can_next = (rc >= 0 && playlist_pos < playlist_count-1);
-	can_prev_value = g_variant_new_boolean(can_prev);
-	can_next_value = g_variant_new_boolean(can_next);
 
-	g_hash_table_replace (	player->prop_table,
-				"CanGoPrevious",
-				g_variant_ref(can_prev_value) );
-	g_hash_table_replace (	player->prop_table,
-				"CanGoNext",
-				g_variant_ref(can_next_value) );
-
-	emit_prop_changed(	player,
-				"CanGoPrevious", can_prev_value,
-				"CanGoNext", can_next_value,
-				NULL );
+	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(player),
+						"CanGoPrevious",
+						g_variant_new_boolean(can_prev),
+						"CanGoNext",
+						g_variant_new_boolean(can_next),
+						NULL );
 }
 
 static void idle_active_handler(	GObject *object,
@@ -610,32 +551,23 @@ static void speed_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data )
 {
-	GmpvMprisPlayer *player = data;
 	gdouble speed = 1.0;
-	GVariant *value = NULL;
 
-	g_object_get(	object,
-			"speed", &speed,
-			NULL );
+	g_object_get(object, "speed", &speed, NULL);
 
-	value = g_variant_new_double(speed);
-
-	g_hash_table_replace (	player->prop_table,
-				"Rate",
-				g_variant_ref(value) );
-
-	emit_prop_changed(player, "Rate", value, NULL);
+	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(data),
+						"Rate",
+						g_variant_new_double(speed),
+						NULL );
 }
 
 static void metadata_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data )
 {
-	GmpvMprisPlayer *player = data;
 	GmpvModel *model = GMPV_MODEL(object);
 	GSList *metadata = NULL;
 	GVariantBuilder builder;
-	GVariant *value;
 	gchar *path;
 	gchar *uri;
 	gchar *playlist_pos_str;
@@ -679,13 +611,10 @@ static void metadata_handler(	GObject *object,
 
 	append_metadata_tags(&builder, metadata);
 
-	value = g_variant_new("a{sv}", &builder);
-
-	g_hash_table_replace (	player->prop_table,
-				"Metadata",
-				g_variant_ref(value) );
-
-	emit_prop_changed(player, "Metadata", value, NULL);
+	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(data),
+						"Metadata",
+						g_variant_new("a{sv}", &builder),
+						NULL );
 
 	g_free(path);
 	g_free(uri);
@@ -697,33 +626,32 @@ static void volume_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data )
 {
-	GmpvMprisPlayer *player = data;
 	gdouble volume = 0.0;
-	GVariant *value;
 
 	g_object_get(object, "volume", &volume, NULL);
 
-	value = g_variant_new_double(volume/100.0);
-
-	g_hash_table_replace(	player->prop_table,
-				"Volume",
-				g_variant_ref(value) );
-
-	emit_prop_changed(player, "Volume", value, NULL);
+	gmpv_mpris_module_set_properties
+		(	GMPV_MPRIS_MODULE(data),
+			"Volume",
+			g_variant_new_double(volume/100.0),
+			NULL );
 }
 
 static void playback_restart_handler(GmpvModel *model, gpointer data)
 {
-	GmpvMprisPlayer *player;
+	GDBusConnection *conn;
 	GDBusInterfaceInfo *iface;
 	gdouble position;
 
-	player = data;
-	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
 	position = gmpv_model_get_time_position(model);
 
+	g_object_get(	GMPV_MPRIS_MODULE(data),
+			"conn", &conn,
+			"iface", &iface,
+			NULL );
+
 	g_dbus_connection_emit_signal
-		(	player->conn,
+		(	conn,
 			NULL,
 			MPRIS_OBJ_ROOT_PATH,
 			iface->name,
@@ -740,7 +668,6 @@ static void gmpv_mpris_player_class_init(GmpvMprisPlayerClass *klass)
 
 	module_class->register_interface = register_interface;
 	module_class->unregister_interface = unregister_interface;
-	object_class->constructed = constructed;
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
 
@@ -750,30 +677,26 @@ static void gmpv_mpris_player_class_init(GmpvMprisPlayerClass *klass)
 			"The GmpvApplication to use",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_APP, pspec);
-
-	pspec = g_param_spec_pointer
-		(	"conn",
-			"Connection",
-			"Connection to the session bus",
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_CONN, pspec);
 }
 
 static void gmpv_mpris_player_init(GmpvMprisPlayer *player)
 {
 	player->app = NULL;
-	player->conn = NULL;
 	player->reg_id = 0;
-	player->prop_table = g_hash_table_new(g_str_hash, g_str_equal);
 	player->sig_id_list = 0;
 }
 
 GmpvMprisPlayer *gmpv_mpris_player_new(	GmpvApplication *app,
 					GDBusConnection *conn )
 {
+	GDBusInterfaceInfo *iface;
+
+	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
+
 	return GMPV_MPRIS_PLAYER(g_object_new(	gmpv_mpris_player_get_type(),
 						"app", app,
 						"conn", conn,
+						"iface", iface,
 						NULL ));
 }
 

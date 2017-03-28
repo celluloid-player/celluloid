@@ -35,9 +35,8 @@ struct _GmpvMprisModuleClass
 	void (*unregister_interface)(GmpvMprisModule *module);
 };
 
-void gmpv_mpris_module_emit_properties_changed(	GDBusConnection *conn,
-						const gchar *iface_name,
-						... );
+void gmpv_mpris_module_set_properties(GmpvMprisModule *module, ...);
+void gmpv_mpris_module_get_properties(GmpvMprisModule *module, ...);
 void gmpv_mpris_module_register_interface(GmpvMprisModule *module);
 void gmpv_mpris_module_unregister_interface(GmpvMprisModule *module);
 
