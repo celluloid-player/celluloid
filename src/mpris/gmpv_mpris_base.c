@@ -44,7 +44,6 @@ struct _GmpvMprisBase
 	GmpvMprisModule parent;
 	GmpvApplication *app;
 	guint reg_id;
-	gulong fullscreen_signal_id;
 };
 
 struct _GmpvMprisBaseClass
@@ -109,11 +108,12 @@ static void register_interface(GmpvMprisModule *module)
 
 	g_object_get(module, "conn", &conn, "iface", &iface, NULL);
 
-	base->fullscreen_signal_id =	g_signal_connect
-					(	view,
-						"notify::fullscreen",
-						G_CALLBACK(fullscreen_handler),
-						module );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			view,
+			"notify::fullscreen",
+			G_CALLBACK(fullscreen_handler),
+			module );
 
 	gmpv_mpris_module_set_properties
 		(	module,
@@ -148,7 +148,6 @@ static void unregister_interface(GmpvMprisModule *module)
 	GDBusConnection *conn = NULL;
 
 	g_object_get(module, "conn", &conn, NULL);
-	g_signal_handler_disconnect(base->app->view, base->fullscreen_signal_id);
 	g_dbus_connection_unregister_object(conn, base->reg_id);
 }
 
@@ -313,7 +312,6 @@ static void gmpv_mpris_base_init(GmpvMprisBase *base)
 {
 	base->app = NULL;
 	base->reg_id = 0;
-	base->fullscreen_signal_id = 0;
 }
 
 GmpvMprisBase *gmpv_mpris_base_new(GmpvApplication *app, GDBusConnection *conn)

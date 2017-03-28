@@ -43,7 +43,6 @@ struct _GmpvMprisPlayer
 	GmpvMprisModule parent;
 	GmpvApplication *app;
 	guint reg_id;
-	gulong *sig_id_list;
 };
 
 struct _GmpvMprisPlayerClass
@@ -127,48 +126,54 @@ static void register_interface(GmpvMprisModule *module)
 
 	g_object_get(module, "conn", &conn, "iface", &iface, NULL);
 
-	player->sig_id_list = g_malloc(9*sizeof(gulong));
-	player->sig_id_list[0] =	g_signal_connect
-					(	model,
-						"notify::core-idle",
-						G_CALLBACK(core_idle_handler),
-						player );
-	player->sig_id_list[1] =	g_signal_connect
-					(	model,
-						"notify::idle-active",
-						G_CALLBACK(idle_active_handler),
-						player );
-	player->sig_id_list[2] =	g_signal_connect
-					(	model,
-						"notify::playlist-pos",
-						G_CALLBACK(playlist_pos_handler),
-						player );
-	player->sig_id_list[3] =	g_signal_connect
-					(	model,
-						"notify::playlist-count",
-						G_CALLBACK(playlist_count_handler),
-						player );
-	player->sig_id_list[4] =	g_signal_connect
-					(	model,
-						"notify::speed",
-						G_CALLBACK(speed_handler),
-						player );
-	player->sig_id_list[5] =	g_signal_connect
-					(	model,
-						"notify::metadata",
-						G_CALLBACK(metadata_handler),
-						player );
-	player->sig_id_list[6] =	g_signal_connect
-					(	model,
-						"notify::volume",
-						G_CALLBACK(volume_handler),
-						player );
-	player->sig_id_list[7] =	g_signal_connect
-					(	model,
-						"playback-restart",
-						G_CALLBACK(playback_restart_handler),
-						player );
-	player->sig_id_list[8] = 0;
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::core-idle",
+			G_CALLBACK(core_idle_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::idle-active",
+			G_CALLBACK(idle_active_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::playlist-pos",
+			G_CALLBACK(playlist_pos_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::playlist-count",
+			G_CALLBACK(playlist_count_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::speed",
+			G_CALLBACK(speed_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::metadata",
+			G_CALLBACK(metadata_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::volume",
+			G_CALLBACK(volume_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"playback-restart",
+			G_CALLBACK(playback_restart_handler),
+			player );
 
 	gmpv_mpris_module_set_properties
 		(	module,
@@ -204,24 +209,9 @@ static void unregister_interface(GmpvMprisModule *module)
 {
 	GmpvMprisPlayer *player = GMPV_MPRIS_PLAYER(module);
 	GDBusConnection *conn = NULL;
-	gulong *current_sig_id = player->sig_id_list;
 
 	g_object_get(module, "conn", &conn, NULL);
-
-	if(current_sig_id)
-	{
-		while(current_sig_id && *current_sig_id > 0)
-		{
-			g_signal_handler_disconnect(	player->app->model,
-							*current_sig_id );
-
-			current_sig_id++;
-		}
-
-		g_dbus_connection_unregister_object(conn, player->reg_id);
-
-		g_clear_pointer(&player->sig_id_list, g_free);
-	}
+	g_dbus_connection_unregister_object(conn, player->reg_id);
 }
 
 static void set_property(	GObject *object,
@@ -683,7 +673,6 @@ static void gmpv_mpris_player_init(GmpvMprisPlayer *player)
 {
 	player->app = NULL;
 	player->reg_id = 0;
-	player->sig_id_list = 0;
 }
 
 GmpvMprisPlayer *gmpv_mpris_player_new(	GmpvApplication *app,

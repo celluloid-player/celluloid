@@ -21,6 +21,7 @@
 #include "gmpv_application.h"
 #include "gmpv_def.h"
 
+typedef struct _GmpvSignalHandlerInfo GmpvSignalHandlerInfo;
 typedef struct _GmpvMprisModulePrivate GmpvMprisModulePrivate;
 
 enum
@@ -31,10 +32,17 @@ enum
 	N_PROPERTIES
 };
 
+struct _GmpvSignalHandlerInfo
+{
+	gpointer instance;
+	gulong id;
+};
+
 struct _GmpvMprisModulePrivate
 {
 	GDBusConnection *conn;
 	GDBusInterfaceInfo *iface;
+	GSList *signal_ids;
 	GHashTable *prop_table;
 };
 
@@ -49,6 +57,8 @@ static void get_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec );
 static void dispose(GObject *object);
+static void finalize(GObject *object);
+static void disconnect_signal(GmpvSignalHandlerInfo *info);
 static void gmpv_mpris_module_class_init(GmpvMprisModuleClass *klass);
 static void gmpv_mpris_module_init(GmpvMprisModule *module);
 
@@ -116,6 +126,23 @@ static void dispose(GObject *object)
 	G_OBJECT_GET_CLASS(object)->dispose(object);
 }
 
+static void finalize(GObject *object)
+{
+	GmpvMprisModulePrivate *priv;
+
+	priv =	G_TYPE_INSTANCE_GET_PRIVATE
+		(object, GMPV_TYPE_MPRIS_MODULE, GmpvMprisModulePrivate);
+
+	g_slist_free_full(priv->signal_ids, (GDestroyNotify)disconnect_signal);
+
+	G_OBJECT_GET_CLASS(object)->finalize(object);
+}
+
+static void disconnect_signal(GmpvSignalHandlerInfo *info)
+{
+	g_signal_handler_disconnect(info->instance, info->id);
+}
+
 static void gmpv_mpris_module_class_init(GmpvMprisModuleClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
@@ -124,6 +151,7 @@ static void gmpv_mpris_module_class_init(GmpvMprisModuleClass *klass)
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
 	object_class->dispose = dispose;
+	object_class->finalize = finalize;
 
 	pspec = g_param_spec_pointer
 		(	"conn",
@@ -147,12 +175,34 @@ static void gmpv_mpris_module_init(GmpvMprisModule *module)
 	priv =	G_TYPE_INSTANCE_GET_PRIVATE
 		(module, GMPV_TYPE_MPRIS_MODULE, GmpvMprisModulePrivate);
 
+	priv->conn = NULL;
+	priv->iface = NULL;
+	priv->signal_ids = NULL;
 	priv->prop_table =	g_hash_table_new_full
 				(	g_str_hash,
 					g_str_equal,
 					g_free,
 					(GDestroyNotify)
 					g_variant_unref );
+}
+
+void gmpv_mpris_module_connect_signal(	GmpvMprisModule *module,
+					gpointer instance,
+					const gchar *detailed_signal,
+					GCallback handler,
+					gpointer data )
+{
+	GmpvMprisModulePrivate *priv;
+	GmpvSignalHandlerInfo *info;
+
+	priv =	G_TYPE_INSTANCE_GET_PRIVATE
+		(module, GMPV_TYPE_MPRIS_MODULE, GmpvMprisModulePrivate);
+	info = g_malloc(sizeof(GmpvSignalHandlerInfo));
+
+	info->instance = instance;
+	info->id = g_signal_connect(instance, detailed_signal, handler, data);
+
+	priv->signal_ids = g_slist_prepend(priv->signal_ids, info);
 }
 
 void gmpv_mpris_module_set_properties(GmpvMprisModule *module, ...)
