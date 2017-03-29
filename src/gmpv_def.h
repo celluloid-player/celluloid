@@ -27,8 +27,8 @@
 #define CONFIG_WIN_STATE APP_ID".window-state"
 #define ACTION_PREFIX "gmpv-action"
 #define DEFAULT_LOG_LEVEL MPV_LOG_LEVEL_ERROR
-#define MPRIS_TRACK_ID_PREFIX "/org/gnome_mpv/GmpvTrack/"
-#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.gnome-mpv"
+#define MPRIS_TRACK_ID_PREFIX "/io/github/GnomeMpv/Track/"
+#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.GnomeMpv"
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define PLAYLIST_MIN_WIDTH 20
