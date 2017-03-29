@@ -40,6 +40,7 @@ enum
 	PROP_DURATION,
 	PROP_MEDIA_TITLE,
 	PROP_METADATA,
+	PROP_PLAYLIST,
 	PROP_PLAYLIST_COUNT,
 	PROP_PLAYLIST_POS,
 	PROP_SPEED,
@@ -66,6 +67,7 @@ struct _GmpvModel
 	gdouble duration;
 	gchar *media_title;
 	GSList *metadata;
+	GSList *playlist;
 	gint64 playlist_count;
 	gint64 playlist_pos;
 	gdouble speed;
@@ -212,6 +214,12 @@ static void set_property(	GObject *object,
 		self->metadata = gmpv_mpv_get_metadata(self->mpv);
 		break;
 
+		case PROP_PLAYLIST:
+		g_slist_free_full(	self->playlist,
+					(GDestroyNotify)gmpv_playlist_entry_free );
+		self->playlist = gmpv_mpv_get_playlist_slist(self->mpv);
+		break;
+
 		case PROP_PLAYLIST_COUNT:
 		self->playlist_count = g_value_get_int64(value);
 		break;
@@ -309,6 +317,10 @@ static void get_property(	GObject *object,
 
 		case PROP_METADATA:
 		g_value_set_pointer(value, self->metadata);
+		break;
+
+		case PROP_PLAYLIST:
+		g_value_set_pointer(value, self->playlist);
 		break;
 
 		case PROP_PLAYLIST_COUNT:
@@ -590,6 +602,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			{"duration", PROP_DURATION, G_TYPE_DOUBLE},
 			{"media-title", PROP_MEDIA_TITLE, G_TYPE_STRING},
 			{"metadata", PROP_METADATA, G_TYPE_POINTER},
+			{"playlist", PROP_PLAYLIST, G_TYPE_POINTER},
 			{"playlist-count", PROP_PLAYLIST_COUNT, G_TYPE_INT64},
 			{"playlist-pos", PROP_PLAYLIST_POS, G_TYPE_INT64},
 			{"speed", PROP_SPEED, G_TYPE_DOUBLE},

@@ -63,6 +63,7 @@ static void get_inst_property(	GObject *object,
 				GParamSpec *pspec );
 static void load_from_playlist(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
+static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
 static gboolean mpv_event_handler(gpointer data);
@@ -194,6 +195,26 @@ static void load_from_playlist(GmpvMpv *mpv)
 static void wakeup_callback(void *data)
 {
 	g_idle_add((GSourceFunc)mpv_event_handler, data);
+}
+
+static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node)
+{
+	const gchar *filename = NULL;
+	const gchar *title = NULL;
+
+	for(gint i = 0; i < node->num; i++)
+	{
+		if(g_strcmp0(node->keys[i], "filename") == 0)
+		{
+			filename = node->values[i].u.string;
+		}
+		else if(g_strcmp0(node->keys[i], "title") == 0)
+		{
+			title = node->values[i].u.string;
+		}
+	}
+
+	return gmpv_playlist_entry_new(filename, title);
 }
 
 static GmpvTrack *parse_track_entry(mpv_node_list *node)
@@ -870,6 +891,24 @@ void gmpv_metadata_entry_free(GmpvMetadataEntry *entry)
 	g_free(entry);
 }
 
+GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
+						const gchar *title )
+{
+	GmpvPlaylistEntry *entry = g_malloc(sizeof(GmpvPlaylistEntry));
+
+	entry->filename = g_strdup(filename);
+	entry->title = g_strdup(title);
+
+	return entry;
+}
+
+void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry)
+{
+	g_free(entry->filename);
+	g_free(entry->title);
+	g_free(entry);
+}
+
 GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid)
 {
 	return GMPV_MPV_OBJ(g_object_new(	gmpv_mpv_get_type(),
@@ -946,6 +985,31 @@ GSList *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 		}
 
 		mpv_free_node_contents(&metadata);
+	}
+
+	return g_slist_reverse(result);
+}
+
+GSList *gmpv_mpv_get_playlist_slist(GmpvMpv *mpv)
+{
+	GSList *result = NULL;
+	mpv_node playlist;
+
+	gmpv_mpv_get_property(mpv, "playlist", MPV_FORMAT_NODE, &playlist);
+
+	if(playlist.format == MPV_FORMAT_NODE_ARRAY)
+	{
+		const mpv_node_list *org_list = playlist.u.list;
+
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			GmpvPlaylistEntry *entry;
+
+			entry = parse_playlist_entry(org_list->values[i].u.list);
+			result = g_slist_prepend(result, entry);
+		}
+
+		mpv_free_node_contents(&playlist);
 	}
 
 	return g_slist_reverse(result);
@@ -1089,6 +1153,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 	mpv_observe_property(mpv->mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
 	mpv_observe_property(mpv->mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
+	mpv_observe_property(mpv->mpv_ctx, 0, "playlist", MPV_FORMAT_NODE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
