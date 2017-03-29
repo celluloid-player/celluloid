@@ -55,4 +55,41 @@
 		<property name='CanSeek' type='b' access='read'/>
 		<property name='CanControl' type='b' access='read'/>
 	</interface>
+
+	<interface name='org.mpris.MediaPlayer2.TrackList'>
+		<method name='GetTracksMetadata'>
+			<arg type='ao' name='TrackIds' direction='in'/>
+			<arg type='aa{sv}' name='Metadata' direction='out'/>
+		</method>
+		<method name='AddTrack'>
+			<arg type='s' name='Uri' direction='in'/>
+			<arg type='o' name='AfterTrack' direction='in'/>
+			<arg type='b' name='SetAsCurrent' direction='in'/>
+		</method>
+		<method name='RemoveTrack'>
+			<arg type='o' name='TrackId' direction='in'/>
+		</method>
+		<method name='GoTo'>
+			<arg type='o' name='TrackId' direction='in'/>
+		</method>
+
+		<signal name='TrackListReplaced'>
+			<arg type='ao' name='Tracks'/>
+			<arg type='o' name='CurrentTrack'/>
+		</signal>
+		<signal name='TrackAdded'>
+			<arg type='a{sv}' name='Metadata'/>
+			<arg type='0' name='AfterTrack'/>
+		</signal>
+		<signal name='TrackRemoved'>
+			<arg type='o' name='TrackId'/>
+		</signal>
+		<signal name='TrackMetadataChanged'>
+			<arg type='o' name='TrackId'/>
+			<arg type='a{sv}' name='Metadata'/>
+		</signal>
+
+		<property name='Tracks' type='ao' access='read'/>
+		<property name='CanEditTracks' type='b' access='read'/>
+	</interface>
 </node>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 gnome-mpv
+ * Copyright (c) 2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,34 +17,23 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MPRIS_H
-#define MPRIS_H
 
-#include <gio/gio.h>
-#include <glib.h>
+#ifndef MPRIS_TRACK_LIST_H
+#define MPRIS_TRACK_LIST_H
 
-#include "gmpv_application.h"
 #include "gmpv_mpris_module.h"
+#include "gmpv_application_private.h"
 
-typedef struct gmpv_mpris gmpv_mpris;
-typedef struct gmpv_mpris_prop gmpv_mpris_prop;
+#include <glib-object.h>
 
-struct gmpv_mpris
-{
-	GmpvApplication* gmpv_ctx;
-	GmpvMprisModule *base;
-	GmpvMprisModule *player;
-	GmpvMprisModule *track_list;
-	guint name_id;
-	guint player_reg_id;
-	gulong shutdown_sig_id;
-	gulong *player_sig_id_list;
-	gdouble pending_seek;
-	GHashTable *player_prop_table;
-	GDBusConnection *session_bus_conn;
-};
+G_BEGIN_DECLS
 
-GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list);
-void gmpv_mpris_init(GmpvApplication *gmpv_ctx);
+#define GMPV_TYPE_MPRIS_TRACK_LIST (gmpv_mpris_track_list_get_type())
+G_DECLARE_FINAL_TYPE(GmpvMprisTrackList, gmpv_mpris_track_list, GMPV, MPRIS_TRACK_LIST, GmpvMprisModule)
+
+GmpvMprisTrackList *gmpv_mpris_track_list_new(	GmpvApplication *app,
+						GDBusConnection *conn );
+
+G_END_DECLS
 
 #endif

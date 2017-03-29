@@ -40,8 +40,12 @@ void gmpv_mpris_module_connect_signal(	GmpvMprisModule *module,
 					const gchar *detailed_signal,
 					GCallback handler,
 					gpointer data );
-void gmpv_mpris_module_set_properties(GmpvMprisModule *module, ...);
+#define gmpv_mpris_module_set_properties(module, ...)\
+	gmpv_mpris_module_set_properties_full(module, TRUE, __VA_ARGS__)
 void gmpv_mpris_module_get_properties(GmpvMprisModule *module, ...);
+void gmpv_mpris_module_set_properties_full(	GmpvMprisModule *module,
+						gboolean send_new_value,
+						... );
 void gmpv_mpris_module_register_interface(GmpvMprisModule *module);
 void gmpv_mpris_module_unregister_interface(GmpvMprisModule *module);
 

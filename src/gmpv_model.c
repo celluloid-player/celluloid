@@ -67,7 +67,7 @@ struct _GmpvModel
 	gdouble duration;
 	gchar *media_title;
 	GSList *metadata;
-	GSList *playlist;
+	GPtrArray *playlist;
 	gint64 playlist_count;
 	gint64 playlist_pos;
 	gdouble speed;
@@ -215,9 +215,11 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_PLAYLIST:
-		g_slist_free_full(	self->playlist,
-					(GDestroyNotify)gmpv_playlist_entry_free );
-		self->playlist = gmpv_mpv_get_playlist_slist(self->mpv);
+		if(self->playlist)
+		{
+			g_ptr_array_free(self->playlist, TRUE);
+		}
+		self->playlist = gmpv_mpv_get_playlist_array(self->mpv);
 		break;
 
 		case PROP_PLAYLIST_COUNT:

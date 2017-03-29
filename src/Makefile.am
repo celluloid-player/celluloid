@@ -7,6 +7,7 @@ mpris_files =	mpris/gmpv_mpris.c mpris/gmpv_mpris.h \
 		mpris/gmpv_mpris_module.c mpris/gmpv_mpris_module.h \
 		mpris/gmpv_mpris_base.c mpris/gmpv_mpris_base.h \
 		mpris/gmpv_mpris_player.c mpris/gmpv_mpris_player.h \
+		mpris/gmpv_mpris_track_list.c mpris/gmpv_mpris_track_list.h \
 		$(mpris_generated)
 $(mpris_generated): $(top_srcdir)/data/gmpv_mpris_gdbus.xml
 	$(AM_V_GEN) \

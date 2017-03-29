@@ -205,53 +205,6 @@ void gmpv_mpris_module_connect_signal(	GmpvMprisModule *module,
 	priv->signal_ids = g_slist_prepend(priv->signal_ids, info);
 }
 
-void gmpv_mpris_module_set_properties(GmpvMprisModule *module, ...)
-{
-	GmpvMprisModulePrivate *priv;
-	GVariantBuilder builder;
-	va_list arg;
-	gchar *name;
-	GVariant *value;
-	GVariant *sig_args;
-
-	priv =	G_TYPE_INSTANCE_GET_PRIVATE
-		(module, GMPV_TYPE_MPRIS_MODULE, GmpvMprisModulePrivate);
-
-	g_debug("Preparing property change event");
-	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
-
-	va_start(arg, module);
-
-	for(	name = va_arg(arg, gchar *),
-		value = va_arg(arg, GVariant *);
-		name && value;
-		name = va_arg(arg, gchar *),
-		value = va_arg(arg, GVariant *) )
-	{
-		g_hash_table_replace(	priv->prop_table,
-					g_strdup(name),
-					g_variant_ref_sink(value) );
-
-		g_debug("Adding property \"%s\"", name);
-		g_variant_builder_add(&builder, "{sv}", name, value);
-	}
-
-	sig_args =	g_variant_new
-			("(sa{sv}as)", priv->iface->name, &builder, NULL);
-
-	g_debug(	"Emitting property change event on interface %s",
-			priv->iface->name );
-
-	g_dbus_connection_emit_signal
-		(	priv->conn,
-			NULL,
-			MPRIS_OBJ_ROOT_PATH,
-			"org.freedesktop.DBus.Properties",
-			"PropertiesChanged",
-			sig_args,
-			NULL );
-}
-
 void gmpv_mpris_module_get_properties(GmpvMprisModule *module, ...)
 {
 	GmpvMprisModulePrivate *priv;
@@ -272,6 +225,60 @@ void gmpv_mpris_module_get_properties(GmpvMprisModule *module, ...)
 	{
 		*value_ptr = g_hash_table_lookup(priv->prop_table, name);
 	}
+}
+
+void gmpv_mpris_module_set_properties_full(	GmpvMprisModule *module,
+						gboolean send_new_value,
+						... )
+{
+	GmpvMprisModulePrivate *priv;
+	GVariantBuilder builder;
+	va_list arg;
+	gchar *name;
+	GVariant *value;
+	const gchar *builder_type_string;
+	const gchar *elem_type_string;
+	GVariant *sig_args;
+
+	priv =	G_TYPE_INSTANCE_GET_PRIVATE
+		(module, GMPV_TYPE_MPRIS_MODULE, GmpvMprisModulePrivate);
+	builder_type_string = send_new_value?"a{sv}":"as";
+	elem_type_string = builder_type_string+1;
+
+	g_debug("Preparing property change event");
+	g_variant_builder_init(&builder, G_VARIANT_TYPE(builder_type_string));
+
+	va_start(arg, send_new_value);
+
+	for(	name = va_arg(arg, gchar *),
+		value = va_arg(arg, GVariant *);
+		name && value;
+		name = va_arg(arg, gchar *),
+		value = va_arg(arg, GVariant *) )
+	{
+		g_hash_table_replace(	priv->prop_table,
+					g_strdup(name),
+					g_variant_ref_sink(value) );
+
+		g_debug("Adding property \"%s\"", name);
+		g_variant_builder_add(&builder, elem_type_string, name, value);
+	}
+
+	sig_args = g_variant_new(	"(sa{sv}as)",
+					priv->iface->name,
+					send_new_value?&builder:NULL,
+					send_new_value?NULL:&builder );
+
+	g_debug(	"Emitting property change event on interface %s",
+			priv->iface->name );
+	g_dbus_connection_emit_signal
+		(	priv->conn,
+			NULL,
+			MPRIS_OBJ_ROOT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"PropertiesChanged",
+			sig_args,
+			NULL );
 }
 
 void gmpv_mpris_module_register_interface(GmpvMprisModule *module)

@@ -990,29 +990,34 @@ GSList *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 	return g_slist_reverse(result);
 }
 
-GSList *gmpv_mpv_get_playlist_slist(GmpvMpv *mpv)
+GPtrArray *gmpv_mpv_get_playlist_array(GmpvMpv *mpv)
 {
-	GSList *result = NULL;
+	GPtrArray *result = NULL;
+	const mpv_node_list *org_list;
 	mpv_node playlist;
 
 	gmpv_mpv_get_property(mpv, "playlist", MPV_FORMAT_NODE, &playlist);
+	org_list = playlist.u.list;
 
-	if(playlist.format == MPV_FORMAT_NODE_ARRAY)
+	if(playlist.format == MPV_FORMAT_NODE_ARRAY && org_list->num > 0)
 	{
-		const mpv_node_list *org_list = playlist.u.list;
+		result = g_ptr_array_new_full(	(guint)
+						org_list->num,
+						(GDestroyNotify)
+						gmpv_playlist_entry_free );
 
 		for(gint i = 0; i < org_list->num; i++)
 		{
 			GmpvPlaylistEntry *entry;
 
 			entry = parse_playlist_entry(org_list->values[i].u.list);
-			result = g_slist_prepend(result, entry);
+			g_ptr_array_add(result, entry);
 		}
 
 		mpv_free_node_contents(&playlist);
 	}
 
-	return g_slist_reverse(result);
+	return result;
 }
 
 GSList *gmpv_mpv_get_track_list(GmpvMpv *mpv)

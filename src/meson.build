@@ -33,7 +33,8 @@ sources = [
   'mpris/gmpv_mpris.c',
   'mpris/gmpv_mpris_module.c',
   'mpris/gmpv_mpris_base.c',
-  'mpris/gmpv_mpris_player.c'
+  'mpris/gmpv_mpris_player.c',
+  'mpris/gmpv_mpris_track_list.c'
 ]
 
 sources += custom_target('authors',

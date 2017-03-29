@@ -27,6 +27,7 @@
 #include "gmpv_mpris.h"
 #include "gmpv_mpris_base.h"
 #include "gmpv_mpris_player.h"
+#include "gmpv_mpris_track_list.h"
 #include "gmpv_def.h"
 
 static void name_acquired_handler(	GDBusConnection *connection,
@@ -49,9 +50,12 @@ static void name_acquired_handler(	GDBusConnection *connection,
 								connection ));
 	inst->player = GMPV_MPRIS_MODULE(gmpv_mpris_player_new(	inst->gmpv_ctx,
 								connection ));
+	inst->track_list = GMPV_MPRIS_MODULE(gmpv_mpris_track_list_new(	inst->gmpv_ctx,
+									connection ));
 
 	gmpv_mpris_module_register_interface(inst->base);
 	gmpv_mpris_module_register_interface(inst->player);
+	gmpv_mpris_module_register_interface(inst->track_list);
 }
 
 static void name_lost_handler(	GDBusConnection *connection,
@@ -78,6 +82,7 @@ static void unregister(gmpv_mpris *inst)
 {
 	gmpv_mpris_module_unregister_interface(inst->base);
 	gmpv_mpris_module_unregister_interface(inst->player);
+	gmpv_mpris_module_unregister_interface(inst->track_list);
 }
 
 GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list)

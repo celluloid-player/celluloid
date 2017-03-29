@@ -121,7 +121,7 @@ static void register_interface(GmpvMprisModule *module)
 			"CanSetFullscreen", g_variant_new_boolean(TRUE),
 			"CanRaise", g_variant_new_boolean(TRUE),
 			"Fullscreen", g_variant_new_boolean(FALSE),
-			"HasTrackList", g_variant_new_boolean(FALSE),
+			"HasTrackList", g_variant_new_boolean(TRUE),
 			"Identity", g_variant_new_string(g_get_application_name()),
 			"DesktopEntry", g_variant_new_string(APP_ID),
 			"SupportedUriSchemes", get_supported_uri_schemes(),

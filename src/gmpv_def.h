@@ -27,6 +27,7 @@
 #define CONFIG_WIN_STATE APP_ID".window-state"
 #define ACTION_PREFIX "gmpv-action"
 #define DEFAULT_LOG_LEVEL MPV_LOG_LEVEL_ERROR
+#define MPRIS_TRACK_ID_NO_TRACK "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 #define MPRIS_TRACK_ID_PREFIX "/io/github/GnomeMpv/Track/"
 #define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.GnomeMpv"
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
