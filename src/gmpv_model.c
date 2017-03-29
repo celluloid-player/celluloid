@@ -881,7 +881,8 @@ gdouble gmpv_model_get_time_position(GmpvModel *model)
 				MPV_FORMAT_DOUBLE,
 				&time_pos );
 
-	return time_pos;
+	/* time-pos may become negative during seeks */
+	return MAX(0, time_pos);
 }
 
 void gmpv_model_set_playlist_position(GmpvModel *model, gint64 position)
