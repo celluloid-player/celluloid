@@ -76,7 +76,7 @@ mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv);
 gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv);
 GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv);
 GPtrArray *gmpv_mpv_get_playlist_array(GmpvMpv *mpv);
-GSList *gmpv_mpv_get_track_list(GmpvMpv *mpv);
+GPtrArray *gmpv_mpv_get_track_list(GmpvMpv *mpv);
 void gmpv_mpv_initialize(GmpvMpv *mpv);
 void gmpv_mpv_init_gl(GmpvMpv *mpv);
 void gmpv_mpv_reset(GmpvMpv *mpv);

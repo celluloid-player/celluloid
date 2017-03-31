@@ -132,7 +132,7 @@ void gmpv_header_bar_set_fullscreen_state(	GmpvHeaderBar *hdr,
 }
 
 void gmpv_header_bar_update_track_list(	GmpvHeaderBar *hdr,
-					const GSList *track_list )
+					const GPtrArray *track_list )
 {
 	GMenu *menu = g_menu_new();
 

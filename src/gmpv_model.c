@@ -71,7 +71,7 @@ struct _GmpvModel
 	gint64 playlist_count;
 	gint64 playlist_pos;
 	gdouble speed;
-	GSList *track_list;
+	GPtrArray *track_list;
 	gdouble volume;
 };
 
@@ -237,8 +237,10 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_TRACK_LIST:
-		g_slist_free_full(	self->track_list,
-					(GDestroyNotify)gmpv_track_free );
+		if(self->track_list)
+		{
+			g_ptr_array_free(self->track_list, TRUE);
+		}
 		self->track_list = gmpv_mpv_get_track_list(self->mpv);
 		break;
 

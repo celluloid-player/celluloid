@@ -1025,30 +1025,34 @@ GPtrArray *gmpv_mpv_get_playlist_array(GmpvMpv *mpv)
 	return result;
 }
 
-GSList *gmpv_mpv_get_track_list(GmpvMpv *mpv)
+GPtrArray *gmpv_mpv_get_track_list(GmpvMpv *mpv)
 {
-	GSList *result = NULL;
+	GPtrArray *result = NULL;
 	mpv_node_list *org_list = NULL;
 	mpv_node track_list;
 
 	gmpv_mpv_get_property(mpv, "track-list", MPV_FORMAT_NODE, &track_list);
+	org_list = track_list.u.list;
 
 	if(track_list.format == MPV_FORMAT_NODE_ARRAY)
 	{
-		org_list = track_list.u.list;
+		result = g_ptr_array_new_full(	(guint)
+						org_list->num,
+						(GDestroyNotify)
+						gmpv_track_free );
 
 		for(gint i = 0; i < org_list->num; i++)
 		{
 			GmpvTrack *entry =	parse_track_entry
 						(org_list->values[i].u.list);
 
-			result = g_slist_prepend(result, entry);
+			g_ptr_array_add(result, entry);
 		}
 
 		mpv_free_node_contents(&track_list);
 	}
 
-	return g_slist_reverse(result);
+	return result;
 }
 
 void gmpv_mpv_initialize(GmpvMpv *mpv)

@@ -30,7 +30,7 @@ G_DECLARE_FINAL_TYPE(GmpvVideoArea, gmpv_video_area, GMPV, VIDEO_AREA, GtkOverla
 
 GtkWidget *gmpv_video_area_new(void);
 void gmpv_video_area_update_track_list(	GmpvVideoArea *hdr,
-					const GSList *track_list );
+					const GPtrArray *track_list );
 void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 						gboolean fullscreen );
 void gmpv_video_area_set_control_box(	GmpvVideoArea *area,

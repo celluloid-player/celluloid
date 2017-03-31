@@ -556,7 +556,7 @@ void gmpv_main_window_set_geometry(	GmpvMainWindow *wnd,
 }
 
 void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
-						const GSList *track_list )
+						const GPtrArray *track_list )
 {
 	if(gmpv_main_window_get_csd_enabled(wnd))
 	{

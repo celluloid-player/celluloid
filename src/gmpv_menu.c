@@ -34,43 +34,50 @@ struct GmpvMenuEntry
 	GMenu *submenu;
 };
 
-static void split_track_list(	const GSList *track_list,
-				GSList **audio_tracks,
-				GSList **video_tracks,
-				GSList **subtitle_tracks );
-static GMenu *build_menu_from_track_list(	const GSList *list,
+static void split_track_list(	const GPtrArray *track_list,
+				GPtrArray **audio_tracks,
+				GPtrArray **video_tracks,
+				GPtrArray **subtitle_tracks );
+static GMenu *build_menu_from_track_list(	const GPtrArray *list,
 						const gchar *action,
 						const gchar *load_action );
 static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat);
-static GMenu *build_video_track_menu(const GSList *list);
-static GMenu *build_audio_track_menu(const GSList *list);
-static GMenu *build_subtitle_track_menu(const GSList *list);
+static GMenu *build_video_track_menu(const GPtrArray *list);
+static GMenu *build_audio_track_menu(const GPtrArray *list);
+static GMenu *build_subtitle_track_menu(const GPtrArray *list);
 
-static void split_track_list(	const GSList *track_list,
-				GSList **audio_tracks,
-				GSList **video_tracks,
-				GSList **subtitle_tracks )
+static void split_track_list(	const GPtrArray *track_list,
+				GPtrArray **audio_tracks,
+				GPtrArray **video_tracks,
+				GPtrArray **subtitle_tracks )
 {
-	*audio_tracks = NULL;
-	*video_tracks = NULL;
-	*subtitle_tracks = NULL;
+	guint track_list_len = track_list?track_list->len:0;
 
-	for(const GSList *iter = track_list; iter; iter = g_slist_next(iter))
+	g_assert(audio_tracks && video_tracks && subtitle_tracks);
+
+	/* The contents of these array are shallow-copied from track_list and
+	 * therefore only the container should be freed.
+	 */
+	*audio_tracks = g_ptr_array_new();
+	*video_tracks = g_ptr_array_new();
+	*subtitle_tracks = g_ptr_array_new();
+
+	for(guint i = 0; i < track_list_len; i++)
 	{
-		GmpvTrack *track = iter->data;
+		GmpvTrack *track = g_ptr_array_index(track_list, i);
 
 		switch(track->type)
 		{
 			case TRACK_TYPE_AUDIO:
-			*audio_tracks = g_slist_prepend(*audio_tracks, track);
+			g_ptr_array_add(*audio_tracks, track);
 			break;
 
 			case TRACK_TYPE_VIDEO:
-			*video_tracks = g_slist_prepend(*video_tracks, track);
+			g_ptr_array_add(*video_tracks, track);
 			break;
 
 			case TRACK_TYPE_SUBTITLE:
-			*subtitle_tracks = g_slist_prepend(*subtitle_tracks, track);
+			g_ptr_array_add(*subtitle_tracks, track);
 			break;
 
 			default:
@@ -80,28 +87,29 @@ static void split_track_list(	const GSList *track_list,
 	}
 }
 
-static GMenu *build_menu_from_track_list(	const GSList *list,
+static GMenu *build_menu_from_track_list(	const GPtrArray *list,
 						const gchar *action,
 						const gchar *load_action )
 {
 	GMenu *menu = g_menu_new();
-	const GSList *iter = list;
 	const glong max_len = 32;
 	gchar *detailed_action;
+
+	g_assert(list);
 
 	detailed_action = g_strdup_printf("%s(@x 0)", action);
 
 	g_menu_append(menu, _("None"), detailed_action);
 	g_free(detailed_action);
 
-	while(iter)
+	for(guint i = 0; i < list->len; i++)
 	{
 		GmpvTrack *entry;
 		glong entry_title_len;
 		gchar *entry_title;
 		gchar *title;
 
-		entry = iter->data;
+		entry = g_ptr_array_index(list, i);
 
 		/* For simplicity, also dup the default string used when the
 		 * track has no title.
@@ -131,8 +139,6 @@ static GMenu *build_menu_from_track_list(	const GSList *list,
 						entry->lang );
 
 		g_menu_append(menu, title, detailed_action);
-
-		iter = g_slist_next(iter);
 
 		g_free(detailed_action);
 		g_free(entry_title);
@@ -195,13 +201,13 @@ static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat)
 	}
 }
 
-static GMenu *build_video_track_menu(const GSList *list)
+static GMenu *build_video_track_menu(const GPtrArray *list)
 {
 	return	build_menu_from_track_list
 		(list, "app.set-video-track", NULL);
 }
 
-static GMenu *build_audio_track_menu(const GSList *list)
+static GMenu *build_audio_track_menu(const GPtrArray *list)
 {
 	return	build_menu_from_track_list
 		(	list,
@@ -209,7 +215,7 @@ static GMenu *build_audio_track_menu(const GSList *list)
 			"app.load-track('audio-add')" );
 }
 
-static GMenu *build_subtitle_track_menu(const GSList *list)
+static GMenu *build_subtitle_track_menu(const GPtrArray *list)
 {
 	return	build_menu_from_track_list
 		(	list,
@@ -217,11 +223,11 @@ static GMenu *build_subtitle_track_menu(const GSList *list)
 			"app.load-track('sub-add')" );
 }
 
-void gmpv_menu_build_full(GMenu *menu, const GSList *track_list)
+void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 {
-	GSList *audio_tracks = NULL;
-	GSList *video_tracks = NULL;
-	GSList *subtitle_tracks = NULL;
+	GPtrArray *audio_tracks = NULL;
+	GPtrArray *video_tracks = NULL;
+	GPtrArray *subtitle_tracks = NULL;
 	GMenu *video_menu = NULL;
 	GMenu *audio_menu = NULL;
 	GMenu *subtitle_menu = NULL;
@@ -258,16 +264,19 @@ void gmpv_menu_build_full(GMenu *menu, const GSList *track_list)
 
 	build_menu(menu, entries, FALSE);
 
+	g_ptr_array_free(audio_tracks, FALSE);
+	g_ptr_array_free(video_tracks, FALSE);
+	g_ptr_array_free(subtitle_tracks, FALSE);
 	g_object_unref(video_menu);
 	g_object_unref(audio_menu);
 	g_object_unref(subtitle_menu);
 }
 
-void gmpv_menu_build_menu_btn(GMenu *menu, const GSList *track_list)
+void gmpv_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 {
-	GSList *audio_tracks = NULL;
-	GSList *video_tracks = NULL;
-	GSList *subtitle_tracks = NULL;
+	GPtrArray *audio_tracks = NULL;
+	GPtrArray *video_tracks = NULL;
+	GPtrArray *subtitle_tracks = NULL;
 	GMenu *video_menu = NULL;
 	GMenu *audio_menu = NULL;
 	GMenu *subtitle_menu = NULL;
@@ -297,6 +306,9 @@ void gmpv_menu_build_menu_btn(GMenu *menu, const GSList *track_list)
 
 	build_menu(menu, entries, TRUE);
 
+	g_ptr_array_free(audio_tracks, FALSE);
+	g_ptr_array_free(video_tracks, FALSE);
+	g_ptr_array_free(subtitle_tracks, FALSE);
 	g_object_unref(video_menu);
 	g_object_unref(audio_menu);
 	g_object_unref(subtitle_menu);

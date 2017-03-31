@@ -34,6 +34,6 @@ gboolean gmpv_header_bar_get_menu_button_popup_visible(GmpvHeaderBar *hdr);
 void gmpv_header_bar_set_fullscreen_state(	GmpvHeaderBar *hdr,
 						gboolean fullscreen );
 void gmpv_header_bar_update_track_list(	GmpvHeaderBar *hdr,
-					const GSList *track_list );
+					const GPtrArray *track_list );
 
 #endif

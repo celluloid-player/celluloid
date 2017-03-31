@@ -58,7 +58,7 @@ struct _GmpvView
 	gdouble volume;
 	gdouble duration;
 	gint playlist_pos;
-	GSList *track_list;
+	GPtrArray *track_list;
 	gboolean chapters_enabled;
 	gboolean control_box_enabled;
 	gboolean fullscreen;

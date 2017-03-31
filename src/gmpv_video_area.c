@@ -290,7 +290,7 @@ GtkWidget *gmpv_video_area_new()
 }
 
 void gmpv_video_area_update_track_list(	GmpvVideoArea *area,
-					const GSList *track_list )
+					const GPtrArray *track_list )
 {
 	gmpv_header_bar_update_track_list
 		(GMPV_HEADER_BAR(area->header_bar), track_list);
