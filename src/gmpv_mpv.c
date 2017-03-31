@@ -947,17 +947,21 @@ inline gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv)
 	return mpv->use_opengl;
 }
 
-GSList *gmpv_mpv_get_metadata(GmpvMpv *mpv)
+GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 {
-	GSList *result = NULL;
+	GPtrArray *result = NULL;
 	mpv_node_list *org_list = NULL;
 	mpv_node metadata;
 
 	gmpv_mpv_get_property(mpv, "metadata", MPV_FORMAT_NODE, &metadata);
+	org_list = metadata.u.list;
 
-	if(metadata.format == MPV_FORMAT_NODE_MAP)
+	if(metadata.format == MPV_FORMAT_NODE_MAP && org_list->num > 0)
 	{
-		org_list = metadata.u.list;
+		result = g_ptr_array_new_full(	(guint)
+						org_list->num,
+						(GDestroyNotify)
+						gmpv_metadata_entry_free );
 
 		for(gint i = 0; i < org_list->num; i++)
 		{
@@ -973,7 +977,8 @@ GSList *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 
 				entry =	gmpv_metadata_entry_new
 					(key, value.u.string);
-				result = g_slist_prepend(result, entry);
+
+				g_ptr_array_add(result, entry);
 			}
 			else
 			{
@@ -987,7 +992,7 @@ GSList *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 		mpv_free_node_contents(&metadata);
 	}
 
-	return g_slist_reverse(result);
+	return result;
 }
 
 GPtrArray *gmpv_mpv_get_playlist_array(GmpvMpv *mpv)

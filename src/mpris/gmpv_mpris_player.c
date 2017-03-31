@@ -61,7 +61,7 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
-static void append_metadata_tags(GVariantBuilder *builder, GSList *list);
+static void append_metadata_tags(GVariantBuilder *builder, GPtrArray *list);
 static void method_handler(	GDBusConnection *connection,
 				const gchar *sender,
 				const gchar *object_path,
@@ -252,7 +252,7 @@ static void get_property(	GObject *object,
 	}
 }
 
-static void append_metadata_tags(GVariantBuilder *builder, GSList *list)
+static void append_metadata_tags(GVariantBuilder *builder, GPtrArray *list)
 {
 	const struct
 	{
@@ -269,11 +269,13 @@ static void append_metadata_tags(GVariantBuilder *builder, GSList *list)
 			{"Title", "xesam:title", FALSE},
 			{NULL, NULL, FALSE} };
 
-	for(GSList *iter = list; iter; iter = g_slist_next(iter))
+	const guint list_len = list?list->len:0;
+
+	for(guint i = 0; i < list_len; i++)
 	{
 		const gchar *tag_name;
 		GVariant *tag_value;
-		GmpvMetadataEntry *entry = iter->data;
+		GmpvMetadataEntry *entry = g_ptr_array_index(list, i);
 		gboolean is_array = TRUE;
 		gint j = -1;
 
@@ -556,7 +558,7 @@ static void metadata_handler(	GObject *object,
 				gpointer data )
 {
 	GmpvModel *model = GMPV_MODEL(object);
-	GSList *metadata = NULL;
+	GPtrArray *metadata = NULL;
 	GVariantBuilder builder;
 	gchar *path;
 	gchar *uri;

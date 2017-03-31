@@ -66,7 +66,7 @@ struct _GmpvModel
 	gchar *loop;
 	gdouble duration;
 	gchar *media_title;
-	GSList *metadata;
+	GPtrArray *metadata;
 	GPtrArray *playlist;
 	gint64 playlist_count;
 	gint64 playlist_pos;
@@ -209,8 +209,10 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_METADATA:
-		g_slist_free_full(	self->metadata,
-					(GDestroyNotify)gmpv_metadata_entry_free );
+		if(self->metadata)
+		{
+			g_ptr_array_free(self->metadata, TRUE);
+		}
 		self->metadata = gmpv_mpv_get_metadata(self->mpv);
 		break;
 
