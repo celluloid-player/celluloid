@@ -374,7 +374,7 @@ static gint64 track_id_to_index(const gchar *track_id)
 
 	if(endptr && *endptr)
 	{
-		g_warning("Failed to parse parse track ID: %s", track_id);
+		g_warning("Failed to parse track ID: %s", track_id);
 	}
 
 	return index;
