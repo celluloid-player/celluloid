@@ -68,6 +68,12 @@ Run the following command in the source code directory to build and install:
 ./autogen.sh && make && sudo make install
 ```
 
+Alternatively, you can use Meson:
+
+```sh
+meson build && cd build && ninja && sudo ninja install
+```
+
 ## Usage
 
 ### Opening files
