@@ -990,7 +990,7 @@ GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 	return result;
 }
 
-GPtrArray *gmpv_mpv_get_playlist_array(GmpvMpv *mpv)
+GPtrArray *gmpv_mpv_get_playlist(GmpvMpv *mpv)
 {
 	GPtrArray *result = NULL;
 	const mpv_node_list *org_list;

@@ -221,7 +221,7 @@ static void set_property(	GObject *object,
 		{
 			g_ptr_array_free(self->playlist, TRUE);
 		}
-		self->playlist = gmpv_mpv_get_playlist_array(self->mpv);
+		self->playlist = gmpv_mpv_get_playlist(self->mpv);
 		break;
 
 		case PROP_PLAYLIST_COUNT:
