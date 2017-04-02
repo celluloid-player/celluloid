@@ -927,11 +927,6 @@ inline GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv)
 	return mpv->geometry;
 }
 
-inline GmpvPlaylist *gmpv_mpv_get_playlist(GmpvMpv *mpv)
-{
-	return mpv->playlist;
-}
-
 inline mpv_handle *gmpv_mpv_get_mpv_handle(GmpvMpv *mpv)
 {
 	return mpv->mpv_ctx;

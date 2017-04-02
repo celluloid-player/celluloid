@@ -984,9 +984,3 @@ gchar *gmpv_model_get_current_path(GmpvModel *model)
 
 	return buf;
 }
-
-GmpvPlaylist *gmpv_model_get_playlist(GmpvModel *model)
-{
-	return gmpv_mpv_get_playlist(model->mpv);
-}
-

@@ -64,7 +64,6 @@ void gmpv_model_get_video_geometry(	GmpvModel *model,
 					gint64 *width,
 					gint64 *height );
 gchar *gmpv_model_get_current_path(GmpvModel *model);
-GmpvPlaylist *gmpv_model_get_playlist(GmpvModel *model);
 
 G_END_DECLS
 
