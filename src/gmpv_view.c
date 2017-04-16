@@ -1440,6 +1440,13 @@ void gmpv_view_set_use_opengl_cb(GmpvView *view, gboolean use_opengl_cb)
 	gmpv_video_area_set_use_opengl(area, use_opengl_cb);
 }
 
+gint gmpv_view_get_scale_factor(GmpvView *view)
+{
+	GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(view->wnd));
+
+	return gdk_window_get_scale_factor(gdk_window);
+}
+
 void gmpv_view_get_video_area_geometry(GmpvView *view, gint *width, gint *height)
 {
 	GmpvVideoArea *area = gmpv_main_window_get_video_area(view->wnd);
