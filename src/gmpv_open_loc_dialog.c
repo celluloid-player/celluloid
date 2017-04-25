@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, 2016 gnome-mpv
+ * Copyright (c) 2014, 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -59,6 +59,27 @@ static gboolean key_press_handler (GtkWidget *widget, GdkEventKey *event)
 
 	return	GTK_WIDGET_CLASS(gmpv_open_loc_dialog_parent_class)
 		->key_press_event (widget, event);
+}
+
+static void load_text_from_clipboard(GmpvOpenLocDialog *dlg)
+{
+	const gchar *const clipboard_names[] = {"CLIPBOARD", "PRIMARY", NULL};
+	gchar *clipboard_text = NULL;
+
+	for(gint i = 0; clipboard_names[i] && !clipboard_text; i++)
+	{
+		GdkAtom atom = gdk_atom_intern(clipboard_names[i], FALSE);
+		GtkClipboard *clipboard = gtk_clipboard_get(atom);
+
+		clipboard_text = gtk_clipboard_wait_for_text(clipboard);
+	}
+
+	if(clipboard_text)
+	{
+		gtk_entry_set_text(GTK_ENTRY(dlg->loc_entry), clipboard_text);
+	}
+
+	g_free(clipboard_text);
 }
 
 static void gmpv_open_loc_dialog_class_init(GmpvOpenLocDialogClass *klass)
@@ -152,6 +173,8 @@ GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent, const gchar *title)
 			(GTK_HEADER_BAR(header_bar), FALSE);
 
 	}
+
+	load_text_from_clipboard(GMPV_OPEN_LOC_DIALOG(dlg));
 
 	gtk_widget_hide_on_delete(dlg);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
