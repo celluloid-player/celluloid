@@ -154,7 +154,7 @@ static void proxy_ready_handler(	GObject *source_object,
 				-1,
 				NULL,
 				NULL,
-				inst );
+				NULL );
 }
 
 static void session_ready_handler(	GObject *source_object,
@@ -165,6 +165,22 @@ static void session_ready_handler(	GObject *source_object,
 
 	inst->session_bus_conn = g_bus_get_finish(res, NULL);
 
+	/* The MediaKeys plugin for gnome-settings-daemon <= 3.24.1 used the
+	 * bus name org.gnome.SettingsDaemon despite the documentation stating
+	 * that org.gnome.SettingsDaemon.MediaKeys should be used.
+	 * gnome-settings-daemon > 3.24.1 changed the bus name to match the
+	 * documentation. To remain compatible with older versions, create
+	 * proxies for both names.
+	 */
+	g_dbus_proxy_new(	inst->session_bus_conn,
+				G_DBUS_PROXY_FLAGS_NONE,
+				NULL,
+				"org.gnome.SettingsDaemon.MediaKeys",
+				"/org/gnome/SettingsDaemon/MediaKeys",
+				"org.gnome.SettingsDaemon.MediaKeys",
+				NULL,
+				proxy_ready_handler,
+				inst );
 	g_dbus_proxy_new(	inst->session_bus_conn,
 				G_DBUS_PROXY_FLAGS_NONE,
 				NULL,
