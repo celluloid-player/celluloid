@@ -401,17 +401,9 @@ static gboolean mpv_event_handler(gpointer data)
 			done = TRUE;
 		}
 
-		if(event)
+		if(event && !mpv->mpv_ctx)
 		{
-			if(mpv->mpv_ctx)
-			{
-				g_signal_emit_by_name
-					(mpv, "mpv-event", event->event_id);
-			}
-			else
-			{
-				done = TRUE;
-			}
+			done = TRUE;
 		}
 	}
 
@@ -779,16 +771,6 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-	g_signal_new(	"mpv-event",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__ENUM,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_INT );
 	g_signal_new(	"mpv-prop-change",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
