@@ -286,6 +286,14 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
 	}
+	else if(g_strcmp0(prop->name, "vo-configured") == 0)
+	{
+		if(mpv->init_vo_config)
+		{
+			mpv->init_vo_config = FALSE;
+			load_from_playlist(mpv);
+		}
+	}
 }
 
 static gboolean mpv_event_handler(gpointer data)
@@ -376,6 +384,29 @@ static gboolean mpv_event_handler(gpointer data)
 				g_signal_emit_by_name(	mpv,
 							"autofit",
 							mpv->autofit_ratio );
+			}
+		}
+		else if(event->event_id == MPV_EVENT_START_FILE)
+		{
+			gboolean vo_configured = FALSE;
+
+			mpv_get_property(	mpv->mpv_ctx,
+						"vo-configured",
+						MPV_FORMAT_FLAG,
+						&vo_configured );
+
+			/* If the vo is not configured yet, save the content of
+			 * mpv's playlist in mpv->playlist. This will be loaded
+			 * again when the vo is configured.
+			 */
+			if(!vo_configured)
+			{
+				if(mpv->playlist)
+				{
+					g_ptr_array_free(mpv->playlist, TRUE);
+				}
+
+				mpv->playlist = get_mpv_playlist(mpv);
 			}
 		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
@@ -768,6 +799,7 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->state.new_file = TRUE;
 	mpv->state.init_load = TRUE;
 
+	mpv->init_vo_config = TRUE;
 	mpv->force_opengl = FALSE;
 	mpv->use_opengl = FALSE;
 	mpv->glarea = NULL;
@@ -873,16 +905,6 @@ GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 
 GPtrArray *gmpv_mpv_get_playlist(GmpvMpv *mpv)
 {
-	gboolean idle_active = FALSE;
-
-	gmpv_mpv_get_property(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
-
-	// TODO: Check if we actually need to update the playlist here.
-	if(!idle_active)
-	{
-		mpv->playlist = get_mpv_playlist(mpv);
-	}
-
 	return mpv->playlist;
 }
 
@@ -931,7 +953,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 	}
 	options[] = {	{"osd-level", "1"},
 			{"softvol", "yes"},
-			{"force-window", "yes"},
+			{"force-window", "immediate"},
 			{"input-default-bindings", "yes"},
 			{"audio-client-name", ICON_NAME},
 			{"title", "${media-title}"},
@@ -1033,6 +1055,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
 	mpv_observe_property(mpv->mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
 	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
+	mpv_observe_property(mpv->mpv_ctx, 0, "vo-configured", MPV_FORMAT_FLAG);
 	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 	mpv_set_wakeup_callback(mpv->mpv_ctx, wakeup_callback, mpv);
 	mpv_initialize(mpv->mpv_ctx);

@@ -45,6 +45,7 @@ struct _GmpvMpv
 	GSList *log_level_list;
 	gdouble autofit_ratio;
 	GmpvGeometry *geometry;
+	gboolean init_vo_config;
 	gboolean force_opengl;
 	gboolean use_opengl;
 	gint64 wid;
