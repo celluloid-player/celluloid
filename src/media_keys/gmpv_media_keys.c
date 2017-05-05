@@ -120,7 +120,10 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 		}
 		else if(g_strcmp0(key, "Play") == 0)
 		{
-			gmpv_model_play(model);
+			gboolean pause = FALSE;
+
+			g_object_get(model, "pause", &pause, NULL);
+			(pause?gmpv_model_play:gmpv_model_pause)(model);
 		}
 		else if(g_strcmp0(key, "FastForward") == 0)
 		{
