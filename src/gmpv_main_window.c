@@ -23,6 +23,7 @@
 #include <gdk/gdk.h>
 
 #include "gmpv_def.h"
+#include "gmpv_marshal.h"
 #include "gmpv_menu.h"
 #include "gmpv_application.h"
 #include "gmpv_playlist_widget.h"
@@ -34,7 +35,6 @@
 enum
 {
 	PROP_0,
-	PROP_PLAYLIST,
 	PROP_ALWAYS_FLOATING,
 	N_PROPERTIES
 };
@@ -42,7 +42,6 @@ enum
 struct _GmpvMainWindow
 {
 	GtkApplicationWindow parent_instance;
-	GmpvPlaylist *playlist_store;
 	gint width_offset;
 	gint height_offset;
 	gint resize_target[2];
@@ -90,7 +89,7 @@ static void gmpv_main_window_constructed(GObject *object)
 {
 	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
 
-	self->playlist = gmpv_playlist_widget_new(self->playlist_store);
+	self->playlist = gmpv_playlist_widget_new();
 
 	gtk_widget_show_all(self->playlist);
 	gtk_widget_hide(self->playlist);
@@ -119,11 +118,7 @@ static void gmpv_main_window_set_property(	GObject *object,
 {
 	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
 
-	if(property_id == PROP_PLAYLIST)
-	{
-		self->playlist_store = g_value_get_pointer(value);
-	}
-	else if(property_id == PROP_ALWAYS_FLOATING)
+	if(property_id == PROP_ALWAYS_FLOATING)
 	{
 		self->always_floating = g_value_get_boolean(value);
 	}
@@ -140,11 +135,7 @@ static void gmpv_main_window_get_property(	GObject *object,
 {
 	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
 
-	if(property_id == PROP_PLAYLIST)
-	{
-		g_value_set_pointer(value, self->playlist_store);
-	}
-	else if(property_id == PROP_ALWAYS_FLOATING)
+	if(property_id == PROP_ALWAYS_FLOATING)
 	{
 		g_value_set_boolean(value, self->always_floating);
 	}
@@ -286,13 +277,6 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 	obj_class->get_property = gmpv_main_window_get_property;
 	obj_class->notify = gmpv_main_window_notify;
 
-	pspec = g_param_spec_pointer
-		(	"playlist",
-			"Playlist",
-			"Playlist object used to store playlist items",
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
-
 	pspec = g_param_spec_boolean
 		(	"always-use-floating-controls",
 			"Always use floating controls",
@@ -343,14 +327,11 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 }
 
 GtkWidget *gmpv_main_window_new(	GmpvApplication *app,
-					GmpvPlaylist *playlist,
 					gboolean always_floating )
 {
 	return GTK_WIDGET(g_object_new(	gmpv_main_window_get_type(),
 					"application",
 					app,
-					"playlist",
-					playlist,
 					"always-use-floating-controls",
 					always_floating,
 					NULL ));
@@ -454,12 +435,8 @@ void gmpv_main_window_toggle_fullscreen(GmpvMainWindow *wnd)
 
 void gmpv_main_window_reset(GmpvMainWindow *wnd)
 {
-	GmpvPlaylist *store =	gmpv_playlist_widget_get_store
-				(GMPV_PLAYLIST_WIDGET(wnd->playlist));
-
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 	gmpv_control_box_reset(GMPV_CONTROL_BOX(wnd->control_box));
-	gmpv_playlist_set_indicator_pos(store, -1);
 }
 
 void gmpv_main_window_save_state(GmpvMainWindow *wnd)

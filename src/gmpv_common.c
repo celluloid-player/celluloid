@@ -31,6 +31,24 @@
 #include "gmpv_main_window.h"
 #include "gmpv_control_box.h"
 
+GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
+						const gchar *title )
+{
+	GmpvPlaylistEntry *entry = g_malloc(sizeof(GmpvPlaylistEntry));
+
+	entry->filename = g_strdup(filename);
+	entry->title = g_strdup(title);
+
+	return entry;
+}
+
+void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry)
+{
+	g_free(entry->filename);
+	g_free(entry->title);
+	g_free(entry);
+}
+
 gchar *get_config_dir_path(void)
 {
 	return g_build_filename(	g_get_user_config_dir(),

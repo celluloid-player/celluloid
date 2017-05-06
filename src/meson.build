@@ -17,7 +17,6 @@ sources = [
   'gmpv_mpv_opt.c',
   'gmpv_mpv_wrapper.c',
   'gmpv_open_loc_dialog.c',
-  'gmpv_playlist.c',
   'gmpv_playlist_widget.c',
   'gmpv_plugins_manager.c',
   'gmpv_plugins_manager_item.c',

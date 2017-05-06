@@ -165,7 +165,6 @@ static void constructed(GObject *object)
 	GmpvView *view = GMPV_VIEW(object);
 	GmpvVideoArea *video_area = gmpv_main_window_get_video_area(view->wnd);
 	GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(view->wnd);
-	GmpvPlaylist *playlist_store = gmpv_playlist_widget_get_store(playlist);
 	GmpvControlBox *control_box;
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	gboolean csd_enable;
@@ -201,7 +200,7 @@ static void constructed(GObject *object)
 	g_object_bind_property(	view, "volume",
 				control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
-	g_object_bind_property(	playlist_store, "row-count",
+	g_object_bind_property(	playlist, "playlist-count",
 				view, "playlist-count",
 				G_BINDING_DEFAULT );
 
@@ -300,7 +299,7 @@ static void constructed(GObject *object)
 				G_CALLBACK(playlist_row_deleted_handler),
 				view );
 	g_signal_connect(	playlist,
-				"row-reordered",
+				"rows-reordered",
 				G_CALLBACK(playlist_row_reordered_handler),
 				view );
 }
@@ -358,8 +357,7 @@ static void set_property(	GObject *object,
 		case PROP_PLAYLIST_POS:
 		self->playlist_pos = g_value_get_int(value);
 		GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(self->wnd);
-		GmpvPlaylist *store = gmpv_playlist_widget_get_store(playlist);
-		gmpv_playlist_set_indicator_pos(store, self->playlist_pos);
+		gmpv_playlist_widget_set_indicator_pos(playlist, self->playlist_pos);
 		break;
 
 		case PROP_TRACK_LIST:
@@ -475,12 +473,10 @@ static void load_css(GmpvView *view)
 
 static void save_playlist(GmpvView *view, GFile *file, GError **error)
 {
-	GmpvPlaylistWidget *widget = gmpv_main_window_get_playlist(view->wnd);
-	GmpvPlaylist *playlist = gmpv_playlist_widget_get_store(widget);
+	GmpvPlaylistWidget *wgt = gmpv_main_window_get_playlist(view->wnd);
+	GPtrArray *playlist = gmpv_playlist_widget_get_contents(wgt);
 	gboolean rc = TRUE;
 	GOutputStream *dest_stream = NULL;
-	GtkTreeModel *model = GTK_TREE_MODEL(gmpv_playlist_get_store(playlist));
-	GtkTreeIter iter;
 
 	if(file)
 	{
@@ -493,26 +489,29 @@ static void save_playlist(GmpvView *view, GFile *file, GError **error)
 						NULL,
 						error );
 		dest_stream = G_OUTPUT_STREAM(file_stream);
-		rc = gtk_tree_model_get_iter_first(model, &iter);
-		rc &= !!dest_stream;
+		rc = !!dest_stream;
 	}
 
-	while(rc)
+	for(guint i = 0; rc && i < playlist->len; i++)
 	{
-		gchar *uri;
 		gsize written;
 
-		gtk_tree_model_get(model, &iter, PLAYLIST_URI_COLUMN, &uri, -1);
+		GmpvPlaylistEntry *entry = g_ptr_array_index(playlist, i);
 
-		rc &=	g_output_stream_printf
-			(dest_stream, &written, NULL, error, "%s\n", uri);
-		rc &= gtk_tree_model_iter_next(model, &iter);
+		rc = g_output_stream_printf(	dest_stream,
+						&written,
+						NULL,
+						NULL,
+						"%s\n",
+						entry->filename);
 	}
 
 	if(dest_stream)
 	{
 		g_output_stream_close(dest_stream, NULL, error);
 	}
+
+	g_ptr_array_free(playlist, TRUE);
 }
 
 static void play_button_handler(GtkButton *button, gpointer data)
@@ -747,7 +746,6 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
 	GmpvView *view = data;
 	GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(view->wnd);
-	GmpvPlaylist *playlist_store = gmpv_playlist_widget_get_store(playlist);
 	guint signal_id = g_signal_lookup("draw", GMPV_TYPE_MAIN_WINDOW);
 
 	g_signal_handlers_disconnect_matched(	widget,
@@ -759,7 +757,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 						NULL,
 						view );
 
-	if(gmpv_playlist_empty(playlist_store))
+	if(gmpv_playlist_widget_empty(playlist))
 	{
 		GmpvControlBox *control_box;
 
@@ -871,9 +869,7 @@ static void playlist_row_deleted_handler(	GmpvPlaylistWidget *widget,
 						gint pos,
 						gpointer data )
 {
-	GmpvPlaylist* playlist = gmpv_playlist_widget_get_store(widget);
-
-	if(gmpv_playlist_empty(playlist))
+	if(gmpv_playlist_widget_empty(widget))
 	{
 		gmpv_view_reset(data);
 	}
@@ -1475,4 +1471,19 @@ void gmpv_view_set_time_position(GmpvView *view, gdouble position)
 
 	control_box = gmpv_main_window_get_control_box(view->wnd);
 	gmpv_control_box_set_seek_bar_pos(control_box, position);
+}
+
+void gmpv_view_update_playlist(GmpvView *view, GPtrArray *playlist)
+{
+	if(playlist)
+	{
+		GmpvPlaylistWidget *pl = gmpv_main_window_get_playlist(view->wnd);
+
+		gmpv_playlist_widget_update_contents(pl, playlist);
+	}
+}
+
+void gmpv_view_set_playlist_pos(GmpvView *view, gint64 pos)
+{
+	g_object_set(view, "playlist-pos", pos, NULL);
 }

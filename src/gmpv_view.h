@@ -52,6 +52,8 @@ void gmpv_view_get_video_area_geometry(GmpvView *view, gint *width, gint *height
 void gmpv_view_resize_video_area(GmpvView *view, gint width, gint height);
 void gmpv_view_set_fullscreen(GmpvView *view, gboolean fullscreen);
 void gmpv_view_set_time_position(GmpvView *view, gdouble position);
+void gmpv_view_update_playlist(GmpvView *view, GPtrArray *playlist);
+void gmpv_view_set_playlist_pos(GmpvView *view, gint64 pos);
 
 G_END_DECLS
 

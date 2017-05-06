@@ -89,6 +89,9 @@ static gboolean is_more_than_one(	GBinding *binding,
 static void idle_active_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data);
+static void playlist_handler(		GObject *object,
+					GParamSpec *pspec,
+					gpointer data);
 static void model_ready_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
@@ -283,7 +286,20 @@ static void playlist_item_activated_handler(	GmpvView *view,
 						gint pos,
 						gpointer data )
 {
-	g_object_set(GMPV_CONTROLLER(data)->model, "playlist-pos", pos, NULL);
+	GmpvController *controller = GMPV_CONTROLLER(data);
+	gboolean idle_active = FALSE;
+
+	g_object_get(controller->model, "idle-active", &idle_active, NULL);
+	gmpv_model_play(controller->model);
+
+	if(idle_active)
+	{
+		controller->target_playlist_pos = pos;
+	}
+	else
+	{
+		gmpv_model_set_playlist_position(controller->model, pos);
+	}
 }
 
 static void playlist_item_deleted_handler(	GmpvView *view,
@@ -368,6 +384,10 @@ static void connect_signals(GmpvController *controller)
 	g_signal_connect(	controller->model,
 				"notify::idle-active",
 				G_CALLBACK(idle_active_handler),
+				controller );
+	g_signal_connect(	controller->model,
+				"notify::playlist",
+				G_CALLBACK(playlist_handler),
 				controller );
 	g_signal_connect(	controller->model,
 				"frame-ready",
@@ -553,6 +573,7 @@ static void idle_active_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data )
 {
+	GmpvController *controller = data;
 	gboolean idle_active = TRUE;
 
 	g_object_get(object, "idle-active", &idle_active, NULL);
@@ -561,6 +582,24 @@ static void idle_active_handler(	GObject *object,
 	{
 		gmpv_view_reset(GMPV_CONTROLLER(data)->view);
 	}
+	else if(controller->target_playlist_pos >= 0)
+	{
+		gmpv_model_set_playlist_position
+			(controller->model, controller->target_playlist_pos);
+	}
+}
+
+static void playlist_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data )
+{
+	GmpvView *view = GMPV_CONTROLLER(data)->view;
+	GPtrArray *playlist = NULL;
+	gint64 pos = 0;
+
+	g_object_get(object, "playlist", &playlist, "playlist-pos", &pos, NULL);
+	gmpv_view_update_playlist(view, playlist);
+	gmpv_view_set_playlist_pos(view, pos);
 }
 
 static void model_ready_handler(	GObject *object,

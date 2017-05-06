@@ -57,7 +57,6 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_mpv_private.h \
 			gmpv_mpv_opt.c gmpv_mpv_opt.h \
 			gmpv_open_loc_dialog.c gmpv_open_loc_dialog.h \
-			gmpv_playlist.c gmpv_playlist.h \
 			gmpv_playlist_widget.c gmpv_playlist_widget.h \
 			gmpv_plugins_manager.c gmpv_plugins_manager.h \
 			gmpv_plugins_manager_item.c gmpv_plugins_manager_item.h \

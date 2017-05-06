@@ -217,10 +217,6 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_PLAYLIST:
-		if(self->playlist)
-		{
-			g_ptr_array_free(self->playlist, TRUE);
-		}
 		self->playlist = gmpv_mpv_get_playlist(self->mpv);
 		break;
 
@@ -334,7 +330,7 @@ static void get_property(	GObject *object,
 		break;
 
 		case PROP_PLAYLIST_POS:
-		g_value_set_int64(value, self->playlist_pos);
+		g_value_set_int64(value, self->idle_active?0:self->playlist_pos);
 		break;
 
 		case PROP_SPEED:

@@ -48,7 +48,6 @@
 #include "gmpv_mpv_opt.h"
 #include "gmpv_common.h"
 #include "gmpv_def.h"
-#include "gmpv_playlist.h"
 #include "gmpv_marshal.h"
 
 static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name);
@@ -67,10 +66,10 @@ static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
 static gboolean mpv_event_handler(gpointer data);
-static void update_playlist(GmpvMpv *mpv);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
 static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
+static GPtrArray *get_mpv_playlist(GmpvMpv *mpv);
 
 G_DEFINE_TYPE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
@@ -124,10 +123,6 @@ static void set_inst_property(	GObject *object,
 	{
 		self->wid = g_value_get_int64(value);
 	}
-	else if(property_id == PROP_PLAYLIST)
-	{
-		self->playlist = g_value_get_pointer(value);
-	}
 	else
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -145,10 +140,6 @@ static void get_inst_property(	GObject *object,
 	{
 		g_value_set_int64(value, self->wid);
 	}
-	else if(property_id == PROP_PLAYLIST)
-	{
-		g_value_set_pointer(value, self->playlist);
-	}
 	else
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -157,38 +148,21 @@ static void get_inst_property(	GObject *object,
 
 static void load_from_playlist(GmpvMpv *mpv)
 {
-	GtkListStore *playlist_store = gmpv_playlist_get_store(mpv->playlist);
-	gboolean append = FALSE;
-	GtkTreeIter iter;
-	gboolean rc;
+	GPtrArray * playlist = mpv->playlist;
 
 	if(!mpv->state.init_load)
 	{
 		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 	}
 
-	rc = gtk_tree_model_get_iter_first
-		(GTK_TREE_MODEL(playlist_store), &iter);
-
-	while(rc)
+	for(guint i = 0; playlist && i < playlist->len; i++)
 	{
-		gchar *uri;
+		GmpvPlaylistEntry *entry;
 
-		gtk_tree_model_get(	GTK_TREE_MODEL(playlist_store),
-					&iter,
-					PLAYLIST_URI_COLUMN,
-					&uri,
-					-1 );
+		entry = g_ptr_array_index(playlist, i);
 
-		/* append = FALSE only on first iteration */
-		gmpv_mpv_load(mpv, uri, append, FALSE);
-
-		append = TRUE;
-
-		rc = gtk_tree_model_iter_next
-			(GTK_TREE_MODEL(playlist_store), &iter);
-
-		g_free(uri);
+		/* Do not append on first iteration */
+		gmpv_mpv_load_file(mpv, entry->filename, i != 0, FALSE);
 	}
 }
 
@@ -277,6 +251,41 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 			load_from_playlist(mpv);
 		}
 	}
+	else if(g_strcmp0(prop->name, "playlist") == 0)
+	{
+		gint64 playlist_count  = 0;
+		gboolean idle_active = FALSE;
+		gboolean was_empty = FALSE;
+
+		mpv_get_property(	mpv->mpv_ctx,
+					"playlist-count",
+					MPV_FORMAT_INT64,
+					&playlist_count );
+		mpv_get_property(	mpv->mpv_ctx,
+					"idle-active",
+					MPV_FORMAT_FLAG,
+					&idle_active );
+
+		was_empty = (mpv->playlist->len == 0);
+
+		if(!idle_active)
+		{
+			if(mpv->playlist)
+			{
+				g_ptr_array_free(mpv->playlist, TRUE);
+			}
+
+			mpv->playlist = get_mpv_playlist(mpv);
+		}
+
+		/* Check if we're transitioning from empty playlist to non-empty
+		 * playlist.
+		 */
+		if(was_empty && mpv->playlist->len > 0)
+		{
+			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
+		}
+	}
 }
 
 static gboolean mpv_event_handler(gpointer data)
@@ -313,7 +322,6 @@ static gboolean mpv_event_handler(gpointer data)
 
 				gmpv_mpv_set_property_flag
 					(mpv, "pause", TRUE);
-				gmpv_playlist_reset(mpv->playlist);
 			}
 
 			if(!mpv->state.init_load && !mpv->state.loaded)
@@ -327,8 +335,6 @@ static gboolean mpv_event_handler(gpointer data)
 		{
 			mpv->state.loaded = TRUE;
 			mpv->state.init_load = FALSE;
-
-			update_playlist(mpv);
 
 			g_signal_emit_by_name(mpv, "load");
 		}
@@ -408,116 +414,6 @@ static gboolean mpv_event_handler(gpointer data)
 	}
 
 	return FALSE;
-}
-
-static void update_playlist(GmpvMpv *mpv)
-{
-	GtkListStore *store = gmpv_playlist_get_store(mpv->playlist);
-	gboolean iter_end = FALSE;
-	GtkTreeIter iter;
-	mpv_node mpv_playlist;
-	gint playlist_count;
-	gint i;
-
-	if(!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter))
-	{
-		return;
-	}
-
-	mpv_get_property(	mpv->mpv_ctx,
-				"playlist",
-				MPV_FORMAT_NODE,
-				&mpv_playlist );
-
-	playlist_count = mpv_playlist.u.list->num;
-
-	for(i = 0; i < playlist_count; i++)
-	{
-		mpv_node_list *prop_list = mpv_playlist.u.list->values[i].u.list;
-		gchar *uri = NULL;
-		gchar *title = NULL;
-		gchar *name = NULL;
-
-		for(gint j = 0; j < prop_list->num; j++)
-		{
-			const gchar *key = prop_list->keys[j];
-			const mpv_node value = prop_list->values[j];
-
-			if(g_strcmp0(key, "filename") == 0)
-			{
-				g_assert(value.format == MPV_FORMAT_STRING);
-				uri = value.u.string;
-			}
-			else if(g_strcmp0(key, "title") == 0)
-			{
-				g_assert(value.format == MPV_FORMAT_STRING);
-				title = value.u.string;
-			}
-		}
-
-		name = title?g_strdup(title):get_name_from_path(uri);
-
-		/* Overwrite current entry if it doesn't match the new value */
-		if(!iter_end)
-		{
-			gchar *old_name = NULL;
-			gchar *old_uri = NULL;
-			gboolean name_update;
-			gboolean uri_update;
-
-			gtk_tree_model_get
-				(	GTK_TREE_MODEL(store), &iter,
-					PLAYLIST_NAME_COLUMN, &old_name,
-					PLAYLIST_URI_COLUMN, &old_uri, -1 );
-
-			name_update = (g_strcmp0(name, old_name) != 0);
-			uri_update = (g_strcmp0(uri, old_uri) != 0);
-
-			/* Only set the name if either the title can be
-			 * retrieved or the name is unset. This preserves the
-			 * correct title if it becomes unavailable later such as
-			 * when restarting mpv.
-			 */
-			if(name_update && (!old_name || title || uri_update))
-			{
-				gtk_list_store_set
-					(	store, &iter,
-						PLAYLIST_NAME_COLUMN, name, -1 );
-			}
-
-			if(uri_update)
-			{
-				gtk_list_store_set
-					(	store, &iter,
-						PLAYLIST_URI_COLUMN, uri, -1 );
-			}
-
-			iter_end = !gtk_tree_model_iter_next
-					(GTK_TREE_MODEL(store), &iter);
-
-			g_free(old_name);
-			g_free(old_uri);
-		}
-		/* Append entries to the playlist if there are fewer entries in
-		 * the playlist widget than mpv's playlist.
-		 */
-		else
-		{
-			gmpv_playlist_append(mpv->playlist, name, uri);
-		}
-
-		g_free(name);
-	}
-
-	/* If there are more entries in the playlist widget than mpv's playlist,
-	 * remove the excess entries from the playlist widget.
-	 */
-	if(!iter_end)
-	{
-		while(gtk_list_store_remove(store, &iter));
-	}
-
-	mpv_free_node_contents(&mpv_playlist);
 }
 
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args)
@@ -718,6 +614,35 @@ static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
 	fclose(tmp_file);
 }
 
+static GPtrArray *get_mpv_playlist(GmpvMpv *mpv)
+{
+	GPtrArray *result = NULL;
+	const mpv_node_list *org_list;
+	mpv_node playlist;
+
+	result = g_ptr_array_new_full(	1,
+					(GDestroyNotify)
+					gmpv_playlist_entry_free );
+
+	gmpv_mpv_get_property(mpv, "playlist", MPV_FORMAT_NODE, &playlist);
+	org_list = playlist.u.list;
+
+	if(playlist.format == MPV_FORMAT_NODE_ARRAY)
+	{
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			GmpvPlaylistEntry *entry;
+
+			entry = parse_playlist_entry(org_list->values[i].u.list);
+			g_ptr_array_add(result, entry);
+		}
+
+		mpv_free_node_contents(&playlist);
+	}
+
+	return result;
+}
+
 static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -735,13 +660,6 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			-1,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_WID, pspec);
-
-	pspec = g_param_spec_pointer
-		(	"playlist",
-			"Playlist",
-			"GmpvPlaylist to use for storage",
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
 
 	g_signal_new(	"mpv-init",
 			G_TYPE_FROM_CLASS(klass),
@@ -836,7 +754,9 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 {
 	mpv->mpv_ctx = mpv_create();
 	mpv->opengl_ctx = NULL;
-	mpv->playlist = NULL;
+	mpv->playlist = g_ptr_array_new_full(	1,
+						(GDestroyNotify)
+						gmpv_metadata_entry_free );
 	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = -1;
@@ -873,30 +793,9 @@ void gmpv_metadata_entry_free(GmpvMetadataEntry *entry)
 	g_free(entry);
 }
 
-GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
-						const gchar *title )
+GmpvMpv *gmpv_mpv_new(gint64 wid)
 {
-	GmpvPlaylistEntry *entry = g_malloc(sizeof(GmpvPlaylistEntry));
-
-	entry->filename = g_strdup(filename);
-	entry->title = g_strdup(title);
-
-	return entry;
-}
-
-void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry)
-{
-	g_free(entry->filename);
-	g_free(entry->title);
-	g_free(entry);
-}
-
-GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid)
-{
-	return GMPV_MPV_OBJ(g_object_new(	gmpv_mpv_get_type(),
-						"playlist", playlist,
-						"wid", wid,
-						NULL ));
+	return GMPV_MPV_OBJ(g_object_new(gmpv_mpv_get_type(), "wid", wid, NULL));
 }
 
 inline const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv)
@@ -974,32 +873,17 @@ GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 
 GPtrArray *gmpv_mpv_get_playlist(GmpvMpv *mpv)
 {
-	GPtrArray *result = NULL;
-	const mpv_node_list *org_list;
-	mpv_node playlist;
+	gboolean idle_active = FALSE;
 
-	gmpv_mpv_get_property(mpv, "playlist", MPV_FORMAT_NODE, &playlist);
-	org_list = playlist.u.list;
+	gmpv_mpv_get_property(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
 
-	if(playlist.format == MPV_FORMAT_NODE_ARRAY && org_list->num > 0)
+	// TODO: Check if we actually need to update the playlist here.
+	if(!idle_active)
 	{
-		result = g_ptr_array_new_full(	(guint)
-						org_list->num,
-						(GDestroyNotify)
-						gmpv_playlist_entry_free );
-
-		for(gint i = 0; i < org_list->num; i++)
-		{
-			GmpvPlaylistEntry *entry;
-
-			entry = parse_playlist_entry(org_list->values[i].u.list);
-			g_ptr_array_add(result, entry);
-		}
-
-		mpv_free_node_contents(&playlist);
+		mpv->playlist = get_mpv_playlist(mpv);
 	}
 
-	return result;
+	return mpv->playlist;
 }
 
 GPtrArray *gmpv_mpv_get_track_list(GmpvMpv *mpv)
@@ -1345,17 +1229,19 @@ void gmpv_mpv_load_file(	GmpvMpv *mpv,
 				gboolean update )
 {
 	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
-	GtkListStore *playlist_store = gmpv_playlist_get_store(mpv->playlist);
-	gboolean empty;
+	gint64 playlist_count = 0;
 
 	g_info(	"Loading file (append=%s, update=%s): %s",
 		append?"TRUE":"FALSE",
 		update?"TRUE":"FALSE",
 		uri?:"<PLAYLIST_ITEMS>" );
 
-	empty = gmpv_playlist_empty(mpv->playlist);
+	mpv_get_property(	mpv->mpv_ctx,
+				"playlist-count",
+				MPV_FORMAT_INT64,
+				&playlist_count );
 
-	load_cmd[2] = (append && !empty)?"append":"replace";
+	load_cmd[2] = (append && playlist_count > 0)?"append":"replace";
 
 	if(!append && uri && update)
 	{
@@ -1368,7 +1254,7 @@ void gmpv_mpv_load_file(	GmpvMpv *mpv,
 		load_from_playlist(mpv);
 	}
 
-	if(uri && playlist_store)
+	if(uri)
 	{
 		gchar *path = get_path_from_uri(uri);
 
@@ -1383,15 +1269,6 @@ void gmpv_mpv_load_file(	GmpvMpv *mpv,
 				gmpv_mpv_set_property_flag
 					(mpv, "pause", FALSE);
 			}
-		}
-
-		if(update)
-		{
-			gchar *name = get_name_from_path(path);
-
-			gmpv_playlist_append(mpv->playlist, name, uri);
-
-			g_free(name);
 		}
 
 		g_assert(mpv->mpv_ctx);
@@ -1410,6 +1287,12 @@ void gmpv_mpv_load(	GmpvMpv *mpv,
 			gboolean update )
 {
 	const gchar *subtitle_exts[] = SUBTITLE_EXTS;
+	gboolean idle_active = FALSE;
+
+	mpv_get_property(	mpv->mpv_ctx,
+				"idle-active",
+				MPV_FORMAT_FLAG,
+				&idle_active );
 
 	if(extension_matches(uri, subtitle_exts))
 	{
@@ -1417,7 +1300,25 @@ void gmpv_mpv_load(	GmpvMpv *mpv,
 	}
 	else
 	{
-		gmpv_mpv_load_file(mpv, uri, append, update);
+		if(append && idle_active && mpv->playlist->len > 0)
+		{
+			mpv_node playlist;
+			GmpvPlaylistEntry *entry;
+
+			entry = gmpv_playlist_entry_new(uri, NULL);
+			g_ptr_array_add(mpv->playlist, entry);
+
+			g_signal_emit_by_name(	mpv,
+						"mpv-prop-change",
+						"playlist",
+						&playlist );
+
+			mpv_free_node_contents(&playlist);
+		}
+		else
+		{
+			gmpv_mpv_load_file(mpv, uri, append, update);
+		}
 	}
 }
 

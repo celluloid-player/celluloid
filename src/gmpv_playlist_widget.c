@@ -25,22 +25,31 @@
 #include <glib/gi18n.h>
 
 #include "gmpv_playlist_widget.h"
-#include "gmpv_playlist.h"
 #include "gmpv_marshal.h"
+#include "gmpv_common.h"
 #include "gmpv_def.h"
 
 enum
 {
 	PROP_0,
-	PROP_STORE,
+	PROP_PLAYLIST_COUNT,
 	N_PROPERTIES
+};
+
+enum PlaylistColumn
+{
+	PLAYLIST_NAME_COLUMN,
+	PLAYLIST_URI_COLUMN,
+	PLAYLIST_WEIGHT_COLUMN,
+	PLAYLIST_N_COLUMNS
 };
 
 struct _GmpvPlaylistWidget
 {
 	GtkScrolledWindow parent_instance;
+	gint64 playlist_count;
+	GtkListStore *store;
 	GtkWidget *tree_view;
-	GmpvPlaylist *store;
 	GtkTreeViewColumn *title_column;
 	GtkCellRenderer *title_renderer;
 	gint last_x;
@@ -53,15 +62,15 @@ struct _GmpvPlaylistWidgetClass
 	GtkScrolledWindowClass parent_class;
 };
 
-static void gmpv_playlist_widget_constructed(GObject *object);
-static void gmpv_playlist_widget_set_property(	GObject *object,
-						guint property_id,
-						const GValue *value,
-						GParamSpec *pspec );
-static void gmpv_playlist_widget_get_property(	GObject *object,
-						guint property_id,
-						GValue *value,
-						GParamSpec *pspec );
+static void constructed(GObject *object);
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec );
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec );
 static void drag_begin_handler(	GtkWidget *widget,
 				GdkDragContext *context,
 				gpointer data );
@@ -86,11 +95,12 @@ static void row_activated_handler(	GtkTreeView *tree_view,
 					GtkTreePath *path,
 					GtkTreeViewColumn *column,
 					gpointer data );
-static void row_inserted_handler(GmpvPlaylist *pl, gint pos, gpointer data);
-static void row_deleted_handler(GmpvPlaylist *pl, gint pos, gpointer data);
-static void row_reodered_handler(	GmpvPlaylist *pl,
-					gint src,
-					gint dest,
+static void row_inserted_handler(	GtkTreeModel *tree_model,
+					GtkTreePath *path,
+					GtkTreeIter *iter,
+					gpointer data );
+static void row_deleted_handler(	GtkTreeModel *tree_model,
+					GtkTreePath *path,
 					gpointer data );
 static gboolean mouse_press_handler(	GtkWidget *widget,
 					GdkEvent *event,
@@ -99,14 +109,17 @@ static gchar *get_uri_selected(GmpvPlaylistWidget *wgt);
 
 G_DEFINE_TYPE(GmpvPlaylistWidget, gmpv_playlist_widget, GTK_TYPE_SCROLLED_WINDOW)
 
-static void gmpv_playlist_widget_constructed(GObject *object)
+static void constructed(GObject *object)
 {
 	GmpvPlaylistWidget *self = GMPV_PLAYLIST_WIDGET(object);
 	GtkTargetEntry targets[] = DND_TARGETS;
 
-	self->tree_view
-		= gtk_tree_view_new_with_model
-			(GTK_TREE_MODEL(gmpv_playlist_get_store(self->store)));
+	self->store = gtk_list_store_new(	3,
+						G_TYPE_STRING,
+						G_TYPE_STRING,
+						G_TYPE_INT );
+	self->tree_view =	gtk_tree_view_new_with_model
+				(GTK_TREE_MODEL(self->store));
 
 	g_signal_connect(	self->tree_view,
 				"button-press-event",
@@ -140,10 +153,6 @@ static void gmpv_playlist_widget_constructed(GObject *object)
 				"row-deleted",
 				G_CALLBACK(row_deleted_handler),
 				self );
-	g_signal_connect(	self->store,
-				"row-reordered",
-				G_CALLBACK(row_reodered_handler),
-				self );
 
 	gtk_tree_view_enable_model_drag_source(	GTK_TREE_VIEW(self->tree_view),
 						GDK_BUTTON1_MASK,
@@ -169,17 +178,16 @@ static void gmpv_playlist_widget_constructed(GObject *object)
 	G_OBJECT_CLASS(gmpv_playlist_widget_parent_class)->constructed(object);
 }
 
-static void gmpv_playlist_widget_set_property(	GObject *object,
-						guint property_id,
-						const GValue *value,
-						GParamSpec *pspec )
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec )
 {
 	GmpvPlaylistWidget *self = GMPV_PLAYLIST_WIDGET(object);
 
-	if(property_id == PROP_STORE)
+	if(property_id == PROP_PLAYLIST_COUNT)
 	{
-		self->store = g_value_get_pointer(value);
-
+		self->playlist_count = g_value_get_int64(value);
 	}
 	else
 	{
@@ -187,16 +195,16 @@ static void gmpv_playlist_widget_set_property(	GObject *object,
 	}
 }
 
-static void gmpv_playlist_widget_get_property(	GObject *object,
-						guint property_id,
-						GValue *value,
-						GParamSpec *pspec )
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec )
 {
 	GmpvPlaylistWidget *self = GMPV_PLAYLIST_WIDGET(object);
 
-	if(property_id == PROP_STORE)
+	if(property_id == PROP_PLAYLIST_COUNT)
 	{
-		g_value_set_pointer(value, self->store);
+		g_value_set_int64(value, self->playlist_count);
 	}
 	else
 	{
@@ -356,7 +364,7 @@ static void drag_data_received_handler(	GtkWidget *widget,
 		gboolean insert_before;
 		gboolean dest_row_exist;
 
-		store = gmpv_playlist_get_store(wgt->store);
+		store = wgt->store;
 		raw_data = gtk_selection_data_get_data(sel_data);
 		src_path =	gtk_tree_path_new_from_string
 				((const gchar *)raw_data);
@@ -423,7 +431,7 @@ static void drag_data_received_handler(	GtkWidget *widget,
 		}
 
 		g_signal_emit_by_name(	wgt,
-					"row-reordered",
+					"rows-reordered",
 					src_index+(src_index>dest_index),
 					dest_index+!insert_before );
 
@@ -472,22 +480,27 @@ static void row_activated_handler(	GtkTreeView *tree_view,
 	g_signal_emit_by_name(data, "row-activated", index);
 }
 
-static void row_inserted_handler(GmpvPlaylist *pl, gint pos, gpointer data)
-{
-	g_signal_emit_by_name(data, "row-inserted", pos);
-}
-
-static void row_deleted_handler(GmpvPlaylist *pl, gint pos, gpointer data)
-{
-	g_signal_emit_by_name(data, "row-deleted", pos);
-}
-
-static void row_reodered_handler(	GmpvPlaylist *pl,
-					gint src,
-					gint dest,
+static void row_inserted_handler(	GtkTreeModel *tree_model,
+					GtkTreePath *path,
+					GtkTreeIter *iter,
 					gpointer data )
 {
-	g_signal_emit_by_name(data, "row-reordered", src, dest);
+	const gint pos = gtk_tree_path_get_indices(path)[0];
+
+	GMPV_PLAYLIST_WIDGET(data)->playlist_count++;
+	g_signal_emit_by_name(data, "row-inserted", pos);
+	g_object_notify(data, "playlist-count");
+}
+
+static void row_deleted_handler(	GtkTreeModel *tree_model,
+					GtkTreePath *path,
+					gpointer data )
+{
+	const gint pos = gtk_tree_path_get_indices(path)[0];
+
+	GMPV_PLAYLIST_WIDGET(data)->playlist_count--;
+	g_signal_emit_by_name(data, "row-deleted", pos);
+	g_object_notify(data, "playlist-count");
 }
 
 static gboolean mouse_press_handler(	GtkWidget *widget,
@@ -544,7 +557,6 @@ static gchar *get_uri_selected(GmpvPlaylistWidget *wgt)
 {
 	GtkTreeIter iter;
 	GtkTreePath *path = NULL;
-	GtkTreeModel *model = NULL;
 	gchar *result = NULL;
 	gboolean rc = FALSE;
 
@@ -552,14 +564,16 @@ static gchar *get_uri_selected(GmpvPlaylistWidget *wgt)
 
 	if(path)
 	{
-		model = GTK_TREE_MODEL(gmpv_playlist_get_store(wgt->store));
-		rc = gtk_tree_model_get_iter(model, &iter, path);
+		rc =	gtk_tree_model_get_iter
+			(GTK_TREE_MODEL(wgt->store), &iter, path);
 	}
 
 	if(rc)
 	{
-		gtk_tree_model_get
-			(model, &iter, PLAYLIST_URI_COLUMN, &result, -1);
+		gtk_tree_model_get(	GTK_TREE_MODEL(wgt->store),
+					&iter,
+					PLAYLIST_URI_COLUMN, &result,
+					-1 );
 	}
 
 	return result;
@@ -570,16 +584,19 @@ static void gmpv_playlist_widget_class_init(GmpvPlaylistWidgetClass *klass)
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
-	obj_class->constructed = gmpv_playlist_widget_constructed;
-	obj_class->set_property = gmpv_playlist_widget_set_property;
-	obj_class->get_property = gmpv_playlist_widget_get_property;
+	obj_class->constructed = constructed;
+	obj_class->set_property = set_property;
+	obj_class->get_property = get_property;
 
-	pspec = g_param_spec_pointer
-		(	"store",
-			"Store",
-			"GmpvPlaylist used to store playlist items",
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_STORE, pspec);
+	pspec = g_param_spec_int64
+		(	"playlist-count",
+			"Playlist count",
+			"The number of items in the playlist",
+			0,
+			G_MAXINT64,
+			0,
+			G_PARAM_READABLE );
+	g_object_class_install_property(obj_class, PROP_PLAYLIST_COUNT, pspec);
 
 	g_signal_new(	"row-activated",
 			G_TYPE_FROM_CLASS(klass),
@@ -611,7 +628,7 @@ static void gmpv_playlist_widget_class_init(GmpvPlaylistWidgetClass *klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_INT );
-	g_signal_new(	"row-reordered",
+	g_signal_new(	"rows-reordered",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
@@ -626,6 +643,7 @@ static void gmpv_playlist_widget_class_init(GmpvPlaylistWidgetClass *klass)
 
 static void gmpv_playlist_widget_init(GmpvPlaylistWidget *wgt)
 {
+	wgt->playlist_count = 0;
 	wgt->title_renderer = gtk_cell_renderer_text_new();
 	wgt->title_column
 		= gtk_tree_view_column_new_with_attributes
@@ -642,16 +660,44 @@ static void gmpv_playlist_widget_init(GmpvPlaylistWidget *wgt)
 		(wgt->title_column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 }
 
-GtkWidget *gmpv_playlist_widget_new(GmpvPlaylist *store)
+GtkWidget *gmpv_playlist_widget_new()
 {
-	return GTK_WIDGET(g_object_new(	gmpv_playlist_widget_get_type(),
-					"store", store,
-					NULL ));
+	return GTK_WIDGET(g_object_new(gmpv_playlist_widget_get_type(), NULL));
+}
+
+gboolean gmpv_playlist_widget_empty(GmpvPlaylistWidget *wgt)
+{
+	GtkTreeIter iter;
+
+	return !gtk_tree_model_get_iter_first(GTK_TREE_MODEL(wgt->store), &iter);
+}
+
+void gmpv_playlist_widget_set_indicator_pos(	GmpvPlaylistWidget *wgt,
+							gint pos )
+{
+	GtkTreeIter iter;
+	gboolean rc;
+
+	rc = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(wgt->store), &iter);
+
+	while(rc)
+	{
+		const PangoWeight weight =	(pos-- == 0)?
+						PANGO_WEIGHT_BOLD:
+						PANGO_WEIGHT_NORMAL;
+
+		gtk_list_store_set(	wgt->store,
+					&iter,
+					PLAYLIST_WEIGHT_COLUMN, weight,
+					-1 );
+
+		rc = gtk_tree_model_iter_next(GTK_TREE_MODEL(wgt->store), &iter);
+	}
 }
 
 void gmpv_playlist_widget_remove_selected(GmpvPlaylistWidget *wgt)
 {
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
 
 	gtk_tree_view_get_cursor
 		(	GTK_TREE_VIEW(wgt->tree_view),
@@ -660,15 +706,15 @@ void gmpv_playlist_widget_remove_selected(GmpvPlaylistWidget *wgt)
 
 	if(path)
 	{
-		gint index;
-		gchar *index_str;
+		GtkTreeIter iter;
+		GtkTreeModel *model;
 
-		index = gtk_tree_path_get_indices(path)[0];
-		index_str = g_strdup_printf("%d", index);
+		model = GTK_TREE_MODEL(wgt->store);
 
-		gmpv_playlist_remove(wgt->store, index);
-
-		g_free(index_str);
+		if(gtk_tree_model_get_iter(model, &iter, path))
+		{
+			gtk_list_store_remove(wgt->store, &iter);
+		}
 	}
 }
 
@@ -678,7 +724,117 @@ void gmpv_playlist_widget_queue_draw(GmpvPlaylistWidget *wgt)
 	gtk_widget_queue_draw(wgt->tree_view);
 }
 
-GmpvPlaylist *gmpv_playlist_widget_get_store(GmpvPlaylistWidget *wgt)
+void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
+						GPtrArray* playlist )
 {
-	return wgt->store;
+	GtkListStore *store = wgt->store;
+	gboolean iter_end = FALSE;
+	GtkTreeIter iter;
+
+	g_assert(playlist);
+
+	iter_end = !gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
+
+	for(guint i = 0; i < playlist->len; i++)
+	{
+		GmpvPlaylistEntry *entry = g_ptr_array_index(playlist, i);
+		gchar *uri = entry->filename;
+		gchar *title = entry->title;
+		gchar *name = title?g_strdup(title):get_name_from_path(uri);
+
+		/* Overwrite current entry if it doesn't match the new value */
+		if(!iter_end)
+		{
+			gchar *old_name = NULL;
+			gchar *old_uri = NULL;
+			gboolean name_update;
+			gboolean uri_update;
+
+			gtk_tree_model_get
+				(	GTK_TREE_MODEL(store), &iter,
+					PLAYLIST_NAME_COLUMN, &old_name,
+					PLAYLIST_URI_COLUMN, &old_uri, -1 );
+
+			name_update = (g_strcmp0(name, old_name) != 0);
+			uri_update = (g_strcmp0(uri, old_uri) != 0);
+
+			/* Only set the name if either the title can be
+			 * retrieved or the name is unset. This preserves the
+			 * correct title if it becomes unavailable later such as
+			 * when restarting mpv.
+			 */
+			if(name_update && (!old_name || title || uri_update))
+			{
+				gtk_list_store_set
+					(	store, &iter,
+						PLAYLIST_NAME_COLUMN, name, -1 );
+			}
+
+			if(uri_update)
+			{
+				gtk_list_store_set
+					(	store, &iter,
+						PLAYLIST_URI_COLUMN, uri, -1 );
+			}
+
+			iter_end = !gtk_tree_model_iter_next
+					(GTK_TREE_MODEL(store), &iter);
+
+			g_free(old_name);
+			g_free(old_uri);
+		}
+		/* Append entries to the playlist if there are fewer entries in
+		 * the playlist widget than given playlist.
+		 */
+		else
+		{
+			gtk_list_store_append(store, &iter);
+			gtk_list_store_set(	store, &iter,
+						PLAYLIST_NAME_COLUMN, name,
+						-1 );
+			gtk_list_store_set(	store, &iter,
+						PLAYLIST_URI_COLUMN, uri,
+						-1 );
+		}
+
+		g_free(name);
+	}
+
+	/* If there are more entries in the playlist widget than given playlist,
+	 * remove the excess entries from the playlist widget.
+	 */
+	if(!iter_end)
+	{
+		while(gtk_list_store_remove(store, &iter));
+	}
+}
+
+GPtrArray *gmpv_playlist_widget_get_contents(GmpvPlaylistWidget *wgt)
+{
+	gboolean rc = TRUE;
+	GtkTreeModel *model = GTK_TREE_MODEL(wgt->store);
+	GtkTreeIter iter;
+	GPtrArray *result = NULL;
+
+	rc = gtk_tree_model_get_iter_first(model, &iter);
+	result = g_ptr_array_new_full(	1,
+					(GDestroyNotify)
+					gmpv_playlist_entry_free );
+
+	while(rc)
+	{
+		gchar *uri = NULL;
+		gchar *name = NULL;
+
+		gtk_tree_model_get(	model, &iter,
+					PLAYLIST_URI_COLUMN, &uri,
+					PLAYLIST_NAME_COLUMN, &name,
+					-1 );
+
+		g_ptr_array_add(result, gmpv_playlist_entry_new(uri, name));
+
+		rc = gtk_tree_model_iter_next(model, &iter);
+	}
+
+	return result;
 }

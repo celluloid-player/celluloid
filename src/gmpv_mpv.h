@@ -25,7 +25,6 @@
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
 
-#include "gmpv_playlist.h"
 #include "gmpv_geometry.h"
 #include "gmpv_track.h"
 
@@ -37,7 +36,6 @@ G_DECLARE_FINAL_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV_OBJ, GObject)
 
 typedef struct _GmpvMpvState GmpvMpvState;
 typedef struct _GmpvMetadataEntry GmpvMetadataEntry;
-typedef struct _GmpvPlaylistEntry GmpvPlaylistEntry;
 
 struct _GmpvMpvState
 {
@@ -54,20 +52,10 @@ struct _GmpvMetadataEntry
 	gchar *value;
 };
 
-struct _GmpvPlaylistEntry
-{
-	gchar *filename;
-	gchar *title;
-};
-
 GmpvMetadataEntry *gmpv_metadata_entry_new(const gchar *key, const gchar *value);
 void gmpv_metadata_entry_free(GmpvMetadataEntry *entry);
 
-GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
-						const gchar *title );
-void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry);
-
-GmpvMpv *gmpv_mpv_new(GmpvPlaylist *playlist, gint64 wid);
+GmpvMpv *gmpv_mpv_new(gint64 wid);
 const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv);
 GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv);
 mpv_handle *gmpv_mpv_get_mpv_handle(GmpvMpv *mpv);

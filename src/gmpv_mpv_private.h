@@ -20,6 +20,8 @@
 #ifndef MPV_OBJ_PRIVATE_H
 #define MPV_OBJ_PRIVATE_H
 
+#include <gtk/gtk.h>
+
 #include "gmpv_mpv_opt.h"
 
 G_BEGIN_DECLS
@@ -28,7 +30,6 @@ enum
 {
 	PROP_0,
 	PROP_WID,
-	PROP_PLAYLIST,
 	N_PROPERTIES
 };
 
@@ -38,7 +39,7 @@ struct _GmpvMpv
 	GmpvMpvState state;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
-	GmpvPlaylist *playlist;
+	GPtrArray *playlist;
 	GtkGLArea *glarea;
 	gchar *tmp_input_file;
 	GSList *log_level_list;

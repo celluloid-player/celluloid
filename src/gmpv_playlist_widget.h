@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -24,18 +24,20 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-#include "gmpv_playlist.h"
-
 G_BEGIN_DECLS
 
 #define GMPV_TYPE_PLAYLIST_WIDGET (gmpv_playlist_widget_get_type ())
 
 G_DECLARE_FINAL_TYPE(GmpvPlaylistWidget, gmpv_playlist_widget, GMPV, PLAYLIST_WIDGET, GtkScrolledWindow)
 
-GtkWidget *gmpv_playlist_widget_new(GmpvPlaylist *store);
+GtkWidget *gmpv_playlist_widget_new(void);
+gboolean gmpv_playlist_widget_empty(GmpvPlaylistWidget *wgt);
+void gmpv_playlist_widget_set_indicator_pos(GmpvPlaylistWidget *wgt, gint pos);
 void gmpv_playlist_widget_remove_selected(GmpvPlaylistWidget *wgt);
 void gmpv_playlist_widget_queue_draw(GmpvPlaylistWidget *wgt);
-GmpvPlaylist *gmpv_playlist_widget_get_store(GmpvPlaylistWidget *wgt);
+void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
+						GPtrArray* playlist );
+GPtrArray *gmpv_playlist_widget_get_contents(GmpvPlaylistWidget *wgt);
 
 G_END_DECLS
 

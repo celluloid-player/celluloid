@@ -24,7 +24,6 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-#include "gmpv_playlist.h"
 #include "gmpv_playlist_widget.h"
 #include "gmpv_control_box.h"
 #include "gmpv_video_area.h"
@@ -39,7 +38,6 @@ G_DECLARE_FINAL_TYPE(GmpvMainWindow, gmpv_main_window, GMPV, MAIN_WINDOW, GtkApp
 typedef struct _GmpvApplication GmpvApplication;
 
 GtkWidget *gmpv_main_window_new(	GmpvApplication *app,
-					GmpvPlaylist *playlist,
 					gboolean always_floating );
 GmpvPlaylistWidget *gmpv_main_window_get_playlist(GmpvMainWindow *wnd);
 GmpvControlBox *gmpv_main_window_get_control_box(GmpvMainWindow *wnd);

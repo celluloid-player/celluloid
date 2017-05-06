@@ -38,9 +38,7 @@ struct _GmpvApplication
 	GQueue *action_queue;
 	gchar **files;
 	guint inhibit_cookie;
-	gint64 target_playlist_pos;
 	GmpvMainWindow *gui;
-	GmpvPlaylist *playlist;
 };
 
 struct _GmpvApplicationClass

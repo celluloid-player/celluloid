@@ -110,9 +110,7 @@ static void initialize_gui(GmpvApplication *app)
 	mpvinput =		g_settings_get_string
 				(settings, "mpv-input-config-file");
 
-	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(	app,
-								app->playlist,
-								always_floating ));
+	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(app, always_floating));
 
 	migrate_config(app);
 
@@ -139,7 +137,7 @@ static void initialize_gui(GmpvApplication *app)
 
 	app->view = gmpv_view_new(app->gui);
 	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
-	app->mpv = gmpv_mpv_new(app->playlist, wid);
+	app->mpv = gmpv_mpv_new(wid);
 	app->model = gmpv_model_new(app->mpv);
 	app->controller = gmpv_controller_new(app->model, app->view);
 
@@ -440,8 +438,6 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->action_queue = g_queue_new();
 	app->files = NULL;
 	app->inhibit_cookie = 0;
-	app->target_playlist_pos = -1;
-	app->playlist = gmpv_playlist_new();
 	app->gui = NULL;
 
 	g_application_add_main_option
@@ -497,11 +493,6 @@ GmpvMainWindow *gmpv_application_get_main_window(GmpvApplication *app)
 GmpvMpv *gmpv_application_get_mpv(GmpvApplication *app)
 {
 	return app->mpv;
-}
-
-GmpvPlaylist *gmpv_application_get_playlist(GmpvApplication *app)
-{
-	return app->playlist;
 }
 
 void gmpv_application_quit(GmpvApplication *app)

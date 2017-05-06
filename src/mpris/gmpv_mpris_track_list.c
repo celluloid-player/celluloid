@@ -409,7 +409,8 @@ static GVariant *playlist_entry_to_variant(	GmpvPlaylistEntry *entry,
 				g_variant_new_string(title) );
 	g_variant_builder_add_value(&builder, elem_value);
 
-	uri = g_filename_to_uri(entry->filename, NULL, NULL);
+	uri =	g_filename_to_uri(entry->filename, NULL, NULL)?:
+		g_strdup(entry->filename);
 	elem_value =	g_variant_new
 			(	"{sv}",
 				"xesam:uri",

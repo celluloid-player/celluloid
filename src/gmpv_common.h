@@ -27,6 +27,18 @@
 
 G_BEGIN_DECLS
 
+typedef struct _GmpvPlaylistEntry GmpvPlaylistEntry;
+
+struct _GmpvPlaylistEntry
+{
+	gchar *filename;
+	gchar *title;
+};
+
+GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
+						const gchar *title );
+void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry);
+
 gchar *get_config_dir_path(void);
 gchar *get_scripts_dir_path(void);
 gchar *get_path_from_uri(const gchar *uri);
