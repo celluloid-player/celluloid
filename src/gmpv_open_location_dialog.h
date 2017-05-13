@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, 2016 gnome-mpv
+ * Copyright (c) 2014, 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,8 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OPEN_LOC_DIALOG_H
-#define OPEN_LOC_DIALOG_H
+#ifndef OPEN_LOCATION_DIALOG_H
+#define OPEN_LOCATION_DIALOG_H
 
 #include <glib.h>
 #include <glib-object.h>
@@ -26,13 +26,13 @@
 
 G_BEGIN_DECLS
 
-#define GMPV_TYPE_OPEN_LOC_DIALOG (gmpv_open_loc_dialog_get_type ())
+#define GMPV_TYPE_OPEN_LOC_DIALOG (gmpv_open_location_dialog_get_type ())
 
-G_DECLARE_FINAL_TYPE(GmpvOpenLocDialog, gmpv_open_loc_dialog, GMPV, OPEN_LOC_DIALOG, GtkDialog)
+G_DECLARE_FINAL_TYPE(GmpvOpenLocationDialog, gmpv_open_location_dialog, GMPV, OPEN_LOCATION_DIALOG, GtkDialog)
 
-GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent, const gchar *title);
-const gchar *gmpv_open_loc_dialog_get_string(GmpvOpenLocDialog *dlg);
-guint64 gmpv_open_loc_dialog_get_string_length(GmpvOpenLocDialog *dlg);
+GtkWidget *gmpv_open_location_dialog_new(GtkWindow *parent, const gchar *title);
+const gchar *gmpv_open_location_dialog_get_string(GmpvOpenLocationDialog *dlg);
+guint64 gmpv_open_location_dialog_get_string_length(GmpvOpenLocationDialog *dlg);
 
 G_END_DECLS
 

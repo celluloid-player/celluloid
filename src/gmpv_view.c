@@ -21,7 +21,7 @@
 
 #include "gmpv_view.h"
 #include "gmpv_file_chooser.h"
-#include "gmpv_open_loc_dialog.h"
+#include "gmpv_open_location_dialog.h"
 #include "gmpv_pref_dialog.h"
 #include "gmpv_shortcuts_window.h"
 #include "gmpv_authors.h"
@@ -589,11 +589,11 @@ static void open_location_dialog_response_handler(	GtkDialog *dialog,
 
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
-		GmpvOpenLocDialog *location_dialog;
+		GmpvOpenLocationDialog *location_dialog;
 		const gchar *uris[2];
 
-		location_dialog = GMPV_OPEN_LOC_DIALOG(dialog);
-		uris[0] = gmpv_open_loc_dialog_get_string(location_dialog);
+		location_dialog = GMPV_OPEN_LOCATION_DIALOG(dialog);
+		uris[0] = gmpv_open_location_dialog_get_string(location_dialog);
 		uris[1] = NULL;
 
 		g_signal_emit_by_name(view, "file-open", uris, *append);
@@ -1251,10 +1251,10 @@ void gmpv_view_show_open_location_dialog(GmpvView *view, gboolean append)
 	GPtrArray *args;
 	gboolean *append_buf;
 
-	dlg = gmpv_open_loc_dialog_new(	GTK_WINDOW(view->wnd),
-					append?
-					_("Add Location to Playlist"):
-					_("Open Location") );
+	dlg = gmpv_open_location_dialog_new(	GTK_WINDOW(view->wnd),
+						append?
+						_("Add Location to Playlist"):
+						_("Open Location") );
 	args = g_ptr_array_sized_new(2);
 	append_buf = g_malloc(sizeof(gboolean));
 

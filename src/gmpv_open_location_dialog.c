@@ -20,10 +20,10 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
-#include "gmpv_open_loc_dialog.h"
+#include "gmpv_open_location_dialog.h"
 #include "gmpv_main_window.h"
 
-struct _GmpvOpenLocDialog
+struct _GmpvOpenLocationDialog
 {
 	GtkDialog parent_instance;
 	GtkWidget *content_area;
@@ -32,12 +32,12 @@ struct _GmpvOpenLocDialog
 	GtkWidget *loc_entry;
 };
 
-struct _GmpvOpenLocDialogClass
+struct _GmpvOpenLocationDialogClass
 {
 	GtkDialogClass parent_class;
 };
 
-G_DEFINE_TYPE(GmpvOpenLocDialog, gmpv_open_loc_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE(GmpvOpenLocationDialog, gmpv_open_location_dialog, GTK_TYPE_DIALOG)
 
 static gboolean key_press_handler (GtkWidget *widget, GdkEventKey *event)
 {
@@ -57,11 +57,11 @@ static gboolean key_press_handler (GtkWidget *widget, GdkEventKey *event)
 		gtk_dialog_response(GTK_DIALOG(widget), GTK_RESPONSE_ACCEPT);
 	}
 
-	return	GTK_WIDGET_CLASS(gmpv_open_loc_dialog_parent_class)
+	return	GTK_WIDGET_CLASS(gmpv_open_location_dialog_parent_class)
 		->key_press_event (widget, event);
 }
 
-static GtkClipboard *get_clipboard(GmpvOpenLocDialog *dlg)
+static GtkClipboard *get_clipboard(GmpvOpenLocationDialog *dlg)
 {
 	const gchar *const clipboard_names[] = {"CLIPBOARD", "PRIMARY", NULL};
 	GtkClipboard *clipboard = NULL;
@@ -85,7 +85,7 @@ static void clipboard_text_received_handler(	GtkClipboard *clipboard,
 						const gchar *text,
 						gpointer data )
 {
-	GmpvOpenLocDialog *dlg = data;
+	GmpvOpenLocationDialog *dlg = data;
 
 	if(text && *text)
 	{
@@ -95,7 +95,7 @@ static void clipboard_text_received_handler(	GtkClipboard *clipboard,
 	g_object_unref(dlg);
 }
 
-static void load_text_from_clipboard(GmpvOpenLocDialog *dlg)
+static void load_text_from_clipboard(GmpvOpenLocationDialog *dlg)
 {
 	g_object_ref(dlg);
 
@@ -104,14 +104,14 @@ static void load_text_from_clipboard(GmpvOpenLocDialog *dlg)
 					dlg );
 }
 
-static void gmpv_open_loc_dialog_class_init(GmpvOpenLocDialogClass *klass)
+static void gmpv_open_location_dialog_class_init(GmpvOpenLocationDialogClass *klass)
 {
 	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
 
 	wid_class->key_press_event = key_press_handler;
 }
 
-static void gmpv_open_loc_dialog_init(GmpvOpenLocDialog *dlg)
+static void gmpv_open_location_dialog_init(GmpvOpenLocationDialog *dlg)
 {
 	GdkGeometry geom;
 
@@ -165,7 +165,7 @@ static void gmpv_open_loc_dialog_init(GmpvOpenLocDialog *dlg)
 	gtk_dialog_set_default_response (GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
 }
 
-GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent, const gchar *title)
+GtkWidget *gmpv_open_location_dialog_new(GtkWindow *parent, const gchar *title)
 {
 	GtkWidget *dlg;
 	GtkWidget *header_bar;
@@ -173,7 +173,7 @@ GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent, const gchar *title)
 
 	csd_enabled = gmpv_main_window_get_csd_enabled(GMPV_MAIN_WINDOW(parent));
 
-	dlg = g_object_new(	gmpv_open_loc_dialog_get_type(),
+	dlg = g_object_new(	gmpv_open_location_dialog_get_type(),
 				"use-header-bar", csd_enabled,
 				"title", title,
 				NULL );
@@ -196,7 +196,7 @@ GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent, const gchar *title)
 
 	}
 
-	load_text_from_clipboard(GMPV_OPEN_LOC_DIALOG(dlg));
+	load_text_from_clipboard(GMPV_OPEN_LOCATION_DIALOG(dlg));
 
 	gtk_widget_hide_on_delete(dlg);
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
@@ -205,12 +205,12 @@ GtkWidget *gmpv_open_loc_dialog_new(GtkWindow *parent, const gchar *title)
 	return dlg;
 }
 
-const gchar *gmpv_open_loc_dialog_get_string(GmpvOpenLocDialog *dlg)
+const gchar *gmpv_open_location_dialog_get_string(GmpvOpenLocationDialog *dlg)
 {
 	return gtk_entry_get_text(GTK_ENTRY(dlg->loc_entry));
 }
 
-guint64 gmpv_open_loc_dialog_get_string_length(GmpvOpenLocDialog *dlg)
+guint64 gmpv_open_location_dialog_get_string_length(GmpvOpenLocationDialog *dlg)
 {
 	return gtk_entry_get_text_length(GTK_ENTRY(dlg->loc_entry));
 }
