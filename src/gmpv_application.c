@@ -352,6 +352,13 @@ static void vid_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data )
 {
+	GmpvController *controller = GMPV_APPLICATION(data)->controller;
+	GAction *action = g_action_map_lookup_action(data, "set-video-size");
+	gint vid = 0;
+
+	g_object_get(controller, "vid", &vid, NULL);
+	g_simple_action_set_enabled(G_SIMPLE_ACTION(action), vid > 0);
+
 	update_track_id(data,  "set-video-track", "vid");
 }
 
