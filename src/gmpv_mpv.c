@@ -951,7 +951,8 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		const gchar *name;
 		const gchar *value;
 	}
-	options[] = {	{"osd-level", "1"},
+	options[] = {	{"vo", "opengl,vdpau,vaapi,xv,x11,opengl-cb,"},
+			{"osd-level", "1"},
 			{"softvol", "yes"},
 			{"force-window", "immediate"},
 			{"input-default-bindings", "yes"},
