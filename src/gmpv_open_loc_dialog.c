@@ -61,25 +61,47 @@ static gboolean key_press_handler (GtkWidget *widget, GdkEventKey *event)
 		->key_press_event (widget, event);
 }
 
-static void load_text_from_clipboard(GmpvOpenLocDialog *dlg)
+static GtkClipboard *get_clipboard(GmpvOpenLocDialog *dlg)
 {
 	const gchar *const clipboard_names[] = {"CLIPBOARD", "PRIMARY", NULL};
-	gchar *clipboard_text = NULL;
+	GtkClipboard *clipboard = NULL;
 
-	for(gint i = 0; clipboard_names[i] && !clipboard_text; i++)
+	for(gint i = 0; clipboard_names[i] && !clipboard; i++)
 	{
 		GdkAtom atom = gdk_atom_intern(clipboard_names[i], FALSE);
-		GtkClipboard *clipboard = gtk_clipboard_get(atom);
 
-		clipboard_text = gtk_clipboard_wait_for_text(clipboard);
+		clipboard = gtk_clipboard_get(atom);
+
+		if(!gtk_clipboard_wait_is_text_available(clipboard))
+		{
+			clipboard = NULL;
+		}
 	}
 
-	if(clipboard_text)
+	return clipboard;
+}
+
+static void clipboard_text_received_handler(	GtkClipboard *clipboard,
+						const gchar *text,
+						gpointer data )
+{
+	GmpvOpenLocDialog *dlg = data;
+
+	if(text && *text)
 	{
-		gtk_entry_set_text(GTK_ENTRY(dlg->loc_entry), clipboard_text);
+		gtk_entry_set_text(GTK_ENTRY(dlg->loc_entry), text);
 	}
 
-	g_free(clipboard_text);
+	g_object_unref(dlg);
+}
+
+static void load_text_from_clipboard(GmpvOpenLocDialog *dlg)
+{
+	g_object_ref(dlg);
+
+	gtk_clipboard_request_text(	get_clipboard(dlg),
+					clipboard_text_received_handler,
+					dlg );
 }
 
 static void gmpv_open_loc_dialog_class_init(GmpvOpenLocDialogClass *klass)
