@@ -248,13 +248,13 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	GtkWidget *next_icon;
 	GtkWidget *fullscreen_icon;
 
-	box->play_button = gtk_button_new_with_label(NULL);
-	box->stop_button = gtk_button_new_with_label(NULL);
-	box->forward_button = gtk_button_new_with_label(NULL);
-	box->rewind_button = gtk_button_new_with_label(NULL);
-	box->next_button = gtk_button_new_with_label(NULL);
-	box->previous_button = gtk_button_new_with_label(NULL);
-	box->fullscreen_button = gtk_button_new_with_label(NULL);
+	box->play_button = gtk_button_new();
+	box->stop_button = gtk_button_new();
+	box->forward_button = gtk_button_new();
+	box->rewind_button = gtk_button_new();
+	box->next_button = gtk_button_new();
+	box->previous_button = gtk_button_new();
+	box->fullscreen_button = gtk_button_new();
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = gmpv_seek_bar_new();
 
