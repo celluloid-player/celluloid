@@ -306,6 +306,10 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	wnd->width_offset = 0;
 	wnd->height_offset = 0;
 
+	g_object_bind_property(	wnd, "title",
+				wnd->vid_area, "title",
+				G_BINDING_DEFAULT );
+
 	gtk_widget_add_events(	wnd->vid_area,
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );

@@ -30,6 +30,13 @@
 #include <gdk/gdkx.h>
 #endif
 
+enum
+{
+	PROP_0,
+	PROP_TITLE,
+	N_PROPERTIES
+};
+
 struct _GmpvVideoArea
 {
 	GtkOverlay parent_instance;
@@ -50,6 +57,14 @@ struct _GmpvVideoAreaClass
 	GtkOverlayClass parent_class;
 };
 
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec );
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec );
 static void set_cursor_visible(GmpvVideoArea *area, gboolean visible);
 static gboolean timeout_handler(gpointer data);
 static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event);
@@ -58,6 +73,48 @@ static gboolean fs_control_crossing_handler(	GtkWidget *widget,
 						gpointer data );
 
 G_DEFINE_TYPE(GmpvVideoArea, gmpv_video_area, GTK_TYPE_OVERLAY)
+
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec )
+{
+	GmpvVideoArea *self = GMPV_VIDEO_AREA(object);
+
+	switch(property_id)
+	{
+		case PROP_TITLE:
+		g_object_set_property(	G_OBJECT(self->header_bar),
+					pspec->name,
+					value );
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec )
+{
+	GmpvVideoArea *self = GMPV_VIDEO_AREA(object);
+
+	switch(property_id)
+	{
+		case PROP_TITLE:
+		g_object_get_property(	G_OBJECT(self->header_bar),
+					pspec->name,
+					value );
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
 
 static void set_cursor_visible(GmpvVideoArea *area, gboolean visible)
 {
@@ -185,8 +242,12 @@ static gboolean fs_control_crossing_handler(	GtkWidget *widget,
 
 static void gmpv_video_area_class_init(GmpvVideoAreaClass *klass)
 {
+	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GtkWidgetClass *wgt_class = GTK_WIDGET_CLASS(klass);
+	GParamSpec *pspec = NULL;
 
+	obj_class->set_property = set_property;
+	obj_class->get_property = get_property;
 	wgt_class->motion_notify_event = motion_notify_handler;
 
 	g_signal_new(	"render",
@@ -198,6 +259,14 @@ static void gmpv_video_area_class_init(GmpvVideoAreaClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
+
+	pspec = g_param_spec_string
+		(	"title",
+			"Title",
+			"The title of the header bar",
+			NULL,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_TITLE, pspec);
 }
 
 static void gmpv_video_area_init(GmpvVideoArea *area)
