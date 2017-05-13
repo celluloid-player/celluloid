@@ -111,8 +111,9 @@ void activate_action_string(GmpvApplication *app, const gchar *str)
 		given_ptype = param?g_variant_get_type(param):NULL;
 
 		param_match =	(action_ptype == given_ptype) ||
-				g_variant_type_is_subtype_of
-				(action_ptype, given_ptype);
+				(	given_ptype &&
+					g_variant_type_is_subtype_of
+					(action_ptype, given_ptype) );
 	}
 
 	if(action && param_match)
