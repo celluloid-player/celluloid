@@ -124,6 +124,14 @@ gboolean gmpv_header_bar_get_menu_button_popup_visible(GmpvHeaderBar *hdr)
 void gmpv_header_bar_set_fullscreen_state(	GmpvHeaderBar *hdr,
 						gboolean fullscreen )
 {
+	GtkWidget *image = gtk_button_get_image(GTK_BUTTON(hdr->fullscreen_btn));
+
+	gtk_image_set_from_icon_name(	GTK_IMAGE(image),
+					fullscreen?
+					"view-restore-symbolic":
+					"view-fullscreen-symbolic",
+					GTK_ICON_SIZE_MENU );
+
 	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(hdr), !fullscreen);
 }
 
