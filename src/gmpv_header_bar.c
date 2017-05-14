@@ -48,19 +48,20 @@ static void gmpv_header_bar_init(GmpvHeaderBar *hdr)
 	GtkHeaderBar *ghdr;
 	GMenu *open_btn_menu;
 	GMenu *menu_btn_menu;
-	GIcon *open_icon;
-	GIcon *fullscreen_icon;
-	GIcon *menu_icon;
+	GtkWidget *open_icon;
+	GtkWidget *fullscreen_icon;
+	GtkWidget *menu_icon;
 
 	ghdr = GTK_HEADER_BAR(hdr);
 	open_btn_menu = g_menu_new();
 	menu_btn_menu = g_menu_new();
-	open_icon =	g_themed_icon_new_with_default_fallbacks
-			("list-add-symbolic");
-	fullscreen_icon =	g_themed_icon_new_with_default_fallbacks
-				("view-fullscreen-symbolic");
-	menu_icon =	g_themed_icon_new_with_default_fallbacks
-			("open-menu-symbolic");
+
+	open_icon =		gtk_image_new_from_icon_name
+				("list-add-symbolic", GTK_ICON_SIZE_MENU);
+	fullscreen_icon =	gtk_image_new_from_icon_name
+				("view-fullscreen-symbolic", GTK_ICON_SIZE_MENU);
+	menu_icon =		gtk_image_new_from_icon_name
+				("open-menu-symbolic", GTK_ICON_SIZE_MENU);
 
 	hdr->open_btn = gtk_menu_button_new();
 	hdr->fullscreen_btn = gtk_button_new();
@@ -69,18 +70,13 @@ static void gmpv_header_bar_init(GmpvHeaderBar *hdr)
 	gmpv_menu_build_open_btn(open_btn_menu);
 	gmpv_menu_build_menu_btn(menu_btn_menu, NULL);
 
-	gtk_button_set_image
-		(	GTK_BUTTON(hdr->open_btn),
-			gtk_image_new_from_gicon
-			(open_icon, GTK_ICON_SIZE_MENU) );
-	gtk_button_set_image
-		(	GTK_BUTTON(hdr->fullscreen_btn),
-			gtk_image_new_from_gicon
-			(fullscreen_icon, GTK_ICON_SIZE_MENU) );
-	gtk_button_set_image
-		(	GTK_BUTTON(hdr->menu_btn),
-			gtk_image_new_from_gicon
-			(menu_icon, GTK_ICON_SIZE_MENU) );
+	g_object_set(open_icon, "use-fallback", TRUE, NULL);
+	g_object_set(fullscreen_icon, "use-fallback", TRUE, NULL);
+	g_object_set(menu_icon, "use-fallback", TRUE, NULL);
+
+	gtk_button_set_image(GTK_BUTTON(hdr->open_btn), open_icon);
+	gtk_button_set_image(GTK_BUTTON(hdr->fullscreen_btn), fullscreen_icon);
+	gtk_button_set_image(GTK_BUTTON(hdr->menu_btn), menu_icon);
 
 	gtk_menu_button_set_menu_model
 		(	GTK_MENU_BUTTON(hdr->open_btn),
