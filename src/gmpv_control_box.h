@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -41,7 +41,7 @@ gboolean gmpv_control_box_get_volume_popup_visible(GmpvControlBox *box);
 void gmpv_control_box_set_playing_state(GmpvControlBox *box, gboolean playing);
 void gmpv_control_box_set_fullscreen_state(	GmpvControlBox *box,
 						gboolean fullscreen );
-void gmpv_control_box_set_fullscreen_btn_visible(	GmpvControlBox *box,
+void gmpv_control_box_set_fullscreen_button_visible(	GmpvControlBox *box,
 							gboolean value );
 void gmpv_control_box_reset(GmpvControlBox *box);
 

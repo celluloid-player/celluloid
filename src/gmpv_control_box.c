@@ -444,7 +444,7 @@ void gmpv_control_box_set_fullscreen_state(	GmpvControlBox *box,
 					GTK_ICON_SIZE_BUTTON );
 }
 
-void gmpv_control_box_set_fullscreen_btn_visible(	GmpvControlBox *box,
+void gmpv_control_box_set_fullscreen_button_visible(	GmpvControlBox *box,
 							gboolean value )
 {
 	gtk_widget_set_visible(box->fullscreen_button, value);

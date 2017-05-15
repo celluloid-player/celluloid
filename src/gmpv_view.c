@@ -182,7 +182,7 @@ static void constructed(GObject *object)
 
 	if(csd_enable)
 	{
-		gmpv_control_box_set_fullscreen_btn_visible(control_box, FALSE);
+		gmpv_control_box_set_fullscreen_button_visible(control_box, FALSE);
 	}
 
 	gmpv_control_box_set_chapter_enabled(control_box, FALSE);
