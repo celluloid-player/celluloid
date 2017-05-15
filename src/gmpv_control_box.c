@@ -420,33 +420,28 @@ gboolean gmpv_control_box_get_volume_popup_visible(GmpvControlBox *box)
 
 void gmpv_control_box_set_playing_state(GmpvControlBox *box, gboolean playing)
 {
-	GtkWidget *play_icon;
-	const gchar *tooltip;
+	GtkWidget *image = gtk_button_get_image(GTK_BUTTON(box->play_button));
+	const gchar *tooltip = playing?_("Pause"):_("Play");
 
-	play_icon = gtk_image_new_from_icon_name
-			( 	playing
-				?"media-playback-pause-symbolic"
-				:"media-playback-start-symbolic",
-				GTK_ICON_SIZE_BUTTON );
-	tooltip = playing?_("Pause"):_("Play");
+	gtk_image_set_from_icon_name( 	GTK_IMAGE(image),
+					playing?
+					"media-playback-pause-symbolic":
+					"media-playback-start-symbolic",
+					GTK_ICON_SIZE_BUTTON );
 
-	gtk_button_set_image(GTK_BUTTON(box->play_button), play_icon);
 	gtk_widget_set_tooltip_text(box->play_button, tooltip);
 }
 
 void gmpv_control_box_set_fullscreen_state(	GmpvControlBox *box,
 						gboolean fullscreen )
 {
-	GtkWidget *fullscreen_icon;
+	GtkWidget *image = gtk_button_get_image(GTK_BUTTON(box->fullscreen_button));
 
-	fullscreen_icon = gtk_image_new_from_icon_name
-				(	fullscreen
-					?"view-restore-symbolic"
-					:"view-fullscreen-symbolic",
+	gtk_image_set_from_icon_name(	GTK_IMAGE(image),
+					fullscreen?
+					"view-restore-symbolic":
+					"view-fullscreen-symbolic",
 					GTK_ICON_SIZE_BUTTON );
-
-	gtk_button_set_image(	GTK_BUTTON(box->fullscreen_button),
-				fullscreen_icon );
 }
 
 void gmpv_control_box_set_fullscreen_btn_visible(	GmpvControlBox *box,
