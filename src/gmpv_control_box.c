@@ -74,6 +74,9 @@ static void volume_changed_handler(	GtkVolumeButton *button,
 					gdouble value,
 					gpointer data );
 static void simple_signal_handler(GtkWidget *widget, gpointer data);
+static void init_button(	GtkWidget *button,
+				const gchar *icon_name,
+				const gchar *tooltip_text );
 
 G_DEFINE_TYPE(GmpvControlBox, gmpv_control_box, GTK_TYPE_BOX)
 
@@ -175,6 +178,21 @@ static void simple_signal_handler(GtkWidget *widget, gpointer data)
 	}
 }
 
+static void init_button(	GtkWidget *button,
+				const gchar *icon_name,
+				const gchar *tooltip_text )
+{
+	GtkWidget *play_icon;
+
+	play_icon =	gtk_image_new_from_icon_name
+			(icon_name, GTK_ICON_SIZE_BUTTON);
+
+	gtk_widget_set_tooltip_text(button, _("Play"));
+	g_object_set(button, "relief", GTK_RELIEF_NONE, NULL);
+	gtk_widget_set_can_focus(button, FALSE);
+	gtk_button_set_image(GTK_BUTTON(button), play_icon);
+}
+
 static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 {
 	/* Names of signals that have no parameter and return nothing */
@@ -240,14 +258,6 @@ static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 
 static void gmpv_control_box_init(GmpvControlBox *box)
 {
-	GtkWidget *play_icon;
-	GtkWidget *stop_icon;
-	GtkWidget *forward_icon;
-	GtkWidget *rewind_icon;
-	GtkWidget *previous_icon;
-	GtkWidget *next_icon;
-	GtkWidget *fullscreen_icon;
-
 	box->play_button = gtk_button_new();
 	box->stop_button = gtk_button_new();
 	box->forward_button = gtk_button_new();
@@ -258,91 +268,44 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = gmpv_seek_bar_new();
 
-	play_icon
-		= gtk_image_new_from_icon_name
-			("media-playback-start-symbolic", GTK_ICON_SIZE_BUTTON);
-	stop_icon
-		= gtk_image_new_from_icon_name
-			("media-playback-stop-symbolic", GTK_ICON_SIZE_BUTTON);
-	forward_icon
-		= gtk_image_new_from_icon_name
-			("media-seek-forward-symbolic", GTK_ICON_SIZE_BUTTON);
-	rewind_icon
-		= gtk_image_new_from_icon_name
-			("media-seek-backward-symbolic", GTK_ICON_SIZE_BUTTON);
-	next_icon
-		= gtk_image_new_from_icon_name
-			("media-skip-forward-symbolic", GTK_ICON_SIZE_BUTTON);
-	previous_icon
-		= gtk_image_new_from_icon_name
-			("media-skip-backward-symbolic", GTK_ICON_SIZE_BUTTON);
-	fullscreen_icon
-		= gtk_image_new_from_icon_name
-			("view-fullscreen-symbolic", GTK_ICON_SIZE_BUTTON);
+	init_button(	box->play_button,
+			"media-playback-start-symbolic",
+			_("Play") );
+	init_button(	box->stop_button,
+			"media-playback-stop-symbolic",
+			_("Stop") );
+	init_button(	box->forward_button,
+			"media-seek-forward-symbolic",
+			_("Forward") );
+	init_button(	box->rewind_button,
+			"media-seek-backward-symbolic",
+			_("Rewind") );
+	init_button(	box->next_button,
+			"media-skip-forward-symbolic",
+			_("Next Chapter") );
+	init_button(	box->previous_button,
+			"media-skip-backward-symbolic",
+			_("Previous Chapter") );
+	init_button(	box->fullscreen_button,
+			"view-fullscreen-symbolic",
+			_("Toggle Fullscreen") );
 
 	gtk_style_context_add_class
 		(	gtk_widget_get_style_context(GTK_WIDGET(box)),
 			GTK_STYLE_CLASS_BACKGROUND );
 
-	gtk_widget_set_tooltip_text(box->play_button, _("Play"));
-	gtk_widget_set_tooltip_text(box->stop_button, _("Stop"));
-	gtk_widget_set_tooltip_text(box->forward_button, _("Forward"));
-	gtk_widget_set_tooltip_text(box->rewind_button, _("Rewind"));
-	gtk_widget_set_tooltip_text(box->next_button, _("Next Chapter"));
-	gtk_widget_set_tooltip_text(box->previous_button, _("Previous Chapter"));
-	gtk_widget_set_tooltip_text(box->fullscreen_button, _("Toggle Fullscreen"));
-
-	g_object_set(box->play_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(box->stop_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(box->forward_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(box->rewind_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(box->next_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(box->previous_button, "relief", GTK_RELIEF_NONE, NULL);
-	g_object_set(box->fullscreen_button, "relief", GTK_RELIEF_NONE, NULL);
-
-	gtk_widget_set_can_focus(box->previous_button, FALSE);
-	gtk_widget_set_can_focus(box->rewind_button, FALSE);
-	gtk_widget_set_can_focus(box->play_button, FALSE);
-	gtk_widget_set_can_focus(box->stop_button, FALSE);
-	gtk_widget_set_can_focus(box->forward_button, FALSE);
-	gtk_widget_set_can_focus(box->next_button, FALSE);
-	gtk_widget_set_can_focus(box->seek_bar, FALSE);
 	gtk_widget_set_can_focus(box->volume_button, FALSE);
-	gtk_widget_set_can_focus(box->fullscreen_button, FALSE);
+	gtk_widget_set_can_focus(box->seek_bar, FALSE);
 
-	gtk_button_set_image
-		(GTK_BUTTON(box->play_button), play_icon);
-	gtk_button_set_image
-		(GTK_BUTTON(box->stop_button), stop_icon);
-	gtk_button_set_image
-		(GTK_BUTTON(box->forward_button), forward_icon);
-	gtk_button_set_image
-		(GTK_BUTTON(box->rewind_button), rewind_icon);
-	gtk_button_set_image
-		(GTK_BUTTON(box->next_button), next_icon);
-	gtk_button_set_image
-		(GTK_BUTTON(box->previous_button), previous_icon);
-	gtk_button_set_image
-		(GTK_BUTTON(box->fullscreen_button), fullscreen_icon);
-
-	gtk_container_add
-		(GTK_CONTAINER(box), box->previous_button);
-	gtk_container_add
-		(GTK_CONTAINER(box), box->rewind_button);
-	gtk_container_add
-		(GTK_CONTAINER(box), box->play_button);
-	gtk_container_add
-		(GTK_CONTAINER(box), box->stop_button);
-	gtk_container_add
-		(GTK_CONTAINER(box), box->forward_button);
-	gtk_container_add
-		(GTK_CONTAINER(box), box->next_button);
-	gtk_box_pack_start
-		(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
-	gtk_container_add
-		(GTK_CONTAINER(box), box->volume_button);
-	gtk_container_add
-		(GTK_CONTAINER(box), box->fullscreen_button);
+	gtk_container_add(GTK_CONTAINER(box), box->previous_button);
+	gtk_container_add(GTK_CONTAINER(box), box->rewind_button);
+	gtk_container_add(GTK_CONTAINER(box), box->play_button);
+	gtk_container_add(GTK_CONTAINER(box), box->stop_button);
+	gtk_container_add(GTK_CONTAINER(box), box->forward_button);
+	gtk_container_add(GTK_CONTAINER(box), box->next_button);
+	gtk_box_pack_start(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(box), box->volume_button);
+	gtk_container_add(GTK_CONTAINER(box), box->fullscreen_button);
 
 	g_object_bind_property_full(	box->volume_button, "value",
 					box, "volume",
