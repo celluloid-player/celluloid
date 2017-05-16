@@ -33,6 +33,7 @@
 #include "mpris/gmpv_mpris.h"
 #include "media_keys/gmpv_media_keys.h"
 
+static void migrate_config(void);
 static void activate_action_string(GmpvApplication *app, const gchar *str);
 static void update_track_id(	GmpvApplication *app,
 				const gchar *action_name,
@@ -73,6 +74,44 @@ static void gmpv_application_class_init(GmpvApplicationClass *klass);
 static void gmpv_application_init(GmpvApplication *app);
 
 G_DEFINE_TYPE(GmpvApplication, gmpv_application, GTK_TYPE_APPLICATION)
+
+static void migrate_config()
+{
+	const gchar *keys[] = {	"dark-theme-enable",
+				"csd-enable",
+				"last-folder-enable",
+				"mpv-options",
+				"mpv-config-file",
+				"mpv-config-enable",
+				"mpv-input-config-file",
+				"mpv-input-config-enable",
+				NULL };
+
+	GSettings *old_settings = g_settings_new("org.gnome-mpv");
+	GSettings *new_settings = g_settings_new(CONFIG_ROOT);
+
+	if(!g_settings_get_boolean(new_settings, "settings-migrated"))
+	{
+		g_settings_set_boolean(new_settings, "settings-migrated", TRUE);
+
+		for(gint i = 0; keys[i]; i++)
+		{
+			GVariant *buf = g_settings_get_user_value
+						(old_settings, keys[i]);
+
+			if(buf)
+			{
+				g_settings_set_value
+					(new_settings, keys[i], buf);
+
+				g_variant_unref(buf);
+			}
+		}
+	}
+
+	g_object_unref(old_settings);
+	g_object_unref(new_settings);
+}
 
 static void activate_action_string(GmpvApplication *app, const gchar *str)
 {

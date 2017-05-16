@@ -108,44 +108,6 @@ gchar *get_name_from_path(const gchar *path)
 	return basename?basename:g_strdup(path);
 }
 
-void migrate_config()
-{
-	const gchar *keys[] = {	"dark-theme-enable",
-				"csd-enable",
-				"last-folder-enable",
-				"mpv-options",
-				"mpv-config-file",
-				"mpv-config-enable",
-				"mpv-input-config-file",
-				"mpv-input-config-enable",
-				NULL };
-
-	GSettings *old_settings = g_settings_new("org.gnome-mpv");
-	GSettings *new_settings = g_settings_new(CONFIG_ROOT);
-
-	if(!g_settings_get_boolean(new_settings, "settings-migrated"))
-	{
-		g_settings_set_boolean(new_settings, "settings-migrated", TRUE);
-
-		for(gint i = 0; keys[i]; i++)
-		{
-			GVariant *buf = g_settings_get_user_value
-						(old_settings, keys[i]);
-
-			if(buf)
-			{
-				g_settings_set_value
-					(new_settings, keys[i], buf);
-
-				g_variant_unref(buf);
-			}
-		}
-	}
-
-	g_object_unref(old_settings);
-	g_object_unref(new_settings);
-}
-
 gboolean extension_matches(const gchar *filename, const gchar **extensions)
 {
 	const gchar *ext = strrchr(filename, '.');
