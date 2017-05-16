@@ -70,6 +70,8 @@ static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
 static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
 static void update_playlist(GmpvMpv *mpv);
+static void update_metadata(GmpvMpv *mpv);
+static void update_track_list(GmpvMpv *mpv);
 
 G_DEFINE_TYPE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
@@ -280,6 +282,14 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 		{
 			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
+	}
+	else if(g_strcmp0(prop->name, "metadata") == 0)
+	{
+		update_metadata(mpv);
+	}
+	else if(g_strcmp0(prop->name, "track-list") == 0)
+	{
+		update_track_list(mpv);
 	}
 	else if(g_strcmp0(prop->name, "vo-configured") == 0)
 	{
@@ -659,6 +669,70 @@ static void update_playlist(GmpvMpv *mpv)
 	}
 }
 
+static void update_metadata(GmpvMpv *mpv)
+{
+	mpv_node_list *org_list = NULL;
+	mpv_node metadata;
+
+	g_ptr_array_set_size(mpv->metadata, 0);
+	gmpv_mpv_get_property(mpv, "metadata", MPV_FORMAT_NODE, &metadata);
+	org_list = metadata.u.list;
+
+	if(metadata.format == MPV_FORMAT_NODE_MAP && org_list->num > 0)
+	{
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			const gchar *key;
+			mpv_node value;
+
+			key = org_list->keys[i];
+			value = org_list->values[i];
+
+			if(value.format == MPV_FORMAT_STRING)
+			{
+				GmpvMetadataEntry *entry;
+
+				entry =	gmpv_metadata_entry_new
+					(key, value.u.string);
+
+				g_ptr_array_add(mpv->metadata, entry);
+			}
+			else
+			{
+				g_warning(	"Ignored metadata field %s "
+						"with unexpected format %d",
+						key,
+						value.format );
+			}
+		}
+
+		mpv_free_node_contents(&metadata);
+	}
+}
+
+static void update_track_list(GmpvMpv *mpv)
+{
+	mpv_node_list *org_list = NULL;
+	mpv_node track_list;
+
+	g_ptr_array_set_size(mpv->track_list, 0);
+	gmpv_mpv_get_property(mpv, "track-list", MPV_FORMAT_NODE, &track_list);
+	org_list = track_list.u.list;
+
+	if(track_list.format == MPV_FORMAT_NODE_ARRAY)
+	{
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			GmpvTrack *entry =	parse_track_entry
+						(org_list->values[i].u.list);
+
+			g_ptr_array_add(mpv->track_list, entry);
+		}
+
+		mpv_free_node_contents(&track_list);
+	}
+}
+
 static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -773,6 +847,12 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->playlist = g_ptr_array_new_full(	1,
 						(GDestroyNotify)
 						gmpv_playlist_entry_free );
+	mpv->metadata = g_ptr_array_new_full(	1,
+						(GDestroyNotify)
+						gmpv_metadata_entry_free );
+	mpv->track_list = g_ptr_array_new_full(	1,
+						(GDestroyNotify)
+						gmpv_track_free );
 	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = -1;
@@ -825,50 +905,7 @@ inline gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv)
 
 GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 {
-	GPtrArray *result = NULL;
-	mpv_node_list *org_list = NULL;
-	mpv_node metadata;
-
-	gmpv_mpv_get_property(mpv, "metadata", MPV_FORMAT_NODE, &metadata);
-	org_list = metadata.u.list;
-
-	if(metadata.format == MPV_FORMAT_NODE_MAP && org_list->num > 0)
-	{
-		result = g_ptr_array_new_full(	(guint)
-						org_list->num,
-						(GDestroyNotify)
-						gmpv_metadata_entry_free );
-
-		for(gint i = 0; i < org_list->num; i++)
-		{
-			const gchar *key;
-			mpv_node value;
-
-			key = org_list->keys[i];
-			value = org_list->values[i];
-
-			if(value.format == MPV_FORMAT_STRING)
-			{
-				GmpvMetadataEntry *entry;
-
-				entry =	gmpv_metadata_entry_new
-					(key, value.u.string);
-
-				g_ptr_array_add(result, entry);
-			}
-			else
-			{
-				g_warning(	"Ignored metadata field %s "
-						"with unexpected format %d",
-						key,
-						value.format );
-			}
-		}
-
-		mpv_free_node_contents(&metadata);
-	}
-
-	return result;
+	return mpv->metadata;
 }
 
 GPtrArray *gmpv_mpv_get_playlist(GmpvMpv *mpv)
@@ -878,32 +915,7 @@ GPtrArray *gmpv_mpv_get_playlist(GmpvMpv *mpv)
 
 GPtrArray *gmpv_mpv_get_track_list(GmpvMpv *mpv)
 {
-	GPtrArray *result = NULL;
-	mpv_node_list *org_list = NULL;
-	mpv_node track_list;
-
-	gmpv_mpv_get_property(mpv, "track-list", MPV_FORMAT_NODE, &track_list);
-	org_list = track_list.u.list;
-
-	if(track_list.format == MPV_FORMAT_NODE_ARRAY)
-	{
-		result = g_ptr_array_new_full(	(guint)
-						org_list->num,
-						(GDestroyNotify)
-						gmpv_track_free );
-
-		for(gint i = 0; i < org_list->num; i++)
-		{
-			GmpvTrack *entry =	parse_track_entry
-						(org_list->values[i].u.list);
-
-			g_ptr_array_add(result, entry);
-		}
-
-		mpv_free_node_contents(&track_list);
-	}
-
-	return result;
+	return mpv->track_list;
 }
 
 void gmpv_mpv_initialize(GmpvMpv *mpv)

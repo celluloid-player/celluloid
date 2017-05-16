@@ -40,6 +40,8 @@ struct _GmpvMpv
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	GPtrArray *playlist;
+	GPtrArray *metadata;
+	GPtrArray *track_list;
 	GtkGLArea *glarea;
 	gchar *tmp_input_file;
 	GSList *log_level_list;

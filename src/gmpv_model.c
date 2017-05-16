@@ -209,10 +209,6 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_METADATA:
-		if(self->metadata)
-		{
-			g_ptr_array_free(self->metadata, TRUE);
-		}
 		self->metadata = gmpv_mpv_get_metadata(self->mpv);
 		break;
 
@@ -233,10 +229,6 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_TRACK_LIST:
-		if(self->track_list)
-		{
-			g_ptr_array_free(self->track_list, TRUE);
-		}
 		self->track_list = gmpv_mpv_get_track_list(self->mpv);
 		break;
 
