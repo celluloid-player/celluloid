@@ -108,42 +108,6 @@ gchar *get_name_from_path(const gchar *path)
 	return basename?basename:g_strdup(path);
 }
 
-void activate_action_string(GmpvApplication *app, const gchar *str)
-{
-	GActionMap *map = G_ACTION_MAP(app);
-	GAction *action = NULL;
-	gchar *name = NULL;
-	GVariant *param = NULL;
-	gboolean param_match = FALSE;
-
-	g_action_parse_detailed_name(str, &name, &param, NULL);
-
-	if(name)
-	{
-		const GVariantType *action_ptype;
-		const GVariantType *given_ptype;
-
-		action = g_action_map_lookup_action(map, name);
-		action_ptype = g_action_get_parameter_type(action);
-		given_ptype = param?g_variant_get_type(param):NULL;
-
-		param_match =	(action_ptype == given_ptype) ||
-				(	given_ptype &&
-					g_variant_type_is_subtype_of
-					(action_ptype, given_ptype) );
-	}
-
-	if(action && param_match)
-	{
-		g_debug("Activating action %s", str);
-		g_action_activate(action, param);
-	}
-	else
-	{
-		g_warning("Failed to activate action \"%s\"", str);
-	}
-}
-
 void migrate_config(GmpvApplication *app)
 {
 	const gchar *keys[] = {	"dark-theme-enable",
