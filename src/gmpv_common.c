@@ -108,7 +108,7 @@ gchar *get_name_from_path(const gchar *path)
 	return basename?basename:g_strdup(path);
 }
 
-void migrate_config(GmpvApplication *app)
+void migrate_config()
 {
 	const gchar *keys[] = {	"dark-theme-enable",
 				"csd-enable",

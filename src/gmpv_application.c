@@ -149,7 +149,7 @@ static void initialize_gui(GmpvApplication *app)
 
 	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(app, always_floating));
 
-	migrate_config(app);
+	migrate_config();
 
 	if(csd_enable)
 	{
