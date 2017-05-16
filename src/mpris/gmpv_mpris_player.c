@@ -25,6 +25,7 @@
 
 #include "gmpv_mpris_player.h"
 #include "gmpv_application_private.h"
+#include "gmpv_common.h"
 #include "gmpv_main_window.h"
 #include "gmpv_mpris.h"
 #include "gmpv_mpris_player.h"

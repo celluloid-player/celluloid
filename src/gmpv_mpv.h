@@ -35,7 +35,6 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV_OBJ, GObject)
 
 typedef struct _GmpvMpvState GmpvMpvState;
-typedef struct _GmpvMetadataEntry GmpvMetadataEntry;
 
 struct _GmpvMpvState
 {
@@ -45,15 +44,6 @@ struct _GmpvMpvState
 	gboolean new_file;
 	gboolean init_load;
 };
-
-struct _GmpvMetadataEntry
-{
-	gchar *key;
-	gchar *value;
-};
-
-GmpvMetadataEntry *gmpv_metadata_entry_new(const gchar *key, const gchar *value);
-void gmpv_metadata_entry_free(GmpvMetadataEntry *entry);
 
 GmpvMpv *gmpv_mpv_new(gint64 wid);
 const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv);

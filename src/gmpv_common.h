@@ -28,6 +28,7 @@
 G_BEGIN_DECLS
 
 typedef struct _GmpvPlaylistEntry GmpvPlaylistEntry;
+typedef struct _GmpvMetadataEntry GmpvMetadataEntry;
 
 struct _GmpvPlaylistEntry
 {
@@ -35,9 +36,20 @@ struct _GmpvPlaylistEntry
 	gchar *title;
 };
 
+struct _GmpvMetadataEntry
+{
+	gchar *key;
+	gchar *value;
+};
+
 GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
 						const gchar *title );
 void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry);
+
+GmpvMetadataEntry *gmpv_metadata_entry_new(	const gchar *key,
+						const gchar *value );
+void gmpv_metadata_entry_free(GmpvMetadataEntry *entry);
+
 
 gchar *get_config_dir_path(void);
 gchar *get_scripts_dir_path(void);

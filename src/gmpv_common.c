@@ -49,6 +49,23 @@ void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry)
 	g_free(entry);
 }
 
+GmpvMetadataEntry *gmpv_metadata_entry_new(const gchar *key, const gchar *value)
+{
+	GmpvMetadataEntry *entry = g_malloc(sizeof(GmpvMetadataEntry));
+
+	entry->key = g_strdup(key);
+	entry->value = g_strdup(value);
+
+	return entry;
+}
+
+void gmpv_metadata_entry_free(GmpvMetadataEntry *entry)
+{
+	g_free(entry->key);
+	g_free(entry->value);
+	g_free(entry);
+}
+
 gchar *get_config_dir_path(void)
 {
 	return g_build_filename(	g_get_user_config_dir(),

@@ -793,23 +793,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->opengl_cb_callback = NULL;
 }
 
-GmpvMetadataEntry *gmpv_metadata_entry_new(const gchar *key, const gchar *value)
-{
-	GmpvMetadataEntry *entry = g_malloc(sizeof(GmpvMetadataEntry));
-
-	entry->key = g_strdup(key);
-	entry->value = g_strdup(value);
-
-	return entry;
-}
-
-void gmpv_metadata_entry_free(GmpvMetadataEntry *entry)
-{
-	g_free(entry->key);
-	g_free(entry->value);
-	g_free(entry);
-}
-
 GmpvMpv *gmpv_mpv_new(gint64 wid)
 {
 	return GMPV_MPV_OBJ(g_object_new(gmpv_mpv_get_type(), "wid", wid, NULL));
