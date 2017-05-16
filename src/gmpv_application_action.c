@@ -368,7 +368,7 @@ static void set_video_size_handler(	GSimpleAction *action,
 {
 	gdouble value = g_variant_get_double(param);
 
-	resize_window_to_fit(GMPV_APPLICATION(data), value);
+	gmpv_controller_autofit(GMPV_APPLICATION(data)->controller, value);
 }
 
 static void show_about_dialog_handler(	GSimpleAction *action,

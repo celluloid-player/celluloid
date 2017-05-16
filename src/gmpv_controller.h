@@ -33,6 +33,7 @@ G_DECLARE_FINAL_TYPE(GmpvController, gmpv_controller, GMPV, CONTROLLER, GObject)
 
 GmpvController *gmpv_controller_new(GmpvModel *model, GmpvView *view);
 void gmpv_controller_quit(GmpvController *controller);
+void gmpv_controller_autofit(GmpvController *controller, gdouble multiplier);
 void gmpv_controller_present(GmpvController *controller);
 void gmpv_controller_open(	GmpvController *controller,
 				const gchar *urii,

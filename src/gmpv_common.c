@@ -146,45 +146,6 @@ void migrate_config(GmpvApplication *app)
 	g_object_unref(new_settings);
 }
 
-void resize_window_to_fit(GmpvApplication *app, gdouble multiplier)
-{
-	GmpvMpv *mpv = gmpv_application_get_mpv(app);
-	gchar *video = gmpv_mpv_get_property_string(mpv, "video");
-	gint64 width;
-	gint64 height;
-	gint mpv_width_rc;
-	gint mpv_height_rc;
-
-	mpv_width_rc = gmpv_mpv_get_property(	mpv,
-						"dwidth",
-						MPV_FORMAT_INT64,
-						&width );
-	mpv_height_rc = gmpv_mpv_get_property(	mpv,
-						"dheight",
-						MPV_FORMAT_INT64,
-						&height );
-
-	if(video
-	&& strncmp(video, "no", 3) != 0
-	&& mpv_width_rc >= 0
-	&& mpv_height_rc >= 0)
-	{
-		GmpvMainWindow *wnd;
-		gint new_width;
-		gint new_height;
-
-		wnd = gmpv_application_get_main_window(app);
-		new_width = (gint)(multiplier*(gdouble)width);
-		new_height = (gint)(multiplier*(gdouble)height);
-
-		g_debug("Resizing window to %dx%d", new_width, new_height);
-
-		gmpv_main_window_resize_video_area(wnd, new_width, new_height);
-	}
-
-	gmpv_mpv_free(video);
-}
-
 gboolean extension_matches(const gchar *filename, const gchar **extensions)
 {
 	const gchar *ext = strrchr(filename, '.');

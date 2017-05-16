@@ -852,6 +852,29 @@ void gmpv_controller_quit(GmpvController *controller)
 	gmpv_view_quit(controller->view);
 }
 
+void gmpv_controller_autofit(GmpvController *controller, gdouble multiplier)
+{
+	gchar *vid = NULL;
+	gint64 width = -1;
+	gint64 height = -1;
+
+	g_object_get(G_OBJECT(controller->model), "vid", &vid, NULL);
+	gmpv_model_get_video_geometry(controller->model, &width, &height);
+
+	if(vid && strncmp(vid, "no", 3) != 0 && width >= 0 && width >= 0)
+	{
+		gint new_width = (gint)(multiplier*(gdouble)width);
+		gint new_height = (gint)(multiplier*(gdouble)height);
+
+		g_debug("Resizing window to %dx%d", new_width, new_height);
+		gmpv_view_resize_video_area(	controller->view,
+						new_width,
+						new_height );
+	}
+
+	g_free(vid);
+}
+
 void gmpv_controller_present(GmpvController *controller)
 {
 	gmpv_view_present(controller->view);
