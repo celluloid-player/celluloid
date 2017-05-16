@@ -56,11 +56,6 @@ gchar *get_scripts_dir_path(void);
 gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
 void migrate_config(GmpvApplication *app);
-void show_message_dialog(	GmpvMainWindow *wnd,
-				GtkMessageType type,
-				const gchar *prefix,
-				const gchar *msg,
-				const gchar *title );
 void resize_window_to_fit(GmpvApplication *app, gdouble multiplier);
 gboolean extension_matches(const gchar *filename, const gchar **extensions);
 void *gslist_to_array(GSList *slist);

@@ -82,6 +82,11 @@ static void get_property(	GObject *object,
 				GParamSpec *pspec );
 static void load_css(GmpvView *view);
 static void save_playlist(GmpvView *view, GFile *file, GError **error);
+static void show_message_dialog(	GmpvMainWindow *wnd,
+					GtkMessageType type,
+					const gchar *prefix,
+					const gchar *msg,
+					const gchar *title );
 
 /* Property changes */
 static void play_button_handler(GtkButton *button, gpointer data);
@@ -512,6 +517,70 @@ static void save_playlist(GmpvView *view, GFile *file, GError **error)
 	}
 
 	g_ptr_array_free(playlist, TRUE);
+}
+
+void show_message_dialog(	GmpvMainWindow *wnd,
+				GtkMessageType type,
+				const gchar *prefix,
+				const gchar *msg,
+				const gchar *title )
+{
+	GtkWidget *dialog;
+	GtkWidget *msg_area;
+	GList *iter;
+
+	dialog =	gtk_message_dialog_new
+			(	GTK_WINDOW(wnd),
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				type,
+				GTK_BUTTONS_OK,
+				"%s",
+				title );
+	msg_area =	gtk_message_dialog_get_message_area
+			(GTK_MESSAGE_DIALOG(dialog));
+	iter = gtk_container_get_children(GTK_CONTAINER(msg_area));
+
+	while(iter)
+	{
+		if(GTK_IS_LABEL(iter->data))
+		{
+			GtkLabel *label = iter->data;
+
+			gtk_label_set_line_wrap_mode
+				(label, PANGO_WRAP_WORD_CHAR);
+		}
+
+		iter = g_list_next(iter);
+	}
+
+	g_list_free(iter);
+
+	if(prefix)
+	{
+		gchar *prefix_escaped = g_markup_printf_escaped("%s", prefix);
+		gchar *msg_escaped = g_markup_printf_escaped("%s", msg);
+
+		gtk_message_dialog_format_secondary_markup
+			(	GTK_MESSAGE_DIALOG(dialog),
+				"<b>[%s]</b> %s",
+				prefix_escaped,
+				msg_escaped );
+
+		g_free(prefix_escaped);
+		g_free(msg_escaped);
+	}
+	else
+	{
+		gtk_message_dialog_format_secondary_text
+			(GTK_MESSAGE_DIALOG(dialog), "%s", msg);
+	}
+
+	g_signal_connect(	dialog,
+				"response",
+				G_CALLBACK(gtk_widget_destroy),
+				NULL );
+
+	gtk_widget_show_all(dialog);
 }
 
 static void play_button_handler(GtkButton *button, gpointer data)
