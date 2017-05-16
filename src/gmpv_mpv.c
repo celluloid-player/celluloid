@@ -69,7 +69,7 @@ static gboolean mpv_event_handler(gpointer data);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
 static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
-static GPtrArray *get_mpv_playlist(GmpvMpv *mpv);
+static void update_playlist(GmpvMpv *mpv);
 
 G_DEFINE_TYPE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
@@ -270,12 +270,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 
 		if(!idle_active)
 		{
-			if(mpv->playlist)
-			{
-				g_ptr_array_free(mpv->playlist, TRUE);
-			}
-
-			mpv->playlist = get_mpv_playlist(mpv);
+			update_playlist(mpv);
 		}
 
 		/* Check if we're transitioning from empty playlist to non-empty
@@ -401,12 +396,7 @@ static gboolean mpv_event_handler(gpointer data)
 			 */
 			if(!vo_configured)
 			{
-				if(mpv->playlist)
-				{
-					g_ptr_array_free(mpv->playlist, TRUE);
-				}
-
-				mpv->playlist = get_mpv_playlist(mpv);
+				update_playlist(mpv);
 			}
 		}
 		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
@@ -645,17 +635,14 @@ static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
 	fclose(tmp_file);
 }
 
-static GPtrArray *get_mpv_playlist(GmpvMpv *mpv)
+static void update_playlist(GmpvMpv *mpv)
 {
-	GPtrArray *result = NULL;
 	const mpv_node_list *org_list;
 	mpv_node playlist;
 
-	result = g_ptr_array_new_full(	1,
-					(GDestroyNotify)
-					gmpv_playlist_entry_free );
-
+	g_ptr_array_set_size(mpv->playlist, 0);
 	gmpv_mpv_get_property(mpv, "playlist", MPV_FORMAT_NODE, &playlist);
+
 	org_list = playlist.u.list;
 
 	if(playlist.format == MPV_FORMAT_NODE_ARRAY)
@@ -665,13 +652,11 @@ static GPtrArray *get_mpv_playlist(GmpvMpv *mpv)
 			GmpvPlaylistEntry *entry;
 
 			entry = parse_playlist_entry(org_list->values[i].u.list);
-			g_ptr_array_add(result, entry);
+			g_ptr_array_add(mpv->playlist, entry);
 		}
 
 		mpv_free_node_contents(&playlist);
 	}
-
-	return result;
 }
 
 static void gmpv_mpv_class_init(GmpvMpvClass* klass)
@@ -787,7 +772,7 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->opengl_ctx = NULL;
 	mpv->playlist = g_ptr_array_new_full(	1,
 						(GDestroyNotify)
-						gmpv_metadata_entry_free );
+						gmpv_playlist_entry_free );
 	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
 	mpv->autofit_ratio = -1;
