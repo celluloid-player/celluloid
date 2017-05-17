@@ -66,6 +66,28 @@ void gmpv_metadata_entry_free(GmpvMetadataEntry *entry)
 	g_free(entry);
 }
 
+GmpvTrack *gmpv_track_new(void)
+{
+	GmpvTrack *entry = g_malloc(sizeof(GmpvTrack));
+
+	entry->type = TRACK_TYPE_INVALID;
+	entry->title = NULL;
+	entry->lang = NULL;
+	entry->id = 0;
+
+	return entry;
+}
+
+void gmpv_track_free(GmpvTrack *entry)
+{
+	if(entry)
+	{
+		g_free(entry->title);
+		g_free(entry->lang);
+		g_free(entry);
+	}
+}
+
 gchar *get_config_dir_path(void)
 {
 	return g_build_filename(	g_get_user_config_dir(),

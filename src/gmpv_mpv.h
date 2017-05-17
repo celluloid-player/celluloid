@@ -26,7 +26,7 @@
 #include <mpv/opengl_cb.h>
 
 #include "gmpv_geometry.h"
-#include "gmpv_track.h"
+#include "gmpv_common.h"
 
 G_BEGIN_DECLS
 

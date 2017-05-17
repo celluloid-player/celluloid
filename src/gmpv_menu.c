@@ -23,7 +23,7 @@
 #include <glib/gi18n.h>
 
 #include "gmpv_menu.h"
-#include "gmpv_track.h"
+#include "gmpv_common.h"
 
 typedef struct GmpvMenuEntry GmpvMenuEntry;
 

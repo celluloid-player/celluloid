@@ -23,7 +23,6 @@ sources = [
   'gmpv_pref_dialog.c',
   'gmpv_seek_bar.c',
   'gmpv_shortcuts_window.c',
-  'gmpv_track.c',
   'gmpv_video_area.c',
   'gmpv_view.c',
 

@@ -23,7 +23,6 @@
 #include <glib.h>
 
 #include "gmpv_application.h"
-#include "gmpv_track.h"
 
 G_BEGIN_DECLS
 

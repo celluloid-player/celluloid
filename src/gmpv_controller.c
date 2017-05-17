@@ -27,7 +27,6 @@
 #include "gmpv_controller_private.h"
 #include "gmpv_controller.h"
 #include "gmpv_controller_input.h"
-#include "gmpv_track.h"
 #include "gmpv_def.h"
 
 static void constructed(GObject *object);

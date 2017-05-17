@@ -23,12 +23,22 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-#include "gmpv_application.h"
-
 G_BEGIN_DECLS
 
 typedef struct _GmpvPlaylistEntry GmpvPlaylistEntry;
 typedef struct _GmpvMetadataEntry GmpvMetadataEntry;
+
+typedef enum TrackType TrackType;
+typedef struct GmpvTrack GmpvTrack;
+
+enum TrackType
+{
+	TRACK_TYPE_INVALID,
+	TRACK_TYPE_AUDIO,
+	TRACK_TYPE_VIDEO,
+	TRACK_TYPE_SUBTITLE,
+	TRACK_TYPE_N
+};
 
 struct _GmpvPlaylistEntry
 {
@@ -42,6 +52,14 @@ struct _GmpvMetadataEntry
 	gchar *value;
 };
 
+struct GmpvTrack
+{
+	TrackType type;
+	gint64 id;
+	gchar *title;
+	gchar *lang;
+};
+
 GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
 						const gchar *title );
 void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry);
@@ -50,6 +68,8 @@ GmpvMetadataEntry *gmpv_metadata_entry_new(	const gchar *key,
 						const gchar *value );
 void gmpv_metadata_entry_free(GmpvMetadataEntry *entry);
 
+GmpvTrack *gmpv_track_new(void);
+void gmpv_track_free(GmpvTrack *entry);
 
 gchar *get_config_dir_path(void);
 gchar *get_scripts_dir_path(void);
