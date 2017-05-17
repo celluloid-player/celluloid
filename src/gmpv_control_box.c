@@ -182,15 +182,13 @@ static void init_button(	GtkWidget *button,
 				const gchar *icon_name,
 				const gchar *tooltip_text )
 {
-	GtkWidget *play_icon;
+	GtkWidget *icon =	gtk_image_new_from_icon_name
+				(icon_name, GTK_ICON_SIZE_BUTTON);
 
-	play_icon =	gtk_image_new_from_icon_name
-			(icon_name, GTK_ICON_SIZE_BUTTON);
-
-	gtk_widget_set_tooltip_text(button, _("Play"));
+	gtk_widget_set_tooltip_text(button, tooltip_text);
 	g_object_set(button, "relief", GTK_RELIEF_NONE, NULL);
 	gtk_widget_set_can_focus(button, FALSE);
-	gtk_button_set_image(GTK_BUTTON(button), play_icon);
+	gtk_button_set_image(GTK_BUTTON(button), icon);
 }
 
 static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
