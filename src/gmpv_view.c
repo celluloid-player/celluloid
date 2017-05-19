@@ -1564,3 +1564,24 @@ void gmpv_view_set_playlist_pos(GmpvView *view, gint64 pos)
 {
 	g_object_set(view, "playlist-pos", pos, NULL);
 }
+
+void gmpv_view_set_playlist_visible(GmpvView *view, gboolean visible)
+{
+	gmpv_main_window_set_playlist_visible(view->wnd, visible);
+}
+
+gboolean gmpv_view_get_playlist_visible(GmpvView *view)
+{
+	return gmpv_main_window_get_playlist_visible(view->wnd);
+}
+
+void gmpv_view_set_controls_visible(GmpvView *view, gboolean visible)
+{
+	gmpv_main_window_set_controls_visible(view->wnd, visible);
+}
+
+gboolean gmpv_view_get_controls_visible(GmpvView *view)
+{
+	return gmpv_main_window_get_controls_visible(view->wnd);
+}
+

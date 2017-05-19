@@ -234,23 +234,20 @@ static void toggle_controls_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-	GmpvControlBox *ctrl = gmpv_main_window_get_control_box(wnd);
-	gboolean visible = gtk_widget_get_visible(GTK_WIDGET(ctrl));
+	GmpvView *view = GMPV_APPLICATION(data)->view;
+	gboolean visible = gmpv_view_get_controls_visible(view);
 
-	gtk_widget_set_visible(GTK_WIDGET(ctrl), !visible);
+	gmpv_view_set_controls_visible(view, !visible);
 }
 
 static void toggle_playlist_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvApplication *app = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(app);
-	gboolean visible = gmpv_main_window_get_playlist_visible(wnd);
+	GmpvView *view = GMPV_APPLICATION(data)->view;
+	gboolean visible = gmpv_view_get_playlist_visible(view);
 
-	gmpv_main_window_set_playlist_visible(wnd, !visible);
+	gmpv_view_set_playlist_visible(view, !visible);
 }
 
 static void save_playlist_handler(	GSimpleAction *action,

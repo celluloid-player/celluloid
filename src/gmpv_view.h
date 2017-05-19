@@ -58,6 +58,10 @@ void gmpv_view_set_fullscreen(GmpvView *view, gboolean fullscreen);
 void gmpv_view_set_time_position(GmpvView *view, gdouble position);
 void gmpv_view_update_playlist(GmpvView *view, GPtrArray *playlist);
 void gmpv_view_set_playlist_pos(GmpvView *view, gint64 pos);
+void gmpv_view_set_playlist_visible(GmpvView *view, gboolean visible);
+gboolean gmpv_view_get_playlist_visible(GmpvView *view);
+void gmpv_view_set_controls_visible(GmpvView *view, gboolean visible);
+gboolean gmpv_view_get_controls_visible(GmpvView *view);
 
 G_END_DECLS
 

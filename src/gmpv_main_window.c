@@ -686,3 +686,15 @@ gboolean gmpv_main_window_get_playlist_visible(GmpvMainWindow *wnd)
 {
 	return gtk_widget_get_visible(GTK_WIDGET(wnd->playlist));
 }
+
+void gmpv_main_window_set_controls_visible(	GmpvMainWindow *wnd,
+						gboolean visible )
+{
+	gtk_widget_set_visible(GTK_WIDGET(wnd->control_box), visible);
+}
+
+gboolean gmpv_main_window_get_controls_visible(GmpvMainWindow *wnd)
+{
+	return gtk_widget_get_visible(GTK_WIDGET(wnd->control_box));
+}
+
