@@ -84,9 +84,9 @@ static void load_css(GmpvView *view);
 static void save_playlist(GmpvView *view, GFile *file, GError **error);
 static void show_message_dialog(	GmpvMainWindow *wnd,
 					GtkMessageType type,
+					const gchar *title,
 					const gchar *prefix,
-					const gchar *msg,
-					const gchar *title );
+					const gchar *msg );
 
 /* Property changes */
 static void play_button_handler(GtkButton *button, gpointer data);
@@ -521,65 +521,64 @@ static void save_playlist(GmpvView *view, GFile *file, GError **error)
 
 void show_message_dialog(	GmpvMainWindow *wnd,
 				GtkMessageType type,
+				const gchar *title,
 				const gchar *prefix,
-				const gchar *msg,
-				const gchar *title )
+				const gchar *msg )
 {
 	GtkWidget *dialog;
 	GtkWidget *msg_area;
-	GList *iter;
-
-	dialog =	gtk_message_dialog_new
-			(	GTK_WINDOW(wnd),
-				GTK_DIALOG_DESTROY_WITH_PARENT,
-				type,
-				GTK_BUTTONS_OK,
-				"%s",
-				title );
-	msg_area =	gtk_message_dialog_get_message_area
-			(GTK_MESSAGE_DIALOG(dialog));
-	iter = gtk_container_get_children(GTK_CONTAINER(msg_area));
-
-	while(iter)
-	{
-		if(GTK_IS_LABEL(iter->data))
-		{
-			GtkLabel *label = iter->data;
-
-			gtk_label_set_line_wrap_mode
-				(label, PANGO_WRAP_WORD_CHAR);
-		}
-
-		iter = g_list_next(iter);
-	}
-
-	g_list_free(iter);
+	GList *children;
 
 	if(prefix)
 	{
 		gchar *prefix_escaped = g_markup_printf_escaped("%s", prefix);
 		gchar *msg_escaped = g_markup_printf_escaped("%s", msg);
 
-		gtk_message_dialog_format_secondary_markup
-			(	GTK_MESSAGE_DIALOG(dialog),
-				"<b>[%s]</b> %s",
-				prefix_escaped,
-				msg_escaped );
+		dialog =	gtk_message_dialog_new_with_markup
+				(	GTK_WINDOW(wnd),
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					type,
+					GTK_BUTTONS_OK,
+					"<b>[%s]</b> %s",
+					prefix_escaped,
+					msg_escaped );
 
 		g_free(prefix_escaped);
 		g_free(msg_escaped);
 	}
 	else
 	{
-		gtk_message_dialog_format_secondary_text
-			(GTK_MESSAGE_DIALOG(dialog), "%s", msg);
+		dialog =	gtk_message_dialog_new
+				(	GTK_WINDOW(wnd),
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					type,
+					GTK_BUTTONS_OK,
+					"%s",
+					msg );
 	}
+
+	msg_area =	gtk_message_dialog_get_message_area
+			(GTK_MESSAGE_DIALOG(dialog));
+	children = gtk_container_get_children(GTK_CONTAINER(msg_area));
+
+	for(GList *iter = children; iter; iter = g_list_next(iter))
+	{
+		if(GTK_IS_LABEL(iter->data))
+		{
+			gtk_label_set_line_wrap_mode
+				(GTK_LABEL(iter->data), PANGO_WRAP_WORD_CHAR);
+		}
+	}
+
+	g_list_free(children);
 
 	g_signal_connect(	dialog,
 				"response",
 				G_CALLBACK(gtk_widget_destroy),
 				NULL );
 
+	gtk_window_set_title(GTK_WINDOW(dialog), title);
+	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_widget_show_all(dialog);
 }
 
@@ -738,12 +737,12 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 		{
 			show_message_dialog(	view->wnd,
 						GTK_MESSAGE_INFO,
+						g_get_application_name(),
 						NULL,
 						_("Enabling or disabling "
 						"client-side decorations "
-						"requires restarting %s to "
-						"take effect."),
-						g_get_application_name());
+						"requires restarting to "
+						"take effect.") );
 		}
 
 		g_object_set(	gtk_settings_get_default(),
@@ -1414,9 +1413,9 @@ void gmpv_view_show_save_playlist_dialog(GmpvView *view)
 	{
 		show_message_dialog(	view->wnd,
 					GTK_MESSAGE_ERROR,
+					_("Error"),
 					NULL,
-					error->message,
-					_("Error") );
+					error->message );
 
 		g_error_free(error);
 	}
@@ -1465,6 +1464,15 @@ void gmpv_view_show_about_dialog(GmpvView *view)
 				"translator-credits",
 				_("translator-credits"),
 				NULL );
+}
+
+void gmpv_view_show_message_dialog(	GmpvView *view,
+					GtkMessageType type,
+					const gchar *title,
+					const gchar *prefix,
+					const gchar *msg )
+{
+	show_message_dialog(view->wnd, type, title, prefix, msg);
 }
 
 void gmpv_view_present(GmpvView *view)

@@ -97,6 +97,7 @@ static void model_ready_handler(	GObject *object,
 static void frame_ready_handler(GmpvModel *model, gpointer data);
 static void autofit_handler(GmpvModel *model, gdouble multiplier, gpointer data);
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
+static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void shutdown_handler(GmpvMpv *mpv, gpointer data);
 static void post_shutdown_handler(GmpvMpv *mpv, gpointer data);
 static void play_button_handler(GtkButton *button, gpointer data);
@@ -401,6 +402,10 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(message_handler),
 				controller );
 	g_signal_connect(	controller->model,
+				"error",
+				G_CALLBACK(error_handler),
+				controller );
+	g_signal_connect(	controller->model,
 				"shutdown",
 				G_CALLBACK(shutdown_handler),
 				controller );
@@ -661,6 +666,15 @@ static void autofit_handler(GmpvModel *model, gdouble multiplier, gpointer data)
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
 {
 	g_signal_emit_by_name(data, "message", message);
+}
+
+static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
+{
+	gmpv_view_show_message_dialog(	GMPV_CONTROLLER(data)->view,
+					GTK_MESSAGE_ERROR,
+					_("Error"),
+					NULL,
+					message );
 }
 
 static void shutdown_handler(GmpvMpv *mpv, gpointer data)

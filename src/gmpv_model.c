@@ -108,6 +108,7 @@ static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value,
 					gpointer data );
+static void error_handler(GmpvMpv *mpv, const gchar* message, gpointer data);
 static void message_handler(GmpvMpv *mpv, const gchar* message, gpointer data);
 static void shutdown_handler(GmpvMpv *mpv, gpointer data);
 
@@ -132,6 +133,10 @@ static void constructed(GObject *object)
 	g_signal_connect(	model->mpv,
 				"mpv-prop-change",
 				G_CALLBACK(mpv_prop_change_handler),
+				model );
+	g_signal_connect(	model->mpv,
+				"error",
+				G_CALLBACK(error_handler),
 				model );
 	g_signal_connect(	model->mpv,
 				"message",
@@ -562,6 +567,11 @@ static void mpv_prop_change_handler(	GmpvMpv *mpv,
 
 }
 
+static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
+{
+	g_signal_emit_by_name(data, "error", message);
+}
+
 static void message_handler(GmpvMpv *mpv, const gchar* message, gpointer data)
 {
 	g_signal_emit_by_name(data, "message", message);
@@ -666,6 +676,16 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			1,
 			G_TYPE_DOUBLE );
 	g_signal_new(	"message",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
+	g_signal_new(	"error",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,

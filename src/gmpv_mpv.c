@@ -368,9 +368,8 @@ static gboolean mpv_event_handler(gpointer data)
 						"abnormally. Reason: %s."),
 						err );
 
-				gmpv_mpv_set_property_flag
-					(mpv, "pause", TRUE);
-				g_signal_emit_by_name(mpv, "mpv-error", msg);
+				gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
+				g_signal_emit_by_name(mpv, "error", msg);
 
 				g_free(msg);
 			}
@@ -763,7 +762,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-	g_signal_new(	"mpv-error",
+	g_signal_new(	"error",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
@@ -1005,7 +1004,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		const gchar *msg
 			= _("Failed to apply one or more MPV options.");
 
-		g_signal_emit_by_name(mpv, "mpv-error", msg);
+		g_signal_emit_by_name(mpv, "error", msg);
 	}
 
 	if(mpv->force_opengl || mpv->wid <= 0)

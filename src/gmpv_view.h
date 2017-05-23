@@ -40,6 +40,11 @@ void gmpv_view_show_save_playlist_dialog(GmpvView *view);
 void gmpv_view_show_preferences_dialog(GmpvView *view);
 void gmpv_view_show_shortcuts_dialog(GmpvView *view);
 void gmpv_view_show_about_dialog(GmpvView *view);
+void gmpv_view_show_message_dialog(	GmpvView *view,
+					GtkMessageType type,
+					const gchar *title,
+					const gchar *prefix,
+					const gchar *msg );
 void gmpv_view_present(GmpvView *view);
 void gmpv_view_quit(GmpvView *view);
 void gmpv_view_reset(GmpvView *view);
