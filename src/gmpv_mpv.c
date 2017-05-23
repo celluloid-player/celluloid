@@ -68,7 +68,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
 static gboolean mpv_event_handler(gpointer data);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
-static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
+static void add_file_to_playlist(GmpvMpv *mpv, const gchar *uri);
 static void update_playlist(GmpvMpv *mpv);
 static void update_metadata(GmpvMpv *mpv);
 static void update_track_list(GmpvMpv *mpv);
@@ -152,11 +152,6 @@ static void load_from_playlist(GmpvMpv *mpv)
 {
 	GPtrArray * playlist = mpv->playlist;
 
-	if(!mpv->state.init_load)
-	{
-		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
-	}
-
 	for(guint i = 0; playlist && i < playlist->len; i++)
 	{
 		GmpvPlaylistEntry *entry;
@@ -164,7 +159,7 @@ static void load_from_playlist(GmpvMpv *mpv)
 		entry = g_ptr_array_index(playlist, i);
 
 		/* Do not append on first iteration */
-		gmpv_mpv_load_file(mpv, entry->filename, i != 0, FALSE);
+		gmpv_mpv_load_file(mpv, entry->filename, i != 0);
 	}
 }
 
@@ -643,6 +638,14 @@ static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
 	}
 
 	fclose(tmp_file);
+}
+
+static void add_file_to_playlist(GmpvMpv *mpv, const gchar *uri)
+{
+	GmpvPlaylistEntry *entry = gmpv_playlist_entry_new(uri, NULL);
+
+	g_ptr_array_add(mpv->playlist, entry);
+	g_signal_emit_by_name(mpv, "mpv-prop-change", "playlist", NULL);
 }
 
 static void update_playlist(GmpvMpv *mpv)
@@ -1227,18 +1230,14 @@ void gmpv_mpv_load_track(GmpvMpv *mpv, const gchar *uri, TrackType type)
 	g_free(path);
 }
 
-void gmpv_mpv_load_file(	GmpvMpv *mpv,
-				const gchar *uri,
-				gboolean append,
-				gboolean update )
+void gmpv_mpv_load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 {
-	const gchar *load_cmd[] = {"loadfile", NULL, NULL, NULL};
+	gchar *path = get_path_from_uri(uri);
+	const gchar *load_cmd[] = {"loadfile", path, NULL, NULL};
 	gint64 playlist_count = 0;
 
-	g_info(	"Loading file (append=%s, update=%s): %s",
-		append?"TRUE":"FALSE",
-		update?"TRUE":"FALSE",
-		uri?:"<PLAYLIST_ITEMS>" );
+	g_assert(uri);
+	g_info(	"Loading file (append=%s): %s", append?"TRUE":"FALSE", uri);
 
 	mpv_get_property(	mpv->mpv_ctx,
 				"playlist-count",
@@ -1247,56 +1246,28 @@ void gmpv_mpv_load_file(	GmpvMpv *mpv,
 
 	load_cmd[2] = (append && playlist_count > 0)?"append":"replace";
 
-	if(!append && uri && update)
+	if(!append)
 	{
 		mpv->state.new_file = TRUE;
 		mpv->state.loaded = FALSE;
-	}
 
-	if(!uri)
-	{
-		load_from_playlist(mpv);
-	}
-
-	if(uri)
-	{
-		gchar *path = get_path_from_uri(uri);
-
-		load_cmd[1] = path;
-
-		if(!append)
+		if(!mpv->state.init_load)
 		{
-			mpv->state.loaded = FALSE;
-
-			if(!mpv->state.init_load)
-			{
-				gmpv_mpv_set_property_flag
-					(mpv, "pause", FALSE);
-			}
+			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
-
-		g_assert(mpv->mpv_ctx);
-
-		mpv_request_event(mpv->mpv_ctx, MPV_EVENT_END_FILE, 0);
-		mpv_command(mpv->mpv_ctx, load_cmd);
-		mpv_request_event(mpv->mpv_ctx, MPV_EVENT_END_FILE, 1);
-
-		g_free(path);
 	}
+
+	g_assert(mpv->mpv_ctx);
+	mpv_request_event(mpv->mpv_ctx, MPV_EVENT_END_FILE, 0);
+	mpv_command(mpv->mpv_ctx, load_cmd);
+	mpv_request_event(mpv->mpv_ctx, MPV_EVENT_END_FILE, 1);
+
+	g_free(path);
 }
 
-void gmpv_mpv_load(	GmpvMpv *mpv,
-			const gchar *uri,
-			gboolean append,
-			gboolean update )
+void gmpv_mpv_load(GmpvMpv *mpv, const gchar *uri, gboolean append)
 {
 	const gchar *subtitle_exts[] = SUBTITLE_EXTS;
-	gboolean idle_active = FALSE;
-
-	mpv_get_property(	mpv->mpv_ctx,
-				"idle-active",
-				MPV_FORMAT_FLAG,
-				&idle_active );
 
 	if(extension_matches(uri, subtitle_exts))
 	{
@@ -1304,24 +1275,25 @@ void gmpv_mpv_load(	GmpvMpv *mpv,
 	}
 	else
 	{
-		if(append && idle_active && mpv->playlist->len > 0)
+		gboolean idle_active = FALSE;
+
+		mpv_get_property(	mpv->mpv_ctx,
+					"idle-active",
+					MPV_FORMAT_FLAG,
+					&idle_active );
+
+		if(idle_active)
 		{
-			mpv_node playlist;
-			GmpvPlaylistEntry *entry;
+			if(!append)
+			{
+				g_ptr_array_set_size(mpv->playlist, 0);
+			}
 
-			entry = gmpv_playlist_entry_new(uri, NULL);
-			g_ptr_array_add(mpv->playlist, entry);
-
-			g_signal_emit_by_name(	mpv,
-						"mpv-prop-change",
-						"playlist",
-						&playlist );
-
-			mpv_free_node_contents(&playlist);
+			add_file_to_playlist(mpv, uri);
 		}
 		else
 		{
-			gmpv_mpv_load_file(mpv, uri, append, update);
+			gmpv_mpv_load_file(mpv, uri, append);
 		}
 	}
 }

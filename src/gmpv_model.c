@@ -921,10 +921,12 @@ void gmpv_model_move_playlist_entry(GmpvModel *model, gint64 src, gint64 dst)
 
 void gmpv_model_load_file(GmpvModel *model, const gchar *uri, gboolean append)
 {
-	gmpv_mpv_load(model->mpv, uri, append, TRUE);
+	gmpv_mpv_load(model->mpv, uri, append);
 
-	/* Start playing when replacing the playlist, ie. not appending */
-	if(!append)
+	/* Start playing when replacing the playlist, ie. not appending, or
+	 * adding the first file to the playlist.
+	 */
+	if(!append || model->playlist->len == 1)
 	{
 		gmpv_model_play(model);
 	}
