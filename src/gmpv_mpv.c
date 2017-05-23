@@ -243,7 +243,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		if(idle_active && !mpv->state.paused)
+		if(idle_active && !mpv->state.paused && !mpv->init_vo_config)
 		{
 			load_from_playlist(mpv);
 		}
