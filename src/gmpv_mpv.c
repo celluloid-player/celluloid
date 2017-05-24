@@ -61,6 +61,7 @@ static void get_inst_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec );
 static void load_from_playlist(GmpvMpv *mpv);
+static void load_scripts(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
 static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
@@ -161,6 +162,30 @@ static void load_from_playlist(GmpvMpv *mpv)
 		/* Do not append on first iteration */
 		gmpv_mpv_load_file(mpv, entry->filename, i != 0);
 	}
+}
+
+static void load_scripts(GmpvMpv *mpv)
+{
+	gchar *path = get_scripts_dir_path();
+	GDir *dir = g_dir_open(path, 0, NULL);
+
+	for(const gchar *name = ""; name; name = g_dir_read_name(dir))
+	{
+		gchar *full_path = g_build_filename(path, name, NULL);
+
+		if(g_file_test(full_path, G_FILE_TEST_IS_REGULAR))
+		{
+			const gchar *cmd[] = {"load-script", full_path, NULL};
+
+			g_info("Loading script %s", full_path);
+			mpv_command(mpv->mpv_ctx, cmd);
+		}
+
+		g_free(full_path);
+	}
+
+	g_dir_close(dir);
+	g_free(path);
 }
 
 static void wakeup_callback(void *data)
@@ -292,6 +317,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 		{
 			mpv->init_vo_config = FALSE;
 			load_from_playlist(mpv);
+			load_scripts(mpv);
 		}
 	}
 }
@@ -944,6 +970,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 			{"window-scale", "1"},
 			{"pause", "yes"},
 			{"ytdl", "yes"},
+			{"load-scripts", "no"},
 			{"osd-bar", "no"},
 			{"input-cursor", "no"},
 			{"cursor-autohide", "no"},
