@@ -890,10 +890,13 @@ gdouble gmpv_model_get_time_position(GmpvModel *model)
 {
 	gdouble time_pos = 0.0;
 
-	gmpv_mpv_get_property(	model->mpv,
-				"time-pos",
-				MPV_FORMAT_DOUBLE,
-				&time_pos );
+	if(!model->idle_active)
+	{
+		gmpv_mpv_get_property(	model->mpv,
+					"time-pos",
+					MPV_FORMAT_DOUBLE,
+					&time_pos );
+	}
 
 	/* time-pos may become negative during seeks */
 	return MAX(0, time_pos);
