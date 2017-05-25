@@ -17,7 +17,7 @@ capabilities.
 - gcc (build)
 - glib >= 2.44
 - gtk >= 3.18<sup>[[2]](#note2)</sup>
-- mpv >= 0.25
+- mpv >= 0.21
 - epoxy
 - lua (optional)
 - youtube-dl (optional)
