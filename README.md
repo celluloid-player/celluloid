@@ -126,7 +126,7 @@ can be found
 
 GNOME MPV defines a set of keybindings in the macro `DEFAULT_KEYBINDS`, which
 can be found in
-[src/def.h](https://github.com/gnome-mpv/gnome-mpv/blob/master/src/def.h). The
+[src/def.h](https://github.com/gnome-mpv/gnome-mpv/blob/master/src/gmpv_def.h). The
 syntax used is exactly the same as mpv's `input.conf`. These keybindings are
 applied on top of default keybindings provided by mpv.
 
