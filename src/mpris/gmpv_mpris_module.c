@@ -283,19 +283,29 @@ void gmpv_mpris_module_set_properties_full(	GmpvMprisModule *module,
 
 void gmpv_mpris_module_register_interface(GmpvMprisModule *module)
 {
-	GmpvMprisModuleClass *klass = GMPV_MPRIS_MODULE_GET_CLASS(module);
+	if(module)
+	{
+		GmpvMprisModuleClass *klass;
 
-	g_return_if_fail(GMPV_IS_MPRIS_MODULE(module));
-	g_return_if_fail(klass->register_interface);
-	klass->register_interface(module);
+		g_return_if_fail(GMPV_IS_MPRIS_MODULE(module));
+		klass = GMPV_MPRIS_MODULE_GET_CLASS(module);
+
+		g_return_if_fail(klass->register_interface);
+		klass->register_interface(module);
+	}
 }
 
 void gmpv_mpris_module_unregister_interface(GmpvMprisModule *module)
 {
-	GmpvMprisModuleClass *klass = GMPV_MPRIS_MODULE_GET_CLASS(module);
+	if(module)
+	{
+		GmpvMprisModuleClass *klass;
 
-	g_return_if_fail(GMPV_IS_MPRIS_MODULE(module));
-	g_return_if_fail(klass->unregister_interface);
-	klass->unregister_interface(module);
+		g_return_if_fail(GMPV_IS_MPRIS_MODULE(module));
+		klass = GMPV_MPRIS_MODULE_GET_CLASS(module);
+
+		g_return_if_fail(klass->unregister_interface);
+		klass->unregister_interface(module);
+	}
 }
 
