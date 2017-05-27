@@ -117,6 +117,7 @@ void gmpv_mpris_init(GmpvApplication *gmpv_ctx)
 	inst->gmpv_ctx = gmpv_ctx;
 	inst->base = NULL;
 	inst->player = NULL;
+	inst->track_list = NULL;
 	inst->name_id = 0;
 	inst->shutdown_sig_id = 0;
 	inst->pending_seek = -1;
