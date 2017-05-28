@@ -1323,7 +1323,7 @@ void gmpv_mpv_load(GmpvMpv *mpv, const gchar *uri, gboolean append)
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		if(idle_active)
+		if(idle_active || !mpv->state.ready)
 		{
 			if(!append)
 			{

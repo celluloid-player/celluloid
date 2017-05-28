@@ -64,7 +64,6 @@ static void sid_handler(	GObject *object,
 static void idle_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data );
-static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
 static void message_handler(	GmpvController *controller,
 				const gchar *message,
 				gpointer data );
@@ -208,10 +207,6 @@ static void initialize_gui(GmpvApplication *app)
 				G_CALLBACK(idle_handler),
 				app );
 	g_signal_connect(	app->controller,
-				"notify::ready",
-				G_CALLBACK(ready_handler),
-				app );
-	g_signal_connect(	app->controller,
 				"message",
 				G_CALLBACK(message_handler),
 				app );
@@ -254,40 +249,17 @@ static void open_handler(	GApplication *gapp,
 				gpointer data )
 {
 	GmpvApplication *app = data;
-	gboolean ready = FALSE;
-
-	if(app->controller)
-	{
-		g_object_get(app->controller, "ready", &ready, NULL);
-	}
 
 	app->enqueue = (g_strcmp0(hint, "enqueue") == 0);
 
-	if(n_files > 0)
+	for(gint i = 0; i < n_files; i++)
 	{
-		if(ready)
-		{
-			for(gint i = 0; i < n_files; i++)
-			{
-				gchar *uri = g_file_get_uri(((GFile **)files)[i]);
+		gchar *uri = g_file_get_uri(((GFile **)files)[i]);
+		gboolean append = i != 0 || app->enqueue;
 
-				gmpv_controller_open
-					(app->controller, uri, i != 0 || app->enqueue);
+		gmpv_controller_open(app->controller, uri, append);
 
-				g_free(uri);
-			}
-		}
-		else
-		{
-			app->files = g_malloc(sizeof(GFile *)*(gsize)(n_files+1));
-
-			for(gint i = 0; i < n_files; i++)
-			{
-				app->files[i] = g_file_get_uri(((GFile **)files)[i]);
-			}
-
-			app->files[n_files] = NULL;
-		}
+		g_free(uri);
 	}
 }
 
@@ -352,14 +324,14 @@ static gint command_line_handler(	GApplication *gapp,
 				(cli, argv[i+1]);
 	}
 
-	if(n_files > 0)
-	{
-		g_application_open(gapp, files, n_files, enqueue?"enqueue":"");
-	}
-
 	if(n_files == 0 || !GMPV_APPLICATION(gapp)->gui)
 	{
 		g_application_activate(gapp);
+	}
+
+	if(n_files > 0)
+	{
+		g_application_open(gapp, files, n_files, enqueue?"enqueue":"");
 	}
 
 	for(gint i = 0; i < n_files; i++)
@@ -442,26 +414,6 @@ static void idle_handler(	GObject *object,
 	}
 }
 
-static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
-{
-	GmpvApplication *app = data;
-	gboolean ready = FALSE;
-
-	g_object_get(object, "ready", &ready, NULL);
-
-	if(ready && app->files)
-	{
-		for(gint i = 0; app->files[i]; i++)
-		{
-			gmpv_controller_open
-				(app->controller, app->files[i], i != 0);
-		}
-
-		g_strfreev(app->files);
-		app->files = NULL;
-	}
-}
-
 static void message_handler(	GmpvController *controller,
 				const gchar *message,
 				gpointer data )
@@ -489,7 +441,6 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->enqueue = FALSE;
 	app->no_existing_session = FALSE;
 	app->action_queue = g_queue_new();
-	app->files = NULL;
 	app->inhibit_cookie = 0;
 	app->gui = NULL;
 
