@@ -30,7 +30,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(GmpvView, gmpv_view, GMPV, VIEW, GObject)
 
-GmpvView *gmpv_view_new(GmpvMainWindow *wnd);
+GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating);
 GmpvMainWindow *gmpv_view_get_main_window(GmpvView *view);
 void gmpv_view_show_open_dialog(GmpvView *view, gboolean append);
 void gmpv_view_show_open_location_dialog(GmpvView *view, gboolean append);

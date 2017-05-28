@@ -186,8 +186,6 @@ static void initialize_gui(GmpvApplication *app)
 	mpvinput =		g_settings_get_string
 				(settings, "mpv-input-config-file");
 
-	app->gui = GMPV_MAIN_WINDOW(gmpv_main_window_new(app, always_floating));
-
 	migrate_config();
 
 	if(csd_enable)
@@ -211,7 +209,8 @@ static void initialize_gui(GmpvApplication *app)
 			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
 	}
 
-	app->view = gmpv_view_new(app->gui);
+	app->view = gmpv_view_new(app, always_floating);
+	app->gui = gmpv_view_get_main_window(app->view);
 	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
 	app->mpv = gmpv_mpv_new(wid);
 	app->model = gmpv_model_new(app->mpv);

@@ -1274,10 +1274,12 @@ static void gmpv_view_init(GmpvView *view)
 	view->fullscreen = FALSE;
 }
 
-GmpvView *gmpv_view_new(GmpvMainWindow *wnd)
+GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating)
 {
+	GtkWidget *window = gmpv_main_window_new(app, always_floating);
+
 	return GMPV_VIEW(g_object_new(	gmpv_view_get_type(),
-					"window", wnd,
+					"window", window,
 					NULL ));
 }
 
