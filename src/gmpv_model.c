@@ -118,6 +118,11 @@ static void constructed(GObject *object)
 {
 	GmpvModel *model = GMPV_MODEL(object);
 
+	g_assert(model->mpv);
+
+	model->playlist = gmpv_mpv_get_playlist(model->mpv);
+	model->metadata = gmpv_mpv_get_metadata(model->mpv);
+
 	g_signal_connect(	model->mpv,
 				"autofit",
 				G_CALLBACK(autofit_handler),
@@ -723,6 +728,7 @@ static void gmpv_model_init(GmpvModel *model)
 	model->duration = 0.0;
 	model->media_title = NULL;
 	model->metadata = NULL;
+	model->playlist = NULL;
 	model->playlist_count = 0;
 	model->playlist_pos = 0;
 	model->speed = 1.0;
