@@ -261,8 +261,7 @@ static void remove_selected_playlist_item_handler(	GSimpleAction *action,
 							GVariant *param,
 							gpointer data )
 {
-	GmpvMainWindow *wnd =	gmpv_application_get_main_window
-				(GMPV_APPLICATION(data));
+	GmpvMainWindow *wnd = GMPV_APPLICATION(data)->gui;
 
 	if(gmpv_main_window_get_playlist_visible(wnd))
 	{

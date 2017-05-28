@@ -28,7 +28,6 @@
 #include "gmpv_application_action.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_common.h"
-#include "gmpv_menu.h"
 #include "gmpv_def.h"
 #include "mpris/gmpv_mpris.h"
 #include "media_keys/gmpv_media_keys.h"
@@ -174,40 +173,16 @@ static void update_track_id(	GmpvApplication *app,
 static void initialize_gui(GmpvApplication *app)
 {
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	gboolean csd_enable;
 	gboolean always_floating;
 	gint64 wid;
 	gchar *mpvinput;
 
-	csd_enable =		g_settings_get_boolean
-				(settings, "csd-enable");
 	always_floating =	g_settings_get_boolean
 				(settings, "always-use-floating-controls");
 	mpvinput =		g_settings_get_string
 				(settings, "mpv-input-config-file");
 
 	migrate_config();
-
-	if(csd_enable)
-	{
-		GMenu *app_menu = g_menu_new();
-
-		gmpv_menu_build_app_menu(app_menu);
-		gtk_application_set_app_menu
-			(GTK_APPLICATION(app), G_MENU_MODEL(app_menu));
-
-		gmpv_main_window_enable_csd(app->gui);
-	}
-	else
-	{
-		GMenu *full_menu = g_menu_new();
-
-		gmpv_menu_build_full(full_menu, NULL);
-		gtk_application_set_app_menu(GTK_APPLICATION(app), NULL);
-
-		gtk_application_set_menubar
-			(GTK_APPLICATION(app), G_MENU_MODEL(full_menu));
-	}
 
 	app->view = gmpv_view_new(app, always_floating);
 	app->gui = gmpv_view_get_main_window(app->view);
@@ -564,11 +539,6 @@ GmpvApplication *gmpv_application_new(gchar *id, GApplicationFlags flags)
 						"application-id", id,
 						"flags", flags,
 						NULL ));
-}
-
-GmpvMainWindow *gmpv_application_get_main_window(GmpvApplication *app)
-{
-	return app->gui;
 }
 
 void gmpv_application_quit(GmpvApplication *app)

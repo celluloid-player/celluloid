@@ -26,6 +26,7 @@
 #include "gmpv_shortcuts_window.h"
 #include "gmpv_authors.h"
 #include "gmpv_marshal.h"
+#include "gmpv_menu.h"
 #include "gmpv_common.h"
 #include "gmpv_def.h"
 
@@ -1276,7 +1277,28 @@ static void gmpv_view_init(GmpvView *view)
 
 GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating)
 {
+	GtkApplication *gtk_app = GTK_APPLICATION(app);
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	GtkWidget *window = gmpv_main_window_new(app, always_floating);
+
+	if(g_settings_get_boolean(settings, "csd-enable"))
+	{
+		GMenu *app_menu = g_menu_new();
+
+		gmpv_menu_build_app_menu(app_menu);
+		gtk_application_set_app_menu(gtk_app, G_MENU_MODEL(app_menu));
+		gmpv_main_window_enable_csd(GMPV_MAIN_WINDOW(window));
+	}
+	else
+	{
+		GMenu *full_menu = g_menu_new();
+
+		gmpv_menu_build_full(full_menu, NULL);
+		gtk_application_set_app_menu(gtk_app, NULL);
+		gtk_application_set_menubar(gtk_app, G_MENU_MODEL(full_menu));
+	}
+
+	g_object_unref(settings);
 
 	return GMPV_VIEW(g_object_new(	gmpv_view_get_type(),
 					"window", window,

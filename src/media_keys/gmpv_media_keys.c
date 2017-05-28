@@ -47,7 +47,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 				gpointer data )
 {
 	gmpv_media_keys *inst = data;
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(inst->gmpv_ctx);
+	GmpvMainWindow *wnd = inst->gmpv_ctx->gui;
 
 	g_signal_handler_disconnect(wnd, inst->shutdown_sig_id);
 	g_signal_handler_disconnect(wnd, inst->focus_sig_id);
@@ -100,7 +100,7 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 
 	if(g_strcmp0(gmpv_application, APP_ID) == 0)
 	{
-		GmpvModel *model = GMPV_APPLICATION(inst->gmpv_ctx)->model;
+		GmpvModel *model = inst->gmpv_ctx->model;
 
 		if(g_strcmp0(key, "Next") == 0)
 		{
@@ -198,7 +198,7 @@ static void session_ready_handler(	GObject *source_object,
 void gmpv_media_keys_init(GmpvApplication *gmpv_ctx)
 {
 	gmpv_media_keys *inst = g_new0(gmpv_media_keys, 1);
-	GmpvMainWindow *wnd = gmpv_application_get_main_window(gmpv_ctx);
+	GmpvMainWindow *wnd = gmpv_ctx->gui;
 
 	inst->gmpv_ctx = gmpv_ctx;
 
