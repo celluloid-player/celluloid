@@ -175,12 +175,9 @@ static void initialize_gui(GmpvApplication *app)
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	gboolean always_floating;
 	gint64 wid;
-	gchar *mpvinput;
 
 	always_floating =	g_settings_get_boolean
 				(settings, "always-use-floating-controls");
-	mpvinput =		g_settings_get_string
-				(settings, "mpv-input-config-file");
 
 	migrate_config();
 
@@ -226,8 +223,6 @@ static void initialize_gui(GmpvApplication *app)
 	gmpv_application_action_add_actions(app);
 	gmpv_mpris_init(app);
 	gmpv_media_keys_init(app);
-
-	g_free(mpvinput);
 }
 
 static gboolean shutdown_signal_handler(gpointer data)
