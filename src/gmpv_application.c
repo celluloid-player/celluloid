@@ -223,6 +223,8 @@ static void initialize_gui(GmpvApplication *app)
 	gmpv_application_action_add_actions(app);
 	gmpv_mpris_init(app);
 	gmpv_media_keys_init(app);
+
+	g_object_unref(settings);
 }
 
 static gboolean shutdown_signal_handler(gpointer data)
