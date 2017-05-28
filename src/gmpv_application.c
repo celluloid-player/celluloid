@@ -302,7 +302,7 @@ static void open_handler(	GApplication *gapp,
 				gchar *uri = g_file_get_uri(((GFile **)files)[i]);
 
 				gmpv_controller_open
-					(app->controller, uri, i != 0);
+					(app->controller, uri, i != 0 || app->enqueue);
 
 				g_free(uri);
 			}
