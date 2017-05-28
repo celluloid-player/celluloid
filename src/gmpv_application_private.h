@@ -34,7 +34,6 @@ struct _GmpvApplication
 	GmpvView *view;
 	gboolean enqueue;
 	gboolean no_existing_session;
-	GmpvMpv *mpv;
 	GQueue *action_queue;
 	gchar **files;
 	guint inhibit_cookie;

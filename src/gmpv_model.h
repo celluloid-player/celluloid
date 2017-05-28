@@ -30,7 +30,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(GmpvModel, gmpv_model, GMPV, MODEL, GObject)
 
-GmpvModel *gmpv_model_new(GmpvMpv *mpv);
+GmpvModel *gmpv_model_new(gint64 wid);
 void gmpv_model_initialize(GmpvModel *model);
 void gmpv_model_reset(GmpvModel *model);
 void gmpv_model_quit(GmpvModel *model);

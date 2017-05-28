@@ -736,10 +736,10 @@ static void gmpv_model_init(GmpvModel *model)
 	model->volume = 1.0;
 }
 
-GmpvModel *gmpv_model_new(GmpvMpv *mpv)
+GmpvModel *gmpv_model_new(gint64 wid)
 {
 	return GMPV_MODEL(g_object_new(	gmpv_model_get_type(),
-					"mpv", mpv,
+					"mpv", gmpv_mpv_new(wid),
 					NULL ));
 }
 

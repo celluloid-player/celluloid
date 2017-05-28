@@ -212,8 +212,7 @@ static void initialize_gui(GmpvApplication *app)
 	app->view = gmpv_view_new(app, always_floating);
 	app->gui = gmpv_view_get_main_window(app->view);
 	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
-	app->mpv = gmpv_mpv_new(wid);
-	app->model = gmpv_model_new(app->mpv);
+	app->model = gmpv_model_new(wid);
 	app->controller = gmpv_controller_new(app->model, app->view);
 
 	g_unix_signal_add(SIGHUP, shutdown_signal_handler, app);
@@ -570,11 +569,6 @@ GmpvApplication *gmpv_application_new(gchar *id, GApplicationFlags flags)
 GmpvMainWindow *gmpv_application_get_main_window(GmpvApplication *app)
 {
 	return app->gui;
-}
-
-GmpvMpv *gmpv_application_get_mpv(GmpvApplication *app)
-{
-	return app->mpv;
 }
 
 void gmpv_application_quit(GmpvApplication *app)

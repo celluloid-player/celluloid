@@ -33,7 +33,6 @@ G_DECLARE_FINAL_TYPE(GmpvApplication, gmpv_application, GMPV, APPLICATION, GtkAp
 
 GmpvApplication *gmpv_application_new(gchar *id, GApplicationFlags flags);
 GmpvMainWindow *gmpv_application_get_main_window(GmpvApplication *app);
-GmpvMpv *gmpv_application_get_mpv(GmpvApplication *app);
 void gmpv_application_quit(GmpvApplication *app);
 
 G_END_DECLS
