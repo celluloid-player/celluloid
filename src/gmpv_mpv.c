@@ -169,22 +169,37 @@ static void load_scripts(GmpvMpv *mpv)
 	gchar *path = get_scripts_dir_path();
 	GDir *dir = g_dir_open(path, 0, NULL);
 
-	for(const gchar *name = ""; name; name = g_dir_read_name(dir))
+	if(dir)
 	{
-		gchar *full_path = g_build_filename(path, name, NULL);
+		const gchar *name;
 
-		if(g_file_test(full_path, G_FILE_TEST_IS_REGULAR))
+		do
 		{
-			const gchar *cmd[] = {"load-script", full_path, NULL};
+			gchar *full_path;
 
-			g_info("Loading script %s", full_path);
-			mpv_command(mpv->mpv_ctx, cmd);
+			name = g_dir_read_name(dir);
+			full_path = g_build_filename(path, name, NULL);
+
+			if(g_file_test(full_path, G_FILE_TEST_IS_REGULAR))
+			{
+				const gchar *cmd[]
+					= {"load-script", full_path, NULL};
+
+				g_info("Loading script: %s", full_path);
+				mpv_command(mpv->mpv_ctx, cmd);
+			}
+
+			g_free(full_path);
 		}
+		while(name);
 
-		g_free(full_path);
+		g_dir_close(dir);
+	}
+	else
+	{
+		g_warning("Failed to open scripts directory: %s", path);
 	}
 
-	g_dir_close(dir);
 	g_free(path);
 }
 
