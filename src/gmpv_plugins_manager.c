@@ -156,6 +156,11 @@ static void add_handler(GtkButton *button, gpointer data)
 	gtk_file_chooser_add_filter(chooser, filter);
 	gtk_file_chooser_set_filter(chooser, filter);
 
+	filter = gtk_file_filter_new ();
+	chooser = GTK_FILE_CHOOSER(dialog);
+	gtk_file_filter_add_mime_type (filter, "text/x-lua");
+	gtk_file_chooser_set_filter (chooser, filter);
+
 	if(gmpv_file_chooser_run(dialog) == GTK_RESPONSE_ACCEPT)
 	{
 		src = gtk_file_chooser_get_file(chooser);
