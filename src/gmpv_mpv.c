@@ -757,7 +757,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_MININT64,
 			G_MAXINT64,
 			-1,
-			G_PARAM_READWRITE );
+			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_WID, pspec);
 
 	g_signal_new(	"mpv-init",
