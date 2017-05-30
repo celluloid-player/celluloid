@@ -47,7 +47,6 @@ struct _GmpvMpvState
 
 GmpvMpv *gmpv_mpv_new(gint64 wid);
 const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv);
-GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv);
 mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv);
 gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv);
 GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv);

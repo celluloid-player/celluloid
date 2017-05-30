@@ -926,11 +926,6 @@ inline const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv)
 	return &mpv->state;
 }
 
-inline GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv)
-{
-	return mpv->geometry;
-}
-
 inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 {
 	return mpv->opengl_ctx;
