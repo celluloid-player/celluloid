@@ -484,68 +484,34 @@ static gboolean mpv_event_handler(gpointer data)
 
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args)
 {
-	gchar *opt_begin = args?strstr(args, "--"):NULL;
 	gint fail_count = 0;
+	gchar **tokens = g_regex_split_simple(	"(^|\\s+)--",
+						args,
+						G_REGEX_NO_AUTO_CAPTURE,
+						0 );
 
-	while(opt_begin)
+	/* Skip the first token if it's non-NULL, since it is just going to be
+	 * empty string for any valid args.
+	 */
+	for(gint i = tokens[0]?1:0; tokens[i]; i++)
 	{
-		gchar *opt_end = strstr(opt_begin, " --");
-		gchar *token;
-		gchar *token_arg;
-		gsize token_size;
+		gchar **parts = g_strsplit(g_strchomp(tokens[i]), "=", 2);
+		const gchar *option = parts[0];
+		const gchar *value = (option?parts[1]:NULL)?:"";
 
-		/* Point opt_end to the end of the input string if the current
-		 * option is the last one.
-		 */
-		if(!opt_end)
-		{
-			opt_end = args+strlen(args);
-		}
+		g_debug("Applying option: --%s", tokens[i]);
 
-		/* Traverse the string backwards until non-space character is
-		 * found. This removes spaces after the option token.
-		 */
-		while(	--opt_end != opt_begin
-			&& (*opt_end == ' ' || *opt_end == '\n') );
-
-		token_size = (gsize)(opt_end-opt_begin);
-		token = g_strndup(opt_begin+2, token_size-1);
-		token_arg = strpbrk(token, "= ");
-
-		if(token_arg)
-		{
-			*token_arg = '\0';
-
-			token_arg++;
-		}
-		else
-		{
-			/* Default to empty string if there is no explicit
-			 * argument
-			 */
-			token_arg = "";
-		}
-
-		g_debug("Applying option --%s=%s", token, token_arg);
-
-		if(mpv_set_option_string(mpv_ctx, token, token_arg) < 0)
+		if(mpv_set_option_string(mpv_ctx, option, value) < 0)
 		{
 			fail_count++;
 
-			g_warning(	"Failed to apply option: --%s=%s\n",
-					token,
-					token_arg );
+			g_warning("Failed to apply option: --%s\n", tokens[i]);
 		}
 
-		opt_begin = strstr(opt_end, " --");
-
-		if(opt_begin)
-		{
-			opt_begin++;
-		}
-
-		g_free(token);
+		g_strfreev(parts);
 	}
+
+	g_strfreev(tokens);
 
 	return fail_count*(-1);
 }
