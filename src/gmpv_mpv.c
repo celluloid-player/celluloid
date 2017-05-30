@@ -52,11 +52,11 @@
 
 static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name);
 static void *get_proc_address(void *fn_ctx, const gchar *name);
-static void set_inst_property(	GObject *object,
+static void set_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
 				GParamSpec *pspec );
-static void get_inst_property(	GObject *object,
+static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
@@ -115,7 +115,7 @@ static void *get_proc_address(void *fn_ctx, const gchar *name)
 	g_assert_not_reached();
 }
 
-static void set_inst_property(	GObject *object,
+static void set_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
 				GParamSpec *pspec )
@@ -132,7 +132,7 @@ static void set_inst_property(	GObject *object,
 	}
 }
 
-static void get_inst_property(	GObject *object,
+static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec )
@@ -155,9 +155,7 @@ static void load_from_playlist(GmpvMpv *mpv)
 
 	for(guint i = 0; playlist && i < playlist->len; i++)
 	{
-		GmpvPlaylistEntry *entry;
-
-		entry = g_ptr_array_index(playlist, i);
+		GmpvPlaylistEntry *entry = g_ptr_array_index(playlist, i);
 
 		/* Do not append on first iteration */
 		gmpv_mpv_load_file(mpv, entry->filename, i != 0);
@@ -274,7 +272,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
-		gboolean idle_active;
+		gboolean idle_active = FALSE;
 
 		mpv->state.paused = prop->data?*((int *)prop->data):TRUE;
 
@@ -290,7 +288,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 	}
 	else if(g_strcmp0(prop->name, "playlist") == 0)
 	{
-		gint64 playlist_count  = 0;
+		gint64 playlist_count = 0;
 		gboolean idle_active = FALSE;
 		gboolean was_empty = FALSE;
 
@@ -369,8 +367,7 @@ static gboolean mpv_event_handler(gpointer data)
 			{
 				mpv->state.loaded = FALSE;
 
-				gmpv_mpv_set_property_flag
-					(mpv, "pause", TRUE);
+				gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
 			}
 
 			if(!mpv->state.init_load && !mpv->state.loaded)
@@ -519,24 +516,17 @@ static gint apply_args(mpv_handle *mpv_ctx, gchar *args)
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
 {
 	GSList *iter = mpv->log_level_list;
-	module_log_level *level = NULL;
+	module_log_level *level = iter?iter->data:NULL;
 	gsize event_prefix_len = strlen(message->prefix);
 	gboolean found = FALSE;
-
-	if(iter)
-	{
-		level = iter->data;
-	}
 
 	while(iter && !found)
 	{
 		gsize prefix_len = strlen(level->prefix);
-		gint cmp;
-
-		cmp = strncmp(	level->prefix,
-				message->prefix,
-				(event_prefix_len < prefix_len)?
-				event_prefix_len:prefix_len );
+		gint cmp = strncmp(	level->prefix,
+					message->prefix,
+					(event_prefix_len < prefix_len)?
+					event_prefix_len:prefix_len );
 
 		/* Allow both exact match and prefix match */
 		if(cmp == 0
@@ -597,11 +587,8 @@ static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
 	for(gint i = 0; default_keybinds[i]; i++)
 	{
 		const gsize len = strlen(default_keybinds[i]);
-		gsize write_size;
-		gint rc;
-
-		write_size = fwrite(default_keybinds[i], len, 1, tmp_file);
-		rc = fputc('\n', tmp_file);
+		gsize write_size = fwrite(default_keybinds[i], len, 1, tmp_file);
+		gint rc = fputc('\n', tmp_file);
 
 		if(write_size != 1 || rc != '\n')
 		{
@@ -747,8 +734,8 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
-	obj_class->set_property = set_inst_property;
-	obj_class->get_property = get_inst_property;
+	obj_class->set_property = set_property;
+	obj_class->get_property = get_property;
 
 	pspec = g_param_spec_int64
 		(	"wid",
@@ -916,7 +903,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 {
 	GSettings *main_settings = g_settings_new(CONFIG_ROOT);
 	gchar *config_dir = get_config_dir_path();
-	gchar *mpvopt = NULL;
+	gchar *extra_options = NULL;
 	gchar *current_vo = NULL;
 	gchar *mpv_version = NULL;
 
@@ -961,9 +948,8 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 
 	if(g_settings_get_boolean(main_settings, "mpv-config-enable"))
 	{
-		gchar *mpv_conf
-			= g_settings_get_string
-				(main_settings, "mpv-config-file");
+		gchar *mpv_conf =	g_settings_get_string
+					(main_settings, "mpv-config-file");
 
 		g_info("Loading config file: %s", mpv_conf);
 		mpv_load_config_file(mpv->mpv_ctx, mpv_conf);
@@ -973,9 +959,8 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 
 	if(g_settings_get_boolean(main_settings, "mpv-input-config-enable"))
 	{
-		gchar *input_conf
-			= g_settings_get_string
-				(main_settings, "mpv-input-config-file");
+		gchar *input_conf =	g_settings_get_string
+					(main_settings, "mpv-input-config-file");
 
 		g_info("Loading input config file: %s", input_conf);
 		load_input_conf(mpv, input_conf);
@@ -987,16 +972,14 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		load_input_conf(mpv, NULL);
 	}
 
-	mpvopt = g_settings_get_string(main_settings, "mpv-options");
+	extra_options = g_settings_get_string(main_settings, "mpv-options");
 
-	g_debug("Applying extra mpv options: %s", mpvopt);
+	g_debug("Applying extra mpv options: %s", extra_options);
 
 	/* Apply extra options */
-	if(apply_args(mpv->mpv_ctx, mpvopt) < 0)
+	if(apply_args(mpv->mpv_ctx, extra_options) < 0)
 	{
-		const gchar *msg
-			= _("Failed to apply one or more MPV options.");
-
+		const gchar *msg = _("Failed to apply one or more MPV options.");
 		g_signal_emit_by_name(mpv, "error", msg);
 	}
 
@@ -1004,13 +987,10 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 	{
 		g_info("Forcing --vo=opengl-cb");
 		mpv_set_option_string(mpv->mpv_ctx, "vo", "opengl-cb");
-
 	}
 	else
 	{
-		g_debug(	"Attaching mpv window to wid %#x",
-				(guint)mpv->wid );
-
+		g_debug("Attaching mpv window to wid %#x", (guint)mpv->wid);
 		mpv_set_option(mpv->mpv_ctx, "wid", MPV_FORMAT_INT64, &mpv->wid);
 	}
 
@@ -1087,21 +1067,18 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 
 	g_clear_object(&main_settings);
 	g_free(config_dir);
-	g_free(mpvopt);
+	g_free(extra_options);
 	mpv_free(current_vo);
 	mpv_free(mpv_version);
 }
 
 void gmpv_mpv_init_gl(GmpvMpv *mpv)
 {
-	mpv_opengl_cb_context *opengl_ctx;
-	gint rc;
-
-	opengl_ctx = gmpv_mpv_get_opengl_cb_context(mpv);
-	rc = mpv_opengl_cb_init_gl(	opengl_ctx,
-					"GL_MP_MPGetNativeDisplay",
-					get_proc_address,
-					NULL );
+	mpv_opengl_cb_context *opengl_ctx = gmpv_mpv_get_opengl_cb_context(mpv);
+	gint rc = mpv_opengl_cb_init_gl(	opengl_ctx,
+						"GL_MP_MPGetNativeDisplay",
+						get_proc_address,
+						NULL );
 
 	if(rc >= 0)
 	{
