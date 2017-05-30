@@ -1338,8 +1338,3 @@ void gmpv_mpv_load(GmpvMpv *mpv, const gchar *uri, gboolean append)
 		}
 	}
 }
-
-void gmpv_mpv_free(gpointer data)
-{
-	mpv_free(data);
-}
