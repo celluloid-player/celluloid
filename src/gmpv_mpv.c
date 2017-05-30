@@ -921,11 +921,6 @@ GmpvMpv *gmpv_mpv_new(gint64 wid)
 	return GMPV_MPV_OBJ(g_object_new(gmpv_mpv_get_type(), "wid", wid, NULL));
 }
 
-inline const GmpvMpvState *gmpv_mpv_get_state(GmpvMpv *mpv)
-{
-	return &mpv->state;
-}
-
 inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 {
 	return mpv->opengl_ctx;
