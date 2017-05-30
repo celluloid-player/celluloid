@@ -931,11 +931,6 @@ inline GmpvGeometry *gmpv_mpv_get_geometry(GmpvMpv *mpv)
 	return mpv->geometry;
 }
 
-inline mpv_handle *gmpv_mpv_get_mpv_handle(GmpvMpv *mpv)
-{
-	return mpv->mpv_ctx;
-}
-
 inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 {
 	return mpv->opengl_ctx;
