@@ -60,6 +60,11 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void apply_default_options(GmpvMpv *mpv);
+static void load_mpv_config_file(GmpvMpv *mpv);
+static void apply_extra_options(GmpvMpv *mpv);
+static void load_input_config_file(GmpvMpv *mpv);
+static void observe_properties(GmpvMpv *mpv);
 static void load_from_playlist(GmpvMpv *mpv);
 static void load_scripts(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
@@ -69,6 +74,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
 static gboolean mpv_event_handler(gpointer data);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
+static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
 static void add_file_to_playlist(GmpvMpv *mpv, const gchar *uri);
 static void update_playlist(GmpvMpv *mpv);
 static void update_metadata(GmpvMpv *mpv);
@@ -147,6 +153,108 @@ static void get_property(	GObject *object,
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 	}
+}
+
+static void apply_default_options(GmpvMpv *mpv)
+{
+	const struct
+	{
+		const gchar *name;
+		const gchar *value;
+	}
+	options[] = DEFAULT_OPTIONS;
+
+	for(gint i = 0; options[i].name; i++)
+	{
+		g_debug(	"Applying default option --%s=%s",
+				options[i].name,
+				options[i].value );
+
+		mpv_set_option_string(	mpv->mpv_ctx,
+					options[i].name,
+					options[i].value );
+	}
+}
+
+static void load_mpv_config_file(GmpvMpv *mpv)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	if(g_settings_get_boolean(settings, "mpv-config-enable"))
+	{
+		gchar *mpv_conf =	g_settings_get_string
+					(settings, "mpv-config-file");
+
+		g_info("Loading config file: %s", mpv_conf);
+		mpv_load_config_file(mpv->mpv_ctx, mpv_conf);
+
+		g_free(mpv_conf);
+	}
+
+	g_object_unref(settings);
+}
+
+static void apply_extra_options(GmpvMpv *mpv)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	gchar *extra_options = g_settings_get_string(settings, "mpv-options");
+
+	g_debug("Applying extra mpv options: %s", extra_options);
+
+	/* Apply extra options */
+	if(apply_args(mpv->mpv_ctx, extra_options) < 0)
+	{
+		const gchar *msg = _("Failed to apply one or more MPV options.");
+		g_signal_emit_by_name(mpv, "error", msg);
+	}
+
+	g_free(extra_options);
+	g_object_unref(settings);
+}
+
+static void load_input_config_file(GmpvMpv *mpv)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	if(g_settings_get_boolean(settings, "mpv-input-config-enable"))
+	{
+		gchar *input_conf =	g_settings_get_string
+					(settings, "mpv-input-config-file");
+
+		g_info("Loading input config file: %s", input_conf);
+		load_input_conf(mpv, input_conf);
+
+		g_free(input_conf);
+	}
+	else
+	{
+		load_input_conf(mpv, NULL);
+	}
+
+	g_object_unref(settings);
+}
+
+static void observe_properties(GmpvMpv *mpv)
+{
+	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "vid", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "sid", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "chapters", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv->mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "idle-active", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "loop", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
+	mpv_observe_property(mpv->mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv->mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
+	mpv_observe_property(mpv->mpv_ctx, 0, "playlist", MPV_FORMAT_NODE);
+	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv->mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
+	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
+	mpv_observe_property(mpv->mpv_ctx, 0, "vo-configured", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 }
 
 static void load_from_playlist(GmpvMpv *mpv)
@@ -867,68 +975,14 @@ GPtrArray *gmpv_mpv_get_track_list(GmpvMpv *mpv)
 
 void gmpv_mpv_initialize(GmpvMpv *mpv)
 {
-	GSettings *main_settings = g_settings_new(CONFIG_ROOT);
-	gchar *config_dir = get_config_dir_path();
-	gchar *extra_options = NULL;
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	gchar *current_vo = NULL;
 	gchar *mpv_version = NULL;
 
-	const struct
-	{
-		const gchar *name;
-		const gchar *value;
-	}
-	options[] = DEFAULT_OPTIONS;
-
-	g_assert(mpv->mpv_ctx);
-
-	for(gint i = 0; options[i].name; i++)
-	{
-		g_debug(	"Applying default option --%s=%s",
-				options[i].name,
-				options[i].value );
-
-		mpv_set_option_string(	mpv->mpv_ctx,
-					options[i].name,
-					options[i].value );
-	}
-
-	if(g_settings_get_boolean(main_settings, "mpv-config-enable"))
-	{
-		gchar *mpv_conf =	g_settings_get_string
-					(main_settings, "mpv-config-file");
-
-		g_info("Loading config file: %s", mpv_conf);
-		mpv_load_config_file(mpv->mpv_ctx, mpv_conf);
-
-		g_free(mpv_conf);
-	}
-
-	if(g_settings_get_boolean(main_settings, "mpv-input-config-enable"))
-	{
-		gchar *input_conf =	g_settings_get_string
-					(main_settings, "mpv-input-config-file");
-
-		g_info("Loading input config file: %s", input_conf);
-		load_input_conf(mpv, input_conf);
-
-		g_free(input_conf);
-	}
-	else
-	{
-		load_input_conf(mpv, NULL);
-	}
-
-	extra_options = g_settings_get_string(main_settings, "mpv-options");
-
-	g_debug("Applying extra mpv options: %s", extra_options);
-
-	/* Apply extra options */
-	if(apply_args(mpv->mpv_ctx, extra_options) < 0)
-	{
-		const gchar *msg = _("Failed to apply one or more MPV options.");
-		g_signal_emit_by_name(mpv, "error", msg);
-	}
+	apply_default_options(mpv);
+	load_input_config_file(mpv);
+	load_mpv_config_file(mpv);
+	apply_extra_options(mpv);
 
 	if(mpv->force_opengl || mpv->wid <= 0)
 	{
@@ -941,25 +995,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		mpv_set_option(mpv->mpv_ctx, "wid", MPV_FORMAT_INT64, &mpv->wid);
 	}
 
-	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "vid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "sid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "chapters", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv->mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "idle-active", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "loop", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "playlist", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv->mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "vo-configured", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
+	observe_properties(mpv);
 	mpv_set_wakeup_callback(mpv->mpv_ctx, wakeup_callback, mpv);
 	mpv_initialize(mpv->mpv_ctx);
 
@@ -1008,12 +1044,10 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		mpv->state.ready = TRUE;
 		g_signal_emit_by_name(mpv, "mpv-init");
 
-		g_clear_object(&win_settings);
+		g_object_unref(win_settings);
 	}
 
-	g_clear_object(&main_settings);
-	g_free(config_dir);
-	g_free(extra_options);
+	g_object_unref(settings);
 	mpv_free(current_vo);
 	mpv_free(mpv_version);
 }
