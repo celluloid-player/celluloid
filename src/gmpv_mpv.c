@@ -273,15 +273,14 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 	if(g_strcmp0(prop->name, "pause") == 0)
 	{
 		gboolean idle_active = FALSE;
-
-		mpv->state.paused = prop->data?*((int *)prop->data):TRUE;
+		gboolean pause = prop->data?*((int *)prop->data):TRUE;
 
 		mpv_get_property(	mpv->mpv_ctx,
 					"idle-active",
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		if(idle_active && !mpv->state.paused && !mpv->init_vo_config)
+		if(idle_active && !pause && !mpv->init_vo_config)
 		{
 			load_from_playlist(mpv);
 		}
@@ -855,7 +854,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->geometry = NULL;
 
 	mpv->state.ready = FALSE;
-	mpv->state.paused = TRUE;
 	mpv->state.loaded = FALSE;
 	mpv->state.new_file = TRUE;
 	mpv->state.init_load = TRUE;
@@ -1029,7 +1027,6 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 			current_vo );
 
 		mpv->force_opengl = TRUE;
-		mpv->state.paused = FALSE;
 
 		gmpv_mpv_reset(mpv);
 	}
@@ -1095,6 +1092,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 	gchar *loop_str;
 	gboolean loop;
+	gboolean pause;
 	gint64 playlist_pos;
 	gint playlist_pos_rc;
 
@@ -1102,6 +1100,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 
 	loop_str = gmpv_mpv_get_property_string(mpv, "loop");
 	loop = (g_strcmp0(loop_str, "inf") == 0);
+	pause = gmpv_mpv_get_property_flag(mpv, "pause");
 
 	mpv_free(loop_str);
 
@@ -1143,10 +1142,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 						&playlist_pos );
 		}
 
-		gmpv_mpv_set_property(	mpv,
-					"pause",
-					MPV_FORMAT_FLAG,
-					&mpv->state.paused );
+		gmpv_mpv_set_property(mpv, "pause", MPV_FORMAT_FLAG, &pause);
 	}
 }
 

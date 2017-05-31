@@ -39,7 +39,6 @@ typedef struct _GmpvMpvState GmpvMpvState;
 struct _GmpvMpvState
 {
 	gboolean ready;
-	gboolean paused;
 	gboolean loaded;
 	gboolean new_file;
 	gboolean init_load;
