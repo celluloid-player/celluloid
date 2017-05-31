@@ -362,26 +362,13 @@ static gboolean mpv_event_handler(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
-			if(mpv->state.loaded)
-			{
-				mpv->state.loaded = FALSE;
-
-				gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
-			}
-
-			if(!mpv->state.init_load && !mpv->state.loaded)
-			{
-				g_signal_emit_by_name(mpv, "idle");
-			}
-
+			mpv->state.loaded = FALSE;
 			mpv->state.init_load = FALSE;
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{
 			mpv->state.loaded = TRUE;
 			mpv->state.init_load = FALSE;
-
-			g_signal_emit_by_name(mpv, "load");
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
@@ -786,24 +773,6 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_TYPE_STRING,
 			G_TYPE_POINTER );
 
-	g_signal_new(	"idle",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
-	g_signal_new(	"load",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
 	g_signal_new(	"message",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
