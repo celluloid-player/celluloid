@@ -861,7 +861,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->init_vo_config = TRUE;
 	mpv->force_opengl = FALSE;
 	mpv->use_opengl = FALSE;
-	mpv->glarea = NULL;
 	mpv->wid = -1;
 	mpv->opengl_cb_callback_data = NULL;
 	mpv->opengl_cb_callback = NULL;
