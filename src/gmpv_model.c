@@ -102,7 +102,6 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 static gboolean emit_frame_ready(gpointer data);
 static void opengl_cb_update_callback(gpointer opengl_cb_ctx);
 static void autofit_handler(GmpvMpv *mpv, gdouble ratio, gpointer data);
-static void mpv_init_handler(GmpvMpv *mpv, gpointer data);
 static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data);
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
@@ -123,13 +122,15 @@ static void constructed(GObject *object)
 	model->playlist = gmpv_mpv_get_playlist(model->mpv);
 	model->metadata = gmpv_mpv_get_metadata(model->mpv);
 
+	g_object_bind_property(	model->mpv,
+				"ready",
+				model,
+				"ready",
+				G_BINDING_DEFAULT );
+
 	g_signal_connect(	model->mpv,
 				"autofit",
 				G_CALLBACK(autofit_handler),
-				model );
-	g_signal_connect(	model->mpv,
-				"mpv-init",
-				G_CALLBACK(mpv_init_handler),
 				model );
 	g_signal_connect(	model->mpv,
 				"mpv-playback-restart",
@@ -537,12 +538,6 @@ static void autofit_handler(GmpvMpv *mpv, gdouble ratio, gpointer data)
 	g_signal_emit_by_name(data, "autofit", ratio);
 }
 
-static void mpv_init_handler(GmpvMpv *mpv, gpointer data)
-{
-	GMPV_MODEL(data)->ready = TRUE;
-	g_object_notify(data, "ready");
-}
-
 static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data)
 {
 	g_signal_emit_by_name(data, "playback-restart");
@@ -638,7 +633,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			"Ready",
 			"Whether mpv is ready to receive commands",
 			FALSE,
-			G_PARAM_READABLE );
+			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_READY, pspec);
 
 	for(int i = 0; mpv_props[i].name; i++)

@@ -30,6 +30,7 @@ enum
 {
 	PROP_0,
 	PROP_WID,
+	PROP_READY,
 	N_PROPERTIES
 };
 

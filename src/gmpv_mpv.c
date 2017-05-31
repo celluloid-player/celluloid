@@ -132,6 +132,10 @@ static void set_property(	GObject *object,
 	{
 		self->wid = g_value_get_int64(value);
 	}
+	else if(property_id == PROP_READY)
+	{
+		self->ready = g_value_get_boolean(value);
+	}
 	else
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -148,6 +152,10 @@ static void get_property(	GObject *object,
 	if(property_id == PROP_WID)
 	{
 		g_value_set_int64(value, self->wid);
+	}
+	else if(property_id == PROP_READY)
+	{
+		g_value_set_boolean(value, self->ready);
 	}
 	else
 	{
@@ -837,6 +845,14 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_WID, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"ready",
+			"Ready",
+			"Whether mpv is initialized and ready to recieve commands",
+			FALSE,
+			G_PARAM_READABLE );
+	g_object_class_install_property(obj_class, PROP_READY, pspec);
+
 	g_signal_new(	"mpv-init",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1037,6 +1053,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 
 		mpv->force_opengl = FALSE;
 		mpv->ready = TRUE;
+		g_object_notify(G_OBJECT(mpv), "ready");
 		g_signal_emit_by_name(mpv, "mpv-init");
 
 		g_object_unref(win_settings);
@@ -1089,6 +1106,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 
 	/* Reset mpv->mpv_ctx */
 	mpv->ready = FALSE;
+	g_object_notify(G_OBJECT(mpv), "ready");
 
 	gmpv_mpv_command(mpv, quit_cmd);
 	gmpv_mpv_quit(mpv);
