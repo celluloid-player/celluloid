@@ -878,26 +878,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		const gchar *name;
 		const gchar *value;
 	}
-	options[] = {	{"vo", "opengl,vdpau,vaapi,xv,x11,opengl-cb,"},
-			{"osd-level", "1"},
-			{"softvol", "yes"},
-			{"force-window", "immediate"},
-			{"input-default-bindings", "yes"},
-			{"audio-client-name", ICON_NAME},
-			{"title", "${media-title}"},
-			{"autofit-larger", "75%"},
-			{"window-scale", "1"},
-			{"pause", "yes"},
-			{"ytdl", "yes"},
-			{"load-scripts", "no"},
-			{"osd-bar", "no"},
-			{"input-cursor", "no"},
-			{"cursor-autohide", "no"},
-			{"softvol-max", "100"},
-			{"config", "yes"},
-			{"screenshot-template", "gnome-mpv-shot%n"},
-			{"config-dir", config_dir},
-			{NULL, NULL} };
+	options[] = DEFAULT_OPTIONS;
 
 	g_assert(mpv->mpv_ctx);
 
