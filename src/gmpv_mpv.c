@@ -471,18 +471,14 @@ static gboolean mpv_event_handler(gpointer data)
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
 			mpv->state.loaded = FALSE;
-			mpv->state.init_load = FALSE;
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{
 			mpv->state.loaded = TRUE;
-			mpv->state.init_load = FALSE;
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
 			mpv_event_end_file *ef_event = event->data;
-
-			mpv->state.init_load = FALSE;
 
 			if(mpv->state.loaded)
 			{
@@ -933,7 +929,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->state.ready = FALSE;
 	mpv->state.loaded = FALSE;
 	mpv->state.new_file = TRUE;
-	mpv->state.init_load = TRUE;
 
 	mpv->init_vo_config = TRUE;
 	mpv->force_opengl = FALSE;
@@ -1199,10 +1194,7 @@ void gmpv_mpv_load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 		mpv->state.new_file = TRUE;
 		mpv->state.loaded = FALSE;
 
-		if(!mpv->state.init_load)
-		{
-			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
-		}
+		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 	}
 
 	g_assert(mpv->mpv_ctx);

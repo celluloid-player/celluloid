@@ -33,7 +33,6 @@ struct _GmpvMpvState
 	gboolean ready;
 	gboolean loaded;
 	gboolean new_file;
-	gboolean init_load;
 };
 
 enum
