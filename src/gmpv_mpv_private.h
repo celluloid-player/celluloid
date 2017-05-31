@@ -26,6 +26,16 @@
 
 G_BEGIN_DECLS
 
+typedef struct _GmpvMpvState GmpvMpvState;
+
+struct _GmpvMpvState
+{
+	gboolean ready;
+	gboolean loaded;
+	gboolean new_file;
+	gboolean init_load;
+};
+
 enum
 {
 	PROP_0,

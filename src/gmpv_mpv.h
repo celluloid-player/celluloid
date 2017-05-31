@@ -34,16 +34,6 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV_OBJ, GObject)
 
-typedef struct _GmpvMpvState GmpvMpvState;
-
-struct _GmpvMpvState
-{
-	gboolean ready;
-	gboolean loaded;
-	gboolean new_file;
-	gboolean init_load;
-};
-
 GmpvMpv *gmpv_mpv_new(gint64 wid);
 mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv);
 gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv);
