@@ -853,15 +853,6 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_PARAM_READABLE );
 	g_object_class_install_property(obj_class, PROP_READY, pspec);
 
-	g_signal_new(	"mpv-init",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
 	g_signal_new(	"error",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1054,7 +1045,6 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		mpv->force_opengl = FALSE;
 		mpv->ready = TRUE;
 		g_object_notify(G_OBJECT(mpv), "ready");
-		g_signal_emit_by_name(mpv, "mpv-init");
 
 		g_object_unref(win_settings);
 	}
