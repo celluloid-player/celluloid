@@ -470,19 +470,19 @@ static gboolean mpv_event_handler(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
-			mpv->state.loaded = FALSE;
+			mpv->loaded = FALSE;
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{
-			mpv->state.loaded = TRUE;
+			mpv->loaded = TRUE;
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
 			mpv_event_end_file *ef_event = event->data;
 
-			if(mpv->state.loaded)
+			if(mpv->loaded)
 			{
-				mpv->state.new_file = FALSE;
+				mpv->new_file = FALSE;
 			}
 
 			if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
@@ -504,7 +504,7 @@ static gboolean mpv_event_handler(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
 		{
-			if(mpv->state.new_file)
+			if(mpv->new_file)
 			{
 				gmpv_mpv_opt_handle_autofit(mpv);
 
@@ -926,9 +926,9 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	mpv->autofit_ratio = -1;
 	mpv->geometry = NULL;
 
-	mpv->state.ready = FALSE;
-	mpv->state.loaded = FALSE;
-	mpv->state.new_file = TRUE;
+	mpv->ready = FALSE;
+	mpv->loaded = FALSE;
+	mpv->new_file = TRUE;
 
 	mpv->init_vo_config = TRUE;
 	mpv->force_opengl = FALSE;
@@ -1036,7 +1036,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		gmpv_mpv_opt_handle_geometry(mpv);
 
 		mpv->force_opengl = FALSE;
-		mpv->state.ready = TRUE;
+		mpv->ready = TRUE;
 		g_signal_emit_by_name(mpv, "mpv-init");
 
 		g_object_unref(win_settings);
@@ -1088,7 +1088,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 						&playlist_pos );
 
 	/* Reset mpv->mpv_ctx */
-	mpv->state.ready = FALSE;
+	mpv->ready = FALSE;
 
 	gmpv_mpv_command(mpv, quit_cmd);
 	gmpv_mpv_quit(mpv);
@@ -1105,7 +1105,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 
 	if(mpv->playlist)
 	{
-		if(mpv->state.loaded)
+		if(mpv->loaded)
 		{
 			mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
 			load_from_playlist(mpv);
@@ -1191,8 +1191,8 @@ void gmpv_mpv_load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 
 	if(!append)
 	{
-		mpv->state.new_file = TRUE;
-		mpv->state.loaded = FALSE;
+		mpv->new_file = TRUE;
+		mpv->loaded = FALSE;
 
 		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 	}
@@ -1222,7 +1222,7 @@ void gmpv_mpv_load(GmpvMpv *mpv, const gchar *uri, gboolean append)
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		if(idle_active || !mpv->state.ready)
+		if(idle_active || !mpv->ready)
 		{
 			if(!append)
 			{

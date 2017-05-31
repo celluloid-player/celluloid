@@ -26,15 +26,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct _GmpvMpvState GmpvMpvState;
-
-struct _GmpvMpvState
-{
-	gboolean ready;
-	gboolean loaded;
-	gboolean new_file;
-};
-
 enum
 {
 	PROP_0,
@@ -45,12 +36,14 @@ enum
 struct _GmpvMpv
 {
 	GObject parent;
-	GmpvMpvState state;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	GPtrArray *playlist;
 	GPtrArray *metadata;
 	GPtrArray *track_list;
+	gboolean ready;
+	gboolean loaded;
+	gboolean new_file;
 	gchar *tmp_input_file;
 	GSList *log_level_list;
 	gdouble autofit_ratio;
