@@ -347,7 +347,7 @@ static void connect_signals(GmpvController *controller)
 					boolean_to_loop_str,
 					NULL,
 					NULL );
-	g_object_bind_property(	controller->model, "idle-active",
+	g_object_bind_property(	controller->model, "core-idle",
 				controller, "idle",
 				G_BINDING_DEFAULT );
 
