@@ -88,7 +88,7 @@ msgstr "Of de instellingen al gemigreerd zijn van een vorige versie"
 msgid "Whether or not to use floating controls in windowed mode"
 msgstr ""
 
-#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_pref_dialog.c:367
+#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_pref_dialog.c:322
 #, fuzzy
 msgid "Allow multiple instances"
 msgstr "Sta meerdere instanties to"
@@ -99,7 +99,8 @@ msgid "Show or not show the controls"
 msgstr "Geef de controls wel of niet weer"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:245
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:410
+#: src/gmpv_view.c:994
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -152,226 +153,211 @@ msgstr "Het hoofdvenster met een afspeellijst open"
 msgid "gnome-mpv"
 msgstr ""
 
-#: src/gmpv_actionctl.c:252
-#, c-format
-msgid ""
-"Enabling or disabling client-side decorations requires restarting %s to take"
-" effect."
-msgstr ""
-"In- of uitschakelen van client-side decoraties vereist herstarten van %s om "
-"effect te hebben."
-
-#: src/gmpv_actionctl.c:291
-msgid "Add File to Playlist"
-msgstr "Voeg Bestand toe aan Afspeellijst"
-
-#: src/gmpv_actionctl.c:292
-msgid "Open File"
-msgstr "Open Bestand"
-
-#: src/gmpv_actionctl.c:325
-msgid "Add Location to Playlist"
-msgstr ""
-
-#: src/gmpv_actionctl.c:326
-msgid "Open Location"
-msgstr "Open Locatie"
-
-#: src/gmpv_actionctl.c:405
-msgid "Save Playlist"
-msgstr "Sla Afspeellijst op"
-
-#: src/gmpv_actionctl.c:433 src/gmpv_application.c:822
-msgid "Error"
-msgstr "Fout"
-
-#: src/gmpv_actionctl.c:528
-msgid "Load External…"
-msgstr "Laad Externe…"
-
-#: src/gmpv_actionctl.c:620
-msgid "A GTK frontend for MPV"
-msgstr "Een GTK frontend voor MPV"
-
-#: src/gmpv_actionctl.c:630
-msgid "translator-credits"
-msgstr ""
-
-#: src/gmpv_application.c:963
+#: src/gmpv_application.c:464
 msgid "Playing"
 msgstr "Afspelen"
 
-#: src/gmpv_application.c:1081
+#: src/gmpv_application.c:532
 msgid "Show release version"
 msgstr "Toon release versie"
 
-#: src/gmpv_application.c:1089
+#: src/gmpv_application.c:540
 #, fuzzy
 msgid "Enqueue"
 msgstr "Voeg toe aan wachtrij"
 
-#: src/gmpv_application.c:1097
+#: src/gmpv_application.c:548
 #, fuzzy
 msgid "Don't connect to an already-running instance"
 msgstr "Verbind niet met instanties die al draaien"
 
-#: src/gmpv_control_box.c:192 src/gmpv_control_box.c:365
+#: src/gmpv_control_box.c:271 src/gmpv_control_box.c:422
 msgid "Play"
 msgstr "Speel af"
 
-#: src/gmpv_control_box.c:193
+#: src/gmpv_control_box.c:274
 msgid "Stop"
 msgstr "Stop"
 
-#: src/gmpv_control_box.c:194
+#: src/gmpv_control_box.c:277
 msgid "Forward"
 msgstr "Voorwaards"
 
-#: src/gmpv_control_box.c:195
+#: src/gmpv_control_box.c:280
 msgid "Rewind"
 msgstr "Achterwaards"
 
-#: src/gmpv_control_box.c:196
+#: src/gmpv_control_box.c:283
 msgid "Next Chapter"
 msgstr "Volgend Hoofdstuk"
 
-#: src/gmpv_control_box.c:197
+#: src/gmpv_control_box.c:286
 msgid "Previous Chapter"
 msgstr "Vorig Hoofdstuk"
 
-#: src/gmpv_control_box.c:198 src/gmpv_header_bar.c:93
+#: src/gmpv_control_box.c:289 src/gmpv_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: src/gmpv_control_box.c:365
+#: src/gmpv_control_box.c:422
 msgid "Pause"
 msgstr "Pauze"
 
-#: src/gmpv_menu.c:56
+#: src/gmpv_controller.c:675 src/gmpv_view.c:1416
+msgid "Error"
+msgstr "Fout"
+
+#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
+#: src/gmpv_pref_dialog.c:365
+msgid "_Cancel"
+msgstr "_Annuleren"
+
+#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
+#: src/gmpv_open_location_dialog.c:128
+msgid "_Open"
+msgstr "_Open"
+
+#: src/gmpv_file_chooser.c:135 src/gmpv_plugins_manager.c:149
+msgid "All Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:143
+msgid "Media Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:154
+msgid "Audio Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:162
+msgid "Video Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:170
+msgid "Image Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:180
+msgid "Subtitle Files"
+msgstr ""
+
+#: src/gmpv_menu.c:102
 msgid "None"
 msgstr "Geen"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:71
+#: src/gmpv_menu.c:117
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/gmpv_menu.c:106
+#: src/gmpv_menu.c:150
 msgid "_Load External…"
 msgstr "_Laad Externe…"
 
-#: src/gmpv_menu.c:192
+#: src/gmpv_menu.c:243
 msgid "_File"
 msgstr "_Bestand"
 
-#: src/gmpv_menu.c:193 src/gmpv_menu.c:257 src/gmpv_open_loc_dialog.c:85
-msgid "_Open"
-msgstr "_Open"
-
-#: src/gmpv_menu.c:194 src/gmpv_menu.c:258
+#: src/gmpv_menu.c:245 src/gmpv_menu.c:322
 msgid "Open _Location"
 msgstr "Open _Locatie"
 
-#: src/gmpv_menu.c:195 src/gmpv_menu.c:235
+#: src/gmpv_menu.c:246 src/gmpv_menu.c:296
 msgid "_Save Playlist"
 msgstr "_Sla Afspeellijst op"
 
-#: src/gmpv_menu.c:196 src/gmpv_menu.c:272
+#: src/gmpv_menu.c:247 src/gmpv_menu.c:336
 msgid "_Quit"
 msgstr "_Afsluiten"
 
-#: src/gmpv_menu.c:197
+#: src/gmpv_menu.c:248
 msgid "_Edit"
 msgstr "_Bewerken"
 
-#: src/gmpv_menu.c:198 src/gmpv_menu.c:268
+#: src/gmpv_menu.c:249 src/gmpv_menu.c:332
 msgid "_Preferences"
 msgstr "_Instellingen"
 
-#: src/gmpv_menu.c:199 src/gmpv_menu.c:237
+#: src/gmpv_menu.c:250 src/gmpv_menu.c:298
 msgid "_Video Track"
 msgstr ""
 
-#: src/gmpv_menu.c:200 src/gmpv_menu.c:238
+#: src/gmpv_menu.c:251 src/gmpv_menu.c:299
 msgid "_Audio Track"
 msgstr ""
 
-#: src/gmpv_menu.c:201 src/gmpv_menu.c:239
+#: src/gmpv_menu.c:252 src/gmpv_menu.c:300
 msgid "S_ubtitle Track"
 msgstr ""
 
-#: src/gmpv_menu.c:202
+#: src/gmpv_menu.c:253
 msgid "_View"
 msgstr ""
 
-#: src/gmpv_menu.c:203 src/gmpv_menu.c:232
+#: src/gmpv_menu.c:254 src/gmpv_menu.c:293
 msgid "_Toggle Controls"
 msgstr ""
 
-#: src/gmpv_menu.c:204 src/gmpv_menu.c:234
+#: src/gmpv_menu.c:255 src/gmpv_menu.c:295
 msgid "_Toggle Playlist"
 msgstr ""
 
-#: src/gmpv_menu.c:205
+#: src/gmpv_menu.c:256
 msgid "_Fullscreen"
 msgstr "_Volledig Scherm"
 
-#: src/gmpv_menu.c:206 src/gmpv_menu.c:241
+#: src/gmpv_menu.c:257 src/gmpv_menu.c:302
 msgid "_Normal Size"
 msgstr "_Normale Grootte"
 
-#: src/gmpv_menu.c:207 src/gmpv_menu.c:242
+#: src/gmpv_menu.c:258 src/gmpv_menu.c:303
 msgid "_Double Size"
 msgstr "_Dubbele Grootte"
 
-#: src/gmpv_menu.c:208 src/gmpv_menu.c:243
+#: src/gmpv_menu.c:259 src/gmpv_menu.c:304
 msgid "_Half Size"
 msgstr "_Halve Grootte"
 
-#: src/gmpv_menu.c:209
+#: src/gmpv_menu.c:260
 msgid "_Help"
 msgstr "_Help"
 
-#: src/gmpv_menu.c:210 src/gmpv_menu.c:270
+#: src/gmpv_menu.c:261 src/gmpv_menu.c:334
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/gmpv_menu.c:211 src/gmpv_menu.c:271
+#: src/gmpv_menu.c:262 src/gmpv_menu.c:335
 msgid "_About"
 msgstr "_Over"
 
-#: src/gmpv_mpv.c:256
+#: src/gmpv_mpv.c:408
 #, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Afspelen werd abnormaal beëindigd. Reden: %s."
 
-#: src/gmpv_mpv.c:917
+#: src/gmpv_mpv.c:1047
 msgid "Failed to apply one or more MPV options."
 msgstr "Het toepassen van een of meerdere MPV opties is mislukt."
 
-#: src/gmpv_open_loc_dialog.c:79
+#: src/gmpv_open_location_dialog.c:122
 msgid "Location:"
 msgstr "Locatie:"
 
-#: src/gmpv_open_loc_dialog.c:83 src/gmpv_pref_dialog.c:410
-msgid "_Cancel"
-msgstr "_Annuleren"
-
-#: src/gmpv_playlist_widget.c:508
+#: src/gmpv_playlist_widget.c:531
 msgid "_Add…"
 msgstr "_Voeg Toe…"
 
-#: src/gmpv_playlist_widget.c:512
+#: src/gmpv_playlist_widget.c:535
 msgid "Add _Location…"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:514
+#: src/gmpv_playlist_widget.c:537
 #, fuzzy
 msgid "Loop"
 msgstr "Lus"
 
-#: src/gmpv_playlist_widget.c:612
+#: src/gmpv_playlist_widget.c:650
 msgid "Playlist"
 msgstr "Afspeellijst"
 
@@ -379,11 +365,7 @@ msgstr "Afspeellijst"
 msgid "Add Lua Script"
 msgstr "Voeg Lua Script toe"
 
-#: src/gmpv_plugins_manager.c:149 src/gmpv_pref_dialog.c:204
-msgid "All Files"
-msgstr ""
-
-#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:407
+#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:362
 msgid "Lua Scripts"
 msgstr "Lua Scripts"
 
@@ -412,73 +394,69 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Bestand '%s' verwijderen mislukt. Reden: %s"
 
-#: src/gmpv_pref_dialog.c:209
-msgid "Configuration Files"
-msgstr ""
-
-#: src/gmpv_pref_dialog.c:331
+#: src/gmpv_pref_dialog.c:286
 msgid "<b>User Interface</b>"
 msgstr "<b>Gebruikersomgeving</b>"
 
-#: src/gmpv_pref_dialog.c:334
+#: src/gmpv_pref_dialog.c:289
 msgid "Enable client-side decorations"
 msgstr "Schakel client-side decoratie in"
 
-#: src/gmpv_pref_dialog.c:337
+#: src/gmpv_pref_dialog.c:292
 msgid "Enable dark theme"
 msgstr "Schakel donker thema in"
 
-#: src/gmpv_pref_dialog.c:340
+#: src/gmpv_pref_dialog.c:295
 msgid "Use floating controls in windowed mode"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:343
+#: src/gmpv_pref_dialog.c:298
 msgid "Remember last file's location"
 msgstr "Onthoud de locatie van het laatste bestand"
 
-#: src/gmpv_pref_dialog.c:346
+#: src/gmpv_pref_dialog.c:301
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>MPV Configuratie</b>"
 
-#: src/gmpv_pref_dialog.c:349
+#: src/gmpv_pref_dialog.c:304
 msgid "Load MPV configuration file"
 msgstr "Laad MPV configuratiebestand"
 
-#: src/gmpv_pref_dialog.c:352
+#: src/gmpv_pref_dialog.c:307
 msgid "MPV configuration file:"
 msgstr "MPV configuratiebestand:"
 
-#: src/gmpv_pref_dialog.c:355
+#: src/gmpv_pref_dialog.c:310
 msgid "<b>Keybindings</b>"
 msgstr "<b>Sneltoetsen</b>"
 
-#: src/gmpv_pref_dialog.c:358
+#: src/gmpv_pref_dialog.c:313
 #, fuzzy
 msgid "Load MPV input configuration file"
 msgstr "Laad MPV input configuratiebestand"
 
-#: src/gmpv_pref_dialog.c:361
+#: src/gmpv_pref_dialog.c:316
 #, fuzzy
 msgid "MPV input configuration file:"
 msgstr "MPV input configuratiebestand:"
 
-#: src/gmpv_pref_dialog.c:364
+#: src/gmpv_pref_dialog.c:319
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Diversen</b>"
 
-#: src/gmpv_pref_dialog.c:370
+#: src/gmpv_pref_dialog.c:325
 msgid "Extra MPV options:"
 msgstr "Extra MPV opties:"
 
-#: src/gmpv_pref_dialog.c:403
+#: src/gmpv_pref_dialog.c:358
 msgid "General"
 msgstr "Algemeen"
 
-#: src/gmpv_pref_dialog.c:412
+#: src/gmpv_pref_dialog.c:367
 msgid "_Save"
 msgstr "_Opslaan"
 
-#: src/gmpv_pref_dialog.c:429
+#: src/gmpv_pref_dialog.c:384
 msgid "Preferences"
 msgstr "Instellingen"
 
@@ -491,228 +469,278 @@ msgid "Open location"
 msgstr "Open locatie"
 
 #: src/gmpv_shortcuts_window.c:58
-msgid "Show preferences dialog"
-msgstr "Toon instellingen dialoog"
+msgid "Add file to playlist"
+msgstr ""
 
 #: src/gmpv_shortcuts_window.c:59
-msgid "Toggle controls"
+msgid "Add location to playlist"
 msgstr ""
 
 #: src/gmpv_shortcuts_window.c:60
-msgid "Toggle playlist"
-msgstr ""
+msgid "Show preferences dialog"
+msgstr "Toon instellingen dialoog"
 
 #: src/gmpv_shortcuts_window.c:61
-msgid "Toggle fullscreen mode"
+msgid "Toggle controls"
 msgstr ""
 
 #: src/gmpv_shortcuts_window.c:62
-msgid "Leave fullscreen mode"
-msgstr "Verlaat volledig scherm-modus"
+msgid "Toggle playlist"
+msgstr ""
 
 #: src/gmpv_shortcuts_window.c:63
-msgid "Toggle OSD states between normal and playback time/duration"
+msgid "Toggle fullscreen mode"
 msgstr ""
 
 #: src/gmpv_shortcuts_window.c:64
+msgid "Leave fullscreen mode"
+msgstr "Verlaat volledig scherm-modus"
+
+#: src/gmpv_shortcuts_window.c:65
+msgid "Toggle OSD states between normal and playback time/duration"
+msgstr ""
+
+#: src/gmpv_shortcuts_window.c:66
 msgid "Show filename on the OSD"
 msgstr "Geef bestandsnaam weer op de OSD"
 
-#: src/gmpv_shortcuts_window.c:65
+#: src/gmpv_shortcuts_window.c:67
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "Geef vooruitgang, verstreken tijd en duratie weer op de OSD"
 
-#: src/gmpv_shortcuts_window.c:68
+#: src/gmpv_shortcuts_window.c:70
 msgid "Seek backward/forward 5 seconds"
 msgstr "Zoek 5 seconden achter- of voorwaards"
 
-#: src/gmpv_shortcuts_window.c:69
+#: src/gmpv_shortcuts_window.c:71
 msgid "Exact seek backward/forward 1 second"
 msgstr "Zoek exact 1 seconde achter- of voorwaards"
 
-#: src/gmpv_shortcuts_window.c:70
+#: src/gmpv_shortcuts_window.c:72
 msgid "Seek backward/forward 1 minute"
 msgstr "Zoek 1 minuut achter- of voorwaards"
 
-#: src/gmpv_shortcuts_window.c:71
+#: src/gmpv_shortcuts_window.c:73
 msgid "Exact seek backward/forward 5 seconds"
 msgstr "Zoek exact 5 seconden achter- of voorwaards"
 
-#: src/gmpv_shortcuts_window.c:72
+#: src/gmpv_shortcuts_window.c:74
 msgid "Seek to previous/next subtitle"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:73
+#: src/gmpv_shortcuts_window.c:75
 msgid "Step backward/forward a single frame"
 msgstr "Ga een frame achter- of voorwaards"
 
-#: src/gmpv_shortcuts_window.c:74
+#: src/gmpv_shortcuts_window.c:76
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:77
+#: src/gmpv_shortcuts_window.c:79
 msgid "Decrease/increase playback speed by 10%"
 msgstr "Verlaag of verhoog afspeelsnelheid met 10%"
 
-#: src/gmpv_shortcuts_window.c:78
+#: src/gmpv_shortcuts_window.c:80
 msgid "Halve/double current playback speed"
 msgstr "Halveer of verdubbel de huidige afspeelsnelheid"
 
-#: src/gmpv_shortcuts_window.c:79
+#: src/gmpv_shortcuts_window.c:81
 msgid "Reset playback speed to normal"
 msgstr "Reset afspeelsnelheid naar normaal"
 
-#: src/gmpv_shortcuts_window.c:80
+#: src/gmpv_shortcuts_window.c:82
 msgid "Go backward/forward in the playlist"
 msgstr "Ga achter- of voorwaards in de afspeellijst"
 
-#: src/gmpv_shortcuts_window.c:81
+#: src/gmpv_shortcuts_window.c:83
 msgid "Remove selected playlist item"
 msgstr "Verwijder geselecteerde item van de afspeellijst"
 
-#: src/gmpv_shortcuts_window.c:82
+#: src/gmpv_shortcuts_window.c:84
 msgid "Save playlist"
 msgstr "Sla afspeellijst op"
 
-#: src/gmpv_shortcuts_window.c:83
+#: src/gmpv_shortcuts_window.c:85
 msgid "Set/clear A-B loop points"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:84
+#: src/gmpv_shortcuts_window.c:86
 msgid "Toggle infinite looping"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:85
+#: src/gmpv_shortcuts_window.c:87
 msgid "Pause or unpause"
 msgstr "Pauzeren of hervatten"
 
-#: src/gmpv_shortcuts_window.c:86
+#: src/gmpv_shortcuts_window.c:88
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: src/gmpv_shortcuts_window.c:87
+#: src/gmpv_shortcuts_window.c:89
 msgid "Save current playback position and quit"
 msgstr "Sla huidige afspeelpositie op en sluit af"
 
-#: src/gmpv_shortcuts_window.c:90
+#: src/gmpv_shortcuts_window.c:92
 msgid "Cycle through audio tracks"
 msgstr "Doorloop audiotracks"
 
-#: src/gmpv_shortcuts_window.c:91 src/gmpv_shortcuts_window.c:92
+#: src/gmpv_shortcuts_window.c:93 src/gmpv_shortcuts_window.c:94
 msgid "Decrease/increase volume"
 msgstr "Verlaag of verhoog volume"
 
-#: src/gmpv_shortcuts_window.c:93
+#: src/gmpv_shortcuts_window.c:95
 msgid "Mute or unmute"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:94
+#: src/gmpv_shortcuts_window.c:96
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "Verander audiovertraging met ±0.1 seconden"
 
-#: src/gmpv_shortcuts_window.c:97
+#: src/gmpv_shortcuts_window.c:99
 msgid "Toggle subtitle visibility"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:98
+#: src/gmpv_shortcuts_window.c:100
 msgid "Cycle through available subtitles"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:99
+#: src/gmpv_shortcuts_window.c:101
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "Verander ondertitelingvertraging met ±0.1 seconden"
 
-#: src/gmpv_shortcuts_window.c:100
+#: src/gmpv_shortcuts_window.c:102
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:101
+#: src/gmpv_shortcuts_window.c:103
 msgid "Move subtitles up/down"
 msgstr "Verplaats ondertiteling omhoog of omlaag"
 
-#: src/gmpv_shortcuts_window.c:102
+#: src/gmpv_shortcuts_window.c:104
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:105
+#: src/gmpv_shortcuts_window.c:107
 #, fuzzy
 msgid "Cycle through video tracks"
 msgstr "Doorloop videotracks"
 
-#: src/gmpv_shortcuts_window.c:106
+#: src/gmpv_shortcuts_window.c:108
 msgid "Decrease/increase pan-and-scan range"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:107
+#: src/gmpv_shortcuts_window.c:109
 msgid "Take a screenshot"
 msgstr "Maak een schermafbeelding"
 
-#: src/gmpv_shortcuts_window.c:108
+#: src/gmpv_shortcuts_window.c:110
 msgid "Take a screenshot, without subtitles"
 msgstr "Maak een schermafbeelding zonder ondertiteling"
 
-#: src/gmpv_shortcuts_window.c:109
+#: src/gmpv_shortcuts_window.c:111
 msgid "Take a screenshot, as the window shows it"
 msgstr "Maak een schermafbeelding zoals het venster het toont"
 
-#: src/gmpv_shortcuts_window.c:110
+#: src/gmpv_shortcuts_window.c:112
 msgid "Resize video to half its original size"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:111
+#: src/gmpv_shortcuts_window.c:113
 msgid "Resize video to its original size"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:112
+#: src/gmpv_shortcuts_window.c:114
 msgid "Resize video to double its original size"
 msgstr ""
 
-#: src/gmpv_shortcuts_window.c:113
+#: src/gmpv_shortcuts_window.c:115
 msgid "Adjust contrast"
 msgstr "Verander contrast"
 
-#: src/gmpv_shortcuts_window.c:114
+#: src/gmpv_shortcuts_window.c:116
 msgid "Adjust brightness"
 msgstr "Verander helderheid"
 
-#: src/gmpv_shortcuts_window.c:115
+#: src/gmpv_shortcuts_window.c:117
 msgid "Adjust gamma"
 msgstr "Verander gamma"
 
-#: src/gmpv_shortcuts_window.c:116
+#: src/gmpv_shortcuts_window.c:118
 msgid "Adjust saturation"
 msgstr "Verander verzadiging"
 
-#: src/gmpv_shortcuts_window.c:117
+#: src/gmpv_shortcuts_window.c:119
 #, fuzzy
 msgid "Activate or deactivate deinterlacer"
 msgstr "Activeer of deactiveer de deinterlacer"
 
-#: src/gmpv_shortcuts_window.c:118
+#: src/gmpv_shortcuts_window.c:120
 #, fuzzy
 msgid "Cycle aspect ratio override"
 msgstr "Doorloop beeldverhouding override"
 
-#: src/gmpv_shortcuts_window.c:121
+#: src/gmpv_shortcuts_window.c:123
 msgid "User Interface"
 msgstr "Gebruikersomgeving"
 
-#: src/gmpv_shortcuts_window.c:122
+#: src/gmpv_shortcuts_window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/gmpv_shortcuts_window.c:123
+#: src/gmpv_shortcuts_window.c:125
 msgid "Audio"
 msgstr "Audio"
 
-#: src/gmpv_shortcuts_window.c:124
+#: src/gmpv_shortcuts_window.c:126
 msgid "Subtitle"
 msgstr "Ondertiteling"
 
-#: src/gmpv_shortcuts_window.c:125
+#: src/gmpv_shortcuts_window.c:127
 msgid "Playback"
 msgstr "Afspelen"
 
-#: src/gmpv_shortcuts_window.c:126
+#: src/gmpv_shortcuts_window.c:128
 msgid "Seeking"
 msgstr "Zoeken"
+
+#: src/gmpv_view.c:742
+msgid ""
+"Enabling or disabling client-side decorations requires restarting to take "
+"effect."
+msgstr ""
+
+#: src/gmpv_view.c:1296
+msgid "Add File to Playlist"
+msgstr "Voeg Bestand toe aan Afspeellijst"
+
+#: src/gmpv_view.c:1297
+msgid "Open File"
+msgstr "Open Bestand"
+
+#: src/gmpv_view.c:1324
+msgid "Add Location to Playlist"
+msgstr ""
+
+#: src/gmpv_view.c:1325
+msgid "Open Location"
+msgstr "Open Locatie"
+
+#: src/gmpv_view.c:1346
+msgid "Load Audio Track…"
+msgstr ""
+
+#: src/gmpv_view.c:1365
+msgid "Load Subtitle Track…"
+msgstr ""
+
+#: src/gmpv_view.c:1390
+msgid "Save Playlist"
+msgstr "Sla Afspeellijst op"
+
+#: src/gmpv_view.c:1455
+msgid "A GTK frontend for MPV"
+msgstr "Een GTK frontend voor MPV"
+
+#: src/gmpv_view.c:1465
+msgid "translator-credits"
+msgstr ""

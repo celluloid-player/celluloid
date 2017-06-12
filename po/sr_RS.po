@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
-"POT-Creation-Date: 2017-02-19 22:47+0700\n"
+"POT-Creation-Date: 2017-06-04 19:07+0700\n"
 "PO-Revision-Date: 2017-02-23 05:55-0500\n"
 "Last-Translator: leipero <lei.pero@gmail.com>\n"
 "Language-Team: Serbian (Cyrillic)\n"
@@ -82,7 +82,7 @@ msgstr "Да ли су поставке већ пренете из претхо�
 msgid "Whether or not to use floating controls in windowed mode"
 msgstr "Користи пливајуће контроле у режиму прозора"
 
-#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_pref_dialog.c:367
+#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_pref_dialog.c:322
 msgid "Allow multiple instances"
 msgstr "Дозволи вишеструке примерке"
 
@@ -91,7 +91,8 @@ msgid "Show or not show the controls"
 msgstr "Дозвољава приказ контрола"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:245
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:410
+#: src/gmpv_view.c:994
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -143,223 +144,208 @@ msgstr "Главни прозор са отвореном листом пушт�
 msgid "gnome-mpv"
 msgstr ""
 
-#: src/gmpv_actionctl.c:252
-#, c-format
-msgid ""
-"Enabling or disabling client-side decorations requires restarting %s to take"
-" effect."
-msgstr ""
-"Промена поставки украса клијента захтева поновно покретање %s да би имала "
-"ефекта."
-
-#: src/gmpv_actionctl.c:291
-msgid "Add File to Playlist"
-msgstr "Додај Датотеку у Листу Пуштања"
-
-#: src/gmpv_actionctl.c:292
-msgid "Open File"
-msgstr "Отвори Датотеку"
-
-#: src/gmpv_actionctl.c:325
-msgid "Add Location to Playlist"
-msgstr "Додај Локацију у Листу Пуштања"
-
-#: src/gmpv_actionctl.c:326
-msgid "Open Location"
-msgstr "Отвори Локацију"
-
-#: src/gmpv_actionctl.c:405
-msgid "Save Playlist"
-msgstr "Сачувај Листу Пуштања"
-
-#: src/gmpv_actionctl.c:433 src/gmpv_application.c:822
-msgid "Error"
-msgstr "Грешка"
-
-#: src/gmpv_actionctl.c:528
-msgid "Load External…"
-msgstr "Учитај Спољне..."
-
-#: src/gmpv_actionctl.c:620
-msgid "A GTK frontend for MPV"
-msgstr "GTK прочеље за MPV"
-
-#: src/gmpv_actionctl.c:630
-msgid "translator-credits"
-msgstr "Срђан С."
-
-#: src/gmpv_application.c:963
+#: src/gmpv_application.c:464
 msgid "Playing"
 msgstr "Репродукција"
 
-#: src/gmpv_application.c:1081
+#: src/gmpv_application.c:532
 msgid "Show release version"
 msgstr "Прикажи верзију издања"
 
-#: src/gmpv_application.c:1089
+#: src/gmpv_application.c:540
 msgid "Enqueue"
 msgstr "Нанижи"
 
-#: src/gmpv_application.c:1097
+#: src/gmpv_application.c:548
 msgid "Don't connect to an already-running instance"
 msgstr "Не повезуј на већ покренут примерак"
 
-#: src/gmpv_control_box.c:192 src/gmpv_control_box.c:365
+#: src/gmpv_control_box.c:271 src/gmpv_control_box.c:422
 msgid "Play"
 msgstr "Пусти"
 
-#: src/gmpv_control_box.c:193
+#: src/gmpv_control_box.c:274
 msgid "Stop"
 msgstr "Заустави"
 
-#: src/gmpv_control_box.c:194
+#: src/gmpv_control_box.c:277
 msgid "Forward"
 msgstr "Напред"
 
-#: src/gmpv_control_box.c:195
+#: src/gmpv_control_box.c:280
 msgid "Rewind"
 msgstr "Назад"
 
-#: src/gmpv_control_box.c:196
+#: src/gmpv_control_box.c:283
 msgid "Next Chapter"
 msgstr "Следеће Поглавље"
 
-#: src/gmpv_control_box.c:197
+#: src/gmpv_control_box.c:286
 msgid "Previous Chapter"
 msgstr "Претходно Поглавље"
 
-#: src/gmpv_control_box.c:198 src/gmpv_header_bar.c:93
+#: src/gmpv_control_box.c:289 src/gmpv_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "Цео Екран"
 
-#: src/gmpv_control_box.c:365
+#: src/gmpv_control_box.c:422
 msgid "Pause"
 msgstr "Паузирај"
 
-#: src/gmpv_menu.c:56
+#: src/gmpv_controller.c:675 src/gmpv_view.c:1416
+msgid "Error"
+msgstr "Грешка"
+
+#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
+#: src/gmpv_pref_dialog.c:365
+msgid "_Cancel"
+msgstr "_Откажи"
+
+#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
+#: src/gmpv_open_location_dialog.c:128
+msgid "_Open"
+msgstr "_Отвори"
+
+#: src/gmpv_file_chooser.c:135 src/gmpv_plugins_manager.c:149
+msgid "All Files"
+msgstr "Све Датотеке"
+
+#: src/gmpv_file_chooser.c:143
+msgid "Media Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:154
+msgid "Audio Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:162
+msgid "Video Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:170
+msgid "Image Files"
+msgstr ""
+
+#: src/gmpv_file_chooser.c:180
+msgid "Subtitle Files"
+msgstr ""
+
+#: src/gmpv_menu.c:102
 msgid "None"
 msgstr "Ниједан"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:71
+#: src/gmpv_menu.c:117
 msgid "Unknown"
 msgstr "Непознато"
 
-#: src/gmpv_menu.c:106
+#: src/gmpv_menu.c:150
 msgid "_Load External…"
 msgstr "_Учитај Спољне..."
 
-#: src/gmpv_menu.c:192
+#: src/gmpv_menu.c:243
 msgid "_File"
 msgstr "_Датотека"
 
-#: src/gmpv_menu.c:193 src/gmpv_menu.c:257 src/gmpv_open_loc_dialog.c:85
-msgid "_Open"
-msgstr "_Отвори"
-
-#: src/gmpv_menu.c:194 src/gmpv_menu.c:258
+#: src/gmpv_menu.c:245 src/gmpv_menu.c:322
 msgid "Open _Location"
 msgstr "Отвори_Локацију"
 
-#: src/gmpv_menu.c:195 src/gmpv_menu.c:235
+#: src/gmpv_menu.c:246 src/gmpv_menu.c:296
 msgid "_Save Playlist"
 msgstr "_Сачувај Листу Пуштања"
 
-#: src/gmpv_menu.c:196 src/gmpv_menu.c:272
+#: src/gmpv_menu.c:247 src/gmpv_menu.c:336
 msgid "_Quit"
 msgstr "_Напусти"
 
-#: src/gmpv_menu.c:197
+#: src/gmpv_menu.c:248
 msgid "_Edit"
 msgstr "_Уреди"
 
-#: src/gmpv_menu.c:198 src/gmpv_menu.c:268
+#: src/gmpv_menu.c:249 src/gmpv_menu.c:332
 msgid "_Preferences"
 msgstr "_Поставке"
 
-#: src/gmpv_menu.c:199 src/gmpv_menu.c:237
+#: src/gmpv_menu.c:250 src/gmpv_menu.c:298
 msgid "_Video Track"
 msgstr "_Видео Снимак"
 
-#: src/gmpv_menu.c:200 src/gmpv_menu.c:238
+#: src/gmpv_menu.c:251 src/gmpv_menu.c:299
 msgid "_Audio Track"
 msgstr "_Аудио Снимак"
 
-#: src/gmpv_menu.c:201 src/gmpv_menu.c:239
+#: src/gmpv_menu.c:252 src/gmpv_menu.c:300
 msgid "S_ubtitle Track"
 msgstr "_Превод"
 
-#: src/gmpv_menu.c:202
+#: src/gmpv_menu.c:253
 msgid "_View"
 msgstr "_Преглед"
 
-#: src/gmpv_menu.c:203 src/gmpv_menu.c:232
+#: src/gmpv_menu.c:254 src/gmpv_menu.c:293
 msgid "_Toggle Controls"
 msgstr "_Прикажи Контроле"
 
-#: src/gmpv_menu.c:204 src/gmpv_menu.c:234
+#: src/gmpv_menu.c:255 src/gmpv_menu.c:295
 msgid "_Toggle Playlist"
 msgstr "_Прикажи Листу Пуштања"
 
-#: src/gmpv_menu.c:205
+#: src/gmpv_menu.c:256
 msgid "_Fullscreen"
 msgstr "_Цео Екран"
 
-#: src/gmpv_menu.c:206 src/gmpv_menu.c:241
+#: src/gmpv_menu.c:257 src/gmpv_menu.c:302
 msgid "_Normal Size"
 msgstr "_Нормална Величина"
 
-#: src/gmpv_menu.c:207 src/gmpv_menu.c:242
+#: src/gmpv_menu.c:258 src/gmpv_menu.c:303
 msgid "_Double Size"
 msgstr "_Двострука Величина"
 
-#: src/gmpv_menu.c:208 src/gmpv_menu.c:243
+#: src/gmpv_menu.c:259 src/gmpv_menu.c:304
 msgid "_Half Size"
 msgstr "_Упола Величине"
 
-#: src/gmpv_menu.c:209
+#: src/gmpv_menu.c:260
 msgid "_Help"
 msgstr "_Помоћ"
 
-#: src/gmpv_menu.c:210 src/gmpv_menu.c:270
+#: src/gmpv_menu.c:261 src/gmpv_menu.c:334
 msgid "_Keyboard Shortcuts"
 msgstr "_Пречице Тастатуре"
 
-#: src/gmpv_menu.c:211 src/gmpv_menu.c:271
+#: src/gmpv_menu.c:262 src/gmpv_menu.c:335
 msgid "_About"
 msgstr "_О Нама"
 
-#: src/gmpv_mpv.c:256
+#: src/gmpv_mpv.c:408
 #, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Репродукција је неправилно окончана. Разлог: %s."
 
-#: src/gmpv_mpv.c:917
+#: src/gmpv_mpv.c:1047
 msgid "Failed to apply one or more MPV options."
 msgstr "Неуспешна примена једне или више MPV опција."
 
-#: src/gmpv_open_loc_dialog.c:79
+#: src/gmpv_open_location_dialog.c:122
 msgid "Location:"
 msgstr "Локација:"
 
-#: src/gmpv_open_loc_dialog.c:83 src/gmpv_pref_dialog.c:410
-msgid "_Cancel"
-msgstr "_Откажи"
-
-#: src/gmpv_playlist_widget.c:508
+#: src/gmpv_playlist_widget.c:531
 msgid "_Add…"
 msgstr "_Додај..."
 
-#: src/gmpv_playlist_widget.c:512
+#: src/gmpv_playlist_widget.c:535
 msgid "Add _Location…"
 msgstr "Додај_Локацију..."
 
-#: src/gmpv_playlist_widget.c:514
+#: src/gmpv_playlist_widget.c:537
 msgid "Loop"
 msgstr "Понављај"
 
-#: src/gmpv_playlist_widget.c:612
+#: src/gmpv_playlist_widget.c:650
 msgid "Playlist"
 msgstr "Листа Пуштања"
 
@@ -367,11 +353,7 @@ msgstr "Листа Пуштања"
 msgid "Add Lua Script"
 msgstr "Додај Lua Скрипту"
 
-#: src/gmpv_plugins_manager.c:149 src/gmpv_pref_dialog.c:204
-msgid "All Files"
-msgstr "Све Датотеке"
-
-#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:407
+#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:362
 msgid "Lua Scripts"
 msgstr "Lua Скрипте"
 
@@ -399,71 +381,67 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Неуспешно брисање датотеке '%s'. Разлог: %s"
 
-#: src/gmpv_pref_dialog.c:209
-msgid "Configuration Files"
-msgstr "Конфигурационе Датотеке"
-
-#: src/gmpv_pref_dialog.c:331
+#: src/gmpv_pref_dialog.c:286
 msgid "<b>User Interface</b>"
 msgstr "<b>Корисничко Сучеље</b>"
 
-#: src/gmpv_pref_dialog.c:334
+#: src/gmpv_pref_dialog.c:289
 msgid "Enable client-side decorations"
 msgstr "Омогући украсе клијента"
 
-#: src/gmpv_pref_dialog.c:337
+#: src/gmpv_pref_dialog.c:292
 msgid "Enable dark theme"
 msgstr "Омогући тамну тему"
 
-#: src/gmpv_pref_dialog.c:340
+#: src/gmpv_pref_dialog.c:295
 msgid "Use floating controls in windowed mode"
 msgstr "Користи пливајуће контроле у режиму прозора"
 
-#: src/gmpv_pref_dialog.c:343
+#: src/gmpv_pref_dialog.c:298
 msgid "Remember last file's location"
 msgstr "Упамти локацију последње датотеке"
 
-#: src/gmpv_pref_dialog.c:346
+#: src/gmpv_pref_dialog.c:301
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>MPV Конфигурација</b>"
 
-#: src/gmpv_pref_dialog.c:349
+#: src/gmpv_pref_dialog.c:304
 msgid "Load MPV configuration file"
 msgstr "Учитај MPV конфигурациону датотеку"
 
-#: src/gmpv_pref_dialog.c:352
+#: src/gmpv_pref_dialog.c:307
 msgid "MPV configuration file:"
 msgstr "MPV конфигурациона датотека:"
 
-#: src/gmpv_pref_dialog.c:355
+#: src/gmpv_pref_dialog.c:310
 msgid "<b>Keybindings</b>"
 msgstr "<b>Поставке Уноса</b>"
 
-#: src/gmpv_pref_dialog.c:358
+#: src/gmpv_pref_dialog.c:313
 msgid "Load MPV input configuration file"
 msgstr "Учитај MPV конфигурациону датотеку уноса"
 
-#: src/gmpv_pref_dialog.c:361
+#: src/gmpv_pref_dialog.c:316
 msgid "MPV input configuration file:"
 msgstr "MPV конфигурациона датотека уноса:"
 
-#: src/gmpv_pref_dialog.c:364
+#: src/gmpv_pref_dialog.c:319
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Остало</b>"
 
-#: src/gmpv_pref_dialog.c:370
+#: src/gmpv_pref_dialog.c:325
 msgid "Extra MPV options:"
 msgstr "Додатне MPV опције:"
 
-#: src/gmpv_pref_dialog.c:403
+#: src/gmpv_pref_dialog.c:358
 msgid "General"
 msgstr "Опште"
 
-#: src/gmpv_pref_dialog.c:412
+#: src/gmpv_pref_dialog.c:367
 msgid "_Save"
 msgstr "_Сачувај"
 
-#: src/gmpv_pref_dialog.c:429
+#: src/gmpv_pref_dialog.c:384
 msgid "Preferences"
 msgstr "Поставке"
 
@@ -476,226 +454,276 @@ msgid "Open location"
 msgstr "Отвори локацију"
 
 #: src/gmpv_shortcuts_window.c:58
+msgid "Add file to playlist"
+msgstr ""
+
+#: src/gmpv_shortcuts_window.c:59
+msgid "Add location to playlist"
+msgstr ""
+
+#: src/gmpv_shortcuts_window.c:60
 msgid "Show preferences dialog"
 msgstr "Прикажи дијалог поставки"
 
-#: src/gmpv_shortcuts_window.c:59
+#: src/gmpv_shortcuts_window.c:61
 msgid "Toggle controls"
 msgstr "Прикажи контроле"
 
-#: src/gmpv_shortcuts_window.c:60
+#: src/gmpv_shortcuts_window.c:62
 msgid "Toggle playlist"
 msgstr "Прикажи листу пуштања"
 
-#: src/gmpv_shortcuts_window.c:61
+#: src/gmpv_shortcuts_window.c:63
 msgid "Toggle fullscreen mode"
 msgstr "Прикажи у режиму целог екрана"
 
-#: src/gmpv_shortcuts_window.c:62
+#: src/gmpv_shortcuts_window.c:64
 msgid "Leave fullscreen mode"
 msgstr "Напусти режим целог екрана"
 
-#: src/gmpv_shortcuts_window.c:63
+#: src/gmpv_shortcuts_window.c:65
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr "Промени OSD приказ између нормалног и време пуштања/дужина"
 
-#: src/gmpv_shortcuts_window.c:64
+#: src/gmpv_shortcuts_window.c:66
 msgid "Show filename on the OSD"
 msgstr "Прикажи име датотеке у OSD"
 
-#: src/gmpv_shortcuts_window.c:65
+#: src/gmpv_shortcuts_window.c:67
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "Прикажи напредак, протекло време и дужину на OSD"
 
-#: src/gmpv_shortcuts_window.c:68
+#: src/gmpv_shortcuts_window.c:70
 msgid "Seek backward/forward 5 seconds"
 msgstr "Пребаци 5 секунди уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:69
+#: src/gmpv_shortcuts_window.c:71
 msgid "Exact seek backward/forward 1 second"
 msgstr "Пребаци тачно 1 секунд уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:70
+#: src/gmpv_shortcuts_window.c:72
 msgid "Seek backward/forward 1 minute"
 msgstr "Пребаци 1 минут уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:71
+#: src/gmpv_shortcuts_window.c:73
 msgid "Exact seek backward/forward 5 seconds"
 msgstr "Пребаци тачно 5 секунди уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:72
+#: src/gmpv_shortcuts_window.c:74
 msgid "Seek to previous/next subtitle"
 msgstr "Пребаци на претходни/следећи поднатпис"
 
-#: src/gmpv_shortcuts_window.c:73
+#: src/gmpv_shortcuts_window.c:75
 msgid "Step backward/forward a single frame"
 msgstr "Корак за једну слику уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:74
+#: src/gmpv_shortcuts_window.c:76
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr "Пребаци на почетак претходног/следећег поглавља"
 
-#: src/gmpv_shortcuts_window.c:77
+#: src/gmpv_shortcuts_window.c:79
 msgid "Decrease/increase playback speed by 10%"
 msgstr "Успори/убрзај репродукцију за 10%"
 
-#: src/gmpv_shortcuts_window.c:78
+#: src/gmpv_shortcuts_window.c:80
 msgid "Halve/double current playback speed"
 msgstr "Преполови/удвостручи тренутну брзину репродукције"
 
-#: src/gmpv_shortcuts_window.c:79
+#: src/gmpv_shortcuts_window.c:81
 msgid "Reset playback speed to normal"
 msgstr "Поврати нормалну брзину репродукције"
 
-#: src/gmpv_shortcuts_window.c:80
+#: src/gmpv_shortcuts_window.c:82
 msgid "Go backward/forward in the playlist"
 msgstr "Иди уназад/унапред у листи пуштања"
 
-#: src/gmpv_shortcuts_window.c:81
+#: src/gmpv_shortcuts_window.c:83
 msgid "Remove selected playlist item"
 msgstr "Избаци означену ставку из листе пуштања"
 
-#: src/gmpv_shortcuts_window.c:82
+#: src/gmpv_shortcuts_window.c:84
 msgid "Save playlist"
 msgstr "Сачувај листу пуштања"
 
-#: src/gmpv_shortcuts_window.c:83
+#: src/gmpv_shortcuts_window.c:85
 msgid "Set/clear A-B loop points"
 msgstr "Постави/очисти A-B тачке понављања"
 
-#: src/gmpv_shortcuts_window.c:84
+#: src/gmpv_shortcuts_window.c:86
 msgid "Toggle infinite looping"
 msgstr "Укључи бесконачно понављање"
 
-#: src/gmpv_shortcuts_window.c:85
+#: src/gmpv_shortcuts_window.c:87
 msgid "Pause or unpause"
 msgstr "Паузирај или настави"
 
-#: src/gmpv_shortcuts_window.c:86
+#: src/gmpv_shortcuts_window.c:88
 msgid "Quit"
 msgstr "Напусти"
 
-#: src/gmpv_shortcuts_window.c:87
+#: src/gmpv_shortcuts_window.c:89
 msgid "Save current playback position and quit"
 msgstr "Сачувај тренутну позицију репродукције и напусти"
 
-#: src/gmpv_shortcuts_window.c:90
+#: src/gmpv_shortcuts_window.c:92
 msgid "Cycle through audio tracks"
 msgstr "Кружи кроз аудио снимке"
 
-#: src/gmpv_shortcuts_window.c:91 src/gmpv_shortcuts_window.c:92
+#: src/gmpv_shortcuts_window.c:93 src/gmpv_shortcuts_window.c:94
 msgid "Decrease/increase volume"
 msgstr "Смањи/појачај"
 
-#: src/gmpv_shortcuts_window.c:93
+#: src/gmpv_shortcuts_window.c:95
 msgid "Mute or unmute"
 msgstr "Искључи или укључи звук"
 
-#: src/gmpv_shortcuts_window.c:94
+#: src/gmpv_shortcuts_window.c:96
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "Прилагоди кашњење звука за +/- 0.1 секунд"
 
-#: src/gmpv_shortcuts_window.c:97
+#: src/gmpv_shortcuts_window.c:99
 msgid "Toggle subtitle visibility"
 msgstr "Промени видљивост поднатписа"
 
-#: src/gmpv_shortcuts_window.c:98
+#: src/gmpv_shortcuts_window.c:100
 msgid "Cycle through available subtitles"
 msgstr "Кружи кроз доступне поднатписе"
 
-#: src/gmpv_shortcuts_window.c:99
+#: src/gmpv_shortcuts_window.c:101
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "Прилагоди кашњење поднатписа за +/- 0.1 секунд"
 
-#: src/gmpv_shortcuts_window.c:100
+#: src/gmpv_shortcuts_window.c:102
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr "Измени SSA/ASS стил поднатписа"
 
-#: src/gmpv_shortcuts_window.c:101
+#: src/gmpv_shortcuts_window.c:103
 msgid "Move subtitles up/down"
 msgstr "Помери поднатписе горе/доле"
 
-#: src/gmpv_shortcuts_window.c:102
+#: src/gmpv_shortcuts_window.c:104
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr "Измени VSFilter режим усклађености"
 
-#: src/gmpv_shortcuts_window.c:105
+#: src/gmpv_shortcuts_window.c:107
 msgid "Cycle through video tracks"
 msgstr "Кружи кроз видео снимке"
 
-#: src/gmpv_shortcuts_window.c:106
+#: src/gmpv_shortcuts_window.c:108
 #, fuzzy
 msgid "Decrease/increase pan-and-scan range"
 msgstr "Повећај/умањи опсег скенирања односа"
 
-#: src/gmpv_shortcuts_window.c:107
+#: src/gmpv_shortcuts_window.c:109
 msgid "Take a screenshot"
 msgstr "Направи снимак екрана"
 
-#: src/gmpv_shortcuts_window.c:108
+#: src/gmpv_shortcuts_window.c:110
 msgid "Take a screenshot, without subtitles"
 msgstr "Направи снимак екрана без поднатписа"
 
-#: src/gmpv_shortcuts_window.c:109
+#: src/gmpv_shortcuts_window.c:111
 msgid "Take a screenshot, as the window shows it"
 msgstr "Направи снимак екрана како га прозор приказује"
 
-#: src/gmpv_shortcuts_window.c:110
+#: src/gmpv_shortcuts_window.c:112
 msgid "Resize video to half its original size"
 msgstr "Преполови оригиналну величину видео снимка"
 
-#: src/gmpv_shortcuts_window.c:111
+#: src/gmpv_shortcuts_window.c:113
 msgid "Resize video to its original size"
 msgstr "Поврати оригиналну величину видео снимка"
 
-#: src/gmpv_shortcuts_window.c:112
+#: src/gmpv_shortcuts_window.c:114
 msgid "Resize video to double its original size"
 msgstr "Удвостручи оригиналну величину видео снимка"
 
-#: src/gmpv_shortcuts_window.c:113
+#: src/gmpv_shortcuts_window.c:115
 msgid "Adjust contrast"
 msgstr "Прилагоди контраст"
 
-#: src/gmpv_shortcuts_window.c:114
+#: src/gmpv_shortcuts_window.c:116
 msgid "Adjust brightness"
 msgstr "Прилагоди осветљеност"
 
-#: src/gmpv_shortcuts_window.c:115
+#: src/gmpv_shortcuts_window.c:117
 msgid "Adjust gamma"
 msgstr "Прилагоди гаму"
 
-#: src/gmpv_shortcuts_window.c:116
+#: src/gmpv_shortcuts_window.c:118
 msgid "Adjust saturation"
 msgstr "Прилагоди засићење"
 
-#: src/gmpv_shortcuts_window.c:117
+#: src/gmpv_shortcuts_window.c:119
 msgid "Activate or deactivate deinterlacer"
 msgstr "Омогући или онемогући преплитање"
 
-#: src/gmpv_shortcuts_window.c:118
+#: src/gmpv_shortcuts_window.c:120
 msgid "Cycle aspect ratio override"
 msgstr "Кружи кроз промену размере"
 
-#: src/gmpv_shortcuts_window.c:121
+#: src/gmpv_shortcuts_window.c:123
 msgid "User Interface"
 msgstr "Корисничко Сучеље"
 
-#: src/gmpv_shortcuts_window.c:122
+#: src/gmpv_shortcuts_window.c:124
 msgid "Video"
 msgstr "Видео"
 
-#: src/gmpv_shortcuts_window.c:123
+#: src/gmpv_shortcuts_window.c:125
 msgid "Audio"
 msgstr "Аудио"
 
-#: src/gmpv_shortcuts_window.c:124
+#: src/gmpv_shortcuts_window.c:126
 msgid "Subtitle"
 msgstr "Поднатпис"
 
-#: src/gmpv_shortcuts_window.c:125
+#: src/gmpv_shortcuts_window.c:127
 msgid "Playback"
 msgstr "Репродукција"
 
-#: src/gmpv_shortcuts_window.c:126
+#: src/gmpv_shortcuts_window.c:128
 msgid "Seeking"
 msgstr "Трагање"
+
+#: src/gmpv_view.c:742
+msgid ""
+"Enabling or disabling client-side decorations requires restarting to take "
+"effect."
+msgstr ""
+
+#: src/gmpv_view.c:1296
+msgid "Add File to Playlist"
+msgstr "Додај Датотеку у Листу Пуштања"
+
+#: src/gmpv_view.c:1297
+msgid "Open File"
+msgstr "Отвори Датотеку"
+
+#: src/gmpv_view.c:1324
+msgid "Add Location to Playlist"
+msgstr "Додај Локацију у Листу Пуштања"
+
+#: src/gmpv_view.c:1325
+msgid "Open Location"
+msgstr "Отвори Локацију"
+
+#: src/gmpv_view.c:1346
+msgid "Load Audio Track…"
+msgstr ""
+
+#: src/gmpv_view.c:1365
+msgid "Load Subtitle Track…"
+msgstr ""
+
+#: src/gmpv_view.c:1390
+msgid "Save Playlist"
+msgstr "Сачувај Листу Пуштања"
+
+#: src/gmpv_view.c:1455
+msgid "A GTK frontend for MPV"
+msgstr "GTK прочеље за MPV"
+
+#: src/gmpv_view.c:1465
+msgid "translator-credits"
+msgstr "Срђан С."
