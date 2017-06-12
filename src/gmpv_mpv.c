@@ -479,6 +479,7 @@ static gboolean mpv_event_handler(gpointer data)
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
 			mpv->loaded = FALSE;
+			gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{
