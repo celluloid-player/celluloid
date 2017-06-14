@@ -48,18 +48,23 @@ guix package -i gnome-mpv
 ```
 
 ### Flatpak
-Flatpak builds can be obtained from https://dl.tingping.se/flatpak/. The build
-file is available in [TingPing/flatpak-packages](https://github.com/TingPing/flatpak-packages/blob/master/io.github.GnomeMpv.json).
 
-Run the commands below to install:
+[Flatpak](https://flatpak.org) packages support multiple distributions and are sandboxed.
+Flatpak 0.9.5+ is recommended for best integration.
+
+Stable releases are hosted on [Flathub](https://flathub.org):
 
 ```sh
-flatpak --user remote-add gnome https://sdk.gnome.org/gnome.flatpakrepo
-flatpak --user install gnome org.gnome.Platform 3.22
-
-flatpak --user remote-add tingping https://dl.tingping.se/flatpak/tingping.flatpakrepo
-flatpak --user install tingping io.github.GnomeMpv
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub io.github.GnomeMpv
 ```
+
+Development versions are also packaged:
+
+```sh
+flatpak install https://dl.tingping.se/flatpak/gnome-mpv.flatpakref
+```
+
 
 ### Source code
 Run the following command in the source code directory to build and install:
