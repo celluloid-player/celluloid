@@ -770,6 +770,9 @@ void gmpv_model_mouse(GmpvModel *model, gint x, gint y)
 
 	g_debug("Set mouse location to (%s, %s)", x_str, y_str);
 	gmpv_mpv_command(model->mpv, cmd);
+
+	g_free(x_str);
+	g_free(y_str);
 }
 
 void gmpv_model_key_down(GmpvModel *model, const gchar* keystr)
