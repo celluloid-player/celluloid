@@ -206,6 +206,7 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 	if(area->timeout_tag > 0)
 	{
 		g_source_remove(area->timeout_tag);
+		area->timeout_tag = 0;
 	}
 
 	if(area->always_floating || area->fullscreen)
