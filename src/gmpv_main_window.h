@@ -42,9 +42,6 @@ GtkWidget *gmpv_main_window_new(	GmpvApplication *app,
 GmpvPlaylistWidget *gmpv_main_window_get_playlist(GmpvMainWindow *wnd);
 GmpvControlBox *gmpv_main_window_get_control_box(GmpvMainWindow *wnd);
 GmpvVideoArea *gmpv_main_window_get_video_area(GmpvMainWindow *wnd);
-void gmpv_main_window_set_use_floating_controls(	GmpvMainWindow *wnd,
-							gboolean floating );
-gboolean gmpv_main_window_get_use_floating_controls(GmpvMainWindow *wnd);
 void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen);
 gboolean gmpv_main_window_get_fullscreen(GmpvMainWindow *wnd);
 void gmpv_main_window_toggle_fullscreen(GmpvMainWindow *wnd);

@@ -34,6 +34,7 @@ enum
 {
 	PROP_0,
 	PROP_TITLE,
+	PROP_ALWAYS_FLOATING,
 	N_PROPERTIES
 };
 
@@ -49,6 +50,7 @@ struct _GmpvVideoArea
 	GtkWidget *header_bar_revealer;
 	guint timeout_tag;
 	gboolean fullscreen;
+	gboolean always_floating;
 	gboolean fs_control_hover;
 };
 
@@ -68,9 +70,22 @@ static void get_property(	GObject *object,
 static void set_cursor_visible(GmpvVideoArea *area, gboolean visible);
 static gboolean timeout_handler(gpointer data);
 static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event);
+static void control_box_visible_handler(	GObject *object,
+						GParamSpec *pspec,
+						gpointer data );
+static void control_box_size_allocate_handler(	GtkWidget *widget,
+						GdkRectangle *allocation,
+						gpointer data );
+static gboolean render_handler(	GtkGLArea *gl_area,
+				GdkGLContext *context,
+				gpointer data );
+static void notify_handler(	GObject *gobject,
+				GParamSpec *pspec,
+				gpointer data );
 static gboolean fs_control_crossing_handler(	GtkWidget *widget,
 						GdkEventCrossing *event,
 						gpointer data );
+static void set_control_box_floating(GmpvVideoArea *area, gboolean floating);
 
 G_DEFINE_TYPE(GmpvVideoArea, gmpv_video_area, GTK_TYPE_OVERLAY)
 
@@ -87,6 +102,12 @@ static void set_property(	GObject *object,
 		g_object_set_property(	G_OBJECT(self->header_bar),
 					pspec->name,
 					value );
+		break;
+
+		case PROP_ALWAYS_FLOATING:
+		self->always_floating = g_value_get_boolean(value);
+		set_control_box_floating
+			(self, self->always_floating || self->fullscreen);
 		break;
 
 		default:
@@ -108,6 +129,10 @@ static void get_property(	GObject *object,
 		g_object_get_property(	G_OBJECT(self->header_bar),
 					pspec->name,
 					value );
+		break;
+
+		case PROP_ALWAYS_FLOATING:
+		g_value_set_boolean(value, self->always_floating);
 		break;
 
 		default:
@@ -144,8 +169,7 @@ static gboolean timeout_handler(gpointer data)
 	GmpvControlBox *control_box = GMPV_CONTROL_BOX(area->control_box);
 	GmpvHeaderBar *header_bar = GMPV_HEADER_BAR(area->header_bar);
 
-	if(control_box
-	&& !area->fs_control_hover
+	if(!area->fs_control_hover
 	&& !gmpv_control_box_get_volume_popup_visible(control_box)
 	&& !gmpv_header_bar_get_open_button_popup_visible(header_bar)
 	&& !gmpv_header_bar_get_menu_button_popup_visible(header_bar))
@@ -156,10 +180,6 @@ static gboolean timeout_handler(gpointer data)
 			(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
 		set_cursor_visible(area, !area->fullscreen);
-		area->timeout_tag = 0;
-	}
-	else if(!control_box)
-	{
 		area->timeout_tag = 0;
 	}
 
@@ -178,25 +198,50 @@ static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
 	cursor = gdk_cursor_new_from_name(gdk_display_get_default(), "default");
 	gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 
-	if(area->control_box)
-	{
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->control_box_revealer), TRUE);
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->header_bar_revealer), area->fullscreen);
-	}
+	gtk_revealer_set_reveal_child
+		(GTK_REVEALER(area->control_box_revealer), TRUE);
+	gtk_revealer_set_reveal_child
+		(GTK_REVEALER(area->header_bar_revealer), area->fullscreen);
 
 	if(area->timeout_tag > 0)
 	{
 		g_source_remove(area->timeout_tag);
 	}
 
-	area->timeout_tag = g_timeout_add_seconds(	FS_CONTROL_HIDE_DELAY,
+	if(area->always_floating || area->fullscreen)
+	{
+		area->timeout_tag
+			= g_timeout_add_seconds(	FS_CONTROL_HIDE_DELAY,
 							timeout_handler,
 							area );
+	}
 
 	return	GTK_WIDGET_CLASS(gmpv_video_area_parent_class)
 		->motion_notify_event(widget, event);
+}
+
+static void control_box_visible_handler(	GObject *object,
+						GParamSpec *pspec,
+						gpointer data )
+{
+	GmpvVideoArea *area = data;
+	gboolean visible = TRUE;
+
+	g_object_get(object, "visible", &visible, NULL);
+
+	set_control_box_floating(area, area->always_floating || !visible);
+}
+
+static void control_box_size_allocate_handler(	GtkWidget *widget,
+						GdkRectangle *allocation,
+						gpointer data )
+{
+	GmpvVideoArea *area = data;
+
+	set_control_box_floating(area, area->always_floating);
+
+	g_signal_handlers_disconnect_by_func
+		(widget, control_box_size_allocate_handler, data);
 }
 
 static gboolean render_handler(	GtkGLArea *gl_area,
@@ -226,7 +271,7 @@ static void notify_handler(	GObject *gobject,
 			"child-revealed", &child_revealed,
 			NULL );
 
-	gtk_widget_set_visible(	GTK_WIDGET(area),
+	gtk_widget_set_visible(	GTK_WIDGET(area->header_bar_revealer),
 				area->fullscreen &&
 				(reveal_child || child_revealed) );
 }
@@ -238,6 +283,32 @@ static gboolean fs_control_crossing_handler(	GtkWidget *widget,
 	GMPV_VIDEO_AREA(data)->fs_control_hover = (event->type == GDK_ENTER_NOTIFY);
 
 	return FALSE;
+}
+
+static void set_control_box_floating(GmpvVideoArea *area, gboolean floating)
+{
+	GtkAllocation allocation;
+
+	if(floating)
+	{
+		allocation.height = 0;
+	}
+	else
+	{
+		gtk_widget_get_allocation(area->control_box, &allocation);
+
+		if(area->timeout_tag > 0)
+		{
+			g_source_remove(area->timeout_tag);
+			area->timeout_tag = 0;
+		}
+	}
+
+	gtk_widget_set_margin_bottom(area->draw_area, allocation.height);
+	gtk_widget_set_margin_bottom(area->gl_area, allocation.height);
+
+	gtk_revealer_set_reveal_child
+		(GTK_REVEALER(area->control_box_revealer), !floating);
 }
 
 static void gmpv_video_area_class_init(GmpvVideoAreaClass *klass)
@@ -267,6 +338,14 @@ static void gmpv_video_area_class_init(GmpvVideoAreaClass *klass)
 			NULL,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_TITLE, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"always-use-floating-controls",
+			"Always use floating controls",
+			"Whether or not to use floating controls in windowed mode",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING, pspec);
 }
 
 static void gmpv_video_area_init(GmpvVideoArea *area)
@@ -285,12 +364,13 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	area->stack = gtk_stack_new();
 	area->draw_area = gtk_drawing_area_new();
 	area->gl_area = gtk_gl_area_new();
-	area->control_box = NULL;
+	area->control_box = gmpv_control_box_new();
 	area->header_bar = gmpv_header_bar_new();
 	area->control_box_revealer = gtk_revealer_new();
 	area->header_bar_revealer = gtk_revealer_new();
 	area->timeout_tag = 0;
 	area->fullscreen = FALSE;
+	area->always_floating = FALSE;
 	area->fs_control_hover = FALSE;
 
 	gtk_style_context_add_class
@@ -302,6 +382,9 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 				targets,
 				G_N_ELEMENTS(targets),
 				GDK_ACTION_COPY );
+
+	gtk_container_add
+		(GTK_CONTAINER(area->control_box_revealer), area->control_box);
 
 	gtk_widget_add_events(area->draw_area, extra_events);
 	gtk_widget_add_events(area->gl_area, extra_events);
@@ -320,6 +403,14 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	gtk_widget_hide(area->header_bar_revealer);
 	gtk_widget_set_no_show_all(area->header_bar_revealer, TRUE);
 
+	g_signal_connect(	area->control_box,
+				"notify::visible",
+				G_CALLBACK(control_box_visible_handler),
+				area );
+	g_signal_connect(	area->control_box,
+				"size-allocate",
+				G_CALLBACK(control_box_size_allocate_handler),
+				area );
 	g_signal_connect(	area->gl_area,
 				"render",
 				G_CALLBACK(render_handler),
@@ -327,11 +418,11 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	g_signal_connect(	area->header_bar_revealer,
 				"notify::reveal-child",
 				G_CALLBACK(notify_handler),
-				area->header_bar_revealer );
+				area );
 	g_signal_connect(	area->header_bar_revealer,
 				"notify::child-revealed",
 				G_CALLBACK(notify_handler),
-				area->header_bar_revealer );
+				area );
 	g_signal_connect(	area,
 				"enter-notify-event",
 				G_CALLBACK(fs_control_crossing_handler),
@@ -375,37 +466,15 @@ void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 		gtk_widget_hide(area->header_bar_revealer);
 		set_cursor_visible(area, !fullscreen);
 
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->control_box_revealer), FALSE);
+		set_control_box_floating
+			(area, area->always_floating || fullscreen);
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
 		gmpv_header_bar_set_fullscreen_state
 			(GMPV_HEADER_BAR(area->header_bar), fullscreen);
-
-		if(area->control_box)
-		{
-			gmpv_control_box_set_fullscreen_state
-				(GMPV_CONTROL_BOX(area->control_box), fullscreen);
-		}
-	}
-}
-
-void gmpv_video_area_set_control_box(	GmpvVideoArea *area,
-					GtkWidget *control_box )
-{
-	GtkContainer *revealer = GTK_CONTAINER(area->control_box_revealer);
-
-	if(area->control_box)
-	{
-		gtk_container_remove(revealer, area->control_box);
-	}
-
-	area->control_box = control_box;
-
-	if(control_box)
-	{
-		gtk_container_add(revealer, control_box);
+		gmpv_control_box_set_fullscreen_state
+			(GMPV_CONTROL_BOX(area->control_box), fullscreen);
 	}
 }
 
@@ -429,6 +498,25 @@ GtkDrawingArea *gmpv_video_area_get_draw_area(GmpvVideoArea *area)
 GtkGLArea *gmpv_video_area_get_gl_area(GmpvVideoArea *area)
 {
 	return GTK_GL_AREA(area->gl_area);
+}
+
+GmpvControlBox *gmpv_video_area_get_control_box(GmpvVideoArea *area)
+{
+	return GMPV_CONTROL_BOX(area->control_box);
+}
+
+void gmpv_video_area_get_render_area_size(	GmpvVideoArea *area,
+						gint *width,
+						gint *height )
+{
+	GtkWidget *render_widget;
+	GtkAllocation allocation;
+
+	render_widget = gtk_stack_get_visible_child(GTK_STACK(area->stack));
+	gtk_widget_get_allocation(render_widget, &allocation);
+
+	*width = allocation.width;
+	*height = allocation.height;
 }
 
 gint64 gmpv_video_area_get_xid(GmpvVideoArea *area)
@@ -457,3 +545,4 @@ gint64 gmpv_video_area_get_xid(GmpvVideoArea *area)
 
 	return -1;
 }
+

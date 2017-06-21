@@ -24,6 +24,8 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
+#include "gmpv_control_box.h"
+
 #define GMPV_TYPE_VIDEO_AREA (gmpv_video_area_get_type ())
 
 G_DECLARE_FINAL_TYPE(GmpvVideoArea, gmpv_video_area, GMPV, VIDEO_AREA, GtkOverlay)
@@ -33,12 +35,14 @@ void gmpv_video_area_update_track_list(	GmpvVideoArea *hdr,
 					const GPtrArray *track_list );
 void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 						gboolean fullscreen );
-void gmpv_video_area_set_control_box(	GmpvVideoArea *area,
-					GtkWidget *control_box );
 void gmpv_video_area_set_use_opengl(GmpvVideoArea *area, gboolean use_opengl);
 void gmpv_video_area_queue_render(GmpvVideoArea *area);
 GtkDrawingArea *gmpv_video_area_get_draw_area(GmpvVideoArea *area);
 GtkGLArea *gmpv_video_area_get_gl_area(GmpvVideoArea *area);
+GmpvControlBox *gmpv_video_area_get_control_box(GmpvVideoArea *area);
+void gmpv_video_area_get_render_area_size(	GmpvVideoArea *area,
+						gint *width,
+						gint *height );
 gint64 gmpv_video_area_get_xid(GmpvVideoArea *area);
 
 #endif
