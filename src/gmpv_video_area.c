@@ -226,10 +226,11 @@ static void control_box_visible_handler(	GObject *object,
 						gpointer data )
 {
 	GmpvVideoArea *area = data;
-	gboolean visible = gtk_widget_get_visible(GTK_WIDGET(object));
+	gboolean visible = TRUE;
 
-	set_control_box_floating
-		(area, area->always_floating || area->fullscreen || !visible);
+	g_object_get(object, "visible", &visible, NULL);
+
+	set_control_box_floating(area, area->always_floating || !visible);
 }
 
 static void control_box_size_allocate_handler(	GtkWidget *widget,
@@ -461,17 +462,13 @@ void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 {
 	if(area->fullscreen != fullscreen)
 	{
-		gboolean floating;
-
-		floating =	area->always_floating ||
-				fullscreen ||
-				!gtk_widget_get_visible(area->control_box);
 		area->fullscreen = fullscreen;
 
 		gtk_widget_hide(area->header_bar_revealer);
 		set_cursor_visible(area, !fullscreen);
 
-		set_control_box_floating(area, floating);
+		set_control_box_floating
+			(area, area->always_floating || fullscreen);
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
