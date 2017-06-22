@@ -52,7 +52,7 @@ void gmpv_view_queue_render(GmpvView *view);
 void gmpv_view_make_gl_context_current(GmpvView *view);
 void gmpv_view_set_use_opengl_cb(GmpvView *view, gboolean use_opengl_cb);
 gint gmpv_view_get_scale_factor(GmpvView *view);
-void gmpv_view_get_render_area_size(GmpvView *view, gint *width, gint *height);
+void gmpv_view_get_video_area_geometry(GmpvView *view, gint *width, gint *height);
 void gmpv_view_resize_video_area(GmpvView *view, gint width, gint height);
 void gmpv_view_set_fullscreen(GmpvView *view, gboolean fullscreen);
 void gmpv_view_set_time_position(GmpvView *view, gdouble position);

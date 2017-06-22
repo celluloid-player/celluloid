@@ -1544,11 +1544,15 @@ gint gmpv_view_get_scale_factor(GmpvView *view)
 	return gdk_window_get_scale_factor(gdk_window);
 }
 
-void gmpv_view_get_render_area_size(GmpvView *view, gint *width, gint *height)
+void gmpv_view_get_video_area_geometry(GmpvView *view, gint *width, gint *height)
 {
 	GmpvVideoArea *area = gmpv_main_window_get_video_area(view->wnd);
+	GtkAllocation allocation;
 
-	gmpv_video_area_get_render_area_size(area, width, height);
+	gtk_widget_get_allocation(GTK_WIDGET(area), &allocation);
+
+	*width = allocation.width;
+	*height = allocation.height;
 }
 
 void gmpv_view_resize_video_area(GmpvView *view, gint width, gint height)
