@@ -106,6 +106,7 @@ static void forward_button_handler(GtkButton *button, gpointer data);
 static void rewind_button_handler(GtkButton *button, gpointer data);
 static void next_button_handler(GtkButton *button, gpointer data);
 static void previous_button_handler(GtkButton *button, gpointer data);
+static void fullscreen_button_handler(GtkButton *button, gpointer data);
 static void seek_handler(GtkButton *button, gdouble value, gpointer data);
 static void gmpv_controller_class_init(GmpvControllerClass *klass);
 static void gmpv_controller_init(GmpvController *controller);
@@ -439,6 +440,10 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(previous_button_handler),
 				controller );
 	g_signal_connect(	controller->view,
+				"button-clicked::fullscreen",
+				G_CALLBACK(fullscreen_button_handler),
+				controller );
+	g_signal_connect(	controller->view,
 				"seek",
 				G_CALLBACK(seek_handler),
 				controller );
@@ -730,6 +735,15 @@ static void next_button_handler(GtkButton *button, gpointer data)
 static void previous_button_handler(GtkButton *button, gpointer data)
 {
 	gmpv_model_previous_chapter(GMPV_CONTROLLER(data)->model);
+}
+
+static void fullscreen_button_handler(GtkButton *button, gpointer data)
+{
+	GmpvView *view = GMPV_CONTROLLER(data)->view;
+	gboolean fullscreen = FALSE;
+
+	g_object_get(view, "fullscreen", &fullscreen, NULL);
+	g_object_set(view, "fullscreen", !fullscreen, NULL);
 }
 
 static void seek_handler(GtkButton *button, gdouble value, gpointer data)
