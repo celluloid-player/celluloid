@@ -31,6 +31,7 @@ enum
 	PROP_DURATION,
 	PROP_ENABLED,
 	PROP_PAUSE,
+	PROP_SHOW_FULLSCREEN_BUTTON,
 	PROP_TIME_POSITION,
 	PROP_VOLUME,
 	N_PROPERTIES
@@ -52,6 +53,7 @@ struct _GmpvControlBox
 	gdouble duration;
 	gboolean enabled;
 	gboolean pause;
+	gboolean show_fullscreen_button;
 	gdouble time_position;
 	gdouble volume;
 };
@@ -124,6 +126,10 @@ static void set_property(	GObject *object,
 		set_playing_state(self, !self->pause);
 		break;
 
+		case PROP_SHOW_FULLSCREEN_BUTTON:
+		self->show_fullscreen_button = g_value_get_boolean(value);
+		break;
+
 		case PROP_TIME_POSITION:
 		self->time_position = g_value_get_double(value);
 
@@ -164,6 +170,10 @@ static void get_property(	GObject *object,
 
 		case PROP_PAUSE:
 		g_value_set_boolean(value, self->pause);
+		break;
+
+		case PROP_SHOW_FULLSCREEN_BUTTON:
+		g_value_set_boolean(value, self->show_fullscreen_button);
 		break;
 
 		case PROP_TIME_POSITION:
@@ -339,6 +349,14 @@ static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_PAUSE, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"show-fullscreen-button",
+			"Show fullscreen button",
+			"Whether to show fullscreen button when applicable",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_SHOW_FULLSCREEN_BUTTON, pspec);
+
 	pspec = g_param_spec_double
 		(	"time-position",
 			"Time position",
@@ -406,6 +424,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->duration = 0.0;
 	box->enabled = TRUE;
 	box->pause = TRUE;
+	box->show_fullscreen_button = FALSE;
 	box->time_position = 0.0;
 	box->volume = 0.0;
 
@@ -545,12 +564,9 @@ void gmpv_control_box_set_fullscreen_state(	GmpvControlBox *box,
 					"view-restore-symbolic":
 					"view-fullscreen-symbolic",
 					GTK_ICON_SIZE_BUTTON );
-}
 
-void gmpv_control_box_set_fullscreen_button_visible(	GmpvControlBox *box,
-							gboolean value )
-{
-	gtk_widget_set_visible(box->fullscreen_button, value);
+	gtk_widget_set_visible(	box->fullscreen_button,
+				!fullscreen && box->show_fullscreen_button );
 }
 
 void gmpv_control_box_reset(GmpvControlBox *box)

@@ -39,8 +39,6 @@ gdouble gmpv_control_box_get_volume(GmpvControlBox *box);
 gboolean gmpv_control_box_get_volume_popup_visible(GmpvControlBox *box);
 void gmpv_control_box_set_fullscreen_state(	GmpvControlBox *box,
 						gboolean fullscreen );
-void gmpv_control_box_set_fullscreen_button_visible(	GmpvControlBox *box,
-							gboolean value );
 void gmpv_control_box_reset(GmpvControlBox *box);
 
 G_END_DECLS

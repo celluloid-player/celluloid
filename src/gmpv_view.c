@@ -182,13 +182,10 @@ static void constructed(GObject *object)
 	load_css(view);
 	gtk_widget_show_all(GTK_WIDGET(view->wnd));
 
-	if(csd_enable)
-	{
-		gmpv_control_box_set_fullscreen_button_visible(control_box, FALSE);
-	}
-
-	g_object_set(control_box, "chapters-enabled", FALSE, NULL);
-
+	g_object_set(	control_box,
+			"show-fullscreen-button", !csd_enable,
+			"chapters-enabled", FALSE,
+			NULL );
 	g_object_set(	gtk_settings_get_default(),
 			"gtk-application-prefer-dark-theme",
 			dark_theme_enable,
