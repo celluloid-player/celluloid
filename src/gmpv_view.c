@@ -42,7 +42,6 @@ enum
 	PROP_PLAYLIST_POS,
 	PROP_TRACK_LIST,
 	PROP_CHAPTERS_ENABLED,
-	PROP_CONTROL_BOX_ENABLED,
 	PROP_FULLSCREEN,
 	N_PROPERTIES
 };
@@ -191,7 +190,7 @@ static void constructed(GObject *object)
 		gmpv_control_box_set_fullscreen_button_visible(control_box, FALSE);
 	}
 
-	gmpv_control_box_set_chapter_enabled(control_box, FALSE);
+	g_object_set(control_box, "chapters-enabled", FALSE, NULL);
 
 	g_object_set(	gtk_settings_get_default(),
 			"gtk-application-prefer-dark-theme",
@@ -202,6 +201,15 @@ static void constructed(GObject *object)
 
 	g_object_bind_property(	view, "title",
 				view->wnd, "title",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	view, "duration",
+				control_box, "duration",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	view, "pause",
+				control_box, "pause",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	view, "chapters-enabled",
+				control_box, "chapters-enabled",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	view, "volume",
 				control_box, "volume",
@@ -331,8 +339,11 @@ static void set_property(	GObject *object,
 
 		case PROP_PLAYLIST_COUNT:
 		self->playlist_count = g_value_get_int(value);
-		gmpv_control_box_set_enabled
-			(control_box, self->playlist_count > 0);
+
+		g_object_set(	control_box,
+				"enabled",
+				self->playlist_count > 0,
+				NULL );
 
 		if(self->playlist_count <= 0)
 		{
@@ -342,7 +353,6 @@ static void set_property(	GObject *object,
 
 		case PROP_PAUSE:
 		self->pause = g_value_get_boolean(value);
-		gmpv_control_box_set_playing_state(control_box, !self->pause);
 		break;
 
 		case PROP_TITLE:
@@ -356,8 +366,6 @@ static void set_property(	GObject *object,
 
 		case PROP_DURATION:
 		self->duration = g_value_get_double(value);
-		gmpv_control_box_set_seek_bar_duration
-			(control_box, (gint)self->duration);
 		break;
 
 		case PROP_PLAYLIST_POS:
@@ -373,14 +381,6 @@ static void set_property(	GObject *object,
 
 		case PROP_CHAPTERS_ENABLED:
 		self->chapters_enabled = g_value_get_boolean(value);
-		gmpv_control_box_set_chapter_enabled
-			(control_box, self->chapters_enabled);
-		break;
-
-		case PROP_CONTROL_BOX_ENABLED:
-		self->control_box_enabled = g_value_get_boolean(value);
-		gmpv_control_box_set_enabled
-			(control_box, self->control_box_enabled);
 		break;
 
 		case PROP_FULLSCREEN:
@@ -437,10 +437,6 @@ static void get_property(	GObject *object,
 
 		case PROP_CHAPTERS_ENABLED:
 		g_value_set_boolean(value, self->chapters_enabled);
-		break;
-
-		case PROP_CONTROL_BOX_ENABLED:
-		g_value_set_boolean(value, self->control_box_enabled);
 		break;
 
 		case PROP_FULLSCREEN:
@@ -831,8 +827,7 @@ static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 		GmpvControlBox *control_box;
 
 		control_box = gmpv_main_window_get_control_box(view->wnd);
-
-		gmpv_control_box_set_enabled(control_box, FALSE);
+		g_object_set(control_box, "enabled", FALSE, NULL);
 	}
 
 	g_signal_emit_by_name(view, "ready");
@@ -1571,7 +1566,7 @@ void gmpv_view_set_time_position(GmpvView *view, gdouble position)
 	GmpvControlBox *control_box;
 
 	control_box = gmpv_main_window_get_control_box(view->wnd);
-	gmpv_control_box_set_seek_bar_pos(control_box, position);
+	g_object_set(control_box, "time-position", position, NULL);
 }
 
 void gmpv_view_update_playlist(GmpvView *view, GPtrArray *playlist)

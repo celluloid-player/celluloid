@@ -27,6 +27,11 @@
 enum
 {
 	PROP_0,
+	PROP_CHAPTERS_ENABLED,
+	PROP_DURATION,
+	PROP_ENABLED,
+	PROP_PAUSE,
+	PROP_TIME_POSITION,
 	PROP_VOLUME,
 	N_PROPERTIES
 };
@@ -43,6 +48,11 @@ struct _GmpvControlBox
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
+	gboolean chapters_enabled;
+	gdouble duration;
+	gboolean enabled;
+	gboolean pause;
+	gdouble time_position;
 	gdouble volume;
 };
 
@@ -74,6 +84,9 @@ static void volume_changed_handler(	GtkVolumeButton *button,
 					gdouble value,
 					gpointer data );
 static void simple_signal_handler(GtkWidget *widget, gpointer data);
+static void set_enabled(GmpvControlBox *box, gboolean enabled);
+static void set_chapter_enabled(GmpvControlBox *box, gboolean enabled);
+static void set_playing_state(GmpvControlBox *box, gboolean playing);
 static void init_button(	GtkWidget *button,
 				const gchar *icon_name,
 				const gchar *tooltip_text );
@@ -87,13 +100,44 @@ static void set_property(	GObject *object,
 {
 	GmpvControlBox *self = GMPV_CONTROL_BOX(object);
 
-	if(property_id == PROP_VOLUME)
+	switch(property_id)
 	{
+		case PROP_CHAPTERS_ENABLED:
+		self->chapters_enabled = g_value_get_boolean(value);
+		set_chapter_enabled(self, self->chapters_enabled);
+		break;
+
+		case PROP_DURATION:
+		self->duration = g_value_get_double(value);
+
+		gmpv_seek_bar_set_duration
+			(GMPV_SEEK_BAR(self->seek_bar), self->duration);
+		break;
+
+		case PROP_ENABLED:
+		self->enabled = g_value_get_boolean(value);
+		set_enabled(self, self->enabled);
+		break;
+
+		case PROP_PAUSE:
+		self->pause = g_value_get_boolean(value);
+		set_playing_state(self, !self->pause);
+		break;
+
+		case PROP_TIME_POSITION:
+		self->time_position = g_value_get_double(value);
+
+		gmpv_seek_bar_set_pos
+			(GMPV_SEEK_BAR(self->seek_bar), self->time_position);
+		break;
+
+		case PROP_VOLUME:
 		self->volume = g_value_get_double(value);
-	}
-	else
-	{
+		break;
+
+		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
 	}
 }
 
@@ -104,13 +148,35 @@ static void get_property(	GObject *object,
 {
 	GmpvControlBox *self = GMPV_CONTROL_BOX(object);
 
-	if(property_id == PROP_VOLUME)
+	switch(property_id)
 	{
+		case PROP_CHAPTERS_ENABLED:
+		g_value_set_boolean(value, self->chapters_enabled);
+		break;
+
+		case PROP_DURATION:
+		g_value_set_double(value, self->duration);
+		break;
+
+		case PROP_ENABLED:
+		g_value_set_boolean(value, self->enabled);
+		break;
+
+		case PROP_PAUSE:
+		g_value_set_boolean(value, self->pause);
+		break;
+
+		case PROP_TIME_POSITION:
+		g_value_set_double(value, self->time_position);
+		break;
+
+		case PROP_VOLUME:
 		g_value_set_double(value, self->volume);
-	}
-	else
-	{
+		break;
+
+		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
 	}
 }
 
@@ -178,6 +244,44 @@ static void simple_signal_handler(GtkWidget *widget, gpointer data)
 	}
 }
 
+static void set_enabled(GmpvControlBox *box, gboolean enabled)
+{
+	gtk_widget_set_sensitive(box->previous_button, enabled);
+	gtk_widget_set_sensitive(box->rewind_button, enabled);
+	gtk_widget_set_sensitive(box->stop_button, enabled);
+	gtk_widget_set_sensitive(box->play_button, enabled);
+	gtk_widget_set_sensitive(box->forward_button, enabled);
+	gtk_widget_set_sensitive(box->next_button, enabled);
+}
+
+static void set_chapter_enabled(GmpvControlBox *box, gboolean enabled)
+{
+	if(enabled)
+	{
+		gtk_widget_show_all(box->previous_button);
+		gtk_widget_show_all(box->next_button);
+	}
+	else
+	{
+		gtk_widget_hide(box->previous_button);
+		gtk_widget_hide(box->next_button);
+	}
+}
+
+static void set_playing_state(GmpvControlBox *box, gboolean playing)
+{
+	GtkWidget *image = gtk_button_get_image(GTK_BUTTON(box->play_button));
+	const gchar *tooltip = playing?_("Pause"):_("Play");
+
+	gtk_image_set_from_icon_name( 	GTK_IMAGE(image),
+					playing?
+					"media-playback-pause-symbolic":
+					"media-playback-start-symbolic",
+					GTK_ICON_SIZE_BUTTON );
+
+	gtk_widget_set_tooltip_text(box->play_button, tooltip);
+}
+
 static void init_button(	GtkWidget *button,
 				const gchar *icon_name,
 				const gchar *tooltip_text )
@@ -207,6 +311,50 @@ static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
+
+	pspec = g_param_spec_boolean
+		(	"chapters-enabled",
+			"Chapters enabled",
+			"Whether the chapter controls are enabled",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_CHAPTERS_ENABLED, pspec);
+
+	pspec = g_param_spec_double
+		(	"duration",
+			"Duration",
+			"Duration of the file",
+			0.0,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_DURATION, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"enabled",
+			"Enabled",
+			"Whether the controls are enabled",
+			TRUE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_ENABLED, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"pause",
+			"Pause",
+			"Whether there is a file playing",
+			TRUE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_PAUSE, pspec);
+
+	pspec = g_param_spec_double
+		(	"time-position",
+			"Time position",
+			"The current timr position in the current file",
+			0.0,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_TIME_POSITION, pspec);
 
 	pspec = g_param_spec_double
 		(	"volume",
@@ -265,6 +413,12 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->fullscreen_button = gtk_button_new();
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = gmpv_seek_bar_new();
+	box->chapters_enabled = FALSE;
+	box->duration = 0.0;
+	box->enabled = TRUE;
+	box->pause = TRUE;
+	box->time_position = 0.0;
+	box->volume = 0.0;
 
 	init_button(	box->play_button,
 			"media-playback-start-symbolic",
@@ -360,30 +514,6 @@ GtkWidget *gmpv_control_box_new(void)
 	return GTK_WIDGET(g_object_new(gmpv_control_box_get_type(), NULL));
 }
 
-void gmpv_control_box_set_enabled(GmpvControlBox *box, gboolean enabled)
-{
-	gtk_widget_set_sensitive(box->previous_button, enabled);
-	gtk_widget_set_sensitive(box->rewind_button, enabled);
-	gtk_widget_set_sensitive(box->stop_button, enabled);
-	gtk_widget_set_sensitive(box->play_button, enabled);
-	gtk_widget_set_sensitive(box->forward_button, enabled);
-	gtk_widget_set_sensitive(box->next_button, enabled);
-}
-
-void gmpv_control_box_set_chapter_enabled(GmpvControlBox *box, gboolean enabled)
-{
-	if(enabled)
-	{
-		gtk_widget_show_all(box->previous_button);
-		gtk_widget_show_all(box->next_button);
-	}
-	else
-	{
-		gtk_widget_hide(box->previous_button);
-		gtk_widget_hide(box->next_button);
-	}
-}
-
 void gmpv_control_box_set_seek_bar_pos(GmpvControlBox *box, gdouble pos)
 {
 	gmpv_seek_bar_set_pos(GMPV_SEEK_BAR(box->seek_bar), pos);
@@ -416,20 +546,6 @@ gboolean gmpv_control_box_get_volume_popup_visible(GmpvControlBox *box)
 	return gtk_widget_is_visible(gtk_scale_button_get_popup(volume_button));
 }
 
-void gmpv_control_box_set_playing_state(GmpvControlBox *box, gboolean playing)
-{
-	GtkWidget *image = gtk_button_get_image(GTK_BUTTON(box->play_button));
-	const gchar *tooltip = playing?_("Pause"):_("Play");
-
-	gtk_image_set_from_icon_name( 	GTK_IMAGE(image),
-					playing?
-					"media-playback-pause-symbolic":
-					"media-playback-start-symbolic",
-					GTK_ICON_SIZE_BUTTON );
-
-	gtk_widget_set_tooltip_text(box->play_button, tooltip);
-}
-
 void gmpv_control_box_set_fullscreen_state(	GmpvControlBox *box,
 						gboolean fullscreen )
 {
@@ -452,7 +568,7 @@ void gmpv_control_box_reset(GmpvControlBox *box)
 {
 	gmpv_control_box_set_seek_bar_pos(box, 0);
 	gmpv_control_box_set_seek_bar_duration(box, 0);
-	gmpv_control_box_set_playing_state(box, FALSE);
-	gmpv_control_box_set_chapter_enabled(box, FALSE);
+	set_playing_state(box, FALSE);
+	set_chapter_enabled(box, FALSE);
 	gmpv_control_box_set_fullscreen_state(box, FALSE);
 }

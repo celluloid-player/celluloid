@@ -32,13 +32,11 @@ G_DECLARE_FINAL_TYPE(GmpvControlBox, gmpv_control_box, GMPV, CONTROL_BOX, GtkBox
 
 GtkWidget *gmpv_control_box_new(void);
 void gmpv_control_box_set_enabled(GmpvControlBox *box, gboolean enabled);
-void gmpv_control_box_set_chapter_enabled(GmpvControlBox *box, gboolean enabled);
 void gmpv_control_box_set_seek_bar_pos(GmpvControlBox *box, gdouble pos);
 void gmpv_control_box_set_seek_bar_duration(GmpvControlBox *box, gint duration);
 void gmpv_control_box_set_volume(GmpvControlBox *box, gdouble volume);
 gdouble gmpv_control_box_get_volume(GmpvControlBox *box);
 gboolean gmpv_control_box_get_volume_popup_visible(GmpvControlBox *box);
-void gmpv_control_box_set_playing_state(GmpvControlBox *box, gboolean playing);
 void gmpv_control_box_set_fullscreen_state(	GmpvControlBox *box,
 						gboolean fullscreen );
 void gmpv_control_box_set_fullscreen_button_visible(	GmpvControlBox *box,
