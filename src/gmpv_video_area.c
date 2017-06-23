@@ -227,7 +227,7 @@ static void notify_handler(	GObject *gobject,
 			"child-revealed", &child_revealed,
 			NULL );
 
-	gtk_widget_set_visible(	GTK_WIDGET(area),
+	gtk_widget_set_visible(	GTK_WIDGET(area->header_bar_revealer),
 				area->fullscreen &&
 				(reveal_child || child_revealed) );
 }
@@ -330,11 +330,11 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	g_signal_connect(	area->header_bar_revealer,
 				"notify::reveal-child",
 				G_CALLBACK(notify_handler),
-				area->header_bar_revealer );
+				area );
 	g_signal_connect(	area->header_bar_revealer,
 				"notify::child-revealed",
 				G_CALLBACK(notify_handler),
-				area->header_bar_revealer );
+				area );
 	g_signal_connect(	area,
 				"enter-notify-event",
 				G_CALLBACK(fs_control_crossing_handler),
