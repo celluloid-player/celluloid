@@ -54,6 +54,7 @@ struct _GmpvMainWindow
 	gboolean pre_fs_playlist_visible;
 	gint playlist_width;
 	guint timeout_tag;
+	const GPtrArray *track_list;
 	GtkWidget *header_bar;
 	GtkWidget *main_box;
 	GtkWidget *vid_area_paned;
@@ -296,6 +297,7 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	wnd->pre_fs_playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
+	wnd->track_list = NULL;
 	wnd->header_bar = gmpv_header_bar_new();
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
@@ -415,8 +417,24 @@ void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 
 		if(!gmpv_main_window_get_csd_enabled(wnd))
 		{
-			gtk_application_window_set_show_menubar
-				(GTK_APPLICATION_WINDOW(wnd), !fullscreen);
+			GtkApplication *app;
+			GMenu *menu;
+
+			app = gtk_window_get_application(GTK_WINDOW(wnd));
+			menu = G_MENU(gtk_application_get_menubar(app));
+
+			/* gtk_application_window_set_show_menubar() cannot be
+			 * used here since it will cause assertion failure when
+			 * opengl-cb is used.
+			 */
+			if(fullscreen)
+			{
+				g_menu_remove_all(menu);
+			}
+			else
+			{
+				gmpv_menu_build_full(menu, wnd->track_list);
+			}
 		}
 
 		gmpv_video_area_set_fullscreen_state(vid_area, fullscreen);
@@ -539,6 +557,8 @@ void gmpv_main_window_set_geometry(	GmpvMainWindow *wnd,
 void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
 						const GPtrArray *track_list )
 {
+	wnd->track_list = track_list;
+
 	if(gmpv_main_window_get_csd_enabled(wnd))
 	{
 		gmpv_header_bar_update_track_list
