@@ -225,22 +225,24 @@ static void simple_signal_handler(GtkWidget *widget, gpointer data)
 	{
 		const GtkWidget *widget;
 		const gchar *name;
+		const gchar *button;
 	}
 	signal_map[]
-		= {	{box->play_button, "play-button-clicked"},
-			{box->stop_button, "stop-button-clicked"},
-			{box->forward_button, "forward-button-clicked"},
-			{box->rewind_button, "rewind-button-clicked"},
-			{box->previous_button, "previous-button-clicked"},
-			{box->next_button, "next-button-clicked"},
-			{box->fullscreen_button, "fullscreen-button-clicked"},
-			{NULL, NULL} };
+		= {	{box->play_button, "button-clicked", "play"},
+			{box->stop_button, "button-clicked", "stop"},
+			{box->forward_button, "button-clicked", "forward"},
+			{box->rewind_button, "button-clicked", "rewind"},
+			{box->previous_button, "button-clicked", "previous"},
+			{box->next_button, "button-clicked", "next"},
+			{box->fullscreen_button, "button-clicked", "fullscreen"},
+			{NULL, NULL, NULL} };
 
 	for(i = 0; signal_map[i].name && signal_map[i].widget != widget; i++);
 
 	if(signal_map[i].name)
 	{
-		g_signal_emit_by_name(data, signal_map[i].name);
+		g_signal_emit_by_name
+			(data, signal_map[i].name, signal_map[i].button);
 	}
 }
 
@@ -297,15 +299,6 @@ static void init_button(	GtkWidget *button,
 
 static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 {
-	/* Names of signals that have no parameter and return nothing */
-	const gchar *simple_signals[] = {	"play-button-clicked",
-						"stop-button-clicked",
-						"forward-button-clicked",
-						"rewind-button-clicked",
-						"previous-button-clicked",
-						"next-button-clicked",
-						"fullscreen-button-clicked",
-						NULL };
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
@@ -366,19 +359,16 @@ static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_VOLUME, pspec);
 
-	for(gint i = 0; simple_signals[i]; i++)
-	{
-		g_signal_new(	simple_signals[i],
-				G_TYPE_FROM_CLASS(klass),
-				G_SIGNAL_RUN_FIRST,
-				0,
-				NULL,
-				NULL,
-				g_cclosure_marshal_VOID__VOID,
-				G_TYPE_NONE,
-				0 );
-	}
-
+	g_signal_new(	"button-clicked",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
 	g_signal_new(	"seek",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -389,7 +379,6 @@ static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_DOUBLE );
-
 	g_signal_new(	"volume-changed",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

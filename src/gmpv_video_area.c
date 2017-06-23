@@ -286,7 +286,7 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	area->stack = gtk_stack_new();
 	area->draw_area = gtk_drawing_area_new();
 	area->gl_area = gtk_gl_area_new();
-	area->control_box = NULL;
+	area->control_box = gmpv_control_box_new();
 	area->header_bar = gmpv_header_bar_new();
 	area->control_box_revealer = gtk_revealer_new();
 	area->header_bar_revealer = gtk_revealer_new();
@@ -308,14 +308,16 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	gtk_widget_add_events(area->gl_area, extra_events);
 
 	gtk_widget_set_valign(area->control_box_revealer, GTK_ALIGN_END);
-	gtk_widget_show(area->control_box_revealer);
 	gtk_revealer_set_reveal_child
 		(GTK_REVEALER(area->control_box_revealer), FALSE);
 
 	gtk_widget_set_valign(area->header_bar_revealer, GTK_ALIGN_START);
-	gtk_widget_show(area->header_bar_revealer);
 	gtk_revealer_set_reveal_child
 		(GTK_REVEALER(area->header_bar_revealer), FALSE);
+
+	gtk_widget_show_all(area->control_box);
+	gtk_widget_hide(area->control_box_revealer);
+	gtk_widget_set_no_show_all(area->control_box_revealer, TRUE);
 
 	gtk_widget_show_all(area->header_bar);
 	gtk_widget_hide(area->header_bar_revealer);
@@ -348,6 +350,8 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 
 	gtk_container_add(	GTK_CONTAINER(area->header_bar_revealer),
 				area->header_bar );
+	gtk_container_add(	GTK_CONTAINER(area->control_box_revealer),
+				area->control_box );
 
 	gtk_overlay_add_overlay(GTK_OVERLAY(area), area->control_box_revealer);
 	gtk_overlay_add_overlay(GTK_OVERLAY(area), area->header_bar_revealer);
@@ -392,22 +396,10 @@ void gmpv_video_area_set_fullscreen_state(	GmpvVideoArea *area,
 	}
 }
 
-void gmpv_video_area_set_control_box(	GmpvVideoArea *area,
-					GtkWidget *control_box )
+void gmpv_video_area_set_control_box_visible(	GmpvVideoArea *area,
+						gboolean visible )
 {
-	GtkContainer *revealer = GTK_CONTAINER(area->control_box_revealer);
-
-	if(area->control_box)
-	{
-		gtk_container_remove(revealer, area->control_box);
-	}
-
-	area->control_box = control_box;
-
-	if(control_box)
-	{
-		gtk_container_add(revealer, control_box);
-	}
+	gtk_widget_set_visible(area->control_box_revealer, visible);
 }
 
 void gmpv_video_area_set_use_opengl(GmpvVideoArea *area, gboolean use_opengl)
@@ -430,6 +422,11 @@ GtkDrawingArea *gmpv_video_area_get_draw_area(GmpvVideoArea *area)
 GtkGLArea *gmpv_video_area_get_gl_area(GmpvVideoArea *area)
 {
 	return GTK_GL_AREA(area->gl_area);
+}
+
+GmpvControlBox *gmpv_video_area_get_control_box(GmpvVideoArea *area)
+{
+	return GMPV_CONTROL_BOX(area->control_box);
 }
 
 gint64 gmpv_video_area_get_xid(GmpvVideoArea *area)

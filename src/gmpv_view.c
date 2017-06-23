@@ -88,14 +88,11 @@ static void show_message_dialog(	GmpvMainWindow *wnd,
 					const gchar *prefix,
 					const gchar *msg );
 
-/* Property changes */
-static void play_button_handler(GtkButton *button, gpointer data);
-static void stop_button_handler(GtkButton *button, gpointer data);
-static void next_button_handler(GtkButton *button, gpointer data);
-static void previous_button_handler(GtkButton *button, gpointer data);
-static void forward_button_handler(GtkButton *button, gpointer data);
-static void rewind_button_handler(GtkButton *button, gpointer data);
-static void seek_handler(GtkWidget *widget, gdouble value,  gpointer data);
+/* Control box signals */
+static void button_clicked_handler(	GtkWidget *widget,
+					const gchar *button,
+					gpointer data );
+static void seek_handler(GtkWidget *widget, gdouble value, gpointer data);
 
 /* Dialog responses */
 static void open_dialog_response_handler(	GtkDialog *dialog,
@@ -218,31 +215,11 @@ static void constructed(GObject *object)
 				view, "playlist-count",
 				G_BINDING_DEFAULT );
 
-	g_signal_connect(	control_box,
-				"play-button-clicked",
-				G_CALLBACK(play_button_handler),
+	g_signal_connect(	view->wnd,
+				"button-clicked",
+				G_CALLBACK(button_clicked_handler),
 				view );
-	g_signal_connect(	control_box,
-				"stop-button-clicked",
-				G_CALLBACK(stop_button_handler),
-				view );
-	g_signal_connect(	control_box,
-				"next-button-clicked",
-				G_CALLBACK(next_button_handler),
-				view );
-	g_signal_connect(	control_box,
-				"previous-button-clicked",
-				G_CALLBACK(previous_button_handler),
-				view );
-	g_signal_connect(	control_box,
-				"forward-button-clicked",
-				G_CALLBACK(forward_button_handler),
-				view );
-	g_signal_connect(	control_box,
-				"rewind-button-clicked",
-				G_CALLBACK(rewind_button_handler),
-				view );
-	g_signal_connect(	control_box,
+	g_signal_connect(	view->wnd,
 				"seek",
 				G_CALLBACK(seek_handler),
 				view );
@@ -579,34 +556,14 @@ void show_message_dialog(	GmpvMainWindow *wnd,
 	gtk_widget_show_all(dialog);
 }
 
-static void play_button_handler(GtkButton *button, gpointer data)
+static void button_clicked_handler(	GtkWidget *widget,
+					const gchar *button,
+					gpointer data )
 {
-	g_signal_emit_by_name(data, "button-clicked::play");
-}
+	gchar *name = g_strconcat("button-clicked::", button, NULL);
 
-static void stop_button_handler(GtkButton *button, gpointer data)
-{
-	g_signal_emit_by_name(data, "button-clicked::stop");
-}
-
-static void next_button_handler(GtkButton *button, gpointer data)
-{
-	g_signal_emit_by_name(data, "button-clicked::next");
-}
-
-static void previous_button_handler(GtkButton *button, gpointer data)
-{
-	g_signal_emit_by_name(data, "button-clicked::previous");
-}
-
-static void forward_button_handler(GtkButton *button, gpointer data)
-{
-	g_signal_emit_by_name(data, "button-clicked::forward");
-}
-
-static void rewind_button_handler(GtkButton *button, gpointer data)
-{
-	g_signal_emit_by_name(data, "button-clicked::rewind");
+	g_signal_emit_by_name(data, name);
+	g_free(name);
 }
 
 static void seek_handler(GtkWidget *widget, gdouble value, gpointer data)

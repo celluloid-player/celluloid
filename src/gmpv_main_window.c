@@ -77,6 +77,10 @@ static void gmpv_main_window_get_property(	GObject *object,
 						guint property_id,
 						GValue *value,
 						GParamSpec *pspec );
+static void seek_handler(GtkWidget *widget, gdouble value, gpointer data);
+static void button_clicked_handler(	GmpvControlBox *control_box,
+					const gchar *button,
+					gpointer data );
 static void gmpv_main_window_notify(GObject *object, GParamSpec *pspec);
 static void resize_video_area_finalize(	GtkWidget *widget,
 					GdkRectangle *allocation,
@@ -144,6 +148,18 @@ static void gmpv_main_window_get_property(	GObject *object,
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 	}
+}
+
+static void seek_handler(GtkWidget *widget, gdouble value, gpointer data)
+{
+	g_signal_emit_by_name(data, "seek", value);
+}
+
+static void button_clicked_handler(	GmpvControlBox *control_box,
+					const gchar *button,
+					gpointer data )
+{
+	g_signal_emit_by_name(data, "button-clicked", button);
 }
 
 static void gmpv_main_window_notify(GObject *object, GParamSpec *pspec)
@@ -285,10 +301,33 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING, pspec);
+
+	g_signal_new(	"button-clicked",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
+	g_signal_new(	"seek",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__DOUBLE,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_DOUBLE );
 }
 
 static void gmpv_main_window_init(GmpvMainWindow *wnd)
 {
+	GmpvControlBox *vid_area_control_box = NULL;
+
 	wnd->csd = FALSE;
 	wnd->always_floating = FALSE;
 	wnd->use_floating_controls = FALSE;
@@ -308,9 +347,44 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	wnd->width_offset = 0;
 	wnd->height_offset = 0;
 
+	vid_area_control_box =	gmpv_video_area_get_control_box
+				(GMPV_VIDEO_AREA(wnd->vid_area));
+
 	g_object_bind_property(	wnd, "title",
 				wnd->vid_area, "title",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	wnd->control_box, "duration",
+				vid_area_control_box, "duration",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	wnd->control_box, "pause",
+				vid_area_control_box, "pause",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	wnd->control_box, "chapters-enabled",
+				vid_area_control_box, "chapters-enabled",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	wnd->control_box, "time-position",
+				vid_area_control_box, "time-position",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	wnd->control_box, "volume",
+				vid_area_control_box, "volume",
+				G_BINDING_BIDIRECTIONAL );
+
+	g_signal_connect(	wnd->control_box,
+				"seek",
+				G_CALLBACK(seek_handler),
+				wnd );
+	g_signal_connect(	wnd->control_box,
+				"button-clicked",
+				G_CALLBACK(button_clicked_handler),
+				wnd );
+	g_signal_connect(	vid_area_control_box,
+				"seek",
+				G_CALLBACK(seek_handler),
+				wnd );
+	g_signal_connect(	vid_area_control_box,
+				"button-clicked",
+				G_CALLBACK(button_clicked_handler),
+				wnd );
 
 	gtk_widget_add_events(	wnd->vid_area,
 				GDK_ENTER_NOTIFY_MASK
@@ -363,25 +437,10 @@ void gmpv_main_window_set_use_floating_controls(	GmpvMainWindow *wnd,
 {
 	if(floating != wnd->use_floating_controls)
 	{
-		GmpvVideoArea *vid_area = GMPV_VIDEO_AREA(wnd->vid_area);
-		GtkContainer *main_box = GTK_CONTAINER(wnd->main_box);
-
-		if(floating)
-		{
-			g_object_ref(wnd->control_box);
-			gtk_container_remove(main_box, wnd->control_box);
-			gmpv_video_area_set_control_box
-				(vid_area, wnd->control_box);
-			g_object_unref(wnd->control_box);
-
-		}
-		else
-		{
-			g_object_ref(wnd->control_box);
-			gmpv_video_area_set_control_box(vid_area, NULL);
-			gtk_container_add(main_box, wnd->control_box);
-			g_object_unref(wnd->control_box);
-		}
+		gtk_widget_set_visible
+			(wnd->control_box, !floating);
+		gmpv_video_area_set_control_box_visible
+			(GMPV_VIDEO_AREA(wnd->vid_area), floating);
 
 		wnd->use_floating_controls = floating;
 	}
