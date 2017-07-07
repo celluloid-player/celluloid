@@ -216,8 +216,16 @@ static void initialize_gui(GmpvApplication *app)
 				app );
 
 	gmpv_application_action_add_actions(app);
-	gmpv_mpris_init(app);
-	gmpv_media_keys_init(app);
+
+	if(g_settings_get_boolean(settings, "mpris-enable"))
+	{
+		gmpv_mpris_init(app);
+	}
+
+	if(g_settings_get_boolean(settings, "media-keys-enable"))
+	{
+		gmpv_media_keys_init(app);
+	}
 
 	g_object_unref(settings);
 }
