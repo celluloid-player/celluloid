@@ -60,7 +60,7 @@ struct _GmpvMprisClass
 G_DEFINE_TYPE(GmpvMpris, gmpv_mpris, G_TYPE_OBJECT)
 
 static void constructed(GObject *object);
-static void finalize(GObject *object);
+static void dispose(GObject *object);
 static void set_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
@@ -105,14 +105,17 @@ static void constructed(GObject *object)
 	G_OBJECT_CLASS(gmpv_mpris_parent_class)->constructed(object);
 }
 
-static void finalize(GObject *object)
+static void dispose(GObject *object)
 {
 	GmpvMpris *self = GMPV_MPRIS(object);
 
 	unregister(self);
+	g_clear_object(&self->base);
+	g_clear_object(&self->player);
+	g_clear_object(&self->track_list);
 	g_bus_unown_name(self->name_id);
 
-	G_OBJECT_CLASS(gmpv_mpris_parent_class)->finalize(object);
+	G_OBJECT_CLASS(gmpv_mpris_parent_class)->dispose(object);
 }
 
 static void set_property(	GObject *object,
@@ -207,7 +210,7 @@ static void gmpv_mpris_class_init(GmpvMprisClass *klass)
 	object_class->constructed = constructed;
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
-	object_class->finalize = finalize;
+	object_class->dispose = dispose;
 
 	pspec = g_param_spec_pointer
 		(	"app",

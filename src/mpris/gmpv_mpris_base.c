@@ -88,6 +88,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 static void fullscreen_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data );
+static void update_fullscreen(GmpvMprisBase *base);
 static GVariant *get_supported_uri_schemes(void);
 static GVariant *get_supported_mime_types(void);
 static void gmpv_mpris_base_class_init(GmpvMprisBaseClass *klass);
@@ -140,6 +141,8 @@ static void register_interface(GmpvMprisModule *module)
 				module,
 				NULL,
 				NULL );
+
+	update_fullscreen(GMPV_MPRIS_BASE(module));
 }
 
 static void unregister_interface(GmpvMprisModule *module)
@@ -258,21 +261,25 @@ static void fullscreen_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data )
 {
-	GmpvMprisModule *module = data;
+	update_fullscreen(data);
+}
+
+static void update_fullscreen(GmpvMprisBase *base)
+{
+	GmpvMprisModule *module = GMPV_MPRIS_MODULE(base);
 	GVariant *old_value = NULL;
 	gboolean fullscreen = FALSE;
 
 	gmpv_mpris_module_get_properties(module, "Fullscreen", &old_value, NULL);
-	g_object_get(object, "fullscreen", &fullscreen, NULL);
+	g_object_get(G_OBJECT(base->app->model), "fullscreen", &fullscreen, NULL);
 
 	if(g_variant_get_boolean(old_value) != fullscreen)
 	{
 		gmpv_mpris_module_set_properties
-			(	GMPV_MPRIS_MODULE(data),
+			(	module,
 				"Fullscreen", g_variant_new_boolean(fullscreen),
 				NULL );
 	}
-
 }
 
 static GVariant *get_supported_uri_schemes(void)

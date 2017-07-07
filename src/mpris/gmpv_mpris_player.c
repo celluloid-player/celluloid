@@ -86,8 +86,12 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					GVariant *value,
 					GError **error,
 					gpointer data );
+
 static void update_playback_status(GmpvMprisPlayer *player);
 static void update_playlist_state(GmpvMprisPlayer *player);
+static void update_speed(GmpvMprisPlayer *player);
+static void update_metadata(GmpvMprisPlayer *player);
+static void update_volume(GmpvMprisPlayer *player);
 
 static void idle_active_handler(	GObject *object,
 					GParamSpec *pspec,
@@ -204,6 +208,12 @@ static void register_interface(GmpvMprisModule *module)
 					player,
 					NULL,
 					NULL );
+
+	update_playback_status(player);
+	update_playlist_state(player);
+	update_speed(player);
+	update_metadata(player);
+	update_volume(player);
 }
 
 static void unregister_interface(GmpvMprisModule *module)
@@ -512,53 +522,21 @@ static void update_playlist_state(GmpvMprisPlayer *player)
 						NULL );
 }
 
-static void idle_active_handler(	GObject *object,
-					GParamSpec *pspec,
-					gpointer data )
-{
-	update_playback_status(data);
-}
-
-static void core_idle_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data )
-{
-	update_playback_status(data);
-}
-
-static void playlist_pos_handler(	GObject *object,
-					GParamSpec *pspec,
-					gpointer data )
-{
-	update_playlist_state(data);
-}
-
-static void playlist_count_handler(	GObject *object,
-					GParamSpec *pspec,
-					gpointer data )
-{
-	update_playlist_state(data);
-}
-
-static void speed_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data )
+static void update_speed(GmpvMprisPlayer *player)
 {
 	gdouble speed = 1.0;
 
-	g_object_get(object, "speed", &speed, NULL);
+	g_object_get(G_OBJECT(player->app->model), "speed", &speed, NULL);
 
-	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(data),
+	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(player),
 						"Rate",
 						g_variant_new_double(speed),
 						NULL );
 }
 
-static void metadata_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data )
+static void update_metadata(GmpvMprisPlayer *player)
 {
-	GmpvModel *model = GMPV_MODEL(object);
+	GmpvModel *model = GMPV_MODEL(player->app->model);
 	GPtrArray *metadata = NULL;
 	GVariantBuilder builder;
 	gchar *path;
@@ -569,7 +547,7 @@ static void metadata_handler(	GObject *object,
 	gint64 playlist_pos = 0;
 
 	g_variant_builder_init(&builder, G_VARIANT_TYPE("a{sv}"));
-	path = gmpv_model_get_current_path(model);
+	path = gmpv_model_get_current_path(model)?:g_strdup("");
 	uri = g_filename_to_uri(path, NULL, NULL)?:g_strdup(path);
 
 	if(uri)
@@ -604,7 +582,7 @@ static void metadata_handler(	GObject *object,
 
 	append_metadata_tags(&builder, metadata);
 
-	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(data),
+	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(player),
 						"Metadata",
 						g_variant_new("a{sv}", &builder),
 						NULL );
@@ -615,19 +593,66 @@ static void metadata_handler(	GObject *object,
 	g_free(trackid);
 }
 
+static void update_volume(GmpvMprisPlayer *player)
+{
+	gdouble volume = 0.0;
+
+	g_object_get(G_OBJECT(player->app->model), "volume", &volume, NULL);
+
+	gmpv_mpris_module_set_properties
+		(	GMPV_MPRIS_MODULE(player),
+			"Volume",
+			g_variant_new_double(volume/100.0),
+			NULL );
+}
+
+static void idle_active_handler(	GObject *object,
+					GParamSpec *pspec,
+					gpointer data )
+{
+	update_playback_status(data);
+}
+
+static void core_idle_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data )
+{
+	update_playback_status(data);
+}
+
+static void playlist_pos_handler(	GObject *object,
+					GParamSpec *pspec,
+					gpointer data )
+{
+	update_playlist_state(data);
+}
+
+static void playlist_count_handler(	GObject *object,
+					GParamSpec *pspec,
+					gpointer data )
+{
+	update_playlist_state(data);
+}
+
+static void speed_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data )
+{
+	update_speed(data);
+}
+
+static void metadata_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data )
+{
+	update_metadata(data);
+}
+
 static void volume_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data )
 {
-	gdouble volume = 0.0;
-
-	g_object_get(object, "volume", &volume, NULL);
-
-	gmpv_mpris_module_set_properties
-		(	GMPV_MPRIS_MODULE(data),
-			"Volume",
-			g_variant_new_double(volume/100.0),
-			NULL );
+	update_volume(data);
 }
 
 static void playback_restart_handler(GmpvModel *model, gpointer data)

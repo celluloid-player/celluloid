@@ -80,6 +80,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 static void playlist_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data );
+static void update_playlist(GmpvMprisTrackList *track_list);
 static gint64 track_id_to_index(const gchar *track_id);
 static GVariant *playlist_entry_to_variant(	GmpvPlaylistEntry *entry,
 						gint64 index );
@@ -124,6 +125,8 @@ static void register_interface(GmpvMprisModule *module)
 					module,
 					NULL,
 					NULL );
+
+	update_playlist(GMPV_MPRIS_TRACK_LIST(module));
 }
 
 static void unregister_interface(GmpvMprisModule *module)
@@ -290,6 +293,11 @@ static void playlist_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data )
 {
+	update_playlist(data);
+}
+
+static void update_playlist(GmpvMprisTrackList *track_list)
+{
 	gint64 playlist_pos = -1;
 	guint playlist_count = 0;
 	GPtrArray *playlist = NULL;
@@ -300,11 +308,11 @@ static void playlist_handler(	GObject *object,
 	GVariant *signal_params = NULL;
 	GVariantBuilder builder;
 
-	g_object_get(	object,
+	g_object_get(	G_OBJECT(track_list->app->model),
 			"playlist-pos", &playlist_pos,
 			"playlist", &playlist,
 			NULL );
-	g_object_get(	data,
+	g_object_get(	G_OBJECT(track_list),
 			"conn", &conn,
 			"iface", &iface,
 			NULL );
@@ -340,7 +348,7 @@ static void playlist_handler(	GObject *object,
 	tracks = g_variant_new("ao", (playlist_count > 0)?&builder:NULL);
 	signal_params = g_variant_new("(@aoo)", tracks, current_track);
 
-	gmpv_mpris_module_set_properties_full(	GMPV_MPRIS_MODULE(data),
+	gmpv_mpris_module_set_properties_full(	GMPV_MPRIS_MODULE(track_list),
 						FALSE,
 						"Tracks", tracks,
 						NULL );

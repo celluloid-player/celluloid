@@ -123,7 +123,7 @@ static void dispose(GObject *object)
 
 	g_hash_table_unref(priv->prop_table);
 
-	G_OBJECT_GET_CLASS(object)->dispose(object);
+	G_OBJECT_CLASS(gmpv_mpris_module_parent_class)->dispose(object);
 }
 
 static void finalize(GObject *object)
@@ -135,7 +135,7 @@ static void finalize(GObject *object)
 
 	g_slist_free_full(priv->signal_ids, (GDestroyNotify)disconnect_signal);
 
-	G_OBJECT_GET_CLASS(object)->finalize(object);
+	G_OBJECT_CLASS(gmpv_mpris_module_parent_class)->finalize(object);
 }
 
 static void disconnect_signal(GmpvSignalHandlerInfo *info)
