@@ -21,6 +21,7 @@
 #define MPRIS_PLAYER_H
 
 #include "gmpv_mpris.h"
+#include "gmpv_mpris_module.h"
 
 G_BEGIN_DECLS
 

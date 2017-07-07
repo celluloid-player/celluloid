@@ -24,27 +24,16 @@
 #include <glib.h>
 
 #include "gmpv_application.h"
-#include "gmpv_mpris_module.h"
 
-typedef struct gmpv_mpris gmpv_mpris;
-typedef struct gmpv_mpris_prop gmpv_mpris_prop;
+G_BEGIN_DECLS
 
-struct gmpv_mpris
-{
-	GmpvApplication* gmpv_ctx;
-	GmpvMprisModule *base;
-	GmpvMprisModule *player;
-	GmpvMprisModule *track_list;
-	guint name_id;
-	guint player_reg_id;
-	gulong shutdown_sig_id;
-	gulong *player_sig_id_list;
-	gdouble pending_seek;
-	GHashTable *player_prop_table;
-	GDBusConnection *session_bus_conn;
-};
+#define GMPV_TYPE_MPRIS (gmpv_mpris_get_type ())
+
+G_DECLARE_FINAL_TYPE(GmpvMpris, gmpv_mpris, GMPV, MPRIS, GObject)
 
 GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list);
-void gmpv_mpris_init(GmpvApplication *gmpv_ctx);
+GmpvMpris *gmpv_mpris_new(GmpvApplication *gmpv_ctx);
+
+G_END_DECLS
 
 #endif

@@ -23,6 +23,7 @@
 #include "gmpv_controller.h"
 #include "gmpv_model.h"
 #include "gmpv_view.h"
+#include "mpris/gmpv_mpris.h"
 
 G_BEGIN_DECLS
 
@@ -37,6 +38,7 @@ struct _GmpvApplication
 	GQueue *action_queue;
 	guint inhibit_cookie;
 	GmpvMainWindow *gui;
+	GmpvMpris *mpris;
 };
 
 struct _GmpvApplicationClass

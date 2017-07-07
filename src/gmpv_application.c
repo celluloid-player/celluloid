@@ -219,7 +219,7 @@ static void initialize_gui(GmpvApplication *app)
 
 	if(g_settings_get_boolean(settings, "mpris-enable"))
 	{
-		gmpv_mpris_init(app);
+		app->mpris = gmpv_mpris_new(app);
 	}
 
 	if(g_settings_get_boolean(settings, "media-keys-enable"))
@@ -451,6 +451,7 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->action_queue = g_queue_new();
 	app->inhibit_cookie = 0;
 	app->gui = NULL;
+	app->mpris = NULL;
 
 	g_application_add_main_option
 		(	G_APPLICATION(app),
