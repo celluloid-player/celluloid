@@ -24,6 +24,7 @@
 #include "gmpv_model.h"
 #include "gmpv_view.h"
 #include "mpris/gmpv_mpris.h"
+#include "media_keys/gmpv_media_keys.h"
 
 G_BEGIN_DECLS
 
@@ -39,6 +40,7 @@ struct _GmpvApplication
 	guint inhibit_cookie;
 	GmpvMainWindow *gui;
 	GmpvMpris *mpris;
+	GmpvMediaKeys *media_keys;
 };
 
 struct _GmpvApplicationClass

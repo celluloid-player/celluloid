@@ -29,8 +29,6 @@
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_common.h"
 #include "gmpv_def.h"
-#include "mpris/gmpv_mpris.h"
-#include "media_keys/gmpv_media_keys.h"
 
 static void migrate_config(void);
 static void activate_action_string(GmpvApplication *app, const gchar *str);
@@ -224,7 +222,7 @@ static void initialize_gui(GmpvApplication *app)
 
 	if(g_settings_get_boolean(settings, "media-keys-enable"))
 	{
-		gmpv_media_keys_init(app);
+		app->media_keys = gmpv_media_keys_new(app);
 	}
 
 	g_object_unref(settings);
@@ -452,6 +450,7 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->inhibit_cookie = 0;
 	app->gui = NULL;
 	app->mpris = NULL;
+	app->media_keys = NULL;
 
 	g_application_add_main_option
 		(	G_APPLICATION(app),
