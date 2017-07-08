@@ -17,14 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <glib-object.h>
-#include <gtk/gtk.h>
-#include <gdk/gdk.h>
-
-#include "gmpv_application_private.h"
-#include "gmpv_main_window.h"
 #include "gmpv_media_keys.h"
-#include "gmpv_model.h"
+#include "gmpv_application_private.h"
 #include "gmpv_def.h"
 
 enum
@@ -64,11 +58,11 @@ static void get_property(	GObject *object,
 static gboolean window_state_handler( GtkWidget *widget,
 				      GdkEventWindowState *event,
 				      gpointer data );
-static void media_key_press_handler(	GDBusProxy *proxy,
-					gchar *sender_name,
-					gchar *signal_name,
-					GVariant *parameters,
-					gpointer data );
+static void g_signal_handler(	GDBusProxy *proxy,
+				gchar *sender_name,
+				gchar *signal_name,
+				GVariant *parameters,
+				gpointer data );
 static void proxy_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data );
@@ -153,32 +147,32 @@ static gboolean window_state_handler( GtkWidget *widget,
 				      GdkEventWindowState *event,
 				      gpointer data )
 {
-	GmpvMediaKeys *inst = data;
+	GmpvMediaKeys *self = data;
 
 	if (event->changed_mask & GDK_WINDOW_STATE_FOCUSED
 	    && event->new_window_state & GDK_WINDOW_STATE_FOCUSED
-	    && inst->proxy != NULL)
+	    && self->proxy != NULL)
 	{
-		g_dbus_proxy_call(	inst->proxy,
+		g_dbus_proxy_call(	self->proxy,
 					"GrabMediaPlayerKeys",
 					g_variant_new("(su)", APP_ID, 0),
 					G_DBUS_CALL_FLAGS_NONE,
 					-1,
 					NULL,
 					NULL,
-					inst );
+					self );
 	}
 
 	return FALSE;
 }
 
-static void media_key_press_handler(	GDBusProxy *proxy,
-					gchar *sender_name,
-					gchar *signal_name,
-					GVariant *parameters,
-					gpointer data )
+static void g_signal_handler(	GDBusProxy *proxy,
+				gchar *sender_name,
+				gchar *signal_name,
+				GVariant *parameters,
+				gpointer data )
 {
-	GmpvMediaKeys *inst = data;
+	GmpvMediaKeys *self = data;
 	gchar *gmpv_application = NULL;
 	gchar *key = NULL;
 
@@ -189,7 +183,7 @@ static void media_key_press_handler(	GDBusProxy *proxy,
 
 	if(g_strcmp0(gmpv_application, APP_ID) == 0)
 	{
-		GmpvModel *model = inst->app->model;
+		GmpvModel *model = self->app->model;
 
 		if(g_strcmp0(key, "Next") == 0)
 		{
@@ -229,15 +223,15 @@ static void proxy_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data )
 {
-	GmpvMediaKeys *inst = data;
+	GmpvMediaKeys *self = data;
 
-	inst->proxy = g_dbus_proxy_new_finish(res, NULL);
+	self->proxy = g_dbus_proxy_new_finish(res, NULL);
 
-	g_signal_connect(	inst->proxy,
+	g_signal_connect(	self->proxy,
 				"g-signal",
-				G_CALLBACK(media_key_press_handler),
-				inst );
-	g_dbus_proxy_call(	inst->proxy,
+				G_CALLBACK(g_signal_handler),
+				self );
+	g_dbus_proxy_call(	self->proxy,
 				"GrabMediaPlayerKeys",
 				g_variant_new("(su)", APP_ID, 0),
 				G_DBUS_CALL_FLAGS_NONE,
@@ -251,15 +245,15 @@ static void compat_proxy_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data )
 {
-	GmpvMediaKeys *inst = data;
+	GmpvMediaKeys *self = data;
 
-	inst->compat_proxy = g_dbus_proxy_new_finish(res, NULL);
+	self->compat_proxy = g_dbus_proxy_new_finish(res, NULL);
 
-	g_signal_connect(	inst->proxy,
+	g_signal_connect(	self->proxy,
 				"g-signal",
-				G_CALLBACK(media_key_press_handler),
-				inst );
-	g_dbus_proxy_call(	inst->compat_proxy,
+				G_CALLBACK(g_signal_handler),
+				self );
+	g_dbus_proxy_call(	self->compat_proxy,
 				"GrabMediaPlayerKeys",
 				g_variant_new("(su)", APP_ID, 0),
 				G_DBUS_CALL_FLAGS_NONE,
@@ -273,9 +267,9 @@ static void session_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data )
 {
-	GmpvMediaKeys *inst = data;
+	GmpvMediaKeys *self = data;
 
-	inst->session_bus_conn = g_bus_get_finish(res, NULL);
+	self->session_bus_conn = g_bus_get_finish(res, NULL);
 
 	/* The MediaKeys plugin for gnome-settings-daemon <= 3.24.1 used the
 	 * bus name org.gnome.SettingsDaemon despite the documentation stating
@@ -284,7 +278,7 @@ static void session_ready_handler(	GObject *source_object,
 	 * documentation. To remain compatible with older versions, create
 	 * proxies for both names.
 	 */
-	g_dbus_proxy_new(	inst->session_bus_conn,
+	g_dbus_proxy_new(	self->session_bus_conn,
 				G_DBUS_PROXY_FLAGS_NONE,
 				NULL,
 				"org.gnome.SettingsDaemon.MediaKeys",
@@ -292,8 +286,8 @@ static void session_ready_handler(	GObject *source_object,
 				"org.gnome.SettingsDaemon.MediaKeys",
 				NULL,
 				proxy_ready_handler,
-				inst );
-	g_dbus_proxy_new(	inst->session_bus_conn,
+				self );
+	g_dbus_proxy_new(	self->session_bus_conn,
 				G_DBUS_PROXY_FLAGS_NONE,
 				NULL,
 				"org.gnome.SettingsDaemon",
@@ -301,16 +295,16 @@ static void session_ready_handler(	GObject *source_object,
 				"org.gnome.SettingsDaemon.MediaKeys",
 				NULL,
 				compat_proxy_ready_handler,
-				inst );
+				self );
 }
 
-static void gmpv_media_keys_init(GmpvMediaKeys *media_keys)
+static void gmpv_media_keys_init(GmpvMediaKeys *self)
 {
-	media_keys->app = NULL;
-	media_keys->focus_sig_id = 0;
-	media_keys->proxy = NULL;
-	media_keys->compat_proxy = NULL;
-	media_keys->session_bus_conn = NULL;
+	self->app = NULL;
+	self->focus_sig_id = 0;
+	self->proxy = NULL;
+	self->compat_proxy = NULL;
+	self->session_bus_conn = NULL;
 }
 
 static void gmpv_media_keys_class_init(GmpvMediaKeysClass *klass)
