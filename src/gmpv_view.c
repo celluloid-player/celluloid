@@ -673,16 +673,10 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 		GmpvView *view;
 		GSettings *settings;
 		gboolean csd_enable;
-		gboolean dark_theme_enable;
-		gboolean always_floating;
 
 		view = data;
 		settings = g_settings_new(CONFIG_ROOT);
 		csd_enable = g_settings_get_boolean(settings, "csd-enable");
-		dark_theme_enable =	g_settings_get_boolean
-					(settings, "dark-theme-enable");
-		always_floating =	g_settings_get_boolean
-					(settings, "always-use-floating-controls");
 
 		if(gmpv_main_window_get_csd_enabled(view->wnd) != csd_enable)
 		{
@@ -695,15 +689,6 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 						"requires restarting to "
 						"take effect.") );
 		}
-
-		g_object_set(	gtk_settings_get_default(),
-				"gtk-application-prefer-dark-theme",
-				dark_theme_enable,
-				NULL );
-		g_object_set(	view->wnd,
-				"always-use-floating-controls",
-				always_floating,
-				NULL );
 
 		gtk_widget_queue_draw(GTK_WIDGET(view->wnd));
 		g_signal_emit_by_name(data, "preferences-updated");

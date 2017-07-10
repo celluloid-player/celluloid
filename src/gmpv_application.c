@@ -226,6 +226,17 @@ static void initialize_gui(GmpvApplication *app)
 				G_CALLBACK(media_keys_enable_handler),
 				app );
 
+	g_settings_bind(	app->settings,
+				"always-use-floating-controls",
+				app->gui,
+				"always-use-floating-controls",
+				G_SETTINGS_BIND_GET );
+	g_settings_bind(	app->settings,
+				"dark-theme-enable",
+				gtk_settings_get_default(),
+				"gtk-application-prefer-dark-theme",
+				G_SETTINGS_BIND_GET );
+
 	gmpv_application_action_add_actions(app);
 
 	if(g_settings_get_boolean(app->settings, "mpris-enable"))
