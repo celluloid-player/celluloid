@@ -73,6 +73,12 @@ Run the following command in the source code directory to build and install:
 ./autogen.sh && make && sudo make install
 ```
 
+When building from release tarballs, replace `./autogen.sh` with `./configure`:
+
+```sh
+./configure && make && sudo make install
+```
+
 Alternatively, you can use Meson:
 
 ```sh
