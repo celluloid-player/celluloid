@@ -23,27 +23,27 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 
-#include "gmpv_pref_dialog.h"
+#include "gmpv_preferences_dialog.h"
 #include "gmpv_plugins_manager.h"
 #include "gmpv_main_window.h"
 #include "gmpv_def.h"
 
-typedef struct PrefDialogItem PrefDialogItem;
-typedef enum PrefDialogItemType PrefDialogItemType;
+typedef struct PreferencesDialogItem PreferencesDialogItem;
+typedef enum PreferencesDialogItemType PreferencesDialogItemType;
 
-struct _GmpvPrefDialog
+struct _GmpvPreferencesDialog
 {
 	GtkDialog parent_instance;
 	GSettings *settings;
 	GtkWidget *notebook;
 };
 
-struct _GmpvPrefDialogClass
+struct _GmpvPreferencesDialogClass
 {
 	GtkDialogClass parent_class;
 };
 
-enum PrefDialogItemType
+enum PreferencesDialogItemType
 {
 	ITEM_TYPE_INVALID,
 	ITEM_TYPE_GROUP,
@@ -53,19 +53,19 @@ enum PrefDialogItemType
 	ITEM_TYPE_TEXT_BOX
 };
 
-struct PrefDialogItem
+struct PreferencesDialogItem
 {
 	const gchar *label;
 	const gchar *key;
-	PrefDialogItemType type;
+	PreferencesDialogItemType type;
 };
 
-G_DEFINE_TYPE(GmpvPrefDialog, gmpv_pref_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE(GmpvPreferencesDialog, gmpv_preferences_dialog, GTK_TYPE_DIALOG)
 
 static void file_set_handler(GtkFileChooserButton *widget, gpointer data)
 {
 	GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(widget));
-	GmpvPrefDialog *dlg = GMPV_PREF_DIALOG(toplevel);
+	GmpvPreferencesDialog *dlg = GMPV_PREFERENCES_DIALOG(toplevel);
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER(widget);
 	const gchar *key = data;
 	gchar *filename = gtk_file_chooser_get_filename(chooser)?:g_strdup("");
@@ -77,7 +77,7 @@ static void file_set_handler(GtkFileChooserButton *widget, gpointer data)
 
 static void response_handler(GtkDialog *dialog, gint response_id)
 {
-	GmpvPrefDialog *dlg = GMPV_PREF_DIALOG(dialog);
+	GmpvPreferencesDialog *dlg = GMPV_PREFERENCES_DIALOG(dialog);
 
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
@@ -109,11 +109,12 @@ static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event)
 		gtk_dialog_response(GTK_DIALOG(widget), GTK_RESPONSE_ACCEPT);
 	}
 
-	return	GTK_WIDGET_CLASS(gmpv_pref_dialog_parent_class)
+	return	GTK_WIDGET_CLASS(gmpv_preferences_dialog_parent_class)
 		->key_press_event(widget, event);
 }
 
-static GtkWidget *build_page(const PrefDialogItem *items, GSettings *settings)
+static GtkWidget *build_page(	const PreferencesDialogItem *items,
+				GSettings *settings )
 {
 	GtkWidget *grid = gtk_grid_new();
 
@@ -125,7 +126,7 @@ static GtkWidget *build_page(const PrefDialogItem *items, GSettings *settings)
 	{
 		const gchar *label = items[i].label;
 		const gchar *key = items[i].key;
-		const PrefDialogItemType type = items[i].type;
+		const PreferencesDialogItemType type = items[i].type;
 		GtkWidget *widget = NULL;
 		gboolean separate_label = FALSE;
 		gint width = 1;
@@ -253,7 +254,7 @@ static GtkWidget *build_page(const PrefDialogItem *items, GSettings *settings)
 	return grid;
 }
 
-static void pref_dialog_constructed(GObject *obj)
+static void preferences_dialog_constructed(GObject *obj)
 {
 	gboolean csd_enabled;
 
@@ -261,28 +262,31 @@ static void pref_dialog_constructed(GObject *obj)
 
 	if(!csd_enabled)
 	{
-		GtkWidget *content_area =	gtk_dialog_get_content_area
-						(GTK_DIALOG(obj));
+		GtkWidget *content_area;
+		GtkWidget *notebook;
+
+		content_area = gtk_dialog_get_content_area(GTK_DIALOG(obj));
+		notebook = GMPV_PREFERENCES_DIALOG(obj)->notebook;
 
 		gtk_widget_set_margin_bottom(content_area, 12);
-		gtk_widget_set_margin_bottom(GMPV_PREF_DIALOG(obj)->notebook, 6);
+		gtk_widget_set_margin_bottom(notebook, 6);
 	}
 
-	G_OBJECT_CLASS(gmpv_pref_dialog_parent_class)->constructed(obj);
+	G_OBJECT_CLASS(gmpv_preferences_dialog_parent_class)->constructed(obj);
 }
 
-static void gmpv_pref_dialog_class_init(GmpvPrefDialogClass *klass)
+static void gmpv_preferences_dialog_class_init(GmpvPreferencesDialogClass *klass)
 {
 	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
 
 	wid_class->key_press_event = key_press_handler;
 	GTK_DIALOG_CLASS(klass)->response = response_handler;
-	G_OBJECT_CLASS(klass)->constructed = pref_dialog_constructed;
+	G_OBJECT_CLASS(klass)->constructed = preferences_dialog_constructed;
 }
 
-static void gmpv_pref_dialog_init(GmpvPrefDialog *dlg)
+static void gmpv_preferences_dialog_init(GmpvPreferencesDialog *dlg)
 {
-	const PrefDialogItem general_items[]
+	const PreferencesDialogItem general_items[]
 		= {	{_("<b>User Interface</b>"),
 			NULL,
 			ITEM_TYPE_GROUP},
@@ -378,7 +382,7 @@ static void gmpv_pref_dialog_init(GmpvPrefDialog *dlg)
 
 }
 
-GtkWidget *gmpv_pref_dialog_new(GtkWindow *parent)
+GtkWidget *gmpv_preferences_dialog_new(GtkWindow *parent)
 {
 	GtkWidget *dlg;
 	GtkWidget *header_bar;
@@ -386,7 +390,7 @@ GtkWidget *gmpv_pref_dialog_new(GtkWindow *parent)
 
 	csd_enabled = gmpv_main_window_get_csd_enabled(GMPV_MAIN_WINDOW(parent));
 
-	dlg = g_object_new(	gmpv_pref_dialog_get_type(),
+	dlg = g_object_new(	gmpv_preferences_dialog_get_type(),
 				"title", _("Preferences"),
 				"modal", TRUE,
 				"transient-for", parent,

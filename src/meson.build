@@ -20,7 +20,7 @@ sources = [
   'gmpv_playlist_widget.c',
   'gmpv_plugins_manager.c',
   'gmpv_plugins_manager_item.c',
-  'gmpv_pref_dialog.c',
+  'gmpv_preferences_dialog.c',
   'gmpv_seek_bar.c',
   'gmpv_shortcuts_window.c',
   'gmpv_video_area.c',

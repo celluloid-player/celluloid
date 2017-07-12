@@ -22,7 +22,7 @@
 #include "gmpv_view.h"
 #include "gmpv_file_chooser.h"
 #include "gmpv_open_location_dialog.h"
-#include "gmpv_pref_dialog.h"
+#include "gmpv_preferences_dialog.h"
 #include "gmpv_shortcuts_window.h"
 #include "gmpv_authors.h"
 #include "gmpv_marshal.h"
@@ -1381,14 +1381,14 @@ void gmpv_view_show_save_playlist_dialog(GmpvView *view)
 
 void gmpv_view_show_preferences_dialog(GmpvView *view)
 {
-	GtkWidget *pref_dialog = gmpv_pref_dialog_new(GTK_WINDOW(view->wnd));
+	GtkWidget *dialog = gmpv_preferences_dialog_new(GTK_WINDOW(view->wnd));
 
-	g_signal_connect_after(	pref_dialog,
+	g_signal_connect_after(	dialog,
 				"response",
 				G_CALLBACK(preferences_dialog_response_handler),
 				view );
 
-	gtk_widget_show_all(pref_dialog);
+	gtk_widget_show_all(dialog);
 }
 
 void gmpv_view_show_shortcuts_dialog(GmpvView *view)

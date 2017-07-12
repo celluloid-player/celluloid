@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 gnome-mpv
+ * Copyright (c) 2014-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -17,8 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PREF_DIALOG_H
-#define PREF_DIALOG_H
+#ifndef PREFERENCES_DIALOG_H
+#define PREFERENCES_DIALOG_H
 
 #include <glib.h>
 #include <glib-object.h>
@@ -26,11 +26,11 @@
 
 G_BEGIN_DECLS
 
-#define GMPV_TYPE_PREF_DIALOG (gmpv_pref_dialog_get_type ())
+#define GMPV_TYPE_PREFERENCES_DIALOG (gmpv_preferences_dialog_get_type ())
 
-G_DECLARE_FINAL_TYPE(GmpvPrefDialog, gmpv_pref_dialog, GMPV, PREF_DIALOG, GtkDialog)
+G_DECLARE_FINAL_TYPE(GmpvPreferencesDialog, gmpv_preferences_dialog, GMPV, PREFERENCES_DIALOG, GtkDialog)
 
-GtkWidget *gmpv_pref_dialog_new(GtkWindow *parent);
+GtkWidget *gmpv_preferences_dialog_new(GtkWindow *parent);
 
 G_END_DECLS
 

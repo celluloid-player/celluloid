@@ -60,7 +60,7 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_playlist_widget.c gmpv_playlist_widget.h \
 			gmpv_plugins_manager.c gmpv_plugins_manager.h \
 			gmpv_plugins_manager_item.c gmpv_plugins_manager_item.h \
-			gmpv_pref_dialog.c gmpv_pref_dialog.h \
+			gmpv_preferences_dialog.c gmpv_preferences_dialog.h \
 			gmpv_seek_bar.c gmpv_seek_bar.h \
 			gmpv_video_area.c gmpv_video_area.h \
 			gmpv_view.c gmpv_view.h \
