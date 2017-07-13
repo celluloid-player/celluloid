@@ -28,6 +28,7 @@
 #include "gmpv_mpris_base.h"
 #include "gmpv_mpris_player.h"
 #include "gmpv_mpris_track_list.h"
+#include "gmpv_application_private.h"
 #include "gmpv_def.h"
 
 enum
@@ -163,7 +164,7 @@ static void name_acquired_handler(	GDBusConnection *connection,
 	self->session_bus_conn = connection;
 	self->base = gmpv_mpris_base_new(self->app->controller, connection);
 	self->player = gmpv_mpris_player_new(self->app->controller, connection);
-	self->track_list = gmpv_mpris_track_list_new(self->app, connection);
+	self->track_list = gmpv_mpris_track_list_new(self->app->controller, connection);
 
 	gmpv_mpris_module_register(self->base);
 	gmpv_mpris_module_register(self->player);

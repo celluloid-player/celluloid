@@ -22,7 +22,7 @@
 #define MPRIS_TRACK_LIST_H
 
 #include "gmpv_mpris_module.h"
-#include "gmpv_application_private.h"
+#include "gmpv_controller.h"
 
 #include <glib-object.h>
 
@@ -31,7 +31,7 @@ G_BEGIN_DECLS
 #define GMPV_TYPE_MPRIS_TRACK_LIST (gmpv_mpris_track_list_get_type())
 G_DECLARE_FINAL_TYPE(GmpvMprisTrackList, gmpv_mpris_track_list, GMPV, MPRIS_TRACK_LIST, GmpvMprisModule)
 
-GmpvMprisModule *gmpv_mpris_track_list_new(	GmpvApplication *app,
+GmpvMprisModule *gmpv_mpris_track_list_new(	GmpvController *controller,
 						GDBusConnection *conn );
 
 G_END_DECLS

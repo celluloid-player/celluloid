@@ -27,14 +27,14 @@
 enum
 {
 	PROP_0,
-	PROP_APP,
+	PROP_CONTROLLER,
 	N_PROPERTIES
 };
 
 struct _GmpvMprisTrackList
 {
 	GmpvMprisModule parent;
-	GmpvApplication *app;
+	GmpvController *controller;
 	guint reg_id;
 };
 
@@ -94,7 +94,7 @@ G_DEFINE_TYPE(GmpvMprisTrackList, gmpv_mpris_track_list, GMPV_TYPE_MPRIS_MODULE)
 static void register_interface(GmpvMprisModule *module)
 {
 	GmpvMprisTrackList *track_list = GMPV_MPRIS_TRACK_LIST(module);
-	GmpvModel *model = track_list->app->model;
+	GmpvModel *model = gmpv_controller_get_model(track_list->controller);
 	GDBusConnection *conn;
 	GDBusInterfaceInfo *iface;
 	GDBusInterfaceVTable vtable;
@@ -147,8 +147,8 @@ static void set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		self->app = g_value_get_pointer(value);
+		case PROP_CONTROLLER:
+		self->controller = g_value_get_pointer(value);
 		break;
 
 		default:
@@ -166,8 +166,8 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		g_value_set_pointer(value, self->app);
+		case PROP_CONTROLLER:
+		g_value_set_pointer(value, self->controller);
 		break;
 
 		default:
@@ -185,7 +185,8 @@ static void method_handler(	GDBusConnection *connection,
 				GDBusMethodInvocation *invocation,
 				gpointer data )
 {
-	GmpvModel *model = GMPV_MPRIS_TRACK_LIST(data)->app->model;
+	GmpvMprisTrackList *track_list = data;
+	GmpvModel *model = gmpv_controller_get_model(track_list->controller);
 	GVariant *return_value = NULL;
 
 	if(g_strcmp0(method_name, "GetTracksMetadata") == 0)
@@ -298,6 +299,7 @@ static void playlist_handler(	GObject *object,
 
 static void update_playlist(GmpvMprisTrackList *track_list)
 {
+	GmpvModel *model = gmpv_controller_get_model(track_list->controller);
 	gint64 playlist_pos = -1;
 	guint playlist_count = 0;
 	GPtrArray *playlist = NULL;
@@ -308,7 +310,7 @@ static void update_playlist(GmpvMprisTrackList *track_list)
 	GVariant *signal_params = NULL;
 	GVariantBuilder builder;
 
-	g_object_get(	G_OBJECT(track_list->app->model),
+	g_object_get(	G_OBJECT(model),
 			"playlist-pos", &playlist_pos,
 			"playlist", &playlist,
 			NULL );
@@ -480,20 +482,20 @@ static void gmpv_mpris_track_list_class_init(GmpvMprisTrackListClass *klass)
 	module_class->unregister_interface = unregister_interface;
 
 	pspec = g_param_spec_pointer
-		(	"app",
-			"Application",
-			"The GmpvApplication to use",
+		(	"controller",
+			"Controller",
+			"The GmpvController to use",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_APP, pspec);
+	g_object_class_install_property(object_class, PROP_CONTROLLER, pspec);
 }
 
 static void gmpv_mpris_track_list_init(GmpvMprisTrackList *track_list)
 {
-	track_list->app = NULL;
+	track_list->controller = NULL;
 	track_list->reg_id = 0;
 }
 
-GmpvMprisModule *gmpv_mpris_track_list_new(	GmpvApplication *app,
+GmpvMprisModule *gmpv_mpris_track_list_new(	GmpvController *controller,
 						GDBusConnection *conn )
 {
 	GDBusInterfaceInfo *iface;
@@ -501,7 +503,7 @@ GmpvMprisModule *gmpv_mpris_track_list_new(	GmpvApplication *app,
 
 	iface = gmpv_mpris_org_mpris_media_player2_track_list_interface_info();
 	object = g_object_new(	gmpv_mpris_track_list_get_type(),
-				"app", app,
+				"controller", controller,
 				"conn", conn,
 				"iface", iface,
 				NULL );
