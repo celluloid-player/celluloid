@@ -12,7 +12,6 @@ capabilities.
 - autoconf >= 2.69<sup>[[1]](#note1)</sup> (build)
 - autoconf-archive<sup>[[1]](#note1)</sup> (build)
 - automake >= 1.12<sup>[[1]](#note1)</sup> (build)
-- python2<sup>[[1]](#note1)</sup> (build)
 - pkg-config (build)
 - gcc (build)
 - glib >= 2.44
