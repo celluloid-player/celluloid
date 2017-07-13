@@ -20,7 +20,7 @@
 #ifndef MEDIA_KEYS_H
 #define MEDIA_KEYS_H
 
-#include "gmpv_application.h"
+#include "gmpv_controller.h"
 
 G_BEGIN_DECLS
 
@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(GmpvMediaKeys, gmpv_media_keys, GMPV, MEDIA_KEYS, GObject)
 
-GmpvMediaKeys *gmpv_media_keys_new(GmpvApplication *app);
+GmpvMediaKeys *gmpv_media_keys_new(GmpvController *controller);
 
 G_END_DECLS
 

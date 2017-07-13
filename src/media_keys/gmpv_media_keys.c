@@ -18,20 +18,19 @@
  */
 
 #include "gmpv_media_keys.h"
-#include "gmpv_application_private.h"
 #include "gmpv_def.h"
 
 enum
 {
 	PROP_0,
-	PROP_APP,
+	PROP_CONTROLLER,
 	N_PROPERTIES
 };
 
 struct _GmpvMediaKeys
 {
 	GObject parent;
-	GmpvApplication *app;
+	GmpvController *controller;
 	gulong focus_sig_id;
 	GDBusProxy *proxy;
 	GDBusProxy *compat_proxy;
@@ -76,9 +75,10 @@ static void session_ready_handler(	GObject *source_object,
 static void constructed(GObject *object)
 {
 	GmpvMediaKeys *self = GMPV_MEDIA_KEYS(object);
+	GmpvView *view = gmpv_controller_get_view(self->controller);
 
 	self->focus_sig_id =	g_signal_connect
-				(	self->app->gui,
+				(	gmpv_view_get_main_window(view),
 					"window-state-event",
 					G_CALLBACK(window_state_handler),
 					self );
@@ -89,10 +89,12 @@ static void constructed(GObject *object)
 static void dispose(GObject *object)
 {
 	GmpvMediaKeys *self = GMPV_MEDIA_KEYS(object);
+	GmpvView *view = gmpv_controller_get_view(self->controller);
+	GmpvMainWindow *window = gmpv_view_get_main_window(view);
 
 	if(self->focus_sig_id > 0)
 	{
-		g_signal_handler_disconnect(self->app->gui, self->focus_sig_id);
+		g_signal_handler_disconnect(window, self->focus_sig_id);
 		self->focus_sig_id = 0;
 	}
 
@@ -112,8 +114,8 @@ static void set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		self->app = g_value_get_pointer(value);
+		case PROP_CONTROLLER:
+		self->controller = g_value_get_pointer(value);
 		break;
 
 		default:
@@ -133,8 +135,8 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		g_value_set_pointer(value, self->app);
+		case PROP_CONTROLLER:
+		g_value_set_pointer(value, self->controller);
 		break;
 
 		default:
@@ -183,7 +185,7 @@ static void g_signal_handler(	GDBusProxy *proxy,
 
 	if(g_strcmp0(gmpv_application, APP_ID) == 0)
 	{
-		GmpvModel *model = self->app->model;
+		GmpvModel *model = gmpv_controller_get_model(self->controller);
 
 		if(g_strcmp0(key, "Next") == 0)
 		{
@@ -300,7 +302,7 @@ static void session_ready_handler(	GObject *source_object,
 
 static void gmpv_media_keys_init(GmpvMediaKeys *self)
 {
-	self->app = NULL;
+	self->controller = NULL;
 	self->focus_sig_id = 0;
 	self->proxy = NULL;
 	self->compat_proxy = NULL;
@@ -318,16 +320,16 @@ static void gmpv_media_keys_class_init(GmpvMediaKeysClass *klass)
 	object_class->dispose = dispose;
 
 	pspec = g_param_spec_pointer
-		(	"app",
-			"App",
-			"The GmpvApplication to use",
+		(	"controller",
+			"Controller",
+			"The GmpvController to use",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_APP, pspec);
+	g_object_class_install_property(object_class, PROP_CONTROLLER, pspec);
 }
 
-GmpvMediaKeys *gmpv_media_keys_new(GmpvApplication *app)
+GmpvMediaKeys *gmpv_media_keys_new(GmpvController *controller)
 {
 	return GMPV_MEDIA_KEYS(g_object_new(	gmpv_media_keys_get_type(),
-						"app", app,
+						"controller", controller,
 						NULL ));
 }

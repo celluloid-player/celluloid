@@ -239,7 +239,7 @@ static void initialize_gui(GmpvApplication *app)
 
 	if(g_settings_get_boolean(app->settings, "media-keys-enable"))
 	{
-		app->media_keys = gmpv_media_keys_new(app);
+		app->media_keys = gmpv_media_keys_new(app->controller);
 	}
 }
 
@@ -267,7 +267,7 @@ static void media_keys_enable_handler(	GSettings *settings,
 
 	if(!app->media_keys && g_settings_get_boolean(settings, key))
 	{
-		app->media_keys = gmpv_media_keys_new(app);
+		app->media_keys = gmpv_media_keys_new(app->controller);
 	}
 	else if(app->media_keys)
 	{
