@@ -169,9 +169,9 @@ static void name_acquired_handler(	GDBusConnection *connection,
 	self->player = gmpv_mpris_player_new(self->app, connection);
 	self->track_list = gmpv_mpris_track_list_new(self->app, connection);
 
-	gmpv_mpris_module_register_interface(self->base);
-	gmpv_mpris_module_register_interface(self->player);
-	gmpv_mpris_module_register_interface(self->track_list);
+	gmpv_mpris_module_register(self->base);
+	gmpv_mpris_module_register(self->player);
+	gmpv_mpris_module_register(self->track_list);
 }
 
 static void name_lost_handler(	GDBusConnection *connection,
@@ -183,9 +183,9 @@ static void name_lost_handler(	GDBusConnection *connection,
 
 static void unregister(GmpvMpris *mpris)
 {
-	gmpv_mpris_module_unregister_interface(mpris->base);
-	gmpv_mpris_module_unregister_interface(mpris->player);
-	gmpv_mpris_module_unregister_interface(mpris->track_list);
+	gmpv_mpris_module_unregister(mpris->base);
+	gmpv_mpris_module_unregister(mpris->player);
+	gmpv_mpris_module_unregister(mpris->track_list);
 }
 
 static void gmpv_mpris_init(GmpvMpris *mpris)

@@ -281,7 +281,7 @@ void gmpv_mpris_module_set_properties_full(	GmpvMprisModule *module,
 			NULL );
 }
 
-void gmpv_mpris_module_register_interface(GmpvMprisModule *module)
+void gmpv_mpris_module_register(GmpvMprisModule *module)
 {
 	if(module)
 	{
@@ -295,7 +295,7 @@ void gmpv_mpris_module_register_interface(GmpvMprisModule *module)
 	}
 }
 
-void gmpv_mpris_module_unregister_interface(GmpvMprisModule *module)
+void gmpv_mpris_module_unregister(GmpvMprisModule *module)
 {
 	if(module)
 	{

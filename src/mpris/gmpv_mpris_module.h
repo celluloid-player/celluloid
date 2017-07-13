@@ -46,8 +46,8 @@ void gmpv_mpris_module_get_properties(GmpvMprisModule *module, ...);
 void gmpv_mpris_module_set_properties_full(	GmpvMprisModule *module,
 						gboolean send_new_value,
 						... );
-void gmpv_mpris_module_register_interface(GmpvMprisModule *module);
-void gmpv_mpris_module_unregister_interface(GmpvMprisModule *module);
+void gmpv_mpris_module_register(GmpvMprisModule *module);
+void gmpv_mpris_module_unregister(GmpvMprisModule *module);
 
 G_END_DECLS
 
