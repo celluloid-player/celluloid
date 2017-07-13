@@ -175,19 +175,12 @@ static void update_track_id(	GmpvApplication *app,
 
 static void initialize_gui(GmpvApplication *app)
 {
-	gboolean always_floating;
-	gint64 wid;
-
-	always_floating =	g_settings_get_boolean
-				(app->settings, "always-use-floating-controls");
-
 	migrate_config();
 
-	app->view = gmpv_view_new(app, always_floating);
+	app->controller = gmpv_controller_new(app);
+	app->view = gmpv_controller_get_view(app->controller);
 	app->gui = gmpv_view_get_main_window(app->view);
-	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(app->gui));
-	app->model = gmpv_model_new(wid);
-	app->controller = gmpv_controller_new(app->model, app->view);
+	app->model = gmpv_controller_get_model(app->controller);
 
 	g_unix_signal_add(SIGHUP, shutdown_signal_handler, app);
 	g_unix_signal_add(SIGINT, shutdown_signal_handler, app);

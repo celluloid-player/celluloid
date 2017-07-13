@@ -28,8 +28,7 @@ G_BEGIN_DECLS
 enum
 {
 	PROP_0,
-	PROP_MODEL,
-	PROP_VIEW,
+	PROP_APP,
 	PROP_AID,
 	PROP_VID,
 	PROP_SID,
@@ -42,6 +41,7 @@ enum
 struct _GmpvController
 {
 	GObject parent;
+	GmpvApplication *app;
 	GmpvModel *model;
 	GmpvView *view;
 	gint aid;

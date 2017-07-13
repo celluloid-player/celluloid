@@ -115,10 +115,26 @@ G_DEFINE_TYPE(GmpvController, gmpv_controller, G_TYPE_OBJECT)
 
 static void constructed(GObject *object)
 {
-	GmpvController *controller = GMPV_CONTROLLER(object);
+	GmpvController *controller;
+	GSettings *settings;
+	GmpvMainWindow *window;
+	gboolean always_floating;
+	gint64 wid;
+
+	controller = GMPV_CONTROLLER(object);
+	settings = g_settings_new(CONFIG_ROOT);
+	always_floating =	g_settings_get_boolean
+				(settings, "always-use-floating-controls");
+
+	controller->view = gmpv_view_new(controller->app, always_floating);
+	window = gmpv_view_get_main_window(controller->view);
+	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(window));
+	controller->model = gmpv_model_new(wid);
 
 	connect_signals(controller);
 	gmpv_controller_input_connect_signals(controller);
+
+	g_object_unref(settings);
 }
 
 static void set_property(	GObject *object,
@@ -130,12 +146,8 @@ static void set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_MODEL:
-		self->model = g_value_get_pointer(value);
-		break;
-
-		case PROP_VIEW:
-		self->view = g_value_get_pointer(value);
+		case PROP_APP:
+		self->app = g_value_get_pointer(value);
 		break;
 
 		case PROP_READY:
@@ -177,12 +189,8 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_MODEL:
-		g_value_set_pointer(value, self->model);
-		break;
-
-		case PROP_VIEW:
-		g_value_set_pointer(value, self->view);
+		case PROP_APP:
+		g_value_set_pointer(value, self->app);
 		break;
 
 		case PROP_READY:
@@ -761,18 +769,11 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 	obj_class->get_property = get_property;
 
 	pspec = g_param_spec_pointer
-		(	"model",
-			"Model",
-			"The GmpvModel to use",
+		(	"app",
+			"App",
+			"The GmpvApplication to use",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_MODEL, pspec);
-
-	pspec = g_param_spec_pointer
-		(	"view",
-			"View",
-			"The GmpvView to use",
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_VIEW, pspec);
+	g_object_class_install_property(obj_class, PROP_APP, pspec);
 
 	pspec = g_param_spec_int
 		(	"aid",
@@ -851,6 +852,7 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 
 static void gmpv_controller_init(GmpvController *controller)
 {
+	controller->app = NULL;
 	controller->model = NULL;
 	controller->view = NULL;
 	controller->aid = 0;
@@ -866,11 +868,10 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->update_seekbar_id = 0;
 }
 
-GmpvController *gmpv_controller_new(GmpvModel *model, GmpvView *view)
+GmpvController *gmpv_controller_new(GmpvApplication *app)
 {
 	return GMPV_CONTROLLER(g_object_new(	gmpv_controller_get_type(),
-						"model", model,
-						"view", view,
+						"app", app,
 						NULL ));
 }
 
@@ -913,3 +914,14 @@ void gmpv_controller_open(	GmpvController *controller,
 {
 	gmpv_model_load_file(controller->model, uri, append);
 }
+
+GmpvView *gmpv_controller_get_view(GmpvController *controller)
+{
+	return controller->view;
+}
+
+GmpvModel *gmpv_controller_get_model(GmpvController *controller)
+{
+	return controller->model;
+}
+
