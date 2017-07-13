@@ -32,14 +32,11 @@ struct _GmpvApplication
 {
 	GtkApplication parent;
 	GmpvController *controller;
-	GmpvModel *model;
-	GmpvView *view;
 	gboolean enqueue;
 	gboolean no_existing_session;
 	GQueue *action_queue;
 	guint inhibit_cookie;
 	GSettings *settings;
-	GmpvMainWindow *gui;
 	GmpvMpris *mpris;
 	GmpvMediaKeys *media_keys;
 };

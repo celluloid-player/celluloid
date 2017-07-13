@@ -203,7 +203,7 @@ static void show_open_dialog_handler(	GSimpleAction *action,
 	gboolean append = g_variant_get_boolean(param);
 
 	gmpv_view_show_open_dialog
-		(GMPV_APPLICATION(data)->view, append);
+		(gmpv_controller_get_view(data), append);
 }
 
 static void show_open_location_dialog_handler(	GSimpleAction *action,
@@ -213,7 +213,7 @@ static void show_open_location_dialog_handler(	GSimpleAction *action,
 	gboolean append = g_variant_get_boolean(param);
 
 	gmpv_view_show_open_location_dialog
-		(GMPV_APPLICATION(data)->view, append);
+		(gmpv_controller_get_view(data), append);
 }
 
 static void toggle_loop_handler(	GSimpleAction *action,
@@ -227,14 +227,14 @@ static void show_shortcuts_dialog_handler(	GSimpleAction *action,
 						GVariant *param,
 						gpointer data )
 {
-	gmpv_view_show_shortcuts_dialog(GMPV_APPLICATION(data)->view);
+	gmpv_view_show_shortcuts_dialog(gmpv_controller_get_view(data));
 }
 
 static void toggle_controls_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvView *view = GMPV_APPLICATION(data)->view;
+	GmpvView *view = gmpv_controller_get_view(data);
 	gboolean visible = gmpv_view_get_controls_visible(view);
 
 	gmpv_view_set_controls_visible(view, !visible);
@@ -244,7 +244,7 @@ static void toggle_playlist_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvView *view = GMPV_APPLICATION(data)->view;
+	GmpvView *view = gmpv_controller_get_view(data);
 	gboolean visible = gmpv_view_get_playlist_visible(view);
 
 	gmpv_view_set_playlist_visible(view, !visible);
@@ -254,14 +254,15 @@ static void save_playlist_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	gmpv_view_show_save_playlist_dialog(GMPV_APPLICATION(data)->view);
+	gmpv_view_show_save_playlist_dialog(gmpv_controller_get_view(data));
 }
 
 static void remove_selected_playlist_item_handler(	GSimpleAction *action,
 							GVariant *param,
 							gpointer data )
 {
-	GmpvMainWindow *wnd = GMPV_APPLICATION(data)->gui;
+	GmpvView *view = gmpv_controller_get_view(data);
+	GmpvMainWindow *wnd = gmpv_view_get_main_window(view);
 
 	if(gmpv_main_window_get_playlist_visible(wnd))
 	{
@@ -277,7 +278,7 @@ static void show_preferences_dialog_handler(	GSimpleAction *action,
 						GVariant *param,
 						gpointer data )
 {
-	gmpv_view_show_preferences_dialog(GMPV_APPLICATION(data)->view);
+	gmpv_view_show_preferences_dialog(gmpv_controller_get_view(data));
 }
 
 static void quit_handler(	GSimpleAction *action,
@@ -312,18 +313,18 @@ static void load_track_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	GmpvApplication *app = data;
+	GmpvView *view = gmpv_controller_get_view(data);
 	gchar *cmd_name = NULL;
 
 	g_variant_get(param, "s", &cmd_name);
 
 	if(g_strcmp0(cmd_name, "audio-add") == 0)
 	{
-		gmpv_view_show_open_audio_track_dialog(app->view);
+		gmpv_view_show_open_audio_track_dialog(view);
 	}
 	else if(g_strcmp0(cmd_name, "sub-add") == 0)
 	{
-		gmpv_view_show_open_subtitle_track_dialog(app->view);
+		gmpv_view_show_open_subtitle_track_dialog(view);
 	}
 	else
 	{
@@ -337,7 +338,7 @@ static void toggle_fullscreen_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	GmpvView *view = GMPV_APPLICATION(data)->view;
+	GmpvView *view = gmpv_controller_get_view(data);
 	gboolean fullscreen = FALSE;
 
 	g_object_get(view, "fullscreen", &fullscreen, NULL);
@@ -348,14 +349,14 @@ static void enter_fullscreen_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	gmpv_view_set_fullscreen(GMPV_APPLICATION(data)->view, TRUE);
+	gmpv_view_set_fullscreen(gmpv_controller_get_view(data), TRUE);
 }
 
 static void leave_fullscreen_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	gmpv_view_set_fullscreen(GMPV_APPLICATION(data)->view, FALSE);
+	gmpv_view_set_fullscreen(gmpv_controller_get_view(data), FALSE);
 }
 
 static void set_video_size_handler(	GSimpleAction *action,
@@ -371,7 +372,7 @@ static void show_about_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
-	gmpv_view_show_about_dialog(GMPV_APPLICATION(data)->view);
+	gmpv_view_show_about_dialog(gmpv_controller_get_view(data));
 }
 
 void gmpv_application_action_add_actions(GmpvApplication *app)
@@ -430,7 +431,7 @@ void gmpv_application_action_add_actions(GmpvApplication *app)
 	g_action_map_add_action_entries(	G_ACTION_MAP(app),
 						entries,
 						G_N_ELEMENTS(entries),
-						app );
+						app->controller );
 
 	bind_properties(app);
 }

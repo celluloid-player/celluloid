@@ -175,12 +175,12 @@ static void update_track_id(	GmpvApplication *app,
 
 static void initialize_gui(GmpvApplication *app)
 {
+	GmpvView *view;
+
 	migrate_config();
 
 	app->controller = gmpv_controller_new(app);
-	app->view = gmpv_controller_get_view(app->controller);
-	app->gui = gmpv_view_get_main_window(app->view);
-	app->model = gmpv_controller_get_model(app->controller);
+	view = gmpv_controller_get_view(app->controller);
 
 	g_unix_signal_add(SIGHUP, shutdown_signal_handler, app);
 	g_unix_signal_add(SIGINT, shutdown_signal_handler, app);
@@ -221,7 +221,7 @@ static void initialize_gui(GmpvApplication *app)
 
 	g_settings_bind(	app->settings,
 				"always-use-floating-controls",
-				app->gui,
+				gmpv_view_get_main_window(view),
 				"always-use-floating-controls",
 				G_SETTINGS_BIND_GET );
 	g_settings_bind(	app->settings,
@@ -287,7 +287,7 @@ static void activate_handler(GApplication *gapp, gpointer data)
 {
 	GmpvApplication *app = data;
 
-	if(!app->gui)
+	if(!app->controller)
 	{
 		initialize_gui(app);
 	}
@@ -374,7 +374,7 @@ static gint command_line_handler(	GApplication *gapp,
 				(cli, argv[i+1]);
 	}
 
-	if(n_files == 0 || !GMPV_APPLICATION(gapp)->gui)
+	if(n_files == 0 || !GMPV_APPLICATION(gapp)->controller)
 	{
 		g_application_activate(gapp);
 	}
@@ -448,10 +448,13 @@ static void idle_handler(	GObject *object,
 
 	if(!idle && app->inhibit_cookie == 0)
 	{
+		GmpvView *view = gmpv_controller_get_view(app->controller);
+		GmpvMainWindow *window = gmpv_view_get_main_window(view);
+
 		app->inhibit_cookie
 			= gtk_application_inhibit
 				(	GTK_APPLICATION(app),
-					GTK_WINDOW(app->gui),
+					GTK_WINDOW(window),
 					GTK_APPLICATION_INHIBIT_IDLE,
 					_("Playing") );
 	}
@@ -493,7 +496,6 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->action_queue = g_queue_new();
 	app->inhibit_cookie = 0;
 	app->settings = g_settings_new(CONFIG_ROOT);
-	app->gui = NULL;
 	app->mpris = NULL;
 	app->media_keys = NULL;
 
