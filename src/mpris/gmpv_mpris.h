@@ -23,7 +23,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 
-#include "gmpv_application.h"
+#include "gmpv_controller.h"
 
 G_BEGIN_DECLS
 
@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(GmpvMpris, gmpv_mpris, GMPV, MPRIS, GObject)
 
 GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list);
-GmpvMpris *gmpv_mpris_new(GmpvApplication *gmpv_ctx);
+GmpvMpris *gmpv_mpris_new(GmpvController *controller);
 
 G_END_DECLS
 

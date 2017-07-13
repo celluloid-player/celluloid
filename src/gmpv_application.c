@@ -234,7 +234,7 @@ static void initialize_gui(GmpvApplication *app)
 
 	if(g_settings_get_boolean(app->settings, "mpris-enable"))
 	{
-		app->mpris = gmpv_mpris_new(app);
+		app->mpris = gmpv_mpris_new(app->controller);
 	}
 
 	if(g_settings_get_boolean(app->settings, "media-keys-enable"))
@@ -251,7 +251,7 @@ static void mpris_enable_handler(	GSettings *settings,
 
 	if(!app->mpris && g_settings_get_boolean(settings, key))
 	{
-		app->mpris = gmpv_mpris_new(app);
+		app->mpris = gmpv_mpris_new(app->controller);
 	}
 	else if(app->mpris)
 	{

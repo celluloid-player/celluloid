@@ -28,20 +28,19 @@
 #include "gmpv_mpris_base.h"
 #include "gmpv_mpris_player.h"
 #include "gmpv_mpris_track_list.h"
-#include "gmpv_application_private.h"
 #include "gmpv_def.h"
 
 enum
 {
 	PROP_0,
-	PROP_APP,
+	PROP_CONTROLLER,
 	N_PROPERTIES
 };
 
 struct _GmpvMpris
 {
 	GObject parent;
-	GmpvApplication* app;
+	GmpvController *controller;
 	GmpvMprisModule *base;
 	GmpvMprisModule *player;
 	GmpvMprisModule *track_list;
@@ -124,8 +123,8 @@ static void set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		self->app = g_value_get_pointer(value);
+		case PROP_CONTROLLER:
+		self->controller = g_value_get_pointer(value);
 		break;
 
 		default:
@@ -144,8 +143,8 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		g_value_set_pointer(value, self->app);
+		case PROP_CONTROLLER:
+		g_value_set_pointer(value, self->controller);
 		break;
 
 		default:
@@ -162,9 +161,9 @@ static void name_acquired_handler(	GDBusConnection *connection,
 	GmpvMpris *self = data;
 
 	self->session_bus_conn = connection;
-	self->base = gmpv_mpris_base_new(self->app->controller, connection);
-	self->player = gmpv_mpris_player_new(self->app->controller, connection);
-	self->track_list = gmpv_mpris_track_list_new(self->app->controller, connection);
+	self->base = gmpv_mpris_base_new(self->controller, connection);
+	self->player = gmpv_mpris_player_new(self->controller, connection);
+	self->track_list = gmpv_mpris_track_list_new(self->controller, connection);
 
 	gmpv_mpris_module_register(self->base);
 	gmpv_mpris_module_register(self->player);
@@ -187,7 +186,7 @@ static void unregister(GmpvMpris *mpris)
 
 static void gmpv_mpris_init(GmpvMpris *mpris)
 {
-	mpris->app = NULL;
+	mpris->controller = NULL;
 	mpris->base = NULL;
 	mpris->player = NULL;
 	mpris->track_list = NULL;
@@ -206,11 +205,11 @@ static void gmpv_mpris_class_init(GmpvMprisClass *klass)
 	object_class->dispose = dispose;
 
 	pspec = g_param_spec_pointer
-		(	"app",
-			"App",
-			"The GmpvApplication to use",
+		(	"controller",
+			"Controller",
+			"The GmpvController to use",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_APP, pspec);
+	g_object_class_install_property(object_class, PROP_CONTROLLER, pspec);
 }
 
 GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list)
@@ -228,9 +227,9 @@ GVariant *gmpv_mpris_build_g_variant_string_array(const gchar** list)
 	return g_variant_new("as", &builder);
 }
 
-GmpvMpris *gmpv_mpris_new(GmpvApplication *app)
+GmpvMpris *gmpv_mpris_new(GmpvController *controller)
 {
 	return GMPV_MPRIS(g_object_new(	gmpv_mpris_get_type(),
-					"app", app,
+					"controller", controller,
 					NULL ));
 }
