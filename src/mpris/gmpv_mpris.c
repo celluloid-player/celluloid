@@ -45,10 +45,6 @@ struct _GmpvMpris
 	GmpvMprisModule *player;
 	GmpvMprisModule *track_list;
 	guint name_id;
-	guint player_reg_id;
-	gulong *player_sig_id_list;
-	gdouble pending_seek;
-	GHashTable *player_prop_table;
 	GDBusConnection *session_bus_conn;
 };
 
@@ -195,7 +191,6 @@ static void gmpv_mpris_init(GmpvMpris *mpris)
 	mpris->player = NULL;
 	mpris->track_list = NULL;
 	mpris->name_id = 0;
-	mpris->pending_seek = -1;
 	mpris->session_bus_conn = NULL;
 }
 
