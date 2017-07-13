@@ -24,7 +24,6 @@
 #include <string.h>
 
 #include "gmpv_mpris_player.h"
-#include "gmpv_application_private.h"
 #include "gmpv_common.h"
 #include "gmpv_main_window.h"
 #include "gmpv_mpris.h"
@@ -35,14 +34,14 @@
 enum
 {
 	PROP_0,
-	PROP_APP,
+	PROP_CONTROLLER,
 	N_PROPERTIES
 };
 
 struct _GmpvMprisPlayer
 {
 	GmpvMprisModule parent;
-	GmpvApplication *app;
+	GmpvController *controller;
 	guint reg_id;
 };
 
@@ -124,7 +123,7 @@ G_DEFINE_TYPE(GmpvMprisPlayer, gmpv_mpris_player, GMPV_TYPE_MPRIS_MODULE);
 static void register_interface(GmpvMprisModule *module)
 {
 	GmpvMprisPlayer *player = GMPV_MPRIS_PLAYER(module);
-	GmpvModel *model = player->app->model;
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
 	GDBusConnection *conn;
 	GDBusInterfaceInfo *iface;
 	GDBusInterfaceVTable vtable;
@@ -234,8 +233,8 @@ static void set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		self->app = g_value_get_pointer(value);
+		case PROP_CONTROLLER:
+		self->controller = g_value_get_pointer(value);
 		break;
 
 		default:
@@ -253,8 +252,8 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		g_value_set_pointer(value, self->app);
+		case PROP_CONTROLLER:
+		g_value_set_pointer(value, self->controller);
 		break;
 
 		default:
@@ -332,7 +331,7 @@ static void method_handler(	GDBusConnection *connection,
 				gpointer data )
 {
 	GmpvMprisPlayer *player = data;
-	GmpvModel *model = player->app->model;
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
 
 	if(g_strcmp0(method_name, "Next") == 0)
 	{
@@ -414,7 +413,7 @@ static GVariant *get_prop_handler(	GDBusConnection *connection,
 		GmpvModel *model;
 		gdouble position;
 
-		model = player->app->model;
+		model = gmpv_controller_get_model(player->controller);
 		position = gmpv_model_get_time_position(model);
 		value = g_variant_new_int64((gint64)(position*1e6));
 	}
@@ -438,7 +437,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 					gpointer data )
 {
 	GmpvMprisPlayer *player = data;
-	GmpvModel *model = player->app->model;
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
 
 	if(g_strcmp0(property_name, "Rate") == 0)
 	{
@@ -462,7 +461,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 
 static void update_playback_status(GmpvMprisPlayer *player)
 {
-	GmpvModel *model = player->app->model;
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
 	const gchar *state;
 	gint idle_active;
 	gint core_idle;
@@ -499,7 +498,7 @@ static void update_playback_status(GmpvMprisPlayer *player)
 
 static void update_playlist_state(GmpvMprisPlayer *player)
 {
-	GmpvModel *model = player->app->model;
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
 	gboolean can_prev;
 	gboolean can_next;
 	gint64 playlist_count;
@@ -524,9 +523,10 @@ static void update_playlist_state(GmpvMprisPlayer *player)
 
 static void update_speed(GmpvMprisPlayer *player)
 {
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
 	gdouble speed = 1.0;
 
-	g_object_get(G_OBJECT(player->app->model), "speed", &speed, NULL);
+	g_object_get(G_OBJECT(model), "speed", &speed, NULL);
 
 	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(player),
 						"Rate",
@@ -536,7 +536,7 @@ static void update_speed(GmpvMprisPlayer *player)
 
 static void update_metadata(GmpvMprisPlayer *player)
 {
-	GmpvModel *model = GMPV_MODEL(player->app->model);
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
 	GPtrArray *metadata = NULL;
 	GVariantBuilder builder;
 	gchar *path;
@@ -595,9 +595,10 @@ static void update_metadata(GmpvMprisPlayer *player)
 
 static void update_volume(GmpvMprisPlayer *player)
 {
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
 	gdouble volume = 0.0;
 
-	g_object_get(G_OBJECT(player->app->model), "volume", &volume, NULL);
+	g_object_get(G_OBJECT(model), "volume", &volume, NULL);
 
 	gmpv_mpris_module_set_properties
 		(	GMPV_MPRIS_MODULE(player),
@@ -690,20 +691,20 @@ static void gmpv_mpris_player_class_init(GmpvMprisPlayerClass *klass)
 	object_class->get_property = get_property;
 
 	pspec = g_param_spec_pointer
-		(	"app",
-			"Application",
+		(	"controller",
+			"Controller",
 			"The GmpvApplication to use",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_APP, pspec);
+	g_object_class_install_property(object_class, PROP_CONTROLLER, pspec);
 }
 
 static void gmpv_mpris_player_init(GmpvMprisPlayer *player)
 {
-	player->app = NULL;
+	player->controller = NULL;
 	player->reg_id = 0;
 }
 
-GmpvMprisModule *gmpv_mpris_player_new(	GmpvApplication *app,
+GmpvMprisModule *gmpv_mpris_player_new(	GmpvController *controller,
 					GDBusConnection *conn )
 {
 	GDBusInterfaceInfo *iface;
@@ -711,7 +712,7 @@ GmpvMprisModule *gmpv_mpris_player_new(	GmpvApplication *app,
 	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
 
 	return GMPV_MPRIS_MODULE(g_object_new(	gmpv_mpris_player_get_type(),
-						"app", app,
+						"controller", controller,
 						"conn", conn,
 						"iface", iface,
 						NULL ));

@@ -22,13 +22,14 @@
 
 #include "gmpv_mpris.h"
 #include "gmpv_mpris_module.h"
+#include "gmpv_controller.h"
 
 G_BEGIN_DECLS
 
 #define GMPV_TYPE_MPRIS_PLAYER (gmpv_mpris_player_get_type())
 G_DECLARE_FINAL_TYPE(GmpvMprisPlayer, gmpv_mpris_player, GMPV, MPRIS_PLAYER, GmpvMprisModule)
 
-GmpvMprisModule *gmpv_mpris_player_new(	GmpvApplication *app,
+GmpvMprisModule *gmpv_mpris_player_new(	GmpvController *controller,
 					GDBusConnection *conn );
 
 G_END_DECLS
