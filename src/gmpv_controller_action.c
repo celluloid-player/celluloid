@@ -191,7 +191,7 @@ static void bind_properties(GmpvController *controller)
 
 	action =	g_action_map_lookup_action
 			(G_ACTION_MAP(controller->app), "toggle-loop");
-	g_object_bind_property_full(	controller->model, "loop",
+	g_object_bind_property_full(	controller->model, "loop-playlist",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
 					loop_to_state,
