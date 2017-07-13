@@ -161,7 +161,7 @@ static void name_acquired_handler(	GDBusConnection *connection,
 	GmpvMpris *self = data;
 
 	self->session_bus_conn = connection;
-	self->base = gmpv_mpris_base_new(self->app, connection);
+	self->base = gmpv_mpris_base_new(self->app->controller, connection);
 	self->player = gmpv_mpris_player_new(self->app, connection);
 	self->track_list = gmpv_mpris_track_list_new(self->app, connection);
 

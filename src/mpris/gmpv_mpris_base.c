@@ -23,7 +23,6 @@
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 
-#include "gmpv_application_private.h"
 #include "gmpv_view.h"
 #include "gmpv_mpris.h"
 #include "gmpv_mpris_module.h"
@@ -34,7 +33,7 @@
 enum
 {
 	PROP_0,
-	PROP_APP,
+	PROP_CONTROLLER,
 	N_PROPERTIES
 };
 
@@ -42,7 +41,7 @@ enum
 struct _GmpvMprisBase
 {
 	GmpvMprisModule parent;
-	GmpvApplication *app;
+	GmpvController *controller;
 	guint reg_id;
 };
 
@@ -105,7 +104,7 @@ static void register_interface(GmpvMprisModule *module)
 	GDBusConnection *conn;
 
 	base = GMPV_MPRIS_BASE(module);
-	view = base->app->view;
+	view = gmpv_controller_get_view(base->controller);
 
 	g_object_get(module, "conn", &conn, "iface", &iface, NULL);
 
@@ -163,8 +162,8 @@ static void set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		self->app = g_value_get_pointer(value);
+		case PROP_CONTROLLER:
+		self->controller = g_value_get_pointer(value);
 		break;
 
 		default:
@@ -182,8 +181,8 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_APP:
-		g_value_set_pointer(value, self->app);
+		case PROP_CONTROLLER:
+		g_value_set_pointer(value, self->controller);
 		break;
 
 		default:
@@ -205,11 +204,11 @@ static void method_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(method_name, "Raise") == 0)
 	{
-		gmpv_view_present(base->app->view);
+		gmpv_view_present(gmpv_controller_get_view(base->controller));
 	}
 	else if(g_strcmp0(method_name, "Quit") == 0)
 	{
-		gmpv_application_quit(base->app);
+		gmpv_controller_quit(base->controller);
 	}
 
 	g_dbus_method_invocation_return_value
@@ -244,8 +243,9 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(property_name, "Fullscreen") == 0)
 	{
-		gmpv_view_set_fullscreen
-			(base->app->view, g_variant_get_boolean(value));
+		GmpvView *view = gmpv_controller_get_view(base->controller);
+
+		gmpv_view_set_fullscreen(view, g_variant_get_boolean(value));
 	}
 	else
 	{
@@ -267,11 +267,12 @@ static void fullscreen_handler(	GObject *object,
 static void update_fullscreen(GmpvMprisBase *base)
 {
 	GmpvMprisModule *module = GMPV_MPRIS_MODULE(base);
+	GmpvModel *model = gmpv_controller_get_model(base->controller);
 	GVariant *old_value = NULL;
 	gboolean fullscreen = FALSE;
 
 	gmpv_mpris_module_get_properties(module, "Fullscreen", &old_value, NULL);
-	g_object_get(G_OBJECT(base->app->model), "fullscreen", &fullscreen, NULL);
+	g_object_get(G_OBJECT(model), "fullscreen", &fullscreen, NULL);
 
 	if(g_variant_get_boolean(old_value) != fullscreen)
 	{
@@ -308,20 +309,20 @@ static void gmpv_mpris_base_class_init(GmpvMprisBaseClass *klass)
 	object_class->get_property = get_property;
 
 	pspec = g_param_spec_pointer
-		(	"app",
-			"Application",
-			"The GmpvApplication to use",
+		(	"controller",
+			"Controller",
+			"The GmpvController to use",
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_APP, pspec);
+	g_object_class_install_property(object_class, PROP_CONTROLLER, pspec);
 }
 
 static void gmpv_mpris_base_init(GmpvMprisBase *base)
 {
-	base->app = NULL;
+	base->controller = NULL;
 	base->reg_id = 0;
 }
 
-GmpvMprisModule *gmpv_mpris_base_new(	GmpvApplication *app,
+GmpvMprisModule *gmpv_mpris_base_new(	GmpvController *controller,
 					GDBusConnection *conn )
 {
 	GDBusInterfaceInfo *iface;
@@ -329,7 +330,7 @@ GmpvMprisModule *gmpv_mpris_base_new(	GmpvApplication *app,
 	iface = gmpv_mpris_org_mpris_media_player2_interface_info();
 
 	return GMPV_MPRIS_MODULE(g_object_new(	gmpv_mpris_base_get_type(),
-						"app", app,
+						"controller", controller,
 						"conn", conn,
 						"iface", iface,
 						NULL ));
