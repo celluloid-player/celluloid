@@ -703,14 +703,14 @@ static void gmpv_mpris_player_init(GmpvMprisPlayer *player)
 	player->reg_id = 0;
 }
 
-GmpvMprisPlayer *gmpv_mpris_player_new(	GmpvApplication *app,
+GmpvMprisModule *gmpv_mpris_player_new(	GmpvApplication *app,
 					GDBusConnection *conn )
 {
 	GDBusInterfaceInfo *iface;
 
 	iface = gmpv_mpris_org_mpris_media_player2_player_interface_info();
 
-	return GMPV_MPRIS_PLAYER(g_object_new(	gmpv_mpris_player_get_type(),
+	return GMPV_MPRIS_MODULE(g_object_new(	gmpv_mpris_player_get_type(),
 						"app", app,
 						"conn", conn,
 						"iface", iface,

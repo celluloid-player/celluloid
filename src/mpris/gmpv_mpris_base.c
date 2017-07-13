@@ -321,13 +321,14 @@ static void gmpv_mpris_base_init(GmpvMprisBase *base)
 	base->reg_id = 0;
 }
 
-GmpvMprisBase *gmpv_mpris_base_new(GmpvApplication *app, GDBusConnection *conn)
+GmpvMprisModule *gmpv_mpris_base_new(	GmpvApplication *app,
+					GDBusConnection *conn )
 {
 	GDBusInterfaceInfo *iface;
 
 	iface = gmpv_mpris_org_mpris_media_player2_interface_info();
 
-	return GMPV_MPRIS_BASE(g_object_new(	gmpv_mpris_base_get_type(),
+	return GMPV_MPRIS_MODULE(g_object_new(	gmpv_mpris_base_get_type(),
 						"app", app,
 						"conn", conn,
 						"iface", iface,

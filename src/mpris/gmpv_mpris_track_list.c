@@ -493,7 +493,7 @@ static void gmpv_mpris_track_list_init(GmpvMprisTrackList *track_list)
 	track_list->reg_id = 0;
 }
 
-GmpvMprisTrackList *gmpv_mpris_track_list_new(	GmpvApplication *app,
+GmpvMprisModule *gmpv_mpris_track_list_new(	GmpvApplication *app,
 						GDBusConnection *conn )
 {
 	GDBusInterfaceInfo *iface;
@@ -506,6 +506,6 @@ GmpvMprisTrackList *gmpv_mpris_track_list_new(	GmpvApplication *app,
 				"iface", iface,
 				NULL );
 
-	return GMPV_MPRIS_TRACK_LIST(object);
+	return GMPV_MPRIS_MODULE(object);
 }
 

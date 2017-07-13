@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 #define GMPV_TYPE_MPRIS_PLAYER (gmpv_mpris_player_get_type())
 G_DECLARE_FINAL_TYPE(GmpvMprisPlayer, gmpv_mpris_player, GMPV, MPRIS_PLAYER, GmpvMprisModule)
 
-GmpvMprisPlayer *gmpv_mpris_player_new(	GmpvApplication *app,
+GmpvMprisModule *gmpv_mpris_player_new(	GmpvApplication *app,
 					GDBusConnection *conn );
 
 G_END_DECLS
