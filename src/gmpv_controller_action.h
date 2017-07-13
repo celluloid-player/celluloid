@@ -17,16 +17,16 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef APPLICATION_ACTION_H
-#define APPLICATION_ACTION_H
+#ifndef CONTROLLER_ACTION_H
+#define CONTROLLER_ACTION_H
 
 #include <glib.h>
 
-#include "gmpv_application.h"
+#include "gmpv_controller.h"
 
 G_BEGIN_DECLS
 
-void gmpv_application_action_add_actions(GmpvApplication *app);
+void gmpv_controller_action_register_actions(GmpvController *controller);
 
 G_END_DECLS
 

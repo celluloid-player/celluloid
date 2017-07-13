@@ -26,6 +26,7 @@
 
 #include "gmpv_controller_private.h"
 #include "gmpv_controller.h"
+#include "gmpv_controller_action.h"
 #include "gmpv_controller_input.h"
 #include "gmpv_def.h"
 
@@ -65,22 +66,6 @@ static void playlist_reordered_handler(	GmpvView *view,
 					gpointer data );
 static void connect_signals(GmpvController *controller);
 static gboolean update_seek_bar(gpointer data);
-static gboolean track_str_to_int(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer data );
-static gboolean int_to_track_str(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer data );
-static gboolean loop_str_to_boolean(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer data );
-static gboolean boolean_to_loop_str(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer data );
 static gboolean is_more_than_one(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
@@ -132,6 +117,7 @@ static void constructed(GObject *object)
 	controller->model = gmpv_model_new(wid);
 
 	connect_signals(controller);
+	gmpv_controller_action_register_actions(controller);
 	gmpv_controller_input_connect_signals(controller);
 
 	g_object_unref(settings);
@@ -152,22 +138,6 @@ static void set_property(	GObject *object,
 
 		case PROP_READY:
 		self->ready = g_value_get_boolean(value);
-		break;
-
-		case PROP_AID:
-		self->aid = g_value_get_int(value);
-		break;
-
-		case PROP_VID:
-		self->vid = g_value_get_int(value);
-		break;
-
-		case PROP_SID:
-		self->sid = g_value_get_int(value);
-		break;
-
-		case PROP_LOOP:
-		self->loop = g_value_get_boolean(value);
 		break;
 
 		case PROP_IDLE:
@@ -195,22 +165,6 @@ static void get_property(	GObject *object,
 
 		case PROP_READY:
 		g_value_set_boolean(value, self->ready);
-		break;
-
-		case PROP_AID:
-		g_value_set_int(value, self->aid);
-		break;
-
-		case PROP_VID:
-		g_value_set_int(value, self->vid);
-		break;
-
-		case PROP_SID:
-		g_value_set_int(value, self->sid);
-		break;
-
-		case PROP_LOOP:
-		g_value_set_boolean(value, self->loop);
 		break;
 
 		case PROP_IDLE:
@@ -328,38 +282,9 @@ static void playlist_reordered_handler(	GmpvView *view,
 
 static void connect_signals(GmpvController *controller)
 {
-	g_object_bind_property_full(	controller->model, "aid",
-					controller, "aid",
-					G_BINDING_BIDIRECTIONAL,
-					track_str_to_int,
-					int_to_track_str,
-					NULL,
-					NULL );
-	g_object_bind_property_full(	controller->model, "vid",
-					controller, "vid",
-					G_BINDING_BIDIRECTIONAL,
-					track_str_to_int,
-					int_to_track_str,
-					NULL,
-					NULL );
-	g_object_bind_property_full(	controller->model, "sid",
-					controller, "sid",
-					G_BINDING_BIDIRECTIONAL,
-					track_str_to_int,
-					int_to_track_str,
-					NULL,
-					NULL );
-	g_object_bind_property_full(	controller->model, "loop",
-					controller, "loop",
-					G_BINDING_BIDIRECTIONAL,
-					loop_str_to_boolean,
-					boolean_to_loop_str,
-					NULL,
-					NULL );
 	g_object_bind_property(	controller->model, "core-idle",
 				controller, "idle",
 				G_BINDING_DEFAULT );
-
 	g_object_bind_property(	controller->model, "pause",
 				controller->view, "pause",
 				G_BINDING_DEFAULT );
@@ -513,63 +438,6 @@ gboolean update_seek_bar(gpointer data)
 	gdouble time_pos = gmpv_model_get_time_position(controller->model);
 
 	gmpv_view_set_time_position(controller->view, time_pos);
-
-	return TRUE;
-}
-
-static gboolean track_str_to_int(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer data )
-{
-	gchar *endptr = NULL;
-	const gchar *from = g_value_get_string(from_value);
-	gint to = (gint)g_ascii_strtoll(from, &endptr, 10);
-
-	if(to == 0 && g_strcmp0(from, "no") != 0)
-	{
-		to = -1;
-	}
-
-	g_value_set_int(to_value, to);
-
-	return TRUE;
-}
-
-static gboolean int_to_track_str(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer data )
-{
-	gint from = g_value_get_int(from_value);
-	gchar buf[16] = "no";
-
-	g_snprintf(buf, 16, "%d", from);
-	g_value_set_string(to_value, buf);
-
-	return TRUE;
-}
-
-static gboolean loop_str_to_boolean(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer data )
-{
-	const gchar *from = g_value_get_string(from_value);
-
-	g_value_set_boolean(to_value, g_strcmp0(from, "no") != 0);
-
-	return TRUE;
-}
-
-static gboolean boolean_to_loop_str(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer data )
-{
-	gboolean from = g_value_get_boolean(from_value);
-
-	g_value_set_string(to_value, from?"inf":"no");
 
 	return TRUE;
 }
@@ -775,36 +643,6 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_APP, pspec);
 
-	pspec = g_param_spec_int
-		(	"aid",
-			"Audio track ID",
-			"The ID of the current audio track",
-			-1,
-			G_MAXINT,
-			-1,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_AID, pspec);
-
-	pspec = g_param_spec_int
-		(	"vid",
-			"Video track ID",
-			"The ID of the current video track",
-			-1,
-			G_MAXINT,
-			-1,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_VID, pspec);
-
-	pspec = g_param_spec_int
-		(	"sid",
-			"Subtitle track ID",
-			"The ID of the current subtitle track",
-			-1,
-			G_MAXINT,
-			-1,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_SID, pspec);
-
 	pspec = g_param_spec_boolean
 		(	"ready",
 			"Ready",
@@ -812,14 +650,6 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_READY, pspec);
-
-	pspec = g_param_spec_boolean
-		(	"loop",
-			"Loop",
-			"Whether or not to loop when the playlist ends",
-			FALSE,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_LOOP, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"idle",
@@ -855,11 +685,7 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->app = NULL;
 	controller->model = NULL;
 	controller->view = NULL;
-	controller->aid = 0;
-	controller->vid = 0;
-	controller->sid = 0;
 	controller->ready = FALSE;
-	controller->loop = FALSE;
 	controller->idle = TRUE;
 	controller->action_queue = g_queue_new();
 	controller->files = NULL;

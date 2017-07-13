@@ -2,10 +2,10 @@ gnome = import('gnome')
 
 sources = [
   'gmpv_application.c',
-  'gmpv_application_action.c',
   'gmpv_common.c',
   'gmpv_control_box.c',
   'gmpv_controller.c',
+  'gmpv_controller_action.c',
   'gmpv_controller_input.c',
   'gmpv_file_chooser.c',
   'gmpv_header_bar.c',

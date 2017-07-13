@@ -19,9 +19,9 @@
 
 #include <glib/gi18n.h>
 
-#include "gmpv_application_action.h"
+#include "gmpv_controller_action.h"
+#include "gmpv_controller_private.h"
 #include "gmpv_file_chooser.h"
-#include "gmpv_application_private.h"
 #include "gmpv_common.h"
 
 static gboolean track_id_to_state(	GBinding *binding,
@@ -32,15 +32,15 @@ static gboolean state_to_track_id(	GBinding *binding,
 					const GValue *from_value,
 					GValue *to_value,
 					gpointer user_data );
-static gboolean boolean_to_state(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer user_data );
-static gboolean state_to_boolean(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer user_data );
-static void bind_properties(GmpvApplication *app);
+static gboolean loop_to_state(	GBinding *binding,
+				const GValue *from_value,
+				GValue *to_value,
+				gpointer user_data );
+static gboolean state_to_loop(	GBinding *binding,
+				const GValue *from_value,
+				GValue *to_value,
+				gpointer user_data );
+static void bind_properties(GmpvController *controller);
 static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
@@ -104,8 +104,9 @@ static gboolean track_id_to_state(	GBinding *binding,
 					GValue *to_value,
 					gpointer user_data )
 {
-	gint64 id = g_value_get_int(from_value);
-	GVariant *to = g_variant_new("x", id);
+	const gchar *id = g_value_get_string(from_value);
+	gint64 value = g_strcmp0(id, "no") == 0?0:g_ascii_strtoll(id, NULL, 10);
+	GVariant *to = g_variant_new("x", value);
 
 	g_value_set_variant(to_value, to);
 
@@ -119,45 +120,48 @@ static gboolean state_to_track_id(	GBinding *binding,
 {
 	GVariant *from = g_value_get_variant(from_value);
 	gint64 id = g_variant_get_int64(from);
+	gchar *value =	id <= 0?
+			g_strdup("no"):
+			g_strdup_printf("%" G_GINT64_FORMAT, id);
 
-	g_value_set_int(to_value, (gint)id);
+	g_value_take_string(to_value, value);
 
 	return TRUE;
 }
 
-static gboolean boolean_to_state(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer user_data )
+static gboolean loop_to_state(	GBinding *binding,
+				const GValue *from_value,
+				GValue *to_value,
+				gpointer user_data )
 {
-	gboolean from = g_value_get_boolean(from_value);
-	GVariant *to = g_variant_new("b", from);
+	const gchar *from = g_value_get_string(from_value);
+	GVariant *to = g_variant_new("b", g_strcmp0(from, "no") != 0);
 
 	g_value_set_variant(to_value, to);
 
 	return TRUE;
 }
 
-static gboolean state_to_boolean(	GBinding *binding,
-					const GValue *from_value,
-					GValue *to_value,
-					gpointer user_data )
+static gboolean state_to_loop(	GBinding *binding,
+				const GValue *from_value,
+				GValue *to_value,
+				gpointer user_data )
 {
 	GVariant *from = g_value_get_variant(from_value);
 	gboolean to = g_variant_get_boolean(from);
 
-	g_value_set_boolean(to_value, to);
+	g_value_set_static_string(to_value, to?"inf":"no");
 
 	return TRUE;
 }
 
-static void bind_properties(GmpvApplication *app)
+static void bind_properties(GmpvController *controller)
 {
 	GAction *action = NULL;
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(app), "set-audio-track");
-	g_object_bind_property_full(	app->controller, "aid",
+			(G_ACTION_MAP(controller->app), "set-audio-track");
+	g_object_bind_property_full(	controller->model, "aid",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
 					track_id_to_state,
@@ -166,8 +170,8 @@ static void bind_properties(GmpvApplication *app)
 					NULL );
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(app), "set-video-track");
-	g_object_bind_property_full(	app->controller, "vid",
+			(G_ACTION_MAP(controller->app), "set-video-track");
+	g_object_bind_property_full(	controller->model, "vid",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
 					track_id_to_state,
@@ -176,8 +180,8 @@ static void bind_properties(GmpvApplication *app)
 					NULL );
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(app), "set-subtitle-track");
-	g_object_bind_property_full(	app->controller, "sid",
+			(G_ACTION_MAP(controller->app), "set-subtitle-track");
+	g_object_bind_property_full(	controller->model, "sid",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
 					track_id_to_state,
@@ -186,12 +190,12 @@ static void bind_properties(GmpvApplication *app)
 					NULL );
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(app), "toggle-loop");
-	g_object_bind_property_full(	app->controller, "loop",
+			(G_ACTION_MAP(controller->app), "toggle-loop");
+	g_object_bind_property_full(	controller->model, "loop",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
-					boolean_to_state,
-					state_to_boolean,
+					loop_to_state,
+					state_to_loop,
 					NULL,
 					NULL );
 }
@@ -365,7 +369,7 @@ static void set_video_size_handler(	GSimpleAction *action,
 {
 	gdouble value = g_variant_get_double(param);
 
-	gmpv_controller_autofit(GMPV_APPLICATION(data)->controller, value);
+	gmpv_controller_autofit(data, value);
 }
 
 static void show_about_dialog_handler(	GSimpleAction *action,
@@ -375,7 +379,7 @@ static void show_about_dialog_handler(	GSimpleAction *action,
 	gmpv_view_show_about_dialog(gmpv_controller_get_view(data));
 }
 
-void gmpv_application_action_add_actions(GmpvApplication *app)
+void gmpv_controller_action_register_actions(GmpvController *controller)
 {
 	const GActionEntry entries[]
 		= {	{.name = "show-open-dialog",
@@ -428,10 +432,10 @@ void gmpv_application_action_add_actions(GmpvApplication *app)
 			.activate = set_video_size_handler,
 			.parameter_type = "d"} };
 
-	g_action_map_add_action_entries(	G_ACTION_MAP(app),
+	g_action_map_add_action_entries(	G_ACTION_MAP(controller->app),
 						entries,
 						G_N_ELEMENTS(entries),
-						app->controller );
+						controller );
 
-	bind_properties(app);
+	bind_properties(controller);
 }
