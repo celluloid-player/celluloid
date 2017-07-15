@@ -17,8 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MPV_OBJ_H
-#define MPV_OBJ_H
+#ifndef MPV_H
+#define MPV_H
 
 #include <glib.h>
 #include <glib-object.h>
@@ -30,9 +30,9 @@
 
 G_BEGIN_DECLS
 
-#define GMPV_TYPE_MPV_OBJ (gmpv_mpv_get_type())
+#define GMPV_TYPE_MPV (gmpv_mpv_get_type())
 
-G_DECLARE_FINAL_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV_OBJ, GObject)
+G_DECLARE_FINAL_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV, GObject)
 
 GmpvMpv *gmpv_mpv_new(gint64 wid);
 mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv);

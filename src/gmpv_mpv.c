@@ -128,7 +128,7 @@ static void set_property(	GObject *object,
 				const GValue *value,
 				GParamSpec *pspec )
 {
-	GmpvMpv *self = GMPV_MPV_OBJ(object);
+	GmpvMpv *self = GMPV_MPV(object);
 
 	if(property_id == PROP_WID)
 	{
@@ -149,7 +149,7 @@ static void get_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec )
 {
-	GmpvMpv *self = GMPV_MPV_OBJ(object);
+	GmpvMpv *self = GMPV_MPV(object);
 
 	if(property_id == PROP_WID)
 	{
@@ -167,7 +167,7 @@ static void get_property(	GObject *object,
 
 static void dispose(GObject *object)
 {
-	GmpvMpv *mpv = GMPV_MPV_OBJ(object);
+	GmpvMpv *mpv = GMPV_MPV(object);
 
 	if(mpv->mpv_ctx)
 	{
@@ -179,7 +179,7 @@ static void dispose(GObject *object)
 
 static void finalize(GObject *object)
 {
-	GmpvMpv *mpv = GMPV_MPV_OBJ(object);
+	GmpvMpv *mpv = GMPV_MPV(object);
 
 	g_ptr_array_free(mpv->playlist, TRUE);
 	g_ptr_array_free(mpv->metadata, TRUE);
@@ -980,7 +980,7 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 
 GmpvMpv *gmpv_mpv_new(gint64 wid)
 {
-	return GMPV_MPV_OBJ(g_object_new(gmpv_mpv_get_type(), "wid", wid, NULL));
+	return GMPV_MPV(g_object_new(gmpv_mpv_get_type(), "wid", wid, NULL));
 }
 
 inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
