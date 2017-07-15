@@ -144,6 +144,8 @@ static void constructed(GObject *object)
 	{
 		controller->media_keys = gmpv_media_keys_new(controller);
 	}
+
+	G_OBJECT_CLASS(gmpv_controller_parent_class)->constructed(object);
 }
 
 static void set_property(	GObject *object,
