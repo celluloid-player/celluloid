@@ -154,6 +154,8 @@ static void constructed(GObject *object)
 				"shutdown",
 				G_CALLBACK(shutdown_handler),
 				model );
+
+	G_OBJECT_CLASS(gmpv_model_parent_class)->constructed(object);
 }
 
 static void set_property(	GObject *object,
