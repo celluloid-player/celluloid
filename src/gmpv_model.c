@@ -89,6 +89,8 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void dispose(GObject *object);
+static void finalize(GObject *object);
 static void set_mpv_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
@@ -352,6 +354,28 @@ static void get_property(	GObject *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
 	}
+}
+
+static void dispose(GObject *object)
+{
+	GmpvModel *model = GMPV_MODEL(object);
+
+	g_clear_object(&model->mpv);
+
+	G_OBJECT_CLASS(gmpv_model_parent_class)->dispose(object);
+}
+
+static void finalize(GObject *object)
+{
+	GmpvModel *model = GMPV_MODEL(object);
+
+	g_free(model->aid);
+	g_free(model->vid);
+	g_free(model->sid);
+	g_free(model->loop_playlist);
+	g_free(model->media_title);
+
+	G_OBJECT_CLASS(gmpv_model_parent_class)->finalize(object);
 }
 
 static void set_mpv_property(	GObject *object,
@@ -620,6 +644,8 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 	obj_class->constructed = constructed;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
+	obj_class->dispose = dispose;
+	obj_class->finalize = finalize;
 
 	pspec = g_param_spec_pointer
 		(	"mpv",
