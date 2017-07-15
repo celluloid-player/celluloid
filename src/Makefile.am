@@ -40,7 +40,6 @@ BUILT_SOURCES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 
 gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_application.c gmpv_application.h \
-			gmpv_application_private.h \
 			gmpv_common.c gmpv_common.h \
 			gmpv_controller.c gmpv_controller.h \
 			gmpv_controller_action.c gmpv_controller_action.h \

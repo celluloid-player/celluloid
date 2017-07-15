@@ -24,10 +24,25 @@
 #include <locale.h>
 
 #include "gmpv_application.h"
-#include "gmpv_application_private.h"
+#include "gmpv_controller.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_common.h"
 #include "gmpv_def.h"
+
+struct _GmpvApplication
+{
+	GtkApplication parent;
+	GmpvController *controller;
+	gboolean enqueue;
+	gboolean no_existing_session;
+	GQueue *action_queue;
+	guint inhibit_cookie;
+};
+
+struct _GmpvApplicationClass
+{
+	GtkApplicationClass parent_class;
+};
 
 static void migrate_config(void);
 static void activate_action_string(GmpvApplication *app, const gchar *str);
