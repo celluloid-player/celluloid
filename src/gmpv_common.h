@@ -78,6 +78,7 @@ gchar *get_name_from_path(const gchar *path);
 gboolean extension_matches(const gchar *filename, const gchar **extensions);
 void *gslist_to_array(GSList *slist);
 gchar *strnjoinv(const gchar *separator, const gchar **str_array, gsize count);
+void activate_action_string(GActionMap *map, const gchar *str);
 
 G_END_DECLS
 

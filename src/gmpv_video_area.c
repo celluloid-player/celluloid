@@ -218,7 +218,7 @@ static gboolean render_handler(	GtkGLArea *gl_area,
 {
 	g_signal_emit_by_name(data, "render");
 
-	return FALSE;
+	return TRUE;
 }
 
 static void notify_handler(	GObject *gobject,

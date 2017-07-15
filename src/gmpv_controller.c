@@ -91,7 +91,6 @@ static void autofit_handler(GmpvModel *model, gdouble multiplier, gpointer data)
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void shutdown_handler(GmpvMpv *mpv, gpointer data);
-static void post_shutdown_handler(GmpvMpv *mpv, gpointer data);
 static void play_button_handler(GtkButton *button, gpointer data);
 static void stop_button_handler(GtkButton *button, gpointer data);
 static void forward_button_handler(GtkButton *button, gpointer data);
@@ -209,13 +208,18 @@ static void dispose(GObject *object)
 	g_clear_object(&controller->settings);
 	g_clear_object(&controller->mpris);
 	g_clear_object(&controller->media_keys);
-	g_clear_object(&controller->view);
-	g_clear_object(&controller->model);
 
 	if(controller->update_seekbar_id != 0)
 	{
 		g_source_remove(controller->update_seekbar_id);
 		controller->update_seekbar_id = 0;
+	}
+
+	if(controller->view)
+	{
+		gmpv_view_make_gl_context_current(controller->view);
+		g_clear_object(&controller->model);
+		g_clear_object(&controller->view);
 	}
 
 	G_OBJECT_CLASS(gmpv_controller_parent_class)->dispose(object);
@@ -312,7 +316,6 @@ static void grab_handler(GmpvView *view, gboolean was_grabbed, gpointer data)
 
 static void delete_handler(GmpvView *view, gpointer data)
 {
-	gmpv_model_quit(GMPV_CONTROLLER(data)->model);
 	g_signal_emit_by_name(data, "shutdown");
 }
 
@@ -413,10 +416,6 @@ static void connect_signals(GmpvController *controller)
 	g_signal_connect(	controller->model,
 				"shutdown",
 				G_CALLBACK(shutdown_handler),
-				controller );
-	g_signal_connect_after(	controller->model,
-				"shutdown",
-				G_CALLBACK(post_shutdown_handler),
 				controller );
 
 	g_signal_connect(	controller->view,
@@ -617,7 +616,37 @@ static void autofit_handler(GmpvModel *model, gdouble multiplier, gpointer data)
 
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
 {
-	g_signal_emit_by_name(data, "message", message);
+	const gsize prefix_length = sizeof(ACTION_PREFIX)-1;
+
+	/* Verify that both the prefix and the scope matches */
+	if(message && strncmp(message, ACTION_PREFIX, prefix_length) == 0)
+	{
+		const gchar *action = message+prefix_length+1;
+		GmpvController *controller = data;
+		GmpvView *view = controller->view;
+		GActionMap *map = NULL;
+
+		if(g_str_has_prefix(action, "win."))
+		{
+			map = G_ACTION_MAP(gmpv_view_get_main_window(view));
+		}
+		else if(g_str_has_prefix(action, "app."))
+		{
+			map = G_ACTION_MAP(controller->app);
+		}
+
+		if(map)
+		{
+			/* Strip scope and activate */
+			activate_action_string(map, strchr(action, '.')+1);
+		}
+		else
+		{
+			g_warning(	"Received action with missing or "
+					"unknown scope %s",
+					action );
+		}
+	}
 }
 
 static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
@@ -631,14 +660,7 @@ static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
 
 static void shutdown_handler(GmpvMpv *mpv, gpointer data)
 {
-	GmpvController *controller = data;
-
-	gmpv_view_make_gl_context_current(controller->view);
-}
-
-static void post_shutdown_handler(GmpvMpv *mpv, gpointer data)
-{
-	gmpv_view_quit(GMPV_CONTROLLER(data)->view);
+	g_signal_emit_by_name(data, "shutdown");
 }
 
 static void play_button_handler(GtkButton *button, gpointer data)
@@ -730,16 +752,6 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_IDLE, pspec);
 
-	g_signal_new(	"message",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__STRING,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_STRING );
 	g_signal_new(	"shutdown",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

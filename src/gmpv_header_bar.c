@@ -88,7 +88,7 @@ static void gmpv_header_bar_init(GmpvHeaderBar *hdr)
 	gtk_widget_set_tooltip_text
 		(hdr->fullscreen_btn, _("Toggle Fullscreen"));
 	gtk_actionable_set_action_name
-		(GTK_ACTIONABLE(hdr->fullscreen_btn), "app.toggle-fullscreen");
+		(GTK_ACTIONABLE(hdr->fullscreen_btn), "win.toggle-fullscreen");
 
 	gtk_widget_set_can_focus(hdr->open_btn, FALSE);
 	gtk_widget_set_can_focus(hdr->fullscreen_btn, FALSE);

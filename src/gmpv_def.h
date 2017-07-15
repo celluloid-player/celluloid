@@ -82,19 +82,19 @@
 				.info = 0} }
 
 #define DEFAULT_KEYBINDS \
-	{	"Ctrl+o script-message gmpv-action show-open-dialog(false)",\
-		"Ctrl+l script-message gmpv-action show-open-location-dialog(false)",\
-		"Ctrl+Shift+o script-message gmpv-action show-open-dialog(true)",\
-		"Ctrl+Shift+l script-message gmpv-action show-open-location-dialog(true)",\
-		"Ctrl+Shift+s script-message gmpv-action save-playlist",\
-		"Ctrl+q script-message gmpv-action quit",\
-		"Ctrl+? script-message gmpv-action show-shortcuts-dialog",\
-		"Ctrl+p script-message gmpv-action show-preferences-dialog",\
-		"Ctrl+h script-message gmpv-action toggle-controls",\
-		"F9 script-message gmpv-action toggle-playlist",\
-		"F11 script-message gmpv-action toggle-fullscreen",\
-		"f script-message gmpv-action toggle-fullscreen",\
-		"ESC script-message gmpv-action leave-fullscreen",\
+	{	"Ctrl+o script-message gmpv-action win.show-open-dialog(false)",\
+		"Ctrl+l script-message gmpv-action win.show-open-location-dialog(false)",\
+		"Ctrl+Shift+o script-message gmpv-action win.show-open-dialog(true)",\
+		"Ctrl+Shift+l script-message gmpv-action win.show-open-location-dialog(true)",\
+		"Ctrl+Shift+s script-message gmpv-action win.save-playlist",\
+		"Ctrl+q script-message gmpv-action win.quit",\
+		"Ctrl+? script-message gmpv-action win.show-shortcuts-dialog",\
+		"Ctrl+p script-message gmpv-action win.show-preferences-dialog",\
+		"Ctrl+h script-message gmpv-action win.toggle-controls",\
+		"F9 script-message gmpv-action win.toggle-playlist",\
+		"F11 script-message gmpv-action win.toggle-fullscreen",\
+		"f script-message gmpv-action win.toggle-fullscreen",\
+		"ESC script-message gmpv-action win.leave-fullscreen",\
 		"v osd-msg cycle sub-visibility",\
 		"s osd-msg screenshot",\
 		"S osd-msg screenshot video",\
@@ -102,16 +102,16 @@
 		"J osd-msg cycle sub down",\
 		"@ osd-msg cycle chapter",\
 		"! osd-msg cycle chapter down",\
-		"DEL script-message gmpv-action remove-selected-playlist-item",\
+		"DEL script-message gmpv-action win.remove-selected-playlist-item",\
 		"U stop",\
 		"RIGHT no-osd seek 10",\
 		"LEFT no-osd seek -10",\
 		"UP no-osd seek 60",\
 		"DOWN no-osd seek -60",\
-		"Alt+0 script-message gmpv-action set-video-size(0.5)",\
-		"Alt+1 script-message gmpv-action set-video-size(1.0)",\
-		"Alt+2 script-message gmpv-action set-video-size(2.0)",\
-		"MOUSE_BTN0_DBL script-message gmpv-action toggle-fullscreen",\
+		"Alt+0 script-message gmpv-action win.set-video-size(0.5)",\
+		"Alt+1 script-message gmpv-action win.set-video-size(1.0)",\
+		"Alt+2 script-message gmpv-action win.set-video-size(2.0)",\
+		"MOUSE_BTN0_DBL script-message gmpv-action win.toggle-fullscreen",\
 		"MOUSE_BTN3 add volume 2",\
 		"MOUSE_BTN4 add volume -2",\
 		"MOUSE_BTN5 no-osd seek -10",\

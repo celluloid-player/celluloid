@@ -172,6 +172,7 @@ static void dispose(GObject *object)
 	if(mpv->mpv_ctx)
 	{
 		gmpv_mpv_quit(mpv);
+		while(g_source_remove_by_user_data(object));
 	}
 
 	G_OBJECT_CLASS(gmpv_mpv_parent_class)->dispose(object);

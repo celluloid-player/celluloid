@@ -41,6 +41,9 @@ static gboolean state_to_loop(	GBinding *binding,
 				GValue *to_value,
 				gpointer user_data );
 static void bind_properties(GmpvController *controller);
+static void open_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
 static void show_open_dialog_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
@@ -157,10 +160,11 @@ static gboolean state_to_loop(	GBinding *binding,
 
 static void bind_properties(GmpvController *controller)
 {
+	GmpvMainWindow *window = gmpv_view_get_main_window(controller->view);
 	GAction *action = NULL;
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(controller->app), "set-audio-track");
+			(G_ACTION_MAP(window), "set-audio-track");
 	g_object_bind_property_full(	controller->model, "aid",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
@@ -170,7 +174,7 @@ static void bind_properties(GmpvController *controller)
 					NULL );
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(controller->app), "set-video-track");
+			(G_ACTION_MAP(window), "set-video-track");
 	g_object_bind_property_full(	controller->model, "vid",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
@@ -180,7 +184,7 @@ static void bind_properties(GmpvController *controller)
 					NULL );
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(controller->app), "set-subtitle-track");
+			(G_ACTION_MAP(window), "set-subtitle-track");
 	g_object_bind_property_full(	controller->model, "sid",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
@@ -190,7 +194,7 @@ static void bind_properties(GmpvController *controller)
 					NULL );
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(controller->app), "toggle-loop");
+			(G_ACTION_MAP(window), "toggle-loop");
 	g_object_bind_property_full(	controller->model, "loop-playlist",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
@@ -198,6 +202,19 @@ static void bind_properties(GmpvController *controller)
 					state_to_loop,
 					NULL,
 					NULL );
+}
+
+static void open_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data )
+{
+	gchar *uri = NULL;
+	gboolean append = FALSE;
+
+	g_variant_get(param, "(sb)", &uri, &append);
+	gmpv_controller_open(data, uri, append);
+
+	g_free(uri);
 }
 
 static void show_open_dialog_handler(	GSimpleAction *action,
@@ -382,7 +399,10 @@ static void show_about_dialog_handler(	GSimpleAction *action,
 void gmpv_controller_action_register_actions(GmpvController *controller)
 {
 	const GActionEntry entries[]
-		= {	{.name = "show-open-dialog",
+		= {	{.name = "open",
+			.activate = open_handler,
+			.parameter_type = "(sb)"},
+			{.name = "show-open-dialog",
 			.activate = show_open_dialog_handler,
 			.parameter_type = "b"},
 			{.name = "quit",
@@ -432,7 +452,9 @@ void gmpv_controller_action_register_actions(GmpvController *controller)
 			.activate = set_video_size_handler,
 			.parameter_type = "d"} };
 
-	g_action_map_add_action_entries(	G_ACTION_MAP(controller->app),
+	GmpvMainWindow *window = gmpv_view_get_main_window(controller->view);
+
+	g_action_map_add_action_entries(	G_ACTION_MAP(window),
 						entries,
 						G_N_ELEMENTS(entries),
 						controller );

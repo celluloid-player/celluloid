@@ -427,14 +427,20 @@ static void get_property(	GObject *object,
 	}
 }
 
-static void dispose(GObject * object)
+static void dispose(GObject *object)
 {
-	g_clear_object(&GMPV_VIEW(object)->wnd);
+	GmpvView *view = GMPV_VIEW(object);
+
+	if(view->wnd)
+	{
+		gtk_widget_destroy(GTK_WIDGET(view->wnd));
+		view->wnd = NULL;
+	}
 
 	G_OBJECT_CLASS(gmpv_view_parent_class)->dispose(object);
 }
 
-static void finalize(GObject * object)
+static void finalize(GObject *object)
 {
 	g_free(GMPV_VIEW(object)->title);
 

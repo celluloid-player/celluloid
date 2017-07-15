@@ -167,9 +167,12 @@ static gboolean mouse_move_handler(	GtkWidget *widget,
 	GmpvController *controller = data;
 	GdkEventMotion *motion_event = (GdkEventMotion *)event;
 
-	gmpv_model_mouse(	controller->model,
-				(gint)motion_event->x,
-				(gint)motion_event->y );
+	if(controller->model)
+	{
+		gmpv_model_mouse(	controller->model,
+					(gint)motion_event->x,
+					(gint)motion_event->y );
+	}
 
 	return FALSE;
 }

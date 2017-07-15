@@ -360,9 +360,14 @@ static void get_property(	GObject *object,
 
 static void dispose(GObject *object)
 {
-	GmpvModel *model = GMPV_MODEL(object);
+	if(GMPV_MODEL(object)->mpv)
+	{
+		GmpvModel *model = GMPV_MODEL(object);
 
-	g_clear_object(&model->mpv);
+		gmpv_mpv_set_opengl_cb_callback(model->mpv, NULL, NULL);
+		g_clear_object(&model->mpv);
+		while(g_source_remove_by_user_data(model));
+	}
 
 	G_OBJECT_CLASS(gmpv_model_parent_class)->dispose(object);
 }
@@ -776,7 +781,7 @@ void gmpv_model_initialize(GmpvModel *model)
 
 void gmpv_model_reset(GmpvModel *model)
 {
-	GMPV_MODEL(model)->ready = FALSE;
+	model->ready = FALSE;
 	g_object_notify(G_OBJECT(model), "ready");
 
 	gmpv_mpv_reset(model->mpv);
@@ -784,10 +789,13 @@ void gmpv_model_reset(GmpvModel *model)
 
 void gmpv_model_quit(GmpvModel *model)
 {
-	GMPV_MODEL(model)->ready = FALSE;
-	g_object_notify(G_OBJECT(model), "ready");
+	if(model->ready)
+	{
+		model->ready = FALSE;
+		g_object_notify(G_OBJECT(model), "ready");
 
-	gmpv_mpv_quit(model->mpv);
+		gmpv_mpv_quit(model->mpv);
+	}
 }
 
 void gmpv_model_mouse(GmpvModel *model, gint x, gint y)

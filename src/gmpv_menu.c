@@ -204,23 +204,23 @@ static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat)
 static GMenu *build_video_track_menu(const GPtrArray *list)
 {
 	return	build_menu_from_track_list
-		(list, "app.set-video-track", NULL);
+		(list, "win.set-video-track", NULL);
 }
 
 static GMenu *build_audio_track_menu(const GPtrArray *list)
 {
 	return	build_menu_from_track_list
 		(	list,
-			"app.set-audio-track",
-			"app.load-track('audio-add')" );
+			"win.set-audio-track",
+			"win.load-track('audio-add')" );
 }
 
 static GMenu *build_subtitle_track_menu(const GPtrArray *list)
 {
 	return	build_menu_from_track_list
 		(	list,
-			"app.set-subtitle-track",
-			"app.load-track('sub-add')" );
+			"win.set-subtitle-track",
+			"win.load-track('sub-add')" );
 }
 
 void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
@@ -241,25 +241,25 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 
 	const GmpvMenuEntry entries[]
 		= {	{_("_File"), NULL, NULL},
-			{_("_Open"), "app.show-open-dialog(false)", NULL},
-			{_("Open _Location"), "app.show-open-location-dialog(false)", NULL},
-			{_("_Save Playlist"), "app.save-playlist", NULL},
-			{_("_Quit"), "app.quit", NULL},
+			{_("_Open"), "win.show-open-dialog(false)", NULL},
+			{_("Open _Location"), "win.show-open-location-dialog(false)", NULL},
+			{_("_Save Playlist"), "win.save-playlist", NULL},
+			{_("_Quit"), "win.quit", NULL},
 			{_("_Edit"), NULL, NULL},
-			{_("_Preferences"), "app.show-preferences-dialog", NULL},
+			{_("_Preferences"), "win.show-preferences-dialog", NULL},
 			{_("_Video Track"), NULL, video_menu},
 			{_("_Audio Track"), NULL, audio_menu},
 			{_("S_ubtitle Track"), NULL, subtitle_menu},
 			{_("_View"), NULL, NULL},
-			{_("_Toggle Controls"), "app.toggle-controls", NULL},
-			{_("_Toggle Playlist"), "app.toggle-playlist", NULL},
-			{_("_Fullscreen"), "app.toggle-fullscreen", NULL},
-			{_("_Normal Size"), "app.set-video-size(@d 1)", NULL},
-			{_("_Double Size"), "app.set-video-size(@d 2)", NULL},
-			{_("_Half Size"), "app.set-video-size(@d 0.5)", NULL},
+			{_("_Toggle Controls"), "win.toggle-controls", NULL},
+			{_("_Toggle Playlist"), "win.toggle-playlist", NULL},
+			{_("_Fullscreen"), "win.toggle-fullscreen", NULL},
+			{_("_Normal Size"), "win.set-video-size(@d 1)", NULL},
+			{_("_Double Size"), "win.set-video-size(@d 2)", NULL},
+			{_("_Half Size"), "win.set-video-size(@d 0.5)", NULL},
 			{_("_Help"), NULL, NULL},
-			{_("_Keyboard Shortcuts"), "app.show-shortcuts-dialog" , NULL},
-			{_("_About"), "app.show-about-dialog", NULL},
+			{_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog" , NULL},
+			{_("_About"), "win.show-about-dialog", NULL},
 			{NULL, NULL, NULL} };
 
 	build_menu(menu, entries, FALSE);
@@ -290,18 +290,18 @@ void gmpv_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 
 	const GmpvMenuEntry entries[]
 		= {	{NULL, "", NULL},
-			{_("_Toggle Controls"), "app.toggle-controls", NULL},
+			{_("_Toggle Controls"), "win.toggle-controls", NULL},
 			{NULL, "", NULL},
-			{_("_Toggle Playlist"), "app.toggle-playlist", NULL},
-			{_("_Save Playlist"), "app.save-playlist", NULL},
+			{_("_Toggle Playlist"), "win.toggle-playlist", NULL},
+			{_("_Save Playlist"), "win.save-playlist", NULL},
 			{NULL, "", NULL},
 			{_("_Video Track"), NULL, video_menu},
 			{_("_Audio Track"), NULL, audio_menu},
 			{_("S_ubtitle Track"), NULL, subtitle_menu},
 			{NULL, "", NULL},
-			{_("_Normal Size"), "app.set-video-size(@d 1)", NULL},
-			{_("_Double Size"), "app.set-video-size(@d 2)", NULL},
-			{_("_Half Size"), "app.set-video-size(@d 0.5)", NULL},
+			{_("_Normal Size"), "win.set-video-size(@d 1)", NULL},
+			{_("_Double Size"), "win.set-video-size(@d 2)", NULL},
+			{_("_Half Size"), "win.set-video-size(@d 0.5)", NULL},
 			{NULL, NULL, NULL} };
 
 	build_menu(menu, entries, TRUE);
@@ -318,8 +318,8 @@ void gmpv_menu_build_open_btn(GMenu *menu)
 {
 	const GmpvMenuEntry entries[]
 		= {	{NULL, "", NULL},
-			{_("_Open"), "app.show-open-dialog(false)", NULL},
-			{_("Open _Location"), "app.show-open-location-dialog(false)", NULL},
+			{_("_Open"), "win.show-open-dialog(false)", NULL},
+			{_("Open _Location"), "win.show-open-location-dialog(false)", NULL},
 			{NULL, NULL, NULL} };
 
 	build_menu(menu, entries, TRUE);
@@ -329,11 +329,11 @@ void gmpv_menu_build_app_menu(GMenu *menu)
 {
 	const GmpvMenuEntry entries[]
 		= {	{NULL, "", NULL},
-			{_("_Preferences"), "app.show-preferences-dialog", NULL},
+			{_("_Preferences"), "win.show-preferences-dialog", NULL},
 			{NULL, "", NULL},
-			{_("_Keyboard Shortcuts"), "app.show-shortcuts-dialog", NULL},
-			{_("_About"), "app.show-about-dialog", NULL},
-			{_("_Quit"), "app.quit", NULL},
+			{_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog", NULL},
+			{_("_About"), "win.show-about-dialog", NULL},
+			{_("_Quit"), "win.quit", NULL},
 			{NULL, NULL, NULL} };
 
 	build_menu(menu, entries, TRUE);
