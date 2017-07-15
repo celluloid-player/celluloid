@@ -80,6 +80,8 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void dispose(GObject * object);
+static void finalize(GObject * object);
 static void load_css(GmpvView *view);
 static void save_playlist(GmpvView *view, GFile *file, GError **error);
 static void show_message_dialog(	GmpvMainWindow *wnd,
@@ -421,6 +423,20 @@ static void get_property(	GObject *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
 	}
+}
+
+static void dispose(GObject * object)
+{
+	g_clear_object(&GMPV_VIEW(object)->wnd);
+
+	G_OBJECT_CLASS(gmpv_view_parent_class)->dispose(object);
+}
+
+static void finalize(GObject * object)
+{
+	g_free(GMPV_VIEW(object)->title);
+
+	G_OBJECT_CLASS(gmpv_view_parent_class)->finalize(object);
 }
 
 static void load_css(GmpvView *view)
@@ -896,6 +912,8 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 	object_class->constructed = constructed;
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
+	object_class->dispose = dispose;
+	object_class->finalize = finalize;
 
 	pspec = g_param_spec_pointer
 		(	"window",
