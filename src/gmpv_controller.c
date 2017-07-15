@@ -39,6 +39,7 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void dispose(GObject *object);
 static void mpris_enable_handler(	GSettings *settings,
 					gchar *key,
 					gpointer data );
@@ -197,6 +198,25 @@ static void get_property(	GObject *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
 	}
+}
+
+static void dispose(GObject *object)
+{
+	GmpvController *controller = GMPV_CONTROLLER(object);
+
+	g_clear_object(&controller->settings);
+	g_clear_object(&controller->mpris);
+	g_clear_object(&controller->media_keys);
+	g_clear_object(&controller->view);
+	g_clear_object(&controller->model);
+
+	if(controller->update_seekbar_id != 0)
+	{
+		g_source_remove(controller->update_seekbar_id);
+		controller->update_seekbar_id = 0;
+	}
+
+	G_OBJECT_CLASS(gmpv_controller_parent_class)->dispose(object);
 }
 
 static void mpris_enable_handler(	GSettings *settings,
@@ -616,7 +636,6 @@ static void shutdown_handler(GmpvMpv *mpv, gpointer data)
 {
 	GmpvController *controller = data;
 
-	g_source_remove(controller->update_seekbar_id);
 	gmpv_view_make_gl_context_current(controller->view);
 }
 
@@ -689,6 +708,7 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 	obj_class->constructed = constructed;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
+	obj_class->dispose = dispose;
 
 	pspec = g_param_spec_pointer
 		(	"app",
