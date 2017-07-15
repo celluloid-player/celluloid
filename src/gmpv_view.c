@@ -292,6 +292,8 @@ static void constructed(GObject *object)
 				"rows-reordered",
 				G_CALLBACK(playlist_row_reordered_handler),
 				view );
+
+	G_OBJECT_CLASS(gmpv_view_parent_class)->constructed(object);
 }
 
 static void set_property(	GObject *object,
