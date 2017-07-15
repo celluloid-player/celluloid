@@ -761,9 +761,6 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->view = NULL;
 	controller->ready = FALSE;
 	controller->idle = TRUE;
-	controller->action_queue = g_queue_new();
-	controller->files = NULL;
-	controller->inhibit_cookie = 0;
 	controller->target_playlist_pos = -1;
 	controller->update_seekbar_id = 0;
 	controller->settings = g_settings_new(CONFIG_ROOT);

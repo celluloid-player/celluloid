@@ -44,9 +44,6 @@ struct _GmpvController
 	GmpvView *view;
 	gboolean ready;
 	gboolean idle;
-	GQueue *action_queue;
-	gchar **files;
-	guint inhibit_cookie;
 	gint64 target_playlist_pos;
 	guint update_seekbar_id;
 	GSettings *settings;
