@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -35,6 +35,7 @@ struct module_log_level
 	mpv_log_level level;
 };
 
+void module_log_level_free(module_log_level *level);
 void gmpv_mpv_opt_handle_geometry(GmpvMpv *mpv);
 void gmpv_mpv_opt_handle_autofit(GmpvMpv *mpv);
 void gmpv_mpv_opt_handle_fs(GmpvMpv *mpv);

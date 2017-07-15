@@ -60,6 +60,8 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void dispose(GObject *object);
+static void finalize(GObject *object);
 static void apply_default_options(GmpvMpv *mpv);
 static void load_mpv_config_file(GmpvMpv *mpv);
 static void apply_extra_options(GmpvMpv *mpv);
@@ -161,6 +163,34 @@ static void get_property(	GObject *object,
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 	}
+}
+
+static void dispose(GObject *object)
+{
+	GmpvMpv *mpv = GMPV_MPV_OBJ(object);
+
+	if(mpv->mpv_ctx)
+	{
+		gmpv_mpv_quit(mpv);
+	}
+
+	G_OBJECT_CLASS(gmpv_mpv_parent_class)->dispose(object);
+}
+
+static void finalize(GObject *object)
+{
+	GmpvMpv *mpv = GMPV_MPV_OBJ(object);
+
+	g_ptr_array_free(mpv->playlist, TRUE);
+	g_ptr_array_free(mpv->metadata, TRUE);
+	g_ptr_array_free(mpv->track_list, TRUE);
+	g_free(mpv->tmp_input_file);
+	g_free(mpv->geometry);
+
+	g_slist_free_full(	mpv->log_level_list,
+				(GDestroyNotify)module_log_level_free);
+
+	G_OBJECT_CLASS(gmpv_mpv_parent_class)->finalize(object);
 }
 
 static void apply_default_options(GmpvMpv *mpv)
@@ -835,6 +865,8 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
+	obj_class->dispose = dispose;
+	obj_class->finalize = finalize;
 
 	pspec = g_param_spec_int64
 		(	"wid",

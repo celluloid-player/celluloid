@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -213,6 +213,12 @@ static void parse_geom_string(	GmpvMpv *mpv,
 
 		g_warning("Failed to parse geometry string: %s", geom_str);
 	}
+}
+
+void module_log_level_free(module_log_level *level)
+{
+	g_free(level->prefix);
+	g_free(level);
 }
 
 void gmpv_mpv_opt_handle_geometry(GmpvMpv *mpv)
