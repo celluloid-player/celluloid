@@ -39,6 +39,12 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void mpris_enable_handler(	GSettings *settings,
+					gchar *key,
+					gpointer data );
+static void media_keys_enable_handler(	GSettings *settings,
+					gchar *key,
+					gpointer data );
 static void view_ready_handler(GmpvView *view, gpointer data);
 static void render_handler(GmpvView *view, gpointer data);
 static void preferences_updated_handler(GmpvView *view, gpointer data);
@@ -101,15 +107,14 @@ G_DEFINE_TYPE(GmpvController, gmpv_controller, G_TYPE_OBJECT)
 static void constructed(GObject *object)
 {
 	GmpvController *controller;
-	GSettings *settings;
 	GmpvMainWindow *window;
 	gboolean always_floating;
 	gint64 wid;
 
 	controller = GMPV_CONTROLLER(object);
-	settings = g_settings_new(CONFIG_ROOT);
 	always_floating =	g_settings_get_boolean
-				(settings, "always-use-floating-controls");
+				(	controller->settings,
+					"always-use-floating-controls" );
 
 	controller->view = gmpv_view_new(controller->app, always_floating);
 	window = gmpv_view_get_main_window(controller->view);
@@ -120,7 +125,24 @@ static void constructed(GObject *object)
 	gmpv_controller_action_register_actions(controller);
 	gmpv_controller_input_connect_signals(controller);
 
-	g_object_unref(settings);
+	g_signal_connect(	controller->settings,
+				"changed::mpris-enable",
+				G_CALLBACK(mpris_enable_handler),
+				controller );
+	g_signal_connect(	controller->settings,
+				"changed::media-keys-enable",
+				G_CALLBACK(media_keys_enable_handler),
+				controller );
+
+	if(g_settings_get_boolean(controller->settings, "mpris-enable"))
+	{
+		controller->mpris = gmpv_mpris_new(controller);
+	}
+
+	if(g_settings_get_boolean(controller->settings, "media-keys-enable"))
+	{
+		controller->media_keys = gmpv_media_keys_new(controller);
+	}
 }
 
 static void set_property(	GObject *object,
@@ -174,6 +196,38 @@ static void get_property(	GObject *object,
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
+	}
+}
+
+static void mpris_enable_handler(	GSettings *settings,
+					gchar *key,
+					gpointer data )
+{
+	GmpvController *controller = data;
+
+	if(!controller->mpris && g_settings_get_boolean(settings, key))
+	{
+		controller->mpris = gmpv_mpris_new(controller);
+	}
+	else if(controller->mpris)
+	{
+		g_clear_object(&controller->mpris);
+	}
+}
+
+static void media_keys_enable_handler(	GSettings *settings,
+					gchar *key,
+					gpointer data )
+{
+	GmpvController *controller = data;
+
+	if(!controller->media_keys && g_settings_get_boolean(settings, key))
+	{
+		controller->media_keys = gmpv_media_keys_new(controller);
+	}
+	else if(controller->media_keys)
+	{
+		g_clear_object(&controller->media_keys);
 	}
 }
 
@@ -692,6 +746,9 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->inhibit_cookie = 0;
 	controller->target_playlist_pos = -1;
 	controller->update_seekbar_id = 0;
+	controller->settings = g_settings_new(CONFIG_ROOT);
+	controller->media_keys = NULL;
+	controller->mpris = NULL;
 }
 
 GmpvController *gmpv_controller_new(GmpvApplication *app)

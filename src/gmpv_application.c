@@ -35,12 +35,6 @@ static void update_track_id(	GmpvApplication *app,
 				const gchar *action_name,
 				const gchar *prop );
 static void initialize_gui(GmpvApplication *app);
-static void mpris_enable_handler(	GSettings *settings,
-					gchar *key,
-					gpointer data );
-static void media_keys_enable_handler(	GSettings *settings,
-					gchar *key,
-					gpointer data );
 static gboolean shutdown_signal_handler(gpointer data);
 static void activate_handler(GApplication *gapp, gpointer data);
 static void open_handler(	GApplication *gapp,
@@ -175,11 +169,13 @@ static void update_track_id(	GmpvApplication *app,
 static void initialize_gui(GmpvApplication *app)
 {
 	GmpvView *view;
+	GSettings *settings;
 
 	migrate_config();
 
 	app->controller = gmpv_controller_new(app);
 	view = gmpv_controller_get_view(app->controller);
+	settings = g_settings_new(CONFIG_ROOT);
 
 	g_unix_signal_add(SIGHUP, shutdown_signal_handler, app);
 	g_unix_signal_add(SIGINT, shutdown_signal_handler, app);
@@ -209,67 +205,19 @@ static void initialize_gui(GmpvApplication *app)
 				"shutdown",
 				G_CALLBACK(shutdown_handler),
 				app );
-	g_signal_connect(	app->settings,
-				"changed::mpris-enable",
-				G_CALLBACK(mpris_enable_handler),
-				app );
-	g_signal_connect(	app->settings,
-				"changed::media-keys-enable",
-				G_CALLBACK(media_keys_enable_handler),
-				app );
 
-	g_settings_bind(	app->settings,
+	g_settings_bind(	settings,
 				"always-use-floating-controls",
 				gmpv_view_get_main_window(view),
 				"always-use-floating-controls",
 				G_SETTINGS_BIND_GET );
-	g_settings_bind(	app->settings,
+	g_settings_bind(	settings,
 				"dark-theme-enable",
 				gtk_settings_get_default(),
 				"gtk-application-prefer-dark-theme",
 				G_SETTINGS_BIND_GET );
 
-	if(g_settings_get_boolean(app->settings, "mpris-enable"))
-	{
-		app->mpris = gmpv_mpris_new(app->controller);
-	}
-
-	if(g_settings_get_boolean(app->settings, "media-keys-enable"))
-	{
-		app->media_keys = gmpv_media_keys_new(app->controller);
-	}
-}
-
-static void mpris_enable_handler(	GSettings *settings,
-					gchar *key,
-					gpointer data )
-{
-	GmpvApplication *app = data;
-
-	if(!app->mpris && g_settings_get_boolean(settings, key))
-	{
-		app->mpris = gmpv_mpris_new(app->controller);
-	}
-	else if(app->mpris)
-	{
-		g_clear_object(&app->mpris);
-	}
-}
-
-static void media_keys_enable_handler(	GSettings *settings,
-					gchar *key,
-					gpointer data )
-{
-	GmpvApplication *app = data;
-
-	if(!app->media_keys && g_settings_get_boolean(settings, key))
-	{
-		app->media_keys = gmpv_media_keys_new(app->controller);
-	}
-	else if(app->media_keys)
-	{
-		g_clear_object(&app->media_keys);
-	}
+	g_object_unref(settings);
 }
 
 static gboolean shutdown_signal_handler(gpointer data)
@@ -328,6 +276,7 @@ static gint options_handler(	GApplication *gapp,
 	else
 	{
 		GmpvApplication *app = GMPV_APPLICATION(gapp);
+		GSettings *settings = g_settings_new(CONFIG_ROOT);
 
 		g_variant_dict_lookup(	options,
 					"no-existing-session",
@@ -336,8 +285,7 @@ static gint options_handler(	GApplication *gapp,
 
 		app->no_existing_session
 			|=	g_settings_get_boolean
-				(	app->settings,
-					"multiple-instances-enable" );
+				(settings, "multiple-instances-enable");
 
 		if(app->no_existing_session)
 		{
@@ -347,6 +295,8 @@ static gint options_handler(	GApplication *gapp,
 			g_application_set_flags
 				(gapp, flags|G_APPLICATION_NON_UNIQUE);
 		}
+
+		g_object_unref(settings);
 	}
 
 	return version?0:-1;
@@ -492,9 +442,6 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->no_existing_session = FALSE;
 	app->action_queue = g_queue_new();
 	app->inhibit_cookie = 0;
-	app->settings = g_settings_new(CONFIG_ROOT);
-	app->mpris = NULL;
-	app->media_keys = NULL;
 
 	g_application_add_main_option
 		(	G_APPLICATION(app),

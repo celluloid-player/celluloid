@@ -22,6 +22,8 @@
 
 #include "gmpv_model.h"
 #include "gmpv_view.h"
+#include "mpris/gmpv_mpris.h"
+#include "media_keys/gmpv_media_keys.h"
 
 G_BEGIN_DECLS
 
@@ -47,6 +49,9 @@ struct _GmpvController
 	guint inhibit_cookie;
 	gint64 target_playlist_pos;
 	guint update_seekbar_id;
+	GSettings *settings;
+	GmpvMediaKeys *media_keys;
+	GmpvMpris *mpris;
 };
 
 struct _GmpvControllerClass
