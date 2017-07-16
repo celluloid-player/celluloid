@@ -65,6 +65,7 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
+static void destroy(GtkWidget *widget);
 static void set_cursor_visible(GmpvVideoArea *area, gboolean visible);
 static gboolean timeout_handler(gpointer data);
 static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event);
@@ -113,6 +114,17 @@ static void get_property(	GObject *object,
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
+	}
+}
+
+static void destroy(GtkWidget *widget)
+{
+	GmpvVideoArea *area = GMPV_VIDEO_AREA(widget);
+
+	if(area->timeout_tag > 0)
+	{
+		g_source_remove(area->timeout_tag);
+		area->timeout_tag = 0;
 	}
 }
 
@@ -249,6 +261,7 @@ static void gmpv_video_area_class_init(GmpvVideoAreaClass *klass)
 
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
+	wgt_class->destroy = destroy;
 	wgt_class->motion_notify_event = motion_notify_handler;
 
 	g_signal_new(	"render",
