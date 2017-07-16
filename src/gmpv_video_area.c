@@ -68,7 +68,7 @@ static void get_property(	GObject *object,
 static void destroy(GtkWidget *widget);
 static void set_cursor_visible(GmpvVideoArea *area, gboolean visible);
 static gboolean timeout_handler(gpointer data);
-static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event);
+static gboolean motion_notify_event(GtkWidget *widget, GdkEventMotion *event);
 static gboolean fs_control_crossing_handler(	GtkWidget *widget,
 						GdkEventCrossing *event,
 						gpointer data );
@@ -182,7 +182,7 @@ static gboolean timeout_handler(gpointer data)
 	return (area->timeout_tag != 0);
 }
 
-static gboolean motion_notify_handler(GtkWidget *widget, GdkEventMotion *event)
+static gboolean motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 {
 	GmpvVideoArea *area = GMPV_VIDEO_AREA(widget);
 	GdkCursor *cursor;
@@ -262,7 +262,7 @@ static void gmpv_video_area_class_init(GmpvVideoAreaClass *klass)
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 	wgt_class->destroy = destroy;
-	wgt_class->motion_notify_event = motion_notify_handler;
+	wgt_class->motion_notify_event = motion_notify_event;
 
 	g_signal_new(	"render",
 			G_TYPE_FROM_CLASS(klass),
