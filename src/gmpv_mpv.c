@@ -195,12 +195,33 @@ static void finalize(GObject *object)
 
 static void apply_default_options(GmpvMpv *mpv)
 {
+	gchar *config_dir = get_config_dir_path();
+
 	const struct
 	{
 		const gchar *name;
 		const gchar *value;
 	}
-	options[] = DEFAULT_OPTIONS;
+	options[] = {	{"vo", "opengl,vdpau,vaapi,xv,x11,opengl-cb,"},
+			{"osd-level", "1"},
+			{"softvol", "yes"},
+			{"force-window", "immediate"},
+			{"input-default-bindings", "yes"},
+			{"audio-client-name", ICON_NAME},
+			{"title", "${media-title}"},
+			{"autofit-larger", "75%"},
+			{"window-scale", "1"},
+			{"pause", "yes"},
+			{"ytdl", "yes"},
+			{"load-scripts", "no"},
+			{"osd-bar", "no"},
+			{"input-cursor", "no"},
+			{"cursor-autohide", "no"},
+			{"softvol-max", "100"},
+			{"config", "yes"},
+			{"config-dir", config_dir},
+			{"screenshot-template", "gnome-mpv-shot%n"},
+			{NULL, NULL} };
 
 	for(gint i = 0; options[i].name; i++)
 	{
@@ -212,6 +233,8 @@ static void apply_default_options(GmpvMpv *mpv)
 					options[i].name,
 					options[i].value );
 	}
+
+	g_free(config_dir);
 }
 
 static void load_mpv_config_file(GmpvMpv *mpv)
