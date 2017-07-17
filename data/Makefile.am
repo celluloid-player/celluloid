@@ -10,6 +10,13 @@ appstream_XML = $(appstream_in_files:.xml.in=.xml)
 
 @APPSTREAM_XML_RULES@
 
+dbusservicedir = $(datadir)/dbus-1/services
+dbusservice_in_files = io.github.GnomeMpv.service
+dbusservice_DATA = $(dbusservice_in_files:.service.in=.service)
+
+%.service: %.service.in Makefile
+	$(AM_V_GEN) sed -e "s|\@bindir\@|$(bindir)|" $< > $@
+
 desktopdir = $(datadir)/applications
 desktop_in_files = io.github.GnomeMpv.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
@@ -30,4 +37,4 @@ EXTRA_DIST =	$(appstream_in_files) $(desktop_in_files) \
 		gmpv_mpris_gdbus.xml gmpv_marshal.lst \
 		meson.build
 
-DISTCLEANFILES = $(appstream_XML) $(desktop_DATA)
+DISTCLEANFILES = $(appstream_XML) $(desktop_DATA) $(dbusservice_DATA)

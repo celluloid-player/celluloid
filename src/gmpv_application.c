@@ -183,6 +183,8 @@ static void open_handler(	GApplication *gapp,
 {
 	GmpvApplication *app = data;
 
+	g_application_activate(gapp);
+
 	for(gint i = 0; i < n_files; i++)
 	{
 		GtkApplication *gtkapp = GTK_APPLICATION(gapp);

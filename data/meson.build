@@ -30,3 +30,13 @@ install_data('gnome-mpv.svg',
 install_data('gnome-mpv-symbolic.svg',
   install_dir: join_paths(icondir, 'symbolic/apps')
 )
+
+service_conf = configuration_data()
+service_conf.set('bindir', get_option('bindir'))
+
+configure_file(
+  input: 'io.github.GnomeMpv.service.in',
+  output: 'io.github.GnomeMpv.service',
+  configuration: service_conf,
+  install_dir: join_paths(get_option('datadir'), 'dbus-1', 'services')
+)
