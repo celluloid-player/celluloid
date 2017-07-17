@@ -372,7 +372,7 @@ static void load_scripts(GmpvMpv *mpv)
 
 static void wakeup_callback(void *data)
 {
-	g_idle_add((GSourceFunc)mpv_event_handler, data);
+	g_idle_add_full(G_PRIORITY_HIGH_IDLE, mpv_event_handler, data, NULL);
 }
 
 static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node)

@@ -268,11 +268,6 @@ static void render_handler(GmpvView *view, gpointer data)
 	scale = gmpv_view_get_scale_factor(controller->view);
 	gmpv_view_get_video_area_geometry(controller->view, &width, &height);
 	gmpv_model_render_frame(controller->model, scale*width, scale*height);
-
-	while(gtk_events_pending())
-	{
-		gtk_main_iteration();
-	}
 }
 
 static void preferences_updated_handler(GmpvView *view, gpointer data)

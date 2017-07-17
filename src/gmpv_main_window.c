@@ -198,7 +198,7 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 		wnd->width_offset += target_width-width;
 		wnd->height_offset += target_height-height;
 
-		g_idle_add(resize_to_target, wnd);
+		g_idle_add_full(G_PRIORITY_HIGH_IDLE, resize_to_target, wnd, NULL);
 	}
 }
 
