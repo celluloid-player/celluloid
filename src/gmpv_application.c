@@ -35,7 +35,6 @@ struct _GmpvApplication
 	GSList *controllers;
 	gboolean enqueue;
 	gboolean new_window;
-	gboolean no_existing_session;
 	GQueue *action_queue;
 	guint inhibit_cookie;
 };
@@ -222,8 +221,6 @@ static void open_handler(	GApplication *gapp,
 {
 	GmpvApplication *app = data;
 
-	app->enqueue = (g_strcmp0(hint, "enqueue") == 0);
-
 	for(gint i = 0; i < n_files; i++)
 	{
 		GtkApplication *gtkapp = GTK_APPLICATION(gapp);
@@ -254,19 +251,19 @@ static gint options_handler(	GApplication *gapp,
 	}
 	else
 	{
-		GmpvApplication *app = GMPV_APPLICATION(gapp);
 		GSettings *settings = g_settings_new(CONFIG_ROOT);
+		gboolean no_existing_session = FALSE;
 
 		g_variant_dict_lookup(	options,
 					"no-existing-session",
 					"b",
-					&app->no_existing_session );
+					&no_existing_session );
 
-		app->no_existing_session
+		no_existing_session
 			|=	g_settings_get_boolean
 				(settings, "multiple-instances-enable");
 
-		if(app->no_existing_session)
+		if(no_existing_session)
 		{
 			GApplicationFlags flags = g_application_get_flags(gapp);
 
@@ -289,15 +286,13 @@ static gint command_line_handler(	GApplication *gapp,
 	gint argc = 1;
 	gchar **argv = g_application_command_line_get_arguments(cli, &argc);
 	GVariantDict *options = g_application_command_line_get_options_dict(cli);
-	gboolean enqueue = FALSE;
 	const gint n_files = argc-1;
 	GFile *files[n_files];
 
 	app->enqueue = FALSE;
 	app->new_window = FALSE;
-	app->no_existing_session = FALSE;
 
-	g_variant_dict_lookup(options, "enqueue", "b", &enqueue);
+	g_variant_dict_lookup(options, "enqueue", "b", &app->enqueue);
 	g_variant_dict_lookup(options, "new-window", "b", &app->new_window);
 
 	for(gint i = 0; i < n_files; i++)
@@ -313,7 +308,8 @@ static gint command_line_handler(	GApplication *gapp,
 
 	if(n_files > 0)
 	{
-		g_application_open(gapp, files, n_files, enqueue?"enqueue":"");
+		g_application_open
+			(gapp, files, n_files, app->enqueue?"enqueue":"");
 	}
 
 	for(gint i = 0; i < n_files; i++)
@@ -420,7 +416,6 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->controllers = NULL;
 	app->enqueue = FALSE;
 	app->new_window = FALSE;
-	app->no_existing_session = FALSE;
 	app->action_queue = g_queue_new();
 	app->inhibit_cookie = 0;
 
