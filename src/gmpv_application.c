@@ -47,6 +47,9 @@ struct _GmpvApplicationClass
 static void migrate_config(void);
 static void initialize_gui(GmpvApplication *app);
 static gboolean shutdown_signal_handler(gpointer data);
+static void new_window_handler(	GSimpleAction *simple,
+				GVariant *parameter,
+				gpointer data );
 static void activate_handler(GApplication *gapp, gpointer data);
 static void open_handler(	GApplication *gapp,
 				GFile **files,
@@ -153,6 +156,13 @@ static gboolean shutdown_signal_handler(gpointer data)
 	gmpv_application_quit(data);
 
 	return FALSE;
+}
+
+static void new_window_handler(	GSimpleAction *simple,
+				GVariant *parameter,
+				gpointer data )
+{
+	initialize_gui(data);
 }
 
 static void activate_handler(GApplication *gapp, gpointer data)
@@ -348,11 +358,15 @@ static void gmpv_application_class_init(GmpvApplicationClass *klass)
 
 static void gmpv_application_init(GmpvApplication *app)
 {
+	GSimpleAction *new_window = g_simple_action_new("new-window", NULL);
+
 	app->controllers = NULL;
 	app->enqueue = FALSE;
 	app->new_window = FALSE;
 	app->action_queue = g_queue_new();
 	app->inhibit_cookie = 0;
+
+	g_action_map_add_action(G_ACTION_MAP(app), G_ACTION(new_window));
 
 	g_application_add_main_option
 		(	G_APPLICATION(app),
@@ -387,6 +401,8 @@ static void gmpv_application_init(GmpvApplication *app)
 			_("Don't connect to an already-running instance"),
 			NULL );
 
+	g_signal_connect
+		(new_window, "activate", G_CALLBACK(new_window_handler), app);
 	g_signal_connect
 		(app, "handle-local-options", G_CALLBACK(options_handler), app);
 	g_signal_connect
