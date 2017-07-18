@@ -83,6 +83,9 @@ static void idle_active_handler(	GObject *object,
 static void playlist_handler(		GObject *object,
 					GParamSpec *pspec,
 					gpointer data);
+static void vid_handler(		GObject *object,
+					GParamSpec *pspec,
+					gpointer data);
 static void model_ready_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
@@ -398,6 +401,10 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(playlist_handler),
 				controller );
 	g_signal_connect(	controller->model,
+				"notify::vid",
+				G_CALLBACK(vid_handler),
+				controller );
+	g_signal_connect(	controller->model,
 				"frame-ready",
 				G_CALLBACK(frame_ready_handler),
 				controller );
@@ -555,6 +562,24 @@ static void playlist_handler(	GObject *object,
 	g_object_get(object, "playlist", &playlist, "playlist-pos", &pos, NULL);
 	gmpv_view_update_playlist(view, playlist);
 	gmpv_view_set_playlist_pos(view, pos);
+}
+
+static void vid_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data )
+{
+	GmpvController *controller = data;
+	GmpvMainWindow *window = gmpv_view_get_main_window(controller->view);
+	GActionMap *map = G_ACTION_MAP(window);
+	GAction *action = g_action_map_lookup_action(map, "set-video-size");
+	gchar *vid_str = NULL;
+	gint64 vid = 0;
+
+	g_object_get(object, "vid", &vid_str, NULL);
+	vid = g_ascii_strtoll(vid_str, NULL, 10);
+	g_simple_action_set_enabled(G_SIMPLE_ACTION(action), vid > 0);
+
+	g_free(vid_str);
 }
 
 static void model_ready_handler(	GObject *object,
