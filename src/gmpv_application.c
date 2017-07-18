@@ -45,10 +45,6 @@ struct _GmpvApplicationClass
 };
 
 static void migrate_config(void);
-static void update_track_id(	GmpvApplication *app,
-				GmpvController *controller,
-				const gchar *action_name,
-				const gchar *prop );
 static void initialize_gui(GmpvApplication *app);
 static gboolean shutdown_signal_handler(gpointer data);
 static void activate_handler(GApplication *gapp, gpointer data);
@@ -64,15 +60,6 @@ static gint command_line_handler(	GApplication *gapp,
 					GApplicationCommandLine *cli,
 					gpointer data );
 static void startup_handler(GApplication *gapp, gpointer data);
-static void aid_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data );
-static void vid_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data );
-static void sid_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data );
 static void idle_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data );
@@ -120,29 +107,6 @@ static void migrate_config()
 	g_object_unref(new_settings);
 }
 
-static void update_track_id(	GmpvApplication *app,
-				GmpvController *controller,
-				const gchar *action_name,
-				const gchar *prop )
-{
-	GActionMap *action_map = G_ACTION_MAP(app);
-	GAction *action = g_action_map_lookup_action(action_map, action_name);
-	gint64 id = 0;
-
-	g_object_get(controller, prop, &id, NULL);
-
-	if(id >= 0 && action)
-	{
-		GVariant *value = g_variant_new_int64(id);
-
-		g_action_change_state(action, value);
-	}
-	else if(!action)
-	{
-		g_warning("Cannot find action: %s", action_name);
-	}
-}
-
 static void initialize_gui(GmpvApplication *app)
 {
 	GmpvController *controller;
@@ -160,18 +124,6 @@ static void initialize_gui(GmpvApplication *app)
 	g_unix_signal_add(SIGINT, shutdown_signal_handler, app);
 	g_unix_signal_add(SIGTERM, shutdown_signal_handler, app);
 
-	g_signal_connect(	controller,
-				"notify::aid",
-				G_CALLBACK(aid_handler),
-				app );
-	g_signal_connect(	controller,
-				"notify::vid",
-				G_CALLBACK(vid_handler),
-				app );
-	g_signal_connect(	controller,
-				"notify::sid",
-				G_CALLBACK(sid_handler),
-				app );
 	g_signal_connect(	controller,
 				"notify::idle",
 				G_CALLBACK(idle_handler),
@@ -335,33 +287,6 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	textdomain(GETTEXT_PACKAGE);
 
 	g_info("Starting GNOME MPV " VERSION);
-}
-
-static void aid_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data )
-{
-	update_track_id(data, GMPV_CONTROLLER(object),  "set-audio-track", "aid");
-}
-
-static void vid_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data )
-{
-	GAction *action = g_action_map_lookup_action(data, "set-video-size");
-	gint vid = 0;
-
-	g_object_get(object, "vid", &vid, NULL);
-	g_simple_action_set_enabled(G_SIMPLE_ACTION(action), vid > 0);
-
-	update_track_id(data, GMPV_CONTROLLER(object), "set-video-track", "vid");
-}
-
-static void sid_handler(	GObject *object,
-				GParamSpec *pspec,
-				gpointer data )
-{
-	update_track_id(data, GMPV_CONTROLLER(object), "set-subtitle-track", "sid");
 }
 
 static void idle_handler(	GObject *object,
