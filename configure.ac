@@ -109,7 +109,7 @@ AC_CHECK_FUNCS([setlocale],[],[
 	AC_MSG_ERROR([Could not find required functions])
 ])
 
-AC_CONFIG_FILES([Makefile src/Makefile data/Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile src/Makefile data/Makefile docs/Makefile po/Makefile.in])
 AC_OUTPUT
 
 echo "

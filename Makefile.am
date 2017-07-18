@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = src data po
+SUBDIRS = src data docs po
 
 EXTRA_DIST = README.md AUTHORS meson.build meson_post_install.py po/meson.build
 
