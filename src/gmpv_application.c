@@ -294,13 +294,23 @@ static void idle_handler(	GObject *object,
 				gpointer data )
 {
 	GmpvApplication *app = data;
+	GmpvController *controller = NULL;
 	gboolean idle = TRUE;
 
-	g_object_get(object, "idle", &idle, NULL);
+	for(	GSList *iter = app->controllers;
+		iter && idle;
+		iter = g_slist_next(iter) )
+	{
+		gboolean current = TRUE;
+
+		g_object_get(iter->data, "idle", &current, NULL);
+		idle &= current;
+		controller = iter->data;
+	}
 
 	if(!idle && app->inhibit_cookie == 0)
 	{
-		GmpvView *view = gmpv_controller_get_view(GMPV_CONTROLLER(object));
+		GmpvView *view = gmpv_controller_get_view(controller);
 		GmpvMainWindow *window = gmpv_view_get_main_window(view);
 
 		app->inhibit_cookie
