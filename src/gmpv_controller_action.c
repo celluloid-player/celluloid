@@ -306,7 +306,7 @@ static void quit_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data )
 {
-	gmpv_application_quit(data);
+	gmpv_controller_quit(data);
 }
 
 static void set_audio_track_handler(	GSimpleAction *action,
