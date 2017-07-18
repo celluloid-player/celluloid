@@ -79,7 +79,7 @@
 		</signal>
 		<signal name='TrackAdded'>
 			<arg type='a{sv}' name='Metadata'/>
-			<arg type='0' name='AfterTrack'/>
+			<arg type='o' name='AfterTrack'/>
 		</signal>
 		<signal name='TrackRemoved'>
 			<arg type='o' name='TrackId'/>
