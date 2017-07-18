@@ -50,27 +50,27 @@ msgstr "Camí al fitxer de configuració d’entrada de l’MPV"
 msgid "Load or don't load mpv input configuration file"
 msgstr "Carrega o no un fitxer de configuració d’entrada de l’MPV"
 
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:80
+#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:92
 msgid "Width of the window"
 msgstr "Amplada de la finestra"
 
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:86
+#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:98
 msgid "Height of the window"
 msgstr "Alçada de la finestra"
 
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:93
+#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:105
 msgid "Volume of player"
 msgstr "Volum del reproductor"
 
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:99
+#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:111
 msgid "Width of the playlist"
 msgstr "Amplada de la llista de reproducció"
 
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:111
+#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:123
 msgid "Show or not show the playlist"
 msgstr "Mostra o amaga la llista de reproducció"
 
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:117
+#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:129
 msgid "URI of the last folder accessed"
 msgstr "URI de la darrera carpeta accedida"
 
@@ -87,13 +87,22 @@ msgstr ""
 msgid "Allow multiple instances"
 msgstr ""
 
-#: data/io.github.GnomeMpv.gschema.xml:105
+#: data/io.github.GnomeMpv.gschema.xml:76
+msgid "Whether or not to enable MPRIS support"
+msgstr ""
+
+#: data/io.github.GnomeMpv.gschema.xml:82
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgstr ""
+
+#: data/io.github.GnomeMpv.gschema.xml:117
 msgid "Show or not show the controls"
 msgstr ""
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:410
-#: src/gmpv_view.c:994
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:409
+#: src/gmpv_view.c:929
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -148,60 +157,60 @@ msgstr "La finestra principal amb la llista de reproducció oberta"
 msgid "gnome-mpv"
 msgstr ""
 
-#: src/gmpv_application.c:464
+#: src/gmpv_application.c:463
 msgid "Playing"
 msgstr "En reproducció"
 
-#: src/gmpv_application.c:532
+#: src/gmpv_application.c:513
 msgid "Show release version"
 msgstr ""
 
-#: src/gmpv_application.c:540
+#: src/gmpv_application.c:521
 msgid "Enqueue"
 msgstr ""
 
-#: src/gmpv_application.c:548
+#: src/gmpv_application.c:529
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
-#: src/gmpv_control_box.c:271 src/gmpv_control_box.c:422
-msgid "Play"
-msgstr "Reprodueix"
-
-#: src/gmpv_control_box.c:274
-msgid "Stop"
-msgstr "Atura"
-
-#: src/gmpv_control_box.c:277
-msgid "Forward"
-msgstr "Avança"
-
-#: src/gmpv_control_box.c:280
-msgid "Rewind"
-msgstr "Rebobina"
-
-#: src/gmpv_control_box.c:283
-msgid "Next Chapter"
-msgstr "Capítol següent"
-
 #: src/gmpv_control_box.c:286
-msgid "Previous Chapter"
-msgstr "Capítol anterior"
-
-#: src/gmpv_control_box.c:289 src/gmpv_header_bar.c:89
-msgid "Toggle Fullscreen"
-msgstr "Commuta la pantalla completa"
-
-#: src/gmpv_control_box.c:422
 msgid "Pause"
 msgstr "Posa en pausa"
 
-#: src/gmpv_controller.c:675 src/gmpv_view.c:1416
+#: src/gmpv_control_box.c:286 src/gmpv_control_box.c:433
+msgid "Play"
+msgstr "Reprodueix"
+
+#: src/gmpv_control_box.c:436
+msgid "Stop"
+msgstr "Atura"
+
+#: src/gmpv_control_box.c:439
+msgid "Forward"
+msgstr "Avança"
+
+#: src/gmpv_control_box.c:442
+msgid "Rewind"
+msgstr "Rebobina"
+
+#: src/gmpv_control_box.c:445
+msgid "Next Chapter"
+msgstr "Capítol següent"
+
+#: src/gmpv_control_box.c:448
+msgid "Previous Chapter"
+msgstr "Capítol anterior"
+
+#: src/gmpv_control_box.c:451 src/gmpv_header_bar.c:89
+msgid "Toggle Fullscreen"
+msgstr "Commuta la pantalla completa"
+
+#: src/gmpv_controller.c:680 src/gmpv_view.c:1374
 msgid "Error"
 msgstr "Error"
 
 #: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
-#: src/gmpv_pref_dialog.c:365
+#: src/gmpv_pref_dialog.c:371
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -324,14 +333,14 @@ msgstr ""
 msgid "_About"
 msgstr "_Quant a"
 
-#: src/gmpv_mpv.c:408
+#: src/gmpv_mpv.c:215
+msgid "Failed to apply one or more MPV options."
+msgstr "No s’han pogut aplicar alguns paràmetres de l’MPV."
+
+#: src/gmpv_mpv.c:504
 #, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "La reproducció ha terminat de forma anòmala. Motiu: %s"
-
-#: src/gmpv_mpv.c:1047
-msgid "Failed to apply one or more MPV options."
-msgstr "No s’han pogut aplicar alguns paràmetres de l’MPV."
 
 #: src/gmpv_open_location_dialog.c:122
 msgid "Location:"
@@ -357,7 +366,7 @@ msgstr "Llista de reproducció"
 msgid "Add Lua Script"
 msgstr ""
 
-#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:362
+#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:368
 msgid "Lua Scripts"
 msgstr "«Scripts» en Lua"
 
@@ -435,18 +444,26 @@ msgid "<b>Miscellaneous</b>"
 msgstr "<b>Altres</b>"
 
 #: src/gmpv_pref_dialog.c:325
+msgid "Enable MPRIS support"
+msgstr ""
+
+#: src/gmpv_pref_dialog.c:328
+msgid "Enable media keys support"
+msgstr ""
+
+#: src/gmpv_pref_dialog.c:331
 msgid "Extra MPV options:"
 msgstr "Opcions addicionals de l’MPV:"
 
-#: src/gmpv_pref_dialog.c:358
+#: src/gmpv_pref_dialog.c:364
 msgid "General"
 msgstr "Generals"
 
-#: src/gmpv_pref_dialog.c:367
+#: src/gmpv_pref_dialog.c:373
 msgid "_Save"
 msgstr "_Desa"
 
-#: src/gmpv_pref_dialog.c:384
+#: src/gmpv_pref_dialog.c:390
 msgid "Preferences"
 msgstr "Preferències"
 
@@ -690,44 +707,44 @@ msgstr ""
 msgid "Seeking"
 msgstr ""
 
-#: src/gmpv_view.c:742
+#: src/gmpv_view.c:687
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
 
-#: src/gmpv_view.c:1296
+#: src/gmpv_view.c:1254
 msgid "Add File to Playlist"
 msgstr "Afegeix un fitxer a una llista de reproducció"
 
-#: src/gmpv_view.c:1297
+#: src/gmpv_view.c:1255
 msgid "Open File"
 msgstr "Obre un fitxer"
 
-#: src/gmpv_view.c:1324
+#: src/gmpv_view.c:1282
 msgid "Add Location to Playlist"
 msgstr ""
 
-#: src/gmpv_view.c:1325
+#: src/gmpv_view.c:1283
 msgid "Open Location"
 msgstr "Obre una ubicació"
 
-#: src/gmpv_view.c:1346
+#: src/gmpv_view.c:1304
 msgid "Load Audio Track…"
 msgstr ""
 
-#: src/gmpv_view.c:1365
+#: src/gmpv_view.c:1323
 msgid "Load Subtitle Track…"
 msgstr ""
 
-#: src/gmpv_view.c:1390
+#: src/gmpv_view.c:1348
 msgid "Save Playlist"
 msgstr "Desa la llista de reproducció"
 
-#: src/gmpv_view.c:1455
+#: src/gmpv_view.c:1413
 msgid "A GTK frontend for MPV"
 msgstr "Un frontal en GTK per a l’MPV"
 
-#: src/gmpv_view.c:1465
+#: src/gmpv_view.c:1423
 msgid "translator-credits"
 msgstr "Adolfo Jayme Barrientos <fitojb@ubuntu.com>"

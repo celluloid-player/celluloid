@@ -57,27 +57,27 @@ msgstr ""
 msgid "Load or don't load mpv input configuration file"
 msgstr ""
 
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:80
+#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:92
 msgid "Width of the window"
 msgstr "Largeur de la fenêtre"
 
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:86
+#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:98
 msgid "Height of the window"
 msgstr "Hauteur de la fenêtre"
 
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:93
+#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:105
 msgid "Volume of player"
 msgstr ""
 
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:99
+#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:111
 msgid "Width of the playlist"
 msgstr ""
 
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:111
+#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:123
 msgid "Show or not show the playlist"
 msgstr "Afficher ou cacher la liste de lecture"
 
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:117
+#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:129
 msgid "URI of the last folder accessed"
 msgstr ""
 
@@ -94,13 +94,22 @@ msgstr ""
 msgid "Allow multiple instances"
 msgstr "Autoriser plusieures instances"
 
-#: data/io.github.GnomeMpv.gschema.xml:105
+#: data/io.github.GnomeMpv.gschema.xml:76
+msgid "Whether or not to enable MPRIS support"
+msgstr ""
+
+#: data/io.github.GnomeMpv.gschema.xml:82
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgstr ""
+
+#: data/io.github.GnomeMpv.gschema.xml:117
 msgid "Show or not show the controls"
 msgstr "Afficher ou cacher les contrôles"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:410
-#: src/gmpv_view.c:994
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:409
+#: src/gmpv_view.c:929
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -147,60 +156,60 @@ msgstr ""
 msgid "gnome-mpv"
 msgstr ""
 
-#: src/gmpv_application.c:464
+#: src/gmpv_application.c:463
 msgid "Playing"
 msgstr "En cours de lecture"
 
-#: src/gmpv_application.c:532
+#: src/gmpv_application.c:513
 msgid "Show release version"
 msgstr ""
 
-#: src/gmpv_application.c:540
+#: src/gmpv_application.c:521
 msgid "Enqueue"
 msgstr ""
 
-#: src/gmpv_application.c:548
+#: src/gmpv_application.c:529
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
-#: src/gmpv_control_box.c:271 src/gmpv_control_box.c:422
-msgid "Play"
-msgstr "Lecture"
-
-#: src/gmpv_control_box.c:274
-msgid "Stop"
-msgstr "Arret"
-
-#: src/gmpv_control_box.c:277
-msgid "Forward"
-msgstr "Avancer"
-
-#: src/gmpv_control_box.c:280
-msgid "Rewind"
-msgstr "Reculer"
-
-#: src/gmpv_control_box.c:283
-msgid "Next Chapter"
-msgstr "Chapitre suivant"
-
 #: src/gmpv_control_box.c:286
-msgid "Previous Chapter"
-msgstr "Chapitre précédant"
-
-#: src/gmpv_control_box.c:289 src/gmpv_header_bar.c:89
-msgid "Toggle Fullscreen"
-msgstr "Plein écran"
-
-#: src/gmpv_control_box.c:422
 msgid "Pause"
 msgstr "Pause"
 
-#: src/gmpv_controller.c:675 src/gmpv_view.c:1416
+#: src/gmpv_control_box.c:286 src/gmpv_control_box.c:433
+msgid "Play"
+msgstr "Lecture"
+
+#: src/gmpv_control_box.c:436
+msgid "Stop"
+msgstr "Arret"
+
+#: src/gmpv_control_box.c:439
+msgid "Forward"
+msgstr "Avancer"
+
+#: src/gmpv_control_box.c:442
+msgid "Rewind"
+msgstr "Reculer"
+
+#: src/gmpv_control_box.c:445
+msgid "Next Chapter"
+msgstr "Chapitre suivant"
+
+#: src/gmpv_control_box.c:448
+msgid "Previous Chapter"
+msgstr "Chapitre précédant"
+
+#: src/gmpv_control_box.c:451 src/gmpv_header_bar.c:89
+msgid "Toggle Fullscreen"
+msgstr "Plein écran"
+
+#: src/gmpv_controller.c:680 src/gmpv_view.c:1374
 msgid "Error"
 msgstr "Erreur"
 
 #: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
-#: src/gmpv_pref_dialog.c:365
+#: src/gmpv_pref_dialog.c:371
 msgid "_Cancel"
 msgstr "_Annuler"
 
@@ -323,14 +332,14 @@ msgstr "_Raccourcis clavier"
 msgid "_About"
 msgstr "À _propos"
 
-#: src/gmpv_mpv.c:408
+#: src/gmpv_mpv.c:215
+msgid "Failed to apply one or more MPV options."
+msgstr ""
+
+#: src/gmpv_mpv.c:504
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "La lecture a été interrompue pour la raison suivante : %s"
-
-#: src/gmpv_mpv.c:1047
-msgid "Failed to apply one or more MPV options."
-msgstr ""
 
 #: src/gmpv_open_location_dialog.c:122
 msgid "Location:"
@@ -356,7 +365,7 @@ msgstr "Liste de lecture"
 msgid "Add Lua Script"
 msgstr "Ajouter un script Lua"
 
-#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:362
+#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:368
 msgid "Lua Scripts"
 msgstr "Scripts Lua"
 
@@ -435,18 +444,26 @@ msgid "<b>Miscellaneous</b>"
 msgstr "<b>Divers</b>"
 
 #: src/gmpv_pref_dialog.c:325
+msgid "Enable MPRIS support"
+msgstr ""
+
+#: src/gmpv_pref_dialog.c:328
+msgid "Enable media keys support"
+msgstr ""
+
+#: src/gmpv_pref_dialog.c:331
 msgid "Extra MPV options:"
 msgstr "Options supplémentaires pour MPV"
 
-#: src/gmpv_pref_dialog.c:358
+#: src/gmpv_pref_dialog.c:364
 msgid "General"
 msgstr "Général"
 
-#: src/gmpv_pref_dialog.c:367
+#: src/gmpv_pref_dialog.c:373
 msgid "_Save"
 msgstr "_Enregistrer"
 
-#: src/gmpv_pref_dialog.c:384
+#: src/gmpv_pref_dialog.c:390
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -690,46 +707,46 @@ msgstr "Lecture"
 msgid "Seeking"
 msgstr ""
 
-#: src/gmpv_view.c:742
+#: src/gmpv_view.c:687
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
 
-#: src/gmpv_view.c:1296
+#: src/gmpv_view.c:1254
 #, fuzzy
 msgid "Add File to Playlist"
 msgstr "_Afficher la liste de lecture"
 
-#: src/gmpv_view.c:1297
+#: src/gmpv_view.c:1255
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
-#: src/gmpv_view.c:1324
+#: src/gmpv_view.c:1282
 msgid "Add Location to Playlist"
 msgstr "Ajouter l'emplacement à la liste de lecture"
 
-#: src/gmpv_view.c:1325
+#: src/gmpv_view.c:1283
 msgid "Open Location"
 msgstr "Ouvrir un emplacement"
 
-#: src/gmpv_view.c:1346
+#: src/gmpv_view.c:1304
 msgid "Load Audio Track…"
 msgstr ""
 
-#: src/gmpv_view.c:1365
+#: src/gmpv_view.c:1323
 msgid "Load Subtitle Track…"
 msgstr ""
 
-#: src/gmpv_view.c:1390
+#: src/gmpv_view.c:1348
 #, fuzzy
 msgid "Save Playlist"
 msgstr "_Enregistrer la liste de lecture"
 
-#: src/gmpv_view.c:1455
+#: src/gmpv_view.c:1413
 msgid "A GTK frontend for MPV"
 msgstr "Une interface GTK pour MPV"
 
-#: src/gmpv_view.c:1465
+#: src/gmpv_view.c:1423
 msgid "translator-credits"
 msgstr "Harenome Ranaivorarivony Razanajato"
