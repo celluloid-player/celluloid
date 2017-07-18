@@ -58,7 +58,7 @@ static void get_property(	GObject *object,
 				GParamSpec *pspec );
 static void dispose(GObject *object);
 static void finalize(GObject *object);
-static void disconnect_signal(GmpvSignalHandlerInfo *info);
+static void disconnect_signal(GmpvSignalHandlerInfo *info, gpointer data);
 static void gmpv_mpris_module_class_init(GmpvMprisModuleClass *klass);
 static void gmpv_mpris_module_init(GmpvMprisModule *module);
 
@@ -133,12 +133,13 @@ static void finalize(GObject *object)
 	priv =	G_TYPE_INSTANCE_GET_PRIVATE
 		(object, GMPV_TYPE_MPRIS_MODULE, GmpvMprisModulePrivate);
 
-	g_slist_free_full(priv->signal_ids, (GDestroyNotify)disconnect_signal);
+	g_slist_foreach(priv->signal_ids, (GFunc)disconnect_signal, NULL);
+	g_slist_free_full(priv->signal_ids, g_free);
 
 	G_OBJECT_CLASS(gmpv_mpris_module_parent_class)->finalize(object);
 }
 
-static void disconnect_signal(GmpvSignalHandlerInfo *info)
+static void disconnect_signal(GmpvSignalHandlerInfo *info, gpointer data)
 {
 	g_signal_handler_disconnect(info->instance, info->id);
 }
