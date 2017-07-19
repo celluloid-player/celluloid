@@ -44,11 +44,6 @@ sources += custom_target('authors',
   ]
 )
 
-sources += gnome.genmarshal('gmpv_marshal',
-  sources: '../data/gmpv_marshal.lst',
-  prefix: 'g_cclosure_gen_marshal',
-)
-
 libgtk = dependency('gtk+-3.0', version: '>= 3.18')
 localedir = join_paths(get_option('prefix'), get_option('localedir'))
 cflags = [
@@ -110,6 +105,19 @@ else
   # https://github.com/mesonbuild/meson/issues/1387
   includes = include_directories('..')
 endif
+
+generated_marshal_sources = gnome.genmarshal('gmpv_marshal',
+  sources: '../data/gmpv_marshal.lst',
+  prefix: 'g_cclosure_gen_marshal',
+)
+
+# Silence warning about missing prototypes in genmarshal-generated files
+extra_libs += static_library('marshal',
+  generated_marshal_sources,
+  c_args: cflags + ['-Wno-missing-prototypes'],
+  dependencies: libgio,
+  include_directories: include_directories('..')
+)
 
 executable('gnome-mpv', sources,
   dependencies: [
