@@ -403,7 +403,7 @@ void gmpv_mpv_opt_handle_fs(GmpvMpv *mpv)
 	if(g_strcmp0(optbuf, "yes") == 0)
 	{
 		gmpv_mpv_command_string
-			(mpv, "script-message gmpv-action toggle-fullscreen");
+			(mpv, "script-message gmpv-action win.enter-fullscreen");
 	}
 
 	mpv_free(optbuf);
