@@ -35,7 +35,6 @@ struct _GmpvApplication
 	GSList *controllers;
 	gboolean enqueue;
 	gboolean new_window;
-	GQueue *action_queue;
 	guint inhibit_cookie;
 };
 
@@ -365,7 +364,6 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->controllers = NULL;
 	app->enqueue = FALSE;
 	app->new_window = FALSE;
-	app->action_queue = g_queue_new();
 	app->inhibit_cookie = 0;
 
 	g_action_map_add_action(G_ACTION_MAP(app), G_ACTION(new_window));
