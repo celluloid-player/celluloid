@@ -42,7 +42,7 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_application.c gmpv_application.h \
 			gmpv_common.c gmpv_common.h \
 			gmpv_controller.c gmpv_controller.h \
-			gmpv_controller_action.c gmpv_controller_action.h \
+			gmpv_controller_actions.c gmpv_controller_actions.h \
 			gmpv_controller_private.h \
 			gmpv_controller_input.c gmpv_controller_input.h \
 			gmpv_control_box.c gmpv_control_box.h \

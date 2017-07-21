@@ -17,8 +17,8 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONTROLLER_ACTION_H
-#define CONTROLLER_ACTION_H
+#ifndef CONTROLLER_ACTIONS_H
+#define CONTROLLER_ACTIONS_H
 
 #include <glib.h>
 

@@ -19,7 +19,7 @@
 
 #include <glib/gi18n.h>
 
-#include "gmpv_controller_action.h"
+#include "gmpv_controller_actions.h"
 #include "gmpv_controller_private.h"
 #include "gmpv_file_chooser.h"
 #include "gmpv_common.h"

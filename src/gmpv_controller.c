@@ -26,7 +26,7 @@
 
 #include "gmpv_controller_private.h"
 #include "gmpv_controller.h"
-#include "gmpv_controller_action.h"
+#include "gmpv_controller_actions.h"
 #include "gmpv_controller_input.h"
 #include "gmpv_def.h"
 
