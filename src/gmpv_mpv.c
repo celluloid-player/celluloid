@@ -990,7 +990,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 						gmpv_track_free );
 	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
-	mpv->autofit_ratio = -1;
 	mpv->geometry = NULL;
 
 	mpv->ready = FALSE;
