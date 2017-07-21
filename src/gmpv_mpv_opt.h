@@ -36,10 +36,7 @@ struct module_log_level
 };
 
 void module_log_level_free(module_log_level *level);
-void gmpv_mpv_opt_handle_geometry(GmpvMpv *mpv);
-void gmpv_mpv_opt_handle_autofit(GmpvMpv *mpv);
-void gmpv_mpv_opt_handle_fs(GmpvMpv *mpv);
-void gmpv_mpv_opt_handle_msg_level(GmpvMpv *mpv);
+void gmpv_mpv_opt_init(GmpvMpv *mpv);
 
 G_END_DECLS
 

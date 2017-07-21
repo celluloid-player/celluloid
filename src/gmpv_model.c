@@ -20,6 +20,7 @@
 #include <epoxy/gl.h>
 
 #include "gmpv_model.h"
+#include "gmpv_marshal.h"
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_wrapper.h"
 
@@ -103,7 +104,10 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 						GParamFlags flags );
 static gboolean emit_frame_ready(gpointer data);
 static void opengl_cb_update_callback(gpointer opengl_cb_ctx);
-static void autofit_handler(GmpvMpv *mpv, gdouble ratio, gpointer data);
+static void window_resize_handler(	GmpvMpv *mpv,
+					gint64 width,
+					gint64 height,
+					gpointer data );
 static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data);
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
@@ -131,8 +135,8 @@ static void constructed(GObject *object)
 				G_BINDING_DEFAULT );
 
 	g_signal_connect(	model->mpv,
-				"autofit",
-				G_CALLBACK(autofit_handler),
+				"window-resize",
+				G_CALLBACK(window_resize_handler),
 				model );
 	g_signal_connect(	model->mpv,
 				"mpv-playback-restart",
@@ -564,9 +568,12 @@ static void opengl_cb_update_callback(gpointer data)
 				NULL );
 }
 
-static void autofit_handler(GmpvMpv *mpv, gdouble ratio, gpointer data)
+static void window_resize_handler(	GmpvMpv *mpv,
+					gint64 width,
+					gint64 height,
+					gpointer data )
 {
-	g_signal_emit_by_name(data, "autofit", ratio);
+	g_signal_emit_by_name(data, "window-resize", width, height);
 }
 
 static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data)
@@ -698,16 +705,17 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-	g_signal_new(	"autofit",
+	g_signal_new(	"window-resize",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
 			NULL,
 			NULL,
-			g_cclosure_marshal_VOID__DOUBLE,
+			g_cclosure_gen_marshal_VOID__INT64_INT64,
 			G_TYPE_NONE,
-			1,
-			G_TYPE_DOUBLE );
+			2,
+			G_TYPE_INT64,
+			G_TYPE_INT64 );
 	g_signal_new(	"message",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

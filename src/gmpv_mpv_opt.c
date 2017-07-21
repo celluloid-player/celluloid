@@ -42,6 +42,14 @@ static gboolean parse_pos_string(	const gchar *geom_str,
 static void parse_geom_string(	GmpvMpv *mpv,
 				const gchar *geom_str,
 				GmpvGeometry **geom );
+static gboolean get_video_dimensions(GmpvMpv *mpv, gint64 dim[2]);
+static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2]);
+static void handle_autofit(GmpvMpv *mpv, gint64 dim[2]);
+static void handle_geometry(GmpvMpv *mpv);
+static void handle_fs(GmpvMpv *mpv);
+static void handle_msg_level(GmpvMpv *mpv);
+static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
+static void video_reconfig_handler(GmpvMpv *mpv, gpointer data);
 
 static gboolean parse_geom_token(const gchar **iter, GValue *value)
 {
@@ -215,13 +223,132 @@ static void parse_geom_string(	GmpvMpv *mpv,
 	}
 }
 
-void module_log_level_free(module_log_level *level)
+static gboolean get_video_dimensions(GmpvMpv *mpv, gint64 dim[2])
 {
-	g_free(level->prefix);
-	g_free(level);
+	gint rc = 0;
+
+	rc |= mpv_get_property(mpv->mpv_ctx, "dwidth", MPV_FORMAT_INT64, &dim[0]);
+	rc |= mpv_get_property(mpv->mpv_ctx, "dheight", MPV_FORMAT_INT64, &dim[1]);
+
+	return (rc >= 0);
 }
 
-void gmpv_mpv_opt_handle_geometry(GmpvMpv *mpv)
+static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
+{
+	GmpvMpv *mpv = GMPV_MPV(object);
+
+	handle_geometry(mpv);
+	handle_fs(mpv);
+	handle_msg_level(mpv);
+}
+
+static void video_reconfig_handler(GmpvMpv *mpv, gpointer data)
+{
+	if(mpv->new_file)
+	{
+		gint64 dim[2] = {0, 0};
+
+		handle_window_scale(mpv, dim);
+		handle_autofit(mpv, dim);
+
+		if(dim[0] > 0 && dim[1] > 0)
+		{
+			g_signal_emit_by_name
+				(mpv, "window-resize", dim[0], dim[1]);
+		}
+	}
+}
+
+static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2])
+{
+	gint64 vid_dim[2] = {0, 0};
+	gchar *scale_str;
+	gboolean scale_set;
+
+	scale_str = mpv_get_property_string(mpv->mpv_ctx, "options/window-scale");
+	scale_set = scale_str && *scale_str;
+
+	get_video_dimensions(mpv, vid_dim);
+
+	if(scale_set)
+	{
+		gdouble scale;
+
+		g_debug("Retrieved option --window-scale=%s", scale_str);
+
+		/* This should never fail since mpv_set_option() will
+		 * refuse to set invalid values.
+		 */
+		scale = g_ascii_strtod(scale_str, NULL);
+		dim[0] = (gint64)(scale*(gdouble)vid_dim[0]);
+		dim[1] = (gint64)(scale*(gdouble)vid_dim[1]);
+	}
+
+	mpv_free(scale_str);
+}
+
+static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
+{
+	gint64 vid_dim[2] = {0, 0};
+	gint64 autofit_dim[2] = {0, 0};
+	gint64 larger_dim[2] = {G_MAXINT64, G_MAXINT64};
+	gint64 smaller_dim[2] = {0, 0};
+	gchar *autofit_str = NULL;
+	gchar *larger_str = NULL;
+	gchar *smaller_str = NULL;
+	gboolean autofit_set = FALSE;
+	gboolean larger_set = FALSE;
+	gboolean smaller_set = FALSE;
+
+	autofit_str =	mpv_get_property_string
+			(mpv->mpv_ctx, "options/autofit");
+	larger_str =	mpv_get_property_string
+			(mpv->mpv_ctx, "options/autofit-larger");
+	smaller_str =	mpv_get_property_string
+			(mpv->mpv_ctx, "options/autofit-smaller");
+
+	autofit_set = autofit_str && *autofit_str;
+	larger_set = larger_str && *larger_str;
+	smaller_set = smaller_str && *smaller_str;
+
+	if(autofit_set)
+	{
+		g_debug("Retrieved option --autofit=%s", autofit_str);
+		parse_dim_string(autofit_str, autofit_dim);
+	}
+
+	if(larger_set)
+	{
+		g_debug("Retrieved option --autofit-larger=%s", larger_str);
+		parse_dim_string(larger_str, larger_dim);
+	}
+
+	if(smaller_set)
+	{
+		g_debug("Retrieved option --autofit-smaller=%s", smaller_str);
+		parse_dim_string(smaller_str, smaller_dim);
+	}
+
+	if(	(autofit_set || larger_set || smaller_set) &&
+		get_video_dimensions(mpv, vid_dim) )
+	{
+		gdouble ratio = 1.0;
+
+		dim[0] = CLAMP(autofit_dim[0], smaller_dim[0], larger_dim[0]);
+		dim[1] = CLAMP(autofit_dim[1], smaller_dim[1], larger_dim[1]);
+
+		ratio = MIN(	(gdouble)dim[0]/(gdouble)vid_dim[0],
+				(gdouble)dim[1]/(gdouble)vid_dim[1] );
+		dim[0] = (gint64)(ratio*(gdouble)vid_dim[0]);
+		dim[1] = (gint64)(ratio*(gdouble)vid_dim[1]);
+	}
+
+	mpv_free(autofit_str);
+	mpv_free(larger_str);
+	mpv_free(smaller_str);
+}
+
+static void handle_geometry(GmpvMpv *mpv)
 {
 	gchar *opt_buf;
 
@@ -236,180 +363,20 @@ void gmpv_mpv_opt_handle_geometry(GmpvMpv *mpv)
 	}
 }
 
-void gmpv_mpv_opt_handle_autofit(GmpvMpv *mpv)
+static void handle_fs(GmpvMpv *mpv)
 {
-	gchar *scale_str = NULL;
-	gchar *autofit_str = NULL;
-	gchar *larger_str = NULL;
-	gchar *smaller_str = NULL;
-	gboolean scale_set = FALSE;
-	gboolean autofit_set = FALSE;
-	gboolean larger_set = FALSE;
-	gboolean smaller_set = FALSE;
+	gchar *fs_str = gmpv_mpv_get_property_string(mpv, "options/fs");
 
-	scale_str =	mpv_get_property_string
-			(mpv->mpv_ctx, "options/window-scale");
-	autofit_str =	mpv_get_property_string
-			(mpv->mpv_ctx, "options/autofit");
-	larger_str =	mpv_get_property_string
-			(mpv->mpv_ctx, "options/autofit-larger");
-	smaller_str =	mpv_get_property_string
-			(mpv->mpv_ctx, "options/autofit-smaller");
-
-	scale_set = scale_str && scale_str[0] != '\0';
-	autofit_set = autofit_str && autofit_str[0] != '\0';
-	larger_set = larger_str && larger_str[0] != '\0';
-	smaller_set = smaller_str && smaller_str[0] != '\0';
-
-	if(scale_set || autofit_set || larger_set || smaller_set)
-	{
-		gint64 larger_dim[2] = {G_MAXINT, G_MAXINT};
-		gint64 smaller_dim[2] = {0, 0};
-		gint64 autofit_dim[2] = {0, 0};
-		gint64 vid_dim[2];
-		gdouble ratio[2];
-		gdouble scale = 1;
-		gint rc = 0;
-
-		rc |= mpv_get_property(	mpv->mpv_ctx,
-					"dwidth",
-					MPV_FORMAT_INT64,
-					&vid_dim[0] );
-		rc |= mpv_get_property(	mpv->mpv_ctx,
-					"dheight",
-					MPV_FORMAT_INT64,
-					&vid_dim[1] );
-
-		if(rc >= 0)
-		{
-			g_debug(	"Retrieved video size: "
-					"%" G_GINT64_FORMAT "x"
-					"%" G_GINT64_FORMAT,
-					vid_dim[0], vid_dim[1] );
-		}
-
-		if(rc >= 0 && scale_set)
-		{
-			g_debug(	"Retrieved option --window-scale=%s",
-					scale_str);
-
-			/* This should never fail since mpv_set_option() will
-			 * refuse to set invalid values.
-			 */
-			scale = g_ascii_strtod(scale_str, NULL);
-		}
-
-		if(rc >= 0 && larger_set)
-		{
-			g_debug(	"Retrieved option --autofit-larger=%s",
-					larger_str);
-
-			parse_dim_string(larger_str, larger_dim);
-		}
-
-		if(rc >= 0 && smaller_set)
-		{
-			g_debug(	"Retrieved option --autofit-smaller=%s",
-					smaller_str);
-
-			parse_dim_string(smaller_str, smaller_dim);
-		}
-
-		if(rc >= 0)
-		{
-			if(autofit_set)
-			{
-				g_debug(	"Retrieved option --autofit=%s",
-						autofit_str );
-
-				parse_dim_string(autofit_str, autofit_dim);
-			}
-			else
-			{
-				autofit_dim[0] = vid_dim[0];
-				autofit_dim[1] = vid_dim[1];
-			}
-
-			if(scale_set)
-			{
-				autofit_dim[0]
-					= (gint64)(scale*(gdouble)autofit_dim[0]);
-				autofit_dim[1]
-					= (gint64)(scale*(gdouble)autofit_dim[1]);
-			}
-		}
-
-		if(rc >= 0)
-		{
-			autofit_dim[0] = MIN(autofit_dim[0], larger_dim[0]);
-			autofit_dim[1] = MIN(autofit_dim[1], larger_dim[1]);
-
-			autofit_dim[0] = MAX(autofit_dim[0], smaller_dim[0]);
-			autofit_dim[1] = MAX(autofit_dim[1], smaller_dim[1]);
-
-			if(!autofit_set
-			&& autofit_dim[0] == vid_dim[0]
-			&& autofit_dim[1] == vid_dim[1])
-			{
-				/* Do not resize if --autofit is not set and the
-				 * video size does not exceed the limits imposed
-				 * by --autofit-larger and --autofit-smaller.
-				 */
-				ratio[0] = scale_set?scale:0;
-				ratio[1] = scale_set?scale:0;
-			}
-			else
-			{
-				g_debug(	"Target video area size: "
-						"%" G_GINT64_FORMAT
-						"x%" G_GINT64_FORMAT,
-						autofit_dim[0], autofit_dim[1] );
-
-				ratio[0] =	(gdouble)autofit_dim[0]/
-						(gdouble)vid_dim[0];
-				ratio[1] =	(gdouble)autofit_dim[1]/
-						(gdouble)vid_dim[1];
-			}
-		}
-
-		if(rc >= 0 && ratio[0] > 0 && ratio[1] > 0)
-		{
-			/* Resize the window so that it is as big as possible
-			 *  while preseving the aspect ratio.
-			 */
-			mpv->autofit_ratio = MIN(ratio[0], ratio[1]);
-
-			g_debug(	"Set video size multiplier to %f",
-					mpv->autofit_ratio );
-		}
-		else
-		{
-			mpv->autofit_ratio = -1;
-		}
-	}
-
-	mpv_free(scale_str);
-	mpv_free(autofit_str);
-	mpv_free(larger_str);
-	mpv_free(smaller_str);
-}
-
-void gmpv_mpv_opt_handle_fs(GmpvMpv *mpv)
-{
-	gchar *optbuf;
-
-	optbuf = gmpv_mpv_get_property_string(mpv, "options/fs");
-
-	if(g_strcmp0(optbuf, "yes") == 0)
+	if(g_strcmp0(fs_str, "yes") == 0)
 	{
 		gmpv_mpv_command_string
 			(mpv, "script-message gmpv-action win.enter-fullscreen");
 	}
 
-	mpv_free(optbuf);
+	mpv_free(fs_str);
 }
 
-void gmpv_mpv_opt_handle_msg_level(GmpvMpv *mpv)
+static void handle_msg_level(GmpvMpv *mpv)
 {
 	const struct
 	{
@@ -491,3 +458,20 @@ void gmpv_mpv_opt_handle_msg_level(GmpvMpv *mpv)
 	g_strfreev(tokens);
 }
 
+void module_log_level_free(module_log_level *level)
+{
+	g_free(level->prefix);
+	g_free(level);
+}
+
+void gmpv_mpv_opt_init(GmpvMpv *mpv)
+{
+	g_signal_connect(	mpv,
+				"notify::ready",
+				G_CALLBACK(ready_handler),
+				NULL );
+	g_signal_connect(	mpv,
+				"mpv-video-reconfig",
+				G_CALLBACK(video_reconfig_handler),
+				NULL );
+}

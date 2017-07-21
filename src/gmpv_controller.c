@@ -90,7 +90,10 @@ static void model_ready_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
 static void frame_ready_handler(GmpvModel *model, gpointer data);
-static void autofit_handler(GmpvModel *model, gdouble multiplier, gpointer data);
+static void window_resize_handler(	GmpvModel *model,
+					gint64 width,
+					gint64 height,
+					gpointer data );
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void shutdown_handler(GmpvMpv *mpv, gpointer data);
@@ -409,8 +412,8 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(frame_ready_handler),
 				controller );
 	g_signal_connect(	controller->model,
-				"autofit",
-				G_CALLBACK(autofit_handler),
+				"window-resize",
+				G_CALLBACK(window_resize_handler),
 				controller );
 	g_signal_connect(	controller->model,
 				"message",
@@ -615,28 +618,14 @@ static void frame_ready_handler(GmpvModel *model, gpointer data)
 	gmpv_view_queue_render(GMPV_CONTROLLER(data)->view);
 }
 
-static void autofit_handler(GmpvModel *model, gdouble multiplier, gpointer data)
+static void window_resize_handler(	GmpvModel *model,
+					gint64 width,
+					gint64 height,
+					gpointer data )
 {
 	GmpvController *controller = data;
-	gint64 width = -1;
-	gint64 height = -1;
 
-	gmpv_model_get_video_geometry(model, &width, &height);
-
-	if(width > 0 && height > 0)
-	{
-		gint new_width;
-		gint new_height;
-
-		new_width = (gint)(multiplier*(gdouble)width);
-		new_height = (gint)(multiplier*(gdouble)height);
-
-		g_debug("Resizing window to %dx%d", new_width, new_height);
-
-		gmpv_view_resize_video_area
-			(controller->view, new_width, new_height);
-	}
-
+	gmpv_view_resize_video_area(controller->view, (gint)width, (gint)height);
 }
 
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data)

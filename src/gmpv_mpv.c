@@ -567,14 +567,7 @@ static gboolean mpv_event_handler(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
 		{
-			if(mpv->new_file)
-			{
-				gmpv_mpv_opt_handle_autofit(mpv);
-
-				g_signal_emit_by_name(	mpv,
-							"autofit",
-							mpv->autofit_ratio );
-			}
+			g_signal_emit_by_name(mpv, "mpv-video-reconfig");
 		}
 		else if(event->event_id == MPV_EVENT_START_FILE)
 		{
@@ -920,6 +913,15 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
+	g_signal_new(	"mpv-video-reconfig",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
 	g_signal_new(	"mpv-playback-restart",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -951,16 +953,17 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
-	g_signal_new(	"autofit",
+	g_signal_new(	"window-resize",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
 			NULL,
 			NULL,
-			g_cclosure_marshal_VOID__DOUBLE,
+			g_cclosure_gen_marshal_VOID__INT64_INT64,
 			G_TYPE_NONE,
-			1,
-			G_TYPE_DOUBLE );
+			2,
+			G_TYPE_INT64,
+			G_TYPE_INT64 );
 	g_signal_new(	"shutdown",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1095,9 +1098,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 							MPV_SUB_API_OPENGL_CB );
 		}
 
-		gmpv_mpv_opt_handle_msg_level(mpv);
-		gmpv_mpv_opt_handle_fs(mpv);
-		gmpv_mpv_opt_handle_geometry(mpv);
+		gmpv_mpv_opt_init(mpv);
 
 		mpv->force_opengl = FALSE;
 		mpv->ready = TRUE;
