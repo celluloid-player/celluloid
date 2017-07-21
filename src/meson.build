@@ -14,7 +14,7 @@ sources = [
   'gmpv_menu.c',
   'gmpv_model.c',
   'gmpv_mpv.c',
-  'gmpv_mpv_opt.c',
+  'gmpv_mpv_options.c',
   'gmpv_mpv_wrapper.c',
   'gmpv_open_location_dialog.c',
   'gmpv_playlist_widget.c',

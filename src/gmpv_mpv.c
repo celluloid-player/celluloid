@@ -45,7 +45,7 @@
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_private.h"
 #include "gmpv_mpv_wrapper.h"
-#include "gmpv_mpv_opt.h"
+#include "gmpv_mpv_options.h"
 #include "gmpv_common.h"
 #include "gmpv_def.h"
 #include "gmpv_marshal.h"
@@ -1098,7 +1098,7 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 							MPV_SUB_API_OPENGL_CB );
 		}
 
-		gmpv_mpv_opt_init(mpv);
+		gmpv_mpv_options_init(mpv);
 
 		mpv->force_opengl = FALSE;
 		mpv->ready = TRUE;

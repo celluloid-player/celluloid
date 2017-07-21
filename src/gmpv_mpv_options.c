@@ -23,7 +23,7 @@
 #include <string.h>
 #include <mpv/client.h>
 
-#include "gmpv_mpv_opt.h"
+#include "gmpv_mpv_options.h"
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_private.h"
 #include "gmpv_mpv_wrapper.h"
@@ -464,7 +464,7 @@ void module_log_level_free(module_log_level *level)
 	g_free(level);
 }
 
-void gmpv_mpv_opt_init(GmpvMpv *mpv)
+void gmpv_mpv_options_init(GmpvMpv *mpv)
 {
 	g_signal_connect(	mpv,
 				"notify::ready",

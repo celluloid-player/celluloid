@@ -22,8 +22,6 @@
 
 #include <gtk/gtk.h>
 
-#include "gmpv_mpv_opt.h"
-
 G_BEGIN_DECLS
 
 enum
