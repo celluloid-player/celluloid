@@ -27,7 +27,6 @@
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_private.h"
 #include "gmpv_mpv_wrapper.h"
-#include "gmpv_geometry.h"
 #include "gmpv_def.h"
 
 static gboolean parse_geom_token(const gchar **iter, GValue *value);
@@ -41,7 +40,9 @@ static gboolean parse_pos_string(	const gchar *geom_str,
 					GValue pos[2] );
 static void parse_geom_string(	GmpvMpv *mpv,
 				const gchar *geom_str,
-				GmpvGeometry **geom );
+				gboolean flip[2],
+				GValue pos[2],
+				gint64 dim[2] );
 static gboolean get_video_dimensions(GmpvMpv *mpv, gint64 dim[2]);
 static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2]);
 static void handle_autofit(GmpvMpv *mpv, gint64 dim[2]);
@@ -180,21 +181,15 @@ static gboolean parse_pos_string(	const gchar *geom_str,
 
 static void parse_geom_string(	GmpvMpv *mpv,
 				const gchar *geom_str,
-				GmpvGeometry **geom )
+				gboolean flip[2],
+				GValue pos[2],
+				gint64 dim[2] )
 {
-	gint64 dim[2] = {0, 0};
-	GValue pos[2] = {G_VALUE_INIT, G_VALUE_INIT};
-	gboolean flip[2] = {FALSE, FALSE};
-	gboolean dim_valid = FALSE;
-	gboolean pos_valid = FALSE;
-
 	if(!!geom_str)
 	{
-		*geom = g_new0(GmpvGeometry, 1);
-
 		if(geom_str[0] != '+' && geom_str[0] != '-')
 		{
-			dim_valid = parse_dim_string(geom_str, dim);
+			parse_dim_string(geom_str, dim);
 		}
 
 		/* Move the beginning of the string to the 'position' section */
@@ -203,23 +198,7 @@ static void parse_geom_string(	GmpvMpv *mpv,
 			geom_str++;
 		}
 
-		pos_valid = parse_pos_string(geom_str, flip, pos);
-
-		(*geom)->flags |= !dim_valid*GMPV_GEOMETRY_IGNORE_DIM;
-		(*geom)->flags |= !pos_valid*GMPV_GEOMETRY_IGNORE_POS;
-		(*geom)->flags |= flip[0]*GMPV_GEOMETRY_FLIP_X;
-		(*geom)->flags |= flip[1]*GMPV_GEOMETRY_FLIP_Y;
-
-		(*geom)->x = pos[0];
-		(*geom)->y = pos[1];
-		(*geom)->width = dim[0];
-		(*geom)->height = dim[1];
-	}
-	else
-	{
-		*geom = NULL;
-
-		g_warning("Failed to parse geometry string: %s", geom_str);
+		parse_pos_string(geom_str, flip, pos);
 	}
 }
 
@@ -350,17 +329,35 @@ static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 
 static void handle_geometry(GmpvMpv *mpv)
 {
-	gchar *opt_buf;
+	gchar *geometry_str;
 
-	opt_buf  =	mpv_get_property_string
-			(mpv->mpv_ctx, "options/geometry");
+	geometry_str = mpv_get_property_string(mpv->mpv_ctx, "options/geometry");
 
-	if(opt_buf)
+	if(geometry_str)
 	{
-		parse_geom_string(mpv, opt_buf, &mpv->geometry);
+		gint64 dim[2] = {0, 0};
+		GValue pos[2] = {G_VALUE_INIT, G_VALUE_INIT};
+		gboolean flip[2] = {FALSE, FALSE};
 
-		mpv_free(opt_buf);
+		parse_geom_string(mpv, geometry_str, flip, pos, dim);
+
+		if(G_IS_VALUE(&pos[0]) && G_IS_VALUE(&pos[1]))
+		{
+			g_signal_emit_by_name(	mpv,
+						"window-move",
+						flip[0], flip[1],
+						&pos[0], &pos[1] );
+		}
+
+		if(dim[0] > 0 && dim[1] > 0)
+		{
+			g_signal_emit_by_name(	mpv,
+						"window-resize",
+						dim[0], dim[1] );
+		}
 	}
+
+	mpv_free(geometry_str);
 }
 
 static void handle_fs(GmpvMpv *mpv)

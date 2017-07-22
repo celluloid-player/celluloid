@@ -1515,6 +1515,46 @@ void gmpv_view_get_video_area_geometry(GmpvView *view, gint *width, gint *height
 	*height = allocation.height;
 }
 
+void gmpv_view_move(	GmpvView *view,
+			gboolean flip_x,
+			gboolean flip_y,
+			GValue *x,
+			GValue *y )
+{
+	GdkScreen *screen = gdk_screen_get_default();
+	GtkWindow *window = GTK_WINDOW(view->wnd);
+	gint64 x_pos = -1;
+	gint64 y_pos = -1;
+	gint window_width = 0;
+	gint window_height = 0;
+	gint space_x;
+	gint space_y;
+
+	gtk_window_get_size(window, &window_width, &window_height);
+	space_x = gdk_screen_get_width(screen)-window_width;
+	space_y = gdk_screen_get_height(screen)-window_height;
+
+	if(G_VALUE_HOLDS_DOUBLE(x))
+	{
+		x_pos = (gint64)(g_value_get_double(x)*space_x);
+	}
+	else
+	{
+		x_pos = flip_x?space_x-g_value_get_int64(x):g_value_get_int64(x);
+	}
+
+	if(G_VALUE_HOLDS_DOUBLE(y))
+	{
+		y_pos = (gint64)(g_value_get_double(y)*space_y);
+	}
+	else
+	{
+		y_pos = flip_y?space_y-g_value_get_int64(y):g_value_get_int64(y);
+	}
+
+	gtk_window_move(window, (gint)x_pos, (gint)y_pos);
+}
+
 void gmpv_view_resize_video_area(GmpvView *view, gint width, gint height)
 {
 	gmpv_main_window_resize_video_area(view->wnd, width, height);

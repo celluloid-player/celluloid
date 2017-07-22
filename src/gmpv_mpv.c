@@ -186,7 +186,6 @@ static void finalize(GObject *object)
 	g_ptr_array_free(mpv->metadata, TRUE);
 	g_ptr_array_free(mpv->track_list, TRUE);
 	g_free(mpv->tmp_input_file);
-	g_free(mpv->geometry);
 
 	g_slist_free_full(	mpv->log_level_list,
 				(GDestroyNotify)module_log_level_free);
@@ -964,6 +963,19 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			2,
 			G_TYPE_INT64,
 			G_TYPE_INT64 );
+	g_signal_new(	"window-move",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__BOOLEAN_BOOLEAN_POINTER_POINTER,
+			G_TYPE_NONE,
+			4,
+			G_TYPE_BOOLEAN,
+			G_TYPE_BOOLEAN,
+			G_TYPE_POINTER,
+			G_TYPE_POINTER );
 	g_signal_new(	"shutdown",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -990,7 +1002,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 						gmpv_track_free );
 	mpv->tmp_input_file = NULL;
 	mpv->log_level_list = NULL;
-	mpv->geometry = NULL;
 
 	mpv->ready = FALSE;
 	mpv->loaded = FALSE;

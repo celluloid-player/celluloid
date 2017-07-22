@@ -108,6 +108,12 @@ static void window_resize_handler(	GmpvMpv *mpv,
 					gint64 width,
 					gint64 height,
 					gpointer data );
+static void window_move_handler(	GmpvMpv *mpv,
+					gboolean flip_x,
+					gboolean flip_y,
+					GValue *x,
+					GValue *y,
+					gpointer data );
 static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data);
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
@@ -137,6 +143,10 @@ static void constructed(GObject *object)
 	g_signal_connect(	model->mpv,
 				"window-resize",
 				G_CALLBACK(window_resize_handler),
+				model );
+	g_signal_connect(	model->mpv,
+				"window-move",
+				G_CALLBACK(window_move_handler),
 				model );
 	g_signal_connect(	model->mpv,
 				"mpv-playback-restart",
@@ -576,6 +586,16 @@ static void window_resize_handler(	GmpvMpv *mpv,
 	g_signal_emit_by_name(data, "window-resize", width, height);
 }
 
+static void window_move_handler(	GmpvMpv *mpv,
+					gboolean flip_x,
+					gboolean flip_y,
+					GValue *x,
+					GValue *y,
+					gpointer data )
+{
+	g_signal_emit_by_name(data, "window-move", flip_x, flip_y, x, y);
+}
+
 static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data)
 {
 	g_signal_emit_by_name(data, "playback-restart");
@@ -716,6 +736,19 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			2,
 			G_TYPE_INT64,
 			G_TYPE_INT64 );
+	g_signal_new(	"window-move",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__BOOLEAN_BOOLEAN_POINTER_POINTER,
+			G_TYPE_NONE,
+			4,
+			G_TYPE_BOOLEAN,
+			G_TYPE_BOOLEAN,
+			G_TYPE_POINTER,
+			G_TYPE_POINTER );
 	g_signal_new(	"message",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

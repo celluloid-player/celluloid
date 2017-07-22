@@ -45,7 +45,6 @@ struct _GmpvMpv
 	gboolean new_file;
 	gchar *tmp_input_file;
 	GSList *log_level_list;
-	GmpvGeometry *geometry;
 	gboolean init_vo_config;
 	gboolean force_opengl;
 	gboolean use_opengl;

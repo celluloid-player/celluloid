@@ -94,6 +94,12 @@ static void window_resize_handler(	GmpvModel *model,
 					gint64 width,
 					gint64 height,
 					gpointer data );
+static void window_move_handler(	GmpvModel *model,
+					gboolean flip_x,
+					gboolean flip_y,
+					GValue *x,
+					GValue *y,
+					gpointer data );
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void shutdown_handler(GmpvMpv *mpv, gpointer data);
@@ -416,6 +422,10 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(window_resize_handler),
 				controller );
 	g_signal_connect(	controller->model,
+				"window-move",
+				G_CALLBACK(window_move_handler),
+				controller );
+	g_signal_connect(	controller->model,
 				"message",
 				G_CALLBACK(message_handler),
 				controller );
@@ -626,6 +636,16 @@ static void window_resize_handler(	GmpvModel *model,
 	GmpvController *controller = data;
 
 	gmpv_view_resize_video_area(controller->view, (gint)width, (gint)height);
+}
+
+static void window_move_handler(	GmpvModel *model,
+					gboolean flip_x,
+					gboolean flip_y,
+					GValue *x,
+					GValue *y,
+					gpointer data )
+{
+	gmpv_view_move(GMPV_CONTROLLER(data)->view, flip_x, flip_y, x, y);
 }
 
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
