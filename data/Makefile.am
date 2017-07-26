@@ -11,7 +11,7 @@ appstream_XML = $(appstream_in_files:.xml.in=.xml)
 @APPSTREAM_XML_RULES@
 
 dbusservicedir = $(datadir)/dbus-1/services
-dbusservice_in_files = io.github.GnomeMpv.service
+dbusservice_in_files = io.github.GnomeMpv.service.in
 dbusservice_DATA = $(dbusservice_in_files:.service.in=.service)
 
 %.service: %.service.in Makefile
@@ -30,11 +30,15 @@ icon_DATA = gnome-mpv.svg
 symicondir = $(datadir)/icons/hicolor/symbolic/apps
 symicon_DATA = gnome-mpv-symbolic.svg
 
-EXTRA_DIST =	$(appstream_in_files) $(desktop_in_files) \
-		gnome-mpv.svg gnome-mpv-symbolic.svg \
+EXTRA_DIST =	$(appstream_in_files) \
+		$(desktop_in_files) \
+		$(dbusservice_in_files) \
+		gnome-mpv.svg \
+		gnome-mpv-symbolic.svg \
 		org.gnome-mpv.gschema.xml \
 		io.github.GnomeMpv.gschema.xml \
-		gmpv_mpris_gdbus.xml gmpv_marshal.lst \
+		gmpv_mpris_gdbus.xml \
+		gmpv_marshal.lst \
 		meson.build
 
 DISTCLEANFILES = $(appstream_XML) $(desktop_DATA) $(dbusservice_DATA)
