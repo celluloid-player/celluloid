@@ -529,12 +529,12 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 		add_menu_item
 			=	g_menu_item_new
 				(	_("_Add…"),
-					"app.show-open-dialog(true)" );
+					"win.show-open-dialog(true)" );
 		add_loc_menu_item
 			=	g_menu_item_new
 				(	_("Add _Location…"),
-					"app.show-open-location-dialog(true)" );
-		loop_menu_item = g_menu_item_new(_("Loop"), "app.toggle-loop");
+					"win.show-open-location-dialog(true)" );
+		loop_menu_item = g_menu_item_new(_("Loop"), "win.toggle-loop");
 
 		g_menu_append_item(menu, add_menu_item);
 		g_menu_append_item(menu, add_loc_menu_item);
