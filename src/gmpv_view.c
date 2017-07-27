@@ -1239,7 +1239,7 @@ GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating)
 {
 	GtkApplication *gtk_app = GTK_APPLICATION(app);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	GtkWidget *window = gmpv_main_window_new(app, always_floating);
+	GtkWidget *window = gmpv_main_window_new(gtk_app, always_floating);
 
 	if(g_settings_get_boolean(settings, "csd-enable"))
 	{

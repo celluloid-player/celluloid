@@ -342,7 +342,7 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	gtk_container_add(GTK_CONTAINER(wnd), wnd->main_box);
 }
 
-GtkWidget *gmpv_main_window_new(	GmpvApplication *app,
+GtkWidget *gmpv_main_window_new(	GtkApplication *app,
 					gboolean always_floating )
 {
 	return GTK_WIDGET(g_object_new(	gmpv_main_window_get_type(),

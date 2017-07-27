@@ -34,9 +34,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(GmpvMainWindow, gmpv_main_window, GMPV, MAIN_WINDOW, GtkApplicationWindow)
 
-typedef struct _GmpvApplication GmpvApplication;
-
-GtkWidget *gmpv_main_window_new(	GmpvApplication *app,
+GtkWidget *gmpv_main_window_new(	GtkApplication *app,
 					gboolean always_floating );
 GmpvPlaylistWidget *gmpv_main_window_get_playlist(GmpvMainWindow *wnd);
 GmpvControlBox *gmpv_main_window_get_control_box(GmpvMainWindow *wnd);
