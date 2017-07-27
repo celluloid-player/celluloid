@@ -297,11 +297,7 @@ static void append_metadata_tags(GVariantBuilder *builder, GPtrArray *list)
 		tag_name = tag_map[j].mpv_name?tag_map[j].tag_name:entry->key;
 		is_array = tag_map[j].mpv_name?tag_map[j].is_array:FALSE;
 
-		if(!is_array)
-		{
-			tag_value = g_variant_new_string(entry->value);
-		}
-		else if(is_array)
+		if(is_array)
 		{
 			GVariantBuilder tag_builder;
 			GVariant *elem_value;
@@ -314,6 +310,10 @@ static void append_metadata_tags(GVariantBuilder *builder, GPtrArray *list)
 				(&tag_builder, elem_value);
 
 			tag_value = g_variant_new("as", &tag_builder);
+		}
+		else
+		{
+			tag_value = g_variant_new_string(entry->value);
 		}
 
 		g_debug("Adding metadata tag \"%s\"", tag_name);
