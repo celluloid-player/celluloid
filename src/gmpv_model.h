@@ -48,6 +48,7 @@ void gmpv_model_next_chapter(GmpvModel *model);
 void gmpv_model_previous_chapter(GmpvModel *model);
 void gmpv_model_next_playlist_entry(GmpvModel *model);
 void gmpv_model_previous_playlist_entry(GmpvModel *model);
+void gmpv_model_shuffle_playlist(GmpvModel *model);
 void gmpv_model_seek(GmpvModel *model, gdouble value);
 void gmpv_model_seek_offset(GmpvModel *model, gdouble offset);
 void gmpv_model_load_audio_track(GmpvModel *model, const gchar *filename);

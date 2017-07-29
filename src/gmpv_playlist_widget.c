@@ -523,6 +523,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 		GMenuItem *add_menu_item;
 		GMenuItem *add_loc_menu_item;
 		GMenuItem *loop_menu_item;
+		GMenuItem *shuffle_menu_item;
 		GtkWidget *ctx_menu;
 
 		menu = g_menu_new();
@@ -535,10 +536,12 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 				(	_("Add _Location…"),
 					"win.show-open-location-dialog(true)" );
 		loop_menu_item = g_menu_item_new(_("Loop"), "win.toggle-loop");
+		shuffle_menu_item = g_menu_item_new(_("Shuffle"), "win.shuffle-playlist");
 
 		g_menu_append_item(menu, add_menu_item);
 		g_menu_append_item(menu, add_loc_menu_item);
 		g_menu_append_item(menu, loop_menu_item);
+		g_menu_append_item(menu, shuffle_menu_item);
 		g_menu_freeze(menu);
 
 		ctx_menu = gtk_menu_new_from_model(G_MENU_MODEL(menu));

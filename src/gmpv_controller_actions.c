@@ -65,6 +65,9 @@ static void toggle_playlist_handler(	GSimpleAction *action,
 static void save_playlist_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
+static void shuffle_playlist_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data );
 static void remove_selected_playlist_item_handler(	GSimpleAction *action,
 							GVariant *param,
 							gpointer data );
@@ -278,6 +281,13 @@ static void save_playlist_handler(	GSimpleAction *action,
 	gmpv_view_show_save_playlist_dialog(gmpv_controller_get_view(data));
 }
 
+static void shuffle_playlist_handler(	GSimpleAction *action,
+					GVariant *param,
+					gpointer data )
+{
+	gmpv_model_shuffle_playlist(gmpv_controller_get_model(data));
+}
+
 static void remove_selected_playlist_item_handler(	GSimpleAction *action,
 							GVariant *param,
 							gpointer data )
@@ -425,6 +435,8 @@ void gmpv_controller_action_register_actions(GmpvController *controller)
 			.activate = toggle_playlist_handler},
 			{.name = "save-playlist",
 			.activate = save_playlist_handler},
+			{.name = "shuffle-playlist",
+			.activate = shuffle_playlist_handler},
 			{.name = "remove-selected-playlist-item",
 			.activate = remove_selected_playlist_item_handler},
 			{.name = "set-audio-track",

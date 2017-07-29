@@ -941,6 +941,13 @@ void gmpv_model_previous_playlist_entry(GmpvModel *model)
 	gmpv_mpv_command(model->mpv, cmd);
 }
 
+void gmpv_model_shuffle_playlist(GmpvModel *model)
+{
+	const gchar *cmd[] = {"osd-msg", "playlist-shuffle", NULL};
+
+	gmpv_mpv_command(model->mpv, cmd);
+}
+
 void gmpv_model_seek(GmpvModel *model, gdouble value)
 {
 	gmpv_mpv_set_property(model->mpv, "time-pos", MPV_FORMAT_DOUBLE, &value);
