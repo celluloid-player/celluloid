@@ -535,8 +535,8 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 			=	g_menu_item_new
 				(	_("Add _Location…"),
 					"win.show-open-location-dialog(true)" );
-		loop_menu_item = g_menu_item_new(_("Loop"), "win.toggle-loop");
-		shuffle_menu_item = g_menu_item_new(_("Shuffle"), "win.shuffle-playlist");
+		loop_menu_item = g_menu_item_new(_("L_oop"), "win.toggle-loop");
+		shuffle_menu_item = g_menu_item_new(_("_Shuffle"), "win.shuffle-playlist");
 
 		g_menu_append_item(menu, add_menu_item);
 		g_menu_append_item(menu, add_loc_menu_item);
