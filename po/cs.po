@@ -7,13 +7,14 @@
 # Marek Suchánek <m.suchanek.2@gmail.com>, 2016. #zanata
 # gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
 # Marek Suchánek <m.suchanek.2@gmail.com>, 2017. #zanata
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-23 10:58-0500\n"
-"PO-Revision-Date: 2017-06-22 07:58-0400\n"
-"Last-Translator: Marek Suchánek <m.suchanek.2@gmail.com>\n"
+"PO-Revision-Date: 2017-07-18 02:46-0400\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +89,7 @@ msgstr "Zda už byly předvolby konvertovány ze staré na novou verzi"
 msgid "Whether or not to use floating controls in windowed mode"
 msgstr "Zda v okenním režimu použít plovoucí ovládací prvky"
 
-#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_pref_dialog.c:322
+#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_preferences_dialog.c:326
 msgid "Allow multiple instances"
 msgstr "Povolit více souběžných spuštění"
 
@@ -106,8 +107,8 @@ msgid "Show or not show the controls"
 msgstr "Zobrazit nebo nezobrazit ovládací tlačítka"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:409
-#: src/gmpv_view.c:929
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:293
+#: src/gmpv_view.c:955
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -159,19 +160,27 @@ msgstr "Hlavní okno s otevřeným seznamem přehrávání"
 msgid "gnome-mpv"
 msgstr "gnome-mpv"
 
-#: src/gmpv_application.c:463
+#: data/io.github.GnomeMpv.desktop.in:19
+msgid "New Window"
+msgstr ""
+
+#: src/gmpv_application.c:332
 msgid "Playing"
 msgstr "Hraje"
 
-#: src/gmpv_application.c:513
+#: src/gmpv_application.c:377
 msgid "Show release version"
 msgstr "Zobrazit verzi vydání"
 
-#: src/gmpv_application.c:521
+#: src/gmpv_application.c:385
 msgid "Enqueue"
 msgstr "Zařadit do fronty"
 
-#: src/gmpv_application.c:529
+#: src/gmpv_application.c:393
+msgid "Create a new window"
+msgstr ""
+
+#: src/gmpv_application.c:401
 msgid "Don't connect to an already-running instance"
 msgstr "Nepřipojovat k již běžící instanci"
 
@@ -207,12 +216,12 @@ msgstr "Předchozí kapitola"
 msgid "Toggle Fullscreen"
 msgstr "Zobrazení na celou obrazovku"
 
-#: src/gmpv_controller.c:680 src/gmpv_view.c:1374
+#: src/gmpv_controller.c:690 src/gmpv_view.c:1400
 msgid "Error"
 msgstr "Chyba"
 
 #: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
-#: src/gmpv_pref_dialog.c:371
+#: src/gmpv_preferences_dialog.c:375
 msgid "_Cancel"
 msgstr "_Zrušit"
 
@@ -335,12 +344,12 @@ msgstr "_Klávesové zkratky"
 msgid "_About"
 msgstr "_O aplikaci"
 
-#: src/gmpv_mpv.c:215
+#: src/gmpv_mpv.c:268
 msgid "Failed to apply one or more MPV options."
 msgstr "Nebylo možno uplatnit jednu nebo více předvoleb MPV."
 
-#: src/gmpv_mpv.c:504
-#, fuzzy, c-format
+#: src/gmpv_mpv.c:557
+#, fuzzy, fuzzy, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Přehrávání bylo nečekaně ukončeno. Důvod: %s."
 
@@ -348,19 +357,23 @@ msgstr "Přehrávání bylo nečekaně ukončeno. Důvod: %s."
 msgid "Location:"
 msgstr "Umístění:"
 
-#: src/gmpv_playlist_widget.c:531
+#: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Přidat…"
 
-#: src/gmpv_playlist_widget.c:535
+#: src/gmpv_playlist_widget.c:536
 msgid "Add _Location…"
 msgstr "Přidat _umístění…"
 
-#: src/gmpv_playlist_widget.c:537
-msgid "Loop"
-msgstr "Opakovat"
+#: src/gmpv_playlist_widget.c:538
+msgid "_Shuffle"
+msgstr ""
 
-#: src/gmpv_playlist_widget.c:650
+#: src/gmpv_playlist_widget.c:539
+msgid "L_oop"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:653
 msgid "Playlist"
 msgstr "Seznam přehrávání"
 
@@ -368,12 +381,12 @@ msgstr "Seznam přehrávání"
 msgid "Add Lua Script"
 msgstr "Přidat skript Lua"
 
-#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:368
+#: src/gmpv_plugins_manager.c:154 src/gmpv_preferences_dialog.c:372
 msgid "Lua Scripts"
 msgstr "Skripty Lua"
 
 #: src/gmpv_plugins_manager.c:300
-#, fuzzy, c-format
+#, fuzzy, fuzzy, fuzzy, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Selhalo kopírování souboru z ‚%s‘ do ‚%s‘. Důvod: %s"
 
@@ -391,79 +404,79 @@ msgid ""
 msgstr "Určitě si přejete tento skript odstranit? Akci nelze vrátit zpět."
 
 #: src/gmpv_plugins_manager_item.c:184
-#, fuzzy, c-format
+#, fuzzy, fuzzy, fuzzy, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Selhalo smazání souboru ‚%s‘. Důvod: %s"
 
-#: src/gmpv_pref_dialog.c:286
+#: src/gmpv_preferences_dialog.c:290
 msgid "<b>User Interface</b>"
 msgstr "<b>Uživatelské rozhraní</b>"
 
-#: src/gmpv_pref_dialog.c:289
+#: src/gmpv_preferences_dialog.c:293
 msgid "Enable client-side decorations"
 msgstr "Povolit dekorace na straně klienta"
 
-#: src/gmpv_pref_dialog.c:292
+#: src/gmpv_preferences_dialog.c:296
 msgid "Enable dark theme"
 msgstr "Povolit tmavý motiv"
 
-#: src/gmpv_pref_dialog.c:295
+#: src/gmpv_preferences_dialog.c:299
 msgid "Use floating controls in windowed mode"
 msgstr "Použít v okenním režimu plovoucí ovládání"
 
-#: src/gmpv_pref_dialog.c:298
+#: src/gmpv_preferences_dialog.c:302
 msgid "Remember last file's location"
 msgstr "Pamatovat si umístění posledního souboru"
 
-#: src/gmpv_pref_dialog.c:301
+#: src/gmpv_preferences_dialog.c:305
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>Nastavení MPV</b>"
 
-#: src/gmpv_pref_dialog.c:304
+#: src/gmpv_preferences_dialog.c:308
 msgid "Load MPV configuration file"
 msgstr "Načíst konfigurační soubor MPV"
 
-#: src/gmpv_pref_dialog.c:307
+#: src/gmpv_preferences_dialog.c:311
 msgid "MPV configuration file:"
 msgstr "Konfigurační soubor MPV:"
 
-#: src/gmpv_pref_dialog.c:310
+#: src/gmpv_preferences_dialog.c:314
 msgid "<b>Keybindings</b>"
 msgstr "<b>Klávesové zkratky</b>"
 
-#: src/gmpv_pref_dialog.c:313
+#: src/gmpv_preferences_dialog.c:317
 msgid "Load MPV input configuration file"
 msgstr "Načíst vstupní konfigurační soubor MPV"
 
-#: src/gmpv_pref_dialog.c:316
+#: src/gmpv_preferences_dialog.c:320
 msgid "MPV input configuration file:"
 msgstr "Vstupní konfigurační soubor MPV:"
 
-#: src/gmpv_pref_dialog.c:319
+#: src/gmpv_preferences_dialog.c:323
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Různé</b>"
 
-#: src/gmpv_pref_dialog.c:325
+#: src/gmpv_preferences_dialog.c:329
 msgid "Enable MPRIS support"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:328
+#: src/gmpv_preferences_dialog.c:332
 msgid "Enable media keys support"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:331
+#: src/gmpv_preferences_dialog.c:335
 msgid "Extra MPV options:"
 msgstr "Extra možnosti MPV:"
 
-#: src/gmpv_pref_dialog.c:364
+#: src/gmpv_preferences_dialog.c:368
 msgid "General"
 msgstr "Obecné"
 
-#: src/gmpv_pref_dialog.c:373
+#: src/gmpv_preferences_dialog.c:377
 msgid "_Save"
 msgstr "_Uložit"
 
-#: src/gmpv_pref_dialog.c:390
+#: src/gmpv_preferences_dialog.c:394
 msgid "Preferences"
 msgstr "Předvolby"
 
@@ -707,7 +720,7 @@ msgstr "Přehrávání"
 msgid "Seeking"
 msgstr "Posouvání"
 
-#: src/gmpv_view.c:687
+#: src/gmpv_view.c:711
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -715,38 +728,38 @@ msgstr ""
 "Aby se projevilo povolení nebo zakázání dekorací na straně klienta, je nutný"
 " restart aplikace"
 
-#: src/gmpv_view.c:1254
+#: src/gmpv_view.c:1280
 msgid "Add File to Playlist"
 msgstr "_Přidat soubory do seznamu přehrávání"
 
-#: src/gmpv_view.c:1255
+#: src/gmpv_view.c:1281
 msgid "Open File"
 msgstr "Otevřít soubor"
 
-#: src/gmpv_view.c:1282
+#: src/gmpv_view.c:1308
 msgid "Add Location to Playlist"
 msgstr "Přidat umístění do seznamu přehrávání"
 
-#: src/gmpv_view.c:1283
+#: src/gmpv_view.c:1309
 msgid "Open Location"
 msgstr "Otevřít umístění"
 
-#: src/gmpv_view.c:1304
+#: src/gmpv_view.c:1330
 msgid "Load Audio Track…"
 msgstr "Načíst zvukovou stopu…"
 
-#: src/gmpv_view.c:1323
+#: src/gmpv_view.c:1349
 msgid "Load Subtitle Track…"
 msgstr "Načíst stopu titulků…"
 
-#: src/gmpv_view.c:1348
+#: src/gmpv_view.c:1374
 msgid "Save Playlist"
 msgstr "_Uložit seznam přehrávání"
 
-#: src/gmpv_view.c:1413
+#: src/gmpv_view.c:1439
 msgid "A GTK frontend for MPV"
 msgstr "GTK frontend pro MPV"
 
-#: src/gmpv_view.c:1423
+#: src/gmpv_view.c:1449
 msgid "translator-credits"
 msgstr "Tomáš Marný"

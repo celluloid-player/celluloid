@@ -7,12 +7,13 @@
 # gnome-mpv <gnome-mpv@openmailbox.org>, 2015. #zanata
 # Mingye Wang <arthur2e5@aosc.xyz>, 2016. #zanata
 # gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
+# gnome-mpv <gnome-mpv@openmailbox.org>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 21:24+0800\n"
-"PO-Revision-Date: 2016-11-03 05:23-0400\n"
+"PO-Revision-Date: 2017-07-18 02:46-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: zh_Hant <chinese-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +89,7 @@ msgstr ""
 msgid "Whether or not to use floating controls in windowed mode"
 msgstr ""
 
-#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_pref_dialog.c:322
+#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_preferences_dialog.c:326
 msgid "Allow multiple instances"
 msgstr ""
 
@@ -106,8 +107,8 @@ msgid "Show or not show the controls"
 msgstr ""
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:409
-#: src/gmpv_view.c:929
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:293
+#: src/gmpv_view.c:955
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -157,19 +158,27 @@ msgstr "打開了播放列表的主視窗"
 msgid "gnome-mpv"
 msgstr ""
 
-#: src/gmpv_application.c:463
+#: data/io.github.GnomeMpv.desktop.in:19
+msgid "New Window"
+msgstr ""
+
+#: src/gmpv_application.c:332
 msgid "Playing"
 msgstr "正在播放"
 
-#: src/gmpv_application.c:513
+#: src/gmpv_application.c:377
 msgid "Show release version"
 msgstr ""
 
-#: src/gmpv_application.c:521
+#: src/gmpv_application.c:385
 msgid "Enqueue"
 msgstr ""
 
-#: src/gmpv_application.c:529
+#: src/gmpv_application.c:393
+msgid "Create a new window"
+msgstr ""
+
+#: src/gmpv_application.c:401
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
@@ -205,12 +214,12 @@ msgstr ""
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: src/gmpv_controller.c:680 src/gmpv_view.c:1374
+#: src/gmpv_controller.c:690 src/gmpv_view.c:1400
 msgid "Error"
 msgstr "錯誤"
 
 #: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
-#: src/gmpv_pref_dialog.c:371
+#: src/gmpv_preferences_dialog.c:375
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -333,11 +342,11 @@ msgstr ""
 msgid "_About"
 msgstr "關於(_A)"
 
-#: src/gmpv_mpv.c:215
+#: src/gmpv_mpv.c:268
 msgid "Failed to apply one or more MPV options."
 msgstr "套用一個或多個 MPV 選項失敗。"
 
-#: src/gmpv_mpv.c:504
+#: src/gmpv_mpv.c:557
 #, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "回放被異常終止。原因：%s。"
@@ -346,19 +355,23 @@ msgstr "回放被異常終止。原因：%s。"
 msgid "Location:"
 msgstr "位置："
 
-#: src/gmpv_playlist_widget.c:531
+#: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
 msgstr "新增(_A)…"
 
-#: src/gmpv_playlist_widget.c:535
+#: src/gmpv_playlist_widget.c:536
 msgid "Add _Location…"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:537
-msgid "Loop"
-msgstr "迴圈"
+#: src/gmpv_playlist_widget.c:538
+msgid "_Shuffle"
+msgstr ""
 
-#: src/gmpv_playlist_widget.c:650
+#: src/gmpv_playlist_widget.c:539
+msgid "L_oop"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:653
 msgid "Playlist"
 msgstr "播放列表"
 
@@ -366,7 +379,7 @@ msgstr "播放列表"
 msgid "Add Lua Script"
 msgstr ""
 
-#: src/gmpv_plugins_manager.c:154 src/gmpv_pref_dialog.c:368
+#: src/gmpv_plugins_manager.c:154 src/gmpv_preferences_dialog.c:372
 msgid "Lua Scripts"
 msgstr ""
 
@@ -393,75 +406,75 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:286
+#: src/gmpv_preferences_dialog.c:290
 msgid "<b>User Interface</b>"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:289
+#: src/gmpv_preferences_dialog.c:293
 msgid "Enable client-side decorations"
 msgstr "啟用客戶端裝飾"
 
-#: src/gmpv_pref_dialog.c:292
+#: src/gmpv_preferences_dialog.c:296
 msgid "Enable dark theme"
 msgstr "啟用暗色主題"
 
-#: src/gmpv_pref_dialog.c:295
+#: src/gmpv_preferences_dialog.c:299
 msgid "Use floating controls in windowed mode"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:298
+#: src/gmpv_preferences_dialog.c:302
 msgid "Remember last file's location"
 msgstr "記住最後一次開啟位置"
 
-#: src/gmpv_pref_dialog.c:301
+#: src/gmpv_preferences_dialog.c:305
 msgid "<b>MPV Configuration</b>"
 msgstr "<b>MPV 配置</b>"
 
-#: src/gmpv_pref_dialog.c:304
+#: src/gmpv_preferences_dialog.c:308
 msgid "Load MPV configuration file"
 msgstr "載入 MPV 配置檔"
 
-#: src/gmpv_pref_dialog.c:307
+#: src/gmpv_preferences_dialog.c:311
 msgid "MPV configuration file:"
 msgstr "MPV 配置檔："
 
-#: src/gmpv_pref_dialog.c:310
+#: src/gmpv_preferences_dialog.c:314
 msgid "<b>Keybindings</b>"
 msgstr "<b>鍵繫結</b>"
 
-#: src/gmpv_pref_dialog.c:313
+#: src/gmpv_preferences_dialog.c:317
 msgid "Load MPV input configuration file"
 msgstr "載入 MPV 輸入配置檔"
 
-#: src/gmpv_pref_dialog.c:316
+#: src/gmpv_preferences_dialog.c:320
 msgid "MPV input configuration file:"
 msgstr "MPV 輸入配置檔："
 
-#: src/gmpv_pref_dialog.c:319
+#: src/gmpv_preferences_dialog.c:323
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>雜項</b>"
 
-#: src/gmpv_pref_dialog.c:325
+#: src/gmpv_preferences_dialog.c:329
 msgid "Enable MPRIS support"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:328
+#: src/gmpv_preferences_dialog.c:332
 msgid "Enable media keys support"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:331
+#: src/gmpv_preferences_dialog.c:335
 msgid "Extra MPV options:"
 msgstr "額外的 MPV 選項："
 
-#: src/gmpv_pref_dialog.c:364
+#: src/gmpv_preferences_dialog.c:368
 msgid "General"
 msgstr ""
 
-#: src/gmpv_pref_dialog.c:373
+#: src/gmpv_preferences_dialog.c:377
 msgid "_Save"
 msgstr "儲存(_S)"
 
-#: src/gmpv_pref_dialog.c:390
+#: src/gmpv_preferences_dialog.c:394
 msgid "Preferences"
 msgstr "偏好設定"
 
@@ -705,45 +718,45 @@ msgstr ""
 msgid "Seeking"
 msgstr ""
 
-#: src/gmpv_view.c:687
+#: src/gmpv_view.c:711
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
 
-#: src/gmpv_view.c:1254
+#: src/gmpv_view.c:1280
 msgid "Add File to Playlist"
 msgstr "新增檔案到播放列表"
 
-#: src/gmpv_view.c:1255
+#: src/gmpv_view.c:1281
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: src/gmpv_view.c:1282
+#: src/gmpv_view.c:1308
 msgid "Add Location to Playlist"
 msgstr ""
 
-#: src/gmpv_view.c:1283
+#: src/gmpv_view.c:1309
 msgid "Open Location"
 msgstr "開啟位置"
 
-#: src/gmpv_view.c:1304
+#: src/gmpv_view.c:1330
 msgid "Load Audio Track…"
 msgstr ""
 
-#: src/gmpv_view.c:1323
+#: src/gmpv_view.c:1349
 msgid "Load Subtitle Track…"
 msgstr ""
 
-#: src/gmpv_view.c:1348
+#: src/gmpv_view.c:1374
 msgid "Save Playlist"
 msgstr "儲存播放列表"
 
-#: src/gmpv_view.c:1413
+#: src/gmpv_view.c:1439
 msgid "A GTK frontend for MPV"
 msgstr "MPV 的 GTK 前端程式"
 
-#: src/gmpv_view.c:1423
+#: src/gmpv_view.c:1449
 msgid "translator-credits"
 msgstr ""
 "Mingye Wang\n"
