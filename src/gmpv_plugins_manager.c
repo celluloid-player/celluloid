@@ -79,7 +79,6 @@ static void gmpv_plugins_manager_constructed(GObject *object)
 	GmpvPluginsManager *self = GMPV_PLUGINS_MANAGER(object);
 	gchar *scripts_dir = get_scripts_dir_path();
 
-	g_mkdir_with_parents(scripts_dir, 0700);
 	gmpv_plugins_manager_set_directory(self, scripts_dir);
 
 	g_free(scripts_dir);

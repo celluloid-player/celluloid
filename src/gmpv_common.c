@@ -103,6 +103,14 @@ gchar *get_scripts_dir_path(void)
 					NULL );
 }
 
+gchar *get_watch_dir_path(void)
+{
+	return g_build_filename(	g_get_user_config_dir(),
+					CONFIG_DIR,
+					"watch_later",
+					NULL );
+}
+
 gchar *get_path_from_uri(const gchar *uri)
 {
 	GFile *file = g_vfs_get_file_for_uri(g_vfs_get_default(), uri);

@@ -196,6 +196,7 @@ static void finalize(GObject *object)
 static void apply_default_options(GmpvMpv *mpv)
 {
 	gchar *config_dir = get_config_dir_path();
+	gchar *watch_dir = get_watch_dir_path();
 
 	const struct
 	{
@@ -218,8 +219,9 @@ static void apply_default_options(GmpvMpv *mpv)
 			{"input-cursor", "no"},
 			{"cursor-autohide", "no"},
 			{"softvol-max", "100"},
-			{"config", "yes"},
+			{"config", "no"},
 			{"config-dir", config_dir},
+			{"watch-later-directory", watch_dir},
 			{"screenshot-template", "gnome-mpv-shot%n"},
 			{NULL, NULL} };
 
@@ -235,6 +237,7 @@ static void apply_default_options(GmpvMpv *mpv)
 	}
 
 	g_free(config_dir);
+	g_free(watch_dir);
 }
 
 static void load_mpv_config_file(GmpvMpv *mpv)

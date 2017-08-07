@@ -45,6 +45,7 @@ struct _GmpvApplicationClass
 
 static void migrate_config(void);
 static void initialize_gui(GmpvApplication *app);
+static void create_dirs(void);
 static gboolean shutdown_signal_handler(gpointer data);
 static void new_window_handler(	GSimpleAction *simple,
 				GVariant *parameter,
@@ -147,6 +148,21 @@ static void initialize_gui(GmpvApplication *app)
 				G_SETTINGS_BIND_GET );
 
 	g_object_unref(settings);
+}
+
+static void create_dirs()
+{
+	gchar *config_dir = get_config_dir_path();
+	gchar *scripts_dir = get_scripts_dir_path();
+	gchar *watch_dir = get_watch_dir_path();
+
+	g_mkdir_with_parents(config_dir, 0600);
+	g_mkdir_with_parents(scripts_dir, 0700);
+	g_mkdir_with_parents(watch_dir, 0600);
+
+	g_free(config_dir);
+	g_free(scripts_dir);
+	g_free(watch_dir);
 }
 
 static gboolean shutdown_signal_handler(gpointer data)
@@ -296,6 +312,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALEDIR);
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
+	create_dirs();
 
 	g_info("Starting GNOME MPV " VERSION);
 }
