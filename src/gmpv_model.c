@@ -21,7 +21,7 @@
 
 #include "gmpv_model.h"
 #include "gmpv_marshal.h"
-#include "gmpv_mpv.h"
+#include "gmpv_player.h"
 #include "gmpv_mpv_wrapper.h"
 
 enum
@@ -808,7 +808,7 @@ static void gmpv_model_init(GmpvModel *model)
 GmpvModel *gmpv_model_new(gint64 wid)
 {
 	return GMPV_MODEL(g_object_new(	gmpv_model_get_type(),
-					"mpv", gmpv_mpv_new(wid),
+					"mpv", gmpv_player_new(wid),
 					NULL ));
 }
 
