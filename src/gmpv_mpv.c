@@ -73,7 +73,7 @@ static void wakeup_callback(void *data);
 static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
-static gboolean mpv_event_handler(gpointer data);
+static gboolean mpv_event_handler(GmpvMpv *mpv);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
 static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
@@ -377,7 +377,12 @@ static void load_scripts(GmpvMpv *mpv)
 
 static void wakeup_callback(void *data)
 {
-	g_idle_add_full(G_PRIORITY_HIGH_IDLE, mpv_event_handler, data, NULL);
+	GmpvMpvClass *klass = GMPV_MPV_GET_CLASS(data);
+
+	g_idle_add_full(	G_PRIORITY_HIGH_IDLE,
+				(GSourceFunc)klass->mpv_event,
+				data,
+				NULL );
 }
 
 static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node)
@@ -510,9 +515,8 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 	}
 }
 
-static gboolean mpv_event_handler(gpointer data)
+static gboolean mpv_event_handler(GmpvMpv *mpv)
 {
-	GmpvMpv *mpv = data;
 	GmpvMpvPrivate *priv = get_private(mpv);
 	gboolean done = !mpv;
 
@@ -891,6 +895,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
+	klass->mpv_event = mpv_event_handler;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 	obj_class->dispose = dispose;
