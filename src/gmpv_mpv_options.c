@@ -204,10 +204,11 @@ static void parse_geom_string(	GmpvMpv *mpv,
 
 static gboolean get_video_dimensions(GmpvMpv *mpv, gint64 dim[2])
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gint rc = 0;
 
-	rc |= mpv_get_property(mpv->mpv_ctx, "dwidth", MPV_FORMAT_INT64, &dim[0]);
-	rc |= mpv_get_property(mpv->mpv_ctx, "dheight", MPV_FORMAT_INT64, &dim[1]);
+	rc |= mpv_get_property(priv->mpv_ctx, "dwidth", MPV_FORMAT_INT64, &dim[0]);
+	rc |= mpv_get_property(priv->mpv_ctx, "dheight", MPV_FORMAT_INT64, &dim[1]);
 
 	return (rc >= 0);
 }
@@ -223,7 +224,7 @@ static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 
 static void video_reconfig_handler(GmpvMpv *mpv, gpointer data)
 {
-	if(mpv->new_file)
+	if(get_private(mpv)->new_file)
 	{
 		gint64 dim[2] = {0, 0};
 
@@ -244,7 +245,8 @@ static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2])
 	gchar *scale_str;
 	gboolean scale_set;
 
-	scale_str = mpv_get_property_string(mpv->mpv_ctx, "options/window-scale");
+	scale_str =	mpv_get_property_string
+			(get_private(mpv)->mpv_ctx, "options/window-scale");
 	scale_set = scale_str && *scale_str;
 
 	get_video_dimensions(mpv, vid_dim);
@@ -268,6 +270,7 @@ static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2])
 
 static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gint64 vid_dim[2] = {0, 0};
 	gint64 autofit_dim[2] = {0, 0};
 	gint64 larger_dim[2] = {G_MAXINT64, G_MAXINT64};
@@ -280,11 +283,11 @@ static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 	gboolean smaller_set = FALSE;
 
 	autofit_str =	mpv_get_property_string
-			(mpv->mpv_ctx, "options/autofit");
+			(priv->mpv_ctx, "options/autofit");
 	larger_str =	mpv_get_property_string
-			(mpv->mpv_ctx, "options/autofit-larger");
+			(priv->mpv_ctx, "options/autofit-larger");
 	smaller_str =	mpv_get_property_string
-			(mpv->mpv_ctx, "options/autofit-smaller");
+			(priv->mpv_ctx, "options/autofit-smaller");
 
 	autofit_set = autofit_str && *autofit_str;
 	larger_set = larger_str && *larger_str;
@@ -331,7 +334,8 @@ static void handle_geometry(GmpvMpv *mpv)
 {
 	gchar *geometry_str;
 
-	geometry_str = mpv_get_property_string(mpv->mpv_ctx, "options/geometry");
+	geometry_str =	mpv_get_property_string
+			(get_private(mpv)->mpv_ctx, "options/geometry");
 
 	if(geometry_str)
 	{
@@ -390,23 +394,24 @@ static void handle_msg_level(GmpvMpv *mpv)
 			{"trace", MPV_LOG_LEVEL_TRACE},
 			{NULL, MPV_LOG_LEVEL_NONE} };
 
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gchar *optbuf = NULL;
 	gchar **tokens = NULL;
 	mpv_log_level min_level = DEFAULT_LOG_LEVEL;
 	gint i;
 
-	optbuf = mpv_get_property_string(mpv->mpv_ctx, "options/msg-level");
+	optbuf = mpv_get_property_string(priv->mpv_ctx, "options/msg-level");
 
 	if(optbuf)
 	{
 		tokens = g_strsplit(optbuf, ",", 0);
 	}
 
-	if(mpv->log_level_list)
+	if(priv->log_level_list)
 	{
-		g_slist_free_full(mpv->log_level_list, g_free);
+		g_slist_free_full(priv->log_level_list, g_free);
 
-		mpv->log_level_list = NULL;
+		priv->log_level_list = NULL;
 	}
 
 	for(i = 0; tokens && tokens[i]; i++)
@@ -439,9 +444,9 @@ static void handle_msg_level(GmpvMpv *mpv)
 
 			if(g_strcmp0(level->prefix, "all") != 0)
 			{
-				mpv->log_level_list
+				priv->log_level_list
 					= g_slist_append
-						(mpv->log_level_list, level);
+						(priv->log_level_list, level);
 			}
 		}
 
@@ -449,7 +454,7 @@ static void handle_msg_level(GmpvMpv *mpv)
 	}
 
 	for(i = 0; level_map[i].level != min_level; i++);
-	mpv_request_log_messages(mpv->mpv_ctx, level_map[i].name);
+	mpv_request_log_messages(priv->mpv_ctx, level_map[i].name);
 
 	mpv_free(optbuf);
 	g_strfreev(tokens);

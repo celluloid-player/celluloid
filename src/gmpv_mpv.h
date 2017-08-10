@@ -31,7 +31,12 @@ G_BEGIN_DECLS
 
 #define GMPV_TYPE_MPV (gmpv_mpv_get_type())
 
-G_DECLARE_FINAL_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV, GObject)
+G_DECLARE_DERIVABLE_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV, GObject)
+
+struct _GmpvMpvClass
+{
+	GObjectClass parent_class;
+};
 
 GmpvMpv *gmpv_mpv_new(gint64 wid);
 mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv);

@@ -22,11 +22,12 @@
 
 gint gmpv_mpv_command(GmpvMpv *mpv, const gchar **cmd)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	if(mpv->mpv_ctx)
+	if(priv->mpv_ctx)
 	{
-		rc = mpv_command(mpv->mpv_ctx, cmd);
+		rc = mpv_command(priv->mpv_ctx, cmd);
 	}
 
 	if(rc < 0)
@@ -45,11 +46,12 @@ gint gmpv_mpv_command(GmpvMpv *mpv, const gchar **cmd)
 
 gint gmpv_mpv_command_string(GmpvMpv *mpv, const gchar *cmd)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	if(mpv->mpv_ctx)
+	if(priv->mpv_ctx)
 	{
-		rc = mpv_command_string(mpv->mpv_ctx, cmd);
+		rc = mpv_command_string(priv->mpv_ctx, cmd);
 	}
 
 	if(rc < 0)
@@ -68,11 +70,12 @@ gint gmpv_mpv_get_property(	GmpvMpv *mpv,
 				mpv_format format,
 				void *data )
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	if(mpv->mpv_ctx)
+	if(priv->mpv_ctx)
 	{
-		rc = mpv_get_property(mpv->mpv_ctx, name, format, data);
+		rc = mpv_get_property(priv->mpv_ctx, name, format, data);
 	}
 
 	if(rc < 0)
@@ -89,11 +92,12 @@ gint gmpv_mpv_get_property(	GmpvMpv *mpv,
 
 gchar *gmpv_mpv_get_property_string(GmpvMpv *mpv, const gchar *name)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gchar *value = NULL;
 
-	if(mpv->mpv_ctx)
+	if(priv->mpv_ctx)
 	{
-		value = mpv_get_property_string(mpv->mpv_ctx, name);
+		value = mpv_get_property_string(priv->mpv_ctx, name);
 	}
 
 	if(!value)
@@ -106,13 +110,14 @@ gchar *gmpv_mpv_get_property_string(GmpvMpv *mpv, const gchar *name)
 
 gboolean gmpv_mpv_get_property_flag(GmpvMpv *mpv, const gchar *name)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gboolean value = FALSE;
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	if(mpv->mpv_ctx)
+	if(priv->mpv_ctx)
 	{
 		rc =	mpv_get_property
-			(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+			(priv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
 	}
 
 	if(rc < 0)
@@ -131,11 +136,12 @@ gint gmpv_mpv_set_property(	GmpvMpv *mpv,
 				mpv_format format,
 				void *data )
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	if(mpv->mpv_ctx)
+	if(priv->mpv_ctx)
 	{
-		rc = mpv_set_property(mpv->mpv_ctx, name, format, data);
+		rc = mpv_set_property(priv->mpv_ctx, name, format, data);
 	}
 
 	if(rc < 0)
@@ -154,11 +160,12 @@ gint gmpv_mpv_set_property_string(	GmpvMpv *mpv,
 					const gchar *name,
 					const char *data )
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	if(mpv->mpv_ctx)
+	if(priv->mpv_ctx)
 	{
-		rc = mpv_set_property_string(mpv->mpv_ctx, name, data);
+		rc = mpv_set_property_string(priv->mpv_ctx, name, data);
 	}
 
 	if(rc < 0)
@@ -175,12 +182,13 @@ gint gmpv_mpv_set_property_flag(	GmpvMpv *mpv,
 					const gchar *name,
 					gboolean value )
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gint rc = MPV_ERROR_UNINITIALIZED;
 
-	if(mpv->mpv_ctx)
+	if(priv->mpv_ctx)
 	{
 		rc =	mpv_set_property
-			(mpv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
+			(priv->mpv_ctx, name, MPV_FORMAT_FLAG, &value);
 	}
 
 	if(rc < 0)
@@ -197,12 +205,14 @@ void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,
 					mpv_opengl_cb_update_fn func,
 					void *data )
 {
-	mpv->opengl_cb_callback = func;
-	mpv->opengl_cb_callback_data = data;
+	GmpvMpvPrivate *priv = get_private(mpv);
 
-	if(mpv->opengl_ctx)
+	priv->opengl_cb_callback = func;
+	priv->opengl_cb_callback_data = data;
+
+	if(priv->opengl_ctx)
 	{
-		mpv_opengl_cb_set_update_callback(mpv->opengl_ctx, func, data);
+		mpv_opengl_cb_set_update_callback(priv->opengl_ctx, func, data);
 	}
 }
 

@@ -24,6 +24,8 @@
 
 G_BEGIN_DECLS
 
+typedef struct _GmpvMpvPrivate GmpvMpvPrivate;
+
 enum
 {
 	PROP_0,
@@ -32,9 +34,8 @@ enum
 	N_PROPERTIES
 };
 
-struct _GmpvMpv
+struct _GmpvMpvPrivate
 {
-	GObject parent;
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	GPtrArray *playlist;
@@ -53,10 +54,8 @@ struct _GmpvMpv
 	void (*opengl_cb_callback)(void *data);
 };
 
-struct _GmpvMpvClass
-{
-	GObjectClass parent_class;
-};
+#define get_private(mpv) \
+	G_TYPE_INSTANCE_GET_PRIVATE(mpv, GMPV_TYPE_MPV, GmpvMpvPrivate)
 
 void mpv_check_error(int status);
 

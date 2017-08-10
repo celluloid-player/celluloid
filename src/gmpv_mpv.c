@@ -82,7 +82,7 @@ static void update_playlist(GmpvMpv *mpv);
 static void update_metadata(GmpvMpv *mpv);
 static void update_track_list(GmpvMpv *mpv);
 
-G_DEFINE_TYPE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
 static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name)
 {
@@ -128,15 +128,15 @@ static void set_property(	GObject *object,
 				const GValue *value,
 				GParamSpec *pspec )
 {
-	GmpvMpv *self = GMPV_MPV(object);
+	GmpvMpvPrivate *priv = get_private(GMPV_MPV(object));
 
 	if(property_id == PROP_WID)
 	{
-		self->wid = g_value_get_int64(value);
+		priv->wid = g_value_get_int64(value);
 	}
 	else if(property_id == PROP_READY)
 	{
-		self->ready = g_value_get_boolean(value);
+		priv->ready = g_value_get_boolean(value);
 	}
 	else
 	{
@@ -149,15 +149,15 @@ static void get_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec )
 {
-	GmpvMpv *self = GMPV_MPV(object);
+	GmpvMpvPrivate *priv = get_private(GMPV_MPV(object));
 
 	if(property_id == PROP_WID)
 	{
-		g_value_set_int64(value, self->wid);
+		g_value_set_int64(value, priv->wid);
 	}
 	else if(property_id == PROP_READY)
 	{
-		g_value_set_boolean(value, self->ready);
+		g_value_set_boolean(value, priv->ready);
 	}
 	else
 	{
@@ -169,7 +169,7 @@ static void dispose(GObject *object)
 {
 	GmpvMpv *mpv = GMPV_MPV(object);
 
-	if(mpv->mpv_ctx)
+	if(get_private(mpv)->mpv_ctx)
 	{
 		gmpv_mpv_quit(mpv);
 		while(g_source_remove_by_user_data(object));
@@ -180,14 +180,14 @@ static void dispose(GObject *object)
 
 static void finalize(GObject *object)
 {
-	GmpvMpv *mpv = GMPV_MPV(object);
+	GmpvMpvPrivate *priv = get_private(GMPV_MPV(object));
 
-	g_ptr_array_free(mpv->playlist, TRUE);
-	g_ptr_array_free(mpv->metadata, TRUE);
-	g_ptr_array_free(mpv->track_list, TRUE);
-	g_free(mpv->tmp_input_file);
+	g_ptr_array_free(priv->playlist, TRUE);
+	g_ptr_array_free(priv->metadata, TRUE);
+	g_ptr_array_free(priv->track_list, TRUE);
+	g_free(priv->tmp_input_file);
 
-	g_slist_free_full(	mpv->log_level_list,
+	g_slist_free_full(	priv->log_level_list,
 				(GDestroyNotify)module_log_level_free);
 
 	G_OBJECT_CLASS(gmpv_mpv_parent_class)->finalize(object);
@@ -231,7 +231,7 @@ static void apply_default_options(GmpvMpv *mpv)
 				options[i].name,
 				options[i].value );
 
-		mpv_set_option_string(	mpv->mpv_ctx,
+		mpv_set_option_string(	get_private(mpv)->mpv_ctx,
 					options[i].name,
 					options[i].value );
 	}
@@ -250,7 +250,7 @@ static void load_mpv_config_file(GmpvMpv *mpv)
 					(settings, "mpv-config-file");
 
 		g_info("Loading config file: %s", mpv_conf);
-		mpv_load_config_file(mpv->mpv_ctx, mpv_conf);
+		mpv_load_config_file(get_private(mpv)->mpv_ctx, mpv_conf);
 
 		g_free(mpv_conf);
 	}
@@ -266,7 +266,7 @@ static void apply_extra_options(GmpvMpv *mpv)
 	g_debug("Applying extra mpv options: %s", extra_options);
 
 	/* Apply extra options */
-	if(apply_args(mpv->mpv_ctx, extra_options) < 0)
+	if(apply_args(get_private(mpv)->mpv_ctx, extra_options) < 0)
 	{
 		const gchar *msg = _("Failed to apply one or more MPV options.");
 		g_signal_emit_by_name(mpv, "error", msg);
@@ -300,30 +300,32 @@ static void load_input_config_file(GmpvMpv *mpv)
 
 static void observe_properties(GmpvMpv *mpv)
 {
-	mpv_observe_property(mpv->mpv_ctx, 0, "aid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "vid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "sid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "chapters", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv->mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "idle-active", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "loop", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv->mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "playlist", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv->mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv->mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv->mpv_ctx, 0, "vo-configured", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv->mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
+	mpv_handle *mpv_ctx = get_private(mpv)->mpv_ctx;
+
+	mpv_observe_property(mpv_ctx, 0, "aid", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv_ctx, 0, "vid", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv_ctx, 0, "sid", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv_ctx, 0, "chapters", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv_ctx, 0, "idle-active", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv_ctx, 0, "loop", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
+	mpv_observe_property(mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
+	mpv_observe_property(mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
+	mpv_observe_property(mpv_ctx, 0, "playlist", MPV_FORMAT_NODE);
+	mpv_observe_property(mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
+	mpv_observe_property(mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
+	mpv_observe_property(mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
+	mpv_observe_property(mpv_ctx, 0, "vo-configured", MPV_FORMAT_FLAG);
+	mpv_observe_property(mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 }
 
 static void load_from_playlist(GmpvMpv *mpv)
 {
-	GPtrArray * playlist = mpv->playlist;
+	GPtrArray * playlist = get_private(mpv)->playlist;
 
 	for(guint i = 0; playlist && i < playlist->len; i++)
 	{
@@ -356,7 +358,7 @@ static void load_scripts(GmpvMpv *mpv)
 					= {"load-script", full_path, NULL};
 
 				g_info("Loading script: %s", full_path);
-				mpv_command(mpv->mpv_ctx, cmd);
+				mpv_command(get_private(mpv)->mpv_ctx, cmd);
 			}
 
 			g_free(full_path);
@@ -440,6 +442,8 @@ static GmpvTrack *parse_track_entry(mpv_node_list *node)
 
 static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
+
 	g_debug("Received mpv property change event for \"%s\"", prop->name);
 
 	if(g_strcmp0(prop->name, "pause") == 0)
@@ -447,12 +451,12 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 		gboolean idle_active = FALSE;
 		gboolean pause = prop->data?*((int *)prop->data):TRUE;
 
-		mpv_get_property(	mpv->mpv_ctx,
+		mpv_get_property(	priv->mpv_ctx,
 					"idle-active",
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		if(idle_active && !pause && !mpv->init_vo_config)
+		if(idle_active && !pause && !priv->init_vo_config)
 		{
 			load_from_playlist(mpv);
 		}
@@ -463,16 +467,16 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 		gboolean idle_active = FALSE;
 		gboolean was_empty = FALSE;
 
-		mpv_get_property(	mpv->mpv_ctx,
+		mpv_get_property(	priv->mpv_ctx,
 					"playlist-count",
 					MPV_FORMAT_INT64,
 					&playlist_count );
-		mpv_get_property(	mpv->mpv_ctx,
+		mpv_get_property(	priv->mpv_ctx,
 					"idle-active",
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		was_empty = (mpv->playlist->len == 0);
+		was_empty = (priv->playlist->len == 0);
 
 		if(!idle_active)
 		{
@@ -482,7 +486,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 		/* Check if we're transitioning from empty playlist to non-empty
 		 * playlist.
 		 */
-		if(was_empty && mpv->playlist->len > 0)
+		if(was_empty && priv->playlist->len > 0)
 		{
 			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
@@ -497,9 +501,9 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 	}
 	else if(g_strcmp0(prop->name, "vo-configured") == 0)
 	{
-		if(mpv->init_vo_config)
+		if(priv->init_vo_config)
 		{
-			mpv->init_vo_config = FALSE;
+			priv->init_vo_config = FALSE;
 			load_from_playlist(mpv);
 			load_scripts(mpv);
 		}
@@ -509,12 +513,13 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 static gboolean mpv_event_handler(gpointer data)
 {
 	GmpvMpv *mpv = data;
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gboolean done = !mpv;
 
 	while(!done)
 	{
-		mpv_event *event =	mpv->mpv_ctx?
-					mpv_wait_event(mpv->mpv_ctx, 0):
+		mpv_event *event =	priv->mpv_ctx?
+					mpv_wait_event(priv->mpv_ctx, 0):
 					NULL;
 
 		if(!event)
@@ -534,20 +539,20 @@ static gboolean mpv_event_handler(gpointer data)
 		}
 		else if(event->event_id == MPV_EVENT_IDLE)
 		{
-			mpv->loaded = FALSE;
+			priv->loaded = FALSE;
 			gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
 		}
 		else if(event->event_id == MPV_EVENT_FILE_LOADED)
 		{
-			mpv->loaded = TRUE;
+			priv->loaded = TRUE;
 		}
 		else if(event->event_id == MPV_EVENT_END_FILE)
 		{
 			mpv_event_end_file *ef_event = event->data;
 
-			if(mpv->loaded)
+			if(priv->loaded)
 			{
-				mpv->new_file = FALSE;
+				priv->new_file = FALSE;
 			}
 
 			if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
@@ -575,13 +580,13 @@ static gboolean mpv_event_handler(gpointer data)
 		{
 			gboolean vo_configured = FALSE;
 
-			mpv_get_property(	mpv->mpv_ctx,
+			mpv_get_property(	priv->mpv_ctx,
 						"vo-configured",
 						MPV_FORMAT_FLAG,
 						&vo_configured );
 
 			/* If the vo is not configured yet, save the content of
-			 * mpv's playlist in mpv->playlist. This will be loaded
+			 * mpv's playlist in priv->playlist. This will be loaded
 			 * again when the vo is configured.
 			 */
 			if(!vo_configured)
@@ -618,7 +623,7 @@ static gboolean mpv_event_handler(gpointer data)
 			done = TRUE;
 		}
 
-		if(event && !mpv->mpv_ctx)
+		if(event && !priv->mpv_ctx)
 		{
 			done = TRUE;
 		}
@@ -663,7 +668,7 @@ static gint apply_args(mpv_handle *mpv_ctx, gchar *args)
 
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
 {
-	GSList *iter = mpv->log_level_list;
+	GSList *iter = get_private(mpv)->log_level_list;
 	module_log_level *level = iter?iter->data:NULL;
 	gsize event_prefix_len = strlen(message->prefix);
 	gboolean found = FALSE;
@@ -718,6 +723,7 @@ static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
 
 static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	const gchar *default_keybinds[] = DEFAULT_KEYBINDS;
 	gchar *tmp_path;
 	FILE *tmp_file;
@@ -725,7 +731,7 @@ static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
 
 	tmp_fd = g_file_open_tmp(NULL, &tmp_path, NULL);
 	tmp_file = fdopen(tmp_fd, "w");
-	mpv->tmp_input_file = tmp_path;
+	priv->tmp_input_file = tmp_path;
 
 	if(!tmp_file)
 	{
@@ -746,7 +752,7 @@ static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
 	}
 
 	g_debug("Using temporary input config file: %s", tmp_path);
-	mpv_set_option_string(mpv->mpv_ctx, "input-conf", tmp_path);
+	mpv_set_option_string(priv->mpv_ctx, "input-conf", tmp_path);
 
 	if(input_conf && strlen(input_conf) > 0)
 	{
@@ -785,16 +791,17 @@ static void add_file_to_playlist(GmpvMpv *mpv, const gchar *uri)
 {
 	GmpvPlaylistEntry *entry = gmpv_playlist_entry_new(uri, NULL);
 
-	g_ptr_array_add(mpv->playlist, entry);
+	g_ptr_array_add(get_private(mpv)->playlist, entry);
 	g_signal_emit_by_name(mpv, "mpv-prop-change", "playlist", NULL);
 }
 
 static void update_playlist(GmpvMpv *mpv)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	const mpv_node_list *org_list;
 	mpv_node playlist;
 
-	g_ptr_array_set_size(mpv->playlist, 0);
+	g_ptr_array_set_size(priv->playlist, 0);
 	gmpv_mpv_get_property(mpv, "playlist", MPV_FORMAT_NODE, &playlist);
 
 	org_list = playlist.u.list;
@@ -806,7 +813,7 @@ static void update_playlist(GmpvMpv *mpv)
 			GmpvPlaylistEntry *entry;
 
 			entry = parse_playlist_entry(org_list->values[i].u.list);
-			g_ptr_array_add(mpv->playlist, entry);
+			g_ptr_array_add(priv->playlist, entry);
 		}
 
 		mpv_free_node_contents(&playlist);
@@ -815,10 +822,11 @@ static void update_playlist(GmpvMpv *mpv)
 
 static void update_metadata(GmpvMpv *mpv)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	mpv_node_list *org_list = NULL;
 	mpv_node metadata;
 
-	g_ptr_array_set_size(mpv->metadata, 0);
+	g_ptr_array_set_size(priv->metadata, 0);
 	gmpv_mpv_get_property(mpv, "metadata", MPV_FORMAT_NODE, &metadata);
 	org_list = metadata.u.list;
 
@@ -839,7 +847,7 @@ static void update_metadata(GmpvMpv *mpv)
 				entry =	gmpv_metadata_entry_new
 					(key, value.u.string);
 
-				g_ptr_array_add(mpv->metadata, entry);
+				g_ptr_array_add(priv->metadata, entry);
 			}
 			else
 			{
@@ -856,10 +864,11 @@ static void update_metadata(GmpvMpv *mpv)
 
 static void update_track_list(GmpvMpv *mpv)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	mpv_node_list *org_list = NULL;
 	mpv_node track_list;
 
-	g_ptr_array_set_size(mpv->track_list, 0);
+	g_ptr_array_set_size(priv->track_list, 0);
 	gmpv_mpv_get_property(mpv, "track-list", MPV_FORMAT_NODE, &track_list);
 	org_list = track_list.u.list;
 
@@ -870,7 +879,7 @@ static void update_track_list(GmpvMpv *mpv)
 			GmpvTrack *entry =	parse_track_entry
 						(org_list->values[i].u.list);
 
-			g_ptr_array_add(mpv->track_list, entry);
+			g_ptr_array_add(priv->track_list, entry);
 		}
 
 		mpv_free_node_contents(&track_list);
@@ -992,30 +1001,32 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 
 static void gmpv_mpv_init(GmpvMpv *mpv)
 {
-	mpv->mpv_ctx = mpv_create();
-	mpv->opengl_ctx = NULL;
-	mpv->playlist = g_ptr_array_new_full(	1,
+	GmpvMpvPrivate *priv = get_private(mpv);
+
+	priv->mpv_ctx = mpv_create();
+	priv->opengl_ctx = NULL;
+	priv->playlist = g_ptr_array_new_full(	1,
 						(GDestroyNotify)
 						gmpv_playlist_entry_free );
-	mpv->metadata = g_ptr_array_new_full(	1,
+	priv->metadata = g_ptr_array_new_full(	1,
 						(GDestroyNotify)
 						gmpv_metadata_entry_free );
-	mpv->track_list = g_ptr_array_new_full(	1,
+	priv->track_list = g_ptr_array_new_full(	1,
 						(GDestroyNotify)
 						gmpv_track_free );
-	mpv->tmp_input_file = NULL;
-	mpv->log_level_list = NULL;
+	priv->tmp_input_file = NULL;
+	priv->log_level_list = NULL;
 
-	mpv->ready = FALSE;
-	mpv->loaded = FALSE;
-	mpv->new_file = TRUE;
+	priv->ready = FALSE;
+	priv->loaded = FALSE;
+	priv->new_file = TRUE;
 
-	mpv->init_vo_config = TRUE;
-	mpv->force_opengl = FALSE;
-	mpv->use_opengl = FALSE;
-	mpv->wid = -1;
-	mpv->opengl_cb_callback_data = NULL;
-	mpv->opengl_cb_callback = NULL;
+	priv->init_vo_config = TRUE;
+	priv->force_opengl = FALSE;
+	priv->use_opengl = FALSE;
+	priv->wid = -1;
+	priv->opengl_cb_callback_data = NULL;
+	priv->opengl_cb_callback = NULL;
 }
 
 GmpvMpv *gmpv_mpv_new(gint64 wid)
@@ -1025,31 +1036,32 @@ GmpvMpv *gmpv_mpv_new(gint64 wid)
 
 inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 {
-	return mpv->opengl_ctx;
+	return get_private(mpv)->opengl_ctx;
 }
 
 inline gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv)
 {
-	return mpv->use_opengl;
+	return get_private(mpv)->use_opengl;
 }
 
 GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 {
-	return mpv->metadata;
+	return get_private(mpv)->metadata;
 }
 
 GPtrArray *gmpv_mpv_get_playlist(GmpvMpv *mpv)
 {
-	return mpv->playlist;
+	return get_private(mpv)->playlist;
 }
 
 GPtrArray *gmpv_mpv_get_track_list(GmpvMpv *mpv)
 {
-	return mpv->track_list;
+	return get_private(mpv)->track_list;
 }
 
 void gmpv_mpv_initialize(GmpvMpv *mpv)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	gchar *current_vo = NULL;
 	gchar *mpv_version = NULL;
@@ -1059,34 +1071,34 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 	load_mpv_config_file(mpv);
 	apply_extra_options(mpv);
 
-	if(mpv->force_opengl || mpv->wid <= 0)
+	if(priv->force_opengl || priv->wid <= 0)
 	{
 		g_info("Forcing --vo=opengl-cb");
-		mpv_set_option_string(mpv->mpv_ctx, "vo", "opengl-cb");
+		mpv_set_option_string(priv->mpv_ctx, "vo", "opengl-cb");
 	}
 	else
 	{
-		g_debug("Attaching mpv window to wid %#x", (guint)mpv->wid);
-		mpv_set_option(mpv->mpv_ctx, "wid", MPV_FORMAT_INT64, &mpv->wid);
+		g_debug("Attaching mpv window to wid %#x", (guint)priv->wid);
+		mpv_set_option(priv->mpv_ctx, "wid", MPV_FORMAT_INT64, &priv->wid);
 	}
 
 	observe_properties(mpv);
-	mpv_set_wakeup_callback(mpv->mpv_ctx, wakeup_callback, mpv);
-	mpv_initialize(mpv->mpv_ctx);
+	mpv_set_wakeup_callback(priv->mpv_ctx, wakeup_callback, mpv);
+	mpv_initialize(priv->mpv_ctx);
 
 	mpv_version = gmpv_mpv_get_property_string(mpv, "mpv-version");
 	current_vo = gmpv_mpv_get_property_string(mpv, "current-vo");
-	mpv->use_opengl = !current_vo;
+	priv->use_opengl = !current_vo;
 
 	g_info("Using %s", mpv_version);
 
-	if(!mpv->use_opengl && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
+	if(!priv->use_opengl && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
 	{
 		g_info(	"The chosen vo is %s but the display is not X11; "
 			"forcing --vo=opengl-cb and resetting",
 			current_vo );
 
-		mpv->force_opengl = TRUE;
+		priv->force_opengl = TRUE;
 
 		gmpv_mpv_reset(mpv);
 	}
@@ -1099,22 +1111,22 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 		volume = g_settings_get_double(win_settings, "volume")*100;
 
 		g_debug("Setting volume to %f", volume);
-		mpv_set_property(	mpv->mpv_ctx,
+		mpv_set_property(	priv->mpv_ctx,
 					"volume",
 					MPV_FORMAT_DOUBLE,
 					&volume );
 
-		if(mpv->use_opengl)
+		if(priv->use_opengl)
 		{
-			mpv->opengl_ctx =	mpv_get_sub_api
-						(	mpv->mpv_ctx,
+			priv->opengl_ctx =	mpv_get_sub_api
+						(	priv->mpv_ctx,
 							MPV_SUB_API_OPENGL_CB );
 		}
 
 		gmpv_mpv_options_init(mpv);
 
-		mpv->force_opengl = FALSE;
-		mpv->ready = TRUE;
+		priv->force_opengl = FALSE;
+		priv->ready = TRUE;
 		g_object_notify(G_OBJECT(mpv), "ready");
 
 		g_object_unref(win_settings);
@@ -1145,6 +1157,7 @@ void gmpv_mpv_init_gl(GmpvMpv *mpv)
 
 void gmpv_mpv_reset(GmpvMpv *mpv)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 	gchar *loop_str;
 	gboolean loop;
@@ -1152,43 +1165,41 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 	gint64 playlist_pos;
 	gint playlist_pos_rc;
 
-	g_assert(mpv->mpv_ctx);
-
 	loop_str = gmpv_mpv_get_property_string(mpv, "loop");
 	loop = (g_strcmp0(loop_str, "inf") == 0);
 	pause = gmpv_mpv_get_property_flag(mpv, "pause");
 
 	mpv_free(loop_str);
 
-	playlist_pos_rc = mpv_get_property(	mpv->mpv_ctx,
+	playlist_pos_rc = mpv_get_property(	priv->mpv_ctx,
 						"playlist-pos",
 						MPV_FORMAT_INT64,
 						&playlist_pos );
 
-	/* Reset mpv->mpv_ctx */
-	mpv->ready = FALSE;
+	/* Reset priv->mpv_ctx */
+	priv->ready = FALSE;
 	g_object_notify(G_OBJECT(mpv), "ready");
 
 	gmpv_mpv_command(mpv, quit_cmd);
 	gmpv_mpv_quit(mpv);
 
-	mpv->mpv_ctx = mpv_create();
+	priv->mpv_ctx = mpv_create();
 	gmpv_mpv_initialize(mpv);
 
 	gmpv_mpv_set_opengl_cb_callback
 		(	mpv,
-			mpv->opengl_cb_callback,
-			mpv->opengl_cb_callback_data );
+			priv->opengl_cb_callback,
+			priv->opengl_cb_callback_data );
 
 	gmpv_mpv_set_property_string(mpv, "loop", loop?"inf":"no");
 
-	if(mpv->playlist)
+	if(priv->playlist)
 	{
-		if(mpv->loaded)
+		if(priv->loaded)
 		{
-			mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
+			mpv_request_event(priv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
 			load_from_playlist(mpv);
-			mpv_request_event(mpv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
+			mpv_request_event(priv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
 		}
 
 		if(playlist_pos_rc >= 0 && playlist_pos > 0)
@@ -1205,25 +1216,27 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 
 void gmpv_mpv_quit(GmpvMpv *mpv)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
+
 	g_info("Terminating mpv");
 
-	if(mpv->tmp_input_file)
+	if(priv->tmp_input_file)
 	{
-		g_unlink(mpv->tmp_input_file);
+		g_unlink(priv->tmp_input_file);
 	}
 
-	if(mpv->opengl_ctx)
+	if(priv->opengl_ctx)
 	{
 		g_debug("Uninitializing opengl-cb");
-		mpv_opengl_cb_uninit_gl(mpv->opengl_ctx);
+		mpv_opengl_cb_uninit_gl(priv->opengl_ctx);
 
-		mpv->opengl_ctx = NULL;
+		priv->opengl_ctx = NULL;
 	}
 
-	g_assert(mpv->mpv_ctx);
-	mpv_terminate_destroy(mpv->mpv_ctx);
+	g_assert(priv->mpv_ctx);
+	mpv_terminate_destroy(priv->mpv_ctx);
 
-	mpv->mpv_ctx = NULL;
+	priv->mpv_ctx = NULL;
 }
 
 void gmpv_mpv_load_track(GmpvMpv *mpv, const gchar *uri, TrackType type)
@@ -1254,6 +1267,7 @@ void gmpv_mpv_load_track(GmpvMpv *mpv, const gchar *uri, TrackType type)
 
 void gmpv_mpv_load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	gchar *path = get_path_from_uri(uri);
 	const gchar *load_cmd[] = {"loadfile", path, NULL, NULL};
 	gint64 playlist_count = 0;
@@ -1261,7 +1275,7 @@ void gmpv_mpv_load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 	g_assert(uri);
 	g_info(	"Loading file (append=%s): %s", append?"TRUE":"FALSE", uri);
 
-	mpv_get_property(	mpv->mpv_ctx,
+	mpv_get_property(	priv->mpv_ctx,
 				"playlist-count",
 				MPV_FORMAT_INT64,
 				&playlist_count );
@@ -1270,22 +1284,23 @@ void gmpv_mpv_load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 
 	if(!append)
 	{
-		mpv->new_file = TRUE;
-		mpv->loaded = FALSE;
+		priv->new_file = TRUE;
+		priv->loaded = FALSE;
 
 		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 	}
 
-	g_assert(mpv->mpv_ctx);
-	mpv_request_event(mpv->mpv_ctx, MPV_EVENT_END_FILE, 0);
-	mpv_command(mpv->mpv_ctx, load_cmd);
-	mpv_request_event(mpv->mpv_ctx, MPV_EVENT_END_FILE, 1);
+	g_assert(priv->mpv_ctx);
+	mpv_request_event(priv->mpv_ctx, MPV_EVENT_END_FILE, 0);
+	mpv_command(priv->mpv_ctx, load_cmd);
+	mpv_request_event(priv->mpv_ctx, MPV_EVENT_END_FILE, 1);
 
 	g_free(path);
 }
 
 void gmpv_mpv_load(GmpvMpv *mpv, const gchar *uri, gboolean append)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
 	const gchar *subtitle_exts[] = SUBTITLE_EXTS;
 
 	if(extension_matches(uri, subtitle_exts))
@@ -1296,16 +1311,16 @@ void gmpv_mpv_load(GmpvMpv *mpv, const gchar *uri, gboolean append)
 	{
 		gboolean idle_active = FALSE;
 
-		mpv_get_property(	mpv->mpv_ctx,
+		mpv_get_property(	priv->mpv_ctx,
 					"idle-active",
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		if(idle_active || !mpv->ready)
+		if(idle_active || !priv->ready)
 		{
 			if(!append)
 			{
-				g_ptr_array_set_size(mpv->playlist, 0);
+				g_ptr_array_set_size(priv->playlist, 0);
 			}
 
 			add_file_to_playlist(mpv, uri);
