@@ -75,7 +75,8 @@ static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value );
-static gboolean mpv_event_handler(GmpvMpv *mpv);
+static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data);
+static gboolean process_mpv_events(gpointer data);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
 static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
@@ -379,12 +380,7 @@ static void load_scripts(GmpvMpv *mpv)
 
 static void wakeup_callback(void *data)
 {
-	GmpvMpvClass *klass = GMPV_MPV_GET_CLASS(data);
-
-	g_idle_add_full(	G_PRIORITY_HIGH_IDLE,
-				(GSourceFunc)klass->mpv_event,
-				data,
-				NULL );
+	g_idle_add_full(G_PRIORITY_HIGH_IDLE, process_mpv_events, data, NULL);
 }
 
 static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node)
@@ -519,8 +515,103 @@ static void mpv_prop_change_handler(	GmpvMpv *mpv,
 	}
 }
 
-static gboolean mpv_event_handler(GmpvMpv *mpv)
+static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data)
 {
+	GmpvMpvPrivate *priv = get_private(mpv);
+
+	if(event_id == MPV_EVENT_PROPERTY_CHANGE)
+	{
+		mpv_event_property *prop = event_data;
+
+		g_signal_emit_by_name(	mpv,
+					"mpv-prop-change",
+					prop->name,
+					prop->data );
+	}
+	else if(event_id == MPV_EVENT_IDLE)
+	{
+		priv->loaded = FALSE;
+		gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
+	}
+	else if(event_id == MPV_EVENT_FILE_LOADED)
+	{
+		priv->loaded = TRUE;
+	}
+	else if(event_id == MPV_EVENT_END_FILE)
+	{
+		mpv_event_end_file *ef_event = event_data;
+
+		if(priv->loaded)
+		{
+			priv->new_file = FALSE;
+		}
+
+		if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
+		{
+			const gchar *err;
+			gchar *msg;
+
+			err = mpv_error_string(ef_event->error);
+			msg = g_strdup_printf
+				(	_("Playback was terminated "
+					"abnormally. Reason: %s."),
+					err );
+
+			gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
+			g_signal_emit_by_name(mpv, "error", msg);
+
+			g_free(msg);
+		}
+	}
+	else if(event_id == MPV_EVENT_VIDEO_RECONFIG)
+	{
+		g_signal_emit_by_name(mpv, "mpv-video-reconfig");
+	}
+	else if(event_id == MPV_EVENT_START_FILE)
+	{
+		gboolean vo_configured = FALSE;
+
+		mpv_get_property(	priv->mpv_ctx,
+					"vo-configured",
+					MPV_FORMAT_FLAG,
+					&vo_configured );
+
+		/* If the vo is not configured yet, save the content of
+		 * mpv's playlist in priv->playlist. This will be loaded
+		 * again when the vo is configured.
+		 */
+		if(!vo_configured)
+		{
+			update_playlist(mpv);
+		}
+	}
+	else if(event_id == MPV_EVENT_PLAYBACK_RESTART)
+	{
+		g_signal_emit_by_name(mpv, "mpv-playback-restart");
+	}
+	else if(event_id == MPV_EVENT_LOG_MESSAGE)
+	{
+		log_handler(mpv, event_data);
+	}
+	else if(event_id == MPV_EVENT_CLIENT_MESSAGE)
+	{
+		mpv_event_client_message *event_cmsg = event_data;
+		gchar* msg = strnjoinv(	" ",
+					event_cmsg->args,
+					(gsize)event_cmsg->num_args );
+
+		g_signal_emit_by_name(mpv, "message", msg);
+		g_free(msg);
+	}
+	else if(event_id == MPV_EVENT_SHUTDOWN)
+	{
+		g_signal_emit_by_name(mpv, "shutdown");
+	}
+}
+
+static gboolean process_mpv_events(gpointer data)
+{
+	GmpvMpv *mpv = data;
 	GmpvMpvPrivate *priv = get_private(mpv);
 	gboolean done = !mpv;
 
@@ -530,106 +621,19 @@ static gboolean mpv_event_handler(GmpvMpv *mpv)
 					mpv_wait_event(priv->mpv_ctx, 0):
 					NULL;
 
-		if(!event)
+		if(event)
 		{
-			done = TRUE;
-		}
-		else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
-		{
-			mpv_event_property *prop = event->data;
-
-			g_signal_emit_by_name(	mpv,
-						"mpv-prop-change",
-						prop->name,
-						prop->data );
-		}
-		else if(event->event_id == MPV_EVENT_IDLE)
-		{
-			priv->loaded = FALSE;
-			gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
-		}
-		else if(event->event_id == MPV_EVENT_FILE_LOADED)
-		{
-			priv->loaded = TRUE;
-		}
-		else if(event->event_id == MPV_EVENT_END_FILE)
-		{
-			mpv_event_end_file *ef_event = event->data;
-
-			if(priv->loaded)
+			if(	!priv->mpv_ctx ||
+				event->event_id == MPV_EVENT_SHUTDOWN ||
+				event->event_id == MPV_EVENT_NONE )
 			{
-				priv->new_file = FALSE;
+				done = TRUE;
 			}
 
-			if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
-			{
-				const gchar *err;
-				gchar *msg;
-
-				err = mpv_error_string(ef_event->error);
-				msg = g_strdup_printf
-					(	_("Playback was terminated "
-						"abnormally. Reason: %s."),
-						err );
-
-				gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
-				g_signal_emit_by_name(mpv, "error", msg);
-
-				g_free(msg);
-			}
+			GMPV_MPV_GET_CLASS(mpv)
+				->mpv_event(mpv, event->event_id, event->data);
 		}
-		else if(event->event_id == MPV_EVENT_VIDEO_RECONFIG)
-		{
-			g_signal_emit_by_name(mpv, "mpv-video-reconfig");
-		}
-		else if(event->event_id == MPV_EVENT_START_FILE)
-		{
-			gboolean vo_configured = FALSE;
-
-			mpv_get_property(	priv->mpv_ctx,
-						"vo-configured",
-						MPV_FORMAT_FLAG,
-						&vo_configured );
-
-			/* If the vo is not configured yet, save the content of
-			 * mpv's playlist in priv->playlist. This will be loaded
-			 * again when the vo is configured.
-			 */
-			if(!vo_configured)
-			{
-				update_playlist(mpv);
-			}
-		}
-		else if(event->event_id == MPV_EVENT_PLAYBACK_RESTART)
-		{
-			g_signal_emit_by_name(mpv, "mpv-playback-restart");
-		}
-		else if(event->event_id == MPV_EVENT_LOG_MESSAGE)
-		{
-			log_handler(mpv, event->data);
-		}
-		else if(event->event_id == MPV_EVENT_CLIENT_MESSAGE)
-		{
-			mpv_event_client_message *event_cmsg = event->data;
-			gchar* msg = strnjoinv(	" ",
-						event_cmsg->args,
-						(gsize)event_cmsg->num_args );
-
-			g_signal_emit_by_name(mpv, "message", msg);
-			g_free(msg);
-		}
-		else if(event->event_id == MPV_EVENT_SHUTDOWN)
-		{
-			g_signal_emit_by_name(mpv, "shutdown");
-
-			done = TRUE;
-		}
-		else if(event->event_id == MPV_EVENT_NONE)
-		{
-			done = TRUE;
-		}
-
-		if(event && !priv->mpv_ctx)
+		else
 		{
 			done = TRUE;
 		}

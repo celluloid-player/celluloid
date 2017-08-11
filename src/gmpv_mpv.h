@@ -36,7 +36,7 @@ G_DECLARE_DERIVABLE_TYPE(GmpvMpv, gmpv_mpv, GMPV, MPV, GObject)
 struct _GmpvMpvClass
 {
 	GObjectClass parent_class;
-	gboolean (*mpv_event)(GmpvMpv *mpv);
+	void (*mpv_event)(GmpvMpv *mpv, gint event_id, gpointer event_data);
 	void (*mpv_property_changed)(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value );
