@@ -72,7 +72,9 @@ static void load_scripts(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
 static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
-static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop);
+static void mpv_prop_change_handler(	GmpvMpv *mpv,
+					const gchar *name,
+					gpointer value );
 static gboolean mpv_event_handler(GmpvMpv *mpv);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
@@ -445,16 +447,18 @@ static GmpvTrack *parse_track_entry(mpv_node_list *node)
 	return entry;
 }
 
-static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
+static void mpv_prop_change_handler(	GmpvMpv *mpv,
+					const gchar *name,
+					gpointer value )
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
 
-	g_debug("Received mpv property change event for \"%s\"", prop->name);
+	g_debug("Received mpv property change event for \"%s\"", name);
 
-	if(g_strcmp0(prop->name, "pause") == 0)
+	if(g_strcmp0(name, "pause") == 0)
 	{
 		gboolean idle_active = FALSE;
-		gboolean pause = prop->data?*((int *)prop->data):TRUE;
+		gboolean pause = value?*((int *)value):TRUE;
 
 		mpv_get_property(	priv->mpv_ctx,
 					"idle-active",
@@ -466,7 +470,7 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 			load_from_playlist(mpv);
 		}
 	}
-	else if(g_strcmp0(prop->name, "playlist") == 0)
+	else if(g_strcmp0(name, "playlist") == 0)
 	{
 		gint64 playlist_count = 0;
 		gboolean idle_active = FALSE;
@@ -496,15 +500,15 @@ static void mpv_prop_change_handler(GmpvMpv *mpv, mpv_event_property* prop)
 			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
 	}
-	else if(g_strcmp0(prop->name, "metadata") == 0)
+	else if(g_strcmp0(name, "metadata") == 0)
 	{
 		update_metadata(mpv);
 	}
-	else if(g_strcmp0(prop->name, "track-list") == 0)
+	else if(g_strcmp0(name, "track-list") == 0)
 	{
 		update_track_list(mpv);
 	}
-	else if(g_strcmp0(prop->name, "vo-configured") == 0)
+	else if(g_strcmp0(name, "vo-configured") == 0)
 	{
 		if(priv->init_vo_config)
 		{
@@ -533,8 +537,6 @@ static gboolean mpv_event_handler(GmpvMpv *mpv)
 		else if(event->event_id == MPV_EVENT_PROPERTY_CHANGE)
 		{
 			mpv_event_property *prop = event->data;
-
-			mpv_prop_change_handler(mpv, prop);
 
 			g_signal_emit_by_name(	mpv,
 						"mpv-prop-change",
@@ -796,7 +798,6 @@ static void add_file_to_playlist(GmpvMpv *mpv, const gchar *uri)
 	GmpvPlaylistEntry *entry = gmpv_playlist_entry_new(uri, NULL);
 
 	g_ptr_array_add(get_private(mpv)->playlist, entry);
-	g_signal_emit_by_name(mpv, "mpv-prop-change", "playlist", NULL);
 }
 
 static void update_playlist(GmpvMpv *mpv)
@@ -896,6 +897,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	GParamSpec *pspec = NULL;
 
 	klass->mpv_event = mpv_event_handler;
+	klass->mpv_property_changed = mpv_prop_change_handler;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 	obj_class->dispose = dispose;
@@ -950,7 +952,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	g_signal_new(	"mpv-prop-change",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
-			0,
+			G_STRUCT_OFFSET(GmpvMpvClass, mpv_property_changed),
 			NULL,
 			NULL,
 			g_cclosure_gen_marshal_VOID__STRING_POINTER,

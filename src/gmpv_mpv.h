@@ -37,6 +37,9 @@ struct _GmpvMpvClass
 {
 	GObjectClass parent_class;
 	gboolean (*mpv_event)(GmpvMpv *mpv);
+	void (*mpv_property_changed)(	GmpvMpv *mpv,
+					const gchar *name,
+					gpointer value );
 };
 
 GmpvMpv *gmpv_mpv_new(gint64 wid);
