@@ -72,9 +72,9 @@ static void load_scripts(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
 static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
-static void mpv_prop_change_handler(	GmpvMpv *mpv,
-					const gchar *name,
-					gpointer value );
+static void mpv_property_changed_handler(	GmpvMpv *mpv,
+						const gchar *name,
+						gpointer value );
 static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static gboolean process_mpv_events(gpointer data);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
@@ -443,9 +443,9 @@ static GmpvTrack *parse_track_entry(mpv_node_list *node)
 	return entry;
 }
 
-static void mpv_prop_change_handler(	GmpvMpv *mpv,
-					const gchar *name,
-					gpointer value )
+static void mpv_property_changed_handler(	GmpvMpv *mpv,
+						const gchar *name,
+						gpointer value )
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
 
@@ -901,7 +901,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	GParamSpec *pspec = NULL;
 
 	klass->mpv_event = mpv_event_handler;
-	klass->mpv_property_changed = mpv_prop_change_handler;
+	klass->mpv_property_changed = mpv_property_changed_handler;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 	obj_class->dispose = dispose;
