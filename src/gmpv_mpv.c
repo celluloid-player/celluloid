@@ -71,7 +71,6 @@ static void load_from_playlist(GmpvMpv *mpv);
 static void load_scripts(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
 static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node);
-static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value );
@@ -83,7 +82,6 @@ static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
 static void add_file_to_playlist(GmpvMpv *mpv, const gchar *uri);
 static void update_playlist(GmpvMpv *mpv);
 static void update_metadata(GmpvMpv *mpv);
-static void update_track_list(GmpvMpv *mpv);
 
 G_DEFINE_TYPE_WITH_PRIVATE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
@@ -187,7 +185,6 @@ static void finalize(GObject *object)
 
 	g_ptr_array_free(priv->playlist, TRUE);
 	g_ptr_array_free(priv->metadata, TRUE);
-	g_ptr_array_free(priv->track_list, TRUE);
 	g_free(priv->tmp_input_file);
 
 	g_slist_free_full(	priv->log_level_list,
@@ -403,46 +400,6 @@ static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node)
 	return gmpv_playlist_entry_new(filename, title);
 }
 
-static GmpvTrack *parse_track_entry(mpv_node_list *node)
-{
-	GmpvTrack *entry = gmpv_track_new();
-
-	for(gint i = 0; i < node->num; i++)
-	{
-		if(g_strcmp0(node->keys[i], "type") == 0)
-		{
-			const gchar *type = node->values[i].u.string;
-
-			if(g_strcmp0(type, "audio") == 0)
-			{
-				entry->type = TRACK_TYPE_AUDIO;
-			}
-			else if(g_strcmp0(type, "video") == 0)
-			{
-				entry->type = TRACK_TYPE_VIDEO;
-			}
-			else if(g_strcmp0(type, "sub") == 0)
-			{
-				entry->type = TRACK_TYPE_SUBTITLE;
-			}
-		}
-		else if(g_strcmp0(node->keys[i], "title") == 0)
-		{
-			entry->title = g_strdup(node->values[i].u.string);
-		}
-		else if(g_strcmp0(node->keys[i], "lang") == 0)
-		{
-			entry->lang = g_strdup(node->values[i].u.string);
-		}
-		else if(g_strcmp0(node->keys[i], "id") == 0)
-		{
-			entry->id = node->values[i].u.int64;
-		}
-	}
-
-	return entry;
-}
-
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value )
@@ -499,10 +456,6 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 	else if(g_strcmp0(name, "metadata") == 0)
 	{
 		update_metadata(mpv);
-	}
-	else if(g_strcmp0(name, "track-list") == 0)
-	{
-		update_track_list(mpv);
 	}
 	else if(g_strcmp0(name, "vo-configured") == 0)
 	{
@@ -871,30 +824,6 @@ static void update_metadata(GmpvMpv *mpv)
 	}
 }
 
-static void update_track_list(GmpvMpv *mpv)
-{
-	GmpvMpvPrivate *priv = get_private(mpv);
-	mpv_node_list *org_list = NULL;
-	mpv_node track_list;
-
-	g_ptr_array_set_size(priv->track_list, 0);
-	gmpv_mpv_get_property(mpv, "track-list", MPV_FORMAT_NODE, &track_list);
-	org_list = track_list.u.list;
-
-	if(track_list.format == MPV_FORMAT_NODE_ARRAY)
-	{
-		for(gint i = 0; i < org_list->num; i++)
-		{
-			GmpvTrack *entry =	parse_track_entry
-						(org_list->values[i].u.list);
-
-			g_ptr_array_add(priv->track_list, entry);
-		}
-
-		mpv_free_node_contents(&track_list);
-	}
-}
-
 static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -1022,9 +951,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	priv->metadata = g_ptr_array_new_full(	1,
 						(GDestroyNotify)
 						gmpv_metadata_entry_free );
-	priv->track_list = g_ptr_array_new_full(	1,
-						(GDestroyNotify)
-						gmpv_track_free );
 	priv->tmp_input_file = NULL;
 	priv->log_level_list = NULL;
 
@@ -1063,11 +989,6 @@ GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv)
 GPtrArray *gmpv_mpv_get_playlist(GmpvMpv *mpv)
 {
 	return get_private(mpv)->playlist;
-}
-
-GPtrArray *gmpv_mpv_get_track_list(GmpvMpv *mpv)
-{
-	return get_private(mpv)->track_list;
 }
 
 void gmpv_mpv_initialize(GmpvMpv *mpv)

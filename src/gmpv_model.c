@@ -258,7 +258,8 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_TRACK_LIST:
-		self->track_list = gmpv_mpv_get_track_list(self->mpv);
+		self->track_list =	gmpv_player_get_track_list
+					(GMPV_PLAYER(self->mpv));
 		break;
 
 		case PROP_VOLUME:

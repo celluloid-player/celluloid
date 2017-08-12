@@ -40,7 +40,6 @@ struct _GmpvMpvPrivate
 	mpv_opengl_cb_context *opengl_ctx;
 	GPtrArray *playlist;
 	GPtrArray *metadata;
-	GPtrArray *track_list;
 	gboolean ready;
 	gboolean loaded;
 	gboolean new_file;
