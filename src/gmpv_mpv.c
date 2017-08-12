@@ -1073,9 +1073,7 @@ void gmpv_mpv_reset(GmpvMpv *mpv)
 	{
 		if(priv->loaded)
 		{
-			mpv_request_event(priv->mpv_ctx, MPV_EVENT_FILE_LOADED, 0);
 			load_from_playlist(mpv);
-			mpv_request_event(priv->mpv_ctx, MPV_EVENT_FILE_LOADED, 1);
 		}
 
 		if(playlist_pos_rc >= 0 && playlist_pos > 0)
