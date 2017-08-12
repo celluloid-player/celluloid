@@ -23,6 +23,7 @@
 struct _GmpvPlayer
 {
 	GmpvMpv parent;
+	GPtrArray *metadata;
 	GPtrArray *track_list;
 };
 
@@ -36,13 +37,17 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value );
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
+static void update_metadata(GmpvPlayer *player);
 static void update_track_list(GmpvPlayer *player);
 
 G_DEFINE_TYPE(GmpvPlayer, gmpv_player, GMPV_TYPE_MPV)
 
 static void finalize(GObject *object)
 {
-	g_ptr_array_free(GMPV_PLAYER(object)->track_list, TRUE);
+	GmpvPlayer *player = GMPV_PLAYER(object);
+
+	g_ptr_array_free(player->metadata, TRUE);
+	g_ptr_array_free(player->track_list, TRUE);
 
 	G_OBJECT_CLASS(gmpv_player_parent_class)->finalize(object);
 }
@@ -51,7 +56,11 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value )
 {
-	if(g_strcmp0(name, "track-list") == 0)
+	if(g_strcmp0(name, "metadata") == 0)
+	{
+		update_metadata(GMPV_PLAYER(mpv));
+	}
+	else if(g_strcmp0(name, "track-list") == 0)
 	{
 		update_track_list(GMPV_PLAYER(mpv));
 	}
@@ -100,6 +109,50 @@ static GmpvTrack *parse_track_entry(mpv_node_list *node)
 	return entry;
 }
 
+static void update_metadata(GmpvPlayer *player)
+{
+	mpv_node_list *org_list = NULL;
+	mpv_node metadata;
+
+	g_ptr_array_set_size(player->metadata, 0);
+	gmpv_mpv_get_property(	GMPV_MPV(player),
+				"metadata",
+				MPV_FORMAT_NODE,
+				&metadata );
+	org_list = metadata.u.list;
+
+	if(metadata.format == MPV_FORMAT_NODE_MAP && org_list->num > 0)
+	{
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			const gchar *key;
+			mpv_node value;
+
+			key = org_list->keys[i];
+			value = org_list->values[i];
+
+			if(value.format == MPV_FORMAT_STRING)
+			{
+				GmpvMetadataEntry *entry;
+
+				entry =	gmpv_metadata_entry_new
+					(key, value.u.string);
+
+				g_ptr_array_add(player->metadata, entry);
+			}
+			else
+			{
+				g_warning(	"Ignored metadata field %s "
+						"with unexpected format %d",
+						key,
+						value.format );
+			}
+		}
+
+		mpv_free_node_contents(&metadata);
+	}
+}
+
 static void update_track_list(GmpvPlayer *player)
 {
 	mpv_node_list *org_list = NULL;
@@ -137,6 +190,9 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 
 static void gmpv_player_init(GmpvPlayer *player)
 {
+	player->metadata = g_ptr_array_new_full(	1,
+							(GDestroyNotify)
+							gmpv_metadata_entry_free );
 	player->track_list = g_ptr_array_new_full(	1,
 							(GDestroyNotify)
 							gmpv_track_free );
@@ -147,6 +203,11 @@ GmpvPlayer *gmpv_player_new(gint64 wid)
 	return GMPV_PLAYER(g_object_new(	gmpv_player_get_type(),
 						"wid", wid,
 						NULL ));
+}
+
+GPtrArray *gmpv_player_get_metadata(GmpvPlayer *player)
+{
+	return player->metadata;
 }
 
 GPtrArray *gmpv_player_get_track_list(GmpvPlayer *player)

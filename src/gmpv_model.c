@@ -132,7 +132,7 @@ static void constructed(GObject *object)
 	g_assert(model->mpv);
 
 	model->playlist = gmpv_mpv_get_playlist(model->mpv);
-	model->metadata = gmpv_mpv_get_metadata(model->mpv);
+	model->metadata = gmpv_player_get_metadata(GMPV_PLAYER(model->mpv));
 
 	g_object_bind_property(	model->mpv,
 				"ready",
@@ -238,7 +238,8 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_METADATA:
-		self->metadata = gmpv_mpv_get_metadata(self->mpv);
+		self->metadata =	gmpv_player_get_metadata
+					(GMPV_PLAYER(self->mpv));
 		break;
 
 		case PROP_PLAYLIST:

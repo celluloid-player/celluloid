@@ -81,7 +81,6 @@ static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
 static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
 static void add_file_to_playlist(GmpvMpv *mpv, const gchar *uri);
 static void update_playlist(GmpvMpv *mpv);
-static void update_metadata(GmpvMpv *mpv);
 
 G_DEFINE_TYPE_WITH_PRIVATE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
@@ -184,7 +183,6 @@ static void finalize(GObject *object)
 	GmpvMpvPrivate *priv = get_private(GMPV_MPV(object));
 
 	g_ptr_array_free(priv->playlist, TRUE);
-	g_ptr_array_free(priv->metadata, TRUE);
 	g_free(priv->tmp_input_file);
 
 	g_slist_free_full(	priv->log_level_list,
@@ -452,10 +450,6 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 		{
 			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
-	}
-	else if(g_strcmp0(name, "metadata") == 0)
-	{
-		update_metadata(mpv);
 	}
 	else if(g_strcmp0(name, "vo-configured") == 0)
 	{
@@ -782,48 +776,6 @@ static void update_playlist(GmpvMpv *mpv)
 	}
 }
 
-static void update_metadata(GmpvMpv *mpv)
-{
-	GmpvMpvPrivate *priv = get_private(mpv);
-	mpv_node_list *org_list = NULL;
-	mpv_node metadata;
-
-	g_ptr_array_set_size(priv->metadata, 0);
-	gmpv_mpv_get_property(mpv, "metadata", MPV_FORMAT_NODE, &metadata);
-	org_list = metadata.u.list;
-
-	if(metadata.format == MPV_FORMAT_NODE_MAP && org_list->num > 0)
-	{
-		for(gint i = 0; i < org_list->num; i++)
-		{
-			const gchar *key;
-			mpv_node value;
-
-			key = org_list->keys[i];
-			value = org_list->values[i];
-
-			if(value.format == MPV_FORMAT_STRING)
-			{
-				GmpvMetadataEntry *entry;
-
-				entry =	gmpv_metadata_entry_new
-					(key, value.u.string);
-
-				g_ptr_array_add(priv->metadata, entry);
-			}
-			else
-			{
-				g_warning(	"Ignored metadata field %s "
-						"with unexpected format %d",
-						key,
-						value.format );
-			}
-		}
-
-		mpv_free_node_contents(&metadata);
-	}
-}
-
 static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -948,9 +900,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	priv->playlist = g_ptr_array_new_full(	1,
 						(GDestroyNotify)
 						gmpv_playlist_entry_free );
-	priv->metadata = g_ptr_array_new_full(	1,
-						(GDestroyNotify)
-						gmpv_metadata_entry_free );
 	priv->tmp_input_file = NULL;
 	priv->log_level_list = NULL;
 
@@ -979,11 +928,6 @@ inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
 inline gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv)
 {
 	return get_private(mpv)->use_opengl;
-}
-
-GPtrArray *gmpv_mpv_get_metadata(GmpvMpv *mpv)
-{
-	return get_private(mpv)->metadata;
 }
 
 GPtrArray *gmpv_mpv_get_playlist(GmpvMpv *mpv)

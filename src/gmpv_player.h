@@ -31,6 +31,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(GmpvPlayer, gmpv_player, GMPV, PLAYER, GmpvMpv)
 
 GmpvPlayer *gmpv_player_new(gint64 wid);
+GPtrArray *gmpv_player_get_metadata(GmpvPlayer *player);
 GPtrArray *gmpv_player_get_track_list(GmpvPlayer *player);
 
 G_END_DECLS
