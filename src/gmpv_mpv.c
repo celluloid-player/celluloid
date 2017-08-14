@@ -62,7 +62,6 @@ static void get_property(	GObject *object,
 				GParamSpec *pspec );
 static void dispose(GObject *object);
 static void finalize(GObject *object);
-static void load_mpv_config_file(GmpvMpv *mpv);
 static void apply_extra_options(GmpvMpv *mpv);
 static void load_input_config_file(GmpvMpv *mpv);
 static void observe_properties(GmpvMpv *mpv);
@@ -185,24 +184,6 @@ static void finalize(GObject *object)
 				(GDestroyNotify)module_log_level_free);
 
 	G_OBJECT_CLASS(gmpv_mpv_parent_class)->finalize(object);
-}
-
-static void load_mpv_config_file(GmpvMpv *mpv)
-{
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-
-	if(g_settings_get_boolean(settings, "mpv-config-enable"))
-	{
-		gchar *mpv_conf =	g_settings_get_string
-					(settings, "mpv-config-file");
-
-		g_info("Loading config file: %s", mpv_conf);
-		mpv_load_config_file(get_private(mpv)->mpv_ctx, mpv_conf);
-
-		g_free(mpv_conf);
-	}
-
-	g_object_unref(settings);
 }
 
 static void apply_extra_options(GmpvMpv *mpv)
@@ -399,7 +380,6 @@ static void initialize(GmpvMpv *mpv)
 	gchar *mpv_version = NULL;
 
 	load_input_config_file(mpv);
-	load_mpv_config_file(mpv);
 	apply_extra_options(mpv);
 
 	if(priv->force_opengl || priv->wid <= 0)

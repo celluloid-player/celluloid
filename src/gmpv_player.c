@@ -44,6 +44,7 @@ static void apply_default_options(GmpvMpv *mpv);
 static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
+static void load_config_file(GmpvMpv *mpv);
 static void load_scripts(GmpvPlayer *player);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void add_file_to_playlist(GmpvPlayer *player, const gchar *uri);
@@ -214,6 +215,7 @@ static void apply_default_options(GmpvMpv *mpv)
 static void initialize(GmpvMpv *mpv)
 {
 	apply_default_options(mpv);
+	load_config_file(mpv);
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)->initialize(mpv);
 }
@@ -274,6 +276,24 @@ static void reset(GmpvMpv *mpv)
 					MPV_FORMAT_INT64,
 					&playlist_pos );
 	}
+}
+
+static void load_config_file(GmpvMpv *mpv)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	if(g_settings_get_boolean(settings, "mpv-config-enable"))
+	{
+		gchar *mpv_conf =	g_settings_get_string
+					(settings, "mpv-config-file");
+
+		g_info("Loading config file: %s", mpv_conf);
+		gmpv_mpv_load_config_file(mpv, mpv_conf);
+
+		g_free(mpv_conf);
+	}
+
+	g_object_unref(settings);
 }
 
 static void load_scripts(GmpvPlayer *player)
