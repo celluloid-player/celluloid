@@ -328,7 +328,6 @@ static gboolean process_mpv_events(gpointer data)
 static void initialize(GmpvMpv *mpv)
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	gchar *current_vo = NULL;
 	gchar *mpv_version = NULL;
 
@@ -379,7 +378,6 @@ static void initialize(GmpvMpv *mpv)
 		g_object_notify(G_OBJECT(mpv), "ready");
 	}
 
-	g_object_unref(settings);
 	mpv_free(current_vo);
 	mpv_free(mpv_version);
 }
