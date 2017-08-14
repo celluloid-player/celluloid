@@ -62,7 +62,6 @@ static void get_property(	GObject *object,
 				GParamSpec *pspec );
 static void dispose(GObject *object);
 static void finalize(GObject *object);
-static void apply_default_options(GmpvMpv *mpv);
 static void load_mpv_config_file(GmpvMpv *mpv);
 static void apply_extra_options(GmpvMpv *mpv);
 static void load_input_config_file(GmpvMpv *mpv);
@@ -186,53 +185,6 @@ static void finalize(GObject *object)
 				(GDestroyNotify)module_log_level_free);
 
 	G_OBJECT_CLASS(gmpv_mpv_parent_class)->finalize(object);
-}
-
-static void apply_default_options(GmpvMpv *mpv)
-{
-	gchar *config_dir = get_config_dir_path();
-	gchar *watch_dir = get_watch_dir_path();
-
-	const struct
-	{
-		const gchar *name;
-		const gchar *value;
-	}
-	options[] = {	{"vo", "opengl,vdpau,vaapi,xv,x11,opengl-cb,"},
-			{"osd-level", "1"},
-			{"softvol", "yes"},
-			{"force-window", "immediate"},
-			{"input-default-bindings", "yes"},
-			{"audio-client-name", ICON_NAME},
-			{"title", "${media-title}"},
-			{"autofit-larger", "75%"},
-			{"window-scale", "1"},
-			{"pause", "yes"},
-			{"ytdl", "yes"},
-			{"load-scripts", "no"},
-			{"osd-bar", "no"},
-			{"input-cursor", "no"},
-			{"cursor-autohide", "no"},
-			{"softvol-max", "100"},
-			{"config", "no"},
-			{"config-dir", config_dir},
-			{"watch-later-directory", watch_dir},
-			{"screenshot-template", "gnome-mpv-shot%n"},
-			{NULL, NULL} };
-
-	for(gint i = 0; options[i].name; i++)
-	{
-		g_debug(	"Applying default option --%s=%s",
-				options[i].name,
-				options[i].value );
-
-		mpv_set_option_string(	get_private(mpv)->mpv_ctx,
-					options[i].name,
-					options[i].value );
-	}
-
-	g_free(config_dir);
-	g_free(watch_dir);
 }
 
 static void load_mpv_config_file(GmpvMpv *mpv)
@@ -446,7 +398,6 @@ static void initialize(GmpvMpv *mpv)
 	gchar *current_vo = NULL;
 	gchar *mpv_version = NULL;
 
-	apply_default_options(mpv);
 	load_input_config_file(mpv);
 	load_mpv_config_file(mpv);
 	apply_extra_options(mpv);

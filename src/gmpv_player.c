@@ -19,6 +19,7 @@
 
 #include "gmpv_player.h"
 #include "gmpv_mpv_wrapper.h"
+#include "gmpv_def.h"
 
 struct _GmpvPlayer
 {
@@ -39,6 +40,8 @@ static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value );
+static void apply_default_options(GmpvMpv *mpv);
+static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
 static void load_scripts(GmpvPlayer *player);
@@ -159,6 +162,60 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)
 		->mpv_property_changed(mpv, name, value);
+}
+
+static void apply_default_options(GmpvMpv *mpv)
+{
+	gchar *config_dir = get_config_dir_path();
+	gchar *watch_dir = get_watch_dir_path();
+
+	const struct
+	{
+		const gchar *name;
+		const gchar *value;
+	}
+	options[] = {	{"vo", "opengl,vdpau,vaapi,xv,x11,opengl-cb,"},
+			{"osd-level", "1"},
+			{"softvol", "yes"},
+			{"force-window", "immediate"},
+			{"input-default-bindings", "yes"},
+			{"audio-client-name", ICON_NAME},
+			{"title", "${media-title}"},
+			{"autofit-larger", "75%"},
+			{"window-scale", "1"},
+			{"pause", "yes"},
+			{"ytdl", "yes"},
+			{"load-scripts", "no"},
+			{"osd-bar", "no"},
+			{"input-cursor", "no"},
+			{"cursor-autohide", "no"},
+			{"softvol-max", "100"},
+			{"config", "no"},
+			{"config-dir", config_dir},
+			{"watch-later-directory", watch_dir},
+			{"screenshot-template", "gnome-mpv-shot%n"},
+			{NULL, NULL} };
+
+	for(gint i = 0; options[i].name; i++)
+	{
+		g_debug(	"Applying default option --%s=%s",
+				options[i].name,
+				options[i].value );
+
+		gmpv_mpv_set_option_string(	mpv,
+						options[i].name,
+						options[i].value );
+	}
+
+	g_free(config_dir);
+	g_free(watch_dir);
+}
+
+static void initialize(GmpvMpv *mpv)
+{
+	apply_default_options(mpv);
+
+	GMPV_MPV_CLASS(gmpv_player_parent_class)->initialize(mpv);
 }
 
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
@@ -443,6 +500,7 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 
 	mpv_class->mpv_event = mpv_event_handler;
 	mpv_class->mpv_property_changed = mpv_property_changed_handler;
+	mpv_class->initialize = initialize;
 	mpv_class->load_file = load_file;
 	mpv_class->reset = reset;
 	obj_class->finalize = finalize;
