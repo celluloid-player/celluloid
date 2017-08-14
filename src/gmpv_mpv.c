@@ -23,7 +23,6 @@
 #include <unistd.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
-#include <glib/gstdio.h>
 #include <gdk/gdk.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,7 +62,6 @@ static void get_property(	GObject *object,
 static void dispose(GObject *object);
 static void finalize(GObject *object);
 static void apply_extra_options(GmpvMpv *mpv);
-static void load_input_config_file(GmpvMpv *mpv);
 static void observe_properties(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
@@ -76,7 +74,6 @@ static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
-static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf);
 
 G_DEFINE_TYPE_WITH_PRIVATE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
@@ -178,8 +175,6 @@ static void finalize(GObject *object)
 {
 	GmpvMpvPrivate *priv = get_private(GMPV_MPV(object));
 
-	g_free(priv->tmp_input_file);
-
 	g_slist_free_full(	priv->log_level_list,
 				(GDestroyNotify)module_log_level_free);
 
@@ -201,28 +196,6 @@ static void apply_extra_options(GmpvMpv *mpv)
 	}
 
 	g_free(extra_options);
-	g_object_unref(settings);
-}
-
-static void load_input_config_file(GmpvMpv *mpv)
-{
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-
-	if(g_settings_get_boolean(settings, "mpv-input-config-enable"))
-	{
-		gchar *input_conf =	g_settings_get_string
-					(settings, "mpv-input-config-file");
-
-		g_info("Loading input config file: %s", input_conf);
-		load_input_conf(mpv, input_conf);
-
-		g_free(input_conf);
-	}
-	else
-	{
-		load_input_conf(mpv, NULL);
-	}
-
 	g_object_unref(settings);
 }
 
@@ -379,7 +352,6 @@ static void initialize(GmpvMpv *mpv)
 	gchar *current_vo = NULL;
 	gchar *mpv_version = NULL;
 
-	load_input_config_file(mpv);
 	apply_extra_options(mpv);
 
 	if(priv->force_opengl || priv->wid <= 0)
@@ -602,72 +574,6 @@ static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
 	}
 }
 
-static void load_input_conf(GmpvMpv *mpv, const gchar *input_conf)
-{
-	GmpvMpvPrivate *priv = get_private(mpv);
-	const gchar *default_keybinds[] = DEFAULT_KEYBINDS;
-	gchar *tmp_path;
-	FILE *tmp_file;
-	gint tmp_fd;
-
-	tmp_fd = g_file_open_tmp(NULL, &tmp_path, NULL);
-	tmp_file = fdopen(tmp_fd, "w");
-	priv->tmp_input_file = tmp_path;
-
-	if(!tmp_file)
-	{
-		g_error("Failed to open temporary input config file");
-	}
-
-	for(gint i = 0; default_keybinds[i]; i++)
-	{
-		const gsize len = strlen(default_keybinds[i]);
-		gsize write_size = fwrite(default_keybinds[i], len, 1, tmp_file);
-		gint rc = fputc('\n', tmp_file);
-
-		if(write_size != 1 || rc != '\n')
-		{
-			g_error(	"Error writing default keybindings to "
-					"temporary input config file" );
-		}
-	}
-
-	g_debug("Using temporary input config file: %s", tmp_path);
-	mpv_set_option_string(priv->mpv_ctx, "input-conf", tmp_path);
-
-	if(input_conf && strlen(input_conf) > 0)
-	{
-		const gsize buf_size = 65536;
-		void *buf = g_malloc(buf_size);
-		FILE *src_file = g_fopen(input_conf, "r");
-		gsize read_size = buf_size;
-
-		if(!src_file)
-		{
-			g_warning(	"Cannot open input config file: %s",
-					input_conf );
-		}
-
-		while(src_file && read_size == buf_size)
-		{
-			read_size = fread(buf, 1, buf_size, src_file);
-
-			if(read_size != fwrite(buf, 1, read_size, tmp_file))
-			{
-				g_error(	"Error writing requested input "
-						"config file to temporary "
-						"input config file" );
-			}
-		}
-
-		g_info("Loaded input config file: %s", input_conf);
-
-		g_free(buf);
-	}
-
-	fclose(tmp_file);
-}
-
 static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -792,7 +698,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 
 	priv->mpv_ctx = mpv_create();
 	priv->opengl_ctx = NULL;
-	priv->tmp_input_file = NULL;
 	priv->log_level_list = NULL;
 
 	priv->ready = FALSE;
@@ -855,11 +760,6 @@ void gmpv_mpv_quit(GmpvMpv *mpv)
 	GmpvMpvPrivate *priv = get_private(mpv);
 
 	g_info("Terminating mpv");
-
-	if(priv->tmp_input_file)
-	{
-		g_unlink(priv->tmp_input_file);
-	}
 
 	if(priv->opengl_ctx)
 	{

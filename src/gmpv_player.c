@@ -17,6 +17,9 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <string.h>
+#include <glib/gstdio.h>
+
 #include "gmpv_player.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
@@ -28,6 +31,7 @@ struct _GmpvPlayer
 	GPtrArray *metadata;
 	GPtrArray *track_list;
 	gboolean init_vo_config;
+	gchar *tmp_input_config;
 };
 
 struct _GmpvPlayerClass
@@ -44,7 +48,9 @@ static void apply_default_options(GmpvMpv *mpv);
 static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
+static void load_input_conf(GmpvPlayer *player, const gchar *input_conf);
 static void load_config_file(GmpvMpv *mpv);
+static void load_input_config_file(GmpvPlayer *player);
 static void load_scripts(GmpvPlayer *player);
 static GmpvTrack *parse_track_entry(mpv_node_list *node);
 static void add_file_to_playlist(GmpvPlayer *player, const gchar *uri);
@@ -60,6 +66,12 @@ static void finalize(GObject *object)
 {
 	GmpvPlayer *player = GMPV_PLAYER(object);
 
+	if(player->tmp_input_config)
+	{
+		g_unlink(player->tmp_input_config);
+	}
+
+	g_free(player->tmp_input_config);
 	g_ptr_array_free(player->playlist, TRUE);
 	g_ptr_array_free(player->metadata, TRUE);
 	g_ptr_array_free(player->track_list, TRUE);
@@ -216,6 +228,7 @@ static void initialize(GmpvMpv *mpv)
 {
 	apply_default_options(mpv);
 	load_config_file(mpv);
+	load_input_config_file(GMPV_PLAYER(mpv));
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)->initialize(mpv);
 }
@@ -278,6 +291,77 @@ static void reset(GmpvMpv *mpv)
 	}
 }
 
+static void load_input_conf(GmpvPlayer *player, const gchar *input_conf)
+{
+	const gchar *default_keybinds[] = DEFAULT_KEYBINDS;
+	gchar *tmp_path;
+	FILE *tmp_file;
+	gint tmp_fd;
+
+	if(player->tmp_input_config)
+	{
+		g_unlink(player->tmp_input_config);
+		g_free(player->tmp_input_config);
+	}
+
+	tmp_fd = g_file_open_tmp(NULL, &tmp_path, NULL);
+	tmp_file = fdopen(tmp_fd, "w");
+	player->tmp_input_config = tmp_path;
+
+	if(!tmp_file)
+	{
+		g_error("Failed to open temporary input config file");
+	}
+
+	for(gint i = 0; default_keybinds[i]; i++)
+	{
+		const gsize len = strlen(default_keybinds[i]);
+		gsize write_size = fwrite(default_keybinds[i], len, 1, tmp_file);
+		gint rc = fputc('\n', tmp_file);
+
+		if(write_size != 1 || rc != '\n')
+		{
+			g_error(	"Error writing default keybindings to "
+					"temporary input config file" );
+		}
+	}
+
+	g_debug("Using temporary input config file: %s", tmp_path);
+	gmpv_mpv_set_option_string(GMPV_MPV(player), "input-conf", tmp_path);
+
+	if(input_conf && strlen(input_conf) > 0)
+	{
+		const gsize buf_size = 65536;
+		void *buf = g_malloc(buf_size);
+		FILE *src_file = g_fopen(input_conf, "r");
+		gsize read_size = buf_size;
+
+		if(!src_file)
+		{
+			g_warning(	"Cannot open input config file: %s",
+					input_conf );
+		}
+
+		while(src_file && read_size == buf_size)
+		{
+			read_size = fread(buf, 1, buf_size, src_file);
+
+			if(read_size != fwrite(buf, 1, read_size, tmp_file))
+			{
+				g_error(	"Error writing requested input "
+						"config file to temporary "
+						"input config file" );
+			}
+		}
+
+		g_info("Loaded input config file: %s", input_conf);
+
+		g_free(buf);
+	}
+
+	fclose(tmp_file);
+}
+
 static void load_config_file(GmpvMpv *mpv)
 {
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
@@ -291,6 +375,28 @@ static void load_config_file(GmpvMpv *mpv)
 		gmpv_mpv_load_config_file(mpv, mpv_conf);
 
 		g_free(mpv_conf);
+	}
+
+	g_object_unref(settings);
+}
+
+static void load_input_config_file(GmpvPlayer *player)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	if(g_settings_get_boolean(settings, "mpv-input-config-enable"))
+	{
+		gchar *input_conf =	g_settings_get_string
+					(settings, "mpv-input-config-file");
+
+		g_info("Loading input config file: %s", input_conf);
+		load_input_conf(player, input_conf);
+
+		g_free(input_conf);
+	}
+	else
+	{
+		load_input_conf(player, NULL);
 	}
 
 	g_object_unref(settings);
@@ -538,6 +644,7 @@ static void gmpv_player_init(GmpvPlayer *player)
 							(GDestroyNotify)
 							gmpv_track_free );
 	player->init_vo_config = TRUE;
+	player->tmp_input_config = NULL;
 }
 
 GmpvPlayer *gmpv_player_new(gint64 wid)
