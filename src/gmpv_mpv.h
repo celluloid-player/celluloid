@@ -40,6 +40,7 @@ struct _GmpvMpvClass
 	void (*mpv_property_changed)(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value );
+	void (*initialize)(GmpvMpv *mpv);
 	void (*load_file)(GmpvMpv *mpv, const gchar *uri, gboolean append);
 	void (*reset)(GmpvMpv *mpv);
 };

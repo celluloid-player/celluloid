@@ -73,6 +73,7 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						gpointer value );
 static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static gboolean process_mpv_events(gpointer data);
+static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
 static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
@@ -438,6 +439,84 @@ static gboolean process_mpv_events(gpointer data)
 	return FALSE;
 }
 
+static void initialize(GmpvMpv *mpv)
+{
+	GmpvMpvPrivate *priv = get_private(mpv);
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	gchar *current_vo = NULL;
+	gchar *mpv_version = NULL;
+
+	apply_default_options(mpv);
+	load_input_config_file(mpv);
+	load_mpv_config_file(mpv);
+	apply_extra_options(mpv);
+
+	if(priv->force_opengl || priv->wid <= 0)
+	{
+		g_info("Forcing --vo=opengl-cb");
+		mpv_set_option_string(priv->mpv_ctx, "vo", "opengl-cb");
+	}
+	else
+	{
+		g_debug("Attaching mpv window to wid %#x", (guint)priv->wid);
+		mpv_set_option(priv->mpv_ctx, "wid", MPV_FORMAT_INT64, &priv->wid);
+	}
+
+	observe_properties(mpv);
+	mpv_set_wakeup_callback(priv->mpv_ctx, wakeup_callback, mpv);
+	mpv_initialize(priv->mpv_ctx);
+
+	mpv_version = gmpv_mpv_get_property_string(mpv, "mpv-version");
+	current_vo = gmpv_mpv_get_property_string(mpv, "current-vo");
+	priv->use_opengl = !current_vo;
+
+	g_info("Using %s", mpv_version);
+
+	if(!priv->use_opengl && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
+	{
+		g_info(	"The chosen vo is %s but the display is not X11; "
+			"forcing --vo=opengl-cb and resetting",
+			current_vo );
+
+		priv->force_opengl = TRUE;
+
+		gmpv_mpv_reset(mpv);
+	}
+	else
+	{
+		GSettings *win_settings;
+		gdouble volume;
+
+		win_settings = g_settings_new(CONFIG_WIN_STATE);
+		volume = g_settings_get_double(win_settings, "volume")*100;
+
+		g_debug("Setting volume to %f", volume);
+		mpv_set_property(	priv->mpv_ctx,
+					"volume",
+					MPV_FORMAT_DOUBLE,
+					&volume );
+
+		if(priv->use_opengl)
+		{
+			priv->opengl_ctx =	mpv_get_sub_api
+						(	priv->mpv_ctx,
+							MPV_SUB_API_OPENGL_CB );
+		}
+
+		gmpv_mpv_options_init(mpv);
+
+		priv->force_opengl = FALSE;
+		priv->ready = TRUE;
+		g_object_notify(G_OBJECT(mpv), "ready");
+
+		g_object_unref(win_settings);
+	}
+
+	g_object_unref(settings);
+	mpv_free(current_vo);
+	mpv_free(mpv_version);
+}
+
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
@@ -665,6 +744,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 
 	klass->mpv_event = mpv_event_handler;
 	klass->mpv_property_changed = mpv_property_changed_handler;
+	klass->initialize = initialize;
 	klass->load_file = load_file;
 	klass->reset = reset;
 	obj_class->set_property = set_property;
@@ -813,80 +893,7 @@ inline gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv)
 
 void gmpv_mpv_initialize(GmpvMpv *mpv)
 {
-	GmpvMpvPrivate *priv = get_private(mpv);
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	gchar *current_vo = NULL;
-	gchar *mpv_version = NULL;
-
-	apply_default_options(mpv);
-	load_input_config_file(mpv);
-	load_mpv_config_file(mpv);
-	apply_extra_options(mpv);
-
-	if(priv->force_opengl || priv->wid <= 0)
-	{
-		g_info("Forcing --vo=opengl-cb");
-		mpv_set_option_string(priv->mpv_ctx, "vo", "opengl-cb");
-	}
-	else
-	{
-		g_debug("Attaching mpv window to wid %#x", (guint)priv->wid);
-		mpv_set_option(priv->mpv_ctx, "wid", MPV_FORMAT_INT64, &priv->wid);
-	}
-
-	observe_properties(mpv);
-	mpv_set_wakeup_callback(priv->mpv_ctx, wakeup_callback, mpv);
-	mpv_initialize(priv->mpv_ctx);
-
-	mpv_version = gmpv_mpv_get_property_string(mpv, "mpv-version");
-	current_vo = gmpv_mpv_get_property_string(mpv, "current-vo");
-	priv->use_opengl = !current_vo;
-
-	g_info("Using %s", mpv_version);
-
-	if(!priv->use_opengl && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
-	{
-		g_info(	"The chosen vo is %s but the display is not X11; "
-			"forcing --vo=opengl-cb and resetting",
-			current_vo );
-
-		priv->force_opengl = TRUE;
-
-		gmpv_mpv_reset(mpv);
-	}
-	else
-	{
-		GSettings *win_settings;
-		gdouble volume;
-
-		win_settings = g_settings_new(CONFIG_WIN_STATE);
-		volume = g_settings_get_double(win_settings, "volume")*100;
-
-		g_debug("Setting volume to %f", volume);
-		mpv_set_property(	priv->mpv_ctx,
-					"volume",
-					MPV_FORMAT_DOUBLE,
-					&volume );
-
-		if(priv->use_opengl)
-		{
-			priv->opengl_ctx =	mpv_get_sub_api
-						(	priv->mpv_ctx,
-							MPV_SUB_API_OPENGL_CB );
-		}
-
-		gmpv_mpv_options_init(mpv);
-
-		priv->force_opengl = FALSE;
-		priv->ready = TRUE;
-		g_object_notify(G_OBJECT(mpv), "ready");
-
-		g_object_unref(win_settings);
-	}
-
-	g_object_unref(settings);
-	mpv_free(current_vo);
-	mpv_free(mpv_version);
+	GMPV_MPV_GET_CLASS(mpv)->initialize(mpv);
 }
 
 void gmpv_mpv_init_gl(GmpvMpv *mpv)
