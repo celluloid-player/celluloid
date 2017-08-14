@@ -47,7 +47,7 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						gpointer value );
 static void apply_default_options(GmpvMpv *mpv);
 static void initialize(GmpvMpv *mpv);
-static gint apply_args(GmpvMpv *mpv, gchar *args);
+static gint apply_options_array_string(GmpvMpv *mpv, gchar *args);
 static void apply_extra_options(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
@@ -237,7 +237,7 @@ static void initialize(GmpvMpv *mpv)
 	GMPV_MPV_CLASS(gmpv_player_parent_class)->initialize(mpv);
 }
 
-static gint apply_args(GmpvMpv *mpv, gchar *args)
+static gint apply_options_array_string(GmpvMpv *mpv, gchar *args)
 {
 	gint fail_count = 0;
 	gchar **tokens = g_regex_split_simple(	"(^|\\s+)--",
@@ -279,7 +279,7 @@ static void apply_extra_options(GmpvMpv *mpv)
 	g_debug("Applying extra mpv options: %s", extra_options);
 
 	/* Apply extra options */
-	if(apply_args(mpv, extra_options) < 0)
+	if(apply_options_array_string(mpv, extra_options) < 0)
 	{
 		const gchar *msg = _("Failed to apply one or more MPV options.");
 		g_signal_emit_by_name(mpv, "error", msg);
