@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016-2017 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -50,5 +50,6 @@ void gmpv_mpv_set_event_callback(	GmpvMpv *mpv,
 void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,
 					mpv_opengl_cb_update_fn func,
 					void *data );
+gint gmpv_mpv_load_config_file(GmpvMpv *mpv, const gchar *filename);
 
 #endif

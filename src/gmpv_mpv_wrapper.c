@@ -216,3 +216,7 @@ void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,
 	}
 }
 
+gint gmpv_mpv_load_config_file(GmpvMpv *mpv, const gchar *filename)
+{
+	return mpv_load_config_file(get_private(mpv)->mpv_ctx, filename);
+}
