@@ -383,22 +383,19 @@ static void load_config_file(GmpvMpv *mpv)
 static void load_input_config_file(GmpvPlayer *player)
 {
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	gchar *input_conf = NULL;
 
 	if(g_settings_get_boolean(settings, "mpv-input-config-enable"))
 	{
-		gchar *input_conf =	g_settings_get_string
-					(settings, "mpv-input-config-file");
+		input_conf =	g_settings_get_string
+				(settings, "mpv-input-config-file");
 
 		g_info("Loading input config file: %s", input_conf);
-		load_input_conf(player, input_conf);
-
-		g_free(input_conf);
-	}
-	else
-	{
-		load_input_conf(player, NULL);
 	}
 
+	load_input_conf(player, input_conf);
+
+	g_free(input_conf);
 	g_object_unref(settings);
 }
 
