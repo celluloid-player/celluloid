@@ -19,6 +19,7 @@
 
 #include <string.h>
 #include <glib/gstdio.h>
+#include <glib/gi18n.h>
 
 #include "gmpv_player.h"
 #include "gmpv_mpv_wrapper.h"
@@ -46,6 +47,8 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						gpointer value );
 static void apply_default_options(GmpvMpv *mpv);
 static void initialize(GmpvMpv *mpv);
+static gint apply_args(GmpvMpv *mpv, gchar *args);
+static void apply_extra_options(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
 static void load_input_conf(GmpvPlayer *player, const gchar *input_conf);
@@ -229,8 +232,61 @@ static void initialize(GmpvMpv *mpv)
 	apply_default_options(mpv);
 	load_config_file(mpv);
 	load_input_config_file(GMPV_PLAYER(mpv));
+	apply_extra_options(mpv);
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)->initialize(mpv);
+}
+
+static gint apply_args(GmpvMpv *mpv, gchar *args)
+{
+	gint fail_count = 0;
+	gchar **tokens = g_regex_split_simple(	"(^|\\s+)--",
+						args,
+						G_REGEX_NO_AUTO_CAPTURE,
+						0 );
+
+	/* Skip the first token if it's non-NULL, since it is just going to be
+	 * empty string for any valid args.
+	 */
+	for(gint i = tokens[0]?1:0; tokens[i]; i++)
+	{
+		gchar **parts = g_strsplit(g_strchomp(tokens[i]), "=", 2);
+		const gchar *option = parts[0];
+		const gchar *value = (option?parts[1]:NULL)?:"";
+
+		g_debug("Applying option: --%s", tokens[i]);
+
+		if(gmpv_mpv_set_option_string(mpv, option, value) < 0)
+		{
+			fail_count++;
+
+			g_warning("Failed to apply option: --%s\n", tokens[i]);
+		}
+
+		g_strfreev(parts);
+	}
+
+	g_strfreev(tokens);
+
+	return fail_count*(-1);
+}
+
+static void apply_extra_options(GmpvMpv *mpv)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	gchar *extra_options = g_settings_get_string(settings, "mpv-options");
+
+	g_debug("Applying extra mpv options: %s", extra_options);
+
+	/* Apply extra options */
+	if(apply_args(mpv, extra_options) < 0)
+	{
+		const gchar *msg = _("Failed to apply one or more MPV options.");
+		g_signal_emit_by_name(mpv, "error", msg);
+	}
+
+	g_free(extra_options);
+	g_object_unref(settings);
 }
 
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)

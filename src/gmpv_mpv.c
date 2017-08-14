@@ -61,7 +61,6 @@ static void get_property(	GObject *object,
 				GParamSpec *pspec );
 static void dispose(GObject *object);
 static void finalize(GObject *object);
-static void apply_extra_options(GmpvMpv *mpv);
 static void observe_properties(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
@@ -72,7 +71,6 @@ static gboolean process_mpv_events(gpointer data);
 static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
-static gint apply_args(mpv_handle *mpv_ctx, gchar *args);
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
 
 G_DEFINE_TYPE_WITH_PRIVATE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
@@ -179,24 +177,6 @@ static void finalize(GObject *object)
 				(GDestroyNotify)module_log_level_free);
 
 	G_OBJECT_CLASS(gmpv_mpv_parent_class)->finalize(object);
-}
-
-static void apply_extra_options(GmpvMpv *mpv)
-{
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	gchar *extra_options = g_settings_get_string(settings, "mpv-options");
-
-	g_debug("Applying extra mpv options: %s", extra_options);
-
-	/* Apply extra options */
-	if(apply_args(get_private(mpv)->mpv_ctx, extra_options) < 0)
-	{
-		const gchar *msg = _("Failed to apply one or more MPV options.");
-		g_signal_emit_by_name(mpv, "error", msg);
-	}
-
-	g_free(extra_options);
-	g_object_unref(settings);
 }
 
 static void observe_properties(GmpvMpv *mpv)
@@ -352,8 +332,6 @@ static void initialize(GmpvMpv *mpv)
 	gchar *current_vo = NULL;
 	gchar *mpv_version = NULL;
 
-	apply_extra_options(mpv);
-
 	if(priv->force_opengl || priv->wid <= 0)
 	{
 		g_info("Forcing --vo=opengl-cb");
@@ -483,40 +461,6 @@ static void reset(GmpvMpv *mpv)
 
 	gmpv_mpv_set_property_string(mpv, "loop", loop?"inf":"no");
 	gmpv_mpv_set_property(mpv, "pause", MPV_FORMAT_FLAG, &pause);
-}
-
-static gint apply_args(mpv_handle *mpv_ctx, gchar *args)
-{
-	gint fail_count = 0;
-	gchar **tokens = g_regex_split_simple(	"(^|\\s+)--",
-						args,
-						G_REGEX_NO_AUTO_CAPTURE,
-						0 );
-
-	/* Skip the first token if it's non-NULL, since it is just going to be
-	 * empty string for any valid args.
-	 */
-	for(gint i = tokens[0]?1:0; tokens[i]; i++)
-	{
-		gchar **parts = g_strsplit(g_strchomp(tokens[i]), "=", 2);
-		const gchar *option = parts[0];
-		const gchar *value = (option?parts[1]:NULL)?:"";
-
-		g_debug("Applying option: --%s", tokens[i]);
-
-		if(mpv_set_option_string(mpv_ctx, option, value) < 0)
-		{
-			fail_count++;
-
-			g_warning("Failed to apply option: --%s\n", tokens[i]);
-		}
-
-		g_strfreev(parts);
-	}
-
-	g_strfreev(tokens);
-
-	return fail_count*(-1);
 }
 
 static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
