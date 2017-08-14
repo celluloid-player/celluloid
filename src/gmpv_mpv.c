@@ -365,18 +365,6 @@ static void initialize(GmpvMpv *mpv)
 	}
 	else
 	{
-		GSettings *win_settings;
-		gdouble volume;
-
-		win_settings = g_settings_new(CONFIG_WIN_STATE);
-		volume = g_settings_get_double(win_settings, "volume")*100;
-
-		g_debug("Setting volume to %f", volume);
-		mpv_set_property(	priv->mpv_ctx,
-					"volume",
-					MPV_FORMAT_DOUBLE,
-					&volume );
-
 		if(priv->use_opengl)
 		{
 			priv->opengl_ctx =	mpv_get_sub_api
@@ -389,8 +377,6 @@ static void initialize(GmpvMpv *mpv)
 		priv->force_opengl = FALSE;
 		priv->ready = TRUE;
 		g_object_notify(G_OBJECT(mpv), "ready");
-
-		g_object_unref(win_settings);
 	}
 
 	g_object_unref(settings);

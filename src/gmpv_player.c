@@ -229,12 +229,21 @@ static void apply_default_options(GmpvMpv *mpv)
 
 static void initialize(GmpvMpv *mpv)
 {
+
+	GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
+	gdouble volume = g_settings_get_double(win_settings, "volume")*100;
+
 	apply_default_options(mpv);
 	load_config_file(mpv);
 	load_input_config_file(GMPV_PLAYER(mpv));
 	apply_extra_options(mpv);
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)->initialize(mpv);
+
+	g_debug("Setting volume to %f", volume);
+	gmpv_mpv_set_property(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
+
+	g_object_unref(win_settings);
 }
 
 static gint apply_options_array_string(GmpvMpv *mpv, gchar *args)
