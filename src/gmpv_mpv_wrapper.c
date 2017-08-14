@@ -65,6 +65,13 @@ gint gmpv_mpv_command_string(GmpvMpv *mpv, const gchar *cmd)
 	return rc;
 }
 
+gint gmpv_mpv_set_option_string(	GmpvMpv *mpv,
+					const gchar *name,
+					const gchar *value )
+{
+	return mpv_set_option_string(get_private(mpv)->mpv_ctx, name, value);
+}
+
 gint gmpv_mpv_get_property(	GmpvMpv *mpv,
 				const gchar *name,
 				mpv_format format,

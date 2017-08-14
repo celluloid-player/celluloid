@@ -28,6 +28,9 @@
 
 gint gmpv_mpv_command(GmpvMpv *mpv, const gchar **cmd);
 gint gmpv_mpv_command_string(GmpvMpv *mpv, const gchar *cmd);
+gint gmpv_mpv_set_option_string(	GmpvMpv *mpv,
+					const gchar *name,
+					const gchar *value );
 gint gmpv_mpv_get_property(	GmpvMpv *mpv,
 				const gchar *name,
 				mpv_format format,
