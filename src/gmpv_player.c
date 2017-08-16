@@ -45,6 +45,7 @@ static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value );
+static void observe_properties(GmpvMpv *mpv);
 static void apply_default_options(GmpvMpv *mpv);
 static void initialize(GmpvMpv *mpv);
 static gint apply_options_array_string(GmpvMpv *mpv, gchar *args);
@@ -180,6 +181,29 @@ static void mpv_property_changed_handler(	GmpvMpv *mpv,
 		->mpv_property_changed(mpv, name, value);
 }
 
+static void observe_properties(GmpvMpv *mpv)
+{
+	gmpv_mpv_observe_property(mpv, 0, "aid", MPV_FORMAT_STRING);
+	gmpv_mpv_observe_property(mpv, 0, "vid", MPV_FORMAT_STRING);
+	gmpv_mpv_observe_property(mpv, 0, "sid", MPV_FORMAT_STRING);
+	gmpv_mpv_observe_property(mpv, 0, "chapters", MPV_FORMAT_INT64);
+	gmpv_mpv_observe_property(mpv, 0, "core-idle", MPV_FORMAT_FLAG);
+	gmpv_mpv_observe_property(mpv, 0, "idle-active", MPV_FORMAT_FLAG);
+	gmpv_mpv_observe_property(mpv, 0, "fullscreen", MPV_FORMAT_FLAG);
+	gmpv_mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_FLAG);
+	gmpv_mpv_observe_property(mpv, 0, "loop", MPV_FORMAT_STRING);
+	gmpv_mpv_observe_property(mpv, 0, "duration", MPV_FORMAT_DOUBLE);
+	gmpv_mpv_observe_property(mpv, 0, "media-title", MPV_FORMAT_STRING);
+	gmpv_mpv_observe_property(mpv, 0, "metadata", MPV_FORMAT_NODE);
+	gmpv_mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
+	gmpv_mpv_observe_property(mpv, 0, "playlist-count", MPV_FORMAT_INT64);
+	gmpv_mpv_observe_property(mpv, 0, "playlist-pos", MPV_FORMAT_INT64);
+	gmpv_mpv_observe_property(mpv, 0, "speed", MPV_FORMAT_DOUBLE);
+	gmpv_mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
+	gmpv_mpv_observe_property(mpv, 0, "vo-configured", MPV_FORMAT_FLAG);
+	gmpv_mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_DOUBLE);
+}
+
 static void apply_default_options(GmpvMpv *mpv)
 {
 	gchar *config_dir = get_config_dir_path();
@@ -237,6 +261,7 @@ static void initialize(GmpvMpv *mpv)
 	load_config_file(mpv);
 	load_input_config_file(GMPV_PLAYER(mpv));
 	apply_extra_options(mpv);
+	observe_properties(mpv);
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)->initialize(mpv);
 

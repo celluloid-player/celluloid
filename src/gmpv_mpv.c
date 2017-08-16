@@ -61,7 +61,6 @@ static void get_property(	GObject *object,
 				GParamSpec *pspec );
 static void dispose(GObject *object);
 static void finalize(GObject *object);
-static void observe_properties(GmpvMpv *mpv);
 static void wakeup_callback(void *data);
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
@@ -177,31 +176,6 @@ static void finalize(GObject *object)
 				(GDestroyNotify)module_log_level_free);
 
 	G_OBJECT_CLASS(gmpv_mpv_parent_class)->finalize(object);
-}
-
-static void observe_properties(GmpvMpv *mpv)
-{
-	mpv_handle *mpv_ctx = get_private(mpv)->mpv_ctx;
-
-	mpv_observe_property(mpv_ctx, 0, "aid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv_ctx, 0, "vid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv_ctx, 0, "sid", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv_ctx, 0, "chapters", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv_ctx, 0, "core-idle", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv_ctx, 0, "idle-active", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv_ctx, 0, "fullscreen", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv_ctx, 0, "pause", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv_ctx, 0, "loop", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv_ctx, 0, "duration", MPV_FORMAT_DOUBLE);
-	mpv_observe_property(mpv_ctx, 0, "media-title", MPV_FORMAT_STRING);
-	mpv_observe_property(mpv_ctx, 0, "metadata", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv_ctx, 0, "playlist", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv_ctx, 0, "playlist-count", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv_ctx, 0, "playlist-pos", MPV_FORMAT_INT64);
-	mpv_observe_property(mpv_ctx, 0, "speed", MPV_FORMAT_DOUBLE);
-	mpv_observe_property(mpv_ctx, 0, "track-list", MPV_FORMAT_NODE);
-	mpv_observe_property(mpv_ctx, 0, "vo-configured", MPV_FORMAT_FLAG);
-	mpv_observe_property(mpv_ctx, 0, "volume", MPV_FORMAT_DOUBLE);
 }
 
 static void wakeup_callback(void *data)
@@ -342,7 +316,6 @@ static void initialize(GmpvMpv *mpv)
 		mpv_set_option(priv->mpv_ctx, "wid", MPV_FORMAT_INT64, &priv->wid);
 	}
 
-	observe_properties(mpv);
 	mpv_set_wakeup_callback(priv->mpv_ctx, wakeup_callback, mpv);
 	mpv_initialize(priv->mpv_ctx);
 

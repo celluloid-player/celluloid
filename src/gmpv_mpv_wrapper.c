@@ -227,3 +227,14 @@ gint gmpv_mpv_load_config_file(GmpvMpv *mpv, const gchar *filename)
 {
 	return mpv_load_config_file(get_private(mpv)->mpv_ctx, filename);
 }
+
+gint gmpv_mpv_observe_property(	GmpvMpv *mpv,
+				guint64 reply_userdata,
+				const gchar *name,
+				mpv_format format )
+{
+	return mpv_observe_property(	get_private(mpv)->mpv_ctx,
+					reply_userdata,
+					name,
+					format );
+}

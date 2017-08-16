@@ -54,5 +54,9 @@ void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,
 					mpv_opengl_cb_update_fn func,
 					void *data );
 gint gmpv_mpv_load_config_file(GmpvMpv *mpv, const gchar *filename);
+gint gmpv_mpv_observe_property(	GmpvMpv *mpv,
+				guint64 reply_userdata,
+				const gchar *name,
+				mpv_format format );
 
 #endif
