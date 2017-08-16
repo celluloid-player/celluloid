@@ -114,7 +114,6 @@ static void window_move_handler(	GmpvMpv *mpv,
 					GValue *x,
 					GValue *y,
 					gpointer data );
-static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data);
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value,
@@ -147,10 +146,6 @@ static void constructed(GObject *object)
 	g_signal_connect(	model->mpv,
 				"window-move",
 				G_CALLBACK(window_move_handler),
-				model );
-	g_signal_connect(	model->mpv,
-				"mpv-playback-restart",
-				G_CALLBACK(mpv_playback_restart_handler),
 				model );
 	g_signal_connect(	model->mpv,
 				"mpv-property-changed",
@@ -597,11 +592,6 @@ static void window_move_handler(	GmpvMpv *mpv,
 					gpointer data )
 {
 	g_signal_emit_by_name(data, "window-move", flip_x, flip_y, x, y);
-}
-
-static void mpv_playback_restart_handler(GmpvMpv *mpv, gpointer data)
-{
-	g_signal_emit_by_name(data, "playback-restart");
 }
 
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
