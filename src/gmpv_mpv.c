@@ -62,7 +62,7 @@ static void get_property(	GObject *object,
 static void dispose(GObject *object);
 static void finalize(GObject *object);
 static void wakeup_callback(void *data);
-static void mpv_property_changed_handler(	GmpvMpv *mpv,
+static void mpv_property_changed(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value );
 static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data);
@@ -183,7 +183,7 @@ static void wakeup_callback(void *data)
 	g_idle_add_full(G_PRIORITY_HIGH_IDLE, process_mpv_events, data, NULL);
 }
 
-static void mpv_property_changed_handler(	GmpvMpv *mpv,
+static void mpv_property_changed(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value )
 {
@@ -481,7 +481,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	GParamSpec *pspec = NULL;
 
 	klass->mpv_event = mpv_event_handler;
-	klass->mpv_property_changed = mpv_property_changed_handler;
+	klass->mpv_property_changed = mpv_property_changed;
 	klass->initialize = initialize;
 	klass->load_file = load_file;
 	klass->reset = reset;
