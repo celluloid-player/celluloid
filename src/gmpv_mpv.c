@@ -65,7 +65,7 @@ static void wakeup_callback(void *data);
 static void mpv_property_changed(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value );
-static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data);
+static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static gboolean process_mpv_events(gpointer data);
 static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
@@ -190,7 +190,7 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 	g_debug("Received mpv property change event for \"%s\"", name);
 }
 
-static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data)
+static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
 
@@ -288,7 +288,7 @@ static gboolean process_mpv_events(gpointer data)
 			}
 
 			GMPV_MPV_GET_CLASS(mpv)
-				->mpv_event(mpv, event->event_id, event->data);
+				->mpv_event_notify(mpv, event->event_id, event->data);
 		}
 		else
 		{
@@ -480,7 +480,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
-	klass->mpv_event = mpv_event_handler;
+	klass->mpv_event_notify = mpv_event_notify;
 	klass->mpv_property_changed = mpv_property_changed;
 	klass->initialize = initialize;
 	klass->load_file = load_file;

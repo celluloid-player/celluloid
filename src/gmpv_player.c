@@ -41,7 +41,7 @@ struct _GmpvPlayerClass
 };
 
 static void finalize(GObject *object);
-static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data);
+static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value );
@@ -83,7 +83,7 @@ static void finalize(GObject *object)
 	G_OBJECT_CLASS(gmpv_player_parent_class)->finalize(object);
 }
 
-static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data)
+static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 {
 	if(event_id == MPV_EVENT_START_FILE)
 	{
@@ -105,7 +105,7 @@ static void mpv_event_handler(GmpvMpv *mpv, gint event_id, gpointer event_data)
 	}
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)
-		->mpv_event(mpv, event_id, event_data);
+		->mpv_event_notify(mpv, event_id, event_data);
 }
 
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
@@ -711,7 +711,7 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 	GmpvMpvClass *mpv_class = GMPV_MPV_CLASS(klass);
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 
-	mpv_class->mpv_event = mpv_event_handler;
+	mpv_class->mpv_event_notify = mpv_event_notify;
 	mpv_class->mpv_property_changed = mpv_property_changed_handler;
 	mpv_class->initialize = initialize;
 	mpv_class->load_file = load_file;
