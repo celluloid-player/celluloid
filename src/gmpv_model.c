@@ -153,7 +153,7 @@ static void constructed(GObject *object)
 				G_CALLBACK(mpv_playback_restart_handler),
 				model );
 	g_signal_connect(	model->mpv,
-				"mpv-prop-change",
+				"mpv-property-changed",
 				G_CALLBACK(mpv_prop_change_handler),
 				model );
 	g_signal_connect(	model->mpv,

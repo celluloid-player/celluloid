@@ -63,8 +63,8 @@ static void dispose(GObject *object);
 static void finalize(GObject *object);
 static void wakeup_callback(void *data);
 static void mpv_property_changed(	GmpvMpv *mpv,
-						const gchar *name,
-						gpointer value );
+					const gchar *name,
+					gpointer value );
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static gboolean process_mpv_events(gpointer data);
 static void initialize(GmpvMpv *mpv);
@@ -184,8 +184,8 @@ static void wakeup_callback(void *data)
 }
 
 static void mpv_property_changed(	GmpvMpv *mpv,
-						const gchar *name,
-						gpointer value )
+					const gchar *name,
+					gpointer value )
 {
 	g_debug("Received mpv property change event for \"%s\"", name);
 }
@@ -199,7 +199,7 @@ static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 		mpv_event_property *prop = event_data;
 
 		g_signal_emit_by_name(	mpv,
-					"mpv-prop-change",
+					"mpv-property-changed",
 					prop->name,
 					prop->data );
 	}
@@ -536,7 +536,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-	g_signal_new(	"mpv-prop-change",
+	g_signal_new(	"mpv-property-changed",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			G_STRUCT_OFFSET(GmpvMpvClass, mpv_property_changed),
