@@ -321,31 +321,18 @@ static void initialize(GmpvMpv *mpv)
 
 	g_info("Using %s", mpv_version);
 
-	if(!priv->use_opengl && !GDK_IS_X11_DISPLAY(gdk_display_get_default()))
+	if(priv->use_opengl)
 	{
-		g_info(	"The chosen vo is %s but the display is not X11; "
-			"forcing --vo=opengl-cb and resetting",
-			current_vo );
-
-		priv->force_opengl = TRUE;
-
-		gmpv_mpv_reset(mpv);
+		priv->opengl_ctx =	mpv_get_sub_api
+					(	priv->mpv_ctx,
+						MPV_SUB_API_OPENGL_CB );
 	}
-	else
-	{
-		if(priv->use_opengl)
-		{
-			priv->opengl_ctx =	mpv_get_sub_api
-						(	priv->mpv_ctx,
-							MPV_SUB_API_OPENGL_CB );
-		}
 
-		gmpv_mpv_options_init(mpv);
+	gmpv_mpv_options_init(mpv);
 
-		priv->force_opengl = FALSE;
-		priv->ready = TRUE;
-		g_object_notify(G_OBJECT(mpv), "ready");
-	}
+	priv->force_opengl = FALSE;
+	priv->ready = TRUE;
+	g_object_notify(G_OBJECT(mpv), "ready");
 
 	mpv_free(current_vo);
 	mpv_free(mpv_version);
