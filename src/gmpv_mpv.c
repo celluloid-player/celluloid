@@ -65,12 +65,15 @@ static void wakeup_callback(void *data);
 static void mpv_property_changed(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value );
+static void mpv_log_message(	GmpvMpv *mpv,
+				mpv_log_level log_level,
+				const gchar *prefix,
+				const gchar *text );
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static gboolean process_mpv_events(gpointer data);
 static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
-static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message);
 
 G_DEFINE_TYPE_WITH_PRIVATE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
@@ -244,7 +247,13 @@ static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 	}
 	else if(event_id == MPV_EVENT_LOG_MESSAGE)
 	{
-		log_handler(mpv, event_data);
+		mpv_event_log_message* message = event_data;
+
+		g_signal_emit_by_name(	mpv,
+					"mpv-log-message",
+					message->log_level,
+					message->prefix,
+					message->text );
 	}
 	else if(event_id == MPV_EVENT_CLIENT_MESSAGE)
 	{
@@ -403,18 +412,21 @@ static void reset(GmpvMpv *mpv)
 	gmpv_mpv_set_property(mpv, "pause", MPV_FORMAT_FLAG, &pause);
 }
 
-static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
+static void mpv_log_message(	GmpvMpv *mpv,
+				mpv_log_level log_level,
+				const gchar *prefix,
+				const gchar *text )
 {
 	GSList *iter = get_private(mpv)->log_level_list;
 	module_log_level *level = iter?iter->data:NULL;
-	gsize event_prefix_len = strlen(message->prefix);
+	gsize event_prefix_len = strlen(prefix);
 	gboolean found = FALSE;
 
 	while(iter && !found)
 	{
 		gsize prefix_len = strlen(level->prefix);
 		gint cmp = strncmp(	level->prefix,
-					message->prefix,
+					prefix,
 					(event_prefix_len < prefix_len)?
 					event_prefix_len:prefix_len );
 
@@ -422,7 +434,7 @@ static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
 		if(cmp == 0
 		&& (prefix_len == event_prefix_len
 		|| (prefix_len < event_prefix_len
-		&& message->prefix[prefix_len] == '/')))
+		&& prefix[prefix_len] == '/')))
 		{
 			found = TRUE;
 		}
@@ -433,9 +445,9 @@ static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
 		}
 	}
 
-	if(!iter || (message->log_level <= level->level))
+	if(!iter || (log_level <= level->level))
 	{
-		gchar *buf = g_strdup(message->text);
+		gchar *buf = g_strdup(text);
 		gsize len = strlen(buf);
 
 		if(len > 1)
@@ -451,7 +463,7 @@ static void log_handler(GmpvMpv *mpv, mpv_event_log_message* message)
 				buf[len-1] = '\0';
 			}
 
-			g_message("[%s] %s", message->prefix, buf);
+			g_message("[%s] %s", prefix, buf);
 		}
 
 		g_free(buf);
@@ -464,6 +476,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	GParamSpec *pspec = NULL;
 
 	klass->mpv_event_notify = mpv_event_notify;
+	klass->mpv_log_message = mpv_log_message;
 	klass->mpv_property_changed = mpv_property_changed;
 	klass->initialize = initialize;
 	klass->load_file = load_file;
@@ -510,6 +523,18 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
+	g_signal_new(	"mpv-log-message",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			G_STRUCT_OFFSET(GmpvMpvClass, mpv_log_message),
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__INT_STRING_STRING,
+			G_TYPE_NONE,
+			3,
+			G_TYPE_INT,
+			G_TYPE_STRING,
+			G_TYPE_STRING );
 	g_signal_new(	"mpv-property-changed",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -521,7 +546,6 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			2,
 			G_TYPE_STRING,
 			G_TYPE_POINTER );
-
 	g_signal_new(	"message",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

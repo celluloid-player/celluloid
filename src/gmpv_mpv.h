@@ -39,6 +39,10 @@ struct _GmpvMpvClass
 	void (*mpv_event_notify)(	GmpvMpv *mpv,
 					gint event_id,
 					gpointer event_data );
+	void (*mpv_log_message)(	GmpvMpv *mpv,
+					mpv_log_level log_level,
+					const gchar *prefix,
+					const gchar *text );
 	void (*mpv_property_changed)(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value );
