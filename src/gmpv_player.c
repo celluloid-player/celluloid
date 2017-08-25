@@ -25,12 +25,21 @@
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
 
+typedef struct _GmpvLogLevel GmpvLogLevel;
+
+struct _GmpvLogLevel
+{
+	const gchar *prefix;
+	mpv_log_level level;
+};
+
 struct _GmpvPlayer
 {
 	GmpvMpv parent;
 	GPtrArray *playlist;
 	GPtrArray *metadata;
 	GPtrArray *track_list;
+	GHashTable *log_levels;
 	gboolean init_vo_config;
 	gchar *tmp_input_config;
 };
@@ -262,6 +271,7 @@ static void initialize(GmpvMpv *mpv)
 	load_input_config_file(GMPV_PLAYER(mpv));
 	apply_extra_options(mpv);
 	observe_properties(mpv);
+	gmpv_player_options_init(GMPV_PLAYER(mpv));
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)->initialize(mpv);
 
@@ -730,6 +740,10 @@ static void gmpv_player_init(GmpvPlayer *player)
 	player->track_list = g_ptr_array_new_full(	1,
 							(GDestroyNotify)
 							gmpv_track_free );
+	player->log_levels = g_hash_table_new_full(	g_str_hash,
+							g_str_equal,
+							g_free,
+							NULL );
 	player->init_vo_config = TRUE;
 	player->tmp_input_config = NULL;
 }
@@ -754,5 +768,61 @@ GPtrArray *gmpv_player_get_metadata(GmpvPlayer *player)
 GPtrArray *gmpv_player_get_track_list(GmpvPlayer *player)
 {
 	return player->track_list;
+}
+
+void gmpv_player_set_log_level(	GmpvPlayer *player,
+				const gchar *prefix,
+				const gchar *level )
+{
+	const struct
+	{
+		gchar *name;
+		mpv_log_level level;
+	}
+	level_map[] = {	{"no", MPV_LOG_LEVEL_NONE},
+			{"fatal", MPV_LOG_LEVEL_FATAL},
+			{"error", MPV_LOG_LEVEL_ERROR},
+			{"warn", MPV_LOG_LEVEL_WARN},
+			{"info", MPV_LOG_LEVEL_INFO},
+			{"v", MPV_LOG_LEVEL_V},
+			{"debug", MPV_LOG_LEVEL_DEBUG},
+			{"trace", MPV_LOG_LEVEL_TRACE},
+			{NULL, MPV_LOG_LEVEL_NONE} };
+
+	GHashTableIter iter;
+	mpv_log_level iter_level = DEFAULT_LOG_LEVEL;
+	mpv_log_level max_level = DEFAULT_LOG_LEVEL;
+	gboolean found = FALSE;
+	gint i = 0;
+
+	for(i = 0; level_map[i].name && !found; i++)
+	{
+		if(g_strcmp0(level, level_map[i].name) == 0)
+		{
+			found = TRUE;
+		}
+	}
+
+	if(found && g_strcmp0(prefix, "all") != 0)
+	{
+		g_hash_table_replace(	player->log_levels,
+					g_strdup(prefix),
+					GINT_TO_POINTER(level_map[i].level) );
+	}
+
+	max_level = level_map[i].level;
+
+	g_hash_table_iter_init(&iter, player->log_levels);
+
+	while(g_hash_table_iter_next(&iter, NULL, (gpointer *)&iter_level))
+	{
+		if(iter_level > max_level)
+		{
+			iter_level = max_level;
+		}
+	}
+
+	for(i = 0; level_map[i].level != max_level; i++)
+	gmpv_mpv_request_log_messages(GMPV_MPV(player), level_map[i].name);
 }
 

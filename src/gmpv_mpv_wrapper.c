@@ -238,3 +238,8 @@ gint gmpv_mpv_observe_property(	GmpvMpv *mpv,
 					name,
 					format );
 }
+
+gint gmpv_mpv_request_log_messages(GmpvMpv *mpv, const gchar *min_level)
+{
+	return mpv_request_log_messages(get_private(mpv)->mpv_ctx, min_level);
+}

@@ -58,5 +58,6 @@ gint gmpv_mpv_observe_property(	GmpvMpv *mpv,
 				guint64 reply_userdata,
 				const gchar *name,
 				mpv_format format );
+gint gmpv_mpv_request_log_messages(GmpvMpv *mpv, const gchar *min_level);
 
 #endif
