@@ -41,6 +41,8 @@ struct _GmpvPlayer
 	GPtrArray *metadata;
 	GPtrArray *track_list;
 	GHashTable *log_levels;
+	gboolean loaded;
+	gboolean new_file;
 	gboolean init_vo_config;
 	gchar *tmp_input_config;
 };
@@ -52,6 +54,10 @@ struct _GmpvPlayerClass
 
 static void finalize(GObject *object);
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
+static void mpv_log_message(	GmpvMpv *mpv,
+				mpv_log_level log_level,
+				const gchar *prefix,
+				const gchar *text );
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
 						const gchar *name,
 						gpointer value );
@@ -95,6 +101,8 @@ static void finalize(GObject *object)
 
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 {
+	GmpvPlayer *player = GMPV_PLAYER(mpv);
+
 	if(event_id == MPV_EVENT_START_FILE)
 	{
 		gboolean vo_configured = FALSE;
@@ -113,9 +121,87 @@ static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 			update_playlist(GMPV_PLAYER(mpv));
 		}
 	}
+	else if(event_id == MPV_EVENT_END_FILE)
+	{
+		if(player->loaded)
+		{
+			player->new_file = FALSE;
+		}
+	}
+	else if(event_id == MPV_EVENT_IDLE)
+	{
+		player->loaded = FALSE;
+	}
+	else if(event_id == MPV_EVENT_FILE_LOADED)
+	{
+		player->loaded = TRUE;
+	}
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)
 		->mpv_event_notify(mpv, event_id, event_data);
+}
+
+static void mpv_log_message(	GmpvMpv *mpv,
+				mpv_log_level log_level,
+				const gchar *prefix,
+				const gchar *text )
+{
+	GmpvPlayer *player = GMPV_PLAYER(mpv);
+	gsize prefix_len = strlen(prefix);
+	gboolean found = FALSE;
+	const gchar *iter_prefix;
+	mpv_log_level iter_level;
+	GHashTableIter iter;
+
+	g_hash_table_iter_init(&iter, player->log_levels);
+
+	while(	!found &&
+		g_hash_table_iter_next(	&iter,
+					(gpointer *)&iter_prefix,
+					(gpointer *)&iter_level) )
+	{
+		gsize iter_prefix_len = strlen(iter_prefix);
+		gint cmp = strncmp(	iter_prefix,
+					prefix,
+					(prefix_len < iter_prefix_len)?
+					prefix_len:iter_prefix_len );
+
+		/* Allow both exact match and prefix match */
+		if(cmp == 0
+		&& (iter_prefix_len == prefix_len
+		|| (iter_prefix_len < prefix_len
+		&& prefix[iter_prefix_len] == '/')))
+		{
+			found = TRUE;
+		}
+	}
+
+	if(!found || (log_level <= iter_level))
+	{
+		gchar *buf = g_strdup(text);
+		gsize len = strlen(buf);
+
+		if(len > 1)
+		{
+			/* g_message() automatically adds a newline
+			 * character when using the default log handler,
+			 * but log messages from mpv already come
+			 * terminated with a newline character so we
+			 * need to take it out.
+			 */
+			if(buf[len-1] == '\n')
+			{
+				buf[len-1] = '\0';
+			}
+
+			g_message("[%s] %s", prefix, buf);
+		}
+
+		g_free(buf);
+	}
+
+	GMPV_MPV_CLASS(gmpv_player_parent_class)
+		->mpv_log_message(mpv, log_level, prefix, text);
 }
 
 static void mpv_property_changed_handler(	GmpvMpv *mpv,
@@ -359,6 +445,12 @@ static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 	}
 	else
 	{
+		if(!append)
+		{
+			player->new_file = TRUE;
+			player->loaded = FALSE;
+		}
+
 		GMPV_MPV_CLASS(gmpv_player_parent_class)
 			->load_file(mpv, uri, append);
 	}
@@ -725,6 +817,7 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 
 	mpv_class->mpv_event_notify = mpv_event_notify;
+	mpv_class->mpv_log_message = mpv_log_message;
 	mpv_class->mpv_property_changed = mpv_property_changed_handler;
 	mpv_class->initialize = initialize;
 	mpv_class->load_file = load_file;
@@ -747,6 +840,8 @@ static void gmpv_player_init(GmpvPlayer *player)
 							g_str_equal,
 							g_free,
 							NULL );
+	player->loaded = FALSE;
+	player->new_file = TRUE;
 	player->init_vo_config = TRUE;
 	player->tmp_input_config = NULL;
 }

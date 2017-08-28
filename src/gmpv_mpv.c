@@ -189,8 +189,6 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 {
-	GmpvMpvPrivate *priv = get_private(mpv);
-
 	if(event_id == MPV_EVENT_PROPERTY_CHANGE)
 	{
 		mpv_event_property *prop = event_data;
@@ -202,21 +200,11 @@ static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 	}
 	else if(event_id == MPV_EVENT_IDLE)
 	{
-		priv->loaded = FALSE;
 		gmpv_mpv_set_property_flag(mpv, "pause", TRUE);
-	}
-	else if(event_id == MPV_EVENT_FILE_LOADED)
-	{
-		priv->loaded = TRUE;
 	}
 	else if(event_id == MPV_EVENT_END_FILE)
 	{
 		mpv_event_end_file *ef_event = event_data;
-
-		if(priv->loaded)
-		{
-			priv->new_file = FALSE;
-		}
 
 		if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
 		{
@@ -358,9 +346,6 @@ static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 
 	if(!append)
 	{
-		priv->new_file = TRUE;
-		priv->loaded = FALSE;
-
 		gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 	}
 
@@ -409,57 +394,6 @@ static void mpv_log_message(	GmpvMpv *mpv,
 				const gchar *prefix,
 				const gchar *text )
 {
-//	GSList *iter = get_private(mpv)->log_level_list;
-//	module_log_level *level = iter?iter->data:NULL;
-//	gsize event_prefix_len = strlen(prefix);
-//	gboolean found = FALSE;
-//
-//	while(iter && !found)
-//	{
-//		gsize prefix_len = strlen(level->prefix);
-//		gint cmp = strncmp(	level->prefix,
-//					prefix,
-//					(event_prefix_len < prefix_len)?
-//					event_prefix_len:prefix_len );
-//
-//		/* Allow both exact match and prefix match */
-//		if(cmp == 0
-//		&& (prefix_len == event_prefix_len
-//		|| (prefix_len < event_prefix_len
-//		&& prefix[prefix_len] == '/')))
-//		{
-//			found = TRUE;
-//		}
-//		else
-//		{
-//			iter = g_slist_next(iter);
-//			level = iter?iter->data:NULL;
-//		}
-//	}
-//
-//	if(!iter || (log_level <= level->level))
-//	{
-//		gchar *buf = g_strdup(text);
-//		gsize len = strlen(buf);
-//
-//		if(len > 1)
-//		{
-//			/* g_message() automatically adds a newline
-//			 * character when using the default log handler,
-//			 * but log messages from mpv already come
-//			 * terminated with a newline character so we
-//			 * need to take it out.
-//			 */
-//			if(buf[len-1] == '\n')
-//			{
-//				buf[len-1] = '\0';
-//			}
-//
-//			g_message("[%s] %s", prefix, buf);
-//		}
-//
-//		g_free(buf);
-//	}
 }
 
 static void gmpv_mpv_class_init(GmpvMpvClass* klass)
@@ -589,11 +523,7 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 
 	priv->mpv_ctx = mpv_create();
 	priv->opengl_ctx = NULL;
-
 	priv->ready = FALSE;
-	priv->loaded = FALSE;
-	priv->new_file = TRUE;
-
 	priv->init_vo_config = TRUE;
 	priv->force_opengl = FALSE;
 	priv->use_opengl = FALSE;

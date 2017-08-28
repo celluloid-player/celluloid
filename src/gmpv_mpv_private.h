@@ -39,8 +39,6 @@ struct _GmpvMpvPrivate
 	mpv_handle *mpv_ctx;
 	mpv_opengl_cb_context *opengl_ctx;
 	gboolean ready;
-	gboolean loaded;
-	gboolean new_file;
 	gchar *tmp_input_file;
 	GSList *log_level_list;
 	gboolean init_vo_config;
