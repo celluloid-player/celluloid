@@ -293,6 +293,11 @@ static void initialize(GmpvMpv *mpv)
 		g_info("Forcing --vo=opengl-cb");
 		mpv_set_option_string(priv->mpv_ctx, "vo", "opengl-cb");
 	}
+	else if(priv->wid == 0)
+	{
+		g_info("Forcing --vo=null");
+		mpv_set_option_string(priv->mpv_ctx, "vo", "null");
+	}
 	else
 	{
 		g_debug("Attaching mpv window to wid %#x", (guint)priv->wid);
@@ -304,7 +309,7 @@ static void initialize(GmpvMpv *mpv)
 
 	mpv_version = gmpv_mpv_get_property_string(mpv, "mpv-version");
 	current_vo = gmpv_mpv_get_property_string(mpv, "current-vo");
-	priv->use_opengl = !current_vo;
+	priv->use_opengl = (!current_vo && priv->wid != 0);
 
 	g_info("Using %s", mpv_version);
 
