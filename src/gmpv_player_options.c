@@ -50,7 +50,7 @@ static void handle_geometry(GmpvPlayer *player);
 static void handle_fs(GmpvPlayer *player);
 static void handle_msg_level(GmpvPlayer *player);
 static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
-static void video_reconfig_handler(GmpvMpv *mpv, gpointer data);
+static void autofit_handler(GmpvMpv *mpv, gpointer data);
 
 static gboolean parse_geom_token(const gchar **iter, GValue *value)
 {
@@ -222,21 +222,16 @@ static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	handle_msg_level(player);
 }
 
-static void video_reconfig_handler(GmpvMpv *mpv, gpointer data)
+static void autofit_handler(GmpvMpv *mpv, gpointer data)
 {
-	//TODO
-	//if(get_private(mpv)->new_file)
+	gint64 dim[2] = {0, 0};
+
+	handle_window_scale(mpv, dim);
+	handle_autofit(mpv, dim);
+
+	if(dim[0] > 0 && dim[1] > 0)
 	{
-		gint64 dim[2] = {0, 0};
-
-		handle_window_scale(mpv, dim);
-		handle_autofit(mpv, dim);
-
-		if(dim[0] > 0 && dim[1] > 0)
-		{
-			g_signal_emit_by_name
-				(mpv, "window-resize", dim[0], dim[1]);
-		}
+		g_signal_emit_by_name(mpv, "window-resize", dim[0], dim[1]);
 	}
 }
 
@@ -416,7 +411,7 @@ void gmpv_player_options_init(GmpvPlayer *player)
 				G_CALLBACK(ready_handler),
 				NULL );
 	g_signal_connect(	player,
-				"mpv-video-reconfig",
-				G_CALLBACK(video_reconfig_handler),
+				"autofit",
+				G_CALLBACK(autofit_handler),
 				NULL );
 }

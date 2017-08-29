@@ -136,6 +136,13 @@ static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 	{
 		player->loaded = TRUE;
 	}
+	else if(event_id == MPV_EVENT_VIDEO_RECONFIG)
+	{
+		if(player->new_file)
+		{
+			g_signal_emit_by_name(player, "autofit");
+		}
+	}
 
 	GMPV_MPV_CLASS(gmpv_player_parent_class)
 		->mpv_event_notify(mpv, event_id, event_data);
@@ -823,6 +830,16 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 	mpv_class->load_file = load_file;
 	mpv_class->reset = reset;
 	obj_class->finalize = finalize;
+
+	g_signal_new(	"autofit",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
 }
 
 static void gmpv_player_init(GmpvPlayer *player)
