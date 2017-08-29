@@ -36,8 +36,10 @@ GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
 {
 	GmpvPlaylistEntry *entry = g_malloc(sizeof(GmpvPlaylistEntry));
 
-	entry->filename = g_strdup(filename);
-	entry->title = g_strdup(title);
+	entry->filename =	g_strdup(filename);
+	entry->title =		g_strdup(title);
+	entry->metadata =	g_ptr_array_new_with_free_func
+				((GDestroyNotify)gmpv_metadata_entry_free);
 
 	return entry;
 }
@@ -46,6 +48,7 @@ void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry)
 {
 	g_free(entry->filename);
 	g_free(entry->title);
+	g_ptr_array_free(entry->metadata, TRUE);
 	g_free(entry);
 }
 

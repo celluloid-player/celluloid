@@ -44,6 +44,7 @@ struct _GmpvPlaylistEntry
 {
 	gchar *filename;
 	gchar *title;
+	GPtrArray *metadata;
 };
 
 struct _GmpvMetadataEntry
