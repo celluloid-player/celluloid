@@ -288,7 +288,7 @@ static void initialize(GmpvMpv *mpv)
 	gchar *current_vo = NULL;
 	gchar *mpv_version = NULL;
 
-	if(priv->force_opengl || priv->wid <= 0)
+	if(priv->wid < 0)
 	{
 		g_info("Forcing --vo=opengl-cb");
 		mpv_set_option_string(priv->mpv_ctx, "vo", "opengl-cb");
@@ -315,7 +315,6 @@ static void initialize(GmpvMpv *mpv)
 						MPV_SUB_API_OPENGL_CB );
 	}
 
-	priv->force_opengl = FALSE;
 	priv->ready = TRUE;
 	g_object_notify(G_OBJECT(mpv), "ready");
 
@@ -512,7 +511,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	priv->opengl_ctx = NULL;
 	priv->ready = FALSE;
 	priv->init_vo_config = TRUE;
-	priv->force_opengl = FALSE;
 	priv->use_opengl = FALSE;
 	priv->wid = -1;
 	priv->opengl_cb_callback_data = NULL;
