@@ -223,10 +223,6 @@ static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 			g_free(msg);
 		}
 	}
-	else if(event_id == MPV_EVENT_VIDEO_RECONFIG)
-	{
-		g_signal_emit_by_name(mpv, "mpv-video-reconfig");
-	}
 	else if(event_id == MPV_EVENT_LOG_MESSAGE)
 	{
 		mpv_event_log_message* message = event_data;
@@ -440,15 +436,6 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
-	g_signal_new(	"mpv-video-reconfig",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
 	g_signal_new(	"mpv-log-message",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
