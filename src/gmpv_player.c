@@ -934,15 +934,12 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 
 static void gmpv_player_init(GmpvPlayer *player)
 {
-	player->playlist = g_ptr_array_new_full(	1,
-							(GDestroyNotify)
-							gmpv_playlist_entry_free );
-	player->metadata = g_ptr_array_new_full(	1,
-							(GDestroyNotify)
-							gmpv_metadata_entry_free );
-	player->track_list = g_ptr_array_new_full(	1,
-							(GDestroyNotify)
-							gmpv_track_free );
+	player->playlist =	g_ptr_array_new_with_free_func
+				((GDestroyNotify)gmpv_playlist_entry_free);
+	player->metadata =	g_ptr_array_new_with_free_func
+				((GDestroyNotify)gmpv_metadata_entry_free);
+	player->track_list =	g_ptr_array_new_with_free_func
+				((GDestroyNotify)gmpv_track_free);
 	player->log_levels = g_hash_table_new_full(	g_str_hash,
 							g_str_equal,
 							g_free,
