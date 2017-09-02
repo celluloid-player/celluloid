@@ -28,6 +28,15 @@
 
 typedef struct _GmpvLogLevel GmpvLogLevel;
 
+enum
+{
+	PROP_0,
+	PROP_PLAYLIST,
+	PROP_METADATA,
+	PROP_TRACK_LIST,
+	N_PROPERTIES
+};
+
 struct _GmpvLogLevel
 {
 	const gchar *prefix;
@@ -52,6 +61,14 @@ struct _GmpvPlayerClass
 	GmpvMpvClass parent_class;
 };
 
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec );
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec );
 static void finalize(GObject *object);
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static void mpv_log_message(	GmpvMpv *mpv,
@@ -81,6 +98,52 @@ static void update_metadata(GmpvPlayer *player);
 static void update_track_list(GmpvPlayer *player);
 
 G_DEFINE_TYPE(GmpvPlayer, gmpv_player, GMPV_TYPE_MPV)
+
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec )
+{
+	switch(property_id)
+	{
+		case PROP_PLAYLIST:
+		case PROP_METADATA:
+		case PROP_TRACK_LIST:
+		g_critical("Attempted to set read-only property");
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec )
+{
+	GmpvPlayer *self = GMPV_PLAYER(object);
+
+	switch(property_id)
+	{
+		case PROP_PLAYLIST:
+		g_value_set_pointer(value, self->playlist);
+		break;
+
+		case PROP_METADATA:
+		g_value_set_pointer(value, self->metadata);
+		break;
+
+		case PROP_TRACK_LIST:
+		g_value_set_pointer(value, self->track_list);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
 
 static void finalize(GObject *object)
 {
@@ -745,6 +808,7 @@ static void update_playlist(GmpvPlayer *player)
 		}
 
 		mpv_free_node_contents(&playlist);
+		g_object_notify(G_OBJECT(player), "playlist");
 	}
 }
 
@@ -789,6 +853,7 @@ static void update_metadata(GmpvPlayer *player)
 		}
 
 		mpv_free_node_contents(&metadata);
+		g_object_notify(G_OBJECT(player), "metadata");
 	}
 }
 
@@ -815,6 +880,7 @@ static void update_track_list(GmpvPlayer *player)
 		}
 
 		mpv_free_node_contents(&track_list);
+		g_object_notify(G_OBJECT(player), "track-list");
 	}
 }
 
@@ -822,6 +888,7 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 {
 	GmpvMpvClass *mpv_class = GMPV_MPV_CLASS(klass);
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
+	GParamSpec *pspec = NULL;
 
 	mpv_class->mpv_event_notify = mpv_event_notify;
 	mpv_class->mpv_log_message = mpv_log_message;
@@ -829,7 +896,30 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 	mpv_class->initialize = initialize;
 	mpv_class->load_file = load_file;
 	mpv_class->reset = reset;
+	obj_class->set_property = set_property;
+	obj_class->get_property = get_property;
 	obj_class->finalize = finalize;
+
+	pspec = g_param_spec_pointer
+		(	"playlist",
+			"Playlist",
+			"The playlist",
+			G_PARAM_READABLE );
+	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
+
+	pspec = g_param_spec_pointer
+		(	"metadata",
+			"Metadata",
+			"The metadata tags of the current file",
+			G_PARAM_READABLE );
+	g_object_class_install_property(obj_class, PROP_METADATA, pspec);
+
+	pspec = g_param_spec_pointer
+		(	"track-list",
+			"Track list",
+			"Audio, video, and subtitle tracks of the current file",
+			G_PARAM_READABLE );
+	g_object_class_install_property(obj_class, PROP_TRACK_LIST, pspec);
 
 	g_signal_new(	"autofit",
 			G_TYPE_FROM_CLASS(klass),
@@ -868,21 +958,6 @@ GmpvPlayer *gmpv_player_new(gint64 wid)
 	return GMPV_PLAYER(g_object_new(	gmpv_player_get_type(),
 						"wid", wid,
 						NULL ));
-}
-
-GPtrArray *gmpv_player_get_playlist(GmpvPlayer *player)
-{
-	return player->playlist;
-}
-
-GPtrArray *gmpv_player_get_metadata(GmpvPlayer *player)
-{
-	return player->metadata;
-}
-
-GPtrArray *gmpv_player_get_track_list(GmpvPlayer *player)
-{
-	return player->track_list;
 }
 
 void gmpv_player_set_log_level(	GmpvPlayer *player,

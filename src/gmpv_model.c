@@ -29,6 +29,9 @@ enum
 	PROP_INVALID,
 	PROP_MPV,
 	PROP_READY,
+	PROP_PLAYLIST,
+	PROP_METADATA,
+	PROP_TRACK_LIST,
 	PROP_AID,
 	PROP_VID,
 	PROP_SID,
@@ -40,12 +43,9 @@ enum
 	PROP_LOOP_PLAYLIST,
 	PROP_DURATION,
 	PROP_MEDIA_TITLE,
-	PROP_METADATA,
-	PROP_PLAYLIST,
 	PROP_PLAYLIST_COUNT,
 	PROP_PLAYLIST_POS,
 	PROP_SPEED,
-	PROP_TRACK_LIST,
 	PROP_VOLUME,
 	N_PROPERTIES
 };
@@ -55,6 +55,9 @@ struct _GmpvModel
 	GObject parent;
 	GmpvPlayer *player;
 	gboolean ready;
+	GPtrArray *playlist;
+	GPtrArray *metadata;
+	GPtrArray *track_list;
 	gboolean update_mpv_properties;
 	gchar *aid;
 	gchar *vid;
@@ -67,12 +70,9 @@ struct _GmpvModel
 	gchar *loop_playlist;
 	gdouble duration;
 	gchar *media_title;
-	GPtrArray *metadata;
-	GPtrArray *playlist;
 	gint64 playlist_count;
 	gint64 playlist_pos;
 	gdouble speed;
-	GPtrArray *track_list;
 	gdouble volume;
 };
 
@@ -130,14 +130,26 @@ static void constructed(GObject *object)
 
 	g_assert(model->player);
 
-	model->playlist = gmpv_player_get_playlist(model->player);
-	model->metadata = gmpv_player_get_metadata(model->player);
-
 	g_object_bind_property(	model->player,
 				"ready",
 				model,
 				"ready",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	model->player,
+				"playlist",
+				model,
+				"playlist",
+				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );
+	g_object_bind_property(	model->player,
+				"metadata",
+				model,
+				"metadata",
+				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );
+	g_object_bind_property(	model->player,
+				"track-list",
+				model,
+				"track-list",
+				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );
 
 	g_signal_connect(	model->player,
 				"window-resize",
@@ -182,6 +194,18 @@ static void set_property(	GObject *object,
 
 		case PROP_READY:
 		self->ready = g_value_get_boolean(value);
+		break;
+
+		case PROP_PLAYLIST:
+		self->playlist = g_value_get_pointer(value);
+		break;
+
+		case PROP_METADATA:
+		self->metadata = g_value_get_pointer(value);
+		break;
+
+		case PROP_TRACK_LIST:
+		self->track_list = g_value_get_pointer(value);
 		break;
 
 		case PROP_AID:
@@ -232,14 +256,6 @@ static void set_property(	GObject *object,
 		self->media_title = g_value_dup_string(value);
 		break;
 
-		case PROP_METADATA:
-		self->metadata = gmpv_player_get_metadata(self->player);
-		break;
-
-		case PROP_PLAYLIST:
-		self->playlist = gmpv_player_get_playlist(self->player);
-		break;
-
 		case PROP_PLAYLIST_COUNT:
 		self->playlist_count = g_value_get_int64(value);
 		break;
@@ -250,10 +266,6 @@ static void set_property(	GObject *object,
 
 		case PROP_SPEED:
 		self->speed = g_value_get_double(value);
-		break;
-
-		case PROP_TRACK_LIST:
-		self->track_list = gmpv_player_get_track_list(self->player);
 		break;
 
 		case PROP_VOLUME:
@@ -287,6 +299,18 @@ static void get_property(	GObject *object,
 
 		case PROP_READY:
 		g_value_set_boolean(value, self->ready);
+		break;
+
+		case PROP_PLAYLIST:
+		g_value_set_pointer(value, self->playlist);
+		break;
+
+		case PROP_METADATA:
+		g_value_set_pointer(value, self->metadata);
+		break;
+
+		case PROP_TRACK_LIST:
+		g_value_set_pointer(value, self->track_list);
 		break;
 
 		case PROP_AID:
@@ -333,14 +357,6 @@ static void get_property(	GObject *object,
 		g_value_set_string(value, self->media_title);
 		break;
 
-		case PROP_METADATA:
-		g_value_set_pointer(value, self->metadata);
-		break;
-
-		case PROP_PLAYLIST:
-		g_value_set_pointer(value, self->playlist);
-		break;
-
 		case PROP_PLAYLIST_COUNT:
 		g_value_set_int64(value, self->playlist_count);
 		break;
@@ -351,10 +367,6 @@ static void get_property(	GObject *object,
 
 		case PROP_SPEED:
 		g_value_set_double(value, self->speed);
-		break;
-
-		case PROP_TRACK_LIST:
-		g_value_set_pointer(value, self->track_list);
 		break;
 
 		case PROP_VOLUME:
@@ -598,23 +610,28 @@ static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					gpointer value,
 					gpointer data )
 {
-	GObjectClass *klass;
-	GParamSpec *pspec;
-	GValue gvalue = G_VALUE_INIT;
-
-	klass = G_TYPE_INSTANCE_GET_CLASS(data, GMPV_TYPE_MODEL, GObjectClass);
-	pspec = g_object_class_find_property(klass, name);
-
-	if(pspec && value)
+	if(	g_strcmp0(name, "playlist") != 0 &&
+		g_strcmp0(name, "metadata") != 0 &&
+		g_strcmp0(name, "track-list") != 0 )
 	{
-		GMPV_MODEL(data)->update_mpv_properties = FALSE;
+		GObjectClass *klass;
+		GParamSpec *pspec;
+		GValue gvalue = G_VALUE_INIT;
 
-		g_value_set_by_type(&gvalue, pspec->value_type, value);
-		g_object_set_property(data, name, &gvalue);
+		klass =	G_TYPE_INSTANCE_GET_CLASS
+			(data, GMPV_TYPE_MODEL, GObjectClass);
+		pspec = g_object_class_find_property(klass, name);
 
-		GMPV_MODEL(data)->update_mpv_properties = TRUE;
+		if(pspec && value)
+		{
+			GMPV_MODEL(data)->update_mpv_properties = FALSE;
+
+			g_value_set_by_type(&gvalue, pspec->value_type, value);
+			g_object_set_property(data, name, &gvalue);
+
+			GMPV_MODEL(data)->update_mpv_properties = TRUE;
+		}
 	}
-
 }
 
 static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
@@ -655,12 +672,9 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			{"loop-playlist", PROP_LOOP_PLAYLIST, G_TYPE_STRING},
 			{"duration", PROP_DURATION, G_TYPE_DOUBLE},
 			{"media-title", PROP_MEDIA_TITLE, G_TYPE_STRING},
-			{"metadata", PROP_METADATA, G_TYPE_POINTER},
-			{"playlist", PROP_PLAYLIST, G_TYPE_POINTER},
 			{"playlist-count", PROP_PLAYLIST_COUNT, G_TYPE_INT64},
 			{"playlist-pos", PROP_PLAYLIST_POS, G_TYPE_INT64},
 			{"speed", PROP_SPEED, G_TYPE_DOUBLE},
-			{"track-list", PROP_TRACK_LIST, G_TYPE_POINTER},
 			{"volume", PROP_VOLUME, G_TYPE_DOUBLE},
 			{NULL, PROP_INVALID, 0} };
 
@@ -687,6 +701,27 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_READY, pspec);
+
+	pspec = g_param_spec_pointer
+		(	"playlist",
+			"playlist",
+			"The playlist",
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
+
+	pspec = g_param_spec_pointer
+		(	"metadata",
+			"metadata",
+			"Metadata tags of the current file",
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_METADATA, pspec);
+
+	pspec = g_param_spec_pointer
+		(	"track-list",
+			"track-list",
+			"Audio, video, and subtitle tracks of the current file",
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_TRACK_LIST, pspec);
 
 	for(int i = 0; mpv_props[i].name; i++)
 	{
@@ -776,6 +811,9 @@ static void gmpv_model_init(GmpvModel *model)
 {
 	model->player = NULL;
 	model->ready = FALSE;
+	model->playlist = NULL;
+	model->metadata = NULL;
+	model->track_list = NULL;
 	model->update_mpv_properties = TRUE;
 	model->aid = NULL;
 	model->vid = NULL;
@@ -788,12 +826,9 @@ static void gmpv_model_init(GmpvModel *model)
 	model->loop_playlist = NULL;
 	model->duration = 0.0;
 	model->media_title = NULL;
-	model->metadata = NULL;
-	model->playlist = NULL;
 	model->playlist_count = 0;
 	model->playlist_pos = 0;
 	model->speed = 1.0;
-	model->track_list = NULL;
 	model->volume = 1.0;
 }
 
