@@ -75,9 +75,9 @@ static void mpv_log_message(	GmpvMpv *mpv,
 				mpv_log_level log_level,
 				const gchar *prefix,
 				const gchar *text );
-static void mpv_property_changed_handler(	GmpvMpv *mpv,
-						const gchar *name,
-						gpointer value );
+static void mpv_property_changed(	GmpvMpv *mpv,
+					const gchar *name,
+					gpointer value );
 static void observe_properties(GmpvMpv *mpv);
 static void apply_default_options(GmpvMpv *mpv);
 static void initialize(GmpvMpv *mpv);
@@ -274,9 +274,9 @@ static void mpv_log_message(	GmpvMpv *mpv,
 		->mpv_log_message(mpv, log_level, prefix, text);
 }
 
-static void mpv_property_changed_handler(	GmpvMpv *mpv,
-						const gchar *name,
-						gpointer value )
+static void mpv_property_changed(	GmpvMpv *mpv,
+					const gchar *name,
+					gpointer value )
 {
 	GmpvPlayer *player = GMPV_PLAYER(mpv);
 
@@ -892,7 +892,7 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 
 	mpv_class->mpv_event_notify = mpv_event_notify;
 	mpv_class->mpv_log_message = mpv_log_message;
-	mpv_class->mpv_property_changed = mpv_property_changed_handler;
+	mpv_class->mpv_property_changed = mpv_property_changed;
 	mpv_class->initialize = initialize;
 	mpv_class->load_file = load_file;
 	mpv_class->reset = reset;
