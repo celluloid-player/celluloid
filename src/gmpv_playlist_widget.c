@@ -736,6 +736,9 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 
 	g_assert(playlist);
 
+	g_signal_handlers_block_by_func(wgt->store, row_inserted_handler, wgt);
+	g_signal_handlers_block_by_func(wgt->store, row_deleted_handler, wgt);
+
 	iter_end = !gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
 
 	for(guint i = 0; i < playlist->len; i++)
@@ -798,6 +801,8 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 			gtk_list_store_set(	store, &iter,
 						PLAYLIST_URI_COLUMN, uri,
 						-1 );
+
+			wgt->playlist_count++;
 		}
 
 		g_free(name);
@@ -808,8 +813,15 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 	 */
 	if(!iter_end)
 	{
-		while(gtk_list_store_remove(store, &iter));
+		while(gtk_list_store_remove(store, &iter))
+		{
+			wgt->playlist_count--;
+		}
 	}
+
+	g_signal_handlers_unblock_by_func(wgt->store, row_inserted_handler, wgt);
+	g_signal_handlers_unblock_by_func(wgt->store, row_deleted_handler, wgt);
+	g_object_notify(G_OBJECT(wgt), "playlist-count");
 }
 
 GPtrArray *gmpv_playlist_widget_get_contents(GmpvPlaylistWidget *wgt)
