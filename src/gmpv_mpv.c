@@ -270,8 +270,10 @@ static gboolean process_mpv_events(gpointer data)
 				done = TRUE;
 			}
 
-			GMPV_MPV_GET_CLASS(mpv)
-				->mpv_event_notify(mpv, event->event_id, event->data);
+			g_signal_emit_by_name(	mpv,
+						"mpv-event-notify",
+						event->event_id,
+						event->data );
 		}
 		else
 		{
@@ -440,6 +442,17 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
+	g_signal_new(	"mpv-event-notify",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			G_STRUCT_OFFSET(GmpvMpvClass, mpv_event_notify),
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__INT_POINTER,
+			G_TYPE_NONE,
+			2,
+			G_TYPE_INT,
+			G_TYPE_POINTER );
 	g_signal_new(	"mpv-log-message",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

@@ -23,6 +23,7 @@
 #include "gmpv_marshal.h"
 #include "gmpv_player.h"
 #include "gmpv_mpv_wrapper.h"
+#include "gmpv_metadata_cache.h"
 
 enum
 {
@@ -55,6 +56,7 @@ struct _GmpvModel
 	GObject parent;
 	GmpvPlayer *player;
 	gboolean ready;
+	GmpvMetadataCache *cache;
 	GPtrArray *playlist;
 	GPtrArray *metadata;
 	GPtrArray *track_list;
@@ -811,6 +813,7 @@ static void gmpv_model_init(GmpvModel *model)
 {
 	model->player = NULL;
 	model->ready = FALSE;
+	model->cache = NULL;
 	model->playlist = NULL;
 	model->metadata = NULL;
 	model->track_list = NULL;

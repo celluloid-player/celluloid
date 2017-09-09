@@ -23,6 +23,7 @@
 
 #include "gmpv_player.h"
 #include "gmpv_player_options.h"
+#include "gmpv_metadata_cache.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
 
@@ -46,6 +47,7 @@ struct _GmpvLogLevel
 struct _GmpvPlayer
 {
 	GmpvMpv parent;
+	GmpvMetadataCache *cache;
 	GPtrArray *playlist;
 	GPtrArray *metadata;
 	GPtrArray *track_list;
@@ -96,6 +98,9 @@ static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node);
 static void update_playlist(GmpvPlayer *player);
 static void update_metadata(GmpvPlayer *player);
 static void update_track_list(GmpvPlayer *player);
+static void cache_update_handler(	GmpvMetadataCache *cache,
+					const gchar *uri,
+					gpointer data );
 
 G_DEFINE_TYPE(GmpvPlayer, gmpv_player, GMPV_TYPE_MPV)
 
@@ -814,12 +819,24 @@ static void update_playlist(GmpvPlayer *player)
 			GmpvPlaylistEntry *entry;
 
 			entry = parse_playlist_entry(org_list->values[i].u.list);
+
+			if(!entry->title)
+			{
+				GmpvMetadataCacheEntry *cache_entry;
+
+				cache_entry =	gmpv_metadata_cache_lookup
+						(player->cache, entry->filename);
+				entry->title =	g_strdup(cache_entry->title);
+			}
+
 			g_ptr_array_add(player->playlist, entry);
 		}
 
 		mpv_free_node_contents(&playlist);
 		g_object_notify(G_OBJECT(player), "playlist");
 	}
+
+	gmpv_metadata_cache_load_playlist(player->cache, player->playlist);
 }
 
 static void update_metadata(GmpvPlayer *player)
@@ -894,6 +911,29 @@ static void update_track_list(GmpvPlayer *player)
 	}
 }
 
+static void cache_update_handler(	GmpvMetadataCache *cache,
+					const gchar *uri,
+					gpointer data )
+{
+	GmpvPlayer *player = data;
+
+	for(guint i = 0; i < player->playlist->len; i++)
+	{
+		GmpvPlaylistEntry *entry = g_ptr_array_index(player->playlist, i);
+
+		if(g_strcmp0(entry->filename, uri) == 0)
+		{
+			GmpvMetadataCacheEntry *cache_entry;
+
+			cache_entry = gmpv_metadata_cache_lookup(cache, uri);
+			g_free(entry->title);
+			entry->title = g_strdup(cache_entry->title);
+		}
+	}
+
+	g_object_notify(data, "playlist");
+}
+
 static void gmpv_player_class_init(GmpvPlayerClass *klass)
 {
 	GmpvMpvClass *mpv_class = GMPV_MPV_CLASS(klass);
@@ -944,13 +984,14 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 
 static void gmpv_player_init(GmpvPlayer *player)
 {
+	player->cache =		gmpv_metadata_cache_new();
 	player->playlist =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)gmpv_playlist_entry_free);
 	player->metadata =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)gmpv_metadata_entry_free);
 	player->track_list =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)gmpv_track_free);
-	player->log_levels = g_hash_table_new_full(	g_str_hash,
+	player->log_levels =	g_hash_table_new_full(	g_str_hash,
 							g_str_equal,
 							g_free,
 							NULL );
@@ -958,6 +999,11 @@ static void gmpv_player_init(GmpvPlayer *player)
 	player->new_file = TRUE;
 	player->init_vo_config = TRUE;
 	player->tmp_input_config = NULL;
+
+	g_signal_connect(	player->cache,
+				"update",
+				G_CALLBACK(cache_update_handler),
+				player );
 }
 
 GmpvPlayer *gmpv_player_new(gint64 wid)

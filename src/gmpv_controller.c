@@ -572,7 +572,11 @@ static void playlist_handler(	GObject *object,
 	GPtrArray *playlist = NULL;
 	gint64 pos = 0;
 
-	g_object_get(object, "playlist", &playlist, "playlist-pos", &pos, NULL);
+	g_object_get(	object,
+			"playlist", &playlist,
+			"playlist-pos", &pos,
+			NULL );
+
 	gmpv_view_update_playlist(view, playlist);
 	gmpv_view_set_playlist_pos(view, pos);
 }

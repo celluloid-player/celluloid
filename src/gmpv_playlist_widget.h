@@ -24,6 +24,8 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
+#include "gmpv_metadata_cache.h"
+
 G_BEGIN_DECLS
 
 #define GMPV_TYPE_PLAYLIST_WIDGET (gmpv_playlist_widget_get_type ())

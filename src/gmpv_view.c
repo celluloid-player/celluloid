@@ -1576,12 +1576,9 @@ void gmpv_view_set_time_position(GmpvView *view, gdouble position)
 
 void gmpv_view_update_playlist(GmpvView *view, GPtrArray *playlist)
 {
-	if(playlist)
-	{
-		GmpvPlaylistWidget *pl = gmpv_main_window_get_playlist(view->wnd);
+	GmpvPlaylistWidget *wgt = gmpv_main_window_get_playlist(view->wnd);
 
-		gmpv_playlist_widget_update_contents(pl, playlist);
-	}
+	gmpv_playlist_widget_update_contents(wgt, playlist);
 }
 
 void gmpv_view_set_playlist_pos(GmpvView *view, gint64 pos)

@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 
 #include "gmpv_playlist_widget.h"
+#include "gmpv_metadata_cache.h"
 #include "gmpv_marshal.h"
 #include "gmpv_common.h"
 #include "gmpv_def.h"
@@ -743,7 +744,7 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 
 	for(guint i = 0; i < playlist->len; i++)
 	{
-		GmpvPlaylistEntry *entry = g_ptr_array_index(playlist, i);
+		GmpvPlaylistEntry *entry= g_ptr_array_index(playlist, i);
 		gchar *uri = entry->filename;
 		gchar *title = entry->title;
 		gchar *name = title?g_strdup(title):get_name_from_path(uri);
@@ -751,18 +752,19 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 		/* Overwrite current entry if it doesn't match the new value */
 		if(!iter_end)
 		{
-			gchar *old_name = NULL;
-			gchar *old_uri = NULL;
-			gboolean name_update;
-			gboolean uri_update;
+			gchar *old_name =	NULL;
+			gchar *old_uri =	NULL;
+			gboolean name_update =	FALSE;
+			gboolean uri_update =	FALSE;
 
-			gtk_tree_model_get
-				(	GTK_TREE_MODEL(store), &iter,
-					PLAYLIST_NAME_COLUMN, &old_name,
-					PLAYLIST_URI_COLUMN, &old_uri, -1 );
+			gtk_tree_model_get(	GTK_TREE_MODEL(store),
+						&iter,
+						PLAYLIST_NAME_COLUMN, &old_name,
+						PLAYLIST_URI_COLUMN, &old_uri,
+						-1 );
 
-			name_update = (g_strcmp0(name, old_name) != 0);
-			uri_update = (g_strcmp0(uri, old_uri) != 0);
+			name_update =	(g_strcmp0(name, old_name) != 0);
+			uri_update =	(g_strcmp0(uri, old_uri) != 0);
 
 			/* Only set the name if either the title can be
 			 * retrieved or the name is unset. This preserves the
@@ -771,19 +773,23 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 			 */
 			if(name_update && (!old_name || title || uri_update))
 			{
-				gtk_list_store_set
-					(	store, &iter,
-						PLAYLIST_NAME_COLUMN, name, -1 );
+				gtk_list_store_set(	store,
+							&iter,
+							PLAYLIST_NAME_COLUMN,
+							name,
+							-1 );
 			}
 
 			if(uri_update)
 			{
-				gtk_list_store_set
-					(	store, &iter,
-						PLAYLIST_URI_COLUMN, uri, -1 );
+				gtk_list_store_set(	store,
+							&iter,
+							PLAYLIST_URI_COLUMN,
+							uri,
+							-1 );
 			}
 
-			iter_end = !gtk_tree_model_iter_next
+			iter_end =	!gtk_tree_model_iter_next
 					(GTK_TREE_MODEL(store), &iter);
 
 			g_free(old_name);
@@ -795,11 +801,15 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 		else
 		{
 			gtk_list_store_append(store, &iter);
-			gtk_list_store_set(	store, &iter,
-						PLAYLIST_NAME_COLUMN, name,
+			gtk_list_store_set(	store,
+						&iter,
+						PLAYLIST_NAME_COLUMN,
+						name,
 						-1 );
-			gtk_list_store_set(	store, &iter,
-						PLAYLIST_URI_COLUMN, uri,
+			gtk_list_store_set(	store,
+						&iter,
+						PLAYLIST_URI_COLUMN,
+						uri,
 						-1 );
 
 			wgt->playlist_count++;

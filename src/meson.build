@@ -12,6 +12,7 @@ sources = [
   'gmpv_main.c',
   'gmpv_main_window.c',
   'gmpv_menu.c',
+  'gmpv_metadata_cache.c',
   'gmpv_model.c',
   'gmpv_mpv.c',
   'gmpv_mpv_wrapper.c',
