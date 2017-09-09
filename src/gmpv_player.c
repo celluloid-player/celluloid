@@ -524,6 +524,16 @@ static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 		GMPV_MPV_CLASS(gmpv_player_parent_class)
 			->load_file(mpv, uri, append);
 	}
+
+	/* Playlist items added when mpv is idle doesn't get added directly to
+	 * its internal playlist, so the property change signal won't be fired.
+	 * We need to emit notify signal here manually to ensure that the
+	 * playlist widget gets updated.
+	 */
+	if(idle_active)
+	{
+		g_object_notify(G_OBJECT(player), "playlist");
+	}
 }
 
 static void reset(GmpvMpv *mpv)

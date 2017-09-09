@@ -1070,15 +1070,6 @@ void gmpv_model_load_file(GmpvModel *model, const gchar *uri, gboolean append)
 	{
 		gmpv_model_play(model);
 	}
-	/* Playlist items added when mpv is idle doesn't get added directly to
-	 * its internal playlist, so the property change signal won't be fired.
-	 * We need to emit notify signal here manually to ensure that the
-	 * playlist widget gets updated.
-	 */
-	else if(model->idle_active)
-	{
-		g_object_notify(G_OBJECT(model), "playlist");
-	}
 }
 
 gboolean gmpv_model_get_use_opengl_cb(GmpvModel *model)
