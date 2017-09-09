@@ -44,7 +44,6 @@
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_private.h"
 #include "gmpv_mpv_wrapper.h"
-#include "gmpv_mpv_options.h"
 #include "gmpv_common.h"
 #include "gmpv_def.h"
 #include "gmpv_marshal.h"
@@ -173,11 +172,6 @@ static void dispose(GObject *object)
 
 static void finalize(GObject *object)
 {
-	GmpvMpvPrivate *priv = get_private(GMPV_MPV(object));
-
-	g_slist_free_full(	priv->log_level_list,
-				(GDestroyNotify)module_log_level_free);
-
 	G_OBJECT_CLASS(gmpv_mpv_parent_class)->finalize(object);
 }
 
@@ -337,8 +331,6 @@ static void initialize(GmpvMpv *mpv)
 						MPV_SUB_API_OPENGL_CB );
 	}
 
-	gmpv_mpv_options_init(mpv);
-
 	priv->force_opengl = FALSE;
 	priv->ready = TRUE;
 	g_object_notify(G_OBJECT(mpv), "ready");
@@ -417,57 +409,57 @@ static void mpv_log_message(	GmpvMpv *mpv,
 				const gchar *prefix,
 				const gchar *text )
 {
-	GSList *iter = get_private(mpv)->log_level_list;
-	module_log_level *level = iter?iter->data:NULL;
-	gsize event_prefix_len = strlen(prefix);
-	gboolean found = FALSE;
-
-	while(iter && !found)
-	{
-		gsize prefix_len = strlen(level->prefix);
-		gint cmp = strncmp(	level->prefix,
-					prefix,
-					(event_prefix_len < prefix_len)?
-					event_prefix_len:prefix_len );
-
-		/* Allow both exact match and prefix match */
-		if(cmp == 0
-		&& (prefix_len == event_prefix_len
-		|| (prefix_len < event_prefix_len
-		&& prefix[prefix_len] == '/')))
-		{
-			found = TRUE;
-		}
-		else
-		{
-			iter = g_slist_next(iter);
-			level = iter?iter->data:NULL;
-		}
-	}
-
-	if(!iter || (log_level <= level->level))
-	{
-		gchar *buf = g_strdup(text);
-		gsize len = strlen(buf);
-
-		if(len > 1)
-		{
-			/* g_message() automatically adds a newline
-			 * character when using the default log handler,
-			 * but log messages from mpv already come
-			 * terminated with a newline character so we
-			 * need to take it out.
-			 */
-			if(buf[len-1] == '\n')
-			{
-				buf[len-1] = '\0';
-			}
-
-			g_message("[%s] %s", prefix, buf);
-		}
-
-		g_free(buf);
-	}
+//	GSList *iter = get_private(mpv)->log_level_list;
+//	module_log_level *level = iter?iter->data:NULL;
+//	gsize event_prefix_len = strlen(prefix);
+//	gboolean found = FALSE;
+//
+//	while(iter && !found)
+//	{
+//		gsize prefix_len = strlen(level->prefix);
+//		gint cmp = strncmp(	level->prefix,
+//					prefix,
+//					(event_prefix_len < prefix_len)?
+//					event_prefix_len:prefix_len );
+//
+//		/* Allow both exact match and prefix match */
+//		if(cmp == 0
+//		&& (prefix_len == event_prefix_len
+//		|| (prefix_len < event_prefix_len
+//		&& prefix[prefix_len] == '/')))
+//		{
+//			found = TRUE;
+//		}
+//		else
+//		{
+//			iter = g_slist_next(iter);
+//			level = iter?iter->data:NULL;
+//		}
+//	}
+//
+//	if(!iter || (log_level <= level->level))
+//	{
+//		gchar *buf = g_strdup(text);
+//		gsize len = strlen(buf);
+//
+//		if(len > 1)
+//		{
+//			/* g_message() automatically adds a newline
+//			 * character when using the default log handler,
+//			 * but log messages from mpv already come
+//			 * terminated with a newline character so we
+//			 * need to take it out.
+//			 */
+//			if(buf[len-1] == '\n')
+//			{
+//				buf[len-1] = '\0';
+//			}
+//
+//			g_message("[%s] %s", prefix, buf);
+//		}
+//
+//		g_free(buf);
+//	}
 }
 
 static void gmpv_mpv_class_init(GmpvMpvClass* klass)
@@ -597,7 +589,6 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 
 	priv->mpv_ctx = mpv_create();
 	priv->opengl_ctx = NULL;
-	priv->log_level_list = NULL;
 
 	priv->ready = FALSE;
 	priv->loaded = FALSE;

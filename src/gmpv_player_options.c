@@ -23,7 +23,7 @@
 #include <string.h>
 #include <mpv/client.h>
 
-#include "gmpv_mpv_options.h"
+#include "gmpv_player_options.h"
 #include "gmpv_mpv.h"
 #include "gmpv_mpv_private.h"
 #include "gmpv_mpv_wrapper.h"
@@ -46,9 +46,9 @@ static void parse_geom_string(	GmpvMpv *mpv,
 static gboolean get_video_dimensions(GmpvMpv *mpv, gint64 dim[2]);
 static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2]);
 static void handle_autofit(GmpvMpv *mpv, gint64 dim[2]);
-static void handle_geometry(GmpvMpv *mpv);
-static void handle_fs(GmpvMpv *mpv);
-static void handle_msg_level(GmpvMpv *mpv);
+static void handle_geometry(GmpvPlayer *player);
+static void handle_fs(GmpvPlayer *player);
+static void handle_msg_level(GmpvPlayer *player);
 static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
 static void video_reconfig_handler(GmpvMpv *mpv, gpointer data);
 
@@ -215,16 +215,17 @@ static gboolean get_video_dimensions(GmpvMpv *mpv, gint64 dim[2])
 
 static void ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 {
-	GmpvMpv *mpv = GMPV_MPV(object);
+	GmpvPlayer *player = GMPV_PLAYER(object);
 
-	handle_geometry(mpv);
-	handle_fs(mpv);
-	handle_msg_level(mpv);
+	handle_geometry(player);
+	handle_fs(player);
+	handle_msg_level(player);
 }
 
 static void video_reconfig_handler(GmpvMpv *mpv, gpointer data)
 {
-	if(get_private(mpv)->new_file)
+	//TODO
+	//if(get_private(mpv)->new_file)
 	{
 		gint64 dim[2] = {0, 0};
 
@@ -330,12 +331,10 @@ static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 	mpv_free(smaller_str);
 }
 
-static void handle_geometry(GmpvMpv *mpv)
+static void handle_geometry(GmpvPlayer *player)
 {
-	gchar *geometry_str;
-
-	geometry_str =	mpv_get_property_string
-			(get_private(mpv)->mpv_ctx, "options/geometry");
+	gchar *geometry_str =	gmpv_mpv_get_property_string
+				(GMPV_MPV(player), "options/geometry");
 
 	if(geometry_str)
 	{
@@ -343,11 +342,11 @@ static void handle_geometry(GmpvMpv *mpv)
 		GValue pos[2] = {G_VALUE_INIT, G_VALUE_INIT};
 		gboolean flip[2] = {FALSE, FALSE};
 
-		parse_geom_string(mpv, geometry_str, flip, pos, dim);
+		parse_geom_string(GMPV_MPV(player), geometry_str, flip, pos, dim);
 
 		if(G_IS_VALUE(&pos[0]) && G_IS_VALUE(&pos[1]))
 		{
-			g_signal_emit_by_name(	mpv,
+			g_signal_emit_by_name(	player,
 						"window-move",
 						flip[0], flip[1],
 						&pos[0], &pos[1] );
@@ -355,7 +354,7 @@ static void handle_geometry(GmpvMpv *mpv)
 
 		if(dim[0] > 0 && dim[1] > 0)
 		{
-			g_signal_emit_by_name(	mpv,
+			g_signal_emit_by_name(	player,
 						"window-resize",
 						dim[0], dim[1] );
 		}
@@ -364,9 +363,10 @@ static void handle_geometry(GmpvMpv *mpv)
 	mpv_free(geometry_str);
 }
 
-static void handle_fs(GmpvMpv *mpv)
+static void handle_fs(GmpvPlayer *player)
 {
-	gchar *fs_str = gmpv_mpv_get_property_string(mpv, "options/fs");
+	GmpvMpv *mpv = GMPV_MPV(player);
+	gchar *fs_str =	gmpv_mpv_get_property_string(mpv, "options/fs");
 
 	if(g_strcmp0(fs_str, "yes") == 0)
 	{
@@ -377,84 +377,27 @@ static void handle_fs(GmpvMpv *mpv)
 	mpv_free(fs_str);
 }
 
-static void handle_msg_level(GmpvMpv *mpv)
+static void handle_msg_level(GmpvPlayer *player)
 {
-	const struct
-	{
-		gchar *name;
-		mpv_log_level level;
-	}
-	level_map[] = {	{"no", MPV_LOG_LEVEL_NONE},
-			{"fatal", MPV_LOG_LEVEL_FATAL},
-			{"error", MPV_LOG_LEVEL_ERROR},
-			{"warn", MPV_LOG_LEVEL_WARN},
-			{"info", MPV_LOG_LEVEL_INFO},
-			{"v", MPV_LOG_LEVEL_V},
-			{"debug", MPV_LOG_LEVEL_DEBUG},
-			{"trace", MPV_LOG_LEVEL_TRACE},
-			{NULL, MPV_LOG_LEVEL_NONE} };
-
-	GmpvMpvPrivate *priv = get_private(mpv);
+	GmpvMpv *mpv = GMPV_MPV(player);
 	gchar *optbuf = NULL;
 	gchar **tokens = NULL;
-	mpv_log_level min_level = DEFAULT_LOG_LEVEL;
 	gint i;
 
-	optbuf = mpv_get_property_string(priv->mpv_ctx, "options/msg-level");
+	optbuf = gmpv_mpv_get_property_string(mpv, "options/msg-level");
 
 	if(optbuf)
 	{
 		tokens = g_strsplit(optbuf, ",", 0);
 	}
 
-	if(priv->log_level_list)
-	{
-		g_slist_free_full(priv->log_level_list, g_free);
-
-		priv->log_level_list = NULL;
-	}
-
 	for(i = 0; tokens && tokens[i]; i++)
 	{
 		gchar **pair = g_strsplit(tokens[i], "=", 2);
-		module_log_level *level = g_malloc(sizeof(module_log_level));
-		gboolean found = FALSE;
-		gint j;
 
-		level->prefix = g_strdup(pair[0]);
-
-		for(j = 0; level_map[j].name && !found; j++)
-		{
-			if(g_strcmp0(pair[1], level_map[j].name) == 0)
-			{
-				level->level = level_map[j].level;
-				found = TRUE;
-			}
-		}
-
-
-		/* Ignore if the given level is invalid */
-		if(found)
-		{
-			/* Lower log levels have higher values */
-			if(level->level > min_level)
-			{
-				min_level = level->level;
-			}
-
-			if(g_strcmp0(level->prefix, "all") != 0)
-			{
-				priv->log_level_list
-					= g_slist_append
-						(priv->log_level_list, level);
-			}
-		}
-
+		gmpv_player_set_log_level(player, pair[0], pair[1]);
 		g_strfreev(pair);
 	}
-
-	for(i = 0; level_map[i].level != min_level; i++);
-	mpv_request_log_messages(priv->mpv_ctx, level_map[i].name);
 
 	mpv_free(optbuf);
 	g_strfreev(tokens);
@@ -466,13 +409,13 @@ void module_log_level_free(module_log_level *level)
 	g_free(level);
 }
 
-void gmpv_mpv_options_init(GmpvMpv *mpv)
+void gmpv_player_options_init(GmpvPlayer *player)
 {
-	g_signal_connect(	mpv,
+	g_signal_connect(	player,
 				"notify::ready",
 				G_CALLBACK(ready_handler),
 				NULL );
-	g_signal_connect(	mpv,
+	g_signal_connect(	player,
 				"mpv-video-reconfig",
 				G_CALLBACK(video_reconfig_handler),
 				NULL );

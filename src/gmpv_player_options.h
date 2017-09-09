@@ -17,13 +17,13 @@
  * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MPV_OPTIONS_H
-#define MPV_OPTIONS_H
+#ifndef PLAYER_OPTIONS_H
+#define PLAYER_OPTIONS_H
 
 #include <glib.h>
 #include <mpv/client.h>
 
-#include "gmpv_mpv.h"
+#include "gmpv_player.h"
 
 G_BEGIN_DECLS
 
@@ -36,7 +36,7 @@ struct module_log_level
 };
 
 void module_log_level_free(module_log_level *level);
-void gmpv_mpv_options_init(GmpvMpv *mpv);
+void gmpv_player_options_init(GmpvPlayer *player);
 
 G_END_DECLS
 

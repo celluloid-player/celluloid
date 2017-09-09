@@ -22,6 +22,7 @@
 #include <glib/gi18n.h>
 
 #include "gmpv_player.h"
+#include "gmpv_player_options.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
 
@@ -277,6 +278,8 @@ static void initialize(GmpvMpv *mpv)
 
 	g_debug("Setting volume to %f", volume);
 	gmpv_mpv_set_property(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
+
+	gmpv_player_options_init(GMPV_PLAYER(mpv));
 
 	g_object_unref(win_settings);
 }
