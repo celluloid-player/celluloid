@@ -120,6 +120,7 @@ static void mpv_event_notify(	GmpvMpv *mpv,
 		gchar *path = NULL;
 
 		gmpv_mpv_get_property(mpv, "path", MPV_FORMAT_STRING, &path);
+		g_debug("Fetched metadata for %s", path);
 
 		entry =	g_hash_table_lookup(cache->table, path);
 
@@ -168,6 +169,15 @@ static void mpv_event_notify(	GmpvMpv *mpv,
 
 		mpv_free(path);
 	}
+	else if(event_id == MPV_EVENT_END_FILE)
+	{
+		mpv_event_end_file *event = event_data;
+
+		if(event->reason == MPV_END_FILE_REASON_ERROR)
+		{
+			g_debug("Failed to fetch metadata");
+		}
+	}
 }
 
 static void shutdown_handler(GmpvMpv *mpv, gpointer data)
@@ -206,6 +216,7 @@ static gboolean fetch_metadata(GmpvMetadataCache *cache)
 		uri;
 		uri = g_queue_pop_tail(cache->fetch_queue) )
 	{
+		g_debug("Queuing %s for metadata fetch", uri);
 		gmpv_mpv_load_file(cache->fetcher, uri, TRUE);
 		g_free(uri);
 	}
