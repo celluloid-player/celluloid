@@ -803,8 +803,13 @@ static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node)
 
 static void update_playlist(GmpvPlayer *player)
 {
+	GSettings *settings;
+	gboolean prefetch_metadata;
 	const mpv_node_list *org_list;
 	mpv_node playlist;
+
+	settings = g_settings_new(CONFIG_ROOT);
+	prefetch_metadata = g_settings_get_boolean(settings, "prefetch-metadata");
 
 	g_ptr_array_set_size(player->playlist, 0);
 
@@ -821,7 +826,7 @@ static void update_playlist(GmpvPlayer *player)
 
 			entry = parse_playlist_entry(org_list->values[i].u.list);
 
-			if(!entry->title)
+			if(!entry->title && prefetch_metadata)
 			{
 				GmpvMetadataCacheEntry *cache_entry;
 
@@ -837,7 +842,14 @@ static void update_playlist(GmpvPlayer *player)
 		g_object_notify(G_OBJECT(player), "playlist");
 	}
 
-	gmpv_metadata_cache_load_playlist(player->cache, player->playlist);
+
+	if(prefetch_metadata)
+	{
+		gmpv_metadata_cache_load_playlist
+			(player->cache, player->playlist);
+	}
+
+	g_object_unref(settings);
 }
 
 static void update_metadata(GmpvPlayer *player)
