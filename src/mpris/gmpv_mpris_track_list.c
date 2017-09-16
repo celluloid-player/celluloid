@@ -330,10 +330,12 @@ static void update_playlist(GmpvMprisTrackList *track_list)
 		current_track = g_strdup(MPRIS_TRACK_ID_NO_TRACK);
 	}
 
-	for(gint64 i = 0; i < playlist_count; i++)
+	for(	gint64 i = MAX(0, playlist_pos-MPRIS_TRACK_LIST_BEFORE);
+		i < MIN(playlist_count, playlist_pos+MPRIS_TRACK_LIST_AFTER);
+		i++ )
 	{
-		gchar *path = g_strdup_printf(	"%s%" G_GINT64_FORMAT,
-						MPRIS_TRACK_ID_PREFIX,
+		gchar *path = g_strdup_printf(	MPRIS_TRACK_ID_PREFIX
+						"%" G_GINT64_FORMAT,
 						i );
 
 		if(i == playlist_pos)
