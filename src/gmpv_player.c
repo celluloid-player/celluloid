@@ -23,6 +23,7 @@
 
 #include "gmpv_player.h"
 #include "gmpv_player_options.h"
+#include "gmpv_marshal.h"
 #include "gmpv_metadata_cache.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
@@ -928,10 +929,10 @@ static void cache_update_handler(	GmpvMetadataCache *cache,
 			cache_entry = gmpv_metadata_cache_lookup(cache, uri);
 			g_free(entry->title);
 			entry->title = g_strdup(cache_entry->title);
+
+			g_signal_emit_by_name(data, "metadata-update", i);
 		}
 	}
-
-	g_object_notify(data, "playlist");
 }
 
 static void gmpv_player_class_init(GmpvPlayerClass *klass)
@@ -980,6 +981,16 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
+	g_signal_new(	"metadata-update",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__INT64,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_INT64 );
 }
 
 static void gmpv_player_init(GmpvPlayer *player)

@@ -106,6 +106,9 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 						GParamFlags flags );
 static gboolean emit_frame_ready(gpointer data);
 static void opengl_cb_update_callback(gpointer opengl_cb_ctx);
+static void metadata_update_handler(	GmpvPlayer *player,
+					gint64 pos,
+					gpointer data );
 static void window_resize_handler(	GmpvMpv *mpv,
 					gint64 width,
 					gint64 height,
@@ -153,6 +156,10 @@ static void constructed(GObject *object)
 				"track-list",
 				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );
 
+	g_signal_connect(	model->player,
+				"metadata-update",
+				G_CALLBACK(metadata_update_handler),
+				model );
 	g_signal_connect(	model->player,
 				"window-resize",
 				G_CALLBACK(window_resize_handler),
@@ -589,6 +596,13 @@ static void opengl_cb_update_callback(gpointer data)
 				NULL );
 }
 
+static void metadata_update_handler(	GmpvPlayer *player,
+					gint64 pos,
+					gpointer data )
+{
+	g_signal_emit_by_name(data, "metadata-update", pos);
+}
+
 static void window_resize_handler(	GmpvMpv *mpv,
 					gint64 width,
 					gint64 height,
@@ -754,6 +768,16 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
+	g_signal_new(	"metadata-update",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__INT64,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_INT64 );
 	g_signal_new(	"window-resize",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

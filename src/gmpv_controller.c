@@ -90,6 +90,7 @@ static void model_ready_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
 static void frame_ready_handler(GmpvModel *model, gpointer data);
+static void metadata_update_handler(GmpvModel *model, gint64 pos, gpointer data);
 static void window_resize_handler(	GmpvModel *model,
 					gint64 width,
 					gint64 height,
@@ -418,6 +419,10 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(frame_ready_handler),
 				controller );
 	g_signal_connect(	controller->model,
+				"metadata-update",
+				G_CALLBACK(metadata_update_handler),
+				controller );
+	g_signal_connect(	controller->model,
 				"window-resize",
 				G_CALLBACK(window_resize_handler),
 				controller );
@@ -630,6 +635,15 @@ static void model_ready_handler(	GObject *object,
 static void frame_ready_handler(GmpvModel *model, gpointer data)
 {
 	gmpv_view_queue_render(GMPV_CONTROLLER(data)->view);
+}
+
+static void metadata_update_handler(GmpvModel *model, gint64 pos, gpointer data)
+{
+	GmpvView *view = GMPV_CONTROLLER(data)->view;
+	GPtrArray *playlist = NULL;
+
+	g_object_get(G_OBJECT(model), "playlist", &playlist, NULL);
+	gmpv_view_update_playlist(view, playlist);
 }
 
 static void window_resize_handler(	GmpvModel *model,

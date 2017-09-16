@@ -80,6 +80,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 static void playlist_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data );
+static void metadata_update_handler(GmpvModel *model, gint64 pos, gpointer data);
 static void update_playlist(GmpvMprisTrackList *track_list);
 static gint64 track_id_to_index(const gchar *track_id);
 static GVariant *playlist_entry_to_variant(	GmpvPlaylistEntry *entry,
@@ -105,6 +106,11 @@ static void register_interface(GmpvMprisModule *module)
 						model,
 						"notify::playlist",
 						G_CALLBACK(playlist_handler),
+						module );
+	gmpv_mpris_module_connect_signal(	module,
+						model,
+						"metadata-update",
+						G_CALLBACK(metadata_update_handler),
 						module );
 
 	gmpv_mpris_module_set_properties
@@ -295,6 +301,40 @@ static void playlist_handler(	GObject *object,
 				gpointer data )
 {
 	update_playlist(data);
+}
+
+static void metadata_update_handler(GmpvModel *model, gint64 pos, gpointer data)
+{
+	GDBusConnection *conn = NULL;
+	GDBusInterfaceInfo *iface = NULL;
+	gchar *track_id = NULL;
+	GVariant *signal_params = NULL;
+	GVariant *metadata = NULL;
+	GPtrArray *playlist = NULL;
+
+	g_object_get(	G_OBJECT(data),
+			"conn", &conn,
+			"iface", &iface,
+			NULL );
+	g_object_get(model, "playlist", &playlist, NULL);
+
+	track_id = g_strdup_printf(	MPRIS_TRACK_ID_PREFIX
+					"%" G_GINT64_FORMAT,
+					pos );
+	metadata = playlist_entry_to_variant(	g_ptr_array_index(playlist, pos),
+						pos );
+	signal_params = g_variant_new("(o@a{sv})", track_id, metadata);
+
+	g_dbus_connection_emit_signal
+		(	conn,
+			NULL,
+			MPRIS_OBJ_ROOT_PATH,
+			iface->name,
+			"TrackMetadataChanged",
+			signal_params,
+			NULL );
+
+	g_free(track_id);
 }
 
 static void update_playlist(GmpvMprisTrackList *track_list)
