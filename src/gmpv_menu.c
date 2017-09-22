@@ -329,6 +329,8 @@ void gmpv_menu_build_app_menu(GMenu *menu)
 {
 	const GmpvMenuEntry entries[]
 		= {	{NULL, "", NULL},
+			{_("_New Window"), "app.new-window", NULL},
+			{NULL, "", NULL},
 			{_("_Preferences"), "win.show-preferences-dialog", NULL},
 			{NULL, "", NULL},
 			{_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog", NULL},
