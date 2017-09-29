@@ -312,8 +312,14 @@ static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 	{
 		gdouble ratio = 1.0;
 
-		dim[0] = CLAMP(autofit_dim[0], smaller_dim[0], larger_dim[0]);
-		dim[1] = CLAMP(autofit_dim[1], smaller_dim[1], larger_dim[1]);
+		autofit_dim[0] = CLAMP(	autofit_dim[0],
+					smaller_dim[0],
+					larger_dim[0] );
+		autofit_dim[1] = CLAMP(	autofit_dim[1],
+					smaller_dim[1],
+					larger_dim[1] );
+		dim[0] = CLAMP(vid_dim[0], autofit_dim[0], larger_dim[0]);
+		dim[1] = CLAMP(vid_dim[1], autofit_dim[1], larger_dim[1]);
 
 		ratio = MIN(	(gdouble)dim[0]/(gdouble)vid_dim[0],
 				(gdouble)dim[1]/(gdouble)vid_dim[1] );
