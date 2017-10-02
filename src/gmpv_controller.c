@@ -104,6 +104,9 @@ static void window_move_handler(	GmpvModel *model,
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void shutdown_handler(GmpvMpv *mpv, gpointer data);
+static void fullscreen_handler(		GObject *object,
+					GParamSpec *pspec,
+					gpointer data );
 static void play_button_handler(GtkButton *button, gpointer data);
 static void stop_button_handler(GtkButton *button, gpointer data);
 static void forward_button_handler(GtkButton *button, gpointer data);
@@ -444,6 +447,10 @@ static void connect_signals(GmpvController *controller)
 				controller );
 
 	g_signal_connect(	controller->view,
+				"notify::fullscreen",
+				G_CALLBACK(fullscreen_handler),
+				controller );
+	g_signal_connect(	controller->view,
 				"button-clicked::play",
 				G_CALLBACK(play_button_handler),
 				controller );
@@ -713,6 +720,20 @@ static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
 static void shutdown_handler(GmpvMpv *mpv, gpointer data)
 {
 	g_signal_emit_by_name(data, "shutdown");
+}
+
+static void fullscreen_handler(		GObject *object,
+					GParamSpec *pspec,
+					gpointer data )
+{
+	GmpvView *view = GMPV_CONTROLLER(data)->view;
+	GmpvMainWindow *window = gmpv_view_get_main_window(view);
+	GActionMap *map = G_ACTION_MAP(window);
+	GAction *action = g_action_map_lookup_action(map, "toggle-playlist");
+	gboolean fullscreen = FALSE;
+
+	g_object_get(view, "fullscreen", &fullscreen, NULL);
+	g_simple_action_set_enabled(G_SIMPLE_ACTION(action), !fullscreen);
 }
 
 static void play_button_handler(GtkButton *button, gpointer data)
