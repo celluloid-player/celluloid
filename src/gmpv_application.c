@@ -269,7 +269,7 @@ static gint command_line_handler(	GApplication *gapp,
 	g_variant_dict_lookup(options, "new-window", "b", &app->new_window);
 
 	app->new_window |=	g_settings_get_boolean
-				(settings, "multiple-instances-enable");
+				(settings, "always-open-new-window");
 
 	for(gint i = 0; i < n_files; i++)
 	{
