@@ -87,7 +87,7 @@ static void clipboard_text_received_handler(	GtkClipboard *clipboard,
 {
 	GmpvOpenLocationDialog *dlg = data;
 
-	if(text && *text)
+	if(text && *text && (g_path_is_absolute(text) || strstr(text, "://") != NULL))
 	{
 		gtk_entry_set_text(GTK_ENTRY(dlg->loc_entry), text);
 		gtk_editable_select_region(GTK_EDITABLE(dlg->loc_entry), 0, -1);
