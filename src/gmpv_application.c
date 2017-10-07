@@ -230,17 +230,12 @@ static gint options_handler(	GApplication *gapp,
 	}
 	else
 	{
-		GSettings *settings = g_settings_new(CONFIG_ROOT);
 		gboolean no_existing_session = FALSE;
 
 		g_variant_dict_lookup(	options,
 					"no-existing-session",
 					"b",
 					&no_existing_session );
-
-		no_existing_session
-			|=	g_settings_get_boolean
-				(settings, "multiple-instances-enable");
 
 		if(no_existing_session)
 		{
@@ -250,8 +245,6 @@ static gint options_handler(	GApplication *gapp,
 			g_application_set_flags
 				(gapp, flags|G_APPLICATION_NON_UNIQUE);
 		}
-
-		g_object_unref(settings);
 	}
 
 	return version?0:-1;
@@ -265,6 +258,7 @@ static gint command_line_handler(	GApplication *gapp,
 	gint argc = 1;
 	gchar **argv = g_application_command_line_get_arguments(cli, &argc);
 	GVariantDict *options = g_application_command_line_get_options_dict(cli);
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	const gint n_files = argc-1;
 	GFile *files[n_files];
 
@@ -273,6 +267,9 @@ static gint command_line_handler(	GApplication *gapp,
 
 	g_variant_dict_lookup(options, "enqueue", "b", &app->enqueue);
 	g_variant_dict_lookup(options, "new-window", "b", &app->new_window);
+
+	app->new_window |=	g_settings_get_boolean
+				(settings, "multiple-instances-enable");
 
 	for(gint i = 0; i < n_files; i++)
 	{
@@ -298,6 +295,7 @@ static gint command_line_handler(	GApplication *gapp,
 
 	gdk_notify_startup_complete();
 
+	g_object_unref(settings);
 	g_strfreev(argv);
 
 	return 0;
