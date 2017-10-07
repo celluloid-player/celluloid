@@ -184,7 +184,7 @@ static void activate_handler(GApplication *gapp, gpointer data)
 {
 	GmpvApplication *app = data;
 
-	if(!app->controllers || app->new_window)
+	if(!app->controllers)
 	{
 		initialize_gui(app);
 	}
@@ -197,6 +197,16 @@ static void open_handler(	GApplication *gapp,
 				gpointer data )
 {
 	GmpvApplication *app = data;
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	/* Only activate new-window if always-open-new-window is set. It is not
+	 * necessary to handle --new-window here since options_handler() would
+	 * have activated new-window already if it were set.
+	 */
+	if(g_settings_get_boolean(settings, "always-open-new-window"))
+	{
+		activate_action_string(G_ACTION_MAP(gapp), "new-window");
+	}
 
 	g_application_activate(gapp);
 
@@ -214,6 +224,8 @@ static void open_handler(	GApplication *gapp,
 
 		g_free(uri);
 	}
+
+	g_object_unref(settings);
 }
 
 static gint options_handler(	GApplication *gapp,
@@ -259,17 +271,17 @@ static gint command_line_handler(	GApplication *gapp,
 	gchar **argv = g_application_command_line_get_arguments(cli, &argc);
 	GVariantDict *options = g_application_command_line_get_options_dict(cli);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	gboolean always_open_new_window = FALSE;
 	const gint n_files = argc-1;
 	GFile *files[n_files];
 
 	app->enqueue = FALSE;
 	app->new_window = FALSE;
+	always_open_new_window =	g_settings_get_boolean
+					(settings, "always-open-new-window");
 
 	g_variant_dict_lookup(options, "enqueue", "b", &app->enqueue);
 	g_variant_dict_lookup(options, "new-window", "b", &app->new_window);
-
-	app->new_window |=	g_settings_get_boolean
-				(settings, "always-open-new-window");
 
 	for(gint i = 0; i < n_files; i++)
 	{
@@ -277,7 +289,18 @@ static gint command_line_handler(	GApplication *gapp,
 				(cli, argv[i+1]);
 	}
 
-	if(n_files == 0 || !app->controllers || app->new_window)
+	/* If always-open-new-window is set, only activate the new-window action
+	 * if there are no files to be opened. If there are files,
+	 * open_handler() will activate the action by itself. This is necessary
+	 * because when opening files from file managers, files to be opened may
+	 * be sent in the form of DBus message, bypassing this function
+	 * entirely.
+	 */
+	if(app->new_window || (n_files == 0 && always_open_new_window))
+	{
+		activate_action_string(G_ACTION_MAP(gapp), "new-window");
+	}
+	else if(n_files == 0 || !app->controllers)
 	{
 		g_application_activate(gapp);
 	}
