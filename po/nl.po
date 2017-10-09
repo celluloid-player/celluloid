@@ -1,18 +1,18 @@
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2016. #zanata
 # wb9688 <wbertrums@gmail.com>, 2016. #zanata
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2017. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-16 23:25+0700\n"
-"PO-Revision-Date: 2017-07-18 02:46-0400\n"
+"PO-Revision-Date: 2017-08-02 12:10-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Dutch\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Zanata 3.9.6\n"
 
@@ -54,28 +54,28 @@ msgstr "Pad naar mpv input configuratiebestand"
 msgid "Load or don't load mpv input configuration file"
 msgstr "Laad mpv input configuratiebestand wel of niet"
 
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:92
+#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:98
 msgid "Width of the window"
 msgstr "Breedte van het venster"
 
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:98
+#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:104
 msgid "Height of the window"
 msgstr "Hoogte van het venster"
 
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:105
+#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:111
 #, fuzzy
 msgid "Volume of player"
 msgstr "Volume van de speler"
 
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:111
+#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:117
 msgid "Width of the playlist"
 msgstr "Breedte van de afspeellijst"
 
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:123
+#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:129
 msgid "Show or not show the playlist"
 msgstr "Geef de afspeellijst wel of niet weer"
 
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:129
+#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:135
 msgid "URI of the last folder accessed"
 msgstr "URI van de map die het laatst is geraadpleegd"
 
@@ -89,10 +89,9 @@ msgstr "Of de instellingen al gemigreerd zijn van een vorige versie"
 msgid "Whether or not to use floating controls in windowed mode"
 msgstr ""
 
-#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_preferences_dialog.c:326
-#, fuzzy
-msgid "Allow multiple instances"
-msgstr "Sta meerdere instanties to"
+#: data/io.github.GnomeMpv.gschema.xml:40
+msgid "Whether or not to create new windows when there is already an instance"
+msgstr ""
 
 #: data/io.github.GnomeMpv.gschema.xml:76
 msgid "Whether or not to enable MPRIS support"
@@ -103,13 +102,17 @@ msgid ""
 "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 
-#: data/io.github.GnomeMpv.gschema.xml:117
+#: data/io.github.GnomeMpv.gschema.xml:88
+msgid "Whether or not to prefetch metadata for non-current playlist entries"
+msgstr ""
+
+#: data/io.github.GnomeMpv.gschema.xml:123
 #, fuzzy
 msgid "Show or not show the controls"
 msgstr "Geef de controls wel of niet weer"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:293
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:330
 #: src/gmpv_view.c:955
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -119,7 +122,7 @@ msgstr "GNOME MPV"
 msgid "GTK+ frontend for mpv"
 msgstr "GTK+ frontend voor mpv"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:11
+#: data/io.github.GnomeMpv.appdata.xml.in:12
 msgid ""
 "GNOME MPV is a simple GTK+ frontend for mpv, which is a very powerful media "
 "player capable of playing virtually all video and audio formats. The design "
@@ -133,28 +136,28 @@ msgstr ""
 " bibliotheken. GNOME MPV heeft ook een optie om client-side decoraties (CSD)"
 " uit te zetten voor betere compatibiliteit met niet-GNOME systemen"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:18
+#: data/io.github.GnomeMpv.appdata.xml.in:19
 msgid "Features:"
 msgstr "Functies:"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:20
+#: data/io.github.GnomeMpv.appdata.xml.in:21
 #, fuzzy
 msgid "Drag and drop playlist"
 msgstr "Drag and drop afspeellijst"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:21
+#: data/io.github.GnomeMpv.appdata.xml.in:22
 msgid "Loading external mpv configuration files"
 msgstr "Externe mpv configuratiebestanden laden"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:22
+#: data/io.github.GnomeMpv.appdata.xml.in:23
 msgid "MPRIS2 D-Bus interface"
 msgstr ""
 
-#: data/io.github.GnomeMpv.appdata.xml.in:32
+#: data/io.github.GnomeMpv.appdata.xml.in:36
 msgid "The main window with CSD disabled"
 msgstr "Het hoofdvenster met CSD uitgeschakeld"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:36
+#: data/io.github.GnomeMpv.appdata.xml.in:40
 msgid "The main window with playlist open"
 msgstr "Het hoofdvenster met een afspeellijst open"
 
@@ -167,24 +170,24 @@ msgstr ""
 msgid "New Window"
 msgstr ""
 
-#: src/gmpv_application.c:332
+#: src/gmpv_application.c:370
 msgid "Playing"
 msgstr "Afspelen"
 
-#: src/gmpv_application.c:377
+#: src/gmpv_application.c:415
 msgid "Show release version"
 msgstr "Toon release versie"
 
-#: src/gmpv_application.c:385
+#: src/gmpv_application.c:423
 #, fuzzy
 msgid "Enqueue"
 msgstr "Voeg toe aan wachtrij"
 
-#: src/gmpv_application.c:393
+#: src/gmpv_application.c:431
 msgid "Create a new window"
 msgstr ""
 
-#: src/gmpv_application.c:401
+#: src/gmpv_application.c:439
 #, fuzzy
 msgid "Don't connect to an already-running instance"
 msgstr "Verbind niet met instanties die al draaien"
@@ -221,21 +224,21 @@ msgstr "Vorig Hoofdstuk"
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: src/gmpv_controller.c:690 src/gmpv_view.c:1400
+#: src/gmpv_controller.c:715 src/gmpv_view.c:1400
 msgid "Error"
 msgstr "Fout"
 
-#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
-#: src/gmpv_preferences_dialog.c:375
+#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:127
+#: src/gmpv_preferences_dialog.c:378
 msgid "_Cancel"
 msgstr "_Annuleren"
 
 #: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
-#: src/gmpv_open_location_dialog.c:128
+#: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Open"
 
-#: src/gmpv_file_chooser.c:135 src/gmpv_plugins_manager.c:149
+#: src/gmpv_file_chooser.c:135 src/gmpv_plugins_manager.c:148
 msgid "All Files"
 msgstr ""
 
@@ -285,7 +288,7 @@ msgstr "Open _Locatie"
 msgid "_Save Playlist"
 msgstr "_Sla Afspeellijst op"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
 msgid "_Quit"
 msgstr "_Afsluiten"
 
@@ -293,7 +296,7 @@ msgstr "_Afsluiten"
 msgid "_Edit"
 msgstr "_Bewerken"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:332
+#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
 msgid "_Preferences"
 msgstr "_Instellingen"
 
@@ -341,61 +344,65 @@ msgstr "_Halve Grootte"
 msgid "_Help"
 msgstr "_Help"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:335
+#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
 msgid "_About"
 msgstr "_Over"
 
-#: src/gmpv_mpv.c:268
-msgid "Failed to apply one or more MPV options."
-msgstr "Het toepassen van een of meerdere MPV opties is mislukt."
+#: src/gmpv_menu.c:332
+msgid "_New Window"
+msgstr ""
 
-#: src/gmpv_mpv.c:557
+#: src/gmpv_mpv.c:216
 #, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Afspelen werd abnormaal beëindigd. Reden: %s."
 
-#: src/gmpv_open_location_dialog.c:122
+#: src/gmpv_open_location_dialog.c:123
 msgid "Location:"
 msgstr "Locatie:"
 
-#: src/gmpv_playlist_widget.c:532
+#: src/gmpv_player.c:493
+msgid "Failed to apply one or more MPV options."
+msgstr "Het toepassen van een of meerdere MPV opties is mislukt."
+
+#: src/gmpv_playlist_widget.c:533
 msgid "_Add…"
 msgstr "_Voeg Toe…"
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:537
 msgid "Add _Location…"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:538
+#: src/gmpv_playlist_widget.c:539
 msgid "_Shuffle"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:539
+#: src/gmpv_playlist_widget.c:540
 msgid "L_oop"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:653
+#: src/gmpv_playlist_widget.c:654
 msgid "Playlist"
 msgstr "Afspeellijst"
 
-#: src/gmpv_plugins_manager.c:142 src/gmpv_plugins_manager.c:373
+#: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:372
 msgid "Add Lua Script"
 msgstr "Voeg Lua Script toe"
 
-#: src/gmpv_plugins_manager.c:154 src/gmpv_preferences_dialog.c:372
+#: src/gmpv_plugins_manager.c:153 src/gmpv_preferences_dialog.c:375
 msgid "Lua Scripts"
 msgstr "Lua Scripts"
 
-#: src/gmpv_plugins_manager.c:300
+#: src/gmpv_plugins_manager.c:299
 #, fuzzy, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Bestand van '%s' naar '%s' kopiëren mislukt. Reden: %s"
 
-#: src/gmpv_plugins_manager.c:349
+#: src/gmpv_plugins_manager.c:348
 msgid "No Lua script found"
 msgstr "Geen Lua script gevonden"
 
@@ -465,27 +472,35 @@ msgstr "MPV input configuratiebestand:"
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Diversen</b>"
 
+#: src/gmpv_preferences_dialog.c:326
+msgid "Always open new window"
+msgstr ""
+
 #: src/gmpv_preferences_dialog.c:329
-msgid "Enable MPRIS support"
+msgid "Prefetch metadata"
 msgstr ""
 
 #: src/gmpv_preferences_dialog.c:332
-msgid "Enable media keys support"
+msgid "Enable MPRIS support"
 msgstr ""
 
 #: src/gmpv_preferences_dialog.c:335
+msgid "Enable media keys support"
+msgstr ""
+
+#: src/gmpv_preferences_dialog.c:338
 msgid "Extra MPV options:"
 msgstr "Extra MPV opties:"
 
-#: src/gmpv_preferences_dialog.c:368
+#: src/gmpv_preferences_dialog.c:371
 msgid "General"
 msgstr "Algemeen"
 
-#: src/gmpv_preferences_dialog.c:377
+#: src/gmpv_preferences_dialog.c:380
 msgid "_Save"
 msgstr "_Opslaan"
 
-#: src/gmpv_preferences_dialog.c:394
+#: src/gmpv_preferences_dialog.c:397
 msgid "Preferences"
 msgstr "Instellingen"
 

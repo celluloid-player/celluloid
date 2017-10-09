@@ -1,19 +1,19 @@
 # Bendegúz Gyönki <gyonkibendeguz@gmail.com>, 2016. #zanata
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2016. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2016. #zanata
 # Bendegúz Gyönki <gyonkibendeguz@gmail.com>, 2017. #zanata
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2017. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-16 23:25+0700\n"
-"PO-Revision-Date: 2017-07-18 02:46-0400\n"
+"PO-Revision-Date: 2017-08-02 12:11-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Hungarian\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Zanata 3.9.6\n"
 
@@ -50,27 +50,27 @@ msgstr "Az mpv bemeneti konfigurációs fájl útvonala"
 msgid "Load or don't load mpv input configuration file"
 msgstr ""
 
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:92
+#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:98
 msgid "Width of the window"
 msgstr "Az ablak szélessége"
 
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:98
+#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:104
 msgid "Height of the window"
 msgstr "Az ablak magassága"
 
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:105
+#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:111
 msgid "Volume of player"
 msgstr "A lejátszó hangereje"
 
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:111
+#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:117
 msgid "Width of the playlist"
 msgstr "A lejátszási lista szélessége"
 
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:123
+#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:129
 msgid "Show or not show the playlist"
 msgstr ""
 
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:129
+#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:135
 msgid "URI of the last folder accessed"
 msgstr ""
 
@@ -83,9 +83,9 @@ msgstr ""
 msgid "Whether or not to use floating controls in windowed mode"
 msgstr ""
 
-#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_preferences_dialog.c:326
-msgid "Allow multiple instances"
-msgstr "Több példány engedélyezése"
+#: data/io.github.GnomeMpv.gschema.xml:40
+msgid "Whether or not to create new windows when there is already an instance"
+msgstr ""
 
 #: data/io.github.GnomeMpv.gschema.xml:76
 msgid "Whether or not to enable MPRIS support"
@@ -96,12 +96,16 @@ msgid ""
 "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 
-#: data/io.github.GnomeMpv.gschema.xml:117
+#: data/io.github.GnomeMpv.gschema.xml:88
+msgid "Whether or not to prefetch metadata for non-current playlist entries"
+msgstr ""
+
+#: data/io.github.GnomeMpv.gschema.xml:123
 msgid "Show or not show the controls"
 msgstr ""
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:293
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:330
 #: src/gmpv_view.c:955
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -111,7 +115,7 @@ msgstr "GNOME MPV"
 msgid "GTK+ frontend for mpv"
 msgstr "GTK+ felület az mpv-hez"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:11
+#: data/io.github.GnomeMpv.appdata.xml.in:12
 msgid ""
 "GNOME MPV is a simple GTK+ frontend for mpv, which is a very powerful media "
 "player capable of playing virtually all video and audio formats. The design "
@@ -126,27 +130,27 @@ msgstr ""
 "kliensoldali díszítések letiltását a GNOME-tól eltérő rendszerekkel való "
 "jobb kompatibilitás érdekében."
 
-#: data/io.github.GnomeMpv.appdata.xml.in:18
+#: data/io.github.GnomeMpv.appdata.xml.in:19
 msgid "Features:"
 msgstr "Funkciók:"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:20
+#: data/io.github.GnomeMpv.appdata.xml.in:21
 msgid "Drag and drop playlist"
 msgstr "Fogd és vidd lejátszási lista"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:21
+#: data/io.github.GnomeMpv.appdata.xml.in:22
 msgid "Loading external mpv configuration files"
 msgstr "Külső mpv konfigurációs fájlok betöltése"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:22
+#: data/io.github.GnomeMpv.appdata.xml.in:23
 msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus interfész"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:32
+#: data/io.github.GnomeMpv.appdata.xml.in:36
 msgid "The main window with CSD disabled"
 msgstr "A főablak letiltott díszítésekkel"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:36
+#: data/io.github.GnomeMpv.appdata.xml.in:40
 msgid "The main window with playlist open"
 msgstr "A főablak megnyitott lejátszási listával"
 
@@ -159,25 +163,25 @@ msgstr ""
 msgid "New Window"
 msgstr ""
 
-#: src/gmpv_application.c:332
+#: src/gmpv_application.c:370
 msgid "Playing"
 msgstr ""
 
-#: src/gmpv_application.c:377
+#: src/gmpv_application.c:415
 #, fuzzy
 msgid "Show release version"
 msgstr "Kiadási verzió megjelenítése"
 
-#: src/gmpv_application.c:385
+#: src/gmpv_application.c:423
 #, fuzzy
 msgid "Enqueue"
 msgstr "Sorba állítás"
 
-#: src/gmpv_application.c:393
+#: src/gmpv_application.c:431
 msgid "Create a new window"
 msgstr ""
 
-#: src/gmpv_application.c:401
+#: src/gmpv_application.c:439
 msgid "Don't connect to an already-running instance"
 msgstr "Ne csatlakozzon egy már futó példányhoz"
 
@@ -213,21 +217,21 @@ msgstr "Előző fejezet"
 msgid "Toggle Fullscreen"
 msgstr "Átváltás teljes képernyőre"
 
-#: src/gmpv_controller.c:690 src/gmpv_view.c:1400
+#: src/gmpv_controller.c:715 src/gmpv_view.c:1400
 msgid "Error"
 msgstr "Hiba"
 
-#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
-#: src/gmpv_preferences_dialog.c:375
+#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:127
+#: src/gmpv_preferences_dialog.c:378
 msgid "_Cancel"
 msgstr "_Mégse"
 
 #: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
-#: src/gmpv_open_location_dialog.c:128
+#: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Megnyitás"
 
-#: src/gmpv_file_chooser.c:135 src/gmpv_plugins_manager.c:149
+#: src/gmpv_file_chooser.c:135 src/gmpv_plugins_manager.c:148
 msgid "All Files"
 msgstr ""
 
@@ -277,7 +281,7 @@ msgstr "_Hely megnyitása"
 msgid "_Save Playlist"
 msgstr "Lejátszási lista _mentése"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
 msgid "_Quit"
 msgstr "_Kilépés"
 
@@ -285,7 +289,7 @@ msgstr "_Kilépés"
 msgid "_Edit"
 msgstr "_Szerkesztés"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:332
+#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
 msgid "_Preferences"
 msgstr "_Beállítások"
 
@@ -333,61 +337,65 @@ msgstr "_Fele méret"
 msgid "_Help"
 msgstr "_Súgó"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
 msgid "_Keyboard Shortcuts"
 msgstr "_Billentyűkombinációk"
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:335
+#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
 msgid "_About"
 msgstr "_Névjegy"
 
-#: src/gmpv_mpv.c:268
-msgid "Failed to apply one or more MPV options."
-msgstr "Egy vagy több MPV beállítás alkalmazása nem sikerült"
+#: src/gmpv_menu.c:332
+msgid "_New Window"
+msgstr ""
 
-#: src/gmpv_mpv.c:557
+#: src/gmpv_mpv.c:216
 #, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "A lejátszás nem megfelelően lett leállítva. Ok: %s."
 
-#: src/gmpv_open_location_dialog.c:122
+#: src/gmpv_open_location_dialog.c:123
 msgid "Location:"
 msgstr "Hely:"
 
-#: src/gmpv_playlist_widget.c:532
+#: src/gmpv_player.c:493
+msgid "Failed to apply one or more MPV options."
+msgstr "Egy vagy több MPV beállítás alkalmazása nem sikerült"
+
+#: src/gmpv_playlist_widget.c:533
 msgid "_Add…"
 msgstr "_Hozzáadás..."
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:537
 msgid "Add _Location…"
 msgstr "_Hely hozzáadása..."
 
-#: src/gmpv_playlist_widget.c:538
+#: src/gmpv_playlist_widget.c:539
 msgid "_Shuffle"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:539
+#: src/gmpv_playlist_widget.c:540
 msgid "L_oop"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:653
+#: src/gmpv_playlist_widget.c:654
 msgid "Playlist"
 msgstr "Lejátszási lista"
 
-#: src/gmpv_plugins_manager.c:142 src/gmpv_plugins_manager.c:373
+#: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:372
 msgid "Add Lua Script"
 msgstr "Lua parancsfájl hozzáadása"
 
-#: src/gmpv_plugins_manager.c:154 src/gmpv_preferences_dialog.c:372
+#: src/gmpv_plugins_manager.c:153 src/gmpv_preferences_dialog.c:375
 msgid "Lua Scripts"
 msgstr "Lua parancsfájlok"
 
-#: src/gmpv_plugins_manager.c:300
+#: src/gmpv_plugins_manager.c:299
 #, fuzzy, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "A fájl másolása innen: „%s\", ide: „%s\" nem sikerült. Ok: %s"
 
-#: src/gmpv_plugins_manager.c:349
+#: src/gmpv_plugins_manager.c:348
 msgid "No Lua script found"
 msgstr "Nem található Lua parancsfájl"
 
@@ -455,27 +463,35 @@ msgstr "MPV beviteli konfigurációs fájl:"
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Egyéb</b>"
 
+#: src/gmpv_preferences_dialog.c:326
+msgid "Always open new window"
+msgstr ""
+
 #: src/gmpv_preferences_dialog.c:329
-msgid "Enable MPRIS support"
+msgid "Prefetch metadata"
 msgstr ""
 
 #: src/gmpv_preferences_dialog.c:332
-msgid "Enable media keys support"
+msgid "Enable MPRIS support"
 msgstr ""
 
 #: src/gmpv_preferences_dialog.c:335
+msgid "Enable media keys support"
+msgstr ""
+
+#: src/gmpv_preferences_dialog.c:338
 msgid "Extra MPV options:"
 msgstr "Extra MPV beállítások:"
 
-#: src/gmpv_preferences_dialog.c:368
+#: src/gmpv_preferences_dialog.c:371
 msgid "General"
 msgstr "Általános"
 
-#: src/gmpv_preferences_dialog.c:377
+#: src/gmpv_preferences_dialog.c:380
 msgid "_Save"
 msgstr "_Mentés"
 
-#: src/gmpv_preferences_dialog.c:394
+#: src/gmpv_preferences_dialog.c:397
 msgid "Preferences"
 msgstr "Beállítások"
 

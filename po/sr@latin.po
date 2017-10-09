@@ -1,16 +1,16 @@
-# gnome-mpv <gnome-mpv@openmailbox.org>, 2017. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.12\n"
 "Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
 "POT-Creation-Date: 2017-07-12 12:38+0700\n"
-"PO-Revision-Date: 2017-07-18 02:46-0400\n"
+"PO-Revision-Date: 2017-08-02 12:11-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Serbian (Latin)\n"
+"Language: sr@latin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sr@latin\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "X-Generator: Zanata 3.9.6\n"
 
@@ -49,27 +49,27 @@ msgstr "Putanja do mpv konfiguracione datoteke unosa"
 msgid "Load or don't load mpv input configuration file"
 msgstr "Dozvoljava učitavanje mpv konfiguracione datoteke unosa"
 
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:92
+#: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:98
 msgid "Width of the window"
 msgstr "Širina prozora"
 
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:98
+#: data/org.gnome-mpv.gschema.xml:67 data/io.github.GnomeMpv.gschema.xml:104
 msgid "Height of the window"
 msgstr "Visina prozora"
 
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:105
+#: data/org.gnome-mpv.gschema.xml:73 data/io.github.GnomeMpv.gschema.xml:111
 msgid "Volume of player"
 msgstr "Jačina zvuka"
 
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:111
+#: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:117
 msgid "Width of the playlist"
 msgstr "Širina liste puštanja"
 
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:123
+#: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:129
 msgid "Show or not show the playlist"
 msgstr "Prikaži listu puštanja"
 
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:129
+#: data/org.gnome-mpv.gschema.xml:91 data/io.github.GnomeMpv.gschema.xml:135
 msgid "URI of the last folder accessed"
 msgstr "URI poslednje pristupljenog direktorijuma"
 
@@ -82,9 +82,9 @@ msgstr "Da li su postavke već prenete iz prethodne verzije"
 msgid "Whether or not to use floating controls in windowed mode"
 msgstr "Koristiti plivajuće kontrole u režimu prozora"
 
-#: data/io.github.GnomeMpv.gschema.xml:40 src/gmpv_preferences_dialog.c:326
-msgid "Allow multiple instances"
-msgstr "Dozvoli višestruke primerke"
+#: data/io.github.GnomeMpv.gschema.xml:40
+msgid "Whether or not to create new windows when there is already an instance"
+msgstr ""
 
 #: data/io.github.GnomeMpv.gschema.xml:76
 msgid "Whether or not to enable MPRIS support"
@@ -95,12 +95,16 @@ msgid ""
 "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 
-#: data/io.github.GnomeMpv.gschema.xml:117
+#: data/io.github.GnomeMpv.gschema.xml:88
+msgid "Whether or not to prefetch metadata for non-current playlist entries"
+msgstr ""
+
+#: data/io.github.GnomeMpv.gschema.xml:123
 msgid "Show or not show the controls"
 msgstr "Dozvoljava prikaz kontrola"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:293
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:330
 #: src/gmpv_view.c:955
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -110,7 +114,7 @@ msgstr "GNOME MPV"
 msgid "GTK+ frontend for mpv"
 msgstr "GTK+ pročelje za mpv"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:11
+#: data/io.github.GnomeMpv.appdata.xml.in:12
 msgid ""
 "GNOME MPV is a simple GTK+ frontend for mpv, which is a very powerful media "
 "player capable of playing virtually all video and audio formats. The design "
@@ -124,27 +128,27 @@ msgstr ""
 "biblioteke. GNOME MPV takođe nudi opciju onemogućavanja dekoracija klijenta "
 "(CSD) zbog kompatibilnosti s drugim okruženjima."
 
-#: data/io.github.GnomeMpv.appdata.xml.in:18
+#: data/io.github.GnomeMpv.appdata.xml.in:19
 msgid "Features:"
 msgstr "Mogućnosti:"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:20
+#: data/io.github.GnomeMpv.appdata.xml.in:21
 msgid "Drag and drop playlist"
 msgstr "Prevuci i otpusti listu puštanja"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:21
+#: data/io.github.GnomeMpv.appdata.xml.in:22
 msgid "Loading external mpv configuration files"
 msgstr "Učitavam spoljne mpv konfiguracione datoteke"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:22
+#: data/io.github.GnomeMpv.appdata.xml.in:23
 msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus sučelje"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:32
+#: data/io.github.GnomeMpv.appdata.xml.in:36
 msgid "The main window with CSD disabled"
 msgstr "Glavni prozor sa onemogućenim CSD-om"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:36
+#: data/io.github.GnomeMpv.appdata.xml.in:40
 msgid "The main window with playlist open"
 msgstr "Glavni prozor sa otvorenom listom puštanja"
 
@@ -157,23 +161,23 @@ msgstr ""
 msgid "New Window"
 msgstr ""
 
-#: src/gmpv_application.c:332
+#: src/gmpv_application.c:370
 msgid "Playing"
 msgstr "Reprodukcija"
 
-#: src/gmpv_application.c:377
+#: src/gmpv_application.c:415
 msgid "Show release version"
 msgstr "Prikaži verziju izdanja"
 
-#: src/gmpv_application.c:385
+#: src/gmpv_application.c:423
 msgid "Enqueue"
 msgstr "Naniži"
 
-#: src/gmpv_application.c:393
+#: src/gmpv_application.c:431
 msgid "Create a new window"
 msgstr ""
 
-#: src/gmpv_application.c:401
+#: src/gmpv_application.c:439
 msgid "Don't connect to an already-running instance"
 msgstr "Ne povezuj na već pokrenut primerak"
 
@@ -209,21 +213,21 @@ msgstr "Prethodno Poglavlje"
 msgid "Toggle Fullscreen"
 msgstr "Ceo Ekran"
 
-#: src/gmpv_controller.c:690 src/gmpv_view.c:1400
+#: src/gmpv_controller.c:715 src/gmpv_view.c:1400
 msgid "Error"
 msgstr "Greška"
 
-#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:126
-#: src/gmpv_preferences_dialog.c:375
+#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:127
+#: src/gmpv_preferences_dialog.c:378
 msgid "_Cancel"
 msgstr "_Otkaži"
 
 #: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
-#: src/gmpv_open_location_dialog.c:128
+#: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Otvori"
 
-#: src/gmpv_file_chooser.c:135 src/gmpv_plugins_manager.c:149
+#: src/gmpv_file_chooser.c:135 src/gmpv_plugins_manager.c:148
 msgid "All Files"
 msgstr "Sve Datoteke"
 
@@ -273,7 +277,7 @@ msgstr "Otvori_Lokaciju"
 msgid "_Save Playlist"
 msgstr "_Sačuvaj Listu Puštanja"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
 msgid "_Quit"
 msgstr "_Napusti"
 
@@ -281,7 +285,7 @@ msgstr "_Napusti"
 msgid "_Edit"
 msgstr "_Uredi"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:332
+#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
 msgid "_Preferences"
 msgstr "_Postavke"
 
@@ -329,61 +333,65 @@ msgstr "_Upola Veličine"
 msgid "_Help"
 msgstr "_Pomoć"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
 msgid "_Keyboard Shortcuts"
 msgstr "_Prečice Tastature"
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:335
+#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
 msgid "_About"
 msgstr "_O Nama"
 
-#: src/gmpv_mpv.c:268
-msgid "Failed to apply one or more MPV options."
-msgstr "Neuspešna primena jedne ili više MPV opcija."
+#: src/gmpv_menu.c:332
+msgid "_New Window"
+msgstr ""
 
-#: src/gmpv_mpv.c:557
+#: src/gmpv_mpv.c:216
 #, fuzzy, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Reprodukcija je nepravilno okončana. Razlog: %s."
 
-#: src/gmpv_open_location_dialog.c:122
+#: src/gmpv_open_location_dialog.c:123
 msgid "Location:"
 msgstr "Lokacija:"
 
-#: src/gmpv_playlist_widget.c:532
+#: src/gmpv_player.c:493
+msgid "Failed to apply one or more MPV options."
+msgstr "Neuspešna primena jedne ili više MPV opcija."
+
+#: src/gmpv_playlist_widget.c:533
 msgid "_Add…"
 msgstr "_Dodaj..."
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:537
 msgid "Add _Location…"
 msgstr "Dodaj_Lokaciju..."
 
-#: src/gmpv_playlist_widget.c:538
+#: src/gmpv_playlist_widget.c:539
 msgid "_Shuffle"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:539
+#: src/gmpv_playlist_widget.c:540
 msgid "L_oop"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:653
+#: src/gmpv_playlist_widget.c:654
 msgid "Playlist"
 msgstr "Lista Puštanja"
 
-#: src/gmpv_plugins_manager.c:142 src/gmpv_plugins_manager.c:373
+#: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:372
 msgid "Add Lua Script"
 msgstr "Dodaj Lua Skriptu"
 
-#: src/gmpv_plugins_manager.c:154 src/gmpv_preferences_dialog.c:372
+#: src/gmpv_plugins_manager.c:153 src/gmpv_preferences_dialog.c:375
 msgid "Lua Scripts"
 msgstr "Lua Skripte"
 
-#: src/gmpv_plugins_manager.c:300
+#: src/gmpv_plugins_manager.c:299
 #, fuzzy, fuzzy, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Neuspešno kopiranje datoteke iz '%s' u '%s'. Razlog: %s"
 
-#: src/gmpv_plugins_manager.c:349
+#: src/gmpv_plugins_manager.c:348
 msgid "No Lua script found"
 msgstr "Lua skripta nije nađena"
 
@@ -450,27 +458,35 @@ msgstr "MPV konfiguraciona datoteka unosa:"
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Ostalo</b>"
 
+#: src/gmpv_preferences_dialog.c:326
+msgid "Always open new window"
+msgstr ""
+
 #: src/gmpv_preferences_dialog.c:329
-msgid "Enable MPRIS support"
+msgid "Prefetch metadata"
 msgstr ""
 
 #: src/gmpv_preferences_dialog.c:332
-msgid "Enable media keys support"
+msgid "Enable MPRIS support"
 msgstr ""
 
 #: src/gmpv_preferences_dialog.c:335
+msgid "Enable media keys support"
+msgstr ""
+
+#: src/gmpv_preferences_dialog.c:338
 msgid "Extra MPV options:"
 msgstr "Dodatne MPV opcije:"
 
-#: src/gmpv_preferences_dialog.c:368
+#: src/gmpv_preferences_dialog.c:371
 msgid "General"
 msgstr "Opšte"
 
-#: src/gmpv_preferences_dialog.c:377
+#: src/gmpv_preferences_dialog.c:380
 msgid "_Save"
 msgstr "_Sačuvaj"
 
-#: src/gmpv_preferences_dialog.c:394
+#: src/gmpv_preferences_dialog.c:397
 msgid "Preferences"
 msgstr "Postavke"
 
