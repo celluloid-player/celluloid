@@ -31,6 +31,16 @@ dist-hook:
 		exit 1; \
 	fi
 
+# Test building with Meson
+distcheck-hook:
+	mkdir	$(PACKAGE)-$(VERSION)/_build/meson \
+		$(PACKAGE)-$(VERSION)/_inst/meson && \
+	cd $(PACKAGE)-$(VERSION) && \
+	meson	_build/meson \
+		--prefix $(abs_top_srcdir)/$(PACKAGE)-$(VERSION)/_inst/meson && \
+	ninja -C _build/meson install && \
+	rm -rf _build/meson _inst/meson
+
 install-data-hook:
 	$(UPDATE_DESKTOP)
 	$(UPDATE_ICON)
