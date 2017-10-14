@@ -350,8 +350,10 @@ static void drag_data_received_handler(	GtkWidget *widget,
 					gpointer data)
 {
 	GmpvPlaylistWidget *wgt = data;
-	gchar *type = gdk_atom_name(gtk_selection_data_get_target(sel_data));
 	gboolean reorder = (widget == gtk_drag_get_source_widget(context));
+#ifndef G_DISABLE_ASSERT /* Only used in an assertion below */
+	gchar *type = gdk_atom_name(gtk_selection_data_get_target(sel_data));
+#endif
 
 	if(reorder)
 	{

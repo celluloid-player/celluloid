@@ -113,6 +113,7 @@ static void *get_proc_address(void *fn_ctx, const gchar *name)
 		return wglGetProcAddress(name);
 #endif
 	g_assert_not_reached();
+	return NULL;
 }
 
 static void set_property(	GObject *object,
