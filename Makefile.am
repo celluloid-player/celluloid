@@ -11,6 +11,26 @@ UPDATE_ICON = gtk-update-icon-cache -q $(datadir)/icons/hicolor/ || :
 TAR_OPTIONS = --owner=0 --group=0
 export TAR_OPTIONS
 
+# Extract version numbers in appdata XML and the main meson build file
+APPDATA_VERSION = $(shell	xmllint	$(top_srcdir)/data/io.github.GnomeMpv.appdata.xml.in \
+					--xpath /component/releases/release/@version | \
+				sed 's/version="\([^s]\+\)"/\1/g;s/ /\n/g' | \
+				sort -rn | \
+				head -1)
+MESON_VERSION = $(shell $(AWK)	-F "'" \
+				'/\yversion:/{print $$2}' \
+				$(top_srcdir)/meson.build)
+
+# Abort if the version numbers are not the same
+dist-hook:
+	if [	"$(APPDATA_VERSION)" != "$(VERSION)" -o \
+		"$(MESON_VERSION)" != "$(VERSION)" ]; \
+	then \
+		echo	"Version numbers in appdata XML, meson.build, and" \
+			"configure.ac do not match" 1>&2; \
+		exit 1; \
+	fi
+
 install-data-hook:
 	$(UPDATE_DESKTOP)
 	$(UPDATE_ICON)
