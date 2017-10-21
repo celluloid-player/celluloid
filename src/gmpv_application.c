@@ -289,18 +289,17 @@ static gint command_line_handler(	GApplication *gapp,
 				(cli, argv[i+1]);
 	}
 
-	/* If always-open-new-window is set, only activate the new-window action
-	 * if there are no files to be opened. If there are files,
-	 * open_handler() will activate the action by itself. This is necessary
-	 * because when opening files from file managers, files to be opened may
-	 * be sent in the form of DBus message, bypassing this function
-	 * entirely.
+	/* Only activate the new-window action or emit the activate signal if
+	 * there are no files to be opened. If there are files, open_handler()
+	 * will activate the action by itself. This is necessary because when
+	 * opening files from file managers, files to be opened may be sent in
+	 * the form of DBus message, bypassing this function entirely.
 	 */
 	if(app->new_window || (n_files == 0 && always_open_new_window))
 	{
 		activate_action_string(G_ACTION_MAP(gapp), "new-window");
 	}
-	else if(n_files == 0 || !app->controllers)
+	else if(n_files == 0 && !app->controllers)
 	{
 		g_application_activate(gapp);
 	}
