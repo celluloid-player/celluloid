@@ -156,9 +156,9 @@ static void create_dirs()
 	gchar *scripts_dir = get_scripts_dir_path();
 	gchar *watch_dir = get_watch_dir_path();
 
-	g_mkdir_with_parents(config_dir, 0600);
-	g_mkdir_with_parents(scripts_dir, 0700);
-	g_mkdir_with_parents(watch_dir, 0600);
+	g_mkdir_with_parents(config_dir, 0755);
+	g_mkdir_with_parents(scripts_dir, 0755);
+	g_mkdir_with_parents(watch_dir, 0755);
 
 	g_free(config_dir);
 	g_free(scripts_dir);
