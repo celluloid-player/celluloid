@@ -433,7 +433,7 @@ static void gmpv_application_init(GmpvApplication *app)
 		(	G_APPLICATION(app),
 			"no-existing-session",
 			'\0',
-			G_OPTION_FLAG_NONE,
+			G_OPTION_FLAG_HIDDEN,
 			G_OPTION_ARG_NONE,
 			_("Don't connect to an already-running instance"),
 			NULL );
