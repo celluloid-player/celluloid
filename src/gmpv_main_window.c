@@ -412,24 +412,8 @@ void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 
 		if(!gmpv_main_window_get_csd_enabled(wnd))
 		{
-			GtkApplication *app;
-			GMenu *menu;
-
-			app = gtk_window_get_application(GTK_WINDOW(wnd));
-			menu = G_MENU(gtk_application_get_menubar(app));
-
-			/* gtk_application_window_set_show_menubar() cannot be
-			 * used here since it will cause assertion failure when
-			 * opengl-cb is used.
-			 */
-			if(fullscreen)
-			{
-				g_menu_remove_all(menu);
-			}
-			else
-			{
-				gmpv_menu_build_full(menu, wnd->track_list);
-			}
+			gtk_application_window_set_show_menubar
+				(GTK_APPLICATION_WINDOW(wnd), !fullscreen);
 		}
 
 		gmpv_video_area_set_fullscreen_state(vid_area, fullscreen);
