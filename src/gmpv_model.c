@@ -41,6 +41,7 @@ enum
 	PROP_IDLE_ACTIVE,
 	PROP_FULLSCREEN,
 	PROP_PAUSE,
+	PROP_LOOP_FILE,
 	PROP_LOOP_PLAYLIST,
 	PROP_DURATION,
 	PROP_MEDIA_TITLE,
@@ -69,6 +70,7 @@ struct _GmpvModel
 	gboolean idle_active;
 	gboolean fullscreen;
 	gboolean pause;
+	gchar *loop_file;
 	gchar *loop_playlist;
 	gdouble duration;
 	gchar *media_title;
@@ -252,6 +254,10 @@ static void set_property(	GObject *object,
 		self->pause = g_value_get_boolean(value);
 		break;
 
+		case PROP_LOOP_FILE:
+		self->loop_file = g_value_dup_string(value);
+		break;
+
 		case PROP_LOOP_PLAYLIST:
 		self->loop_playlist = g_value_dup_string(value);
 		break;
@@ -354,6 +360,10 @@ static void get_property(	GObject *object,
 		g_value_set_boolean(value, self->pause);
 		break;
 
+		case PROP_LOOP_FILE:
+		g_value_set_string(value, self->loop_file);
+		break;
+
 		case PROP_LOOP_PLAYLIST:
 		g_value_set_string(value, self->loop_playlist);
 		break;
@@ -410,6 +420,7 @@ static void finalize(GObject *object)
 	g_free(model->aid);
 	g_free(model->vid);
 	g_free(model->sid);
+	g_free(model->loop_file);
 	g_free(model->loop_playlist);
 	g_free(model->media_title);
 
@@ -459,6 +470,13 @@ static void set_mpv_property(	GObject *object,
 					"pause",
 					MPV_FORMAT_FLAG,
 					&self->pause );
+		break;
+
+		case PROP_LOOP_FILE:
+		gmpv_mpv_set_property(	mpv,
+					"loop-file",
+					MPV_FORMAT_STRING,
+					&self->loop_file );
 		break;
 
 		case PROP_LOOP_PLAYLIST:
@@ -685,6 +703,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			{"idle-active", PROP_IDLE_ACTIVE, G_TYPE_BOOLEAN},
 			{"fullscreen", PROP_FULLSCREEN, G_TYPE_BOOLEAN},
 			{"pause", PROP_PAUSE, G_TYPE_BOOLEAN},
+			{"loop-file", PROP_LOOP_FILE, G_TYPE_STRING},
 			{"loop-playlist", PROP_LOOP_PLAYLIST, G_TYPE_STRING},
 			{"duration", PROP_DURATION, G_TYPE_DOUBLE},
 			{"media-title", PROP_MEDIA_TITLE, G_TYPE_STRING},
@@ -850,6 +869,7 @@ static void gmpv_model_init(GmpvModel *model)
 	model->idle_active = FALSE;
 	model->fullscreen = FALSE;
 	model->pause = TRUE;
+	model->loop_file = NULL;
 	model->loop_playlist = NULL;
 	model->duration = 0.0;
 	model->media_title = NULL;

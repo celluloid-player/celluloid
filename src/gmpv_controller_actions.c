@@ -197,7 +197,17 @@ static void bind_properties(GmpvController *controller)
 					NULL );
 
 	action =	g_action_map_lookup_action
-			(G_ACTION_MAP(window), "toggle-loop");
+			(G_ACTION_MAP(window), "toggle-loop-file");
+	g_object_bind_property_full(	controller->model, "loop-file",
+					action, "state",
+					G_BINDING_BIDIRECTIONAL,
+					loop_to_state,
+					state_to_loop,
+					NULL,
+					NULL );
+
+	action =	g_action_map_lookup_action
+			(G_ACTION_MAP(window), "toggle-loop-playlist");
 	g_object_bind_property_full(	controller->model, "loop-playlist",
 					action, "state",
 					G_BINDING_BIDIRECTIONAL,
@@ -424,7 +434,10 @@ void gmpv_controller_action_register_actions(GmpvController *controller)
 			{.name = "show-open-location-dialog",
 			.activate = show_open_location_dialog_handler,
 			.parameter_type = "b"},
-			{.name = "toggle-loop",
+			{.name = "toggle-loop-file",
+			.state = "false",
+			.change_state = toggle_loop_handler},
+			{.name = "toggle-loop-playlist",
 			.state = "false",
 			.change_state = toggle_loop_handler},
 			{.name = "show-shortcuts-dialog",
