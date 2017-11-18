@@ -7,14 +7,13 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2015. #zanata
 # Mingye Wang <arthur2e5@aosc.xyz>, 2016. #zanata
 # Huang Jiayao <huangjiayao_1992@163.com>, 2017. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 21:24+0800\n"
-"PO-Revision-Date: 2017-08-02 12:11-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2017-10-18 01:20-0400\n"
+"Last-Translator: Huang Jiayao <huangjiayao_1992@163.com>\n"
 "Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
 "Language: zh-CN\n"
 "MIME-Version: 1.0\n"
@@ -91,20 +90,20 @@ msgstr "是否在窗口模式下启用浮动控制"
 
 #: data/io.github.GnomeMpv.gschema.xml:40
 msgid "Whether or not to create new windows when there is already an instance"
-msgstr ""
+msgstr "当已经有一个实例在运行时，是否允许创建新窗口"
 
 #: data/io.github.GnomeMpv.gschema.xml:76
 msgid "Whether or not to enable MPRIS support"
-msgstr ""
+msgstr "是否启用 MPRIS 支持"
 
 #: data/io.github.GnomeMpv.gschema.xml:82
 msgid ""
 "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
-msgstr ""
+msgstr "是否启用基于 GNOME-Setting-Daemon 的媒体键支持"
 
 #: data/io.github.GnomeMpv.gschema.xml:88
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
-msgstr ""
+msgstr "是否预先读取非当前播放列表项的元数据"
 
 #: data/io.github.GnomeMpv.gschema.xml:123
 msgid "Show or not show the controls"
@@ -119,7 +118,7 @@ msgstr "GNOME MPV"
 #: data/io.github.GnomeMpv.appdata.xml.in:8
 #: data/io.github.GnomeMpv.desktop.in:5
 msgid "GTK+ frontend for mpv"
-msgstr "MPV 的 GTK 前端程序"
+msgstr "MPV 的 GTK+ 前端程序"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:12
 msgid ""
@@ -147,7 +146,7 @@ msgstr "正在载入外部 mpv 配置文件"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:23
 msgid "MPRIS2 D-Bus interface"
-msgstr "MPRIS2 D-Bus 界面"
+msgstr "MPRIS2 D-Bus 接口"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:36
 msgid "The main window with CSD disabled"
@@ -160,11 +159,11 @@ msgstr "打开了播放列表的主窗口"
 #. Translators: This is an icon name, don't translate!
 #: data/io.github.GnomeMpv.desktop.in:8
 msgid "gnome-mpv"
-msgstr ""
+msgstr "gnome-mpv"
 
 #: data/io.github.GnomeMpv.desktop.in:19
 msgid "New Window"
-msgstr ""
+msgstr "新建窗口"
 
 #: src/gmpv_application.c:370
 msgid "Playing"
@@ -180,7 +179,7 @@ msgstr "加入队列"
 
 #: src/gmpv_application.c:431
 msgid "Create a new window"
-msgstr ""
+msgstr "创建一个新窗口"
 
 #: src/gmpv_application.c:439
 msgid "Don't connect to an already-running instance"
@@ -238,23 +237,23 @@ msgstr "所有文件"
 
 #: src/gmpv_file_chooser.c:143
 msgid "Media Files"
-msgstr ""
+msgstr "媒体文件"
 
 #: src/gmpv_file_chooser.c:154
 msgid "Audio Files"
-msgstr ""
+msgstr "音频文件"
 
 #: src/gmpv_file_chooser.c:162
 msgid "Video Files"
-msgstr ""
+msgstr "视频文件"
 
 #: src/gmpv_file_chooser.c:170
 msgid "Image Files"
-msgstr ""
+msgstr "图像文件"
 
 #: src/gmpv_file_chooser.c:180
 msgid "Subtitle Files"
-msgstr ""
+msgstr "字幕文件"
 
 #: src/gmpv_menu.c:102
 msgid "None"
@@ -304,7 +303,7 @@ msgstr "音轨(_A)"
 
 #: src/gmpv_menu.c:252 src/gmpv_menu.c:300
 msgid "S_ubtitle Track"
-msgstr "字幕轨道(_U)"
+msgstr "字幕轨道(_u)"
 
 #: src/gmpv_menu.c:253
 msgid "_View"
@@ -336,7 +335,7 @@ msgstr "一半尺寸(_H)"
 
 #: src/gmpv_menu.c:260
 msgid "_Help"
-msgstr "帮助(_F)"
+msgstr "帮助(_H)"
 
 #: src/gmpv_menu.c:261 src/gmpv_menu.c:336
 msgid "_Keyboard Shortcuts"
@@ -348,7 +347,7 @@ msgstr "关于(_A)"
 
 #: src/gmpv_menu.c:332
 msgid "_New Window"
-msgstr ""
+msgstr "新建窗口(_N)"
 
 #: src/gmpv_mpv.c:216
 #, fuzzy, c-format
@@ -373,11 +372,11 @@ msgstr "添加位置(_L)"
 
 #: src/gmpv_playlist_widget.c:539
 msgid "_Shuffle"
-msgstr ""
+msgstr "随机播放(_S)"
 
 #: src/gmpv_playlist_widget.c:540
 msgid "L_oop"
-msgstr ""
+msgstr "循环播放(_o)"
 
 #: src/gmpv_playlist_widget.c:654
 msgid "Playlist"
@@ -464,19 +463,19 @@ msgstr "<b>杂项</b>"
 
 #: src/gmpv_preferences_dialog.c:326
 msgid "Always open new window"
-msgstr ""
+msgstr "总是打开新窗口"
 
 #: src/gmpv_preferences_dialog.c:329
 msgid "Prefetch metadata"
-msgstr ""
+msgstr "预先读取元数据"
 
 #: src/gmpv_preferences_dialog.c:332
 msgid "Enable MPRIS support"
-msgstr ""
+msgstr "启用 MPRIS 支持"
 
 #: src/gmpv_preferences_dialog.c:335
 msgid "Enable media keys support"
-msgstr ""
+msgstr "启用媒体键支持"
 
 #: src/gmpv_preferences_dialog.c:338
 msgid "Extra MPV options:"
@@ -504,11 +503,11 @@ msgstr "打开位置"
 
 #: src/gmpv_shortcuts_window.c:58
 msgid "Add file to playlist"
-msgstr ""
+msgstr "添加文件到播放列表"
 
 #: src/gmpv_shortcuts_window.c:59
 msgid "Add location to playlist"
-msgstr ""
+msgstr "添加位置到播放列表"
 
 #: src/gmpv_shortcuts_window.c:60
 msgid "Show preferences dialog"
@@ -728,7 +727,7 @@ msgstr "字幕"
 
 #: src/gmpv_shortcuts_window.c:127
 msgid "Playback"
-msgstr "音频"
+msgstr "回放"
 
 #: src/gmpv_shortcuts_window.c:128
 msgid "Seeking"
@@ -738,7 +737,7 @@ msgstr "跳转"
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
-msgstr ""
+msgstr "启用或禁用客户端装饰（CSD），需要重启播放器以生效。"
 
 #: src/gmpv_view.c:1280
 msgid "Add File to Playlist"
@@ -758,11 +757,11 @@ msgstr "打开位置"
 
 #: src/gmpv_view.c:1330
 msgid "Load Audio Track…"
-msgstr ""
+msgstr "加载音频轨道..."
 
 #: src/gmpv_view.c:1349
 msgid "Load Subtitle Track…"
-msgstr ""
+msgstr "加载字幕轨道..."
 
 #: src/gmpv_view.c:1374
 msgid "Save Playlist"

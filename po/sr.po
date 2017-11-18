@@ -1,11 +1,12 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
+# leipero <lei.pero@gmail.com>, 2017. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.12\n"
 "Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
 "POT-Creation-Date: 2017-07-12 12:38+0700\n"
-"PO-Revision-Date: 2017-08-02 12:11-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2017-10-18 12:13-0400\n"
+"Last-Translator: leipero <lei.pero@gmail.com>\n"
 "Language-Team: Serbian (Cyrillic)\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -84,20 +85,21 @@ msgstr "Користи пливајуће контроле у режиму пр�
 
 #: data/io.github.GnomeMpv.gschema.xml:40
 msgid "Whether or not to create new windows when there is already an instance"
-msgstr ""
+msgstr "Да ли да креира нови прозор када је примерак већ присутан"
 
 #: data/io.github.GnomeMpv.gschema.xml:76
 msgid "Whether or not to enable MPRIS support"
-msgstr ""
+msgstr "Да ли да омогући подршку за MPRIS"
 
 #: data/io.github.GnomeMpv.gschema.xml:82
 msgid ""
 "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
+"Да ли да омогући подршку за мултимедијалне тастере из Гномових подешавања"
 
 #: data/io.github.GnomeMpv.gschema.xml:88
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
-msgstr ""
+msgstr "Да ли да омогући припрему метаподатака за спољне уносе листе"
 
 #: data/io.github.GnomeMpv.gschema.xml:123
 msgid "Show or not show the controls"
@@ -159,7 +161,7 @@ msgstr ""
 
 #: data/io.github.GnomeMpv.desktop.in:19
 msgid "New Window"
-msgstr ""
+msgstr "Нови прозор"
 
 #: src/gmpv_application.c:370
 msgid "Playing"
@@ -175,7 +177,7 @@ msgstr "Нанижи"
 
 #: src/gmpv_application.c:431
 msgid "Create a new window"
-msgstr ""
+msgstr "Направи нови прозор"
 
 #: src/gmpv_application.c:439
 msgid "Don't connect to an already-running instance"
@@ -233,23 +235,23 @@ msgstr "Све Датотеке"
 
 #: src/gmpv_file_chooser.c:143
 msgid "Media Files"
-msgstr ""
+msgstr "Медијски записи"
 
 #: src/gmpv_file_chooser.c:154
 msgid "Audio Files"
-msgstr ""
+msgstr "Звучни записи"
 
 #: src/gmpv_file_chooser.c:162
 msgid "Video Files"
-msgstr ""
+msgstr "Видео записи"
 
 #: src/gmpv_file_chooser.c:170
 msgid "Image Files"
-msgstr ""
+msgstr "Слике"
 
 #: src/gmpv_file_chooser.c:180
 msgid "Subtitle Files"
-msgstr ""
+msgstr "Преводи"
 
 #: src/gmpv_menu.c:102
 msgid "None"
@@ -343,10 +345,10 @@ msgstr "_О Нама"
 
 #: src/gmpv_menu.c:332
 msgid "_New Window"
-msgstr ""
+msgstr "_Нови прозор"
 
 #: src/gmpv_mpv.c:216
-#, fuzzy, fuzzy, fuzzy, c-format
+#, fuzzy, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Репродукција је неправилно окончана. Разлог: %s."
 
@@ -368,11 +370,11 @@ msgstr "Додај_Локацију..."
 
 #: src/gmpv_playlist_widget.c:539
 msgid "_Shuffle"
-msgstr ""
+msgstr "_Насумично"
 
 #: src/gmpv_playlist_widget.c:540
 msgid "L_oop"
-msgstr ""
+msgstr "_Понављај"
 
 #: src/gmpv_playlist_widget.c:654
 msgid "Playlist"
@@ -387,7 +389,7 @@ msgid "Lua Scripts"
 msgstr "Lua Скрипте"
 
 #: src/gmpv_plugins_manager.c:299
-#, fuzzy, fuzzy, fuzzy, c-format
+#, fuzzy, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Неуспешно копирање датотеке из '%s' у '%s'. Разлог: %s"
 
@@ -406,7 +408,7 @@ msgstr ""
 "Сигурно желите да уклоните ову скрипту? Овај поступак не може бити опозван."
 
 #: src/gmpv_plugins_manager_item.c:184
-#, fuzzy, fuzzy, fuzzy, c-format
+#, fuzzy, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Неуспешно брисање датотеке '%s'. Разлог: %s"
 
@@ -460,19 +462,19 @@ msgstr "<b>Остало</b>"
 
 #: src/gmpv_preferences_dialog.c:326
 msgid "Always open new window"
-msgstr ""
+msgstr "Увек отвори нови прозор"
 
 #: src/gmpv_preferences_dialog.c:329
 msgid "Prefetch metadata"
-msgstr ""
+msgstr "Припреми метаподатке"
 
 #: src/gmpv_preferences_dialog.c:332
 msgid "Enable MPRIS support"
-msgstr ""
+msgstr "Омогући подршку за MPRIS"
 
 #: src/gmpv_preferences_dialog.c:335
 msgid "Enable media keys support"
-msgstr ""
+msgstr "Омогући подршку за мултимедијалне тастере"
 
 #: src/gmpv_preferences_dialog.c:338
 msgid "Extra MPV options:"
@@ -500,11 +502,11 @@ msgstr "Отвори локацију"
 
 #: src/gmpv_shortcuts_window.c:58
 msgid "Add file to playlist"
-msgstr ""
+msgstr "Додај датотеку у листу"
 
 #: src/gmpv_shortcuts_window.c:59
 msgid "Add location to playlist"
-msgstr ""
+msgstr "Додај место у листу"
 
 #: src/gmpv_shortcuts_window.c:60
 msgid "Show preferences dialog"
@@ -655,7 +657,6 @@ msgid "Cycle through video tracks"
 msgstr "Кружи кроз видео снимке"
 
 #: src/gmpv_shortcuts_window.c:108
-#, fuzzy
 msgid "Decrease/increase pan-and-scan range"
 msgstr "Повећај/умањи опсег скенирања односа"
 
@@ -736,6 +737,8 @@ msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
+"Потребно је поновно покретање да би измена подешавања украса клијента имала "
+"ефекат."
 
 #: src/gmpv_view.c:1280
 msgid "Add File to Playlist"
@@ -755,11 +758,11 @@ msgstr "Отвори Локацију"
 
 #: src/gmpv_view.c:1330
 msgid "Load Audio Track…"
-msgstr ""
+msgstr "Учитај звучни запис…"
 
 #: src/gmpv_view.c:1349
 msgid "Load Subtitle Track…"
-msgstr ""
+msgstr "Учитај превод…"
 
 #: src/gmpv_view.c:1374
 msgid "Save Playlist"
