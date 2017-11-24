@@ -394,7 +394,7 @@ static void connect_signals(GmpvController *controller)
 				controller->view, "track-list",
 				G_BINDING_DEFAULT );
 	g_object_bind_property_full(	controller->model, "chapters",
-					controller->view, "chapters-enabled",
+					controller->view, "skip-enabled",
 					G_BINDING_DEFAULT,
 					is_more_than_one,
 					NULL,

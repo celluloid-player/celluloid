@@ -295,8 +295,8 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	g_object_bind_property(	wnd->control_box, "pause",
 				vid_area_control_box, "pause",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	wnd->control_box, "chapters-enabled",
-				vid_area_control_box, "chapters-enabled",
+	g_object_bind_property(	wnd->control_box, "skip-enabled",
+				vid_area_control_box, "skip-enabled",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	wnd->control_box, "time-position",
 				vid_area_control_box, "time-position",

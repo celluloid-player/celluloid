@@ -41,7 +41,7 @@ enum
 	PROP_DURATION,
 	PROP_PLAYLIST_POS,
 	PROP_TRACK_LIST,
-	PROP_CHAPTERS_ENABLED,
+	PROP_SKIP_ENABLED,
 	PROP_FULLSCREEN,
 	N_PROPERTIES
 };
@@ -59,7 +59,7 @@ struct _GmpvView
 	gdouble duration;
 	gint playlist_pos;
 	GPtrArray *track_list;
-	gboolean chapters_enabled;
+	gboolean skip_enabled;
 	gboolean control_box_enabled;
 	gboolean fullscreen;
 };
@@ -186,7 +186,7 @@ static void constructed(GObject *object)
 
 	g_object_set(	control_box,
 			"show-fullscreen-button", !csd_enable,
-			"chapters-enabled", FALSE,
+			"skip-enabled", FALSE,
 			NULL );
 	g_object_set(	gtk_settings_get_default(),
 			"gtk-application-prefer-dark-theme",
@@ -204,8 +204,8 @@ static void constructed(GObject *object)
 	g_object_bind_property(	view, "pause",
 				control_box, "pause",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	view, "chapters-enabled",
-				control_box, "chapters-enabled",
+	g_object_bind_property(	view, "skip-enabled",
+				control_box, "skip-enabled",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	view, "volume",
 				control_box, "volume",
@@ -357,8 +357,8 @@ static void set_property(	GObject *object,
 		gmpv_main_window_update_track_list(self->wnd, self->track_list);
 		break;
 
-		case PROP_CHAPTERS_ENABLED:
-		self->chapters_enabled = g_value_get_boolean(value);
+		case PROP_SKIP_ENABLED:
+		self->skip_enabled = g_value_get_boolean(value);
 		break;
 
 		case PROP_FULLSCREEN:
@@ -413,8 +413,8 @@ static void get_property(	GObject *object,
 		g_value_set_pointer(value, self->track_list);
 		break;
 
-		case PROP_CHAPTERS_ENABLED:
-		g_value_set_boolean(value, self->chapters_enabled);
+		case PROP_SKIP_ENABLED:
+		g_value_set_boolean(value, self->skip_enabled);
 		break;
 
 		case PROP_FULLSCREEN:
@@ -994,12 +994,12 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 	g_object_class_install_property(object_class, PROP_TRACK_LIST, pspec);
 
 	pspec = g_param_spec_boolean
-		(	"chapters-enabled",
-			"Chapters enabled",
-			"Whether or not the chapter controls are enabled",
+		(	"skip-enabled",
+			"Skip enabled",
+			"Whether or not skip buttons are shown",
 			FALSE,
 			G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_CHAPTERS_ENABLED, pspec);
+	g_object_class_install_property(object_class, PROP_SKIP_ENABLED, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"fullscreen",
@@ -1231,7 +1231,7 @@ static void gmpv_view_init(GmpvView *view)
 	view->volume = 0.0;
 	view->duration = 0.0;
 	view->playlist_pos = 0;
-	view->chapters_enabled = FALSE;
+	view->skip_enabled = FALSE;
 	view->fullscreen = FALSE;
 }
 
