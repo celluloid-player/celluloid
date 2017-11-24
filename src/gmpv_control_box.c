@@ -27,7 +27,7 @@
 enum
 {
 	PROP_0,
-	PROP_CHAPTERS_ENABLED,
+	PROP_SKIP_ENABLED,
 	PROP_DURATION,
 	PROP_ENABLED,
 	PROP_PAUSE,
@@ -49,7 +49,7 @@ struct _GmpvControlBox
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
-	gboolean chapters_enabled;
+	gboolean skip_enabled;
 	gdouble duration;
 	gboolean enabled;
 	gboolean pause;
@@ -87,7 +87,7 @@ static void volume_changed_handler(	GtkVolumeButton *button,
 					gpointer data );
 static void simple_signal_handler(GtkWidget *widget, gpointer data);
 static void set_enabled(GmpvControlBox *box, gboolean enabled);
-static void set_chapter_enabled(GmpvControlBox *box, gboolean enabled);
+static void set_skip_enabled(GmpvControlBox *box, gboolean enabled);
 static void set_playing_state(GmpvControlBox *box, gboolean playing);
 static void init_button(	GtkWidget *button,
 				const gchar *icon_name,
@@ -104,9 +104,9 @@ static void set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_CHAPTERS_ENABLED:
-		self->chapters_enabled = g_value_get_boolean(value);
-		set_chapter_enabled(self, self->chapters_enabled);
+		case PROP_SKIP_ENABLED:
+		self->skip_enabled = g_value_get_boolean(value);
+		set_skip_enabled(self, self->skip_enabled);
 		break;
 
 		case PROP_DURATION:
@@ -156,8 +156,8 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_CHAPTERS_ENABLED:
-		g_value_set_boolean(value, self->chapters_enabled);
+		case PROP_SKIP_ENABLED:
+		g_value_set_boolean(value, self->skip_enabled);
 		break;
 
 		case PROP_DURATION:
@@ -266,7 +266,7 @@ static void set_enabled(GmpvControlBox *box, gboolean enabled)
 	gtk_widget_set_sensitive(box->next_button, enabled);
 }
 
-static void set_chapter_enabled(GmpvControlBox *box, gboolean enabled)
+static void set_skip_enabled(GmpvControlBox *box, gboolean enabled)
 {
 	if(enabled)
 	{
@@ -316,12 +316,12 @@ static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 	object_class->get_property = get_property;
 
 	pspec = g_param_spec_boolean
-		(	"chapters-enabled",
-			"Chapters enabled",
-			"Whether the chapter controls are enabled",
+		(	"skip-enabled",
+			"Skip enabled",
+			"Whether the skip buttons are shown",
 			FALSE,
 			G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_CHAPTERS_ENABLED, pspec);
+	g_object_class_install_property(object_class, PROP_SKIP_ENABLED, pspec);
 
 	pspec = g_param_spec_double
 		(	"duration",
@@ -420,7 +420,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->fullscreen_button = gtk_button_new();
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = gmpv_seek_bar_new();
-	box->chapters_enabled = FALSE;
+	box->skip_enabled = FALSE;
 	box->duration = 0.0;
 	box->enabled = TRUE;
 	box->pause = TRUE;
@@ -574,6 +574,6 @@ void gmpv_control_box_reset(GmpvControlBox *box)
 	gmpv_control_box_set_seek_bar_pos(box, 0);
 	gmpv_control_box_set_seek_bar_duration(box, 0);
 	set_playing_state(box, FALSE);
-	set_chapter_enabled(box, FALSE);
+	set_skip_enabled(box, FALSE);
 	gmpv_control_box_set_fullscreen_state(box, FALSE);
 }
