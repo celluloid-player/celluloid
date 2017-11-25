@@ -71,6 +71,8 @@ static void playlist_reordered_handler(	GmpvView *view,
 					gint src,
 					gint dst,
 					gpointer data );
+static void set_use_skip_button_for_playlist(	GmpvController *controller,
+						gboolean value);
 static void connect_signals(GmpvController *controller);
 static gboolean update_seek_bar(gpointer data);
 static gboolean is_more_than_one(	GBinding *binding,
@@ -184,6 +186,12 @@ static void set_property(	GObject *object,
 		self->idle = g_value_get_boolean(value);
 		break;
 
+		case PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST:
+		self->use_skip_buttons_for_playlist = g_value_get_boolean(value);
+		set_use_skip_button_for_playlist
+			(self, self->use_skip_buttons_for_playlist);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -209,6 +217,10 @@ static void get_property(	GObject *object,
 
 		case PROP_IDLE:
 		g_value_set_boolean(value, self->idle);
+		break;
+
+		case PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST:
+		g_value_set_boolean(value, self->use_skip_buttons_for_playlist);
 		break;
 
 		default:
@@ -370,6 +382,27 @@ static void playlist_reordered_handler(	GmpvView *view,
 	gmpv_model_move_playlist_entry(GMPV_CONTROLLER(data)->model, src, dst);
 }
 
+static void set_use_skip_button_for_playlist(	GmpvController *controller,
+						gboolean value )
+{
+	if(controller->skip_buttons_binding)
+	{
+		g_binding_unbind(controller->skip_buttons_binding);
+	}
+
+	controller->skip_buttons_binding
+		= g_object_bind_property_full
+			(	controller->model,
+				value?"playlist-count":"chapters",
+				controller->view,
+				"skip-enabled",
+				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE,
+				is_more_than_one,
+				NULL,
+				NULL,
+				NULL );
+}
+
 static void connect_signals(GmpvController *controller)
 {
 	g_object_bind_property(	controller->model, "core-idle",
@@ -393,13 +426,6 @@ static void connect_signals(GmpvController *controller)
 	g_object_bind_property(	controller->model, "track-list",
 				controller->view, "track-list",
 				G_BINDING_DEFAULT );
-	g_object_bind_property_full(	controller->model, "chapters",
-					controller->view, "skip-enabled",
-					G_BINDING_DEFAULT,
-					is_more_than_one,
-					NULL,
-					NULL,
-					NULL );
 
 	g_signal_connect(	controller->model,
 				"notify::ready",
@@ -778,12 +804,30 @@ static void rewind_button_handler(GtkButton *button, gpointer data)
 
 static void next_button_handler(GtkButton *button, gpointer data)
 {
-	gmpv_model_next_chapter(GMPV_CONTROLLER(data)->model);
+	GmpvController *controller = data;
+
+	if(controller->use_skip_buttons_for_playlist)
+	{
+		gmpv_model_next_playlist_entry(GMPV_CONTROLLER(data)->model);
+	}
+	else
+	{
+		gmpv_model_next_chapter(GMPV_CONTROLLER(data)->model);
+	}
 }
 
 static void previous_button_handler(GtkButton *button, gpointer data)
 {
-	gmpv_model_previous_chapter(GMPV_CONTROLLER(data)->model);
+	GmpvController *controller = data;
+
+	if(controller->use_skip_buttons_for_playlist)
+	{
+		gmpv_model_previous_playlist_entry(GMPV_CONTROLLER(data)->model);
+	}
+	else
+	{
+		gmpv_model_previous_chapter(GMPV_CONTROLLER(data)->model);
+	}
 }
 
 static void fullscreen_button_handler(GtkButton *button, gpointer data)
@@ -833,6 +877,14 @@ static void gmpv_controller_class_init(GmpvControllerClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_IDLE, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"use-skip-buttons-for-playlist",
+			"Use skip buttons for playlist",
+			"Whether or not to use the skip buttons to control the playlist",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST, pspec);
+
 	g_signal_new(	"shutdown",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -853,6 +905,7 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->idle = TRUE;
 	controller->target_playlist_pos = -1;
 	controller->update_seekbar_id = 0;
+	controller->skip_buttons_binding = NULL;
 	controller->settings = g_settings_new(CONFIG_ROOT);
 	controller->media_keys = NULL;
 	controller->mpris = NULL;

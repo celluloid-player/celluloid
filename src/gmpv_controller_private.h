@@ -33,6 +33,7 @@ enum
 	PROP_APP,
 	PROP_READY,
 	PROP_IDLE,
+	PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST,
 	N_PROPERTIES
 };
 
@@ -44,8 +45,10 @@ struct _GmpvController
 	GmpvView *view;
 	gboolean ready;
 	gboolean idle;
+	gboolean use_skip_buttons_for_playlist;
 	gint64 target_playlist_pos;
 	guint update_seekbar_id;
+	GBinding *skip_buttons_binding;
 	GSettings *settings;
 	GmpvMediaKeys *media_keys;
 	GmpvMpris *mpris;

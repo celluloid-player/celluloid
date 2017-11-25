@@ -137,6 +137,11 @@ static void initialize_gui(GmpvApplication *app)
 				app );
 
 	g_settings_bind(	settings,
+				"use-skip-buttons-for-playlist",
+				controller,
+				"use-skip-buttons-for-playlist",
+				G_SETTINGS_BIND_GET );
+	g_settings_bind(	settings,
 				"always-use-floating-controls",
 				gmpv_view_get_main_window(view),
 				"always-use-floating-controls",
