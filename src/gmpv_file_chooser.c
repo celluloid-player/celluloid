@@ -105,6 +105,7 @@ GmpvFileChooser *gmpv_file_chooser_new(	const gchar *title,
 	}
 
 	gmpv_file_chooser_set_modal(chooser, TRUE);
+	gtk_file_chooser_set_local_only(gtk_chooser, FALSE);
 	gtk_file_chooser_set_select_multiple(gtk_chooser, TRUE);
 	gtk_file_chooser_set_do_overwrite_confirmation(gtk_chooser, TRUE);
 
