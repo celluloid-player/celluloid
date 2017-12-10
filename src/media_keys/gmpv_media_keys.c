@@ -226,21 +226,35 @@ static void proxy_ready_handler(	GObject *source_object,
 					gpointer data )
 {
 	GmpvMediaKeys *self = data;
+	GError *error = NULL;
 
-	self->proxy = g_dbus_proxy_new_finish(res, NULL);
+	self->proxy = g_dbus_proxy_new_finish(res, &error);
 
-	g_signal_connect(	self->proxy,
-				"g-signal",
-				G_CALLBACK(g_signal_handler),
-				self );
-	g_dbus_proxy_call(	self->proxy,
-				"GrabMediaPlayerKeys",
-				g_variant_new("(su)", APP_ID, 0),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL,
-				NULL );
+	if(self->proxy)
+	{
+		g_signal_connect(	self->proxy,
+					"g-signal",
+					G_CALLBACK(g_signal_handler),
+					self );
+		g_dbus_proxy_call(	self->proxy,
+					"GrabMediaPlayerKeys",
+					g_variant_new("(su)", APP_ID, 0),
+					G_DBUS_CALL_FLAGS_NONE,
+					-1,
+					NULL,
+					NULL,
+					NULL );
+	}
+	else
+	{
+		g_error("Failed to create GDBus proxy for media keys");
+	}
+
+	if(error)
+	{
+		g_error("%s", error->message);
+		g_error_free(error);
+	}
 }
 
 static void compat_proxy_ready_handler(	GObject *source_object,
@@ -248,21 +262,35 @@ static void compat_proxy_ready_handler(	GObject *source_object,
 					gpointer data )
 {
 	GmpvMediaKeys *self = data;
+	GError *error = NULL;
 
-	self->compat_proxy = g_dbus_proxy_new_finish(res, NULL);
+	self->compat_proxy = g_dbus_proxy_new_finish(res, &error);
 
-	g_signal_connect(	self->proxy,
-				"g-signal",
-				G_CALLBACK(g_signal_handler),
-				self );
-	g_dbus_proxy_call(	self->compat_proxy,
-				"GrabMediaPlayerKeys",
-				g_variant_new("(su)", APP_ID, 0),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL,
-				NULL );
+	if(self->compat_proxy)
+	{
+		g_signal_connect(	self->compat_proxy,
+					"g-signal",
+					G_CALLBACK(g_signal_handler),
+					self );
+		g_dbus_proxy_call(	self->compat_proxy,
+					"GrabMediaPlayerKeys",
+					g_variant_new("(su)", APP_ID, 0),
+					G_DBUS_CALL_FLAGS_NONE,
+					-1,
+					NULL,
+					NULL,
+					NULL );
+	}
+	else
+	{
+		g_error("Failed to create compatibility GDBus proxy for media keys");
+	}
+
+	if(error)
+	{
+		g_error("%s", error->message);
+		g_error_free(error);
+	}
 }
 
 static void session_ready_handler(	GObject *source_object,
