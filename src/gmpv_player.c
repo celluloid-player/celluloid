@@ -374,6 +374,7 @@ static void observe_properties(GmpvMpv *mpv)
 	gmpv_mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
 	gmpv_mpv_observe_property(mpv, 0, "vo-configured", MPV_FORMAT_FLAG);
 	gmpv_mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_DOUBLE);
+	gmpv_mpv_observe_property(mpv, 0, "window-scale", MPV_FORMAT_DOUBLE);
 }
 
 static void apply_default_options(GmpvMpv *mpv)

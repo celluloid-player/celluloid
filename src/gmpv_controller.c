@@ -88,6 +88,9 @@ static void playlist_handler(		GObject *object,
 static void vid_handler(		GObject *object,
 					GParamSpec *pspec,
 					gpointer data);
+static void window_scale_handler(		GObject *object,
+						GParamSpec *pspec,
+						gpointer data);
 static void model_ready_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
@@ -444,6 +447,10 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(vid_handler),
 				controller );
 	g_signal_connect(	controller->model,
+				"notify::window-scale",
+				G_CALLBACK(window_scale_handler),
+				controller );
+	g_signal_connect(	controller->model,
 				"frame-ready",
 				G_CALLBACK(frame_ready_handler),
 				controller );
@@ -635,6 +642,16 @@ static void vid_handler(	GObject *object,
 	g_simple_action_set_enabled(G_SIMPLE_ACTION(action), vid > 0);
 
 	g_free(vid_str);
+}
+
+static void window_scale_handler(	GObject *object,
+					GParamSpec *pspec,
+					gpointer data )
+{
+	gdouble window_scale = 1.0;
+
+	g_object_get(object, "window-scale", &window_scale, NULL);
+	gmpv_controller_autofit(data, window_scale);
 }
 
 static void model_ready_handler(	GObject *object,

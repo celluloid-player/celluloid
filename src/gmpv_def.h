@@ -110,9 +110,6 @@
 		"LEFT no-osd seek -10",\
 		"UP no-osd seek 60",\
 		"DOWN no-osd seek -60",\
-		"Alt+0 script-message gmpv-action win.set-video-size(0.5)",\
-		"Alt+1 script-message gmpv-action win.set-video-size(1.0)",\
-		"Alt+2 script-message gmpv-action win.set-video-size(2.0)",\
 		"MOUSE_BTN0_DBL script-message gmpv-action win.toggle-fullscreen",\
 		"MOUSE_BTN3 add volume 2",\
 		"MOUSE_BTN4 add volume -2",\

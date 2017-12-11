@@ -404,9 +404,10 @@ static void set_video_size_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data )
 {
+	GmpvController *controller = data;
 	gdouble value = g_variant_get_double(param);
 
-	gmpv_controller_autofit(data, value);
+	g_object_set(controller->model, "window-scale", value, NULL);
 }
 
 static void show_about_dialog_handler(	GSimpleAction *action,

@@ -49,6 +49,7 @@ enum
 	PROP_PLAYLIST_POS,
 	PROP_SPEED,
 	PROP_VOLUME,
+	PROP_WINDOW_SCALE,
 	N_PROPERTIES
 };
 
@@ -78,6 +79,7 @@ struct _GmpvModel
 	gint64 playlist_pos;
 	gdouble speed;
 	gdouble volume;
+	gdouble window_scale;
 };
 
 struct _GmpvModelClass
@@ -287,6 +289,10 @@ static void set_property(	GObject *object,
 		self->volume = g_value_get_double(value);
 		break;
 
+		case PROP_WINDOW_SCALE:
+		self->window_scale = g_value_get_double(value);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -390,6 +396,10 @@ static void get_property(	GObject *object,
 
 		case PROP_VOLUME:
 		g_value_set_double(value, self->volume);
+		break;
+
+		case PROP_WINDOW_SCALE:
+		g_value_set_double(value, self->window_scale);
 		break;
 
 		default:
@@ -512,6 +522,13 @@ static void set_mpv_property(	GObject *object,
 					"volume",
 					MPV_FORMAT_DOUBLE,
 					&self->volume );
+		break;
+
+		case PROP_WINDOW_SCALE:
+		gmpv_mpv_set_property(	mpv,
+					"window-scale",
+					MPV_FORMAT_DOUBLE,
+					&self->window_scale );
 		break;
 	}
 }
@@ -711,6 +728,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			{"playlist-pos", PROP_PLAYLIST_POS, G_TYPE_INT64},
 			{"speed", PROP_SPEED, G_TYPE_DOUBLE},
 			{"volume", PROP_VOLUME, G_TYPE_DOUBLE},
+			{"window-scale", PROP_WINDOW_SCALE, G_TYPE_DOUBLE},
 			{NULL, PROP_INVALID, 0} };
 
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -877,6 +895,7 @@ static void gmpv_model_init(GmpvModel *model)
 	model->playlist_pos = 0;
 	model->speed = 1.0;
 	model->volume = 1.0;
+	model->window_scale = 1.0;
 }
 
 GmpvModel *gmpv_model_new(gint64 wid)
