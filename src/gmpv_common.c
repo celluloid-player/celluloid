@@ -46,10 +46,13 @@ GmpvPlaylistEntry *gmpv_playlist_entry_new(	const gchar *filename,
 
 void gmpv_playlist_entry_free(GmpvPlaylistEntry *entry)
 {
-	g_free(entry->filename);
-	g_free(entry->title);
-	g_ptr_array_free(entry->metadata, TRUE);
-	g_free(entry);
+	if(entry)
+	{
+		g_free(entry->filename);
+		g_free(entry->title);
+		g_ptr_array_free(entry->metadata, TRUE);
+		g_free(entry);
+	}
 }
 
 GmpvMetadataEntry *gmpv_metadata_entry_new(const gchar *key, const gchar *value)
@@ -64,9 +67,12 @@ GmpvMetadataEntry *gmpv_metadata_entry_new(const gchar *key, const gchar *value)
 
 void gmpv_metadata_entry_free(GmpvMetadataEntry *entry)
 {
-	g_free(entry->key);
-	g_free(entry->value);
-	g_free(entry);
+	if(entry)
+	{
+		g_free(entry->key);
+		g_free(entry->value);
+		g_free(entry);
+	}
 }
 
 GmpvTrack *gmpv_track_new(void)
