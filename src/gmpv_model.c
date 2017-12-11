@@ -262,10 +262,12 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_LOOP_FILE:
+		g_free(self->loop_file);
 		self->loop_file = g_value_dup_string(value);
 		break;
 
 		case PROP_LOOP_PLAYLIST:
+		g_free(self->loop_playlist);
 		self->loop_playlist = g_value_dup_string(value);
 		break;
 
