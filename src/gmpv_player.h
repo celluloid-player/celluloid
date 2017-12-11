@@ -31,6 +31,9 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(GmpvPlayer, gmpv_player, GMPV, PLAYER, GmpvMpv)
 
 GmpvPlayer *gmpv_player_new(gint64 wid);
+void gmpv_player_set_playlist_position(GmpvPlayer *player, gint64 position);
+void gmpv_player_remove_playlist_entry(GmpvPlayer *player, gint64 position);
+void gmpv_player_move_playlist_entry(GmpvPlayer *player, gint64 src, gint64 dst);
 void gmpv_player_set_log_level(	GmpvPlayer *player,
 				const gchar *prefix,
 				const gchar *level );

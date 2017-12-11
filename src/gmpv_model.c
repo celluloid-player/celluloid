@@ -1087,42 +1087,17 @@ gdouble gmpv_model_get_time_position(GmpvModel *model)
 
 void gmpv_model_set_playlist_position(GmpvModel *model, gint64 position)
 {
-	if(position != model->playlist_pos)
-	{
-		gmpv_mpv_set_property(	GMPV_MPV(model->player),
-					"playlist-pos",
-					MPV_FORMAT_INT64,
-					&position );
-	}
+	gmpv_player_set_playlist_position(model->player, position);
 }
 
 void gmpv_model_remove_playlist_entry(GmpvModel *model, gint64 position)
 {
-	const gchar *cmd[] = {"playlist_remove", NULL, NULL};
-	gchar *index_str = g_strdup_printf("%" G_GINT64_FORMAT, position);
-
-	cmd[1] = index_str;
-
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
-
-	g_free(index_str);
+	gmpv_player_remove_playlist_entry(model->player, position);
 }
 
 void gmpv_model_move_playlist_entry(GmpvModel *model, gint64 src, gint64 dst)
 {
-	const gchar *cmd[] =	{"playlist_move", NULL, NULL, NULL};
-	gchar *src_str =	g_strdup_printf
-				("%" G_GINT64_FORMAT, (src > dst)?--src:src);
-	gchar *dst_str =	g_strdup_printf
-				("%" G_GINT64_FORMAT, dst);
-
-	cmd[1] = src_str;
-	cmd[2] = dst_str;
-
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
-
-	g_free(src_str);
-	g_free(dst_str);
+	gmpv_player_move_playlist_entry(model->player, src, dst);
 }
 
 void gmpv_model_load_file(GmpvModel *model, const gchar *uri, gboolean append)

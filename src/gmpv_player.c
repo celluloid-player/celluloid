@@ -1037,6 +1037,84 @@ GmpvPlayer *gmpv_player_new(gint64 wid)
 						NULL ));
 }
 
+void gmpv_player_set_playlist_position(GmpvPlayer *player, gint64 position)
+{
+	GmpvMpv *mpv = GMPV_MPV(player);
+	gint64 playlist_pos = 0;
+
+	gmpv_mpv_get_property(	mpv,
+				"playlist-pos",
+				MPV_FORMAT_INT64,
+				&playlist_pos );
+
+	if(position != playlist_pos)
+	{
+		gmpv_mpv_set_property(	GMPV_MPV(player),
+					"playlist-pos",
+					MPV_FORMAT_INT64,
+					&position );
+	}
+}
+
+void gmpv_player_remove_playlist_entry(GmpvPlayer *player, gint64 position)
+{
+	GmpvMpv *mpv = GMPV_MPV(player);
+	gboolean idle_active = gmpv_mpv_get_property_flag(mpv, "idle-active");
+
+	if(idle_active)
+	{
+		g_ptr_array_remove_index(player->playlist, (guint)position);
+		g_object_notify(G_OBJECT(player), "playlist");
+	}
+	else
+	{
+		const gchar *cmd[] = {"playlist_remove", NULL, NULL};
+		gchar *index_str = g_strdup_printf("%" G_GINT64_FORMAT, position);
+
+		cmd[1] = index_str;
+
+		gmpv_mpv_command(GMPV_MPV(player), cmd);
+		g_free(index_str);
+	}
+}
+
+void gmpv_player_move_playlist_entry(GmpvPlayer *player, gint64 src, gint64 dst)
+{
+	GmpvMpv *mpv = GMPV_MPV(player);
+	gboolean idle_active = gmpv_mpv_get_property_flag(mpv, "idle-active");
+
+	if(idle_active)
+	{
+		GPtrArray *playlist;
+		GmpvPlaylistEntry **entry;
+
+		playlist = player->playlist;
+		entry = (GmpvPlaylistEntry **)&g_ptr_array_index(playlist, src);
+
+		g_ptr_array_insert(playlist, (gint)dst, *entry);
+
+		/* Prevent the entry from being freed */
+		*entry = NULL;
+		g_ptr_array_remove_index(playlist, (guint)((src > dst)?--src:src));
+	}
+	else
+	{
+		const gchar *cmd[] =	{"playlist_move", NULL, NULL, NULL};
+		gchar *src_str =	g_strdup_printf
+					("%" G_GINT64_FORMAT, (src > dst)?--src:src);
+		gchar *dst_str =	g_strdup_printf
+					("%" G_GINT64_FORMAT, dst);
+
+		cmd[1] = src_str;
+		cmd[2] = dst_str;
+
+		gmpv_mpv_command(GMPV_MPV(player), cmd);
+
+		g_free(src_str);
+		g_free(dst_str);
+	}
+}
+
 void gmpv_player_set_log_level(	GmpvPlayer *player,
 				const gchar *prefix,
 				const gchar *level )
