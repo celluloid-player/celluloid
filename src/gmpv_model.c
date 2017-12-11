@@ -246,6 +246,11 @@ static void set_property(	GObject *object,
 
 		case PROP_IDLE_ACTIVE:
 		self->idle_active = g_value_get_boolean(value);
+
+		if(self->idle_active)
+		{
+			g_object_notify(object, "playlist-pos");
+		}
 		break;
 
 		case PROP_FULLSCREEN:
