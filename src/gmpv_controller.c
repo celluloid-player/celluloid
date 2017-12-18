@@ -109,6 +109,11 @@ static void window_move_handler(	GmpvModel *model,
 static void message_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data);
 static void shutdown_handler(GmpvMpv *mpv, gpointer data);
+static gboolean update_window_scale(gpointer data);
+static void video_area_resize_handler(	GmpvView *view,
+					gint width,
+					gint height,
+					gpointer data );
 static void fullscreen_handler(		GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
@@ -480,6 +485,10 @@ static void connect_signals(GmpvController *controller)
 				controller );
 
 	g_signal_connect(	controller->view,
+				"video-area-resize",
+				G_CALLBACK(video_area_resize_handler),
+				controller );
+	g_signal_connect(	controller->view,
 				"notify::fullscreen",
 				G_CALLBACK(fullscreen_handler),
 				controller );
@@ -648,10 +657,27 @@ static void window_scale_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data )
 {
+	GmpvController *controller = data;
+	gint64 video_width = 1;
+	gint64 video_height = 1;
+	gint width = 1;
+	gint height = 1;
 	gdouble window_scale = 1.0;
+	gdouble new_window_scale = 1.0;
 
-	g_object_get(object, "window-scale", &window_scale, NULL);
-	gmpv_controller_autofit(data, window_scale);
+	gmpv_model_get_video_geometry(	controller->model,
+					&video_width,
+					&video_height );
+	gmpv_view_get_video_area_geometry(controller->view, &width, &height);
+	g_object_get(object, "window-scale", &new_window_scale, NULL);
+
+	window_scale = MIN(	width/(gdouble)video_width,
+				height/(gdouble)video_height );
+
+	if(ABS(window_scale-new_window_scale) > 0.0001)
+	{
+		gmpv_controller_autofit(data, new_window_scale);
+	}
 }
 
 static void model_ready_handler(	GObject *object,
@@ -763,6 +789,54 @@ static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
 static void shutdown_handler(GmpvMpv *mpv, gpointer data)
 {
 	g_signal_emit_by_name(data, "shutdown");
+}
+
+static gboolean update_window_scale(gpointer data)
+{
+	gpointer *params = data;
+	GmpvController *controller = GMPV_CONTROLLER(params[0]);
+	gint64 video_width = 1;
+	gint64 video_height = 1;
+	gint width = 1;
+	gint height = 1;
+	gdouble window_scale = 0;
+
+	gmpv_model_get_video_geometry(	controller->model,
+					&video_width,
+					&video_height );
+	gmpv_view_get_video_area_geometry(controller->view, &width, &height);
+
+	window_scale = MIN(	width/(gdouble)video_width,
+				height/(gdouble)video_height );
+	g_object_set(controller->model, "window-scale", window_scale, NULL);
+
+	// Clear event source ID for the timeout
+	*((guint *)params[1]) = 0;
+	g_free(params);
+
+	return FALSE;
+}
+
+static void video_area_resize_handler(	GmpvView *view,
+				gint width,
+				gint height,
+				gpointer data )
+{
+	static guint timeout_tag = 0;
+	gpointer *params = g_new(gpointer, 2);
+
+	if(timeout_tag > 0)
+	{
+		g_source_remove(timeout_tag);
+		timeout_tag = 0;
+	}
+
+	params[0] = data;
+	params[1] = &timeout_tag;
+
+	// Rate-limit the call to update_window_scale(), which will update the
+	// window-scale property in the model, to no more than once every 250ms.
+	timeout_tag = g_timeout_add(250, update_window_scale, params);
 }
 
 static void fullscreen_handler(		GObject *object,

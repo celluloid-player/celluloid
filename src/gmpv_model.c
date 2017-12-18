@@ -1165,3 +1165,4 @@ gchar *gmpv_model_get_current_path(GmpvModel *model)
 
 	return buf;
 }
+

@@ -133,6 +133,9 @@ static void scroll_handler(	GmpvMainWindow *wnd,
 				GdkEvent *event,
 				gpointer data );
 
+static void size_allocate_handler(	GtkWidget *widget,
+					GdkRectangle *allocation,
+					gpointer data );
 static void render_handler(GmpvVideoArea *area, gpointer data);
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data);
 static void drag_data_handler(	GtkWidget *widget,
@@ -230,6 +233,10 @@ static void constructed(GObject *object)
 	g_signal_connect(	view->wnd,
 				"key-release-event",
 				G_CALLBACK(key_release_handler),
+				view );
+	g_signal_connect(	video_area,
+				"size-allocate",
+				G_CALLBACK(size_allocate_handler),
 				view );
 	g_signal_connect(	video_area,
 				"render",
@@ -765,6 +772,16 @@ static void scroll_handler(	GmpvMainWindow *wnd,
 	g_signal_emit_by_name(data, "scroll-event", event);
 }
 
+static void size_allocate_handler(	GtkWidget *widget,
+					GdkRectangle *allocation,
+					gpointer data )
+{
+	g_signal_emit_by_name(	data,
+				"video-area-resize",
+				allocation->width,
+				allocation->height );
+}
+
 static void render_handler(GmpvVideoArea *area, gpointer data)
 {
 	g_signal_emit_by_name(data, "render");
@@ -1008,6 +1025,18 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_FULLSCREEN, pspec);
+
+	g_signal_new(	"video-area-resize",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST|G_SIGNAL_DETAILED,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_gen_marshal_VOID__INT_INT,
+			G_TYPE_NONE,
+			2,
+			G_TYPE_INT,
+			G_TYPE_INT );
 
 	/* Controls-related signals */
 	g_signal_new(	"button-clicked",
