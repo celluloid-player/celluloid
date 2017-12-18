@@ -94,9 +94,7 @@
 		"Ctrl+p script-message gmpv-action win.show-preferences-dialog",\
 		"Ctrl+h script-message gmpv-action win.toggle-controls",\
 		"F9 script-message gmpv-action win.toggle-playlist",\
-		"F11 script-message gmpv-action win.toggle-fullscreen",\
-		"f script-message gmpv-action win.toggle-fullscreen",\
-		"ESC script-message gmpv-action win.leave-fullscreen",\
+		"F11 cycle fullscreen",\
 		"v osd-msg cycle sub-visibility",\
 		"s osd-msg screenshot",\
 		"S osd-msg screenshot video",\
@@ -110,7 +108,6 @@
 		"LEFT no-osd seek -10",\
 		"UP no-osd seek 60",\
 		"DOWN no-osd seek -60",\
-		"MOUSE_BTN0_DBL script-message gmpv-action win.toggle-fullscreen",\
 		"MOUSE_BTN3 add volume 2",\
 		"MOUSE_BTN4 add volume -2",\
 		"MOUSE_BTN5 no-osd seek -10",\
