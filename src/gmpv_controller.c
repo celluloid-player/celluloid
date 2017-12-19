@@ -803,15 +803,24 @@ static gboolean update_window_scale(gpointer data)
 	gint width = 1;
 	gint height = 1;
 	gdouble window_scale = 0;
+	gdouble new_window_scale = 0;
 
 	gmpv_model_get_video_geometry(	controller->model,
 					&video_width,
 					&video_height );
 	gmpv_view_get_video_area_geometry(controller->view, &width, &height);
 
-	window_scale = MIN(	width/(gdouble)video_width,
+	new_window_scale = MIN(	width/(gdouble)video_width,
 				height/(gdouble)video_height );
-	g_object_set(controller->model, "window-scale", window_scale, NULL);
+	g_object_get(controller->model, "window-scale", &window_scale, NULL);
+
+	if(ABS(window_scale-new_window_scale) > 0.0001)
+	{
+		g_object_set(	controller->model,
+				"window-scale",
+				new_window_scale,
+				NULL );
+	}
 
 	// Clear event source ID for the timeout
 	*((guint *)params[1]) = 0;
