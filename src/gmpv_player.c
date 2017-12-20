@@ -515,6 +515,7 @@ static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 	{
 		if(!append)
 		{
+			player->new_file = TRUE;
 			g_ptr_array_set_size(player->playlist, 0);
 		}
 
