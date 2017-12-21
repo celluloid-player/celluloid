@@ -162,13 +162,22 @@ static gboolean timeout_handler(gpointer data)
 	&& !gmpv_header_bar_get_open_button_popup_visible(header_bar)
 	&& !gmpv_header_bar_get_menu_button_popup_visible(header_bar))
 	{
+		GSettings *settings;
+		gboolean always_autohide;
+
+		settings = g_settings_new(CONFIG_ROOT);
+		always_autohide =	g_settings_get_boolean
+					(settings, "always-autohide-cursor");
+
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->control_box_revealer), FALSE);
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
-		set_cursor_visible(area, !area->fullscreen);
+		set_cursor_visible(area, !(always_autohide || area->fullscreen));
 		area->timeout_tag = 0;
+
+		g_object_unref(settings);
 	}
 	else if(!control_box)
 	{
