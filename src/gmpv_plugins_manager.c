@@ -160,6 +160,11 @@ static void add_handler(GtkButton *button, gpointer data)
 	gtk_file_filter_add_mime_type(filter, "application/javascript");
 	gtk_file_chooser_add_filter(chooser, filter);
 
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name(filter, _("C Plugins"));
+	gtk_file_filter_add_mime_type(filter, "application/x-sharedlib");
+	gtk_file_chooser_add_filter(chooser, filter);
+
 	if(gmpv_file_chooser_run(dialog) == GTK_RESPONSE_ACCEPT)
 	{
 		src = gtk_file_chooser_get_file(chooser);
