@@ -150,10 +150,15 @@ static void add_handler(GtkButton *button, gpointer data)
 	gtk_file_chooser_add_filter(chooser, filter);
 
 	filter = gtk_file_filter_new();
-	gtk_file_filter_set_name(filter, _("Lua Scripts"));
+	gtk_file_filter_set_name(filter, _("Lua Plugins"));
 	gtk_file_filter_add_mime_type(filter, "text/x-lua");
 	gtk_file_chooser_add_filter(chooser, filter);
 	gtk_file_chooser_set_filter(chooser, filter);
+
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name(filter, _("JavaScript Plugins"));
+	gtk_file_filter_add_mime_type(filter, "application/javascript");
+	gtk_file_chooser_add_filter(chooser, filter);
 
 	if(gmpv_file_chooser_run(dialog) == GTK_RESPONSE_ACCEPT)
 	{
