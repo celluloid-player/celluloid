@@ -138,7 +138,7 @@ static void add_handler(GtkButton *button, gpointer data)
 	GtkFileChooser *chooser;
 	GFile *src = NULL;
 
-	dialog = gmpv_file_chooser_new(	_("Add Lua Script"),
+	dialog = gmpv_file_chooser_new(	_("Add Plugin"),
 					pmgr->parent_window,
 					GTK_FILE_CHOOSER_ACTION_OPEN );
 	filter = NULL;
@@ -345,7 +345,7 @@ static void gmpv_plugins_manager_init(GmpvPluginsManager *pmgr)
 	GtkWidget *add_button = gtk_button_new_with_label("+");
 
 	pmgr->list_box = gtk_list_box_new();
-	pmgr->placeholder_label = gtk_label_new(_("No Lua script found"));
+	pmgr->placeholder_label = gtk_label_new(_("No plugins found"));
 	pmgr->parent_window = NULL;
 	pmgr->monitor = NULL;
 	pmgr->directory = NULL;
@@ -369,7 +369,7 @@ static void gmpv_plugins_manager_init(GmpvPluginsManager *pmgr)
 	gtk_widget_set_hexpand(GTK_WIDGET(scrolled_window), TRUE);
 	gtk_widget_set_vexpand(GTK_WIDGET(scrolled_window), TRUE);
 
-	gtk_widget_set_tooltip_text(add_button, _("Add Lua Script"));
+	gtk_widget_set_tooltip_text(add_button, _("Add Plugin"));
 	gtk_widget_set_sensitive(pmgr->placeholder_label, FALSE);
 	gtk_widget_set_no_show_all(pmgr->placeholder_label, TRUE);
 	gtk_widget_show(pmgr->placeholder_label);
