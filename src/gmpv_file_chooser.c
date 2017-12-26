@@ -138,7 +138,7 @@ void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
 		gtk_file_chooser_add_filter(gtk_chooser, filter);
 	}
 
-	if(audio || video || image)
+	if(audio && video && image)
 	{
 		GtkFileFilter *filter = gtk_file_filter_new();
 		gtk_file_filter_set_name(filter, _("Media Files"));
