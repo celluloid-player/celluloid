@@ -378,7 +378,7 @@ static void gmpv_preferences_dialog_init(GmpvPreferencesDialog *dlg)
 
 	gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook),
 					gmpv_plugins_manager_new(GTK_WINDOW(dlg)),
-					gtk_label_new(_("Lua Scripts")) );
+					gtk_label_new(_("Plugins")) );
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				_("_Cancel"),
