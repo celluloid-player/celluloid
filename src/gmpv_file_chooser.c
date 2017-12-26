@@ -195,5 +195,7 @@ void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
 			gtk_file_chooser_set_filter(gtk_chooser, filter);
 		}
 	}
+
+	g_slist_free(filters);
 }
 
