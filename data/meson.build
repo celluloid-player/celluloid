@@ -5,7 +5,7 @@ install_data([
   'org.gnome-mpv.gschema.xml'
 ], install_dir: schemadir)
 
-i18n.merge_file(
+appdata = i18n.merge_file(
   input: 'io.github.GnomeMpv.appdata.xml.in',
   output: 'io.github.GnomeMpv.appdata.xml',
   po_dir: '../po',
@@ -13,7 +13,7 @@ i18n.merge_file(
   install_dir: join_paths(get_option('datadir'), 'appdata')
 )
 
-i18n.merge_file(
+desktop = i18n.merge_file(
   input: 'io.github.GnomeMpv.desktop.in',
   output: 'io.github.GnomeMpv.desktop',
   type: 'desktop',
