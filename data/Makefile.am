@@ -25,16 +25,16 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 icondir = $(datadir)/icons/hicolor/scalable/apps
-icon_DATA = gnome-mpv.svg
+icon_DATA = io.github.GnomeMpv.svg
 
 symicondir = $(datadir)/icons/hicolor/symbolic/apps
-symicon_DATA = gnome-mpv-symbolic.svg
+symicon_DATA = io.github.GnomeMpv-symbolic.svg
 
 EXTRA_DIST =	$(appstream_in_files) \
 		$(desktop_in_files) \
 		$(dbusservice_in_files) \
-		gnome-mpv.svg \
-		gnome-mpv-symbolic.svg \
+		io.github.GnomeMpv.svg \
+		io.github.GnomeMpv-symbolic.svg \
 		org.gnome-mpv.gschema.xml \
 		io.github.GnomeMpv.gschema.xml \
 		gmpv_mpris_gdbus.xml \

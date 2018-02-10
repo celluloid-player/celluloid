@@ -23,11 +23,11 @@ desktop = i18n.merge_file(
 )
 
 icondir = join_paths(get_option('datadir'), 'icons/hicolor')
-install_data('gnome-mpv.svg',
+install_data('io.github.GnomeMpv.svg',
   install_dir: join_paths(icondir, 'scalable/apps')
 )
 
-install_data('gnome-mpv-symbolic.svg',
+install_data('io.github.GnomeMpv-symbolic.svg',
   install_dir: join_paths(icondir, 'symbolic/apps')
 )
 
