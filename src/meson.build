@@ -90,36 +90,42 @@ generated_gdbus_sources = gnome.gdbus_codegen(
   namespace: 'gmpv_mpris'
 )
 
+generated_marshal_sources = gnome.genmarshal('gmpv_marshal',
+  sources: '../data/gmpv_marshal.lst',
+  prefix: 'g_cclosure_gen_marshal',
+)
+
+# NOTE: All of these are fixed in GLib 2.54 and Meson 0.42.0 and can be
+# removed once version requirements are bumped
 includes = []
 extra_libs = []
-if libgio.version().version_compare('<= 2.51.2')
-  # We want to be warning free and due to https://bugzilla.gnome.org/show_bug.cgi?id=778581
-  # gdbus-codegen caused this warning previous to this release.
+if libgio.version().version_compare('< 2.52.0')
+  # We want to be warning free on old versions:
+  # https://bugzilla.gnome.org/show_bug.cgi?id=778581
   extra_libs += static_library('mpris-gdbus',
     generated_gdbus_sources,
     c_args: cflags + ['-Wno-conversion'],
     dependencies: libgio,
     include_directories: include_directories('..'),
   )
+  # Created includes of `src/...`:
+  # https://bugzilla.gnome.org/show_bug.cgi?id=778801
+  includes = include_directories('..')
 else
   sources += generated_gdbus_sources
-  # FIXME: Our invocation of `gdbus-codegen` creates an include of `src/...`
-  # https://github.com/mesonbuild/meson/issues/1387
-  includes = include_directories('..')
 endif
 
-generated_marshal_sources = gnome.genmarshal('gmpv_marshal',
-  sources: '../data/gmpv_marshal.lst',
-  prefix: 'g_cclosure_gen_marshal',
-)
-
-# Silence warning about missing prototypes in genmarshal-generated files
-extra_libs += static_library('marshal',
-  generated_marshal_sources,
-  c_args: cflags + ['-Wno-missing-prototypes'],
-  dependencies: libgio,
-  include_directories: include_directories('..')
-)
+if libgio.version().version_compare('< 2.54.0')
+  # Silence warning about missing prototypes in genmarshal-generated files
+  extra_libs += static_library('marshal',
+    generated_marshal_sources,
+    c_args: cflags + ['-Wno-missing-prototypes'],
+    dependencies: libgio,
+    include_directories: include_directories('..')
+  )
+else
+  sources += generated_marshal_sources
+endif
 
 executable('gnome-mpv', sources,
   dependencies: [
