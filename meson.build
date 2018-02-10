@@ -61,9 +61,4 @@ subdir('data')
 subdir('docs')
 subdir('po')
 
-run_target('check',
-  command: ['meson_check.sh'],
-  depends: [appdata, desktop]
-)
-
 meson.add_install_script('meson_post_install.py')
