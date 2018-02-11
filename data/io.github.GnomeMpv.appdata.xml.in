@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2015 gnome-mpv -->
+<!-- Copyright 2015-2018 gnome-mpv -->
 <component type="desktop">
  <id>io.github.GnomeMpv.desktop</id>
  <metadata_license>CC-BY-SA-4.0</metadata_license>
@@ -24,6 +24,34 @@
   </ul>
  </description>
  <releases>
+  <release date="2018-02-17" version="0.14">
+   <description>
+    <p>
+     This release contains the following changes:
+    </p>
+    <ul>
+     <li>
+      Add option to make skip buttons change playlist entries rather than
+      chapters
+     </li>
+     <li>
+      Make the file chooser accept non-local locations
+     </li>
+     <li>
+      Add right-click menu entry for looping a single file
+     </li>
+     <li>
+      Handle property change events for fullscreen and window-scale
+     </li>
+     <li>
+      Add option to autohide mouse cursor in windowed mode
+     </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2017-10-13" version="0.13"/>
  </releases>
  <screenshots>
