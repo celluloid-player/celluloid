@@ -2,14 +2,15 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2016. #zanata
 # Maxim Orlov <murmansksity@gmail.com>, 2017. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
+# Maxim Orlov <murmansksity@gmail.com>, 2018. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-04 00:00+0700\n"
-"PO-Revision-Date: 2018-01-10 08:18-0500\n"
-"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
+"PO-Revision-Date: 2018-02-04 07:10-0500\n"
+"Last-Translator: Maxim Orlov <murmansksity@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -154,22 +155,26 @@ msgstr "Загрузка внешних конфигурационных фай�
 msgid "MPRIS2 D-Bus interface"
 msgstr "Интерфейс MPRIS2 D-Bus"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:36
+#: data/io.github.GnomeMpv.appdata.xml.in:60
+msgid "The main window showing the application in action"
+msgstr "Главное окно, показывающее приложение в действии"
+
+#: data/io.github.GnomeMpv.appdata.xml.in:64
 msgid "The main window with CSD disabled"
 msgstr "Главное окно с отключённым CSD"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:40
+#: data/io.github.GnomeMpv.appdata.xml.in:68
 msgid "The main window with playlist open"
 msgstr "Главное окно с открытым списком воспроизведения"
 
 #. Translators: This is an icon name, don't translate!
 #: data/io.github.GnomeMpv.desktop.in:8
-msgid "gnome-mpv"
-msgstr "gnome-mpv"
+msgid "io.github.GnomeMpv"
+msgstr ""
 
 #: data/io.github.GnomeMpv.desktop.in:19
 msgid "New Window"
-msgstr ""
+msgstr "Новое окно"
 
 #: src/gmpv_application.c:374
 msgid "Playing"
@@ -185,7 +190,7 @@ msgstr "Поставить в очередь"
 
 #: src/gmpv_application.c:435
 msgid "Create a new window"
-msgstr ""
+msgstr "Создать новое окно"
 
 #: src/gmpv_application.c:443
 msgid "Don't connect to an already-running instance"
@@ -353,7 +358,7 @@ msgstr "_О программе"
 
 #: src/gmpv_menu.c:332
 msgid "_New Window"
-msgstr ""
+msgstr "_Новое окно"
 
 #: src/gmpv_mpv.c:217
 #, c-format
@@ -394,19 +399,19 @@ msgstr "Список воспроизведения"
 
 #: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
 msgid "Add Plugin"
-msgstr ""
+msgstr "Добавить плагин"
 
 #: src/gmpv_plugins_manager.c:153
 msgid "Lua Plugins"
-msgstr ""
+msgstr "Lua плагины"
 
 #: src/gmpv_plugins_manager.c:159
 msgid "JavaScript Plugins"
-msgstr ""
+msgstr "JavaScript плагины"
 
 #: src/gmpv_plugins_manager.c:164
 msgid "C Plugins"
-msgstr ""
+msgstr "С плагины"
 
 #: src/gmpv_plugins_manager.c:309
 #, c-format
@@ -415,7 +420,7 @@ msgstr "Не удалось скопировать файл из '%s' в '%s'. �
 
 #: src/gmpv_plugins_manager.c:358
 msgid "No plugins found"
-msgstr ""
+msgstr "Плагины не найдены"
 
 #: src/gmpv_plugins_manager_item.c:69
 msgid "Remove"
@@ -491,7 +496,7 @@ msgstr "<b>Разное</b>"
 
 #: src/gmpv_preferences_dialog.c:332
 msgid "Always open new window"
-msgstr ""
+msgstr "Всегда открывать новое окно"
 
 #: src/gmpv_preferences_dialog.c:335
 msgid "Prefetch metadata"
@@ -499,11 +504,11 @@ msgstr ""
 
 #: src/gmpv_preferences_dialog.c:338
 msgid "Enable MPRIS support"
-msgstr ""
+msgstr "Включить поддержку MPRIS"
 
 #: src/gmpv_preferences_dialog.c:341
 msgid "Enable media keys support"
-msgstr ""
+msgstr "Включить поддержку мультимедийных клавиш"
 
 #: src/gmpv_preferences_dialog.c:344
 msgid "Extra MPV options:"
@@ -515,7 +520,7 @@ msgstr "Общие"
 
 #: src/gmpv_preferences_dialog.c:381
 msgid "Plugins"
-msgstr ""
+msgstr "Плагины"
 
 #: src/gmpv_preferences_dialog.c:386
 msgid "_Save"
@@ -539,7 +544,7 @@ msgstr "Добавить файл в список воспроизведения
 
 #: src/gmpv_shortcuts_window.c:59
 msgid "Add location to playlist"
-msgstr ""
+msgstr "Добавить адрес в список воспроизведения"
 
 #: src/gmpv_shortcuts_window.c:60
 msgid "Show preferences dialog"
@@ -805,4 +810,4 @@ msgstr "GTK интерфейс для MPV"
 
 #: src/gmpv_view.c:1478
 msgid "translator-credits"
-msgstr "Maxim Orlov <murmansksity@gmail.com>, 2016."
+msgstr "Maxim Orlov <murmansksity@gmail.com>, 2018."
