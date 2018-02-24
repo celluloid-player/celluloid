@@ -43,6 +43,9 @@
 #define SEEK_BAR_UPDATE_INTERVAL 250
 #define FS_CONTROL_HIDE_DELAY 1
 #define KEYSTRING_MAX_LEN 16
+#define MIN_MPV_MAJOR 0
+#define MIN_MPV_MINOR 27
+#define MIN_MPV_PATCH 0
 
 #define SUBTITLE_EXTS	{	"utf",\
 				"utf8",\

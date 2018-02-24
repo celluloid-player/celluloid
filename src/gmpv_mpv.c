@@ -70,6 +70,7 @@ static void mpv_log_message(	GmpvMpv *mpv,
 				const gchar *text );
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static gboolean process_mpv_events(gpointer data);
+static gboolean check_mpv_version(const gchar *version);
 static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
@@ -285,6 +286,37 @@ static gboolean process_mpv_events(gpointer data)
 	return FALSE;
 }
 
+static gboolean check_mpv_version(const gchar *version)
+{
+	const gchar *version_ptr = version;
+	guint64 min_version[] = {MIN_MPV_MAJOR, MIN_MPV_MINOR, MIN_MPV_PATCH};
+	gchar **tokens = NULL;
+	gboolean done = FALSE;
+	gboolean result = TRUE;
+
+	/* Skip to the actual version string */
+	while(*version_ptr && !g_ascii_isdigit(*(version_ptr++)));
+
+	tokens = g_strsplit(--version_ptr, ".", 3);
+
+	for(	guint i = 0;
+		i < G_N_ELEMENTS(min_version) && !done && result && tokens[i];
+		i++ )
+	{
+		guint64 token = g_ascii_strtoull(tokens[i], NULL, 10);
+
+		/* If the token is equal to the minimum, continue checking the
+		 * rest of the tokens. If it is greater, just skip them.
+		 */
+		result &= (token >= min_version[i]);
+		done = (token > min_version[i]);
+	}
+
+	g_strfreev(tokens);
+
+	return result;
+}
+
 static void initialize(GmpvMpv *mpv)
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
@@ -315,6 +347,14 @@ static void initialize(GmpvMpv *mpv)
 	priv->use_opengl = (!current_vo && priv->wid != 0);
 
 	g_info("Using %s", mpv_version);
+
+	if(!check_mpv_version(mpv_version))
+	{
+		g_warning(	"Minimum mpv version requirement (%d.%d.%d) not met",
+				MIN_MPV_MAJOR,
+				MIN_MPV_MINOR,
+				MIN_MPV_PATCH );
+	}
 
 	if(priv->use_opengl)
 	{
