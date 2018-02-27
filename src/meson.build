@@ -24,7 +24,6 @@ sources = [
   'gmpv_plugins_manager_item.c',
   'gmpv_preferences_dialog.c',
   'gmpv_seek_bar.c',
-  'gmpv_shortcuts_window.c',
   'gmpv_video_area.c',
   'gmpv_view.c',
 
