@@ -288,28 +288,31 @@ static gboolean process_mpv_events(gpointer data)
 
 static gboolean check_mpv_version(const gchar *version)
 {
-	const gchar *version_ptr = version;
 	guint64 min_version[] = {MIN_MPV_MAJOR, MIN_MPV_MINOR, MIN_MPV_PATCH};
+	const guint min_version_length = G_N_ELEMENTS(min_version);
 	gchar **tokens = NULL;
 	gboolean done = FALSE;
 	gboolean result = TRUE;
 
-	/* Skip to the actual version string */
-	while(*version_ptr && !g_ascii_isdigit(*(version_ptr++)));
-
-	tokens = g_strsplit(--version_ptr, ".", 3);
-
-	for(	guint i = 0;
-		i < G_N_ELEMENTS(min_version) && !done && result && tokens[i];
-		i++ )
+	/* Skip to the version number */
+	if(strncmp(version, "mpv ", 4) == 0)
 	{
-		guint64 token = g_ascii_strtoull(tokens[i], NULL, 10);
+		tokens = g_strsplit(version+4, ".", (gint)min_version_length);
+	}
+
+	done = g_strv_length(tokens) != min_version_length;
+	result = !done;
+
+	for(guint i = 0; i < min_version_length && !done && result; i++)
+	{
+		gchar *endptr = NULL;
+		guint64 token = g_ascii_strtoull(tokens[i], &endptr, 10);
 
 		/* If the token is equal to the minimum, continue checking the
 		 * rest of the tokens. If it is greater, just skip them.
 		 */
-		result &= (token >= min_version[i]);
-		done = (token > min_version[i]);
+		result &= !(*endptr) && (token >= min_version[i]);
+		done = result && (token > min_version[i]);
 	}
 
 	g_strfreev(tokens);
