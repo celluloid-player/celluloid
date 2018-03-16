@@ -20,6 +20,7 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <locale.h>
 #include <unistd.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
@@ -568,6 +569,8 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 static void gmpv_mpv_init(GmpvMpv *mpv)
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
+
+	setlocale(LC_NUMERIC, "C");
 
 	priv->mpv_ctx = mpv_create();
 	priv->opengl_ctx = NULL;

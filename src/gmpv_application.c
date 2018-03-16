@@ -21,7 +21,6 @@
 #include <glib/gprintf.h>
 #include <glib-unix.h>
 #include <gio/gio.h>
-#include <locale.h>
 
 #include "gmpv_application.h"
 #include "gmpv_controller.h"
@@ -330,7 +329,6 @@ static gint command_line_handler(	GApplication *gapp,
 
 static void startup_handler(GApplication *gapp, gpointer data)
 {
-	setlocale(LC_NUMERIC, "C");
 	g_set_application_name(_("GNOME MPV"));
 	gtk_window_set_default_icon_name(ICON_NAME);
 
