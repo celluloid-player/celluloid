@@ -398,6 +398,7 @@ static void apply_default_options(GmpvMpv *mpv)
 			{"window-scale", "1"},
 			{"pause", "yes"},
 			{"ytdl", "yes"},
+			{"ytdl-raw-options", "yes-playlist="},
 			{"load-scripts", "no"},
 			{"osd-bar", "no"},
 			{"input-cursor", "no"},
