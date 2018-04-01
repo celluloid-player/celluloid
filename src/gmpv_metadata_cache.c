@@ -27,6 +27,7 @@ struct _GmpvMetadataCache
 	GHashTable *table;
 	GmpvMpv *fetcher;
 	GQueue *fetch_queue;
+	guint fetch_timeout_id;
 };
 
 struct _GmpvMetadataCacheClass
@@ -36,6 +37,9 @@ struct _GmpvMetadataCacheClass
 
 static void dispose(GObject *object)
 {
+	GmpvMetadataCache *cache = GMPV_METADATA_CACHE(object);
+
+	g_source_clear(&cache->fetch_timeout_id);
 	g_clear_object(&GMPV_METADATA_CACHE(object)->fetcher);
 }
 
@@ -188,7 +192,9 @@ static void shutdown_handler(GmpvMpv *mpv, gpointer data)
 
 	if(!g_queue_is_empty(cache->fetch_queue))
 	{
-		g_idle_add((GSourceFunc)fetch_metadata, cache);
+		g_source_clear(&cache->fetch_timeout_id);
+		cache->fetch_timeout_id
+			= g_idle_add((GSourceFunc)fetch_metadata, cache);
 	}
 }
 
@@ -221,6 +227,8 @@ static gboolean fetch_metadata(GmpvMetadataCache *cache)
 		g_free(uri);
 	}
 
+	cache->fetch_timeout_id = 0;
+
 	return G_SOURCE_REMOVE;
 }
 
@@ -252,6 +260,7 @@ static void gmpv_metadata_cache_init(GmpvMetadataCache *cache)
 						gmpv_metadata_cache_entry_free );
 	cache->fetcher = NULL;
 	cache->fetch_queue = g_queue_new();
+	cache->fetch_timeout_id = 0;
 }
 
 GmpvMetadataCache *gmpv_metadata_cache_new(void)
@@ -327,7 +336,9 @@ GmpvMetadataCacheEntry *gmpv_metadata_cache_lookup(	GmpvMetadataCache *cache,
 
 		if(!cache->fetcher && g_queue_is_empty(cache->fetch_queue))
 		{
-			g_idle_add((GSourceFunc)fetch_metadata, cache);
+			g_source_clear(&cache->fetch_timeout_id);
+			cache->fetch_timeout_id
+				= g_idle_add((GSourceFunc)fetch_metadata, cache);
 		}
 
 		g_queue_push_head(cache->fetch_queue, g_strdup(uri));
