@@ -245,11 +245,8 @@ static void dispose(GObject *object)
 	g_clear_object(&controller->mpris);
 	g_clear_object(&controller->media_keys);
 
-	if(controller->update_seekbar_id != 0)
-	{
-		g_source_remove(controller->update_seekbar_id);
-		controller->update_seekbar_id = 0;
-	}
+	g_source_clear(&controller->update_seekbar_id);
+	g_source_clear(&controller->resize_timeout_tag);
 
 	if(controller->view)
 	{
@@ -573,6 +570,7 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(playlist_reordered_handler),
 				controller );
 
+	g_source_clear(&controller->update_seekbar_id);
 	controller->update_seekbar_id
 		= g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
 					(GSourceFunc)update_seek_bar,
@@ -830,25 +828,23 @@ static gboolean update_window_scale(gpointer data)
 }
 
 static void video_area_resize_handler(	GmpvView *view,
-				gint width,
-				gint height,
-				gpointer data )
+					gint width,
+					gint height,
+					gpointer data )
 {
-	static guint timeout_tag = 0;
+	GmpvController *controller = data;
 	gpointer *params = g_new(gpointer, 2);
 
-	if(timeout_tag > 0)
-	{
-		g_source_remove(timeout_tag);
-		timeout_tag = 0;
-	}
+	g_source_clear(&controller->resize_timeout_tag);
 
 	params[0] = data;
-	params[1] = &timeout_tag;
+	params[1] = &(controller->resize_timeout_tag);
 
 	// Rate-limit the call to update_window_scale(), which will update the
 	// window-scale property in the model, to no more than once every 250ms.
-	timeout_tag = g_timeout_add(250, update_window_scale, params);
+	controller->resize_timeout_tag = g_timeout_add(	250,
+							update_window_scale,
+							params );
 }
 
 static void fullscreen_handler(		GObject *object,
@@ -1008,6 +1004,7 @@ static void gmpv_controller_init(GmpvController *controller)
 	controller->idle = TRUE;
 	controller->target_playlist_pos = -1;
 	controller->update_seekbar_id = 0;
+	controller->resize_timeout_tag = 0;
 	controller->skip_buttons_binding = NULL;
 	controller->settings = g_settings_new(CONFIG_ROOT);
 	controller->media_keys = NULL;

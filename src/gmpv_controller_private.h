@@ -48,6 +48,7 @@ struct _GmpvController
 	gboolean use_skip_buttons_for_playlist;
 	gint64 target_playlist_pos;
 	guint update_seekbar_id;
+	guint resize_timeout_tag;
 	GBinding *skip_buttons_binding;
 	GSettings *settings;
 	GmpvMediaKeys *media_keys;
