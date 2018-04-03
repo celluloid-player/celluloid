@@ -79,6 +79,7 @@ gchar *get_watch_dir_path(void);
 gchar *get_path_from_uri(const gchar *uri);
 gchar *get_name_from_path(const gchar *path);
 gboolean extension_matches(const gchar *filename, const gchar **extensions);
+gboolean g_source_clear(guint *tag);
 void *gslist_to_array(GSList *slist);
 gchar *strnjoinv(const gchar *separator, const gchar **str_array, gsize count);
 void activate_action_string(GActionMap *map, const gchar *str);

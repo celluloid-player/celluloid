@@ -170,6 +170,17 @@ gboolean extension_matches(const gchar *filename, const gchar **extensions)
 	return result;
 }
 
+gboolean g_source_clear(guint *tag)
+{
+	if(*tag != 0)
+	{
+		g_source_remove(*tag);
+		*tag = 0;
+	}
+
+	return TRUE;
+}
+
 void *gslist_to_array(GSList *slist)
 {
 	void **result = g_malloc(sizeof(void **)*(g_slist_length(slist)+1));
