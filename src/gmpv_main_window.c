@@ -53,7 +53,6 @@ struct _GmpvMainWindow
 	gboolean playlist_first_toggle;
 	gboolean pre_fs_playlist_visible;
 	gint playlist_width;
-	guint timeout_tag;
 	guint resize_tag;
 	const GPtrArray *track_list;
 	GtkWidget *header_bar;
@@ -285,7 +284,6 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	wnd->playlist_visible = FALSE;
 	wnd->pre_fs_playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
-	wnd->timeout_tag = 0;
 	wnd->resize_tag = 0;
 	wnd->track_list = NULL;
 	wnd->header_bar = gmpv_header_bar_new();
