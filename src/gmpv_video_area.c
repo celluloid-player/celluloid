@@ -20,6 +20,7 @@
 #include "gmpv_video_area.h"
 #include "gmpv_header_bar.h"
 #include "gmpv_control_box.h"
+#include "gmpv_common.h"
 #include "gmpv_def.h"
 
 #include <gtk/gtk.h>
@@ -119,13 +120,7 @@ static void get_property(	GObject *object,
 
 static void destroy(GtkWidget *widget)
 {
-	GmpvVideoArea *area = GMPV_VIDEO_AREA(widget);
-
-	if(area->timeout_tag > 0)
-	{
-		g_source_remove(area->timeout_tag);
-		area->timeout_tag = 0;
-	}
+	g_source_clear(&GMPV_VIDEO_AREA(widget)->timeout_tag);
 }
 
 static void set_cursor_visible(GmpvVideoArea *area, gboolean visible)
@@ -207,12 +202,7 @@ static gboolean motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 			(GTK_REVEALER(area->header_bar_revealer), area->fullscreen);
 	}
 
-	if(area->timeout_tag > 0)
-	{
-		g_source_remove(area->timeout_tag);
-		area->timeout_tag = 0;
-	}
-
+	g_source_clear(&area->timeout_tag);
 	area->timeout_tag = g_timeout_add_seconds(	FS_CONTROL_HIDE_DELAY,
 							timeout_handler,
 							area );
