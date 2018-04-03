@@ -54,6 +54,7 @@ struct _GmpvMainWindow
 	gboolean pre_fs_playlist_visible;
 	gint playlist_width;
 	guint timeout_tag;
+	guint resize_tag;
 	const GPtrArray *track_list;
 	GtkWidget *header_bar;
 	GtkWidget *main_box;
@@ -69,6 +70,7 @@ struct _GmpvMainWindowClass
 };
 
 static void constructed(GObject *object);
+static void dispose(GObject *object);
 static void set_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
@@ -113,6 +115,13 @@ static void constructed(GObject *object)
 				FALSE );
 
 	G_OBJECT_CLASS(gmpv_main_window_parent_class)->constructed(object);
+}
+
+static void dispose(GObject *object)
+{
+	g_source_clear(&GMPV_MAIN_WINDOW(object)->resize_tag);
+
+	G_OBJECT_CLASS(gmpv_main_window_parent_class)->dispose(object);
 }
 
 static void set_property(	GObject *object,
@@ -197,7 +206,11 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 		wnd->width_offset += target_width-width;
 		wnd->height_offset += target_height-height;
 
-		g_idle_add_full(G_PRIORITY_HIGH_IDLE, resize_to_target, wnd, NULL);
+		g_source_clear(&wnd->resize_tag);
+		wnd->resize_tag = g_idle_add_full(	G_PRIORITY_HIGH_IDLE,
+							resize_to_target,
+							wnd,
+							NULL );
 	}
 }
 
@@ -226,6 +239,7 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 	GParamSpec *pspec = NULL;
 
 	obj_class->constructed = constructed;
+	obj_class->dispose = dispose;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 	obj_class->notify = notify;
@@ -272,6 +286,7 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 	wnd->pre_fs_playlist_visible = FALSE;
 	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	wnd->timeout_tag = 0;
+	wnd->resize_tag = 0;
 	wnd->track_list = NULL;
 	wnd->header_bar = gmpv_header_bar_new();
 	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
