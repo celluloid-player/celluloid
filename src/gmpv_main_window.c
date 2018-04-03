@@ -68,20 +68,20 @@ struct _GmpvMainWindowClass
 	GtkApplicationWindowClass parent_class;
 };
 
-static void gmpv_main_window_constructed(GObject *object);
-static void gmpv_main_window_set_property(	GObject *object,
-						guint property_id,
-						const GValue *value,
-						GParamSpec *pspec );
-static void gmpv_main_window_get_property(	GObject *object,
-						guint property_id,
-						GValue *value,
-						GParamSpec *pspec );
+static void constructed(GObject *object);
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec );
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec );
 static void seek_handler(GtkWidget *widget, gdouble value, gpointer data);
 static void button_clicked_handler(	GmpvControlBox *control_box,
 					const gchar *button,
 					gpointer data );
-static void gmpv_main_window_notify(GObject *object, GParamSpec *pspec);
+static void notify(GObject *object, GParamSpec *pspec);
 static void resize_video_area_finalize(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data );
@@ -89,7 +89,7 @@ static gboolean resize_to_target(gpointer data);
 
 G_DEFINE_TYPE(GmpvMainWindow, gmpv_main_window, GTK_TYPE_APPLICATION_WINDOW)
 
-static void gmpv_main_window_constructed(GObject *object)
+static void constructed(GObject *object)
 {
 	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
 
@@ -115,10 +115,10 @@ static void gmpv_main_window_constructed(GObject *object)
 	G_OBJECT_CLASS(gmpv_main_window_parent_class)->constructed(object);
 }
 
-static void gmpv_main_window_set_property(	GObject *object,
-						guint property_id,
-						const GValue *value,
-						GParamSpec *pspec )
+static void set_property(	GObject *object,
+				guint property_id,
+				const GValue *value,
+				GParamSpec *pspec )
 {
 	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
 
@@ -132,10 +132,10 @@ static void gmpv_main_window_set_property(	GObject *object,
 	}
 }
 
-static void gmpv_main_window_get_property(	GObject *object,
-						guint property_id,
-						GValue *value,
-						GParamSpec *pspec )
+static void get_property(	GObject *object,
+				guint property_id,
+				GValue *value,
+				GParamSpec *pspec )
 {
 	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
 
@@ -161,7 +161,7 @@ static void button_clicked_handler(	GmpvControlBox *control_box,
 	g_signal_emit_by_name(data, "button-clicked", button);
 }
 
-static void gmpv_main_window_notify(GObject *object, GParamSpec *pspec)
+static void notify(GObject *object, GParamSpec *pspec)
 {
 	if(g_strcmp0(pspec->name, "always-use-floating-controls") == 0)
 	{
@@ -225,10 +225,10 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
-	obj_class->constructed = gmpv_main_window_constructed;
-	obj_class->set_property = gmpv_main_window_set_property;
-	obj_class->get_property = gmpv_main_window_get_property;
-	obj_class->notify = gmpv_main_window_notify;
+	obj_class->constructed = constructed;
+	obj_class->set_property = set_property;
+	obj_class->get_property = get_property;
+	obj_class->notify = notify;
 
 	pspec = g_param_spec_boolean
 		(	"always-use-floating-controls",
