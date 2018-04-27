@@ -110,6 +110,10 @@ if libgio.version().version_compare('< 2.52.0')
   # Created includes of `src/...`:
   # https://bugzilla.gnome.org/show_bug.cgi?id=778801
   includes = include_directories('..')
+elif meson.version().version_compare('== 0.46.0')
+  # https://github.com/mesonbuild/meson/issues/3488
+  includes = include_directories('..')
+  sources += generated_gdbus_sources
 else
   sources += generated_gdbus_sources
 endif
