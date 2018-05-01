@@ -129,8 +129,8 @@ be found [here](https://github.com/mpv-player/mpv/wiki/User-Scripts).
 
 GNOME MPV defines a set of keybindings in the macro `DEFAULT_KEYBINDS`, which
 can be found in
-[src/def.h](https://github.com/gnome-mpv/gnome-mpv/blob/master/src/gmpv_def.h). The
-syntax used is exactly the same as mpv's `input.conf`. These keybindings are
+[src/gmpv_def.h](https://github.com/gnome-mpv/gnome-mpv/blob/master/src/gmpv_def.h).
+The syntax used is exactly the same as mpv's `input.conf`. These keybindings are
 applied on top of default keybindings provided by mpv.
 
 Additional keybindings can be defined in an external file using mpv's
