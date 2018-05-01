@@ -148,6 +148,8 @@
 				")", "parenright",\
 				"[", "bracketleft",\
 				"]", "bracketright",\
+				"{", "braceleft",\
+				"}", "braceright",\
 				"?", "question",\
 				"RIGHT", "Right",\
 				"LEFT", "Left",\
