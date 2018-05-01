@@ -219,6 +219,7 @@ static gboolean resize_to_target(gpointer data)
 	gint target_width = wnd->resize_target[0];
 	gint target_height = wnd->resize_target[1];
 
+	g_source_clear(&wnd->resize_tag);
 	gtk_window_resize(	GTK_WINDOW(wnd),
 				target_width+wnd->width_offset,
 				target_height+wnd->height_offset );
