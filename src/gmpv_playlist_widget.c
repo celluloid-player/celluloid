@@ -126,6 +126,10 @@ static void constructed(GObject *object)
 				"button-press-event",
 				G_CALLBACK(mouse_press_handler),
 				self );
+	g_signal_connect(	self->tree_view,
+				"popup-menu",
+				G_CALLBACK(mouse_press_handler),
+				self );
 	g_signal_connect_after(	self->tree_view,
 				"drag-begin",
 				G_CALLBACK(drag_begin_handler),
