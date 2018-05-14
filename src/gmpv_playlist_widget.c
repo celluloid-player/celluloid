@@ -527,6 +527,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 		GMenu *item_section;
 		GMenu *playlist_section;
 		GMenuItem *copy_location_menu_item;
+		GMenuItem *remove_menu_item;
 		GMenuItem *add_menu_item;
 		GMenuItem *add_loc_menu_item;
 		GMenuItem *shuffle_menu_item;
@@ -541,6 +542,10 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 			=	g_menu_item_new
 				(	_("_Copy Location"),
 					"win.copy-selected-playlist-item" );
+		remove_menu_item
+			=	g_menu_item_new
+				(	_("_Remove"),
+					"win.remove-selected-playlist-item" );
 		add_menu_item
 			=	g_menu_item_new
 				(	_("_Add…"),
@@ -563,6 +568,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 					"win.toggle-loop-playlist" );
 
 		g_menu_append_item(item_section, copy_location_menu_item);
+		g_menu_append_item(item_section, remove_menu_item);
 		g_menu_append_item(playlist_section, add_menu_item);
 		g_menu_append_item(playlist_section, add_loc_menu_item);
 		g_menu_append_item(playlist_section, shuffle_menu_item);
