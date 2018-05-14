@@ -104,7 +104,7 @@ static void row_deleted_handler(	GtkTreeModel *tree_model,
 					GtkTreePath *path,
 					gpointer data );
 static gboolean mouse_press_handler(	GtkWidget *widget,
-					GdkEvent *event,
+					GdkEventButton *event,
 					gpointer data );
 static gchar *get_uri_selected(GmpvPlaylistWidget *wgt);
 
@@ -511,7 +511,7 @@ static void row_deleted_handler(	GtkTreeModel *tree_model,
 }
 
 static gboolean mouse_press_handler(	GtkWidget *widget,
-					GdkEvent *event,
+					GdkEventButton *event,
 					gpointer data )
 {
 	GmpvPlaylistWidget *wgt = data;
@@ -569,8 +569,18 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 		g_menu_append_item(playlist_section, loop_file_menu_item);
 		g_menu_append_item(playlist_section, loop_playlist_menu_item);
 
-		g_menu_append_section
-			(menu, NULL, G_MENU_MODEL(item_section));
+		if(gtk_tree_view_get_path_at_pos(	GTK_TREE_VIEW(widget),
+							(gint)event->x,
+							(gint)event->y,
+							NULL,
+							NULL,
+							NULL,
+							NULL ))
+		{
+			g_menu_append_section
+				(menu, NULL, G_MENU_MODEL(item_section));
+		}
+
 		g_menu_append_section
 			(menu, NULL, G_MENU_MODEL(playlist_section));
 
