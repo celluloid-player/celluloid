@@ -35,6 +35,7 @@ G_DECLARE_FINAL_TYPE(GmpvPlaylistWidget, gmpv_playlist_widget, GMPV, PLAYLIST_WI
 GtkWidget *gmpv_playlist_widget_new(void);
 gboolean gmpv_playlist_widget_empty(GmpvPlaylistWidget *wgt);
 void gmpv_playlist_widget_set_indicator_pos(GmpvPlaylistWidget *wgt, gint pos);
+void gmpv_playlist_widget_copy_selected(GmpvPlaylistWidget *wgt);
 void gmpv_playlist_widget_remove_selected(GmpvPlaylistWidget *wgt);
 void gmpv_playlist_widget_queue_draw(GmpvPlaylistWidget *wgt);
 void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,

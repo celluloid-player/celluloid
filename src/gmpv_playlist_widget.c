@@ -520,6 +520,9 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 		btn_event->button == 3 )
 	{
 		GMenu *menu;
+		GMenu *item_section;
+		GMenu *playlist_section;
+		GMenuItem *copy_location_menu_item;
 		GMenuItem *add_menu_item;
 		GMenuItem *add_loc_menu_item;
 		GMenuItem *shuffle_menu_item;
@@ -528,6 +531,12 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 		GtkWidget *ctx_menu;
 
 		menu = g_menu_new();
+		item_section = g_menu_new();
+		playlist_section = g_menu_new();
+		copy_location_menu_item
+			=	g_menu_item_new
+				(	_("_Copy Location"),
+					"win.copy-selected-playlist-item" );
 		add_menu_item
 			=	g_menu_item_new
 				(	_("_Add…"),
@@ -549,11 +558,18 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 				(	_("Loop _Playlist"),
 					"win.toggle-loop-playlist" );
 
-		g_menu_append_item(menu, add_menu_item);
-		g_menu_append_item(menu, add_loc_menu_item);
-		g_menu_append_item(menu, shuffle_menu_item);
-		g_menu_append_item(menu, loop_file_menu_item);
-		g_menu_append_item(menu, loop_playlist_menu_item);
+		g_menu_append_item(item_section, copy_location_menu_item);
+		g_menu_append_item(playlist_section, add_menu_item);
+		g_menu_append_item(playlist_section, add_loc_menu_item);
+		g_menu_append_item(playlist_section, shuffle_menu_item);
+		g_menu_append_item(playlist_section, loop_file_menu_item);
+		g_menu_append_item(playlist_section, loop_playlist_menu_item);
+
+		g_menu_append_section
+			(menu, NULL, G_MENU_MODEL(item_section));
+		g_menu_append_section
+			(menu, NULL, G_MENU_MODEL(playlist_section));
+
 		g_menu_freeze(menu);
 
 		ctx_menu = gtk_menu_new_from_model(G_MENU_MODEL(menu));
@@ -707,6 +723,45 @@ void gmpv_playlist_widget_set_indicator_pos(	GmpvPlaylistWidget *wgt,
 					-1 );
 
 		rc = gtk_tree_model_iter_next(GTK_TREE_MODEL(wgt->store), &iter);
+	}
+}
+
+void gmpv_playlist_widget_copy_selected(GmpvPlaylistWidget *wgt)
+{
+	GtkTreePath *path = NULL;
+
+	gtk_tree_view_get_cursor
+		(	GTK_TREE_VIEW(wgt->tree_view),
+			&path,
+			NULL );
+
+	if(path)
+	{
+		GtkTreeIter iter;
+		GtkTreeModel *model = GTK_TREE_MODEL(wgt->store);
+		GValue value = G_VALUE_INIT;
+
+		if(gtk_tree_model_get_iter(model, &iter, path))
+		{
+			const gchar *uri;
+
+			gtk_tree_model_get_value
+				(model, &iter, PLAYLIST_URI_COLUMN, &value);
+
+			uri = g_value_get_string(&value);
+
+			if(uri)
+			{
+				GdkDisplay *display;
+				GtkClipboard *clipboard;
+
+				display = gdk_display_get_default();
+				clipboard = gtk_clipboard_get_default(display);
+
+				gtk_clipboard_set_text
+					(clipboard, uri, (gint)strlen(uri));
+			}
+		}
 	}
 }
 

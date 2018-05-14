@@ -68,6 +68,9 @@ static void save_playlist_handler(	GSimpleAction *action,
 static void shuffle_playlist_handler(	GSimpleAction *action,
 					GVariant *param,
 					gpointer data );
+static void copy_selected_playlist_item_handler(	GSimpleAction *action,
+							GVariant *param,
+							gpointer data );
 static void remove_selected_playlist_item_handler(	GSimpleAction *action,
 							GVariant *param,
 							gpointer data );
@@ -298,6 +301,23 @@ static void shuffle_playlist_handler(	GSimpleAction *action,
 	gmpv_model_shuffle_playlist(gmpv_controller_get_model(data));
 }
 
+static void copy_selected_playlist_item_handler(	GSimpleAction *action,
+							GVariant *param,
+							gpointer data )
+{
+	GmpvView *view = gmpv_controller_get_view(data);
+	GmpvMainWindow *wnd = gmpv_view_get_main_window(view);
+
+	if(gmpv_main_window_get_playlist_visible(wnd))
+	{
+		GmpvPlaylistWidget *playlist;
+
+		playlist = gmpv_main_window_get_playlist(wnd);
+
+		gmpv_playlist_widget_copy_selected(playlist);
+	}
+}
+
 static void remove_selected_playlist_item_handler(	GSimpleAction *action,
 							GVariant *param,
 							gpointer data )
@@ -451,6 +471,8 @@ void gmpv_controller_action_register_actions(GmpvController *controller)
 			.activate = save_playlist_handler},
 			{.name = "shuffle-playlist",
 			.activate = shuffle_playlist_handler},
+			{.name = "copy-selected-playlist-item",
+			.activate = copy_selected_playlist_item_handler},
 			{.name = "remove-selected-playlist-item",
 			.activate = remove_selected_playlist_item_handler},
 			{.name = "set-audio-track",
