@@ -25,15 +25,6 @@
 #include "gmpv_menu.h"
 #include "gmpv_common.h"
 
-typedef struct GmpvMenuEntry GmpvMenuEntry;
-
-struct GmpvMenuEntry
-{
-	gchar *title;
-	gchar *action;
-	GMenu *submenu;
-};
-
 static void split_track_list(	const GPtrArray *track_list,
 				GPtrArray **audio_tracks,
 				GPtrArray **video_tracks,
@@ -41,7 +32,6 @@ static void split_track_list(	const GPtrArray *track_list,
 static GMenu *build_menu_from_track_list(	const GPtrArray *list,
 						const gchar *action,
 						const gchar *load_action );
-static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat);
 static GMenu *build_video_track_menu(const GPtrArray *list);
 static GMenu *build_audio_track_menu(const GPtrArray *list);
 static GMenu *build_subtitle_track_menu(const GPtrArray *list);
@@ -153,7 +143,147 @@ static GMenu *build_menu_from_track_list(	const GPtrArray *list,
 	return menu;
 }
 
-static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat)
+static GMenu *build_video_track_menu(const GPtrArray *list)
+{
+	return	build_menu_from_track_list
+		(list, "win.set-video-track", NULL);
+}
+
+static GMenu *build_audio_track_menu(const GPtrArray *list)
+{
+	return	build_menu_from_track_list
+		(	list,
+			"win.set-audio-track",
+			"win.load-track('audio-add')" );
+}
+
+static GMenu *build_subtitle_track_menu(const GPtrArray *list)
+{
+	return	build_menu_from_track_list
+		(	list,
+			"win.set-subtitle-track",
+			"win.load-track('sub-add')" );
+}
+
+void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
+{
+	GPtrArray *audio_tracks = NULL;
+	GPtrArray *video_tracks = NULL;
+	GPtrArray *subtitle_tracks = NULL;
+	GMenu *video_menu = NULL;
+	GMenu *audio_menu = NULL;
+	GMenu *subtitle_menu = NULL;
+
+	split_track_list
+		(track_list, &audio_tracks, &video_tracks, &subtitle_tracks);
+
+	video_menu = build_video_track_menu(video_tracks);
+	audio_menu = build_audio_track_menu(audio_tracks);
+	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
+
+	const GmpvMenuEntry entries[]
+		= {	GMPV_MENU_SUBMENU(_("_File"), NULL),
+			GMPV_MENU_ITEM(_("_Open"), "win.show-open-dialog(false)"),
+			GMPV_MENU_ITEM(_("Open _Location"), "win.show-open-location-dialog(false)"),
+			GMPV_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
+			GMPV_MENU_ITEM(_("_Quit"), "win.quit"),
+			GMPV_MENU_SUBMENU(_("_Edit"), NULL),
+			GMPV_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
+			GMPV_MENU_SUBMENU(_("_Video Track"), video_menu),
+			GMPV_MENU_SUBMENU(_("_Audio Track"), audio_menu),
+			GMPV_MENU_SUBMENU(_("S_ubtitle Track"), subtitle_menu),
+			GMPV_MENU_SUBMENU(_("_View"), NULL),
+			GMPV_MENU_ITEM(_("_Toggle Controls"), "win.toggle-controls"),
+			GMPV_MENU_ITEM(_("_Toggle Playlist"), "win.toggle-playlist"),
+			GMPV_MENU_ITEM(_("_Fullscreen"), "win.toggle-fullscreen"),
+			GMPV_MENU_ITEM(_("_Normal Size"), "win.set-video-size(@d 1)"),
+			GMPV_MENU_ITEM(_("_Double Size"), "win.set-video-size(@d 2)"),
+			GMPV_MENU_ITEM(_("_Half Size"), "win.set-video-size(@d 0.5)"),
+			GMPV_MENU_SUBMENU(_("_Help"), NULL),
+			GMPV_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
+			GMPV_MENU_ITEM(_("_About"), "win.show-about-dialog"),
+			GMPV_MENU_END };
+
+	gmpv_menu_build_menu(menu, entries, FALSE);
+
+	g_ptr_array_free(audio_tracks, FALSE);
+	g_ptr_array_free(video_tracks, FALSE);
+	g_ptr_array_free(subtitle_tracks, FALSE);
+	g_object_unref(video_menu);
+	g_object_unref(audio_menu);
+	g_object_unref(subtitle_menu);
+}
+
+void gmpv_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
+{
+	GPtrArray *audio_tracks = NULL;
+	GPtrArray *video_tracks = NULL;
+	GPtrArray *subtitle_tracks = NULL;
+	GMenu *video_menu = NULL;
+	GMenu *audio_menu = NULL;
+	GMenu *subtitle_menu = NULL;
+
+	split_track_list
+		(track_list, &audio_tracks, &video_tracks, &subtitle_tracks);
+
+	video_menu = build_video_track_menu(video_tracks);
+	audio_menu = build_audio_track_menu(audio_tracks);
+	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
+
+	const GmpvMenuEntry entries[]
+		= {	GMPV_MENU_SEPARATOR,
+			GMPV_MENU_ITEM(_("_Toggle Controls"), "win.toggle-controls"),
+			GMPV_MENU_SEPARATOR,
+			GMPV_MENU_ITEM(_("_Toggle Playlist"), "win.toggle-playlist"),
+			GMPV_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
+			GMPV_MENU_SEPARATOR,
+			GMPV_MENU_SUBMENU(_("_Video Track"), video_menu),
+			GMPV_MENU_SUBMENU(_("_Audio Track"), audio_menu),
+			GMPV_MENU_SUBMENU(_("S_ubtitle Track"), subtitle_menu),
+			GMPV_MENU_SEPARATOR,
+			GMPV_MENU_ITEM(_("_Normal Size"), "win.set-video-size(@d 1)"),
+			GMPV_MENU_ITEM(_("_Double Size"), "win.set-video-size(@d 2)"),
+			GMPV_MENU_ITEM(_("_Half Size"), "win.set-video-size(@d 0.5)"),
+			GMPV_MENU_END };
+
+	gmpv_menu_build_menu(menu, entries, TRUE);
+
+	g_ptr_array_free(audio_tracks, FALSE);
+	g_ptr_array_free(video_tracks, FALSE);
+	g_ptr_array_free(subtitle_tracks, FALSE);
+	g_object_unref(video_menu);
+	g_object_unref(audio_menu);
+	g_object_unref(subtitle_menu);
+}
+
+void gmpv_menu_build_open_btn(GMenu *menu)
+{
+	const GmpvMenuEntry entries[]
+		= {	GMPV_MENU_SEPARATOR,
+			GMPV_MENU_ITEM(_("_Open"), "win.show-open-dialog(false)"),
+			GMPV_MENU_ITEM(_("Open _Location"), "win.show-open-location-dialog(false)"),
+			GMPV_MENU_END };
+
+	gmpv_menu_build_menu(menu, entries, TRUE);
+}
+
+void gmpv_menu_build_app_menu(GMenu *menu)
+{
+	const GmpvMenuEntry entries[]
+		= {	GMPV_MENU_SEPARATOR,
+			GMPV_MENU_ITEM(_("_New Window"), "app.new-window"),
+			GMPV_MENU_SEPARATOR,
+			GMPV_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
+			GMPV_MENU_SEPARATOR,
+			GMPV_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
+			GMPV_MENU_ITEM(_("_About"), "win.show-about-dialog"),
+			GMPV_MENU_ITEM(_("_Quit"), "win.quit"),
+			GMPV_MENU_END };
+
+	gmpv_menu_build_menu(menu, entries, TRUE);
+}
+
+void gmpv_menu_build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat)
 {
 	GMenu *current_submenu = NULL;
 
@@ -199,145 +329,5 @@ static void build_menu(GMenu *menu, const GmpvMenuEntry *entries, gboolean flat)
 			}
 		}
 	}
-}
-
-static GMenu *build_video_track_menu(const GPtrArray *list)
-{
-	return	build_menu_from_track_list
-		(list, "win.set-video-track", NULL);
-}
-
-static GMenu *build_audio_track_menu(const GPtrArray *list)
-{
-	return	build_menu_from_track_list
-		(	list,
-			"win.set-audio-track",
-			"win.load-track('audio-add')" );
-}
-
-static GMenu *build_subtitle_track_menu(const GPtrArray *list)
-{
-	return	build_menu_from_track_list
-		(	list,
-			"win.set-subtitle-track",
-			"win.load-track('sub-add')" );
-}
-
-void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
-{
-	GPtrArray *audio_tracks = NULL;
-	GPtrArray *video_tracks = NULL;
-	GPtrArray *subtitle_tracks = NULL;
-	GMenu *video_menu = NULL;
-	GMenu *audio_menu = NULL;
-	GMenu *subtitle_menu = NULL;
-
-	split_track_list
-		(track_list, &audio_tracks, &video_tracks, &subtitle_tracks);
-
-	video_menu = build_video_track_menu(video_tracks);
-	audio_menu = build_audio_track_menu(audio_tracks);
-	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
-
-	const GmpvMenuEntry entries[]
-		= {	{_("_File"), NULL, NULL},
-			{_("_Open"), "win.show-open-dialog(false)", NULL},
-			{_("Open _Location"), "win.show-open-location-dialog(false)", NULL},
-			{_("_Save Playlist"), "win.save-playlist", NULL},
-			{_("_Quit"), "win.quit", NULL},
-			{_("_Edit"), NULL, NULL},
-			{_("_Preferences"), "win.show-preferences-dialog", NULL},
-			{_("_Video Track"), NULL, video_menu},
-			{_("_Audio Track"), NULL, audio_menu},
-			{_("S_ubtitle Track"), NULL, subtitle_menu},
-			{_("_View"), NULL, NULL},
-			{_("_Toggle Controls"), "win.toggle-controls", NULL},
-			{_("_Toggle Playlist"), "win.toggle-playlist", NULL},
-			{_("_Fullscreen"), "win.toggle-fullscreen", NULL},
-			{_("_Normal Size"), "win.set-video-size(@d 1)", NULL},
-			{_("_Double Size"), "win.set-video-size(@d 2)", NULL},
-			{_("_Half Size"), "win.set-video-size(@d 0.5)", NULL},
-			{_("_Help"), NULL, NULL},
-			{_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog" , NULL},
-			{_("_About"), "win.show-about-dialog", NULL},
-			{NULL, NULL, NULL} };
-
-	build_menu(menu, entries, FALSE);
-
-	g_ptr_array_free(audio_tracks, FALSE);
-	g_ptr_array_free(video_tracks, FALSE);
-	g_ptr_array_free(subtitle_tracks, FALSE);
-	g_object_unref(video_menu);
-	g_object_unref(audio_menu);
-	g_object_unref(subtitle_menu);
-}
-
-void gmpv_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
-{
-	GPtrArray *audio_tracks = NULL;
-	GPtrArray *video_tracks = NULL;
-	GPtrArray *subtitle_tracks = NULL;
-	GMenu *video_menu = NULL;
-	GMenu *audio_menu = NULL;
-	GMenu *subtitle_menu = NULL;
-
-	split_track_list
-		(track_list, &audio_tracks, &video_tracks, &subtitle_tracks);
-
-	video_menu = build_video_track_menu(video_tracks);
-	audio_menu = build_audio_track_menu(audio_tracks);
-	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
-
-	const GmpvMenuEntry entries[]
-		= {	{NULL, "", NULL},
-			{_("_Toggle Controls"), "win.toggle-controls", NULL},
-			{NULL, "", NULL},
-			{_("_Toggle Playlist"), "win.toggle-playlist", NULL},
-			{_("_Save Playlist"), "win.save-playlist", NULL},
-			{NULL, "", NULL},
-			{_("_Video Track"), NULL, video_menu},
-			{_("_Audio Track"), NULL, audio_menu},
-			{_("S_ubtitle Track"), NULL, subtitle_menu},
-			{NULL, "", NULL},
-			{_("_Normal Size"), "win.set-video-size(@d 1)", NULL},
-			{_("_Double Size"), "win.set-video-size(@d 2)", NULL},
-			{_("_Half Size"), "win.set-video-size(@d 0.5)", NULL},
-			{NULL, NULL, NULL} };
-
-	build_menu(menu, entries, TRUE);
-
-	g_ptr_array_free(audio_tracks, FALSE);
-	g_ptr_array_free(video_tracks, FALSE);
-	g_ptr_array_free(subtitle_tracks, FALSE);
-	g_object_unref(video_menu);
-	g_object_unref(audio_menu);
-	g_object_unref(subtitle_menu);
-}
-
-void gmpv_menu_build_open_btn(GMenu *menu)
-{
-	const GmpvMenuEntry entries[]
-		= {	{NULL, "", NULL},
-			{_("_Open"), "win.show-open-dialog(false)", NULL},
-			{_("Open _Location"), "win.show-open-location-dialog(false)", NULL},
-			{NULL, NULL, NULL} };
-
-	build_menu(menu, entries, TRUE);
-}
-
-void gmpv_menu_build_app_menu(GMenu *menu)
-{
-	const GmpvMenuEntry entries[]
-		= {	{NULL, "", NULL},
-			{_("_New Window"), "app.new-window", NULL},
-			{NULL, "", NULL},
-			{_("_Preferences"), "win.show-preferences-dialog", NULL},
-			{NULL, "", NULL},
-			{_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog", NULL},
-			{_("_About"), "win.show-about-dialog", NULL},
-			{_("_Quit"), "win.quit", NULL},
-			{NULL, NULL, NULL} };
-
-	build_menu(menu, entries, TRUE);
 }
 

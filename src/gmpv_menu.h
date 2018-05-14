@@ -25,10 +25,27 @@
 
 G_BEGIN_DECLS
 
+#define GMPV_MENU_ITEM(title, action) {title, action, NULL}
+#define GMPV_MENU_SUBMENU(title, submenu) {title, NULL, submenu}
+#define GMPV_MENU_SEPARATOR {NULL, "", NULL}
+#define GMPV_MENU_END {NULL, NULL, NULL}
+
+struct GmpvMenuEntry
+{
+	gchar *title;
+	gchar *action;
+	GMenu *submenu;
+};
+
+typedef struct GmpvMenuEntry GmpvMenuEntry;
+
 void gmpv_menu_build_full(GMenu *gmpv_menu, const GPtrArray *track_list);
 void gmpv_menu_build_menu_btn(GMenu *gmpv_menu, const GPtrArray *track_list);
 void gmpv_menu_build_open_btn(GMenu *gmpv_menu);
 void gmpv_menu_build_app_menu(GMenu *gmpv_menu);
+void gmpv_menu_build_menu(	GMenu *menu,
+				const GmpvMenuEntry *entries,
+				gboolean flat );
 
 G_END_DECLS
 
