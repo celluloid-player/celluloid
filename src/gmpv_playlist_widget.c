@@ -512,15 +512,12 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 {
 	GmpvPlaylistWidget *wgt = data;
 	GdkEventButton *btn_event = (GdkEventButton *)event;
-	gboolean handled;
 
 	wgt->last_x = (gint)btn_event->x;
 	wgt->last_y = (gint)btn_event->y;
 
-	handled = (	btn_event->type == GDK_BUTTON_PRESS &&
-			btn_event->button == 3 );
-
-	if(handled)
+	if(	btn_event->type == GDK_BUTTON_PRESS &&
+		btn_event->button == 3 )
 	{
 		GMenu *menu;
 		GMenuItem *add_menu_item;
@@ -568,7 +565,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 				btn_event->button, btn_event->time );
 	}
 
-	return handled;
+	return FALSE;
 }
 
 static gchar *get_uri_selected(GmpvPlaylistWidget *wgt)
@@ -747,6 +744,7 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 {
 	GtkListStore *store = wgt->store;
 	gboolean iter_end = FALSE;
+	gint64 old_playlist_count = wgt->playlist_count;
 	GtkTreeIter iter;
 
 	g_assert(playlist);
@@ -841,6 +839,15 @@ void gmpv_playlist_widget_update_contents(	GmpvPlaylistWidget *wgt,
 		{
 			wgt->playlist_count--;
 		}
+	}
+
+	if(!old_playlist_count && wgt->playlist_count)
+	{
+		GtkTreePath *path = gtk_tree_path_new_first();
+
+		gtk_tree_view_set_cursor
+			(GTK_TREE_VIEW(wgt->tree_view), path, NULL, FALSE);
+		gtk_tree_path_free(path);
 	}
 
 	g_signal_handlers_unblock_by_func(wgt->store, row_inserted_handler, wgt);

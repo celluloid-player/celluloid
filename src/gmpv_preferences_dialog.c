@@ -181,7 +181,7 @@ static GtkWidget *build_page(	const PreferencesDialogItem *items,
 						"file-set",
 						G_CALLBACK(file_set_handler),
 						g_strdup(key),
-						(GClosureNotify)g_free,
+						g_free,
 						0 );
 
 			g_free(filename);
