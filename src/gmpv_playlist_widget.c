@@ -28,6 +28,7 @@
 #include "gmpv_metadata_cache.h"
 #include "gmpv_marshal.h"
 #include "gmpv_common.h"
+#include "gmpv_menu.h"
 #include "gmpv_def.h"
 
 enum
@@ -523,59 +524,23 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 	if(	btn_event->type == GDK_BUTTON_PRESS &&
 		btn_event->button == 3 )
 	{
-		GMenu *menu;
-		GMenu *item_section;
-		GMenu *playlist_section;
-		GMenuItem *copy_location_menu_item;
-		GMenuItem *remove_menu_item;
-		GMenuItem *add_menu_item;
-		GMenuItem *add_loc_menu_item;
-		GMenuItem *shuffle_menu_item;
-		GMenuItem *loop_file_menu_item;
-		GMenuItem *loop_playlist_menu_item;
-		GtkWidget *ctx_menu;
+		const GmpvMenuEntry entries[]
+			= {	GMPV_MENU_SEPARATOR,
+				GMPV_MENU_ITEM(_("_Copy Location"), "win.copy-selected-playlist-item"),
+				GMPV_MENU_ITEM(_("_Remove"), "win.remove-selected-playlist-item"),
+				GMPV_MENU_SEPARATOR,
+				GMPV_MENU_ITEM(_("_Add…"), "win.show-open-dialog(true)"),
+				GMPV_MENU_ITEM(_("Add _Location…"), "win.show-open-location-dialog(true)"),
+				GMPV_MENU_ITEM(_("_Shuffle"), "win.shuffle-playlist"),
+				GMPV_MENU_ITEM(_("Loop _File"), "win.toggle-loop-file"),
+				GMPV_MENU_ITEM(_("Loop _Playlist"), "win.toggle-loop-playlist"),
+				GMPV_MENU_END };
 
-		menu = g_menu_new();
-		item_section = g_menu_new();
-		playlist_section = g_menu_new();
-		copy_location_menu_item
-			=	g_menu_item_new
-				(	_("_Copy Location"),
-					"win.copy-selected-playlist-item" );
-		remove_menu_item
-			=	g_menu_item_new
-				(	_("_Remove"),
-					"win.remove-selected-playlist-item" );
-		add_menu_item
-			=	g_menu_item_new
-				(	_("_Add…"),
-					"win.show-open-dialog(true)" );
-		add_loc_menu_item
-			=	g_menu_item_new
-				(	_("Add _Location…"),
-					"win.show-open-location-dialog(true)" );
-		shuffle_menu_item
-			=	g_menu_item_new
-				(	_("_Shuffle"),
-					"win.shuffle-playlist" );
-		loop_file_menu_item
-			=	g_menu_item_new
-				(	_("Loop _File"),
-					"win.toggle-loop-file" );
-		loop_playlist_menu_item
-			=	g_menu_item_new
-				(	_("Loop _Playlist"),
-					"win.toggle-loop-playlist" );
+		gsize entries_offset = 0;
+		GMenu *menu = g_menu_new();
+		GtkWidget *ctx_menu = NULL;
 
-		g_menu_append_item(item_section, copy_location_menu_item);
-		g_menu_append_item(item_section, remove_menu_item);
-		g_menu_append_item(playlist_section, add_menu_item);
-		g_menu_append_item(playlist_section, add_loc_menu_item);
-		g_menu_append_item(playlist_section, shuffle_menu_item);
-		g_menu_append_item(playlist_section, loop_file_menu_item);
-		g_menu_append_item(playlist_section, loop_playlist_menu_item);
-
-		if(gtk_tree_view_get_path_at_pos(	GTK_TREE_VIEW(widget),
+		if(!gtk_tree_view_get_path_at_pos(	GTK_TREE_VIEW(widget),
 							(gint)event->x,
 							(gint)event->y,
 							NULL,
@@ -583,17 +548,16 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 							NULL,
 							NULL ))
 		{
-			g_menu_append_section
-				(menu, NULL, G_MENU_MODEL(item_section));
+			/* Skip the first section which only contains item-level
+			 * actions
+			 */
+			while(entries[++entries_offset].title);
 		}
 
-		g_menu_append_section
-			(menu, NULL, G_MENU_MODEL(playlist_section));
-
+		gmpv_menu_build_menu(menu, entries+entries_offset, TRUE);
 		g_menu_freeze(menu);
 
 		ctx_menu = gtk_menu_new_from_model(G_MENU_MODEL(menu));
-
 		gtk_menu_attach_to_widget(GTK_MENU(ctx_menu), widget, NULL);
 		gtk_widget_show_all(ctx_menu);
 
