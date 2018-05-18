@@ -10,7 +10,7 @@ appdata = i18n.merge_file(
   output: 'io.github.GnomeMpv.appdata.xml',
   po_dir: '../po',
   install: true,
-  install_dir: join_paths(get_option('datadir'), 'appdata')
+  install_dir: join_paths(get_option('datadir'), 'metainfo')
 )
 
 desktop = i18n.merge_file(
