@@ -366,6 +366,13 @@ static void initialize(GmpvMpv *mpv)
 					(	priv->mpv_ctx,
 						MPV_SUB_API_OPENGL_CB );
 	}
+	else
+	{
+		/* Only set force-window here if not using opengl-cb. It will
+		 * be set in gmpv_mpv_init_gl() otherwise.
+		 */
+		gmpv_mpv_set_property_string(mpv, "force-window", "yes");
+	}
 
 	priv->ready = TRUE;
 	g_object_notify(G_OBJECT(mpv), "ready");
@@ -609,6 +616,8 @@ void gmpv_mpv_init_gl(GmpvMpv *mpv)
 						"GL_MP_MPGetNativeDisplay",
 						get_proc_address,
 						NULL );
+
+	gmpv_mpv_set_property_string(mpv, "force-window", "yes");
 
 	if(rc >= 0)
 	{
