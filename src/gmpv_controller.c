@@ -569,12 +569,6 @@ static void connect_signals(GmpvController *controller)
 				"playlist-reordered",
 				G_CALLBACK(playlist_reordered_handler),
 				controller );
-
-	g_source_clear(&controller->update_seekbar_id);
-	controller->update_seekbar_id
-		= g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
-					(GSourceFunc)update_seek_bar,
-					controller );
 }
 
 gboolean update_seek_bar(gpointer data)
@@ -704,6 +698,12 @@ static void model_ready_handler(	GObject *object,
 			gmpv_model_initialize_gl(controller->model);
 		}
 	}
+
+	g_source_clear(&controller->update_seekbar_id);
+	controller->update_seekbar_id
+		= g_timeout_add(	SEEK_BAR_UPDATE_INTERVAL,
+					(GSourceFunc)update_seek_bar,
+					controller );
 
 	controller->ready = ready;
 	g_object_notify(data, "ready");
