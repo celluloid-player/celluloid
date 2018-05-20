@@ -639,6 +639,7 @@ void gmpv_mpv_quit(GmpvMpv *mpv)
 	GmpvMpvPrivate *priv = get_private(mpv);
 
 	g_info("Terminating mpv");
+	gmpv_mpv_command_string(mpv, "quit");
 
 	if(priv->opengl_ctx)
 	{
