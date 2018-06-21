@@ -944,7 +944,7 @@ static void cache_update_handler(	GmpvMetadataCache *cache,
 			g_free(entry->title);
 			entry->title = g_strdup(cache_entry->title);
 
-			g_signal_emit_by_name(data, "metadata-update", i);
+			g_signal_emit_by_name(data, "metadata-update", (gint64)i);
 		}
 	}
 }
