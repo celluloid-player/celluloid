@@ -33,7 +33,6 @@ struct _GmpvMediaKeys
 	GmpvController *controller;
 	gulong focus_sig_id;
 	GDBusProxy *proxy;
-	GDBusProxy *compat_proxy;
 	GDBusConnection *session_bus_conn;
 };
 
@@ -63,9 +62,6 @@ static void g_signal_handler(	GDBusProxy *proxy,
 				GVariant *parameters,
 				gpointer data );
 static void proxy_ready_handler(	GObject *source_object,
-					GAsyncResult *res,
-					gpointer data );
-static void compat_proxy_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data );
 static void session_ready_handler(	GObject *source_object,
@@ -99,7 +95,6 @@ static void dispose(GObject *object)
 	}
 
 	g_clear_object(&self->proxy);
-	g_clear_object(&self->compat_proxy);
 	g_clear_object(&self->session_bus_conn);
 
 	G_OBJECT_CLASS(gmpv_media_keys_parent_class)->dispose(object);
@@ -257,42 +252,6 @@ static void proxy_ready_handler(	GObject *source_object,
 	}
 }
 
-static void compat_proxy_ready_handler(	GObject *source_object,
-					GAsyncResult *res,
-					gpointer data )
-{
-	GmpvMediaKeys *self = data;
-	GError *error = NULL;
-
-	self->compat_proxy = g_dbus_proxy_new_finish(res, &error);
-
-	if(self->compat_proxy)
-	{
-		g_signal_connect(	self->compat_proxy,
-					"g-signal",
-					G_CALLBACK(g_signal_handler),
-					self );
-		g_dbus_proxy_call(	self->compat_proxy,
-					"GrabMediaPlayerKeys",
-					g_variant_new("(su)", APP_ID, 0),
-					G_DBUS_CALL_FLAGS_NONE,
-					-1,
-					NULL,
-					NULL,
-					NULL );
-	}
-	else
-	{
-		g_error("Failed to create compatibility GDBus proxy for media keys");
-	}
-
-	if(error)
-	{
-		g_error("%s", error->message);
-		g_error_free(error);
-	}
-}
-
 static void session_ready_handler(	GObject *source_object,
 					GAsyncResult *res,
 					gpointer data )
@@ -301,13 +260,6 @@ static void session_ready_handler(	GObject *source_object,
 
 	self->session_bus_conn = g_bus_get_finish(res, NULL);
 
-	/* The MediaKeys plugin for gnome-settings-daemon <= 3.24.1 used the
-	 * bus name org.gnome.SettingsDaemon despite the documentation stating
-	 * that org.gnome.SettingsDaemon.MediaKeys should be used.
-	 * gnome-settings-daemon > 3.24.1 changed the bus name to match the
-	 * documentation. To remain compatible with older versions, create
-	 * proxies for both names.
-	 */
 	g_dbus_proxy_new(	self->session_bus_conn,
 				G_DBUS_PROXY_FLAGS_NONE,
 				NULL,
@@ -317,15 +269,6 @@ static void session_ready_handler(	GObject *source_object,
 				NULL,
 				proxy_ready_handler,
 				self );
-	g_dbus_proxy_new(	self->session_bus_conn,
-				G_DBUS_PROXY_FLAGS_NONE,
-				NULL,
-				"org.gnome.SettingsDaemon",
-				"/org/gnome/SettingsDaemon/MediaKeys",
-				"org.gnome.SettingsDaemon.MediaKeys",
-				NULL,
-				compat_proxy_ready_handler,
-				self );
 }
 
 static void gmpv_media_keys_init(GmpvMediaKeys *self)
@@ -333,7 +276,6 @@ static void gmpv_media_keys_init(GmpvMediaKeys *self)
 	self->controller = NULL;
 	self->focus_sig_id = 0;
 	self->proxy = NULL;
-	self->compat_proxy = NULL;
 	self->session_bus_conn = NULL;
 }
 
