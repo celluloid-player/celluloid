@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.12\n"
 "Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
 "POT-Creation-Date: 2017-07-12 12:38+0700\n"
-"PO-Revision-Date: 2017-10-18 12:13-0400\n"
+"PO-Revision-Date: 2017-10-18 12:13+0000\n"
 "Last-Translator: leipero <lei.pero@gmail.com>\n"
 "Language-Team: Serbian (Latin)\n"
 "Language: sr@latin\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.4.5\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -114,7 +114,7 @@ msgid "Show or not show the controls"
 msgstr "Dozvoljava prikaz kontrola"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:334
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -171,27 +171,27 @@ msgstr "Glavni prozor sa otvorenom listom puštanja"
 msgid "io.github.GnomeMpv"
 msgstr ""
 
-#: data/io.github.GnomeMpv.desktop.in:19
+#: data/io.github.GnomeMpv.desktop.in:20
 msgid "New Window"
 msgstr "Novi prozor"
 
-#: src/gmpv_application.c:374
+#: src/gmpv_application.c:372
 msgid "Playing"
 msgstr "Reprodukcija"
 
-#: src/gmpv_application.c:419
+#: src/gmpv_application.c:417
 msgid "Show release version"
 msgstr "Prikaži verziju izdanja"
 
-#: src/gmpv_application.c:427
+#: src/gmpv_application.c:425
 msgid "Enqueue"
 msgstr "Naniži"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:433
 msgid "Create a new window"
 msgstr "Napravi novi prozor"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:441
 msgid "Don't connect to an already-running instance"
 msgstr "Ne povezuj na već pokrenut primerak"
 
@@ -227,7 +227,7 @@ msgstr "Prethodno Poglavlje"
 msgid "Toggle Fullscreen"
 msgstr "Ceo Ekran"
 
-#: src/gmpv_controller.c:787 src/gmpv_view.c:1429
+#: src/gmpv_controller.c:785 src/gmpv_view.c:1429
 msgid "Error"
 msgstr "Greška"
 
@@ -236,7 +236,7 @@ msgstr "Greška"
 msgid "_Cancel"
 msgstr "_Otkaži"
 
-#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
+#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:186 src/gmpv_menu.c:263
 #: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Otvori"
@@ -265,102 +265,102 @@ msgstr "Slike"
 msgid "Subtitle Files"
 msgstr "Prevodi"
 
-#: src/gmpv_menu.c:102
+#: src/gmpv_menu.c:92
 msgid "None"
 msgstr "Nijedan"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:117
+#: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "Nepoznato"
 
-#: src/gmpv_menu.c:150
+#: src/gmpv_menu.c:140
 msgid "_Load External…"
 msgstr "_Učitaj Spoljne..."
 
-#: src/gmpv_menu.c:243
+#: src/gmpv_menu.c:185
 msgid "_File"
 msgstr "_Datoteka"
 
-#: src/gmpv_menu.c:245 src/gmpv_menu.c:322
+#: src/gmpv_menu.c:187 src/gmpv_menu.c:264
 msgid "Open _Location"
 msgstr "Otvori_Lokaciju"
 
-#: src/gmpv_menu.c:246 src/gmpv_menu.c:296
+#: src/gmpv_menu.c:188 src/gmpv_menu.c:238
 msgid "_Save Playlist"
 msgstr "_Sačuvaj Listu Puštanja"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
+#: src/gmpv_menu.c:189 src/gmpv_menu.c:280
 msgid "_Quit"
 msgstr "_Napusti"
 
-#: src/gmpv_menu.c:248
+#: src/gmpv_menu.c:190
 msgid "_Edit"
 msgstr "_Uredi"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:191 src/gmpv_menu.c:276
 msgid "_Preferences"
 msgstr "_Postavke"
 
-#: src/gmpv_menu.c:250 src/gmpv_menu.c:298
+#: src/gmpv_menu.c:192 src/gmpv_menu.c:240
 msgid "_Video Track"
 msgstr "_Video Snimak"
 
-#: src/gmpv_menu.c:251 src/gmpv_menu.c:299
+#: src/gmpv_menu.c:193 src/gmpv_menu.c:241
 msgid "_Audio Track"
 msgstr "_Audio Snimak"
 
-#: src/gmpv_menu.c:252 src/gmpv_menu.c:300
+#: src/gmpv_menu.c:194 src/gmpv_menu.c:242
 msgid "S_ubtitle Track"
 msgstr "_Prevod"
 
-#: src/gmpv_menu.c:253
+#: src/gmpv_menu.c:195
 msgid "_View"
 msgstr "_Pregled"
 
-#: src/gmpv_menu.c:254 src/gmpv_menu.c:293
+#: src/gmpv_menu.c:196 src/gmpv_menu.c:235
 msgid "_Toggle Controls"
 msgstr "_Prikaži Kontrole"
 
-#: src/gmpv_menu.c:255 src/gmpv_menu.c:295
+#: src/gmpv_menu.c:197 src/gmpv_menu.c:237
 msgid "_Toggle Playlist"
 msgstr "_Prikaži Listu Puštanja"
 
-#: src/gmpv_menu.c:256
+#: src/gmpv_menu.c:198
 msgid "_Fullscreen"
 msgstr "_Ceo Ekran"
 
-#: src/gmpv_menu.c:257 src/gmpv_menu.c:302
+#: src/gmpv_menu.c:199 src/gmpv_menu.c:244
 msgid "_Normal Size"
 msgstr "_Normalna Veličina"
 
-#: src/gmpv_menu.c:258 src/gmpv_menu.c:303
+#: src/gmpv_menu.c:200 src/gmpv_menu.c:245
 msgid "_Double Size"
 msgstr "_Dvostruka Veličina"
 
-#: src/gmpv_menu.c:259 src/gmpv_menu.c:304
+#: src/gmpv_menu.c:201 src/gmpv_menu.c:246
 msgid "_Half Size"
 msgstr "_Upola Veličine"
 
-#: src/gmpv_menu.c:260
+#: src/gmpv_menu.c:202
 msgid "_Help"
 msgstr "_Pomoć"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:203 src/gmpv_menu.c:278
 msgid "_Keyboard Shortcuts"
 msgstr "_Prečice Tastature"
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
+#: src/gmpv_menu.c:204 src/gmpv_menu.c:279
 msgid "_About"
 msgstr "_O Nama"
 
-#: src/gmpv_menu.c:332
+#: src/gmpv_menu.c:274
 msgid "_New Window"
 msgstr "_Novi prozor"
 
-#: src/gmpv_mpv.c:217
-#, fuzzy, c-format
+#: src/gmpv_mpv.c:219
+#, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Reprodukcija je nepravilno okončana. Razlog: %s."
 
@@ -372,27 +372,35 @@ msgstr "Lokacija:"
 msgid "Failed to apply one or more MPV options."
 msgstr "Neuspešna primena jedne ili više MPV opcija."
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:529
+msgid "_Copy Location"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:530
+msgid "_Remove"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Dodaj..."
 
-#: src/gmpv_playlist_widget.c:540
+#: src/gmpv_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "Dodaj_Lokaciju..."
 
-#: src/gmpv_playlist_widget.c:544
+#: src/gmpv_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr "_Nasumično"
 
-#: src/gmpv_playlist_widget.c:548
+#: src/gmpv_playlist_widget.c:535
 msgid "Loop _File"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:552
+#: src/gmpv_playlist_widget.c:536
 msgid "Loop _Playlist"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:668
+#: src/gmpv_playlist_widget.c:665
 msgid "Playlist"
 msgstr "Lista Puštanja"
 
@@ -413,7 +421,7 @@ msgid "C Plugins"
 msgstr ""
 
 #: src/gmpv_plugins_manager.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Neuspešno kopiranje datoteke iz '%s' u '%s'. Razlog: %s"
 
@@ -432,7 +440,7 @@ msgstr ""
 "Sigurno želite da uklonite ovu skriptu? Ovaj postupak ne može biti opozvan."
 
 #: src/gmpv_plugins_manager_item.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Neuspešno brisanje datoteke '%s'. Razlog: %s"
 

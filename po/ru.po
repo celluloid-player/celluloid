@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-04 00:00+0700\n"
-"PO-Revision-Date: 2018-02-04 07:10-0500\n"
-"Last-Translator: Maxim Orlov <murmansksity@gmail.com>\n"
+"PO-Revision-Date: 2018-02-17 06:13+0000\n"
+"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.4.5\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -115,7 +115,7 @@ msgid "Show or not show the controls"
 msgstr "Показать или не показывать элементы управления"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:334
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -172,27 +172,27 @@ msgstr "Главное окно с открытым списком воспро�
 msgid "io.github.GnomeMpv"
 msgstr ""
 
-#: data/io.github.GnomeMpv.desktop.in:19
+#: data/io.github.GnomeMpv.desktop.in:20
 msgid "New Window"
 msgstr "Новое окно"
 
-#: src/gmpv_application.c:374
+#: src/gmpv_application.c:372
 msgid "Playing"
 msgstr "Воспроизводится"
 
-#: src/gmpv_application.c:419
+#: src/gmpv_application.c:417
 msgid "Show release version"
 msgstr "Показать версию релиза"
 
-#: src/gmpv_application.c:427
+#: src/gmpv_application.c:425
 msgid "Enqueue"
 msgstr "Поставить в очередь"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:433
 msgid "Create a new window"
 msgstr "Создать новое окно"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:441
 msgid "Don't connect to an already-running instance"
 msgstr "Не подключаться к уже работающему экземпляру"
 
@@ -228,7 +228,7 @@ msgstr "Предыдущая глава"
 msgid "Toggle Fullscreen"
 msgstr "Переход в полноэкранный режим и обратно"
 
-#: src/gmpv_controller.c:787 src/gmpv_view.c:1429
+#: src/gmpv_controller.c:785 src/gmpv_view.c:1429
 msgid "Error"
 msgstr "Ошибка"
 
@@ -237,7 +237,7 @@ msgstr "Ошибка"
 msgid "_Cancel"
 msgstr "_Отмена"
 
-#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
+#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:186 src/gmpv_menu.c:263
 #: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Открыть"
@@ -266,101 +266,101 @@ msgstr "Файлы изображений"
 msgid "Subtitle Files"
 msgstr "Файлы субтитров"
 
-#: src/gmpv_menu.c:102
+#: src/gmpv_menu.c:92
 msgid "None"
 msgstr "Ничего"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:117
+#: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: src/gmpv_menu.c:150
+#: src/gmpv_menu.c:140
 msgid "_Load External…"
 msgstr "_Загрузить внешние…"
 
-#: src/gmpv_menu.c:243
+#: src/gmpv_menu.c:185
 msgid "_File"
 msgstr "_Файл"
 
-#: src/gmpv_menu.c:245 src/gmpv_menu.c:322
+#: src/gmpv_menu.c:187 src/gmpv_menu.c:264
 msgid "Open _Location"
 msgstr "Открыть _адрес"
 
-#: src/gmpv_menu.c:246 src/gmpv_menu.c:296
+#: src/gmpv_menu.c:188 src/gmpv_menu.c:238
 msgid "_Save Playlist"
 msgstr "_Сохранить список воспроизведения"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
+#: src/gmpv_menu.c:189 src/gmpv_menu.c:280
 msgid "_Quit"
 msgstr "_Выйти"
 
-#: src/gmpv_menu.c:248
+#: src/gmpv_menu.c:190
 msgid "_Edit"
 msgstr "_Правка"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:191 src/gmpv_menu.c:276
 msgid "_Preferences"
 msgstr "_Настройки"
 
-#: src/gmpv_menu.c:250 src/gmpv_menu.c:298
+#: src/gmpv_menu.c:192 src/gmpv_menu.c:240
 msgid "_Video Track"
 msgstr "_Видео дорожка"
 
-#: src/gmpv_menu.c:251 src/gmpv_menu.c:299
+#: src/gmpv_menu.c:193 src/gmpv_menu.c:241
 msgid "_Audio Track"
 msgstr "_Аудио дорожка"
 
-#: src/gmpv_menu.c:252 src/gmpv_menu.c:300
+#: src/gmpv_menu.c:194 src/gmpv_menu.c:242
 msgid "S_ubtitle Track"
 msgstr "Дорожка с_убтитров"
 
-#: src/gmpv_menu.c:253
+#: src/gmpv_menu.c:195
 msgid "_View"
 msgstr "_Вид"
 
-#: src/gmpv_menu.c:254 src/gmpv_menu.c:293
+#: src/gmpv_menu.c:196 src/gmpv_menu.c:235
 msgid "_Toggle Controls"
 msgstr "_Показать/Скрыть элементы управления"
 
-#: src/gmpv_menu.c:255 src/gmpv_menu.c:295
+#: src/gmpv_menu.c:197 src/gmpv_menu.c:237
 msgid "_Toggle Playlist"
 msgstr "_Показать/Скрыть список воспроизведения"
 
-#: src/gmpv_menu.c:256
+#: src/gmpv_menu.c:198
 msgid "_Fullscreen"
 msgstr "_Полноэкранный режим"
 
-#: src/gmpv_menu.c:257 src/gmpv_menu.c:302
+#: src/gmpv_menu.c:199 src/gmpv_menu.c:244
 msgid "_Normal Size"
 msgstr "_Нормальный размер"
 
-#: src/gmpv_menu.c:258 src/gmpv_menu.c:303
+#: src/gmpv_menu.c:200 src/gmpv_menu.c:245
 msgid "_Double Size"
 msgstr "_Двойной размер"
 
-#: src/gmpv_menu.c:259 src/gmpv_menu.c:304
+#: src/gmpv_menu.c:201 src/gmpv_menu.c:246
 msgid "_Half Size"
 msgstr "_Половинный размер"
 
-#: src/gmpv_menu.c:260
+#: src/gmpv_menu.c:202
 msgid "_Help"
 msgstr "_Справка"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:203 src/gmpv_menu.c:278
 msgid "_Keyboard Shortcuts"
 msgstr "_Комбинации клавиш"
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
+#: src/gmpv_menu.c:204 src/gmpv_menu.c:279
 msgid "_About"
 msgstr "_О программе"
 
-#: src/gmpv_menu.c:332
+#: src/gmpv_menu.c:274
 msgid "_New Window"
 msgstr "_Новое окно"
 
-#: src/gmpv_mpv.c:217
+#: src/gmpv_mpv.c:219
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Воспроизведение было прекращено. Причина: %s."
@@ -373,27 +373,35 @@ msgstr "Адрес:"
 msgid "Failed to apply one or more MPV options."
 msgstr "Не удалось применить одну или несколько опций MPV."
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:529
+msgid "_Copy Location"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:530
+msgid "_Remove"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Добавить…"
 
-#: src/gmpv_playlist_widget.c:540
+#: src/gmpv_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "Добавить _Адрес…"
 
-#: src/gmpv_playlist_widget.c:544
+#: src/gmpv_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:548
+#: src/gmpv_playlist_widget.c:535
 msgid "Loop _File"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:552
+#: src/gmpv_playlist_widget.c:536
 msgid "Loop _Playlist"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:668
+#: src/gmpv_playlist_widget.c:665
 msgid "Playlist"
 msgstr "Список воспроизведения"
 

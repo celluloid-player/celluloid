@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.14\n"
 "Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
-"POT-Creation-Date: 2018-02-11 16:01-0800\n"
-"PO-Revision-Date: 2017-10-23 04:47-0400\n"
+"POT-Creation-Date: 2018-05-20 00:56-0700\n"
+"PO-Revision-Date: 2017-10-23 04:47+0000\n"
 "Last-Translator: Tomasz Wiśniewski <weykk27@gmail.com>\n"
 "Language-Team: polski <>\n"
 "Language: pl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.4.5\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -116,7 +116,7 @@ msgid "Show or not show the controls"
 msgstr "Przełącza wyświetlanie przycisków sterujących"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:334
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -174,27 +174,27 @@ msgstr "Główne okno programu z listą odtwarzania"
 msgid "io.github.GnomeMpv"
 msgstr ""
 
-#: data/io.github.GnomeMpv.desktop.in:19
+#: data/io.github.GnomeMpv.desktop.in:20
 msgid "New Window"
 msgstr "Nowe okno"
 
-#: src/gmpv_application.c:374
+#: src/gmpv_application.c:372
 msgid "Playing"
 msgstr "Odtwarzanie"
 
-#: src/gmpv_application.c:419
+#: src/gmpv_application.c:417
 msgid "Show release version"
 msgstr "Wypisuje informacje o wersji"
 
-#: src/gmpv_application.c:427
+#: src/gmpv_application.c:425
 msgid "Enqueue"
 msgstr "Dodaje do kolejki odtwarzania"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:433
 msgid "Create a new window"
 msgstr "Utwórz nowe okno"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:441
 msgid "Don't connect to an already-running instance"
 msgstr "Nie łączy z uruchomionym wystąpieniem programu"
 
@@ -230,7 +230,7 @@ msgstr "Poprzedni rozdział"
 msgid "Toggle Fullscreen"
 msgstr "Przełącza wyświetlanie na pełnym ekranie"
 
-#: src/gmpv_controller.c:787 src/gmpv_view.c:1429
+#: src/gmpv_controller.c:785 src/gmpv_view.c:1429
 msgid "Error"
 msgstr "Błąd"
 
@@ -239,7 +239,7 @@ msgstr "Błąd"
 msgid "_Cancel"
 msgstr "_Anuluj"
 
-#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
+#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:186 src/gmpv_menu.c:263
 #: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Otwórz"
@@ -268,102 +268,102 @@ msgstr ""
 msgid "Subtitle Files"
 msgstr ""
 
-#: src/gmpv_menu.c:102
+#: src/gmpv_menu.c:92
 msgid "None"
 msgstr "Brak"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:117
+#: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "Nieznana"
 
-#: src/gmpv_menu.c:150
+#: src/gmpv_menu.c:140
 msgid "_Load External…"
 msgstr "_Wczytaj zewnętrzną..."
 
-#: src/gmpv_menu.c:243
+#: src/gmpv_menu.c:185
 msgid "_File"
 msgstr "_Plik"
 
-#: src/gmpv_menu.c:245 src/gmpv_menu.c:322
+#: src/gmpv_menu.c:187 src/gmpv_menu.c:264
 msgid "Open _Location"
 msgstr "Otwórz położe_nie"
 
-#: src/gmpv_menu.c:246 src/gmpv_menu.c:296
+#: src/gmpv_menu.c:188 src/gmpv_menu.c:238
 msgid "_Save Playlist"
 msgstr "Z_apisz listę odtwarzania"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
+#: src/gmpv_menu.c:189 src/gmpv_menu.c:280
 msgid "_Quit"
 msgstr "Za_kończ"
 
-#: src/gmpv_menu.c:248
+#: src/gmpv_menu.c:190
 msgid "_Edit"
 msgstr "_Edycja"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:191 src/gmpv_menu.c:276
 msgid "_Preferences"
 msgstr "P_referencje"
 
-#: src/gmpv_menu.c:250 src/gmpv_menu.c:298
+#: src/gmpv_menu.c:192 src/gmpv_menu.c:240
 msgid "_Video Track"
 msgstr "Ścieżka _wideo"
 
-#: src/gmpv_menu.c:251 src/gmpv_menu.c:299
+#: src/gmpv_menu.c:193 src/gmpv_menu.c:241
 msgid "_Audio Track"
 msgstr "Ścieżka _dźwiękowa"
 
-#: src/gmpv_menu.c:252 src/gmpv_menu.c:300
+#: src/gmpv_menu.c:194 src/gmpv_menu.c:242
 msgid "S_ubtitle Track"
 msgstr "Ścieżka _napisów"
 
-#: src/gmpv_menu.c:253
+#: src/gmpv_menu.c:195
 msgid "_View"
 msgstr "_Widok"
 
-#: src/gmpv_menu.c:254 src/gmpv_menu.c:293
+#: src/gmpv_menu.c:196 src/gmpv_menu.c:235
 msgid "_Toggle Controls"
 msgstr "P_rzyciski sterujące"
 
-#: src/gmpv_menu.c:255 src/gmpv_menu.c:295
+#: src/gmpv_menu.c:197 src/gmpv_menu.c:237
 msgid "_Toggle Playlist"
 msgstr "_Lista odtwarzania"
 
-#: src/gmpv_menu.c:256
+#: src/gmpv_menu.c:198
 msgid "_Fullscreen"
 msgstr "_Pełny ekran"
 
-#: src/gmpv_menu.c:257 src/gmpv_menu.c:302
+#: src/gmpv_menu.c:199 src/gmpv_menu.c:244
 msgid "_Normal Size"
 msgstr "_Zwykły rozmiar"
 
-#: src/gmpv_menu.c:258 src/gmpv_menu.c:303
+#: src/gmpv_menu.c:200 src/gmpv_menu.c:245
 msgid "_Double Size"
 msgstr "Dwukrotnie _większy rozmiar"
 
-#: src/gmpv_menu.c:259 src/gmpv_menu.c:304
+#: src/gmpv_menu.c:201 src/gmpv_menu.c:246
 msgid "_Half Size"
 msgstr "Dwukrotnie _mniejszy rozmiar"
 
-#: src/gmpv_menu.c:260
+#: src/gmpv_menu.c:202
 msgid "_Help"
 msgstr "Pomo_c"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:203 src/gmpv_menu.c:278
 msgid "_Keyboard Shortcuts"
 msgstr "_Skróty klawiszowe"
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
+#: src/gmpv_menu.c:204 src/gmpv_menu.c:279
 msgid "_About"
 msgstr "_O programie"
 
-#: src/gmpv_menu.c:332
+#: src/gmpv_menu.c:274
 msgid "_New Window"
 msgstr ""
 
-#: src/gmpv_mpv.c:217
-#, fuzzy, c-format
+#: src/gmpv_mpv.c:219
+#, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Zakończono odtwarzanie w nieprawidłowy sposób. Powód: %s"
 
@@ -375,27 +375,35 @@ msgstr "Położenie:"
 msgid "Failed to apply one or more MPV options."
 msgstr "Nie udało się wprowadzić jednej lub więcej opcji MPV."
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:529
+msgid "_Copy Location"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:530
+msgid "_Remove"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Dodaj..."
 
-#: src/gmpv_playlist_widget.c:540
+#: src/gmpv_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "Dodaj p_ołożenie…"
 
-#: src/gmpv_playlist_widget.c:544
+#: src/gmpv_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:548
+#: src/gmpv_playlist_widget.c:535
 msgid "Loop _File"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:552
+#: src/gmpv_playlist_widget.c:536
 msgid "Loop _Playlist"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:668
+#: src/gmpv_playlist_widget.c:665
 msgid "Playlist"
 msgstr "Lista odtwarzania"
 
@@ -416,7 +424,7 @@ msgid "C Plugins"
 msgstr ""
 
 #: src/gmpv_plugins_manager.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Nie udało się skopiować pliku z położenia „%s” do „%s”. Powód: %s"
 
@@ -434,7 +442,7 @@ msgid ""
 msgstr "Usunąć ten skrypt? Tej czynności nie można cofnąć."
 
 #: src/gmpv_plugins_manager_item.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Nie można usunąć pliku „%s”. Powód: %s"
 

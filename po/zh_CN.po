@@ -7,20 +7,21 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2015. #zanata
 # Mingye Wang <arthur2e5@aosc.xyz>, 2016. #zanata
 # Huang Jiayao <huangjiayao_1992@163.com>, 2017. #zanata
+# Huang Jiayao <huangjiayao_1992@163.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 21:24+0800\n"
-"PO-Revision-Date: 2017-10-18 01:18-0400\n"
+"PO-Revision-Date: 2018-02-22 02:01+0000\n"
 "Last-Translator: Huang Jiayao <huangjiayao_1992@163.com>\n"
 "Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
-"Language: zh-CN\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.4.5\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -90,11 +91,11 @@ msgstr "是否在窗口模式下启用浮动控制"
 
 #: data/io.github.GnomeMpv.gschema.xml:34
 msgid "Whether or not to autohide mouse cursor in windowed mode"
-msgstr ""
+msgstr "是否在窗口模式下自动隐藏鼠标指针"
 
 #: data/io.github.GnomeMpv.gschema.xml:40
 msgid "Whether or not to use skip buttons for controlling playlist"
-msgstr ""
+msgstr "是否使用跳转按钮控制播放列表"
 
 #: data/io.github.GnomeMpv.gschema.xml:52
 msgid "Whether or not to create new windows when there is already an instance"
@@ -118,7 +119,7 @@ msgid "Show or not show the controls"
 msgstr "是否显示控制栏"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:334
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -173,27 +174,27 @@ msgstr "打开了播放列表的主窗口"
 msgid "io.github.GnomeMpv"
 msgstr ""
 
-#: data/io.github.GnomeMpv.desktop.in:19
+#: data/io.github.GnomeMpv.desktop.in:20
 msgid "New Window"
 msgstr "新建窗口"
 
-#: src/gmpv_application.c:374
+#: src/gmpv_application.c:372
 msgid "Playing"
 msgstr "正在播放"
 
-#: src/gmpv_application.c:419
+#: src/gmpv_application.c:417
 msgid "Show release version"
 msgstr "显示发布版本号"
 
-#: src/gmpv_application.c:427
+#: src/gmpv_application.c:425
 msgid "Enqueue"
 msgstr "加入队列"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:433
 msgid "Create a new window"
 msgstr "创建一个新窗口"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:441
 msgid "Don't connect to an already-running instance"
 msgstr "不要连接到已经运行中的实例"
 
@@ -229,7 +230,7 @@ msgstr "上一章节"
 msgid "Toggle Fullscreen"
 msgstr "切换全屏"
 
-#: src/gmpv_controller.c:787 src/gmpv_view.c:1429
+#: src/gmpv_controller.c:785 src/gmpv_view.c:1429
 msgid "Error"
 msgstr "错误"
 
@@ -238,7 +239,7 @@ msgstr "错误"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
+#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:186 src/gmpv_menu.c:263
 #: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
 msgstr "打开(_O)"
@@ -267,102 +268,102 @@ msgstr "图像文件"
 msgid "Subtitle Files"
 msgstr "字幕文件"
 
-#: src/gmpv_menu.c:102
+#: src/gmpv_menu.c:92
 msgid "None"
 msgstr "无"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:117
+#: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "未知"
 
-#: src/gmpv_menu.c:150
+#: src/gmpv_menu.c:140
 msgid "_Load External…"
 msgstr "载入外部(_L)…"
 
-#: src/gmpv_menu.c:243
+#: src/gmpv_menu.c:185
 msgid "_File"
 msgstr "文件(_F)"
 
-#: src/gmpv_menu.c:245 src/gmpv_menu.c:322
+#: src/gmpv_menu.c:187 src/gmpv_menu.c:264
 msgid "Open _Location"
 msgstr "打开位置(_L)"
 
-#: src/gmpv_menu.c:246 src/gmpv_menu.c:296
+#: src/gmpv_menu.c:188 src/gmpv_menu.c:238
 msgid "_Save Playlist"
 msgstr "保存播放列表(_S)"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
+#: src/gmpv_menu.c:189 src/gmpv_menu.c:280
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: src/gmpv_menu.c:248
+#: src/gmpv_menu.c:190
 msgid "_Edit"
 msgstr "编辑(_E)"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:191 src/gmpv_menu.c:276
 msgid "_Preferences"
 msgstr "首选项(_P)"
 
-#: src/gmpv_menu.c:250 src/gmpv_menu.c:298
+#: src/gmpv_menu.c:192 src/gmpv_menu.c:240
 msgid "_Video Track"
 msgstr "视频轨道(_V)"
 
-#: src/gmpv_menu.c:251 src/gmpv_menu.c:299
+#: src/gmpv_menu.c:193 src/gmpv_menu.c:241
 msgid "_Audio Track"
 msgstr "音轨(_A)"
 
-#: src/gmpv_menu.c:252 src/gmpv_menu.c:300
+#: src/gmpv_menu.c:194 src/gmpv_menu.c:242
 msgid "S_ubtitle Track"
 msgstr "字幕轨道(_u)"
 
-#: src/gmpv_menu.c:253
+#: src/gmpv_menu.c:195
 msgid "_View"
 msgstr "视图(_V)"
 
-#: src/gmpv_menu.c:254 src/gmpv_menu.c:293
+#: src/gmpv_menu.c:196 src/gmpv_menu.c:235
 msgid "_Toggle Controls"
 msgstr "切换控制栏(_T)"
 
-#: src/gmpv_menu.c:255 src/gmpv_menu.c:295
+#: src/gmpv_menu.c:197 src/gmpv_menu.c:237
 msgid "_Toggle Playlist"
 msgstr "切换播放列表(_T)"
 
-#: src/gmpv_menu.c:256
+#: src/gmpv_menu.c:198
 msgid "_Fullscreen"
 msgstr "全屏(_F)"
 
-#: src/gmpv_menu.c:257 src/gmpv_menu.c:302
+#: src/gmpv_menu.c:199 src/gmpv_menu.c:244
 msgid "_Normal Size"
 msgstr "正常尺寸(_N)"
 
-#: src/gmpv_menu.c:258 src/gmpv_menu.c:303
+#: src/gmpv_menu.c:200 src/gmpv_menu.c:245
 msgid "_Double Size"
 msgstr "两倍尺寸(_D)"
 
-#: src/gmpv_menu.c:259 src/gmpv_menu.c:304
+#: src/gmpv_menu.c:201 src/gmpv_menu.c:246
 msgid "_Half Size"
 msgstr "一半尺寸(_H)"
 
-#: src/gmpv_menu.c:260
+#: src/gmpv_menu.c:202
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:203 src/gmpv_menu.c:278
 msgid "_Keyboard Shortcuts"
 msgstr "快捷键(_K)"
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
+#: src/gmpv_menu.c:204 src/gmpv_menu.c:279
 msgid "_About"
 msgstr "关于(_A)"
 
-#: src/gmpv_menu.c:332
+#: src/gmpv_menu.c:274
 msgid "_New Window"
 msgstr "新建窗口(_N)"
 
-#: src/gmpv_mpv.c:217
-#, fuzzy, c-format
+#: src/gmpv_mpv.c:219
+#, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "回放被异常终止。原因：%s。"
 
@@ -374,54 +375,62 @@ msgstr "位置："
 msgid "Failed to apply one or more MPV options."
 msgstr "应用一个或多个 MPV 选项失败。"
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:529
+msgid "_Copy Location"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:530
+msgid "_Remove"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
 msgstr "添加(_A)…"
 
-#: src/gmpv_playlist_widget.c:540
+#: src/gmpv_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "添加位置(_L)"
 
-#: src/gmpv_playlist_widget.c:544
+#: src/gmpv_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr "随机播放(_S)"
 
-#: src/gmpv_playlist_widget.c:548
+#: src/gmpv_playlist_widget.c:535
 msgid "Loop _File"
-msgstr ""
+msgstr "循环播放文件(_F)"
 
-#: src/gmpv_playlist_widget.c:552
+#: src/gmpv_playlist_widget.c:536
 msgid "Loop _Playlist"
-msgstr ""
+msgstr "循环播放列表(_P)"
 
-#: src/gmpv_playlist_widget.c:668
+#: src/gmpv_playlist_widget.c:665
 msgid "Playlist"
 msgstr "播放列表"
 
 #: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
 msgid "Add Plugin"
-msgstr ""
+msgstr "添加插件"
 
 #: src/gmpv_plugins_manager.c:153
 msgid "Lua Plugins"
-msgstr ""
+msgstr "Lua 插件"
 
 #: src/gmpv_plugins_manager.c:159
 msgid "JavaScript Plugins"
-msgstr ""
+msgstr "JavaScript 插件"
 
 #: src/gmpv_plugins_manager.c:164
 msgid "C Plugins"
-msgstr ""
+msgstr "C 程序插件"
 
 #: src/gmpv_plugins_manager.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "从 '%s' 拷贝文件到 '%s' 失败。原因：%s"
 
 #: src/gmpv_plugins_manager.c:358
 msgid "No plugins found"
-msgstr ""
+msgstr "未找到插件"
 
 #: src/gmpv_plugins_manager_item.c:69
 msgid "Remove"
@@ -433,7 +442,7 @@ msgid ""
 msgstr "您确定移除此脚本吗？该操作无法被撤销。"
 
 #: src/gmpv_plugins_manager_item.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "删除文件 '%s' 失败。原因：%s"
 
@@ -455,11 +464,11 @@ msgstr "在窗口模式下启用浮动控制"
 
 #: src/gmpv_preferences_dialog.c:302
 msgid "Autohide mouse cursor in windowed mode"
-msgstr ""
+msgstr "在窗口模式下自动隐藏鼠标指针"
 
 #: src/gmpv_preferences_dialog.c:305
 msgid "Use skip buttons for controlling playlist"
-msgstr ""
+msgstr "使用跳转按钮控制播放列表"
 
 #: src/gmpv_preferences_dialog.c:308
 msgid "Remember last file's location"
@@ -519,7 +528,7 @@ msgstr "通用"
 
 #: src/gmpv_preferences_dialog.c:381
 msgid "Plugins"
-msgstr ""
+msgstr "插件"
 
 #: src/gmpv_preferences_dialog.c:386
 msgid "_Save"
@@ -813,4 +822,4 @@ msgstr ""
 "Mingye Wang <arthur2e5@aosc.xyz>, 2015, 2016.\n"
 "Jeff Bai <jeffbai@aosc.xyz>, 2015, 2016.\n"
 "Sun <warmsun0220@gmail.com>, 2015, 2016.\n"
-"Huang Jiayao <huangjiayao_1992@163.com>, 2017."
+"Huang Jiayao <huangjiayao_1992@163.com>, 2017, 2018."

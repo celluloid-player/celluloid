@@ -1,12 +1,13 @@
 # Danish translation for GNOME MPV
 # scootergrisen, 2017.
 # scootergrisen <scootergrisen@gmail.com>, 2017. #zanata
+# scootergrisen <scootergrisen@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.14\n"
 "Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
-"POT-Creation-Date: 2018-02-11 16:01-0800\n"
-"PO-Revision-Date: 2017-12-31 07:03-0500\n"
+"POT-Creation-Date: 2018-05-20 00:56-0700\n"
+"PO-Revision-Date: 2018-05-28 09:14+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -14,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.4.5\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -117,7 +118,7 @@ msgid "Show or not show the controls"
 msgstr "Vis eller skjul kontrolelementerne"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:334
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -160,7 +161,7 @@ msgstr "MPRIS2 D-Bus-grænseflade"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:60
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Hovedvinduet som viser programmet i funktion"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:64
 msgid "The main window with CSD disabled"
@@ -173,29 +174,29 @@ msgstr "Hovedvinduet med åben spilleliste"
 #. Translators: This is an icon name, don't translate!
 #: data/io.github.GnomeMpv.desktop.in:8
 msgid "io.github.GnomeMpv"
-msgstr ""
+msgstr "io.github.GnomeMpv"
 
-#: data/io.github.GnomeMpv.desktop.in:19
+#: data/io.github.GnomeMpv.desktop.in:20
 msgid "New Window"
 msgstr "Nyt vindue"
 
-#: src/gmpv_application.c:374
+#: src/gmpv_application.c:372
 msgid "Playing"
 msgstr "Afspiller"
 
-#: src/gmpv_application.c:419
+#: src/gmpv_application.c:417
 msgid "Show release version"
 msgstr "Vis udgivelsesversion"
 
-#: src/gmpv_application.c:427
+#: src/gmpv_application.c:425
 msgid "Enqueue"
 msgstr "Sæt i kø"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:433
 msgid "Create a new window"
 msgstr "Opret et nyt vindue"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:441
 msgid "Don't connect to an already-running instance"
 msgstr "Opret ikke forbindelse til en instans som allerede kører"
 
@@ -231,7 +232,7 @@ msgstr "Forrige kapitel"
 msgid "Toggle Fullscreen"
 msgstr "Fuldskærm til/fra"
 
-#: src/gmpv_controller.c:787 src/gmpv_view.c:1429
+#: src/gmpv_controller.c:785 src/gmpv_view.c:1429
 msgid "Error"
 msgstr "Fejl"
 
@@ -240,7 +241,7 @@ msgstr "Fejl"
 msgid "_Cancel"
 msgstr "_Annuller"
 
-#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
+#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:186 src/gmpv_menu.c:263
 #: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Åbn"
@@ -269,102 +270,102 @@ msgstr "Billedfiler"
 msgid "Subtitle Files"
 msgstr "Undertekstfiler"
 
-#: src/gmpv_menu.c:102
+#: src/gmpv_menu.c:92
 msgid "None"
 msgstr "Intet"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:117
+#: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "Ukendt"
 
-#: src/gmpv_menu.c:150
+#: src/gmpv_menu.c:140
 msgid "_Load External…"
 msgstr "_Indlæs ekstern…"
 
-#: src/gmpv_menu.c:243
+#: src/gmpv_menu.c:185
 msgid "_File"
 msgstr "_Fil"
 
-#: src/gmpv_menu.c:245 src/gmpv_menu.c:322
+#: src/gmpv_menu.c:187 src/gmpv_menu.c:264
 msgid "Open _Location"
 msgstr "Åbn _placering"
 
-#: src/gmpv_menu.c:246 src/gmpv_menu.c:296
+#: src/gmpv_menu.c:188 src/gmpv_menu.c:238
 msgid "_Save Playlist"
 msgstr "_Gem spilleliste"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
+#: src/gmpv_menu.c:189 src/gmpv_menu.c:280
 msgid "_Quit"
 msgstr "_Afslut"
 
-#: src/gmpv_menu.c:248
+#: src/gmpv_menu.c:190
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:191 src/gmpv_menu.c:276
 msgid "_Preferences"
 msgstr "_Præferencer"
 
-#: src/gmpv_menu.c:250 src/gmpv_menu.c:298
+#: src/gmpv_menu.c:192 src/gmpv_menu.c:240
 msgid "_Video Track"
 msgstr "_Videospor"
 
-#: src/gmpv_menu.c:251 src/gmpv_menu.c:299
+#: src/gmpv_menu.c:193 src/gmpv_menu.c:241
 msgid "_Audio Track"
 msgstr "_Lydspor"
 
-#: src/gmpv_menu.c:252 src/gmpv_menu.c:300
+#: src/gmpv_menu.c:194 src/gmpv_menu.c:242
 msgid "S_ubtitle Track"
 msgstr "_Undertekstspor"
 
-#: src/gmpv_menu.c:253
+#: src/gmpv_menu.c:195
 msgid "_View"
 msgstr "_Vis"
 
-#: src/gmpv_menu.c:254 src/gmpv_menu.c:293
+#: src/gmpv_menu.c:196 src/gmpv_menu.c:235
 msgid "_Toggle Controls"
 msgstr "_Kontrolelementer til/fra"
 
-#: src/gmpv_menu.c:255 src/gmpv_menu.c:295
+#: src/gmpv_menu.c:197 src/gmpv_menu.c:237
 msgid "_Toggle Playlist"
 msgstr "_Spilleliste til/fra"
 
-#: src/gmpv_menu.c:256
+#: src/gmpv_menu.c:198
 msgid "_Fullscreen"
 msgstr "_Fuldskærm"
 
-#: src/gmpv_menu.c:257 src/gmpv_menu.c:302
+#: src/gmpv_menu.c:199 src/gmpv_menu.c:244
 msgid "_Normal Size"
 msgstr "_Normal størrelse"
 
-#: src/gmpv_menu.c:258 src/gmpv_menu.c:303
+#: src/gmpv_menu.c:200 src/gmpv_menu.c:245
 msgid "_Double Size"
 msgstr "_Dobbelt størrelse"
 
-#: src/gmpv_menu.c:259 src/gmpv_menu.c:304
+#: src/gmpv_menu.c:201 src/gmpv_menu.c:246
 msgid "_Half Size"
 msgstr "_Halv størrelse"
 
-#: src/gmpv_menu.c:260
+#: src/gmpv_menu.c:202
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:203 src/gmpv_menu.c:278
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastaturgenveje"
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
+#: src/gmpv_menu.c:204 src/gmpv_menu.c:279
 msgid "_About"
 msgstr "_Om"
 
-#: src/gmpv_menu.c:332
+#: src/gmpv_menu.c:274
 msgid "_New Window"
 msgstr "_Nyt vindue"
 
-#: src/gmpv_mpv.c:217
-#, fuzzy, c-format
+#: src/gmpv_mpv.c:219
+#, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Afspilningen blev afsluttet unormalt. Årsag: %s."
 
@@ -376,27 +377,35 @@ msgstr "Placering:"
 msgid "Failed to apply one or more MPV options."
 msgstr "Kunne ikke anvende et eller flere MPV-tilvalg."
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:529
+msgid "_Copy Location"
+msgstr "_Kopíer placering"
+
+#: src/gmpv_playlist_widget.c:530
+msgid "_Remove"
+msgstr "_Fjern"
+
+#: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Tilføj…"
 
-#: src/gmpv_playlist_widget.c:540
+#: src/gmpv_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "Tilføj _placering…"
 
-#: src/gmpv_playlist_widget.c:544
+#: src/gmpv_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr "_Bland"
 
-#: src/gmpv_playlist_widget.c:548
+#: src/gmpv_playlist_widget.c:535
 msgid "Loop _File"
 msgstr "Løkke_fil"
 
-#: src/gmpv_playlist_widget.c:552
+#: src/gmpv_playlist_widget.c:536
 msgid "Loop _Playlist"
 msgstr "Løkke_spilleliste"
 
-#: src/gmpv_playlist_widget.c:668
+#: src/gmpv_playlist_widget.c:665
 msgid "Playlist"
 msgstr "Spilleliste"
 
@@ -417,7 +426,7 @@ msgid "C Plugins"
 msgstr "C-plugins"
 
 #: src/gmpv_plugins_manager.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Kunne ikke kopiere fil fra '%s' til '%s'. Årsag: %s"
 
@@ -437,7 +446,7 @@ msgstr ""
 "fortrydes."
 
 #: src/gmpv_plugins_manager_item.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Kunne ikke slette filen '%s'. Årsag: %s"
 
