@@ -25,29 +25,28 @@ msgid "Enable or disable client-side decorations"
 msgstr "Attiva o disattiva le decorazioni client-side"
 
 #: data/org.gnome-mpv.gschema.xml:21 data/io.github.GnomeMpv.gschema.xml:46
-msgid ""
-"Whether or not to make file chooser dialog remember last folder accessed"
+msgid "Whether or not to make file chooser dialog remember last folder accessed"
 msgstr "Ricorda o meno l'ultima cartella visualizzata"
 
 #: data/org.gnome-mpv.gschema.xml:27 data/io.github.GnomeMpv.gschema.xml:58
 msgid "Options to pass to mpv"
-msgstr "Opzioni da inserire in MPV"
+msgstr "Opzioni da inserire in mpv"
 
 #: data/org.gnome-mpv.gschema.xml:33 data/io.github.GnomeMpv.gschema.xml:64
 msgid "Path to mpv configuration file"
-msgstr "Percorso del file di configurazione di MPV"
+msgstr "Percorso del file di configurazione di mpv"
 
 #: data/org.gnome-mpv.gschema.xml:39 data/io.github.GnomeMpv.gschema.xml:70
 msgid "Load or don't load mpv configuration file"
-msgstr "Carica il file di configurazione di MPV"
+msgstr "Carica il file di configurazione di mpv"
 
 #: data/org.gnome-mpv.gschema.xml:45 data/io.github.GnomeMpv.gschema.xml:76
 msgid "Path to mpv input configuration file"
-msgstr "Percorso del file di configurazione dell'input di MPV"
+msgstr "Percorso del file di configurazione dell'input di mpv"
 
 #: data/org.gnome-mpv.gschema.xml:51 data/io.github.GnomeMpv.gschema.xml:82
 msgid "Load or don't load mpv input configuration file"
-msgstr "Carica il file di configurazione dell'input di MPV"
+msgstr "Carica il file di configurazione dell'input di mpv"
 
 #: data/org.gnome-mpv.gschema.xml:61 data/io.github.GnomeMpv.gschema.xml:110
 msgid "Width of the window"
@@ -74,11 +73,8 @@ msgid "URI of the last folder accessed"
 msgstr "Percorso dell'ultima cartella visualizzata"
 
 #: data/io.github.GnomeMpv.gschema.xml:10
-msgid ""
-"Whether the settings has already been migrated from the previous version"
-msgstr ""
-"È stata gia effettuata la migrazione delle preferenze da una versione "
-"precedente"
+msgid "Whether the settings has already been migrated from the previous version"
+msgstr "È stata gia effettuata la migrazione delle preferenze da una versione precedente"
 
 #: data/io.github.GnomeMpv.gschema.xml:28
 msgid "Whether or not to use floating controls in windowed mode"
@@ -90,7 +86,7 @@ msgstr "Nascondi o meno il cursore in modalità finestra"
 
 #: data/io.github.GnomeMpv.gschema.xml:40
 msgid "Whether or not to use skip buttons for controlling playlist"
-msgstr ""
+msgstr "Utilizza o meno i pulsanti di salto per il controllo della playlist"
 
 #: data/io.github.GnomeMpv.gschema.xml:52
 msgid "Whether or not to create new windows when there is already an instance"
@@ -101,13 +97,12 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Abilita o meno il supporto MPRIS"
 
 #: data/io.github.GnomeMpv.gschema.xml:94
-msgid ""
-"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr "Abilita o meno il supporto ai tasti multimediali di GNOME Settings Daemon"
 
 #: data/io.github.GnomeMpv.gschema.xml:100
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
-msgstr ""
+msgstr "Esegui o meno il precaricamento dei metadati per le voci della playlist"
 
 #: data/io.github.GnomeMpv.gschema.xml:135
 msgid "Show or not show the controls"
@@ -149,7 +144,7 @@ msgstr "Drag and drop della playlist"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:22
 msgid "Loading external mpv configuration files"
-msgstr "Carica un file di configurazione di MPV esterno"
+msgstr "Carica un file di configurazione esterno di mpv"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:23
 msgid "MPRIS2 D-Bus interface"
@@ -235,12 +230,12 @@ msgstr "Errore"
 #: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:127
 #: src/gmpv_preferences_dialog.c:384
 msgid "_Cancel"
-msgstr "An_nulla"
+msgstr "Annulla"
 
 #: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
 #: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
-msgstr "_Apri"
+msgstr "Apri"
 
 #: src/gmpv_file_chooser.c:136 src/gmpv_plugins_manager.c:148
 msgid "All Files"
@@ -252,19 +247,19 @@ msgstr "File multimediali"
 
 #: src/gmpv_file_chooser.c:155
 msgid "Audio Files"
-msgstr ""
+msgstr "File audio"
 
 #: src/gmpv_file_chooser.c:163
 msgid "Video Files"
-msgstr ""
+msgstr "File video"
 
 #: src/gmpv_file_chooser.c:171
 msgid "Image Files"
-msgstr ""
+msgstr "File immagine"
 
 #: src/gmpv_file_chooser.c:181
 msgid "Subtitle Files"
-msgstr ""
+msgstr "File sottotitoli"
 
 #: src/gmpv_menu.c:102
 msgid "None"
@@ -278,87 +273,87 @@ msgstr "Sconosciuto"
 
 #: src/gmpv_menu.c:150
 msgid "_Load External…"
-msgstr "_Importa..."
+msgstr "Importa..."
 
 #: src/gmpv_menu.c:243
 msgid "_File"
-msgstr "_File"
+msgstr "File"
 
 #: src/gmpv_menu.c:245 src/gmpv_menu.c:322
 msgid "Open _Location"
-msgstr "Apri _posizione"
+msgstr "Apri la posizione"
 
 #: src/gmpv_menu.c:246 src/gmpv_menu.c:296
 msgid "_Save Playlist"
-msgstr "_Salva la playlist"
+msgstr "Salva la playlist"
 
 #: src/gmpv_menu.c:247 src/gmpv_menu.c:338
 msgid "_Quit"
-msgstr "_Esci"
+msgstr "Esci"
 
 #: src/gmpv_menu.c:248
 msgid "_Edit"
-msgstr "_Modifica"
+msgstr "Modifica"
 
 #: src/gmpv_menu.c:249 src/gmpv_menu.c:334
 msgid "_Preferences"
-msgstr "_Preferenze"
+msgstr "Preferenze"
 
 #: src/gmpv_menu.c:250 src/gmpv_menu.c:298
 msgid "_Video Track"
-msgstr "Traccia _video"
+msgstr "Traccia video"
 
 #: src/gmpv_menu.c:251 src/gmpv_menu.c:299
 msgid "_Audio Track"
-msgstr "Traccia _audio"
+msgstr "Traccia audio"
 
 #: src/gmpv_menu.c:252 src/gmpv_menu.c:300
 msgid "S_ubtitle Track"
-msgstr "Traccia s_ottotitoli"
+msgstr "Traccia sottotitoli"
 
 #: src/gmpv_menu.c:253
 msgid "_View"
-msgstr "_Visualizza"
+msgstr "Visualizza"
 
 #: src/gmpv_menu.c:254 src/gmpv_menu.c:293
 msgid "_Toggle Controls"
-msgstr "Mostra o meno i _controlli"
+msgstr "Mostra o meno i controlli"
 
 #: src/gmpv_menu.c:255 src/gmpv_menu.c:295
 msgid "_Toggle Playlist"
-msgstr "Mostra o meno la _playlist"
+msgstr "Mostra o meno la playlist"
 
 #: src/gmpv_menu.c:256
 msgid "_Fullscreen"
-msgstr "Modalità a schermo _intero"
+msgstr "Modalità a schermo intero"
 
 #: src/gmpv_menu.c:257 src/gmpv_menu.c:302
 msgid "_Normal Size"
-msgstr "Dimensioni _normali"
+msgstr "Dimensioni normali"
 
 #: src/gmpv_menu.c:258 src/gmpv_menu.c:303
 msgid "_Double Size"
-msgstr "Dimensioni _raddoppiate"
+msgstr "Dimensioni raddoppiate"
 
 #: src/gmpv_menu.c:259 src/gmpv_menu.c:304
 msgid "_Half Size"
-msgstr "Dimensioni _dimezzate"
+msgstr "Dimensioni dimezzate"
 
 #: src/gmpv_menu.c:260
 msgid "_Help"
-msgstr "_Aiuto"
+msgstr "Aiuto"
 
 #: src/gmpv_menu.c:261 src/gmpv_menu.c:336
 msgid "_Keyboard Shortcuts"
-msgstr "Scorciatoie da _tastiera"
+msgstr "Scorciatoie da tastiera"
 
 #: src/gmpv_menu.c:262 src/gmpv_menu.c:337
 msgid "_About"
-msgstr "_Informazioni"
+msgstr "Informazioni"
 
 #: src/gmpv_menu.c:332
 msgid "_New Window"
-msgstr ""
+msgstr "Nuova finestra"
 
 #: src/gmpv_mpv.c:217
 #, fuzzy, c-format
@@ -371,27 +366,27 @@ msgstr "Posizione:"
 
 #: src/gmpv_player.c:494
 msgid "Failed to apply one or more MPV options."
-msgstr "Impossibile applicare una o più opzioni di MPV"
+msgstr "Impossibile applicare una o più opzioni di mpv"
 
 #: src/gmpv_playlist_widget.c:536
 msgid "_Add…"
-msgstr "_Aggiungi"
+msgstr "Aggiungi"
 
 #: src/gmpv_playlist_widget.c:540
 msgid "Add _Location…"
-msgstr "Aggiungi _posizione"
+msgstr "Aggiungi la posizione"
 
 #: src/gmpv_playlist_widget.c:544
 msgid "_Shuffle"
-msgstr ""
+msgstr "Riproduzione casuale"
 
 #: src/gmpv_playlist_widget.c:548
 msgid "Loop _File"
-msgstr ""
+msgstr "Ripeti il file"
 
 #: src/gmpv_playlist_widget.c:552
 msgid "Loop _Playlist"
-msgstr ""
+msgstr "Ripeti la playlist"
 
 #: src/gmpv_playlist_widget.c:668
 msgid "Playlist"
@@ -399,19 +394,19 @@ msgstr "Playlist"
 
 #: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
 msgid "Add Plugin"
-msgstr ""
+msgstr "Aggiungi un plugin"
 
 #: src/gmpv_plugins_manager.c:153
 msgid "Lua Plugins"
-msgstr ""
+msgstr "Plugin Lua"
 
 #: src/gmpv_plugins_manager.c:159
 msgid "JavaScript Plugins"
-msgstr ""
+msgstr "Plugin JavaScript"
 
 #: src/gmpv_plugins_manager.c:164
 msgid "C Plugins"
-msgstr ""
+msgstr "Plugin C"
 
 #: src/gmpv_plugins_manager.c:309
 #, fuzzy, c-format
@@ -420,18 +415,15 @@ msgstr "Impossibile copiare file da '%s' a '%s'. Motivo: %s"
 
 #: src/gmpv_plugins_manager.c:358
 msgid "No plugins found"
-msgstr ""
+msgstr "Nessun plugin trovato"
 
 #: src/gmpv_plugins_manager_item.c:69
 msgid "Remove"
 msgstr "Rimuovi"
 
 #: src/gmpv_plugins_manager_item.c:163
-msgid ""
-"Are you sure you want to remove this script? This action cannot be undone."
-msgstr ""
-"Sei sicuro di voler cancellare questo script? Questa azione non può essere "
-"annullata."
+msgid "Are you sure you want to remove this script? This action cannot be undone."
+msgstr "Sei sicuro di voler cancellare questo script? Questa azione non può essere annullata."
 
 #: src/gmpv_plugins_manager_item.c:184
 #, fuzzy, c-format
@@ -456,11 +448,11 @@ msgstr "Mostra i controlli fluttuanti in modalità finestra"
 
 #: src/gmpv_preferences_dialog.c:302
 msgid "Autohide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Nascondi automaticamente il cursore del mouse in modalità finestra"
 
 #: src/gmpv_preferences_dialog.c:305
 msgid "Use skip buttons for controlling playlist"
-msgstr ""
+msgstr "Usa i pulsanti salta per controllare la playlist"
 
 #: src/gmpv_preferences_dialog.c:308
 msgid "Remember last file's location"
@@ -468,15 +460,15 @@ msgstr "Ricorda l'ultimo percorso dei file"
 
 #: src/gmpv_preferences_dialog.c:311
 msgid "<b>MPV Configuration</b>"
-msgstr "<b>Configurazione di MPV</b>"
+msgstr "<b>Configurazione di mpv</b>"
 
 #: src/gmpv_preferences_dialog.c:314
 msgid "Load MPV configuration file"
-msgstr "Carica il file di configurazione di MPV"
+msgstr "Carica il file di configurazione di mpv"
 
 #: src/gmpv_preferences_dialog.c:317
 msgid "MPV configuration file:"
-msgstr "File di configurazione di MPV"
+msgstr "File di configurazione di mpv"
 
 #: src/gmpv_preferences_dialog.c:320
 msgid "<b>Keybindings</b>"
@@ -484,11 +476,11 @@ msgstr "<b>Scorciatoie da tastiera</b>"
 
 #: src/gmpv_preferences_dialog.c:323
 msgid "Load MPV input configuration file"
-msgstr "Carica il file di configurazione dell'input di MPV"
+msgstr "Carica il file di configurazione dell'input di mpv"
 
 #: src/gmpv_preferences_dialog.c:326
 msgid "MPV input configuration file:"
-msgstr "File di configurazione dell'input di MPV"
+msgstr "File di configurazione dell'input di mpv"
 
 #: src/gmpv_preferences_dialog.c:329
 msgid "<b>Miscellaneous</b>"
@@ -496,23 +488,23 @@ msgstr "<b>Varie</b>"
 
 #: src/gmpv_preferences_dialog.c:332
 msgid "Always open new window"
-msgstr ""
+msgstr "Apri sempre una nuova finestrea"
 
 #: src/gmpv_preferences_dialog.c:335
 msgid "Prefetch metadata"
-msgstr ""
+msgstr "Precarica i metadati"
 
 #: src/gmpv_preferences_dialog.c:338
 msgid "Enable MPRIS support"
-msgstr ""
+msgstr "Abilita il supporto MPRIS"
 
 #: src/gmpv_preferences_dialog.c:341
 msgid "Enable media keys support"
-msgstr ""
+msgstr "Abilita il supporto ai tasti multimediali"
 
 #: src/gmpv_preferences_dialog.c:344
 msgid "Extra MPV options:"
-msgstr "Opzioni extra per MPV"
+msgstr "Opzioni extra per mpv"
 
 #: src/gmpv_preferences_dialog.c:377
 msgid "General"
@@ -520,11 +512,11 @@ msgstr "Generale"
 
 #: src/gmpv_preferences_dialog.c:381
 msgid "Plugins"
-msgstr ""
+msgstr "Plugin"
 
 #: src/gmpv_preferences_dialog.c:386
 msgid "_Save"
-msgstr "_Salva"
+msgstr "Salva"
 
 #: src/gmpv_preferences_dialog.c:403
 msgid "Preferences"
@@ -539,16 +531,16 @@ msgid "Open location"
 msgstr "Apri posizione"
 
 #: src/gmpv_shortcuts_window.c:58
-msgid "Add file to playlist"
-msgstr ""
+msgid "Add un file to playlist"
+msgstr "Aggiungi file alla playlist"
 
 #: src/gmpv_shortcuts_window.c:59
 msgid "Add location to playlist"
-msgstr ""
+msgstr "Aggiungi posizione alla playlist"
 
 #: src/gmpv_shortcuts_window.c:60
 msgid "Show preferences dialog"
-msgstr "Mostra la finestra della preferenze"
+msgstr "Mostra la finestra delle preferenze"
 
 #: src/gmpv_shortcuts_window.c:61
 msgid "Toggle controls"
@@ -748,7 +740,7 @@ msgstr "Scegli fra le proporzioni di aspetto disponibili"
 
 #: src/gmpv_shortcuts_window.c:123
 msgid "User Interface"
-msgstr "Interfaccia Utente"
+msgstr "Interfaccia utente"
 
 #: src/gmpv_shortcuts_window.c:124
 msgid "Video"
@@ -771,10 +763,8 @@ msgid "Seeking"
 msgstr "Ricerca"
 
 #: src/gmpv_view.c:718
-msgid ""
-"Enabling or disabling client-side decorations requires restarting to take "
-"effect."
-msgstr ""
+msgid "Enabling or disabling client-side decorations requires restarting to take effect."
+msgstr "Abilitare o disabilitare le decorazioni client-side richiede un riavvio per avere effetto"
 
 #: src/gmpv_view.c:1309
 msgid "Add File to Playlist"
@@ -794,11 +784,11 @@ msgstr "Apri posizione"
 
 #: src/gmpv_view.c:1359
 msgid "Load Audio Track…"
-msgstr ""
+msgstr "Carica traccia audio..."
 
 #: src/gmpv_view.c:1378
 msgid "Load Subtitle Track…"
-msgstr ""
+msgstr "Carica traccia sottotitoli"
 
 #: src/gmpv_view.c:1403
 msgid "Save Playlist"
@@ -810,4 +800,4 @@ msgstr "Un frontend in GTK+ per MPV"
 
 #: src/gmpv_view.c:1478
 msgid "translator-credits"
-msgstr "Dino Trevisani"
+msgstr "Luca Trevisani"
