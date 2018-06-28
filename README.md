@@ -35,7 +35,7 @@ capabilities.
 - Fedora (rpmfusion): https://admin.rpmfusion.org/pkgdb/package/free/gnome-mpv/
 - Frugalware: http://www4.frugalware.org/pub/linux/distributions/frugalware/frugalware-current/source/xapps-extra/gnome-mpv/
 - OpenSUSE: https://software.opensuse.org/package/gnome-mpv
-- Gentoo: http://gpo.zugaina.org/media-video/gnome-mpv
+- Gentoo: https://packages.gentoo.org/packages/media-video/gnome-mpv
 - Guix: https://www.gnu.org/software/guix/packages/g.html#gnome-mpv
 - Solus: https://packages.solus-project.com/shannon/g/gnome-mpv/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
