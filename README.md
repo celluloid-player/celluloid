@@ -28,7 +28,7 @@ capabilities.
 ## Installation
 
 ### GNU/Linux packages
-- Arch Linux: https://aur.archlinux.org/packages/gnome-mpv
+- Arch Linux: https://www.archlinux.org/packages/gnome-mpv
 - Arch Linux (Git): https://aur.archlinux.org/packages/gnome-mpv-git
 - Debian testing: https://packages.debian.org/testing/gnome-mpv
 - Debian unstable: https://packages.debian.org/sid/gnome-mpv
