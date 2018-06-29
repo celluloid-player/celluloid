@@ -15,15 +15,13 @@ capabilities.
 - pkg-config (build)
 - gcc (build)
 - glib >= 2.44
-- gtk >= 3.18<sup>[[2]](#note2)</sup>
+- gtk >= 3.20
 - mpv >= 0.27
 - epoxy
 - lua (optional)
 - youtube-dl (optional)
 
 <a name="note1">[1]</a>: Not required when building from release tarballs
-
-<a name="note2">[2]</a>: Some features may be unavailable with gtk < 3.20
 
 ## Installation
 

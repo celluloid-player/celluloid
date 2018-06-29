@@ -24,6 +24,7 @@ sources = [
   'gmpv_plugins_manager_item.c',
   'gmpv_preferences_dialog.c',
   'gmpv_seek_bar.c',
+  'gmpv_shortcuts_window.c',
   'gmpv_video_area.c',
   'gmpv_view.c',
 
@@ -45,7 +46,7 @@ sources += custom_target('authors',
   ]
 )
 
-libgtk = dependency('gtk+-3.0', version: '>= 3.18')
+libgtk = dependency('gtk+-3.0', version: '>= 3.20')
 localedir = join_paths(get_option('prefix'), get_option('localedir'))
 cflags = [
   '-DG_SETTINGS_ENABLE_BACKEND',
@@ -54,6 +55,8 @@ cflags = [
   '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
   '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_44',
   '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_44',
+  '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
+  '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_20'
 ]
 
 if get_option('buildtype') == 'release'
@@ -61,19 +64,6 @@ if get_option('buildtype') == 'release'
     '-DG_DISABLE_ASSERT=1',
     '-DG_DISABLE_CHECKS=1',
     '-DG_DISABLE_CAST_CHECKS=1'
-  ]
-endif
-
-if libgtk.version().version_compare('>= 3.20')
-  cflags += [
-    '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
-    '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_20'
-  ]
-  sources += 'gmpv_shortcuts_window.c'
-else
-  cflags += [
-    '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_18',
-    '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_18'
   ]
 endif
 
