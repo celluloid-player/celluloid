@@ -587,7 +587,7 @@ static void load_input_conf(GmpvPlayer *player, const gchar *input_conf)
 		g_free(player->tmp_input_config);
 	}
 
-	tmp_fd = g_file_open_tmp(NULL, &tmp_path, NULL);
+	tmp_fd = g_file_open_tmp("."BIN_NAME"-XXXXXX", &tmp_path, NULL);
 	tmp_file = fdopen(tmp_fd, "w");
 	player->tmp_input_config = tmp_path;
 
