@@ -21,7 +21,7 @@
 #define DEF_H
 
 #define APP_ID "io.github.GnomeMpv"
-#define ICON_NAME "io.github.GnomeMpv"
+#define ICON_NAME APP_ID
 #define BIN_NAME "gnome-mpv"
 #define CONFIG_DIR BIN_NAME
 #define CONFIG_ROOT APP_ID
