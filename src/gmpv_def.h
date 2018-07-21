@@ -22,7 +22,8 @@
 
 #define APP_ID "io.github.GnomeMpv"
 #define ICON_NAME "io.github.GnomeMpv"
-#define CONFIG_DIR "gnome-mpv"
+#define BIN_NAME "gnome-mpv"
+#define CONFIG_DIR BIN_NAME
 #define CONFIG_ROOT APP_ID
 #define CONFIG_WIN_STATE APP_ID".window-state"
 #define ACTION_PREFIX "gmpv-action"
