@@ -390,6 +390,7 @@ static void apply_default_options(GmpvMpv *mpv)
 	options[] = {	{"vo", "opengl,vdpau,vaapi,xv,x11,opengl-cb,"},
 			{"osd-level", "1"},
 			{"softvol", "yes"},
+			{"force-window", "immediate"},
 			{"input-default-bindings", "yes"},
 			{"audio-client-name", ICON_NAME},
 			{"title", "${media-title}"},
