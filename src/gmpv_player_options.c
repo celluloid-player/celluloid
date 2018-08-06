@@ -44,8 +44,8 @@ static void parse_geom_string(	GmpvMpv *mpv,
 				GValue pos[2],
 				gint64 dim[2] );
 static gboolean get_video_dimensions(GmpvMpv *mpv, gint64 dim[2]);
-static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2]);
-static void handle_autofit(GmpvMpv *mpv, gint64 dim[2]);
+static gboolean handle_window_scale(GmpvMpv *mpv, gint64 dim[2]);
+static gboolean handle_autofit(GmpvMpv *mpv, gint64 dim[2]);
 static void handle_geometry(GmpvPlayer *player);
 static void handle_fs(GmpvPlayer *player);
 static void handle_msg_level(GmpvPlayer *player);
@@ -226,26 +226,29 @@ static void autofit_handler(GmpvMpv *mpv, gpointer data)
 {
 	gint64 dim[2] = {0, 0};
 
-	handle_window_scale(mpv, dim);
-	handle_autofit(mpv, dim);
+	if(get_video_dimensions(mpv, dim))
+	{
+		handle_window_scale(mpv, dim);
+		handle_autofit(mpv, dim);
+	}
 
 	if(dim[0] > 0 && dim[1] > 0)
 	{
+		g_info(	"Resizing window to %"G_GINT64_FORMAT"x%"G_GINT64_FORMAT,
+			dim[0],
+			dim[1] );
 		g_signal_emit_by_name(mpv, "window-resize", dim[0], dim[1]);
 	}
 }
 
-static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2])
+static gboolean handle_window_scale(GmpvMpv *mpv, gint64 dim[2])
 {
-	gint64 vid_dim[2] = {0, 0};
 	gchar *scale_str;
 	gboolean scale_set;
 
 	scale_str =	mpv_get_property_string
 			(get_private(mpv)->mpv_ctx, "options/window-scale");
 	scale_set = scale_str && *scale_str;
-
-	get_video_dimensions(mpv, vid_dim);
 
 	if(scale_set)
 	{
@@ -257,17 +260,18 @@ static void handle_window_scale(GmpvMpv *mpv, gint64 dim[2])
 		 * refuse to set invalid values.
 		 */
 		scale = g_ascii_strtod(scale_str, NULL);
-		dim[0] = (gint64)(scale*(gdouble)vid_dim[0]);
-		dim[1] = (gint64)(scale*(gdouble)vid_dim[1]);
+		dim[0] = (gint64)(scale*(gdouble)dim[0]);
+		dim[1] = (gint64)(scale*(gdouble)dim[1]);
 	}
 
 	mpv_free(scale_str);
+
+	return scale_set;
 }
 
-static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
+static gboolean handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
-	gint64 vid_dim[2] = {0, 0};
 	gint64 autofit_dim[2] = {0, 0};
 	gint64 larger_dim[2] = {G_MAXINT64, G_MAXINT64};
 	gint64 smaller_dim[2] = {0, 0};
@@ -277,6 +281,7 @@ static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 	gboolean autofit_set = FALSE;
 	gboolean larger_set = FALSE;
 	gboolean smaller_set = FALSE;
+	gboolean updated = FALSE;
 
 	autofit_str =	mpv_get_property_string
 			(priv->mpv_ctx, "options/autofit");
@@ -288,6 +293,7 @@ static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 	autofit_set = autofit_str && *autofit_str;
 	larger_set = larger_str && *larger_str;
 	smaller_set = smaller_str && *smaller_str;
+	updated = (autofit_set || larger_set || smaller_set);
 
 	if(autofit_set)
 	{
@@ -307,10 +313,12 @@ static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 		parse_dim_string(smaller_str, smaller_dim);
 	}
 
-	if(	(autofit_set || larger_set || smaller_set) &&
-		get_video_dimensions(mpv, vid_dim) )
+	if(updated)
 	{
+		gint64 orig_dim[2] = {0, 0};
 		gdouble ratio = 1.0;
+
+		memcpy(orig_dim, dim, 2*sizeof(gint64));
 
 		autofit_dim[0] = CLAMP(	autofit_dim[0],
 					smaller_dim[0],
@@ -318,18 +326,20 @@ static void handle_autofit(GmpvMpv *mpv, gint64 dim[2])
 		autofit_dim[1] = CLAMP(	autofit_dim[1],
 					smaller_dim[1],
 					larger_dim[1] );
-		dim[0] = CLAMP(vid_dim[0], autofit_dim[0], larger_dim[0]);
-		dim[1] = CLAMP(vid_dim[1], autofit_dim[1], larger_dim[1]);
+		dim[0] = CLAMP(orig_dim[0], autofit_dim[0], larger_dim[0]);
+		dim[1] = CLAMP(orig_dim[1], autofit_dim[1], larger_dim[1]);
 
-		ratio = MIN(	(gdouble)dim[0]/(gdouble)vid_dim[0],
-				(gdouble)dim[1]/(gdouble)vid_dim[1] );
-		dim[0] = (gint64)(ratio*(gdouble)vid_dim[0]);
-		dim[1] = (gint64)(ratio*(gdouble)vid_dim[1]);
+		ratio = MIN(	(gdouble)dim[0]/(gdouble)orig_dim[0],
+				(gdouble)dim[1]/(gdouble)orig_dim[1] );
+		dim[0] = (gint64)(ratio*(gdouble)orig_dim[0]);
+		dim[1] = (gint64)(ratio*(gdouble)orig_dim[1]);
 	}
 
 	mpv_free(autofit_str);
 	mpv_free(larger_str);
 	mpv_free(smaller_str);
+
+	return updated;
 }
 
 static void handle_geometry(GmpvPlayer *player)
@@ -343,10 +353,13 @@ static void handle_geometry(GmpvPlayer *player)
 		GValue pos[2] = {G_VALUE_INIT, G_VALUE_INIT};
 		gboolean flip[2] = {FALSE, FALSE};
 
+		g_warning("%s", geometry_str);
 		parse_geom_string(GMPV_MPV(player), geometry_str, flip, pos, dim);
 
 		if(G_IS_VALUE(&pos[0]) && G_IS_VALUE(&pos[1]))
 		{
+			g_warning("%s", G_VALUE_TYPE_NAME(&pos[0]));
+			g_warning("%f", g_value_get_double(&pos[0]));
 			g_signal_emit_by_name(	player,
 						"window-move",
 						flip[0], flip[1],
