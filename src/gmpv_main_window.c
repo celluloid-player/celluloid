@@ -220,9 +220,13 @@ static gboolean resize_to_target(gpointer data)
 	gint target_height = wnd->resize_target[1];
 
 	g_source_clear(&wnd->resize_tag);
+
+	/* Emulate mpv resizing behavior by using GDK_GRAVITY_CENTER */
+	gtk_window_set_gravity(GTK_WINDOW(wnd), GDK_GRAVITY_CENTER);
 	gtk_window_resize(	GTK_WINDOW(wnd),
 				target_width+wnd->width_offset,
 				target_height+wnd->height_offset );
+	gtk_window_set_gravity(GTK_WINDOW(wnd), GDK_GRAVITY_NORTH_WEST);
 
 	/* Prevent graphical glitches that appear when calling
 	 * gmpv_main_window_resize_video_area() with the current size as the
