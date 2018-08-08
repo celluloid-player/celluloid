@@ -353,13 +353,10 @@ static void handle_geometry(GmpvPlayer *player)
 		GValue pos[2] = {G_VALUE_INIT, G_VALUE_INIT};
 		gboolean flip[2] = {FALSE, FALSE};
 
-		g_warning("%s", geometry_str);
 		parse_geom_string(GMPV_MPV(player), geometry_str, flip, pos, dim);
 
 		if(G_IS_VALUE(&pos[0]) && G_IS_VALUE(&pos[1]))
 		{
-			g_warning("%s", G_VALUE_TYPE_NAME(&pos[0]));
-			g_warning("%f", g_value_get_double(&pos[0]));
 			g_signal_emit_by_name(	player,
 						"window-move",
 						flip[0], flip[1],
