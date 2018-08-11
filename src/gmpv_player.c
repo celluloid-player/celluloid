@@ -226,7 +226,7 @@ static void mpv_log_message(	GmpvMpv *mpv,
 	gsize prefix_len = strlen(prefix);
 	gboolean found = FALSE;
 	const gchar *iter_prefix;
-	mpv_log_level iter_level;
+	gpointer iter_level;
 	GHashTableIter iter;
 
 	g_hash_table_iter_init(&iter, player->log_levels);
@@ -234,7 +234,7 @@ static void mpv_log_message(	GmpvMpv *mpv,
 	while(	!found &&
 		g_hash_table_iter_next(	&iter,
 					(gpointer *)&iter_prefix,
-					(gpointer *)&iter_level) )
+					&iter_level) )
 	{
 		gsize iter_prefix_len = strlen(iter_prefix);
 		gint cmp = strncmp(	iter_prefix,
@@ -252,7 +252,7 @@ static void mpv_log_message(	GmpvMpv *mpv,
 		}
 	}
 
-	if(!found || (log_level <= iter_level))
+	if(!found || (gint)log_level <= GPOINTER_TO_INT(iter_level))
 	{
 		gchar *buf = g_strdup(text);
 		gsize len = strlen(buf);
@@ -1137,7 +1137,7 @@ void gmpv_player_set_log_level(	GmpvPlayer *player,
 			{NULL, MPV_LOG_LEVEL_NONE} };
 
 	GHashTableIter iter;
-	mpv_log_level iter_level = DEFAULT_LOG_LEVEL;
+	gpointer iter_level = GINT_TO_POINTER(DEFAULT_LOG_LEVEL);
 	mpv_log_level max_level = DEFAULT_LOG_LEVEL;
 	gboolean found = FALSE;
 	gint i = 0;
@@ -1159,11 +1159,11 @@ void gmpv_player_set_log_level(	GmpvPlayer *player,
 
 	g_hash_table_iter_init(&iter, player->log_levels);
 
-	while(g_hash_table_iter_next(&iter, NULL, (gpointer *)&iter_level))
+	while(g_hash_table_iter_next(&iter, NULL, &iter_level))
 	{
-		if(iter_level > max_level)
+		if(GPOINTER_TO_INT(iter_level) > (gint)max_level)
 		{
-			iter_level = max_level;
+			max_level = GPOINTER_TO_INT(iter_level);
 		}
 	}
 
