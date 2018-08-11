@@ -1169,7 +1169,7 @@ void gmpv_player_set_log_level(	GmpvPlayer *player,
 		}
 	}
 
-	for(i = 0; level_map[i].level != max_level; i++)
+	for(i = 0; level_map[i].level != max_level; i++);
 	gmpv_mpv_request_log_messages(GMPV_MPV(player), level_map[i].name);
 }
 
