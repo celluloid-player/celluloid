@@ -1142,13 +1142,11 @@ void gmpv_player_set_log_level(	GmpvPlayer *player,
 	gboolean found = FALSE;
 	gint i = 0;
 
-	for(i = 0; level_map[i].name && !found; i++)
+	do
 	{
-		if(g_strcmp0(level, level_map[i].name) == 0)
-		{
-			found = TRUE;
-		}
+		found = (g_strcmp0(level, level_map[i].name) == 0);
 	}
+	while(!found && level_map[++i].name);
 
 	if(found && g_strcmp0(prefix, "all") != 0)
 	{
