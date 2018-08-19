@@ -381,6 +381,8 @@ static void apply_default_options(GmpvMpv *mpv)
 {
 	gchar *config_dir = get_config_dir_path();
 	gchar *watch_dir = get_watch_dir_path();
+	const gchar *screenshot_dir =	g_get_user_special_dir
+					(G_USER_DIRECTORY_PICTURES);
 
 	const struct
 	{
@@ -407,6 +409,7 @@ static void apply_default_options(GmpvMpv *mpv)
 			{"config", "no"},
 			{"config-dir", config_dir},
 			{"watch-later-directory", watch_dir},
+			{"screenshot-directory", screenshot_dir},
 			{"screenshot-template", "gnome-mpv-shot%n"},
 			{NULL, NULL} };
 
