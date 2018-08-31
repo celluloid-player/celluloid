@@ -1,5 +1,5 @@
 project('gnome-mpv', 'c',
-  version: '0.14',
+  version: '0.15',
   meson_version: '>= 0.40.0',
   default_options: [
     'warning_level=2',
