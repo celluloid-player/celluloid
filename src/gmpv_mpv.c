@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 gnome-mpv
+ * Copyright (c) 2014-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -301,7 +301,7 @@ static gboolean check_mpv_version(const gchar *version)
 		tokens = g_strsplit(version+4, ".", (gint)min_version_length);
 	}
 
-	done = g_strv_length(tokens) != min_version_length;
+	done = !tokens || g_strv_length(tokens) != min_version_length;
 	result = !done;
 
 	for(guint i = 0; i < min_version_length && !done && result; i++)
