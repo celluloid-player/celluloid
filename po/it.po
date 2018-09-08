@@ -1,4 +1,5 @@
-# Luca Trevisani <farshee90@tiscali.it>, 2016-2018
+# Dino Trevisani <c3v90@libero.it>, 2016. #zanata
+# Luca <Walach1949@jourrapide.com>, 2017. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2018. #zanata
 msgid ""
@@ -6,15 +7,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-16 23:25+0700\n"
-"PO-Revision-Date: 2018-01-10 08:21-0500\n"
-"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
+"PO-Revision-Date: 2018-09-08 04:23+0000\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -25,7 +26,8 @@ msgid "Enable or disable client-side decorations"
 msgstr "Attiva o disattiva le decorazioni client-side"
 
 #: data/org.gnome-mpv.gschema.xml:21 data/io.github.GnomeMpv.gschema.xml:46
-msgid "Whether or not to make file chooser dialog remember last folder accessed"
+msgid ""
+"Whether or not to make file chooser dialog remember last folder accessed"
 msgstr "Ricorda o meno l'ultima cartella visualizzata"
 
 #: data/org.gnome-mpv.gschema.xml:27 data/io.github.GnomeMpv.gschema.xml:58
@@ -73,8 +75,11 @@ msgid "URI of the last folder accessed"
 msgstr "Percorso dell'ultima cartella visualizzata"
 
 #: data/io.github.GnomeMpv.gschema.xml:10
-msgid "Whether the settings has already been migrated from the previous version"
-msgstr "È stata già effettuata la migrazione delle preferenze da una versione precedente"
+msgid ""
+"Whether the settings has already been migrated from the previous version"
+msgstr ""
+"È stata già effettuata la migrazione delle preferenze da una versione "
+"precedente"
 
 #: data/io.github.GnomeMpv.gschema.xml:28
 msgid "Whether or not to use floating controls in windowed mode"
@@ -97,19 +102,22 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Abilita o meno il supporto MPRIS"
 
 #: data/io.github.GnomeMpv.gschema.xml:94
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
-msgstr "Abilita o meno il supporto ai tasti multimediali di GNOME Settings Daemon"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgstr ""
+"Abilita o meno il supporto ai tasti multimediali di GNOME Settings Daemon"
 
 #: data/io.github.GnomeMpv.gschema.xml:100
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
-msgstr "Esegui o meno il precaricamento dei metadati per le voci della playlist"
+msgstr ""
+"Esegui o meno il precaricamento dei metadati per le voci della playlist"
 
 #: data/io.github.GnomeMpv.gschema.xml:135
 msgid "Show or not show the controls"
 msgstr "Mostra o meno i controlli"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:334
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -150,15 +158,15 @@ msgstr "Carica un file di configurazione esterno di mpv"
 msgid "MPRIS2 D-Bus interface"
 msgstr "Interfaccia MPRIS2 D-Bus"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr "La finestra principale in funzione"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "La finestra principale con le decorazioni client-side disattivate"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "La finestra principale con la playlist visualizzata"
 
@@ -167,27 +175,31 @@ msgstr "La finestra principale con la playlist visualizzata"
 msgid "io.github.GnomeMpv"
 msgstr "io.github.GnomeMpv"
 
-#: data/io.github.GnomeMpv.desktop.in:19
+#: data/io.github.GnomeMpv.desktop.in:20
 msgid "New Window"
 msgstr "Nuova finestra"
 
-#: src/gmpv_application.c:374
+#: src/gmpv_application.c:383
 msgid "Playing"
 msgstr "In riproduzione"
 
-#: src/gmpv_application.c:419
+#: src/gmpv_application.c:430
 msgid "Show release version"
 msgstr "Mostra versione della release"
 
-#: src/gmpv_application.c:427
+#: src/gmpv_application.c:438
 msgid "Enqueue"
 msgstr "Accoda"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr "Apri una nuova finestra"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr ""
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr "Non usare una istanza già in esecuzione"
 
@@ -223,19 +235,19 @@ msgstr "Capitolo precedente"
 msgid "Toggle Fullscreen"
 msgstr "Attiva la modalità a schermo intero"
 
-#: src/gmpv_controller.c:787 src/gmpv_view.c:1429
+#: src/gmpv_controller.c:785 src/gmpv_view.c:1429
 msgid "Error"
 msgstr "Errore"
 
 #: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:127
 #: src/gmpv_preferences_dialog.c:384
 msgid "_Cancel"
-msgstr "Annulla"
+msgstr "An_nulla"
 
-#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:244 src/gmpv_menu.c:321
+#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:186 src/gmpv_menu.c:263
 #: src/gmpv_open_location_dialog.c:129
 msgid "_Open"
-msgstr "Apri"
+msgstr "_Apri"
 
 #: src/gmpv_file_chooser.c:136 src/gmpv_plugins_manager.c:148
 msgid "All Files"
@@ -261,102 +273,102 @@ msgstr "File immagine"
 msgid "Subtitle Files"
 msgstr "File sottotitoli"
 
-#: src/gmpv_menu.c:102
+#: src/gmpv_menu.c:92
 msgid "None"
 msgstr "Nessuno"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:117
+#: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/gmpv_menu.c:150
+#: src/gmpv_menu.c:140
 msgid "_Load External…"
-msgstr "Importa..."
+msgstr "_Importa..."
 
-#: src/gmpv_menu.c:243
+#: src/gmpv_menu.c:185
 msgid "_File"
-msgstr "File"
+msgstr "_File"
 
-#: src/gmpv_menu.c:245 src/gmpv_menu.c:322
+#: src/gmpv_menu.c:187 src/gmpv_menu.c:264
 msgid "Open _Location"
-msgstr "Apri posizione"
+msgstr "Apri _posizione"
 
-#: src/gmpv_menu.c:246 src/gmpv_menu.c:296
+#: src/gmpv_menu.c:188 src/gmpv_menu.c:238
 msgid "_Save Playlist"
-msgstr "Salva la playlist"
+msgstr "_Salva la playlist"
 
-#: src/gmpv_menu.c:247 src/gmpv_menu.c:338
+#: src/gmpv_menu.c:189 src/gmpv_menu.c:280
 msgid "_Quit"
-msgstr "Esci"
+msgstr "_Esci"
 
-#: src/gmpv_menu.c:248
+#: src/gmpv_menu.c:190
 msgid "_Edit"
-msgstr "Modifica"
+msgstr "_Modifica"
 
-#: src/gmpv_menu.c:249 src/gmpv_menu.c:334
+#: src/gmpv_menu.c:191 src/gmpv_menu.c:276
 msgid "_Preferences"
-msgstr "Preferenze"
+msgstr "_Preferenze"
 
-#: src/gmpv_menu.c:250 src/gmpv_menu.c:298
+#: src/gmpv_menu.c:192 src/gmpv_menu.c:240
 msgid "_Video Track"
-msgstr "Traccia video"
+msgstr "Traccia _video"
 
-#: src/gmpv_menu.c:251 src/gmpv_menu.c:299
+#: src/gmpv_menu.c:193 src/gmpv_menu.c:241
 msgid "_Audio Track"
-msgstr "Traccia audio"
+msgstr "Traccia _audio"
 
-#: src/gmpv_menu.c:252 src/gmpv_menu.c:300
+#: src/gmpv_menu.c:194 src/gmpv_menu.c:242
 msgid "S_ubtitle Track"
-msgstr "Traccia sottotitoli"
+msgstr "Traccia s_ottotitoli"
 
-#: src/gmpv_menu.c:253
+#: src/gmpv_menu.c:195
 msgid "_View"
-msgstr "Visualizza"
+msgstr "_Visualizza"
 
-#: src/gmpv_menu.c:254 src/gmpv_menu.c:293
+#: src/gmpv_menu.c:196 src/gmpv_menu.c:235
 msgid "_Toggle Controls"
-msgstr "Mostra o meno i controlli"
+msgstr "Mostra o meno i _controlli"
 
-#: src/gmpv_menu.c:255 src/gmpv_menu.c:295
+#: src/gmpv_menu.c:197 src/gmpv_menu.c:237
 msgid "_Toggle Playlist"
-msgstr "Mostra o meno la playlist"
+msgstr "Mostra o meno la _playlist"
 
-#: src/gmpv_menu.c:256
+#: src/gmpv_menu.c:198
 msgid "_Fullscreen"
-msgstr "Modalità a schermo intero"
+msgstr "Modalità a schermo _intero"
 
-#: src/gmpv_menu.c:257 src/gmpv_menu.c:302
+#: src/gmpv_menu.c:199 src/gmpv_menu.c:244
 msgid "_Normal Size"
-msgstr "Dimensioni normali"
+msgstr "Dimensioni _normali"
 
-#: src/gmpv_menu.c:258 src/gmpv_menu.c:303
+#: src/gmpv_menu.c:200 src/gmpv_menu.c:245
 msgid "_Double Size"
-msgstr "Dimensioni raddoppiate"
+msgstr "Dimensioni _raddoppiate"
 
-#: src/gmpv_menu.c:259 src/gmpv_menu.c:304
+#: src/gmpv_menu.c:201 src/gmpv_menu.c:246
 msgid "_Half Size"
-msgstr "Dimensioni dimezzate"
+msgstr "Dimensioni _dimezzate"
 
-#: src/gmpv_menu.c:260
+#: src/gmpv_menu.c:202
 msgid "_Help"
-msgstr "Aiuto"
+msgstr "_Aiuto"
 
-#: src/gmpv_menu.c:261 src/gmpv_menu.c:336
+#: src/gmpv_menu.c:203 src/gmpv_menu.c:278
 msgid "_Keyboard Shortcuts"
-msgstr "Scorciatoie da tastiera"
+msgstr "Scorciatoie da _tastiera"
 
-#: src/gmpv_menu.c:262 src/gmpv_menu.c:337
+#: src/gmpv_menu.c:204 src/gmpv_menu.c:279
 msgid "_About"
-msgstr "Informazioni"
+msgstr "_Informazioni"
 
-#: src/gmpv_menu.c:332
+#: src/gmpv_menu.c:274
 msgid "_New Window"
-msgstr "Nuova finestra"
+msgstr "_Nuova finestra"
 
-#: src/gmpv_mpv.c:217
-#, fuzzy, c-format
+#: src/gmpv_mpv.c:219
+#, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "La riproduzione si è interrota in modo anomalo. Motivo: %s"
 
@@ -364,31 +376,39 @@ msgstr "La riproduzione si è interrota in modo anomalo. Motivo: %s"
 msgid "Location:"
 msgstr "Posizione:"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "Impossibile applicare una o più opzioni di mpv"
 
-#: src/gmpv_playlist_widget.c:536
+#: src/gmpv_playlist_widget.c:529
+msgid "_Copy Location"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:530
+msgid "_Remove"
+msgstr ""
+
+#: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
-msgstr "Aggiungi..."
+msgstr "_Aggiungi..."
 
-#: src/gmpv_playlist_widget.c:540
+#: src/gmpv_playlist_widget.c:533
 msgid "Add _Location…"
-msgstr "Aggiungi posizione..."
+msgstr "Aggiungi _posizione..."
 
-#: src/gmpv_playlist_widget.c:544
+#: src/gmpv_playlist_widget.c:534
 msgid "_Shuffle"
-msgstr "Riproduzione casuale"
+msgstr "Riproduzione _casuale"
 
-#: src/gmpv_playlist_widget.c:548
+#: src/gmpv_playlist_widget.c:535
 msgid "Loop _File"
-msgstr "Ripeti il file"
+msgstr "Ripeti il _file"
 
-#: src/gmpv_playlist_widget.c:552
+#: src/gmpv_playlist_widget.c:536
 msgid "Loop _Playlist"
-msgstr "Ripeti la playlist"
+msgstr "Ripeti la _playlist"
 
-#: src/gmpv_playlist_widget.c:668
+#: src/gmpv_playlist_widget.c:665
 msgid "Playlist"
 msgstr "Playlist"
 
@@ -409,7 +429,7 @@ msgid "C Plugins"
 msgstr "Plugin C"
 
 #: src/gmpv_plugins_manager.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Impossibile copiare file da '%s' a '%s'. Motivo: %s"
 
@@ -422,11 +442,14 @@ msgid "Remove"
 msgstr "Rimuovi"
 
 #: src/gmpv_plugins_manager_item.c:163
-msgid "Are you sure you want to remove this script? This action cannot be undone."
-msgstr "Sei sicuro di voler cancellare questo script? Questa azione non può essere annullata."
+msgid ""
+"Are you sure you want to remove this script? This action cannot be undone."
+msgstr ""
+"Sei sicuro di voler cancellare questo script? Questa azione non può essere "
+"annullata."
 
 #: src/gmpv_plugins_manager_item.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Impossible cancellare '%s'. Motivo: %s"
 
@@ -516,7 +539,7 @@ msgstr "Plugin"
 
 #: src/gmpv_preferences_dialog.c:386
 msgid "_Save"
-msgstr "Salva"
+msgstr "_Salva"
 
 #: src/gmpv_preferences_dialog.c:403
 msgid "Preferences"
@@ -531,8 +554,8 @@ msgid "Open location"
 msgstr "Apri posizione"
 
 #: src/gmpv_shortcuts_window.c:58
-msgid "Add un file to playlist"
-msgstr "Aggiungi file alla playlist"
+msgid "Add file to playlist"
+msgstr ""
 
 #: src/gmpv_shortcuts_window.c:59
 msgid "Add location to playlist"
@@ -763,8 +786,12 @@ msgid "Seeking"
 msgstr "Ricerca"
 
 #: src/gmpv_view.c:718
-msgid "Enabling or disabling client-side decorations requires restarting to take effect."
-msgstr "Abilitare o disabilitare le decorazioni client-side richiede un riavvio per avere effetto"
+msgid ""
+"Enabling or disabling client-side decorations requires restarting to take "
+"effect."
+msgstr ""
+"Abilitare o disabilitare le decorazioni client-side richiede un riavvio per "
+"avere effetto"
 
 #: src/gmpv_view.c:1309
 msgid "Add File to Playlist"

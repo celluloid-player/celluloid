@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Zanata 4.4.5\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -115,7 +115,7 @@ msgid "Show or not show the controls"
 msgstr "Показать или не показывать элементы управления"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -155,15 +155,15 @@ msgstr "Загрузка внешних конфигурационных фай�
 msgid "MPRIS2 D-Bus interface"
 msgstr "Интерфейс MPRIS2 D-Bus"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr "Главное окно, показывающее приложение в действии"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "Главное окно с отключённым CSD"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "Главное окно с открытым списком воспроизведения"
 
@@ -176,23 +176,27 @@ msgstr ""
 msgid "New Window"
 msgstr "Новое окно"
 
-#: src/gmpv_application.c:372
+#: src/gmpv_application.c:383
 msgid "Playing"
 msgstr "Воспроизводится"
 
-#: src/gmpv_application.c:417
+#: src/gmpv_application.c:430
 msgid "Show release version"
 msgstr "Показать версию релиза"
 
-#: src/gmpv_application.c:425
+#: src/gmpv_application.c:438
 msgid "Enqueue"
 msgstr "Поставить в очередь"
 
-#: src/gmpv_application.c:433
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr "Создать новое окно"
 
-#: src/gmpv_application.c:441
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr ""
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr "Не подключаться к уже работающему экземпляру"
 
@@ -369,7 +373,7 @@ msgstr "Воспроизведение было прекращено. Причи
 msgid "Location:"
 msgstr "Адрес:"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "Не удалось применить одну или несколько опций MPV."
 

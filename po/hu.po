@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Zanata 4.4.5\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -113,7 +113,7 @@ msgid "Show or not show the controls"
 msgstr ""
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -154,15 +154,15 @@ msgstr "Külső mpv konfigurációs fájlok betöltése"
 msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus interfész"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr "Az alkalmazás működés közben"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "A főablak letiltott díszítésekkel"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "A főablak megnyitott lejátszási listával"
 
@@ -175,25 +175,29 @@ msgstr ""
 msgid "New Window"
 msgstr ""
 
-#: src/gmpv_application.c:372
+#: src/gmpv_application.c:383
 msgid "Playing"
 msgstr ""
 
-#: src/gmpv_application.c:417
+#: src/gmpv_application.c:430
 #, fuzzy
 msgid "Show release version"
 msgstr "Kiadási verzió megjelenítése"
 
-#: src/gmpv_application.c:425
+#: src/gmpv_application.c:438
 #, fuzzy
 msgid "Enqueue"
 msgstr "Sorba állítás"
 
-#: src/gmpv_application.c:433
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr ""
 
-#: src/gmpv_application.c:441
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr ""
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr "Ne csatlakozzon egy már futó példányhoz"
 
@@ -370,7 +374,7 @@ msgstr "A lejátszás nem megfelelően lett leállítva. Ok: %s."
 msgid "Location:"
 msgstr "Hely:"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "Egy vagy több MPV beállítás alkalmazása nem sikerült"
 

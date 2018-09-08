@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Zanata 4.4.5\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -119,7 +119,7 @@ msgid "Show or not show the controls"
 msgstr ""
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -157,15 +157,15 @@ msgstr "正在載入外部 mpv 配置檔"
 msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus 介面"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr "顯示執行中套用的主視窗"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "關閉了 CSD 的主視窗"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "打開了播放列表的主視窗"
 
@@ -178,23 +178,27 @@ msgstr ""
 msgid "New Window"
 msgstr ""
 
-#: src/gmpv_application.c:372
+#: src/gmpv_application.c:383
 msgid "Playing"
 msgstr "正在播放"
 
-#: src/gmpv_application.c:417
+#: src/gmpv_application.c:430
 msgid "Show release version"
 msgstr ""
 
-#: src/gmpv_application.c:425
+#: src/gmpv_application.c:438
 msgid "Enqueue"
 msgstr ""
 
-#: src/gmpv_application.c:433
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr ""
 
-#: src/gmpv_application.c:441
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr ""
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
@@ -371,7 +375,7 @@ msgstr "回放被異常終止。原因：%s。"
 msgid "Location:"
 msgstr "位置："
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "套用一個或多個 MPV 選項失敗。"
 

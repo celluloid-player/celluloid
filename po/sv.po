@@ -1,9 +1,9 @@
 # Patrik Nilsson <translation@hembas.se>, 2017. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mpv 0.14\n"
-"Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
-"POT-Creation-Date: 2018-05-20 00:56-0700\n"
+"Project-Id-Version: gnome-mpv\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-08 23:03+0700\n"
 "PO-Revision-Date: 2017-09-14 08:54+0000\n"
 "Last-Translator: Patrik Nilsson <translation@hembas.se>\n"
 "Language-Team: Swedish\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Zanata 4.4.5\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -114,7 +114,7 @@ msgid "Show or not show the controls"
 msgstr "Visa eller visa ej kontrollerna"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -155,15 +155,15 @@ msgstr "Läser in externa mpv konfigurationsfiler"
 msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus gränssnitt"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr ""
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "Huvudfönstret med CSD inaktiverat"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "Huvudfönstret med spellista öppen"
 
@@ -176,23 +176,27 @@ msgstr ""
 msgid "New Window"
 msgstr "Nytt fönster"
 
-#: src/gmpv_application.c:372
+#: src/gmpv_application.c:383
 msgid "Playing"
 msgstr "Spelar"
 
-#: src/gmpv_application.c:417
+#: src/gmpv_application.c:430
 msgid "Show release version"
 msgstr "Visa utgivningsversion"
 
-#: src/gmpv_application.c:425
+#: src/gmpv_application.c:438
 msgid "Enqueue"
 msgstr "Lägg till i kö"
 
-#: src/gmpv_application.c:433
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr "Skapa ett nytt fönster"
 
-#: src/gmpv_application.c:441
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr ""
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr "Anslut inte till en instans som redan körs"
 
@@ -369,7 +373,7 @@ msgstr "Där uppstod ett onormalt avbrott under uppspelningen. Anledning: %s."
 msgid "Location:"
 msgstr "Plats:"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "Misslyckades att tillämpa en eller flera MPV alternativ."
 

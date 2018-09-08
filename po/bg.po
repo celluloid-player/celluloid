@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-04 00:00+0700\n"
-"PO-Revision-Date: 2018-05-25 06:24+0000\n"
+"PO-Revision-Date: 2018-08-15 09:32+0000\n"
 "Last-Translator: cybercop <cybercop_montana@abv.bg>\n"
 "Language-Team: Bulgarian\n"
 "Language: bg\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 4.4.5\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -115,7 +115,7 @@ msgid "Show or not show the controls"
 msgstr "Да се показват ли контролерите"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -155,15 +155,15 @@ msgstr "Зареждане на външни MPV конфигурационни 
 msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus интерфейс"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr "Основният прозорец показва програмата в действие"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "Главният прозорец с изключен CSD"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "Главният прозорец с отворен спъсък за изпълнение"
 
@@ -176,23 +176,27 @@ msgstr "io.github.GnomeMpv"
 msgid "New Window"
 msgstr "Нов прозорец"
 
-#: src/gmpv_application.c:372
+#: src/gmpv_application.c:383
 msgid "Playing"
 msgstr "Изпълнение"
 
-#: src/gmpv_application.c:417
+#: src/gmpv_application.c:430
 msgid "Show release version"
 msgstr "Покажи текущата версия"
 
-#: src/gmpv_application.c:425
+#: src/gmpv_application.c:438
 msgid "Enqueue"
 msgstr "На опашка"
 
-#: src/gmpv_application.c:433
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr "Създаване на нов прозорец"
 
-#: src/gmpv_application.c:441
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr "Задаване роля на прозореца"
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr "Не свързвайте към вече стартиран екземпляр"
 
@@ -369,7 +373,7 @@ msgstr "Възпрозвеждането беше спряно непредви�
 msgid "Location:"
 msgstr "Местоположение:"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "Не могат да бъдат приложени една или повече опции за MPV."
 

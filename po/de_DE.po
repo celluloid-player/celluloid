@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-23 10:58-0500\n"
-"PO-Revision-Date: 2018-05-23 05:25+0000\n"
+"PO-Revision-Date: 2018-08-19 09:03+0000\n"
 "Last-Translator: Vincent Bermel <willovince@openmailbox.org>\n"
 "Language-Team: German Translations\n"
 "Language: de_DE\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 4.4.5\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -123,7 +123,7 @@ msgid "Show or not show the controls"
 msgstr "Wiedergabesteuerung anzeigen"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -164,15 +164,15 @@ msgstr "Laden externer mpv-Konfigurationsdateien"
 msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus Schnittstelle"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr "Das Hauptfenser von GNOME MPV"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "Das Hauptfenster ohne CSD-Titelleiste"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "Das Hauptfenster mit Wiedergabeliste"
 
@@ -185,24 +185,28 @@ msgstr ""
 msgid "New Window"
 msgstr "Neues Fenster"
 
-#: src/gmpv_application.c:372
+#: src/gmpv_application.c:383
 #, fuzzy
 msgid "Playing"
 msgstr "Wiedergabe"
 
-#: src/gmpv_application.c:417
+#: src/gmpv_application.c:430
 msgid "Show release version"
 msgstr "Release-Version anzeigen"
 
-#: src/gmpv_application.c:425
+#: src/gmpv_application.c:438
 msgid "Enqueue"
 msgstr "In Warteschlange aufnehmen"
 
-#: src/gmpv_application.c:433
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr "Neues Fenster aufrufen"
 
-#: src/gmpv_application.c:441
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr "Fensterart festlegen"
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr "Nicht mit einer bereits laufenden Instanz verbinden"
 
@@ -379,7 +383,7 @@ msgstr "Wiedergabe wurde abgebrochen. Grund: %s."
 msgid "Location:"
 msgstr "Adresse (lokal oder Web):"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "MPV-Optionen konnten nicht angewendet werden."
 

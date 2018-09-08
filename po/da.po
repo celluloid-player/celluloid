@@ -4,10 +4,10 @@
 # scootergrisen <scootergrisen@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mpv 0.14\n"
-"Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
-"POT-Creation-Date: 2018-05-20 00:56-0700\n"
-"PO-Revision-Date: 2018-05-28 09:14+0000\n"
+"Project-Id-Version: gnome-mpv\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-08 23:03+0700\n"
+"PO-Revision-Date: 2018-08-20 02:09+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 4.4.5\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -65,7 +65,7 @@ msgstr "Afspillerens lydstyrke"
 
 #: data/org.gnome-mpv.gschema.xml:79 data/io.github.GnomeMpv.gschema.xml:129
 msgid "Width of the playlist"
-msgstr "Afspillerens bredde"
+msgstr "Spillelistens bredde"
 
 #: data/org.gnome-mpv.gschema.xml:85 data/io.github.GnomeMpv.gschema.xml:141
 msgid "Show or not show the playlist"
@@ -118,7 +118,7 @@ msgid "Show or not show the controls"
 msgstr "Vis eller skjul kontrolelementerne"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -159,15 +159,15 @@ msgstr "Indlæser eksterne mpv-konfigurationsfiler"
 msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus-grænseflade"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr "Hovedvinduet som viser programmet i funktion"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "Hovedvinduet med deaktiveret skærmdisplay"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "Hovedvinduet med åben spilleliste"
 
@@ -180,23 +180,27 @@ msgstr "io.github.GnomeMpv"
 msgid "New Window"
 msgstr "Nyt vindue"
 
-#: src/gmpv_application.c:372
+#: src/gmpv_application.c:383
 msgid "Playing"
 msgstr "Afspiller"
 
-#: src/gmpv_application.c:417
+#: src/gmpv_application.c:430
 msgid "Show release version"
 msgstr "Vis udgivelsesversion"
 
-#: src/gmpv_application.c:425
+#: src/gmpv_application.c:438
 msgid "Enqueue"
 msgstr "Sæt i kø"
 
-#: src/gmpv_application.c:433
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr "Opret et nyt vindue"
 
-#: src/gmpv_application.c:441
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr "Sæt vinduesrollen"
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr "Opret ikke forbindelse til en instans som allerede kører"
 
@@ -373,7 +377,7 @@ msgstr "Afspilningen blev afsluttet unormalt. Årsag: %s."
 msgid "Location:"
 msgstr "Placering:"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "Kunne ikke anvende et eller flere MPV-tilvalg."
 

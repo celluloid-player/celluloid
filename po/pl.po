@@ -4,9 +4,9 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mpv 0.14\n"
-"Report-Msgid-Bugs-To: https://github.com/gnome-mpv/gnome-mpv/issues\n"
-"POT-Creation-Date: 2018-05-20 00:56-0700\n"
+"Project-Id-Version: gnome-mpv\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-08 23:03+0700\n"
 "PO-Revision-Date: 2017-10-23 04:47+0000\n"
 "Last-Translator: Tomasz Wiśniewski <weykk27@gmail.com>\n"
 "Language-Team: polski <>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Zanata 4.4.5\n"
+"X-Generator: Zanata 4.6.2\n"
 
 #: data/org.gnome-mpv.gschema.xml:9 data/io.github.GnomeMpv.gschema.xml:16
 msgid "Enable or disable dark theme"
@@ -116,7 +116,7 @@ msgid "Show or not show the controls"
 msgstr "Przełącza wyświetlanie przycisków sterujących"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:332
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
 #: src/gmpv_view.c:972
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
@@ -157,15 +157,15 @@ msgstr "wczytywanie zewnętrznych plików konfiguracyjnych programu mpv,"
 msgid "MPRIS2 D-Bus interface"
 msgstr "obsluga interfejsu D-Bus MPRIS2."
 
-#: data/io.github.GnomeMpv.appdata.xml.in:60
+#: data/io.github.GnomeMpv.appdata.xml.in:88
 msgid "The main window showing the application in action"
 msgstr "Główne okno przedstawiające działanie programu"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:64
+#: data/io.github.GnomeMpv.appdata.xml.in:92
 msgid "The main window with CSD disabled"
 msgstr "Głowne okno programu z wyłączonym obramowaniem po stronie klienta"
 
-#: data/io.github.GnomeMpv.appdata.xml.in:68
+#: data/io.github.GnomeMpv.appdata.xml.in:96
 msgid "The main window with playlist open"
 msgstr "Główne okno programu z listą odtwarzania"
 
@@ -178,23 +178,27 @@ msgstr ""
 msgid "New Window"
 msgstr "Nowe okno"
 
-#: src/gmpv_application.c:372
+#: src/gmpv_application.c:383
 msgid "Playing"
 msgstr "Odtwarzanie"
 
-#: src/gmpv_application.c:417
+#: src/gmpv_application.c:430
 msgid "Show release version"
 msgstr "Wypisuje informacje o wersji"
 
-#: src/gmpv_application.c:425
+#: src/gmpv_application.c:438
 msgid "Enqueue"
 msgstr "Dodaje do kolejki odtwarzania"
 
-#: src/gmpv_application.c:433
+#: src/gmpv_application.c:446
 msgid "Create a new window"
 msgstr "Utwórz nowe okno"
 
-#: src/gmpv_application.c:441
+#: src/gmpv_application.c:454
+msgid "Set the window role"
+msgstr ""
+
+#: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
 msgstr "Nie łączy z uruchomionym wystąpieniem programu"
 
@@ -371,7 +375,7 @@ msgstr "Zakończono odtwarzanie w nieprawidłowy sposób. Powód: %s"
 msgid "Location:"
 msgstr "Położenie:"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:498
 msgid "Failed to apply one or more MPV options."
 msgstr "Nie udało się wprowadzić jednej lub więcej opcji MPV."
 
