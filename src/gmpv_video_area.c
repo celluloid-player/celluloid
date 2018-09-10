@@ -121,6 +121,7 @@ static void get_property(	GObject *object,
 static void destroy(GtkWidget *widget)
 {
 	g_source_clear(&GMPV_VIDEO_AREA(widget)->timeout_tag);
+	GTK_WIDGET_CLASS(gmpv_video_area_parent_class)->destroy(widget);
 }
 
 static void set_cursor_visible(GmpvVideoArea *area, gboolean visible)
