@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 gnome-mpv
+ * Copyright (c) 2014-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -286,11 +286,8 @@ static void gmpv_preferences_dialog_class_init(GmpvPreferencesDialogClass *klass
 
 static void gmpv_preferences_dialog_init(GmpvPreferencesDialog *dlg)
 {
-	const PreferencesDialogItem general_items[]
-		= {	{_("<b>User Interface</b>"),
-			NULL,
-			ITEM_TYPE_GROUP},
-			{_("Enable client-side decorations"),
+	const PreferencesDialogItem interface_items[]
+		= {	{_("Enable client-side decorations"),
 			"csd-enable",
 			ITEM_TYPE_CHECK_BOX},
 			{_("Enable dark theme"),
@@ -308,28 +305,23 @@ static void gmpv_preferences_dialog_init(GmpvPreferencesDialog *dlg)
 			{_("Remember last file's location"),
 			"last-folder-enable",
 			ITEM_TYPE_CHECK_BOX},
-			{_("<b>MPV Configuration</b>"),
-			NULL,
-			ITEM_TYPE_GROUP},
-			{_("Load MPV configuration file"),
+			{NULL, NULL, ITEM_TYPE_INVALID} };
+	const PreferencesDialogItem config_items[]
+		= {	{_("Load MPV configuration file"),
 			"mpv-config-enable",
 			ITEM_TYPE_CHECK_BOX},
 			{_("MPV configuration file:"),
 			"mpv-config-file",
 			ITEM_TYPE_FILE_CHOOSER},
-			{_("<b>Keybindings</b>"),
-			NULL,
-			ITEM_TYPE_GROUP},
 			{_("Load MPV input configuration file"),
 			"mpv-input-config-enable",
 			ITEM_TYPE_CHECK_BOX},
 			{_("MPV input configuration file:"),
 			"mpv-input-config-file",
 			ITEM_TYPE_FILE_CHOOSER},
-			{_("<b>Miscellaneous</b>"),
-			NULL,
-			ITEM_TYPE_GROUP},
-			{_("Always open new window"),
+			{NULL, NULL, ITEM_TYPE_INVALID} };
+	const PreferencesDialogItem misc_items[]
+		= {	{_("Always open new window"),
 			"always-open-new-window",
 			ITEM_TYPE_CHECK_BOX},
 			{_("Prefetch metadata"),
@@ -373,9 +365,14 @@ static void gmpv_preferences_dialog_init(GmpvPreferencesDialog *dlg)
 	gtk_container_add(GTK_CONTAINER(content_area), dlg->notebook);
 
 	gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook),
-					build_page(general_items, dlg->settings),
-					gtk_label_new(_("General")) );
-
+					build_page(interface_items, dlg->settings),
+					gtk_label_new(_("Interface")) );
+	gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook),
+					build_page(config_items, dlg->settings),
+					gtk_label_new(_("Config Files")) );
+	gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook),
+					build_page(misc_items, dlg->settings),
+					gtk_label_new(_("Miscellaneous")) );
 	gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook),
 					gmpv_plugins_manager_new(GTK_WINDOW(dlg)),
 					gtk_label_new(_("Plugins")) );
