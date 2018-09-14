@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 gnome-mpv
+ * Copyright (c) 2017-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -316,9 +316,10 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		was_empty = (player->playlist->len == 0);
+		was_empty =	player->init_vo_config ||
+				player->playlist->len == 0;
 
-		if(!idle_active)
+		if(!idle_active && !player->init_vo_config)
 		{
 			update_playlist(player);
 		}
