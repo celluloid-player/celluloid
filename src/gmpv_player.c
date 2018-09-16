@@ -303,14 +303,9 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 	}
 	else if(g_strcmp0(name, "playlist") == 0)
 	{
-		gint64 playlist_count = 0;
 		gboolean idle_active = FALSE;
 		gboolean was_empty = FALSE;
 
-		gmpv_mpv_get_property(	mpv,
-					"playlist-count",
-					MPV_FORMAT_INT64,
-					&playlist_count );
 		gmpv_mpv_get_property(	mpv,
 					"idle-active",
 					MPV_FORMAT_FLAG,
