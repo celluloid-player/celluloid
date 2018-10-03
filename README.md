@@ -15,7 +15,7 @@ capabilities.
 - pkg-config (build)
 - gcc (build)
 - glib >= 2.44
-- gtk >= 3.20
+- gtk >= 3.22
 - mpv >= 0.27
 - epoxy
 - lua (optional)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 gnome-mpv
+ * Copyright (c) 2014-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -608,12 +608,20 @@ void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 {
 	if(visible != wnd->playlist_visible && !wnd->fullscreen)
 	{
-		gboolean maximized;
+		GdkWindow *gdk_window;
+		GdkWindowState window_state;
+		gboolean resize;
 		gint handle_pos;
 		gint width;
 		gint height;
 
-		maximized = gtk_window_is_maximized(GTK_WINDOW(wnd));
+		gdk_window = gtk_widget_get_window(GTK_WIDGET(wnd));
+		window_state = gdk_window_get_state(gdk_window);
+		resize = window_state &
+			(	GDK_WINDOW_STATE_TOP_RESIZABLE |
+				GDK_WINDOW_STATE_RIGHT_RESIZABLE |
+				GDK_WINDOW_STATE_BOTTOM_RESIZABLE |
+				GDK_WINDOW_STATE_LEFT_RESIZABLE );
 		handle_pos =	gtk_paned_get_position
 				(GTK_PANED(wnd->vid_area_paned));
 
@@ -621,7 +629,7 @@ void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 
 		if(wnd->playlist_first_toggle && visible)
 		{
-			gint new_pos = width-(maximized?wnd->playlist_width:0);
+			gint new_pos = width-(resize?0:wnd->playlist_width);
 
 			gtk_paned_set_position
 				(GTK_PANED(wnd->vid_area_paned), new_pos);
@@ -634,7 +642,7 @@ void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 		wnd->playlist_visible = visible;
 		gtk_widget_set_visible(wnd->playlist, visible);
 
-		if(!maximized)
+		if(resize)
 		{
 			gint new_width;
 

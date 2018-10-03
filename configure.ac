@@ -85,13 +85,13 @@ AS_IF([test "x$GLIB_GENMARSHAL" = "x"], [
 	AC_MSG_ERROR([Could not find glib-genmarshal])
 ])
 
-PKG_CHECK_MODULES(DEPS, [gtk+-3.0 glib-2.0 >= 2.44 mpv >= 1.25 epoxy])
+PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.22.23 glib-2.0 >= 2.44 mpv >= 1.25 epoxy])
 
 AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_44], [Dont warn using older APIs])
 AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_44], [Prevents using newer APIs])
 
-AC_DEFINE([GDK_VERSION_MIN_REQUIRED], [GDK_VERSION_3_20], [Dont warn using older APIs])
-AC_DEFINE([GDK_VERSION_MAX_ALLOWED], [GDK_VERSION_3_20], [Prevents using newer APIs])
+AC_DEFINE([GDK_VERSION_MIN_REQUIRED], [GDK_VERSION_3_22], [Dont warn using older APIs])
+AC_DEFINE([GDK_VERSION_MAX_ALLOWED], [GDK_VERSION_3_22], [Prevents using newer APIs])
 
 # Checks for header files.
 AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h],[],[
