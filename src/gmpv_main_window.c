@@ -185,9 +185,11 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 					gpointer data )
 {
 	GmpvMainWindow *wnd = data;
-	GdkScreen *screen = gdk_screen_get_default();
-	gint screen_width = gdk_screen_get_width(screen);
-	gint screen_height = gdk_screen_get_height(screen);
+	GdkWindow *gdk_window = gtk_widget_get_window(data);
+	GdkDisplay *display = gdk_display_get_default();
+	GdkMonitor *monitor =	gdk_display_get_monitor_at_window
+				(display, gdk_window);
+	GdkRectangle monitor_geom = {0};
 	gint width = allocation->width;
 	gint height = allocation->height;
 	gint target_width = wnd->resize_target[0];
@@ -196,9 +198,12 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 	g_signal_handlers_disconnect_by_func
 		(widget, resize_video_area_finalize, data);
 
+	gdk_monitor_get_geometry(monitor, &monitor_geom);
+
 	/* Adjust resize offset */
 	if((width != target_width || height != target_height)
-	&& (target_width < screen_width && target_height < screen_height)
+	&& (	target_width < monitor_geom.width &&
+		target_height < monitor_geom.height )
 	&& !gtk_window_is_maximized(GTK_WINDOW(wnd))
 	&& !wnd->fullscreen)
 	{
