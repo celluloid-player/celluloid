@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 gnome-mpv
+ * Copyright (c) 2014-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -560,9 +560,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
 		ctx_menu = gtk_menu_new_from_model(G_MENU_MODEL(menu));
 		gtk_menu_attach_to_widget(GTK_MENU(ctx_menu), widget, NULL);
 		gtk_widget_show_all(ctx_menu);
-
-		gtk_menu_popup(	GTK_MENU(ctx_menu), NULL, NULL, NULL, NULL,
-				btn_event->button, btn_event->time );
+		gtk_menu_popup_at_pointer(GTK_MENU(ctx_menu), (GdkEvent *)event);
 	}
 
 	return FALSE;
