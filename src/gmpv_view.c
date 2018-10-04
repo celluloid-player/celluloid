@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 gnome-mpv
+ * Copyright (c) 2017-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -1550,18 +1550,23 @@ void gmpv_view_move(	GmpvView *view,
 			GValue *x,
 			GValue *y )
 {
-	GdkScreen *screen = gdk_screen_get_default();
 	GtkWindow *window = GTK_WINDOW(view->wnd);
+	GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
+	GdkDisplay *display = gdk_display_get_default();
+	GdkMonitor *monitor =	gdk_display_get_monitor_at_window
+				(display, gdk_window);
+	GdkRectangle monitor_geom = {0};
 	gint64 x_pos = -1;
 	gint64 y_pos = -1;
 	gint window_width = 0;
 	gint window_height = 0;
-	gint space_x;
-	gint space_y;
+	gint space_x = 0;
+	gint space_y = 0;
 
 	gtk_window_get_size(window, &window_width, &window_height);
-	space_x = gdk_screen_get_width(screen)-window_width;
-	space_y = gdk_screen_get_height(screen)-window_height;
+	gdk_monitor_get_geometry(monitor, &monitor_geom);
+	space_x = monitor_geom.width-window_width;
+	space_y = monitor_geom.height-window_height;
 
 	if(G_VALUE_HOLDS_DOUBLE(x))
 	{
