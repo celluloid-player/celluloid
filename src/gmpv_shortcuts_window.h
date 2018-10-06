@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 gnome-mpv
+ * Copyright (c) 2016, 2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -20,8 +20,6 @@
 #ifndef SHORTCUTS_WINDOW_H
 #define SHORTCUTS_WINDOW_H
 
-#if GTK_CHECK_VERSION(3, 20, 0)
-
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
@@ -35,7 +33,5 @@ G_DECLARE_FINAL_TYPE(GmpvShortcutsWindow, gmpv_shortcuts_window, GMPV, SHORTCUTS
 GtkWidget *gmpv_shortcuts_window_new(GtkWindow *parent);
 
 G_END_DECLS
-
-#endif
 
 #endif

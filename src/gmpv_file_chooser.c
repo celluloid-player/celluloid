@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 gnome-mpv
+ * Copyright (c) 2017-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -81,19 +81,7 @@ GmpvFileChooser *gmpv_file_chooser_new(	const gchar *title,
 	GSettings *main_config;
 	gboolean last_folder_enable;
 
-#if GTK_CHECK_VERSION(3, 19, 7)
 	chooser = gtk_file_chooser_native_new(title, parent, action, NULL, NULL);
-#else
-	chooser = gtk_file_chooser_dialog_new(	title,
-						parent,
-						action,
-						_("_Cancel"),
-						GTK_RESPONSE_CANCEL,
-						_("_Open"),
-						GTK_RESPONSE_ACCEPT,
-						NULL );
-#endif
-
 	gtk_chooser = GTK_FILE_CHOOSER(chooser);
 	main_config = g_settings_new(CONFIG_ROOT);
 	last_folder_enable =	g_settings_get_boolean

@@ -583,11 +583,7 @@ void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
 	 * resize_video_area_finalize() will be called so that the event handler
 	 * will be disconnected.
 	 */
-#if GTK_CHECK_VERSION(3, 20, 0)
 	gtk_widget_queue_allocate(wnd->vid_area);
-#else
-	gtk_widget_queue_resize(wnd->vid_area);
-#endif
 }
 
 void gmpv_main_window_enable_csd(GmpvMainWindow *wnd)

@@ -1448,11 +1448,9 @@ void gmpv_view_show_preferences_dialog(GmpvView *view)
 
 void gmpv_view_show_shortcuts_dialog(GmpvView *view)
 {
-#if GTK_CHECK_VERSION(3, 20, 0)
 	GtkWidget *wnd = gmpv_shortcuts_window_new(GTK_WINDOW(view->wnd));
 
 	gtk_widget_show_all(wnd);
-#endif
 }
 
 void gmpv_view_show_about_dialog(GmpvView *view)
