@@ -1272,10 +1272,6 @@ GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating)
 
 	if(g_settings_get_boolean(settings, "csd-enable"))
 	{
-		GMenu *app_menu = g_menu_new();
-
-		gmpv_menu_build_app_menu(app_menu);
-		gtk_application_set_app_menu(gtk_app, G_MENU_MODEL(app_menu));
 		gmpv_main_window_enable_csd(GMPV_MAIN_WINDOW(window));
 	}
 	else
@@ -1283,7 +1279,6 @@ GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating)
 		GMenu *full_menu = g_menu_new();
 
 		gmpv_menu_build_full(full_menu, NULL);
-		gtk_application_set_app_menu(gtk_app, NULL);
 		gtk_application_set_menubar(gtk_app, G_MENU_MODEL(full_menu));
 	}
 
