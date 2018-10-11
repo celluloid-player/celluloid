@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 gnome-mpv
+ * Copyright (c) 2015-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -186,7 +186,6 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 			GMPV_MENU_ITEM(_("_Open"), "win.show-open-dialog(false)"),
 			GMPV_MENU_ITEM(_("Open _Location"), "win.show-open-location-dialog(false)"),
 			GMPV_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
-			GMPV_MENU_ITEM(_("_Quit"), "win.quit"),
 			GMPV_MENU_SUBMENU(_("_Edit"), NULL),
 			GMPV_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
 			GMPV_MENU_SUBMENU(_("_Video Track"), video_menu),
@@ -277,7 +276,6 @@ void gmpv_menu_build_app_menu(GMenu *menu)
 			GMPV_MENU_SEPARATOR,
 			GMPV_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
 			GMPV_MENU_ITEM(_("_About"), "win.show-about-dialog"),
-			GMPV_MENU_ITEM(_("_Quit"), "win.quit"),
 			GMPV_MENU_END };
 
 	gmpv_menu_build_menu(menu, entries, TRUE);
