@@ -195,9 +195,6 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 			GMPV_MENU_ITEM(_("_Toggle Controls"), "win.toggle-controls"),
 			GMPV_MENU_ITEM(_("_Toggle Playlist"), "win.toggle-playlist"),
 			GMPV_MENU_ITEM(_("_Fullscreen"), "win.toggle-fullscreen"),
-			GMPV_MENU_ITEM(_("_Normal Size"), "win.set-video-size(@d 1)"),
-			GMPV_MENU_ITEM(_("_Double Size"), "win.set-video-size(@d 2)"),
-			GMPV_MENU_ITEM(_("_Half Size"), "win.set-video-size(@d 0.5)"),
 			GMPV_MENU_SUBMENU(_("_Help"), NULL),
 			GMPV_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
 			GMPV_MENU_ITEM(_("_About"), "win.show-about-dialog"),
@@ -239,10 +236,6 @@ void gmpv_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 			GMPV_MENU_SUBMENU(_("_Video Track"), video_menu),
 			GMPV_MENU_SUBMENU(_("_Audio Track"), audio_menu),
 			GMPV_MENU_SUBMENU(_("S_ubtitle Track"), subtitle_menu),
-			GMPV_MENU_SEPARATOR,
-			GMPV_MENU_ITEM(_("_Normal Size"), "win.set-video-size(@d 1)"),
-			GMPV_MENU_ITEM(_("_Double Size"), "win.set-video-size(@d 2)"),
-			GMPV_MENU_ITEM(_("_Half Size"), "win.set-video-size(@d 0.5)"),
 			GMPV_MENU_END };
 
 	gmpv_menu_build_menu(menu, entries, TRUE);
