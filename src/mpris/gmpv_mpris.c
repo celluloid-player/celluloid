@@ -73,17 +73,51 @@ static void name_lost_handler(	GDBusConnection *connection,
 				gpointer data );
 static void unregister(GmpvMpris *mpris);
 
+static const gchar *get_instance_id(void)
+{
+	static gchar *instance_id = NULL;
+
+	if (g_once_init_enter(&instance_id))
+	{
+		g_autoptr(GKeyFile) keyfile = g_key_file_new();
+		gchar *id = NULL;
+
+		/* In a PID namespace (flatpak) you cannot rely on
+		 * a PID being a unique identifier so lets just use
+		 * the one assigned by flatpak itself.
+		 */
+		if (g_key_file_load_from_file(	keyfile,
+						"/.flatpak-info",
+						G_KEY_FILE_NONE,
+						NULL	))
+		{
+			id = g_key_file_get_string(	keyfile,
+							"Instance",
+							"instance-id",
+							NULL	);
+		}
+
+		if (!id)
+		{
+			/* sizeof(pid_t) can theoretically be larger than sizeof(gint64), but
+			 * even then the chance of collision would be minimal.
+			 */
+			id = g_strdup_printf("%"G_GINT64_FORMAT, ABS((gint64)getpid()));
+		}
+
+		g_debug("Got instance-id: %s", id);
+		g_once_init_leave(&instance_id, id);
+	}
+
+	return instance_id;
+}
+
 static void constructed(GObject *object)
 {
 	GmpvMpris *self = GMPV_MPRIS(object);
 	gchar *name = NULL;
 
-	/* sizeof(pid_t) can theoretically be larger than sizeof(gint64), but
-	 * even then the chance of collision would be minimal.
-	 */
-	name =	g_strdup_printf
-		(	MPRIS_BUS_NAME ".instance%" G_GINT64_FORMAT,
-			ABS((gint64)getpid()) );
+	name =	g_strdup_printf(MPRIS_BUS_NAME ".instance-%s", get_instance_id());
 
 	self->name_id = g_bus_own_name(	G_BUS_TYPE_SESSION,
 					name,
