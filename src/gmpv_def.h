@@ -32,7 +32,7 @@
 #define MPRIS_TRACK_LIST_AFTER 10
 #define MPRIS_TRACK_ID_NO_TRACK "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 #define MPRIS_TRACK_ID_PREFIX "/io/github/GnomeMpv/Track/"
-#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.GnomeMpv"
+#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.io.github.GnomeMpv"
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define PLAYLIST_MIN_WIDTH 20
