@@ -183,9 +183,10 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 
 	const GmpvMenuEntry entries[]
 		= {	GMPV_MENU_SUBMENU(_("_File"), NULL),
-			GMPV_MENU_ITEM(_("_Open"), "win.show-open-dialog(false)"),
-			GMPV_MENU_ITEM(_("Open _Location"), "win.show-open-location-dialog(false)"),
+			GMPV_MENU_ITEM(_("_Open…"), "win.show-open-dialog(false)"),
+			GMPV_MENU_ITEM(_("Open _Location…"), "win.show-open-location-dialog(false)"),
 			GMPV_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
+			GMPV_MENU_ITEM(_("_New Window"), "app.new-window"),
 			GMPV_MENU_SUBMENU(_("_Edit"), NULL),
 			GMPV_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
 			GMPV_MENU_SUBMENU(_("_Video Track"), video_menu),
@@ -197,7 +198,7 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 			GMPV_MENU_ITEM(_("_Fullscreen"), "win.toggle-fullscreen"),
 			GMPV_MENU_SUBMENU(_("_Help"), NULL),
 			GMPV_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
-			GMPV_MENU_ITEM(_("_About"), "win.show-about-dialog"),
+			GMPV_MENU_ITEM(_("_About GNOME MPV"), "win.show-about-dialog"),
 			GMPV_MENU_END };
 
 	gmpv_menu_build_menu(menu, entries, FALSE);
@@ -237,10 +238,9 @@ void gmpv_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 			GMPV_MENU_SUBMENU(_("_Audio Track"), audio_menu),
 			GMPV_MENU_SUBMENU(_("S_ubtitle Track"), subtitle_menu),
 			GMPV_MENU_SEPARATOR,
-			GMPV_MENU_ITEM(_("_New Window"), "app.new-window"),
 			GMPV_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
 			GMPV_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
-			GMPV_MENU_ITEM(_("_About"), "win.show-about-dialog"),
+			GMPV_MENU_ITEM(_("_About GNOME MPV"), "win.show-about-dialog"),
 			GMPV_MENU_END };
 
 	gmpv_menu_build_menu(menu, entries, TRUE);
@@ -257,8 +257,10 @@ void gmpv_menu_build_open_btn(GMenu *menu)
 {
 	const GmpvMenuEntry entries[]
 		= {	GMPV_MENU_SEPARATOR,
-			GMPV_MENU_ITEM(_("_Open"), "win.show-open-dialog(false)"),
-			GMPV_MENU_ITEM(_("Open _Location"), "win.show-open-location-dialog(false)"),
+			GMPV_MENU_ITEM(_("_Open…"), "win.show-open-dialog(false)"),
+			GMPV_MENU_ITEM(_("Open _Location…"), "win.show-open-location-dialog(false)"),
+			GMPV_MENU_SEPARATOR,
+			GMPV_MENU_ITEM(_("_New Window"), "app.new-window"),
 			GMPV_MENU_END };
 
 	gmpv_menu_build_menu(menu, entries, TRUE);
