@@ -7,14 +7,14 @@
 # Marek Suchánek <m.suchanek.2@gmail.com>, 2016. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2016. #zanata
 # Marek Suchánek <m.suchanek.2@gmail.com>, 2017. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
+# Jaroslav Svoboda <multi.flexi@seznam.cz>, 2018. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-23 10:58-0500\n"
-"PO-Revision-Date: 2018-01-10 07:35+0000\n"
+"PO-Revision-Date: 2018-11-05 07:59+0000\n"
 "Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -92,28 +92,31 @@ msgstr "Zda v okenním režimu použít plovoucí ovládací prvky"
 
 #: data/io.github.GnomeMpv.gschema.xml:34
 msgid "Whether or not to autohide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Zda schovávat kurzor myši v módu v okně"
 
 #: data/io.github.GnomeMpv.gschema.xml:40
 msgid "Whether or not to use skip buttons for controlling playlist"
-msgstr ""
+msgstr "Zda používat tlačítka přeskočit pro ovládání seznamu přehrávání"
 
 #: data/io.github.GnomeMpv.gschema.xml:52
 msgid "Whether or not to create new windows when there is already an instance"
-msgstr ""
+msgstr "Zda vytvořit nové okno pokud je již jedno otevřeno"
 
 #: data/io.github.GnomeMpv.gschema.xml:88
 msgid "Whether or not to enable MPRIS support"
-msgstr ""
+msgstr "Zda zapnout podporu MPRIS"
 
 #: data/io.github.GnomeMpv.gschema.xml:94
 msgid ""
 "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
+"Zda zapnout podporu pro multimediální klávesy podle démona GNOME Nastavení"
 
 #: data/io.github.GnomeMpv.gschema.xml:100
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
 msgstr ""
+"Zda dopředu načítat metadata ne právě přehrávaných položek seznamu "
+"přehrávání"
 
 #: data/io.github.GnomeMpv.gschema.xml:135
 msgid "Show or not show the controls"
@@ -175,11 +178,11 @@ msgstr "Hlavní okno s otevřeným seznamem přehrávání"
 #. Translators: This is an icon name, don't translate!
 #: data/io.github.GnomeMpv.desktop.in:8
 msgid "io.github.GnomeMpv"
-msgstr ""
+msgstr "io.github.GnomeMpv"
 
 #: data/io.github.GnomeMpv.desktop.in:20
 msgid "New Window"
-msgstr ""
+msgstr "Nové okno"
 
 #: src/gmpv_application.c:383
 msgid "Playing"
@@ -195,11 +198,11 @@ msgstr "Zařadit do fronty"
 
 #: src/gmpv_application.c:446
 msgid "Create a new window"
-msgstr ""
+msgstr "Vytvořit nové okno"
 
 #: src/gmpv_application.c:454
 msgid "Set the window role"
-msgstr ""
+msgstr "Nastavit roli okna"
 
 #: src/gmpv_application.c:462
 msgid "Don't connect to an already-running instance"
@@ -367,7 +370,7 @@ msgstr "_O aplikaci"
 
 #: src/gmpv_menu.c:274
 msgid "_New Window"
-msgstr ""
+msgstr "_Nové okno"
 
 #: src/gmpv_mpv.c:219
 #, c-format
@@ -384,11 +387,11 @@ msgstr "Nebylo možno uplatnit jednu nebo více předvoleb MPV."
 
 #: src/gmpv_playlist_widget.c:529
 msgid "_Copy Location"
-msgstr ""
+msgstr "_Kopírovat umístění"
 
 #: src/gmpv_playlist_widget.c:530
 msgid "_Remove"
-msgstr ""
+msgstr "_Odstranit"
 
 #: src/gmpv_playlist_widget.c:532
 msgid "_Add…"
@@ -400,15 +403,15 @@ msgstr "Přidat _umístění…"
 
 #: src/gmpv_playlist_widget.c:534
 msgid "_Shuffle"
-msgstr ""
+msgstr "_Náhodně"
 
 #: src/gmpv_playlist_widget.c:535
 msgid "Loop _File"
-msgstr ""
+msgstr "Opakovat _soubor"
 
 #: src/gmpv_playlist_widget.c:536
 msgid "Loop _Playlist"
-msgstr ""
+msgstr "Opakovat seznam _přehrávání"
 
 #: src/gmpv_playlist_widget.c:665
 msgid "Playlist"
@@ -416,19 +419,19 @@ msgstr "Seznam přehrávání"
 
 #: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
 msgid "Add Plugin"
-msgstr ""
+msgstr "Přidat plugin"
 
 #: src/gmpv_plugins_manager.c:153
 msgid "Lua Plugins"
-msgstr ""
+msgstr "Lua pluginy"
 
 #: src/gmpv_plugins_manager.c:159
 msgid "JavaScript Plugins"
-msgstr ""
+msgstr "JavaScriptové pluginy"
 
 #: src/gmpv_plugins_manager.c:164
 msgid "C Plugins"
-msgstr ""
+msgstr "Pluginy v C"
 
 #: src/gmpv_plugins_manager.c:309
 #, c-format
@@ -437,7 +440,7 @@ msgstr "Selhalo kopírování souboru z ‚%s‘ do ‚%s‘. Důvod: %s"
 
 #: src/gmpv_plugins_manager.c:358
 msgid "No plugins found"
-msgstr ""
+msgstr "Nebyly nalezeny žádné pluginy"
 
 #: src/gmpv_plugins_manager_item.c:69
 msgid "Remove"
@@ -471,11 +474,11 @@ msgstr "Použít v okenním režimu plovoucí ovládání"
 
 #: src/gmpv_preferences_dialog.c:302
 msgid "Autohide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Automaticky skrývat kurzor v módu okna"
 
 #: src/gmpv_preferences_dialog.c:305
 msgid "Use skip buttons for controlling playlist"
-msgstr ""
+msgstr "Použít tlačítko přeskočit pro ovládání seznamu skladeb"
 
 #: src/gmpv_preferences_dialog.c:308
 msgid "Remember last file's location"
@@ -511,19 +514,19 @@ msgstr "<b>Různé</b>"
 
 #: src/gmpv_preferences_dialog.c:332
 msgid "Always open new window"
-msgstr ""
+msgstr "Vždy otevřít nové okno"
 
 #: src/gmpv_preferences_dialog.c:335
 msgid "Prefetch metadata"
-msgstr ""
+msgstr "Dopředu načíst metadata"
 
 #: src/gmpv_preferences_dialog.c:338
 msgid "Enable MPRIS support"
-msgstr ""
+msgstr "Zapnout podporu MPRIS"
 
 #: src/gmpv_preferences_dialog.c:341
 msgid "Enable media keys support"
-msgstr ""
+msgstr "Zapnout podporu multimediálních kláves"
 
 #: src/gmpv_preferences_dialog.c:344
 msgid "Extra MPV options:"
@@ -535,7 +538,7 @@ msgstr "Obecné"
 
 #: src/gmpv_preferences_dialog.c:381
 msgid "Plugins"
-msgstr ""
+msgstr "Pluginy"
 
 #: src/gmpv_preferences_dialog.c:386
 msgid "_Save"
