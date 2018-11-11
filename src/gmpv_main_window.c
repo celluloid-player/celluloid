@@ -668,7 +668,9 @@ gboolean gmpv_main_window_get_playlist_visible(GmpvMainWindow *wnd)
 void gmpv_main_window_set_controls_visible(	GmpvMainWindow *wnd,
 						gboolean visible )
 {
-	gtk_widget_set_visible(GTK_WIDGET(wnd->control_box), visible);
+	const gboolean floating = wnd->use_floating_controls;
+
+	gtk_widget_set_visible(GTK_WIDGET(wnd->control_box), visible && !floating);
 }
 
 gboolean gmpv_main_window_get_controls_visible(GmpvMainWindow *wnd)
