@@ -1061,13 +1061,24 @@ void gmpv_player_remove_playlist_entry(GmpvPlayer *player, gint64 position)
 {
 	GmpvMpv *mpv = GMPV_MPV(player);
 	gboolean idle_active = gmpv_mpv_get_property_flag(mpv, "idle-active");
+	gint64 playlist_count = 0;
 
-	if(idle_active)
+	gmpv_mpv_get_property(	mpv,
+				"playlist-count",
+				MPV_FORMAT_INT64,
+				&playlist_count );
+
+	/* mpv doesn't send playlist change signal before going idle when the
+	 * last playlist entry is removed, so the internal playlist needs to be
+	 * directly updated.
+	 */
+	if(idle_active || playlist_count == 1)
 	{
 		g_ptr_array_remove_index(player->playlist, (guint)position);
 		g_object_notify(G_OBJECT(player), "playlist");
 	}
-	else
+
+	if(!idle_active)
 	{
 		const gchar *cmd[] = {"playlist_remove", NULL, NULL};
 		gchar *index_str = g_strdup_printf("%" G_GINT64_FORMAT, position);
