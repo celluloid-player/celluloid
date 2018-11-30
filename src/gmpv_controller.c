@@ -118,6 +118,7 @@ static void fullscreen_handler(		GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
 static void play_button_handler(GtkButton *button, gpointer data);
+static void repeat_button_handler(GtkButton *button, gpointer data);
 static void stop_button_handler(GtkButton *button, gpointer data);
 static void forward_button_handler(GtkButton *button, gpointer data);
 static void rewind_button_handler(GtkButton *button, gpointer data);
@@ -496,6 +497,10 @@ static void connect_signals(GmpvController *controller)
 				"button-clicked::play",
 				G_CALLBACK(play_button_handler),
 				controller );
+	g_signal_connect( controller->view,
+             "button-clicked::repeat",
+        G_CALLBACK(repeat_button_handler),
+        controller );
 	g_signal_connect(	controller->view,
 				"button-clicked::stop",
 				G_CALLBACK(stop_button_handler),
@@ -886,6 +891,12 @@ static void play_button_handler(GtkButton *button, gpointer data)
 	}
 }
 
+static void repeat_button_handler(GtkButton *button, gpointer data)
+{
+	GmpvModel *model = GMPV_CONTROLLER(data)->model;
+	gmpv_model_toggle_repeat(model);
+}
+
 static void stop_button_handler(GtkButton *button, gpointer data)
 {
 	gmpv_model_stop(GMPV_CONTROLLER(data)->model);
@@ -1067,4 +1078,3 @@ GmpvModel *gmpv_controller_get_model(GmpvController *controller)
 {
 	return controller->model;
 }
-

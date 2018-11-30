@@ -42,6 +42,7 @@ void gmpv_model_reset_keys(GmpvModel *model);
 void gmpv_model_play(GmpvModel *model);
 void gmpv_model_pause(GmpvModel *model);
 void gmpv_model_stop(GmpvModel *model);
+void gmpv_model_toggle_repeat(GmpvModel *model);
 void gmpv_model_forward(GmpvModel *model);
 void gmpv_model_rewind(GmpvModel *model);
 void gmpv_model_next_chapter(GmpvModel *model);

@@ -999,6 +999,12 @@ void gmpv_model_stop(GmpvModel *model)
 	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
 }
 
+void gmpv_model_toggle_repeat(GmpvModel *model)
+{
+	gboolean looping = gmpv_mpv_get_property_flag(GMPV_MPV(model->player), "loop-file");
+	gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "loop-file", !looping);
+}
+
 void gmpv_model_forward(GmpvModel *model)
 {
 	const gchar *cmd[] = {"seek", "10", NULL};
@@ -1165,4 +1171,3 @@ gchar *gmpv_model_get_current_path(GmpvModel *model)
 
 	return buf;
 }
-

@@ -49,6 +49,7 @@ struct _GmpvControlBox
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
+	GtkWidget *repeat_button;
 	gboolean skip_enabled;
 	gdouble duration;
 	gboolean enabled;
@@ -240,6 +241,7 @@ static void simple_signal_handler(GtkWidget *widget, gpointer data)
 	signal_map[]
 		= {	{box->play_button, "button-clicked", "play"},
 			{box->stop_button, "button-clicked", "stop"},
+			{box->repeat_button, "button-clicked", "repeat"},
 			{box->forward_button, "button-clicked", "forward"},
 			{box->rewind_button, "button-clicked", "rewind"},
 			{box->previous_button, "button-clicked", "previous"},
@@ -264,6 +266,7 @@ static void set_enabled(GmpvControlBox *box, gboolean enabled)
 	gtk_widget_set_sensitive(box->play_button, enabled);
 	gtk_widget_set_sensitive(box->forward_button, enabled);
 	gtk_widget_set_sensitive(box->next_button, enabled);
+	gtk_widget_set_sensitive(box->repeat_button, enabled);
 }
 
 static void set_skip_enabled(GmpvControlBox *box, gboolean enabled)
@@ -419,6 +422,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->previous_button = gtk_button_new();
 	box->fullscreen_button = gtk_button_new();
 	box->volume_button = gtk_volume_button_new();
+	box->repeat_button = gtk_button_new();
 	box->seek_bar = gmpv_seek_bar_new();
 	box->skip_enabled = FALSE;
 	box->duration = 0.0;
@@ -446,6 +450,9 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	init_button(	box->previous_button,
 			"media-skip-backward-symbolic",
 			_("Previous Chapter") );
+	init_button(	box->repeat_button,
+      "media-playlist-repeat",
+      _("repeat") );
 	init_button(	box->fullscreen_button,
 			"view-fullscreen-symbolic",
 			_("Toggle Fullscreen") );
@@ -463,10 +470,10 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	gtk_container_add(GTK_CONTAINER(box), box->stop_button);
 	gtk_container_add(GTK_CONTAINER(box), box->forward_button);
 	gtk_container_add(GTK_CONTAINER(box), box->next_button);
+	gtk_container_add(GTK_CONTAINER(box), box->repeat_button);
 	gtk_box_pack_start(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
 	gtk_container_add(GTK_CONTAINER(box), box->volume_button);
 	gtk_container_add(GTK_CONTAINER(box), box->fullscreen_button);
-
 	g_object_bind_property_full(	box->volume_button, "value",
 					box, "volume",
 					G_BINDING_BIDIRECTIONAL,
@@ -511,6 +518,10 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
 				box );
+g_signal_connect(   box->repeat_button,
+         "clicked",
+      	G_CALLBACK(simple_signal_handler),
+        box );
 	g_signal_connect(	box->volume_button,
 				"value-changed",
 				G_CALLBACK(volume_changed_handler),
