@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 gnome-mpv
+ * Copyright (c) 2014-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -33,6 +33,7 @@ enum
 	PROP_PAUSE,
 	PROP_SHOW_FULLSCREEN_BUTTON,
 	PROP_TIME_POSITION,
+	PROP_LOOP,
 	PROP_VOLUME,
 	N_PROPERTIES
 };
@@ -46,6 +47,7 @@ struct _GmpvControlBox
 	GtkWidget *rewind_button;
 	GtkWidget *next_button;
 	GtkWidget *previous_button;
+	GtkWidget *loop_button;
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
@@ -55,6 +57,7 @@ struct _GmpvControlBox
 	gboolean pause;
 	gboolean show_fullscreen_button;
 	gdouble time_position;
+	gboolean loop;
 	gdouble volume;
 };
 
@@ -137,6 +140,10 @@ static void set_property(	GObject *object,
 			(GMPV_SEEK_BAR(self->seek_bar), self->time_position);
 		break;
 
+		case PROP_LOOP:
+		self->loop = g_value_get_boolean(value);
+		break;
+
 		case PROP_VOLUME:
 		self->volume = g_value_get_double(value);
 		break;
@@ -178,6 +185,10 @@ static void get_property(	GObject *object,
 
 		case PROP_TIME_POSITION:
 		g_value_set_double(value, self->time_position);
+		break;
+
+		case PROP_LOOP:
+		g_value_set_boolean(value, self->loop);
 		break;
 
 		case PROP_VOLUME:
@@ -367,6 +378,14 @@ static void gmpv_control_box_class_init(GmpvControlBoxClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_TIME_POSITION, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"loop",
+			"Loop",
+			"Whether or not the loop button is active",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_LOOP, pspec);
+
 	pspec = g_param_spec_double
 		(	"volume",
 			"Volume",
@@ -418,6 +437,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->next_button = gtk_button_new();
 	box->previous_button = gtk_button_new();
 	box->fullscreen_button = gtk_button_new();
+	box->loop_button = gtk_toggle_button_new();
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = gmpv_seek_bar_new();
 	box->skip_enabled = FALSE;
@@ -426,6 +446,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->pause = TRUE;
 	box->show_fullscreen_button = FALSE;
 	box->time_position = 0.0;
+	box->loop = FALSE;
 	box->volume = 0.0;
 
 	init_button(	box->play_button,
@@ -446,6 +467,9 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	init_button(	box->previous_button,
 			"media-skip-backward-symbolic",
 			_("Previous Chapter") );
+	init_button(	box->loop_button,
+			"media-playlist-repeat-symbolic",
+			_("Loop Playlist") );
 	init_button(	box->fullscreen_button,
 			"view-fullscreen-symbolic",
 			_("Toggle Fullscreen") );
@@ -453,6 +477,8 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	gtk_style_context_add_class
 		(	gtk_widget_get_style_context(GTK_WIDGET(box)),
 			GTK_STYLE_CLASS_BACKGROUND );
+
+	gtk_widget_set_margin_end(box->seek_bar, 6);
 
 	gtk_widget_set_can_focus(box->volume_button, FALSE);
 	gtk_widget_set_can_focus(box->seek_bar, FALSE);
@@ -464,9 +490,13 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	gtk_container_add(GTK_CONTAINER(box), box->forward_button);
 	gtk_container_add(GTK_CONTAINER(box), box->next_button);
 	gtk_box_pack_start(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(box), box->loop_button);
 	gtk_container_add(GTK_CONTAINER(box), box->volume_button);
 	gtk_container_add(GTK_CONTAINER(box), box->fullscreen_button);
 
+	g_object_bind_property(	box, "loop",
+				box->loop_button, "active",
+				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property_full(	box->volume_button, "value",
 					box, "volume",
 					G_BINDING_BIDIRECTIONAL,

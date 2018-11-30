@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 gnome-mpv
+ * Copyright (c) 2017-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -40,6 +40,14 @@ static void get_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec );
 static void dispose(GObject *object);
+static gboolean loop_to_boolean(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data );
+static gboolean boolean_to_loop(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data );
 static void mpris_enable_handler(	GSettings *settings,
 					gchar *key,
 					gpointer data );
@@ -258,6 +266,32 @@ static void dispose(GObject *object)
 	G_OBJECT_CLASS(gmpv_controller_parent_class)->dispose(object);
 }
 
+static gboolean loop_to_boolean(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data )
+{
+	const gchar *from = g_value_get_string(from_value);
+	gboolean to = g_strcmp0(from, "no") != 0;
+
+	g_value_set_boolean(to_value, to);
+
+	return TRUE;
+}
+
+static gboolean boolean_to_loop(	GBinding *binding,
+					const GValue *from_value,
+					GValue *to_value,
+					gpointer data )
+{
+	gboolean from = g_value_get_boolean(from_value);
+	const gchar *to = from?"inf":"no";
+
+	g_value_set_static_string(to_value, to);
+
+	return TRUE;
+}
+
 static void mpris_enable_handler(	GSettings *settings,
 					gchar *key,
 					gpointer data )
@@ -434,6 +468,13 @@ static void connect_signals(GmpvController *controller)
 	g_object_bind_property(	controller->model, "track-list",
 				controller->view, "track-list",
 				G_BINDING_DEFAULT );
+	g_object_bind_property_full(	controller->model, "loop-playlist",
+					controller->view, "loop",
+					G_BINDING_BIDIRECTIONAL,
+					loop_to_boolean,
+					boolean_to_loop,
+					NULL,
+					NULL );
 
 	g_signal_connect(	controller->model,
 				"notify::ready",
@@ -1067,4 +1108,3 @@ GmpvModel *gmpv_controller_get_model(GmpvController *controller)
 {
 	return controller->model;
 }
-

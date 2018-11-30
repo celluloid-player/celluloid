@@ -42,6 +42,7 @@ enum
 	PROP_PLAYLIST_POS,
 	PROP_TRACK_LIST,
 	PROP_SKIP_ENABLED,
+	PROP_LOOP,
 	PROP_FULLSCREEN,
 	N_PROPERTIES
 };
@@ -61,6 +62,7 @@ struct _GmpvView
 	GPtrArray *track_list;
 	gboolean skip_enabled;
 	gboolean control_box_enabled;
+	gboolean loop;
 	gboolean fullscreen;
 };
 
@@ -210,6 +212,9 @@ static void constructed(GObject *object)
 	g_object_bind_property(	view, "skip-enabled",
 				control_box, "skip-enabled",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	view, "loop",
+				control_box, "loop",
+				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	view, "volume",
 				control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
@@ -368,6 +373,10 @@ static void set_property(	GObject *object,
 		self->skip_enabled = g_value_get_boolean(value);
 		break;
 
+		case PROP_LOOP:
+		self->loop = g_value_get_boolean(value);
+		break;
+
 		case PROP_FULLSCREEN:
 		self->fullscreen = g_value_get_boolean(value);
 		gmpv_main_window_set_fullscreen(self->wnd, self->fullscreen);
@@ -422,6 +431,10 @@ static void get_property(	GObject *object,
 
 		case PROP_SKIP_ENABLED:
 		g_value_set_boolean(value, self->skip_enabled);
+		break;
+
+		case PROP_LOOP:
+		g_value_set_boolean(value, self->loop);
 		break;
 
 		case PROP_FULLSCREEN:
@@ -1019,6 +1032,14 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 	g_object_class_install_property(object_class, PROP_SKIP_ENABLED, pspec);
 
 	pspec = g_param_spec_boolean
+		(	"loop",
+			"Loop",
+			"Whether or not the the loop button is active",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_LOOP, pspec);
+
+	pspec = g_param_spec_boolean
 		(	"fullscreen",
 			"Fullscreen",
 			"Whether or not the player is current in fullscreen mode",
@@ -1261,6 +1282,7 @@ static void gmpv_view_init(GmpvView *view)
 	view->duration = 0.0;
 	view->playlist_pos = 0;
 	view->skip_enabled = FALSE;
+	view->loop = FALSE;
 	view->fullscreen = FALSE;
 }
 
