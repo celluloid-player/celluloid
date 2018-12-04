@@ -113,6 +113,11 @@ static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event)
 		->key_press_event(widget, event);
 }
 
+static void free_signal_data(gpointer data, GClosure *closure)
+{
+	g_free(data);
+}
+
 static GtkWidget *build_page(	const PreferencesDialogItem *items,
 				GSettings *settings )
 {
@@ -173,11 +178,6 @@ static GtkWidget *build_page(	const PreferencesDialogItem *items,
 			gtk_widget_set_size_request(widget, 100, -1);
 			gtk_file_chooser_set_filename(chooser, filename);
 
-			void free_data(gpointer data, GClosure *closure)
-			{
-				g_free(data);
-			}
-
 			/* For simplicity, changes made to the GSettings
 			 * database externally won't be reflected immediately
 			 * for this type of widget.
@@ -186,7 +186,7 @@ static GtkWidget *build_page(	const PreferencesDialogItem *items,
 						"file-set",
 						G_CALLBACK(file_set_handler),
 						g_strdup(key),
-						free_data,
+						free_signal_data,
 						0 );
 
 			g_free(filename);
