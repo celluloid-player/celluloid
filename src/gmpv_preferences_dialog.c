@@ -173,6 +173,11 @@ static GtkWidget *build_page(	const PreferencesDialogItem *items,
 			gtk_widget_set_size_request(widget, 100, -1);
 			gtk_file_chooser_set_filename(chooser, filename);
 
+			void free_data(gpointer data, GClosure *closure)
+			{
+				g_free(data);
+			}
+
 			/* For simplicity, changes made to the GSettings
 			 * database externally won't be reflected immediately
 			 * for this type of widget.
@@ -181,7 +186,7 @@ static GtkWidget *build_page(	const PreferencesDialogItem *items,
 						"file-set",
 						G_CALLBACK(file_set_handler),
 						g_strdup(key),
-						g_free,
+						free_data,
 						0 );
 
 			g_free(filename);
