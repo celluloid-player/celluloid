@@ -113,6 +113,11 @@ static gboolean key_press_handler(GtkWidget *widget, GdkEventKey *event)
 		->key_press_event(widget, event);
 }
 
+static void free_signal_data(gpointer data, GClosure *closure)
+{
+	g_free(data);
+}
+
 static GtkWidget *build_page(	const PreferencesDialogItem *items,
 				GSettings *settings )
 {
@@ -181,7 +186,7 @@ static GtkWidget *build_page(	const PreferencesDialogItem *items,
 						"file-set",
 						G_CALLBACK(file_set_handler),
 						g_strdup(key),
-						g_free,
+						free_signal_data,
 						0 );
 
 			g_free(filename);
