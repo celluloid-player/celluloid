@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2015-2018 gnome-mpv
  *
- * This file is part of GNOME MPV.
+ * This file is part of Celluloid.
  *
- * GNOME MPV is free software: you can redistribute it and/or modify
+ * Celluloid is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME MPV is distributed in the hope that it will be useful,
+ * Celluloid is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <gio/gio.h>
@@ -198,7 +198,7 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 			GMPV_MENU_ITEM(_("_Fullscreen"), "win.toggle-fullscreen"),
 			GMPV_MENU_SUBMENU(_("_Help"), NULL),
 			GMPV_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
-			GMPV_MENU_ITEM(_("_About GNOME MPV"), "win.show-about-dialog"),
+			GMPV_MENU_ITEM(_("_About Celluloid"), "win.show-about-dialog"),
 			GMPV_MENU_END };
 
 	gmpv_menu_build_menu(menu, entries, FALSE);
@@ -240,7 +240,7 @@ void gmpv_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 			GMPV_MENU_SEPARATOR,
 			GMPV_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
 			GMPV_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
-			GMPV_MENU_ITEM(_("_About GNOME MPV"), "win.show-about-dialog"),
+			GMPV_MENU_ITEM(_("_About Celluloid"), "win.show-about-dialog"),
 			GMPV_MENU_END };
 
 	gmpv_menu_build_menu(menu, entries, TRUE);

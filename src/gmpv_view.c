@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2017-2018 gnome-mpv
  *
- * This file is part of GNOME MPV.
+ * This file is part of Celluloid.
  *
- * GNOME MPV is free software: you can redistribute it and/or modify
+ * Celluloid is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME MPV is distributed in the hope that it will be useful,
+ * Celluloid is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <glib/gi18n.h>
@@ -969,7 +969,7 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 		(	"title",
 			"Title",
 			"The title of the window",
-			_("GNOME MPV"),
+			_("Celluloid"),
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_TITLE, pspec);
 
@@ -1464,7 +1464,7 @@ void gmpv_view_show_about_dialog(GmpvView *view)
 				"license-type",
 				GTK_LICENSE_GPL_3_0,
 				"copyright",
-				"\u00A9 2014-2017 The GNOME MPV authors",
+				"\u00A9 2014-2017 The Celluloid authors",
 				"authors",
 				authors,
 				"translator-credits",
