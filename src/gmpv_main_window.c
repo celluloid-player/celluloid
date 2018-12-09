@@ -396,12 +396,18 @@ void gmpv_main_window_set_use_floating_controls(	GmpvMainWindow *wnd,
 {
 	if(floating != wnd->use_floating_controls)
 	{
+		GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
+		gboolean controls_visible =	g_settings_get_boolean
+						(settings, "show-controls");
+
 		gtk_widget_set_visible
-			(wnd->control_box, !floating);
+			(wnd->control_box, controls_visible && !floating);
 		gmpv_video_area_set_control_box_visible
 			(GMPV_VIDEO_AREA(wnd->vid_area), floating);
 
 		wnd->use_floating_controls = floating;
+
+		g_clear_object(&settings);
 	}
 }
 
@@ -668,9 +674,13 @@ gboolean gmpv_main_window_get_playlist_visible(GmpvMainWindow *wnd)
 void gmpv_main_window_set_controls_visible(	GmpvMainWindow *wnd,
 						gboolean visible )
 {
+	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 	const gboolean floating = wnd->use_floating_controls;
 
 	gtk_widget_set_visible(GTK_WIDGET(wnd->control_box), visible && !floating);
+	g_settings_set_boolean(settings, "show-controls", visible);
+
+	g_clear_object(&settings);
 }
 
 gboolean gmpv_main_window_get_controls_visible(GmpvMainWindow *wnd)
