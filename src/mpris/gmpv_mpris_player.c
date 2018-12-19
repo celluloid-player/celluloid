@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 gnome-mpv
+ * Copyright (c) 2015-2018 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -89,6 +89,7 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 static void update_playback_status(GmpvMprisPlayer *player);
 static void update_playlist_state(GmpvMprisPlayer *player);
 static void update_speed(GmpvMprisPlayer *player);
+static void update_loop(GmpvMprisPlayer *player);
 static void update_metadata(GmpvMprisPlayer *player);
 static void update_volume(GmpvMprisPlayer *player);
 
@@ -105,6 +106,9 @@ static void playlist_count_handler(	GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
 static void speed_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data );
+static void loop_handler(	GObject *object,
 				GParamSpec *pspec,
 				gpointer data );
 static void metadata_handler(	GObject *object,
@@ -163,6 +167,18 @@ static void register_interface(GmpvMprisModule *module)
 	gmpv_mpris_module_connect_signal
 		(	module,
 			model,
+			"notify::loop-file",
+			G_CALLBACK(loop_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::loop-playlist",
+			G_CALLBACK(loop_handler),
+			player );
+	gmpv_mpris_module_connect_signal
+		(	module,
+			model,
 			"notify::metadata",
 			G_CALLBACK(metadata_handler),
 			player );
@@ -182,6 +198,7 @@ static void register_interface(GmpvMprisModule *module)
 	gmpv_mpris_module_set_properties
 		(	module,
 			"PlaybackStatus", g_variant_new_string("Stopped"),
+			"LoopStatus", g_variant_new_string("None"),
 			"Rate", g_variant_new_double(1.0),
 			"Metadata", g_variant_new("a{sv}", NULL),
 			"Volume", g_variant_new_double(1.0),
@@ -439,7 +456,20 @@ static gboolean set_prop_handler(	GDBusConnection *connection,
 	GmpvMprisPlayer *player = data;
 	GmpvModel *model = gmpv_controller_get_model(player->controller);
 
-	if(g_strcmp0(property_name, "Rate") == 0)
+	if(g_strcmp0(property_name, "LoopStatus") == 0)
+	{
+		const gchar *loop = g_variant_get_string(value, NULL);
+		const gchar *loop_file =	g_strcmp0(loop, "Track") == 0 ?
+						"inf":"no";
+		const gchar *loop_playlist =	g_strcmp0(loop, "Playlist") == 0 ?
+						"inf":"no";
+
+		g_object_set(	G_OBJECT(model),
+				"loop-file", loop_file,
+				"loop-playlist", loop_playlist,
+				NULL );
+	}
+	else if(g_strcmp0(property_name, "Rate") == 0)
 	{
 		g_object_set(	G_OBJECT(model),
 				"speed", g_variant_get_double(value),
@@ -532,6 +562,31 @@ static void update_speed(GmpvMprisPlayer *player)
 						"Rate",
 						g_variant_new_double(speed),
 						NULL );
+}
+
+static void update_loop(GmpvMprisPlayer *player)
+{
+	GmpvModel *model = gmpv_controller_get_model(player->controller);
+	gchar *loop_file = NULL;
+	gchar *loop_playlist = NULL;
+	const gchar *loop = NULL;
+
+	g_object_get(	model,
+			"loop-file", &loop_file,
+			"loop-playlist", &loop_playlist,
+			NULL );
+
+	loop =	g_strcmp0(loop_file, "inf") == 0 ? "Track" :
+		g_strcmp0(loop_playlist, "inf") == 0 ? "Playlist" :
+		"None";
+
+	gmpv_mpris_module_set_properties(	GMPV_MPRIS_MODULE(player),
+						"LoopStatus",
+						g_variant_new_string(loop),
+						NULL );
+
+	g_free(loop_file);
+	g_free(loop_playlist);
 }
 
 static void update_metadata(GmpvMprisPlayer *player)
@@ -640,6 +695,13 @@ static void speed_handler(	GObject *object,
 				gpointer data )
 {
 	update_speed(data);
+}
+
+static void loop_handler(	GObject *object,
+				GParamSpec *pspec,
+				gpointer data )
+{
+	update_loop(data);
 }
 
 static void metadata_handler(	GObject *object,
