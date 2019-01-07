@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 gnome-mpv
+ * Copyright (c) 2016-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -33,6 +33,7 @@ G_DECLARE_FINAL_TYPE(GmpvApplication, gmpv_application, GMPV, APPLICATION, GtkAp
 
 GmpvApplication *gmpv_application_new(gchar *id, GApplicationFlags flags);
 void gmpv_application_quit(GmpvApplication *app);
+const gchar *gmpv_application_get_mpv_options(GmpvApplication *app);
 
 G_END_DECLS
 

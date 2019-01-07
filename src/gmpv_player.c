@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 gnome-mpv
+ * Copyright (c) 2017-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -36,6 +36,7 @@ enum
 	PROP_PLAYLIST,
 	PROP_METADATA,
 	PROP_TRACK_LIST,
+	PROP_EXTRA_OPTIONS,
 	N_PROPERTIES
 };
 
@@ -57,6 +58,7 @@ struct _GmpvPlayer
 	gboolean new_file;
 	gboolean init_vo_config;
 	gchar *tmp_input_config;
+	gchar *extra_options;
 };
 
 struct _GmpvPlayerClass
@@ -85,7 +87,7 @@ static void observe_properties(GmpvMpv *mpv);
 static void apply_default_options(GmpvMpv *mpv);
 static void initialize(GmpvMpv *mpv);
 static gint apply_options_array_string(GmpvMpv *mpv, gchar *args);
-static void apply_extra_options(GmpvMpv *mpv);
+static void apply_extra_options(GmpvPlayer *player);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
 static void load_input_conf(GmpvPlayer *player, const gchar *input_conf);
@@ -110,12 +112,19 @@ static void set_property(	GObject *object,
 				const GValue *value,
 				GParamSpec *pspec )
 {
+	GmpvPlayer *self = GMPV_PLAYER(object);
+
 	switch(property_id)
 	{
 		case PROP_PLAYLIST:
 		case PROP_METADATA:
 		case PROP_TRACK_LIST:
 		g_critical("Attempted to set read-only property");
+		break;
+
+		case PROP_EXTRA_OPTIONS:
+		g_free(self->extra_options);
+		self->extra_options = g_value_dup_string(value);
 		break;
 
 		default:
@@ -145,6 +154,10 @@ static void get_property(	GObject *object,
 		g_value_set_pointer(value, self->track_list);
 		break;
 
+		case PROP_EXTRA_OPTIONS:
+		g_value_set_string(value, self->extra_options);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -161,6 +174,7 @@ static void finalize(GObject *object)
 	}
 
 	g_free(player->tmp_input_config);
+	g_free(player->extra_options);
 	g_ptr_array_free(player->playlist, TRUE);
 	g_ptr_array_free(player->metadata, TRUE);
 	g_ptr_array_free(player->track_list, TRUE);
@@ -427,13 +441,14 @@ static void apply_default_options(GmpvMpv *mpv)
 static void initialize(GmpvMpv *mpv)
 {
 
+	GmpvPlayer *player = GMPV_PLAYER(mpv);
 	GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
 	gdouble volume = g_settings_get_double(win_settings, "volume")*100;
 
 	apply_default_options(mpv);
 	load_config_file(mpv);
-	load_input_config_file(GMPV_PLAYER(mpv));
-	apply_extra_options(mpv);
+	load_input_config_file(player);
+	apply_extra_options(player);
 	observe_properties(mpv);
 	gmpv_player_options_init(GMPV_PLAYER(mpv));
 
@@ -481,22 +496,19 @@ static gint apply_options_array_string(GmpvMpv *mpv, gchar *args)
 	return fail_count*(-1);
 }
 
-static void apply_extra_options(GmpvMpv *mpv)
+static void apply_extra_options(GmpvPlayer *player)
 {
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	gchar *extra_options = g_settings_get_string(settings, "mpv-options");
+	GmpvMpv *mpv = GMPV_MPV(player);
+	gchar *extra_options = player->extra_options;
 
 	g_debug("Applying extra mpv options: %s", extra_options);
 
 	/* Apply extra options */
-	if(apply_options_array_string(mpv, extra_options) < 0)
+	if(extra_options && apply_options_array_string(mpv, extra_options) < 0)
 	{
 		const gchar *msg = _("Failed to apply one or more MPV options.");
 		g_signal_emit_by_name(mpv, "error", msg);
 	}
-
-	g_free(extra_options);
-	g_object_unref(settings);
 }
 
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
@@ -986,6 +998,14 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 			G_PARAM_READABLE );
 	g_object_class_install_property(obj_class, PROP_TRACK_LIST, pspec);
 
+	pspec = g_param_spec_string
+		(	"extra-options",
+			"Extra options",
+			"Extra options to pass to mpv",
+			NULL,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_EXTRA_OPTIONS, pspec);
+
 	g_signal_new(	"autofit",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1024,6 +1044,7 @@ static void gmpv_player_init(GmpvPlayer *player)
 	player->new_file = TRUE;
 	player->init_vo_config = TRUE;
 	player->tmp_input_config = NULL;
+	player->extra_options = NULL;
 
 	g_signal_connect(	player->cache,
 				"update",

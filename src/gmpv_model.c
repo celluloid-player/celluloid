@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 gnome-mpv
+ * Copyright (c) 2017-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -29,6 +29,7 @@ enum
 {
 	PROP_INVALID,
 	PROP_MPV,
+	PROP_EXTRA_OPTIONS,
 	PROP_READY,
 	PROP_PLAYLIST,
 	PROP_METADATA,
@@ -57,6 +58,7 @@ struct _GmpvModel
 {
 	GObject parent;
 	GmpvPlayer *player;
+	gchar *extra_options;
 	gboolean ready;
 	GmpvMetadataCache *cache;
 	GPtrArray *playlist;
@@ -139,6 +141,11 @@ static void constructed(GObject *object)
 
 	g_assert(model->player);
 
+	g_object_bind_property(	model,
+				"extra-options",
+				model->player,
+				"extra-options",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	model->player,
 				"ready",
 				model,
@@ -203,6 +210,11 @@ static void set_property(	GObject *object,
 	{
 		case PROP_MPV:
 		self->player = g_value_get_pointer(value);
+		break;
+
+		case PROP_EXTRA_OPTIONS:
+		g_free(self->extra_options);
+		self->extra_options = g_value_dup_string(value);
 		break;
 
 		case PROP_READY:
@@ -325,6 +337,10 @@ static void get_property(	GObject *object,
 		g_value_set_pointer(value, self->player);
 		break;
 
+		case PROP_EXTRA_OPTIONS:
+		g_value_set_string(value, self->extra_options);
+		break;
+
 		case PROP_READY:
 		g_value_set_boolean(value, self->ready);
 		break;
@@ -426,6 +442,8 @@ static void dispose(GObject *object)
 		g_clear_object(&model->player);
 		while(g_source_remove_by_user_data(model));
 	}
+
+	g_free(model->extra_options);
 
 	G_OBJECT_CLASS(gmpv_model_parent_class)->dispose(object);
 }
@@ -754,6 +772,14 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_MPV, pspec);
 
+	pspec = g_param_spec_string
+		(	"extra-options",
+			"Extra options",
+			"Extra options to pass to mpv",
+			NULL,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_EXTRA_OPTIONS, pspec);
+
 	pspec = g_param_spec_boolean
 		(	"ready",
 			"Ready",
@@ -880,6 +906,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 static void gmpv_model_init(GmpvModel *model)
 {
 	model->player = NULL;
+	model->extra_options = NULL;
 	model->ready = FALSE;
 	model->cache = NULL;
 	model->playlist = NULL;
@@ -912,7 +939,7 @@ GmpvModel *gmpv_model_new(gint64 wid)
 					NULL ));
 }
 
-void gmpv_model_initialize(GmpvModel *model)
+void gmpv_model_initialize(GmpvModel *model, const gchar *options)
 {
 	GmpvMpv *mpv = GMPV_MPV(model->player);
 

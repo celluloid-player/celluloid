@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 gnome-mpv
+ * Copyright (c) 2016-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -34,6 +34,7 @@ struct _GmpvApplication
 	GSList *controllers;
 	gboolean enqueue;
 	gboolean new_window;
+	gchar *mpv_options;
 	gchar *role;
 	guint inhibit_cookie;
 };
@@ -292,10 +293,12 @@ static gint command_line_handler(	GApplication *gapp,
 	always_open_new_window =	g_settings_get_boolean
 					(settings, "always-open-new-window");
 
+	g_clear_pointer(&app->mpv_options, g_free);
 	g_clear_pointer(&app->role, g_free);
 
 	g_variant_dict_lookup(options, "enqueue", "b", &app->enqueue);
 	g_variant_dict_lookup(options, "new-window", "b", &app->new_window);
+	g_variant_dict_lookup(options, "mpv-options", "s", &app->mpv_options);
 	g_variant_dict_lookup(options, "role", "s", &app->role);
 
 	for(gint i = 0; i < n_files; i++)
@@ -397,6 +400,7 @@ static void shutdown_handler(GmpvController *controller, gpointer data)
 
 	app->controllers = g_slist_remove(app->controllers, controller);
 	g_object_unref(controller);
+	g_free(app->mpv_options);
 	g_free(app->role);
 
 	if(!app->controllers)
@@ -416,6 +420,7 @@ static void gmpv_application_init(GmpvApplication *app)
 	app->controllers = NULL;
 	app->enqueue = FALSE;
 	app->new_window = FALSE;
+	app->mpv_options = NULL;
 	app->role = NULL;
 	app->inhibit_cookie = 0;
 
@@ -445,6 +450,14 @@ static void gmpv_application_init(GmpvApplication *app)
 			G_OPTION_ARG_NONE,
 			_("Create a new window"),
 			NULL );
+	g_application_add_main_option
+		(	G_APPLICATION(app),
+			"mpv-options",
+			'\0',
+			G_OPTION_FLAG_NONE,
+			G_OPTION_ARG_STRING,
+			_("Options to pass to mpv"),
+			_("OPTIONS") );
 	g_application_add_main_option
 		(	G_APPLICATION(app),
 			"role",
@@ -489,3 +502,7 @@ void gmpv_application_quit(GmpvApplication *app)
 	g_application_quit(G_APPLICATION(app));
 }
 
+const gchar *gmpv_application_get_mpv_options(GmpvApplication *app)
+{
+	return app->mpv_options;
+}

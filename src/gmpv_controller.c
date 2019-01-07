@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 gnome-mpv
+ * Copyright (c) 2017-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -326,7 +326,20 @@ static void media_keys_enable_handler(	GSettings *settings,
 
 static void view_ready_handler(GmpvView *view, gpointer data)
 {
-	gmpv_model_initialize(GMPV_CONTROLLER(data)->model);
+	GmpvController *controller = GMPV_CONTROLLER(data);
+	GmpvApplication *app = controller->app;
+	GmpvModel *model = controller->model;
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	const gchar *cli_options = gmpv_application_get_mpv_options(app);
+	gchar *pref_options = g_settings_get_string(settings, "mpv-options");
+	gchar *options = g_strjoin(" ", pref_options, cli_options, NULL);
+
+	g_object_set(model, "extra-options", options, NULL);
+	gmpv_model_initialize(model, options);
+
+	g_free(options);
+	g_free(pref_options);
+	g_object_unref(settings);
 }
 
 static void render_handler(GmpvView *view, gpointer data)
