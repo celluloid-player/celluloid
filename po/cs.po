@@ -240,41 +240,31 @@ msgstr "Předchozí kapitola"
 msgid "Toggle Fullscreen"
 msgstr "Zobrazení na celou obrazovku"
 
-#: src/gmpv_controller.c:785 src/gmpv_view.c:1429
+#: src/gmpv_controller.c:785 src/gmpv_view.c:1424
 msgid "Error"
 msgstr "Chyba"
 
-#: src/gmpv_file_chooser.c:90 src/gmpv_open_location_dialog.c:127
-#: src/gmpv_preferences_dialog.c:384
-msgid "_Cancel"
-msgstr "_Zrušit"
-
-#: src/gmpv_file_chooser.c:92 src/gmpv_menu.c:186 src/gmpv_menu.c:263
-#: src/gmpv_open_location_dialog.c:129
-msgid "_Open"
-msgstr "_Otevřít"
-
-#: src/gmpv_file_chooser.c:136 src/gmpv_plugins_manager.c:148
+#: src/gmpv_file_chooser.c:124 src/gmpv_plugins_manager.c:148
 msgid "All Files"
 msgstr "Všechny soubory"
 
-#: src/gmpv_file_chooser.c:144
+#: src/gmpv_file_chooser.c:132
 msgid "Media Files"
 msgstr "Soubory médií"
 
-#: src/gmpv_file_chooser.c:155
+#: src/gmpv_file_chooser.c:143
 msgid "Audio Files"
 msgstr "Soubory zvuku"
 
-#: src/gmpv_file_chooser.c:163
+#: src/gmpv_file_chooser.c:151
 msgid "Video Files"
 msgstr "Soubory videa"
 
-#: src/gmpv_file_chooser.c:171
+#: src/gmpv_file_chooser.c:159
 msgid "Image Files"
 msgstr "Soubory obrázků"
 
-#: src/gmpv_file_chooser.c:181
+#: src/gmpv_file_chooser.c:169
 msgid "Subtitle Files"
 msgstr "Soubory titulků"
 
@@ -296,35 +286,39 @@ msgstr "_Načíst externí…"
 msgid "_File"
 msgstr "_Soubor"
 
-#: src/gmpv_menu.c:187 src/gmpv_menu.c:264
-msgid "Open _Location"
-msgstr "_Otevřít umístění"
+#: src/gmpv_menu.c:186 src/gmpv_menu.c:260
+msgid "_Open…"
+msgstr ""
 
-#: src/gmpv_menu.c:188 src/gmpv_menu.c:238
+#: src/gmpv_menu.c:187 src/gmpv_menu.c:261
+msgid "Open _Location…"
+msgstr ""
+
+#: src/gmpv_menu.c:188 src/gmpv_menu.c:235
 msgid "_Save Playlist"
 msgstr "_Uložit seznam přehrávání"
 
-#: src/gmpv_menu.c:189 src/gmpv_menu.c:280
-msgid "_Quit"
-msgstr "U_končit"
+#: src/gmpv_menu.c:189 src/gmpv_menu.c:263
+msgid "_New Window"
+msgstr "_Nové okno"
 
 #: src/gmpv_menu.c:190
 msgid "_Edit"
 msgstr "Up_ravit"
 
-#: src/gmpv_menu.c:191 src/gmpv_menu.c:276
+#: src/gmpv_menu.c:191 src/gmpv_menu.c:241
 msgid "_Preferences"
 msgstr "_Předvolby"
 
-#: src/gmpv_menu.c:192 src/gmpv_menu.c:240
+#: src/gmpv_menu.c:192 src/gmpv_menu.c:237
 msgid "_Video Track"
 msgstr "Stopa _videa"
 
-#: src/gmpv_menu.c:193 src/gmpv_menu.c:241
+#: src/gmpv_menu.c:193 src/gmpv_menu.c:238
 msgid "_Audio Track"
 msgstr "Stopa _zvuku"
 
-#: src/gmpv_menu.c:194 src/gmpv_menu.c:242
+#: src/gmpv_menu.c:194 src/gmpv_menu.c:239
 msgid "S_ubtitle Track"
 msgstr "_Titulky"
 
@@ -332,11 +326,11 @@ msgstr "_Titulky"
 msgid "_View"
 msgstr "Zo_brazit"
 
-#: src/gmpv_menu.c:196 src/gmpv_menu.c:235
+#: src/gmpv_menu.c:196 src/gmpv_menu.c:232
 msgid "_Toggle Controls"
 msgstr "Přepnout _ovládání"
 
-#: src/gmpv_menu.c:197 src/gmpv_menu.c:237
+#: src/gmpv_menu.c:197 src/gmpv_menu.c:234
 msgid "_Toggle Playlist"
 msgstr "Přepnout seznam _přehrávání"
 
@@ -344,33 +338,17 @@ msgstr "Přepnout seznam _přehrávání"
 msgid "_Fullscreen"
 msgstr "_Celá obrazovka"
 
-#: src/gmpv_menu.c:199 src/gmpv_menu.c:244
-msgid "_Normal Size"
-msgstr "_Normální velikost"
-
-#: src/gmpv_menu.c:200 src/gmpv_menu.c:245
-msgid "_Double Size"
-msgstr "_Dvojnásobná velikost"
-
-#: src/gmpv_menu.c:201 src/gmpv_menu.c:246
-msgid "_Half Size"
-msgstr "_Poloviční velikost"
-
-#: src/gmpv_menu.c:202
+#: src/gmpv_menu.c:199
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: src/gmpv_menu.c:203 src/gmpv_menu.c:278
+#: src/gmpv_menu.c:200 src/gmpv_menu.c:242
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/gmpv_menu.c:204 src/gmpv_menu.c:279
-msgid "_About"
-msgstr "_O aplikaci"
-
-#: src/gmpv_menu.c:274
-msgid "_New Window"
-msgstr "_Nové okno"
+#: src/gmpv_menu.c:201 src/gmpv_menu.c:243
+msgid "_About GNOME MPV"
+msgstr ""
 
 #: src/gmpv_mpv.c:219
 #, c-format
@@ -381,7 +359,15 @@ msgstr "Přehrávání bylo nečekaně ukončeno. Důvod: %s."
 msgid "Location:"
 msgstr "Umístění:"
 
-#: src/gmpv_player.c:498
+#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:381
+msgid "_Cancel"
+msgstr "_Zrušit"
+
+#: src/gmpv_open_location_dialog.c:129
+msgid "_Open"
+msgstr "_Otevřít"
+
+#: src/gmpv_player.c:494
 msgid "Failed to apply one or more MPV options."
 msgstr "Nebylo možno uplatnit jednu nebo více předvoleb MPV."
 
@@ -413,7 +399,7 @@ msgstr "Opakovat _soubor"
 msgid "Loop _Playlist"
 msgstr "Opakovat seznam _přehrávání"
 
-#: src/gmpv_playlist_widget.c:665
+#: src/gmpv_playlist_widget.c:663
 msgid "Playlist"
 msgstr "Seznam přehrávání"
 
@@ -457,94 +443,86 @@ msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Selhalo smazání souboru ‚%s‘. Důvod: %s"
 
 #: src/gmpv_preferences_dialog.c:290
-msgid "<b>User Interface</b>"
-msgstr "<b>Uživatelské rozhraní</b>"
-
-#: src/gmpv_preferences_dialog.c:293
 msgid "Enable client-side decorations"
 msgstr "Povolit dekorace na straně klienta"
 
-#: src/gmpv_preferences_dialog.c:296
+#: src/gmpv_preferences_dialog.c:293
 msgid "Enable dark theme"
 msgstr "Povolit tmavý motiv"
 
-#: src/gmpv_preferences_dialog.c:299
+#: src/gmpv_preferences_dialog.c:296
 msgid "Use floating controls in windowed mode"
 msgstr "Použít v okenním režimu plovoucí ovládání"
 
-#: src/gmpv_preferences_dialog.c:302
+#: src/gmpv_preferences_dialog.c:299
 msgid "Autohide mouse cursor in windowed mode"
 msgstr "Automaticky skrývat kurzor v módu okna"
 
-#: src/gmpv_preferences_dialog.c:305
+#: src/gmpv_preferences_dialog.c:302
 msgid "Use skip buttons for controlling playlist"
 msgstr "Použít tlačítko přeskočit pro ovládání seznamu skladeb"
 
-#: src/gmpv_preferences_dialog.c:308
+#: src/gmpv_preferences_dialog.c:305
 msgid "Remember last file's location"
 msgstr "Pamatovat si umístění posledního souboru"
 
-#: src/gmpv_preferences_dialog.c:311
-msgid "<b>MPV Configuration</b>"
-msgstr "<b>Nastavení MPV</b>"
-
-#: src/gmpv_preferences_dialog.c:314
+#: src/gmpv_preferences_dialog.c:310
 msgid "Load MPV configuration file"
 msgstr "Načíst konfigurační soubor MPV"
 
-#: src/gmpv_preferences_dialog.c:317
+#: src/gmpv_preferences_dialog.c:313
 msgid "MPV configuration file:"
 msgstr "Konfigurační soubor MPV:"
 
-#: src/gmpv_preferences_dialog.c:320
-msgid "<b>Keybindings</b>"
-msgstr "<b>Klávesové zkratky</b>"
-
-#: src/gmpv_preferences_dialog.c:323
+#: src/gmpv_preferences_dialog.c:316
 msgid "Load MPV input configuration file"
 msgstr "Načíst vstupní konfigurační soubor MPV"
 
-#: src/gmpv_preferences_dialog.c:326
+#: src/gmpv_preferences_dialog.c:319
 msgid "MPV input configuration file:"
 msgstr "Vstupní konfigurační soubor MPV:"
 
-#: src/gmpv_preferences_dialog.c:329
-msgid "<b>Miscellaneous</b>"
-msgstr "<b>Různé</b>"
-
-#: src/gmpv_preferences_dialog.c:332
+#: src/gmpv_preferences_dialog.c:324
 msgid "Always open new window"
 msgstr "Vždy otevřít nové okno"
 
-#: src/gmpv_preferences_dialog.c:335
+#: src/gmpv_preferences_dialog.c:327
 msgid "Prefetch metadata"
 msgstr "Dopředu načíst metadata"
 
-#: src/gmpv_preferences_dialog.c:338
+#: src/gmpv_preferences_dialog.c:330
 msgid "Enable MPRIS support"
 msgstr "Zapnout podporu MPRIS"
 
-#: src/gmpv_preferences_dialog.c:341
+#: src/gmpv_preferences_dialog.c:333
 msgid "Enable media keys support"
 msgstr "Zapnout podporu multimediálních kláves"
 
-#: src/gmpv_preferences_dialog.c:344
+#: src/gmpv_preferences_dialog.c:336
 msgid "Extra MPV options:"
 msgstr "Extra možnosti MPV:"
 
-#: src/gmpv_preferences_dialog.c:377
-msgid "General"
-msgstr "Obecné"
+#: src/gmpv_preferences_dialog.c:369
+msgid "Interface"
+msgstr ""
 
-#: src/gmpv_preferences_dialog.c:381
+#: src/gmpv_preferences_dialog.c:372
+msgid "Config Files"
+msgstr ""
+
+#: src/gmpv_preferences_dialog.c:375
+msgid "Miscellaneous"
+msgstr ""
+
+#: src/gmpv_preferences_dialog.c:378
 msgid "Plugins"
 msgstr "Pluginy"
 
-#: src/gmpv_preferences_dialog.c:386
+#: src/gmpv_preferences_dialog.c:383
 msgid "_Save"
 msgstr "_Uložit"
 
-#: src/gmpv_preferences_dialog.c:403
+#: src/gmpv_preferences_dialog.c:400
 msgid "Preferences"
 msgstr "Předvolby"
 
@@ -796,38 +774,38 @@ msgstr ""
 "Aby se projevilo povolení nebo zakázání dekorací na straně klienta, je nutný"
 " restart aplikace"
 
-#: src/gmpv_view.c:1309
+#: src/gmpv_view.c:1304
 msgid "Add File to Playlist"
 msgstr "_Přidat soubory do seznamu přehrávání"
 
-#: src/gmpv_view.c:1310
+#: src/gmpv_view.c:1305
 msgid "Open File"
 msgstr "Otevřít soubor"
 
-#: src/gmpv_view.c:1337
+#: src/gmpv_view.c:1332
 msgid "Add Location to Playlist"
 msgstr "Přidat umístění do seznamu přehrávání"
 
-#: src/gmpv_view.c:1338
+#: src/gmpv_view.c:1333
 msgid "Open Location"
 msgstr "Otevřít umístění"
 
-#: src/gmpv_view.c:1359
+#: src/gmpv_view.c:1354
 msgid "Load Audio Track…"
 msgstr "Načíst zvukovou stopu…"
 
-#: src/gmpv_view.c:1378
+#: src/gmpv_view.c:1373
 msgid "Load Subtitle Track…"
 msgstr "Načíst stopu titulků…"
 
-#: src/gmpv_view.c:1403
+#: src/gmpv_view.c:1398
 msgid "Save Playlist"
 msgstr "_Uložit seznam přehrávání"
 
-#: src/gmpv_view.c:1468
+#: src/gmpv_view.c:1461
 msgid "A GTK frontend for MPV"
 msgstr "GTK frontend pro MPV"
 
-#: src/gmpv_view.c:1478
+#: src/gmpv_view.c:1471
 msgid "translator-credits"
 msgstr "Tomáš Marný"
