@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 gnome-mpv
+ * Copyright (c) 2014-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -98,24 +98,13 @@
 		"Ctrl+p script-message gmpv-action win.show-preferences-dialog",\
 		"Ctrl+h script-message gmpv-action win.toggle-controls",\
 		"F9 script-message gmpv-action win.toggle-playlist",\
-		"F11 cycle fullscreen",\
-		"v osd-msg cycle sub-visibility",\
-		"s osd-msg screenshot",\
-		"S osd-msg screenshot video",\
-		"j osd-msg cycle sub",\
-		"J osd-msg cycle sub down",\
-		"@ osd-msg cycle chapter",\
-		"! osd-msg cycle chapter down",\
 		"DEL script-message gmpv-action win.remove-selected-playlist-item",\
 		"U stop",\
-		"RIGHT no-osd seek 10",\
-		"LEFT no-osd seek -10",\
-		"UP no-osd seek 60",\
-		"DOWN no-osd seek -60",\
-		"MOUSE_BTN3 add volume 2",\
-		"MOUSE_BTN4 add volume -2",\
-		"MOUSE_BTN5 no-osd seek -10",\
-		"MOUSE_BTN6 no-osd seek 10",\
+		"F11 cycle fullscreen",\
+		"WHEEL_UP add volume 2",\
+		"WHEEL_DOWN add volume -2",\
+		"WHEEL_LEFT no-osd seek -10",\
+		"WHEEL_RIGHT no-osd seek 10",\
 		NULL }
 
 #define KEYSTRING_MAP	{	"<", "less",\
