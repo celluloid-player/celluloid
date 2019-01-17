@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2015-2018 gnome-mpv -->
+<!-- Copyright 2015-2019 gnome-mpv -->
 <component type="desktop">
  <id>io.github.GnomeMpv.desktop</id>
  <metadata_license>CC-BY-SA-4.0</metadata_license>
@@ -24,6 +24,37 @@
   </ul>
  </description>
  <releases>
+  <release date="2019-01-21" version="0.16">
+   <description>
+    <p>
+     This release contains the following changes:
+    </p>
+    <ul>
+     <li>
+       Split up the General tab in the preferences dialog
+     </li>
+     <li>
+       Improve behavior when toggling playlist under tiling window managers
+     </li>
+     <li>
+       Move app menu items to primary menu
+     </li>
+     <li>
+       Use separate MPRIS DBus connection for each window
+     </li>
+     <li>
+       Add support for MPRIS property LoopStatus
+     </li>
+     <li>
+       Add option --mpv-options for setting arbitrary mpv options from the
+       command-line
+     </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2018-09-08" version="0.15">
    <description>
     <p>
