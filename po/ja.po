@@ -37,6 +37,7 @@ msgid ""
 msgstr ""
 
 #: data/org.gnome-mpv.gschema.xml:27 data/io.github.GnomeMpv.gschema.xml:58
+#: src/gmpv_application.c:459
 #, fuzzy
 msgid "Options to pass to mpv"
 msgstr "mpvに渡すオプション"
@@ -126,8 +127,8 @@ msgid "Show or not show the controls"
 msgstr ""
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
-#: src/gmpv_view.c:972
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:346
+#: src/gmpv_view.c:985
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -182,69 +183,77 @@ msgstr ""
 msgid "New Window"
 msgstr "新しいウィンドウ"
 
-#: src/gmpv_application.c:383
+#: src/gmpv_application.c:386
 #, fuzzy
 msgid "Playing"
 msgstr "プレイ中"
 
-#: src/gmpv_application.c:430
+#: src/gmpv_application.c:435
 msgid "Show release version"
 msgstr ""
 
-#: src/gmpv_application.c:438
+#: src/gmpv_application.c:443
 msgid "Enqueue"
 msgstr ""
 
-#: src/gmpv_application.c:446
+#: src/gmpv_application.c:451
 #, fuzzy
 msgid "Create a new window"
 msgstr "新しいウィンドウを開きます"
 
-#: src/gmpv_application.c:454
+#: src/gmpv_application.c:460
+msgid "OPTIONS"
+msgstr ""
+
+#: src/gmpv_application.c:467
 msgid "Set the window role"
 msgstr ""
 
-#: src/gmpv_application.c:462
+#: src/gmpv_application.c:475
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
-#: src/gmpv_control_box.c:286
+#: src/gmpv_control_box.c:297
 #, fuzzy
 msgid "Pause"
 msgstr "一時停止"
 
-#: src/gmpv_control_box.c:286 src/gmpv_control_box.c:433
+#: src/gmpv_control_box.c:297 src/gmpv_control_box.c:454
 #, fuzzy
 msgid "Play"
 msgstr "プレー"
 
-#: src/gmpv_control_box.c:436
+#: src/gmpv_control_box.c:457
 #, fuzzy
 msgid "Stop"
 msgstr "停止"
 
-#: src/gmpv_control_box.c:439
+#: src/gmpv_control_box.c:460
 msgid "Forward"
 msgstr ""
 
-#: src/gmpv_control_box.c:442
+#: src/gmpv_control_box.c:463
 msgid "Rewind"
 msgstr ""
 
-#: src/gmpv_control_box.c:445
+#: src/gmpv_control_box.c:466
 msgid "Next Chapter"
 msgstr ""
 
-#: src/gmpv_control_box.c:448
+#: src/gmpv_control_box.c:469
 msgid "Previous Chapter"
 msgstr ""
 
-#: src/gmpv_control_box.c:451 src/gmpv_header_bar.c:89
+#: src/gmpv_control_box.c:472
+msgid "Loop Playlist"
+msgstr ""
+
+#: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
 #, fuzzy
 msgid "Toggle Fullscreen"
 msgstr "全面表示を切換える"
 
-#: src/gmpv_controller.c:785 src/gmpv_view.c:1424
+#: src/gmpv_controller.c:839 src/gmpv_view.c:1446
 #, fuzzy
 msgid "Error"
 msgstr "エラー"
@@ -376,7 +385,7 @@ msgstr ""
 msgid "Location:"
 msgstr "場所:"
 
-#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:381
+#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:386
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
@@ -384,7 +393,7 @@ msgstr "キャンセル(_C)"
 msgid "_Open"
 msgstr "開く(_O)"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:509
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
@@ -461,87 +470,87 @@ msgstr "このスクリプトを削除してもよろしいですか？このア
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:290
+#: src/gmpv_preferences_dialog.c:295
 msgid "Enable client-side decorations"
 msgstr "CSDを有効にする"
 
-#: src/gmpv_preferences_dialog.c:293
+#: src/gmpv_preferences_dialog.c:298
 msgid "Enable dark theme"
 msgstr "暗いテーマを有効にする"
 
-#: src/gmpv_preferences_dialog.c:296
+#: src/gmpv_preferences_dialog.c:301
 msgid "Use floating controls in windowed mode"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:299
+#: src/gmpv_preferences_dialog.c:304
 msgid "Autohide mouse cursor in windowed mode"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:302
+#: src/gmpv_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:305
+#: src/gmpv_preferences_dialog.c:310
 msgid "Remember last file's location"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:310
+#: src/gmpv_preferences_dialog.c:315
 msgid "Load MPV configuration file"
 msgstr "MPV設定ファイルをロードする"
 
-#: src/gmpv_preferences_dialog.c:313
+#: src/gmpv_preferences_dialog.c:318
 msgid "MPV configuration file:"
 msgstr "MPV設定ファイル:"
 
-#: src/gmpv_preferences_dialog.c:316
+#: src/gmpv_preferences_dialog.c:321
 msgid "Load MPV input configuration file"
 msgstr "MPV入力設定ファイルをロードする"
 
-#: src/gmpv_preferences_dialog.c:319
+#: src/gmpv_preferences_dialog.c:324
 msgid "MPV input configuration file:"
 msgstr "MPV入力設定ファイル:"
 
-#: src/gmpv_preferences_dialog.c:324
+#: src/gmpv_preferences_dialog.c:329
 msgid "Always open new window"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:327
+#: src/gmpv_preferences_dialog.c:332
 msgid "Prefetch metadata"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:330
+#: src/gmpv_preferences_dialog.c:335
 msgid "Enable MPRIS support"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:333
+#: src/gmpv_preferences_dialog.c:338
 msgid "Enable media keys support"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:336
+#: src/gmpv_preferences_dialog.c:341
 msgid "Extra MPV options:"
 msgstr "その他のMPVオプション:"
 
-#: src/gmpv_preferences_dialog.c:369
+#: src/gmpv_preferences_dialog.c:374
 msgid "Interface"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:372
+#: src/gmpv_preferences_dialog.c:377
 msgid "Config Files"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:375
+#: src/gmpv_preferences_dialog.c:380
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:378
+#: src/gmpv_preferences_dialog.c:383
 msgid "Plugins"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:383
+#: src/gmpv_preferences_dialog.c:388
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: src/gmpv_preferences_dialog.c:400
+#: src/gmpv_preferences_dialog.c:405
 msgid "Preferences"
 msgstr "設定"
 
@@ -798,48 +807,48 @@ msgstr "プレイバック"
 msgid "Seeking"
 msgstr ""
 
-#: src/gmpv_view.c:718
+#: src/gmpv_view.c:731
 #, fuzzy
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr "CSDの有効・無効は再起動が必要です。"
 
-#: src/gmpv_view.c:1304
+#: src/gmpv_view.c:1326
 msgid "Add File to Playlist"
 msgstr "プレイリストの表示・非表示"
 
-#: src/gmpv_view.c:1305
+#: src/gmpv_view.c:1327
 msgid "Open File"
 msgstr "ファイルを開く"
 
-#: src/gmpv_view.c:1332
+#: src/gmpv_view.c:1354
 msgid "Add Location to Playlist"
 msgstr ""
 
-#: src/gmpv_view.c:1333
+#: src/gmpv_view.c:1355
 msgid "Open Location"
 msgstr "場所を開く"
 
-#: src/gmpv_view.c:1354
+#: src/gmpv_view.c:1376
 #, fuzzy
 msgid "Load Audio Track…"
 msgstr "音声トラックをロードする"
 
-#: src/gmpv_view.c:1373
+#: src/gmpv_view.c:1395
 #, fuzzy
 msgid "Load Subtitle Track…"
 msgstr "字幕をロードする"
 
-#: src/gmpv_view.c:1398
+#: src/gmpv_view.c:1420
 #, fuzzy
 msgid "Save Playlist"
 msgstr "_プレイリストの保存"
 
-#: src/gmpv_view.c:1461
+#: src/gmpv_view.c:1483
 msgid "A GTK frontend for MPV"
 msgstr "MPVのGTKフロントエンド"
 
-#: src/gmpv_view.c:1471
+#: src/gmpv_view.c:1493
 msgid "translator-credits"
 msgstr "Tista"

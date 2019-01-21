@@ -37,6 +37,7 @@ msgid ""
 msgstr "是否让文件选择对话框记住最近访问的文件夹"
 
 #: data/org.gnome-mpv.gschema.xml:27 data/io.github.GnomeMpv.gschema.xml:58
+#: src/gmpv_application.c:459
 msgid "Options to pass to mpv"
 msgstr "要传递给 mpv 的选项"
 
@@ -119,8 +120,8 @@ msgid "Show or not show the controls"
 msgstr "是否显示控制栏"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
-#: src/gmpv_view.c:972
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:346
+#: src/gmpv_view.c:985
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -178,63 +179,71 @@ msgstr ""
 msgid "New Window"
 msgstr "新建窗口"
 
-#: src/gmpv_application.c:383
+#: src/gmpv_application.c:386
 msgid "Playing"
 msgstr "正在播放"
 
-#: src/gmpv_application.c:430
+#: src/gmpv_application.c:435
 msgid "Show release version"
 msgstr "显示发布版本号"
 
-#: src/gmpv_application.c:438
+#: src/gmpv_application.c:443
 msgid "Enqueue"
 msgstr "加入队列"
 
-#: src/gmpv_application.c:446
+#: src/gmpv_application.c:451
 msgid "Create a new window"
 msgstr "创建一个新窗口"
 
-#: src/gmpv_application.c:454
+#: src/gmpv_application.c:460
+msgid "OPTIONS"
+msgstr ""
+
+#: src/gmpv_application.c:467
 msgid "Set the window role"
 msgstr "设置窗口规则"
 
-#: src/gmpv_application.c:462
+#: src/gmpv_application.c:475
 msgid "Don't connect to an already-running instance"
 msgstr "不要连接到已经运行中的实例"
 
-#: src/gmpv_control_box.c:286
+#: src/gmpv_control_box.c:297
 msgid "Pause"
 msgstr "暂停"
 
-#: src/gmpv_control_box.c:286 src/gmpv_control_box.c:433
+#: src/gmpv_control_box.c:297 src/gmpv_control_box.c:454
 msgid "Play"
 msgstr "播放"
 
-#: src/gmpv_control_box.c:436
+#: src/gmpv_control_box.c:457
 msgid "Stop"
 msgstr "停止"
 
-#: src/gmpv_control_box.c:439
+#: src/gmpv_control_box.c:460
 msgid "Forward"
 msgstr "快进"
 
-#: src/gmpv_control_box.c:442
+#: src/gmpv_control_box.c:463
 msgid "Rewind"
 msgstr "快退"
 
-#: src/gmpv_control_box.c:445
+#: src/gmpv_control_box.c:466
 msgid "Next Chapter"
 msgstr "下一章节"
 
-#: src/gmpv_control_box.c:448
+#: src/gmpv_control_box.c:469
 msgid "Previous Chapter"
 msgstr "上一章节"
 
-#: src/gmpv_control_box.c:451 src/gmpv_header_bar.c:89
+#: src/gmpv_control_box.c:472
+msgid "Loop Playlist"
+msgstr ""
+
+#: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "切换全屏"
 
-#: src/gmpv_controller.c:785 src/gmpv_view.c:1424
+#: src/gmpv_controller.c:839 src/gmpv_view.c:1446
 msgid "Error"
 msgstr "错误"
 
@@ -353,7 +362,7 @@ msgstr "回放被异常终止。原因：%s。"
 msgid "Location:"
 msgstr "路径："
 
-#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:381
+#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:386
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -361,7 +370,7 @@ msgstr "取消(_C)"
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:509
 msgid "Failed to apply one or more MPV options."
 msgstr "应用一个或多个 MPV 选项失败。"
 
@@ -436,87 +445,87 @@ msgstr "您确定移除此脚本吗？该操作无法被撤销。"
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "删除文件 '%s' 失败。原因：%s"
 
-#: src/gmpv_preferences_dialog.c:290
+#: src/gmpv_preferences_dialog.c:295
 msgid "Enable client-side decorations"
 msgstr "启用客户端装饰"
 
-#: src/gmpv_preferences_dialog.c:293
+#: src/gmpv_preferences_dialog.c:298
 msgid "Enable dark theme"
 msgstr "启用暗色主题"
 
-#: src/gmpv_preferences_dialog.c:296
+#: src/gmpv_preferences_dialog.c:301
 msgid "Use floating controls in windowed mode"
 msgstr "在窗口模式下启用浮动控制"
 
-#: src/gmpv_preferences_dialog.c:299
+#: src/gmpv_preferences_dialog.c:304
 msgid "Autohide mouse cursor in windowed mode"
 msgstr "在窗口模式下自动隐藏鼠标指针"
 
-#: src/gmpv_preferences_dialog.c:302
+#: src/gmpv_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
 msgstr "使用跳转按钮控制播放列表"
 
-#: src/gmpv_preferences_dialog.c:305
+#: src/gmpv_preferences_dialog.c:310
 msgid "Remember last file's location"
 msgstr "记住最后一次打开位置"
 
-#: src/gmpv_preferences_dialog.c:310
+#: src/gmpv_preferences_dialog.c:315
 msgid "Load MPV configuration file"
 msgstr "加载 MPV 配置文件"
 
-#: src/gmpv_preferences_dialog.c:313
+#: src/gmpv_preferences_dialog.c:318
 msgid "MPV configuration file:"
 msgstr "MPV 配置文件："
 
-#: src/gmpv_preferences_dialog.c:316
+#: src/gmpv_preferences_dialog.c:321
 msgid "Load MPV input configuration file"
 msgstr "加载 MPV 输入配置文件"
 
-#: src/gmpv_preferences_dialog.c:319
+#: src/gmpv_preferences_dialog.c:324
 msgid "MPV input configuration file:"
 msgstr "MPV 输入配置文件："
 
-#: src/gmpv_preferences_dialog.c:324
+#: src/gmpv_preferences_dialog.c:329
 msgid "Always open new window"
 msgstr "总是打开新窗口"
 
-#: src/gmpv_preferences_dialog.c:327
+#: src/gmpv_preferences_dialog.c:332
 msgid "Prefetch metadata"
 msgstr "预先读取元数据"
 
-#: src/gmpv_preferences_dialog.c:330
+#: src/gmpv_preferences_dialog.c:335
 msgid "Enable MPRIS support"
 msgstr "启用 MPRIS 支持"
 
-#: src/gmpv_preferences_dialog.c:333
+#: src/gmpv_preferences_dialog.c:338
 msgid "Enable media keys support"
 msgstr "启用媒体键支持"
 
-#: src/gmpv_preferences_dialog.c:336
+#: src/gmpv_preferences_dialog.c:341
 msgid "Extra MPV options:"
 msgstr "额外的 MPV 选项："
 
-#: src/gmpv_preferences_dialog.c:369
+#: src/gmpv_preferences_dialog.c:374
 msgid "Interface"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:372
+#: src/gmpv_preferences_dialog.c:377
 msgid "Config Files"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:375
+#: src/gmpv_preferences_dialog.c:380
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:378
+#: src/gmpv_preferences_dialog.c:383
 msgid "Plugins"
 msgstr "插件"
 
-#: src/gmpv_preferences_dialog.c:383
+#: src/gmpv_preferences_dialog.c:388
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: src/gmpv_preferences_dialog.c:400
+#: src/gmpv_preferences_dialog.c:405
 msgid "Preferences"
 msgstr "首选项"
 
@@ -760,45 +769,45 @@ msgstr "回放"
 msgid "Seeking"
 msgstr "跳转"
 
-#: src/gmpv_view.c:718
+#: src/gmpv_view.c:731
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr "启用或禁用客户端装饰（CSD），需要重启播放器以生效。"
 
-#: src/gmpv_view.c:1304
+#: src/gmpv_view.c:1326
 msgid "Add File to Playlist"
 msgstr "添加文件到播放列表"
 
-#: src/gmpv_view.c:1305
+#: src/gmpv_view.c:1327
 msgid "Open File"
 msgstr "打开文件"
 
-#: src/gmpv_view.c:1332
+#: src/gmpv_view.c:1354
 msgid "Add Location to Playlist"
 msgstr "添加路径到播放列表"
 
-#: src/gmpv_view.c:1333
+#: src/gmpv_view.c:1355
 msgid "Open Location"
 msgstr "打开路径"
 
-#: src/gmpv_view.c:1354
+#: src/gmpv_view.c:1376
 msgid "Load Audio Track…"
 msgstr "加载音频轨道..."
 
-#: src/gmpv_view.c:1373
+#: src/gmpv_view.c:1395
 msgid "Load Subtitle Track…"
 msgstr "加载字幕轨道..."
 
-#: src/gmpv_view.c:1398
+#: src/gmpv_view.c:1420
 msgid "Save Playlist"
 msgstr "保存播放列表"
 
-#: src/gmpv_view.c:1461
+#: src/gmpv_view.c:1483
 msgid "A GTK frontend for MPV"
 msgstr "MPV 的 GTK 前端程序"
 
-#: src/gmpv_view.c:1471
+#: src/gmpv_view.c:1493
 msgid "translator-credits"
 msgstr ""
 "Mingye Wang <arthur2e5@aosc.xyz>, 2015, 2016.\n"

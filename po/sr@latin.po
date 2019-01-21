@@ -31,6 +31,7 @@ msgstr ""
 "direktorijum"
 
 #: data/org.gnome-mpv.gschema.xml:27 data/io.github.GnomeMpv.gschema.xml:58
+#: src/gmpv_application.c:459
 msgid "Options to pass to mpv"
 msgstr "Opcije koje treba preneti na mpv"
 
@@ -114,8 +115,8 @@ msgid "Show or not show the controls"
 msgstr "Dozvoljava prikaz kontrola"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
-#: src/gmpv_view.c:972
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:346
+#: src/gmpv_view.c:985
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -175,63 +176,71 @@ msgstr ""
 msgid "New Window"
 msgstr "Novi prozor"
 
-#: src/gmpv_application.c:383
+#: src/gmpv_application.c:386
 msgid "Playing"
 msgstr "Reprodukcija"
 
-#: src/gmpv_application.c:430
+#: src/gmpv_application.c:435
 msgid "Show release version"
 msgstr "Prikaži verziju izdanja"
 
-#: src/gmpv_application.c:438
+#: src/gmpv_application.c:443
 msgid "Enqueue"
 msgstr "Naniži"
 
-#: src/gmpv_application.c:446
+#: src/gmpv_application.c:451
 msgid "Create a new window"
 msgstr "Napravi novi prozor"
 
-#: src/gmpv_application.c:454
+#: src/gmpv_application.c:460
+msgid "OPTIONS"
+msgstr ""
+
+#: src/gmpv_application.c:467
 msgid "Set the window role"
 msgstr ""
 
-#: src/gmpv_application.c:462
+#: src/gmpv_application.c:475
 msgid "Don't connect to an already-running instance"
 msgstr "Ne povezuj na već pokrenut primerak"
 
-#: src/gmpv_control_box.c:286
+#: src/gmpv_control_box.c:297
 msgid "Pause"
 msgstr "Pauziraj"
 
-#: src/gmpv_control_box.c:286 src/gmpv_control_box.c:433
+#: src/gmpv_control_box.c:297 src/gmpv_control_box.c:454
 msgid "Play"
 msgstr "Pusti"
 
-#: src/gmpv_control_box.c:436
+#: src/gmpv_control_box.c:457
 msgid "Stop"
 msgstr "Zaustavi"
 
-#: src/gmpv_control_box.c:439
+#: src/gmpv_control_box.c:460
 msgid "Forward"
 msgstr "Napred"
 
-#: src/gmpv_control_box.c:442
+#: src/gmpv_control_box.c:463
 msgid "Rewind"
 msgstr "Nazad"
 
-#: src/gmpv_control_box.c:445
+#: src/gmpv_control_box.c:466
 msgid "Next Chapter"
 msgstr "Sledeće Poglavlje"
 
-#: src/gmpv_control_box.c:448
+#: src/gmpv_control_box.c:469
 msgid "Previous Chapter"
 msgstr "Prethodno Poglavlje"
 
-#: src/gmpv_control_box.c:451 src/gmpv_header_bar.c:89
+#: src/gmpv_control_box.c:472
+msgid "Loop Playlist"
+msgstr ""
+
+#: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "Ceo Ekran"
 
-#: src/gmpv_controller.c:785 src/gmpv_view.c:1424
+#: src/gmpv_controller.c:839 src/gmpv_view.c:1446
 msgid "Error"
 msgstr "Greška"
 
@@ -350,7 +359,7 @@ msgstr "Reprodukcija je nepravilno okončana. Razlog: %s."
 msgid "Location:"
 msgstr "Lokacija:"
 
-#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:381
+#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:386
 msgid "_Cancel"
 msgstr "_Otkaži"
 
@@ -358,7 +367,7 @@ msgstr "_Otkaži"
 msgid "_Open"
 msgstr "_Otvori"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:509
 msgid "Failed to apply one or more MPV options."
 msgstr "Neuspešna primena jedne ili više MPV opcija."
 
@@ -434,87 +443,87 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Neuspešno brisanje datoteke '%s'. Razlog: %s"
 
-#: src/gmpv_preferences_dialog.c:290
+#: src/gmpv_preferences_dialog.c:295
 msgid "Enable client-side decorations"
 msgstr "Omogući ukrase klijenta"
 
-#: src/gmpv_preferences_dialog.c:293
+#: src/gmpv_preferences_dialog.c:298
 msgid "Enable dark theme"
 msgstr "Omogući tamnu temu"
 
-#: src/gmpv_preferences_dialog.c:296
+#: src/gmpv_preferences_dialog.c:301
 msgid "Use floating controls in windowed mode"
 msgstr "Koristi plivajuće kontrole u režimu prozora"
 
-#: src/gmpv_preferences_dialog.c:299
+#: src/gmpv_preferences_dialog.c:304
 msgid "Autohide mouse cursor in windowed mode"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:302
+#: src/gmpv_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:305
+#: src/gmpv_preferences_dialog.c:310
 msgid "Remember last file's location"
 msgstr "Upamti lokaciju poslednje datoteke"
 
-#: src/gmpv_preferences_dialog.c:310
+#: src/gmpv_preferences_dialog.c:315
 msgid "Load MPV configuration file"
 msgstr "Učitaj MPV konfiguracionu datoteku"
 
-#: src/gmpv_preferences_dialog.c:313
+#: src/gmpv_preferences_dialog.c:318
 msgid "MPV configuration file:"
 msgstr "MPV konfiguraciona datoteka:"
 
-#: src/gmpv_preferences_dialog.c:316
+#: src/gmpv_preferences_dialog.c:321
 msgid "Load MPV input configuration file"
 msgstr "Učitaj MPV konfiguracionu datoteku"
 
-#: src/gmpv_preferences_dialog.c:319
+#: src/gmpv_preferences_dialog.c:324
 msgid "MPV input configuration file:"
 msgstr "MPV konfiguraciona datoteka unosa:"
 
-#: src/gmpv_preferences_dialog.c:324
+#: src/gmpv_preferences_dialog.c:329
 msgid "Always open new window"
 msgstr "Uvek otvori novi prozor"
 
-#: src/gmpv_preferences_dialog.c:327
+#: src/gmpv_preferences_dialog.c:332
 msgid "Prefetch metadata"
 msgstr "Pripremi metapodatke"
 
-#: src/gmpv_preferences_dialog.c:330
+#: src/gmpv_preferences_dialog.c:335
 msgid "Enable MPRIS support"
 msgstr "Omogući podršku za MPRIS"
 
-#: src/gmpv_preferences_dialog.c:333
+#: src/gmpv_preferences_dialog.c:338
 msgid "Enable media keys support"
 msgstr "Omogući podršku za multimedijalne tastere"
 
-#: src/gmpv_preferences_dialog.c:336
+#: src/gmpv_preferences_dialog.c:341
 msgid "Extra MPV options:"
 msgstr "Dodatne MPV opcije:"
 
-#: src/gmpv_preferences_dialog.c:369
+#: src/gmpv_preferences_dialog.c:374
 msgid "Interface"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:372
+#: src/gmpv_preferences_dialog.c:377
 msgid "Config Files"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:375
+#: src/gmpv_preferences_dialog.c:380
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:378
+#: src/gmpv_preferences_dialog.c:383
 msgid "Plugins"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:383
+#: src/gmpv_preferences_dialog.c:388
 msgid "_Save"
 msgstr "_Sačuvaj"
 
-#: src/gmpv_preferences_dialog.c:400
+#: src/gmpv_preferences_dialog.c:405
 msgid "Preferences"
 msgstr "Postavke"
 
@@ -758,7 +767,7 @@ msgstr "Reprodukcija"
 msgid "Seeking"
 msgstr "Traganje"
 
-#: src/gmpv_view.c:718
+#: src/gmpv_view.c:731
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -766,38 +775,38 @@ msgstr ""
 "Potrebno je ponovno pokretanje da bi izmena podešavanja ukrasa klijenta "
 "imala efekat."
 
-#: src/gmpv_view.c:1304
+#: src/gmpv_view.c:1326
 msgid "Add File to Playlist"
 msgstr "Dodaj Datoteku u Listu Puštanja"
 
-#: src/gmpv_view.c:1305
+#: src/gmpv_view.c:1327
 msgid "Open File"
 msgstr "Otvori Datoteku"
 
-#: src/gmpv_view.c:1332
+#: src/gmpv_view.c:1354
 msgid "Add Location to Playlist"
 msgstr "Dodaj Lokaciju u Listu Puštnja"
 
-#: src/gmpv_view.c:1333
+#: src/gmpv_view.c:1355
 msgid "Open Location"
 msgstr "Otvori Lokaciju"
 
-#: src/gmpv_view.c:1354
+#: src/gmpv_view.c:1376
 msgid "Load Audio Track…"
 msgstr "Učitaj zvučni zapis..."
 
-#: src/gmpv_view.c:1373
+#: src/gmpv_view.c:1395
 msgid "Load Subtitle Track…"
 msgstr "Učitaj prevod..."
 
-#: src/gmpv_view.c:1398
+#: src/gmpv_view.c:1420
 msgid "Save Playlist"
 msgstr "Sačuvaj Listu Puštanja"
 
-#: src/gmpv_view.c:1461
+#: src/gmpv_view.c:1483
 msgid "A GTK frontend for MPV"
 msgstr "GTK pročelje za MPV"
 
-#: src/gmpv_view.c:1471
+#: src/gmpv_view.c:1493
 msgid "translator-credits"
 msgstr "Srđan S."

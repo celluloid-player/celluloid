@@ -42,6 +42,7 @@ msgstr ""
 "accédé"
 
 #: data/org.gnome-mpv.gschema.xml:27 data/io.github.GnomeMpv.gschema.xml:58
+#: src/gmpv_application.c:459
 msgid "Options to pass to mpv"
 msgstr "Options à passer à mpv"
 
@@ -132,8 +133,8 @@ msgid "Show or not show the controls"
 msgstr "Afficher ou cacher les contrôles"
 
 #: data/io.github.GnomeMpv.appdata.xml.in:7
-#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:343
-#: src/gmpv_view.c:972
+#: data/io.github.GnomeMpv.desktop.in:4 src/gmpv_application.c:346
+#: src/gmpv_view.c:985
 msgid "GNOME MPV"
 msgstr "GNOME MPV"
 
@@ -194,63 +195,71 @@ msgstr "io.github.GnomeMpv"
 msgid "New Window"
 msgstr "Nouvelle fenêtre"
 
-#: src/gmpv_application.c:383
+#: src/gmpv_application.c:386
 msgid "Playing"
 msgstr "En cours de lecture"
 
-#: src/gmpv_application.c:430
+#: src/gmpv_application.c:435
 msgid "Show release version"
 msgstr "Afficher la version"
 
-#: src/gmpv_application.c:438
+#: src/gmpv_application.c:443
 msgid "Enqueue"
 msgstr "Files d'attente"
 
-#: src/gmpv_application.c:446
+#: src/gmpv_application.c:451
 msgid "Create a new window"
 msgstr "Créer une nouvelle fenêtre"
 
-#: src/gmpv_application.c:454
+#: src/gmpv_application.c:460
+msgid "OPTIONS"
+msgstr ""
+
+#: src/gmpv_application.c:467
 msgid "Set the window role"
 msgstr "Définir le rôle de la fenêtre"
 
-#: src/gmpv_application.c:462
+#: src/gmpv_application.c:475
 msgid "Don't connect to an already-running instance"
 msgstr "Ne pas se connectez à une instance en cours d'exécution"
 
-#: src/gmpv_control_box.c:286
+#: src/gmpv_control_box.c:297
 msgid "Pause"
 msgstr "Pause"
 
-#: src/gmpv_control_box.c:286 src/gmpv_control_box.c:433
+#: src/gmpv_control_box.c:297 src/gmpv_control_box.c:454
 msgid "Play"
 msgstr "Lecture"
 
-#: src/gmpv_control_box.c:436
+#: src/gmpv_control_box.c:457
 msgid "Stop"
 msgstr "Arret"
 
-#: src/gmpv_control_box.c:439
+#: src/gmpv_control_box.c:460
 msgid "Forward"
 msgstr "Avancer"
 
-#: src/gmpv_control_box.c:442
+#: src/gmpv_control_box.c:463
 msgid "Rewind"
 msgstr "Reculer"
 
-#: src/gmpv_control_box.c:445
+#: src/gmpv_control_box.c:466
 msgid "Next Chapter"
 msgstr "Chapitre suivant"
 
-#: src/gmpv_control_box.c:448
+#: src/gmpv_control_box.c:469
 msgid "Previous Chapter"
 msgstr "Chapitre précédant"
 
-#: src/gmpv_control_box.c:451 src/gmpv_header_bar.c:89
+#: src/gmpv_control_box.c:472
+msgid "Loop Playlist"
+msgstr ""
+
+#: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "Plein écran"
 
-#: src/gmpv_controller.c:785 src/gmpv_view.c:1424
+#: src/gmpv_controller.c:839 src/gmpv_view.c:1446
 msgid "Error"
 msgstr "Erreur"
 
@@ -369,7 +378,7 @@ msgstr "La lecture a été interrompue pour la raison suivante : %s"
 msgid "Location:"
 msgstr "Emplacement:"
 
-#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:381
+#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:386
 msgid "_Cancel"
 msgstr "_Annuler"
 
@@ -377,7 +386,7 @@ msgstr "_Annuler"
 msgid "_Open"
 msgstr "_Ouvrir"
 
-#: src/gmpv_player.c:494
+#: src/gmpv_player.c:509
 msgid "Failed to apply one or more MPV options."
 msgstr "Impossible d'appliquer une ou plusieurs options à mpv."
 
@@ -455,87 +464,87 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Impossible de supprimer le fichier '%s' pour la raison suivante : %s"
 
-#: src/gmpv_preferences_dialog.c:290
+#: src/gmpv_preferences_dialog.c:295
 msgid "Enable client-side decorations"
 msgstr "Activer les décorations fenêtre"
 
-#: src/gmpv_preferences_dialog.c:293
+#: src/gmpv_preferences_dialog.c:298
 msgid "Enable dark theme"
 msgstr "Activer le thème sombre"
 
-#: src/gmpv_preferences_dialog.c:296
+#: src/gmpv_preferences_dialog.c:301
 msgid "Use floating controls in windowed mode"
 msgstr "Utiliser les commandes flottantes en mode fenêtré"
 
-#: src/gmpv_preferences_dialog.c:299
+#: src/gmpv_preferences_dialog.c:304
 msgid "Autohide mouse cursor in windowed mode"
 msgstr "Masquer automatiquement le curseur de la souris en mode fenêtré"
 
-#: src/gmpv_preferences_dialog.c:302
+#: src/gmpv_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
 msgstr "Utilisez les boutons de saut pour contrôler la liste de lecture"
 
-#: src/gmpv_preferences_dialog.c:305
+#: src/gmpv_preferences_dialog.c:310
 msgid "Remember last file's location"
 msgstr "Se souvenir de l'emplacement du dernier fichier ouvert"
 
-#: src/gmpv_preferences_dialog.c:310
+#: src/gmpv_preferences_dialog.c:315
 msgid "Load MPV configuration file"
 msgstr "Charger un fichier de configuration MPV"
 
-#: src/gmpv_preferences_dialog.c:313
+#: src/gmpv_preferences_dialog.c:318
 msgid "MPV configuration file:"
 msgstr "Fichier de configuration MPV:"
 
-#: src/gmpv_preferences_dialog.c:316
+#: src/gmpv_preferences_dialog.c:321
 msgid "Load MPV input configuration file"
 msgstr "Charger un fichier de configuration des raccourcis clavier MPV"
 
-#: src/gmpv_preferences_dialog.c:319
+#: src/gmpv_preferences_dialog.c:324
 msgid "MPV input configuration file:"
 msgstr "Fichier de configuration des raccourcis clavier MPV:"
 
-#: src/gmpv_preferences_dialog.c:324
+#: src/gmpv_preferences_dialog.c:329
 msgid "Always open new window"
 msgstr "Toujours ouvrir une nouvelle fenêtre"
 
-#: src/gmpv_preferences_dialog.c:327
+#: src/gmpv_preferences_dialog.c:332
 msgid "Prefetch metadata"
 msgstr "Pré-rechercher les métadonnées"
 
-#: src/gmpv_preferences_dialog.c:330
+#: src/gmpv_preferences_dialog.c:335
 msgid "Enable MPRIS support"
 msgstr "Activer le support MPRIS"
 
-#: src/gmpv_preferences_dialog.c:333
+#: src/gmpv_preferences_dialog.c:338
 msgid "Enable media keys support"
 msgstr "Activer la prise en charge des touches multimédias"
 
-#: src/gmpv_preferences_dialog.c:336
+#: src/gmpv_preferences_dialog.c:341
 msgid "Extra MPV options:"
 msgstr "Options supplémentaires pour MPV"
 
-#: src/gmpv_preferences_dialog.c:369
+#: src/gmpv_preferences_dialog.c:374
 msgid "Interface"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:372
+#: src/gmpv_preferences_dialog.c:377
 msgid "Config Files"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:375
+#: src/gmpv_preferences_dialog.c:380
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:378
+#: src/gmpv_preferences_dialog.c:383
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/gmpv_preferences_dialog.c:383
+#: src/gmpv_preferences_dialog.c:388
 msgid "_Save"
 msgstr "_Enregistrer"
 
-#: src/gmpv_preferences_dialog.c:400
+#: src/gmpv_preferences_dialog.c:405
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -779,7 +788,7 @@ msgstr "Lecture"
 msgid "Seeking"
 msgstr "Recherchant"
 
-#: src/gmpv_view.c:718
+#: src/gmpv_view.c:731
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -787,39 +796,39 @@ msgstr ""
 "Activation ou désactivation des décorations côté client. Nécessite un "
 "redémarrage pour prendre effet."
 
-#: src/gmpv_view.c:1304
+#: src/gmpv_view.c:1326
 msgid "Add File to Playlist"
 msgstr "Ajouter un fichier à la liste de lecture"
 
-#: src/gmpv_view.c:1305
+#: src/gmpv_view.c:1327
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
-#: src/gmpv_view.c:1332
+#: src/gmpv_view.c:1354
 msgid "Add Location to Playlist"
 msgstr "Ajouter l'emplacement à la liste de lecture"
 
-#: src/gmpv_view.c:1333
+#: src/gmpv_view.c:1355
 msgid "Open Location"
 msgstr "Ouvrir un emplacement"
 
-#: src/gmpv_view.c:1354
+#: src/gmpv_view.c:1376
 msgid "Load Audio Track…"
 msgstr "Chargement de la piste audio...."
 
-#: src/gmpv_view.c:1373
+#: src/gmpv_view.c:1395
 msgid "Load Subtitle Track…"
 msgstr "Chargement des sous-titres...."
 
-#: src/gmpv_view.c:1398
+#: src/gmpv_view.c:1420
 msgid "Save Playlist"
 msgstr "Enregistrer la liste de lecture"
 
-#: src/gmpv_view.c:1461
+#: src/gmpv_view.c:1483
 msgid "A GTK frontend for MPV"
 msgstr "Une interface GTK pour MPV"
 
-#: src/gmpv_view.c:1471
+#: src/gmpv_view.c:1493
 msgid "translator-credits"
 msgstr ""
 "Harenome Ranaivorarivony Razanajato\n"
