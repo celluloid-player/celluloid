@@ -51,6 +51,7 @@ enum
 	PROP_SPEED,
 	PROP_VOLUME,
 	PROP_WINDOW_SCALE,
+	PROP_DISPLAY_FPS,
 	N_PROPERTIES
 };
 
@@ -82,6 +83,7 @@ struct _GmpvModel
 	gdouble speed;
 	gdouble volume;
 	gdouble window_scale;
+	gdouble display_fps;
 };
 
 struct _GmpvModelClass
@@ -312,6 +314,10 @@ static void set_property(	GObject *object,
 		self->window_scale = g_value_get_double(value);
 		break;
 
+		case PROP_DISPLAY_FPS:
+		self->display_fps = g_value_get_double(value);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -423,6 +429,10 @@ static void get_property(	GObject *object,
 
 		case PROP_WINDOW_SCALE:
 		g_value_set_double(value, self->window_scale);
+		break;
+
+		case PROP_DISPLAY_FPS:
+		g_value_set_double(value, self->display_fps);
 		break;
 
 		default:
@@ -554,6 +564,13 @@ static void set_mpv_property(	GObject *object,
 					"window-scale",
 					MPV_FORMAT_DOUBLE,
 					&self->window_scale );
+		break;
+
+		case PROP_DISPLAY_FPS:
+		gmpv_mpv_set_property(	mpv,
+					"display-fps",
+					MPV_FORMAT_DOUBLE,
+					&self->display_fps );
 		break;
 	}
 }
@@ -754,6 +771,7 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			{"speed", PROP_SPEED, G_TYPE_DOUBLE},
 			{"volume", PROP_VOLUME, G_TYPE_DOUBLE},
 			{"window-scale", PROP_WINDOW_SCALE, G_TYPE_DOUBLE},
+			{"display-fps", PROP_DISPLAY_FPS, G_TYPE_DOUBLE},
 			{NULL, PROP_INVALID, 0} };
 
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -930,6 +948,7 @@ static void gmpv_model_init(GmpvModel *model)
 	model->speed = 1.0;
 	model->volume = 1.0;
 	model->window_scale = 1.0;
+	model->display_fps = 0.0;
 }
 
 GmpvModel *gmpv_model_new(gint64 wid)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 gnome-mpv
+ * Copyright (c) 2017-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -44,6 +44,7 @@ enum
 	PROP_SKIP_ENABLED,
 	PROP_LOOP,
 	PROP_FULLSCREEN,
+	PROP_DISPLAY_FPS,
 	N_PROPERTIES
 };
 
@@ -64,6 +65,7 @@ struct _GmpvView
 	gboolean control_box_enabled;
 	gboolean loop;
 	gboolean fullscreen;
+	gdouble display_fps;
 };
 
 struct _GmpvViewClass
@@ -91,6 +93,7 @@ static void show_message_dialog(	GmpvMainWindow *wnd,
 					const gchar *title,
 					const gchar *prefix,
 					const gchar *msg );
+static void update_display_fps(GmpvView *view);
 
 /* Control box signals */
 static void button_clicked_handler(	GtkWidget *widget,
@@ -150,6 +153,9 @@ static void drag_data_handler(	GtkWidget *widget,
 				gpointer data );
 static gboolean window_state_handler(	GtkWidget *widget,
 					GdkEvent *event,
+					gpointer data );
+static void screen_changed_handler(	GtkWidget *wnd,
+					GdkScreen *previous_screen,
 					gpointer data );
 static void grab_handler(GtkWidget *widget, gboolean was_grabbed, gpointer data);
 static gboolean delete_handler(	GtkWidget *widget,
@@ -281,6 +287,10 @@ static void constructed(GObject *object)
 				G_CALLBACK(window_state_handler),
 				view );
 	g_signal_connect(	view->wnd,
+				"screen-changed",
+				G_CALLBACK(screen_changed_handler),
+				view );
+	g_signal_connect(	view->wnd,
 				"grab-notify",
 				G_CALLBACK(grab_handler),
 				view );
@@ -304,6 +314,9 @@ static void constructed(GObject *object)
 				"rows-reordered",
 				G_CALLBACK(playlist_row_reordered_handler),
 				view );
+
+	gtk_widget_realize(GTK_WIDGET(view->wnd));
+	update_display_fps(view);
 
 	G_OBJECT_CLASS(gmpv_view_parent_class)->constructed(object);
 }
@@ -382,6 +395,10 @@ static void set_property(	GObject *object,
 		gmpv_main_window_set_fullscreen(self->wnd, self->fullscreen);
 		break;
 
+		case PROP_DISPLAY_FPS:
+		self->display_fps = g_value_get_double(value);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -439,6 +456,10 @@ static void get_property(	GObject *object,
 
 		case PROP_FULLSCREEN:
 		g_value_set_boolean(value, self->fullscreen);
+		break;
+
+		case PROP_DISPLAY_FPS:
+		g_value_set_double(value, self->display_fps);
 		break;
 
 		default:
@@ -595,6 +616,19 @@ void show_message_dialog(	GmpvMainWindow *wnd,
 	gtk_window_set_title(GTK_WINDOW(dialog), title);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_widget_show_all(dialog);
+}
+
+static void update_display_fps(GmpvView *view)
+{
+	GtkWidget *wnd = GTK_WIDGET(view->wnd);
+	GdkWindow *gdkwindow = gtk_widget_get_window(wnd);
+	GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(wnd));
+	GdkDisplay *display = gdk_screen_get_display(screen);
+	GdkMonitor *monitor =	gdk_display_get_monitor_at_window
+				(display, gdkwindow);
+
+	view->display_fps = gdk_monitor_get_refresh_rate(monitor)/1000.0;
+	g_object_notify(G_OBJECT(view), "display-fps");
 }
 
 static void button_clicked_handler(	GtkWidget *widget,
@@ -889,6 +923,13 @@ static gboolean window_state_handler(	GtkWidget *widget,
 	return FALSE;
 }
 
+static void screen_changed_handler(	GtkWidget *wnd,
+					GdkScreen *previous_screen,
+					gpointer data )
+{
+	update_display_fps(data);
+}
+
 static void grab_handler(GtkWidget *widget, gboolean was_grabbed, gpointer data)
 {
 	g_signal_emit_by_name(data, "grab-notify", was_grabbed);
@@ -1046,6 +1087,16 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_FULLSCREEN, pspec);
+
+	pspec = g_param_spec_double
+		(	"display-fps",
+			"Display FPS",
+			"The display rate of the monitor the window is on",
+			0.0,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE );
+	g_object_class_install_property(object_class, PROP_DISPLAY_FPS, pspec);
 
 	g_signal_new(	"video-area-resize",
 			G_TYPE_FROM_CLASS(klass),
@@ -1284,6 +1335,7 @@ static void gmpv_view_init(GmpvView *view)
 	view->skip_enabled = FALSE;
 	view->loop = FALSE;
 	view->fullscreen = FALSE;
+	view->display_fps = 0;
 }
 
 GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating)
