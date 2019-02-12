@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 gnome-mpv
+ * Copyright (c) 2016-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -27,6 +27,7 @@
 #include "gmpv_mpv.h"
 
 gint gmpv_mpv_command(GmpvMpv *mpv, const gchar **cmd);
+gint gmpv_mpv_command_async(GmpvMpv *mpv, const gchar **cmd);
 gint gmpv_mpv_command_string(GmpvMpv *mpv, const gchar *cmd);
 gint gmpv_mpv_set_option_string(	GmpvMpv *mpv,
 					const gchar *name,

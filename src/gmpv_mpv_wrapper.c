@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 gnome-mpv
+ * Copyright (c) 2016-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -35,6 +35,30 @@ gint gmpv_mpv_command(GmpvMpv *mpv, const gchar **cmd)
 		gchar *cmd_str = g_strjoinv(" ", (gchar **)cmd);
 
 		g_warning(	"Failed to run mpv command \"%s\". Reason: %s.",
+				cmd_str,
+				mpv_error_string(rc) );
+
+		g_free(cmd_str);
+	}
+
+	return rc;
+}
+
+gint gmpv_mpv_command_async(GmpvMpv *mpv, const gchar **cmd)
+{
+	GmpvMpvPrivate *priv = get_private(mpv);
+	gint rc = MPV_ERROR_UNINITIALIZED;
+
+	if(priv->mpv_ctx)
+	{
+		rc = mpv_command_async(priv->mpv_ctx, 0, cmd);
+	}
+
+	if(rc < 0)
+	{
+		gchar *cmd_str = g_strjoinv(" ", (gchar **)cmd);
+
+		g_warning(	"Failed to dispatch async mpv command \"%s\". Reason: %s.",
 				cmd_str,
 				mpv_error_string(rc) );
 
