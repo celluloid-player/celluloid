@@ -992,7 +992,7 @@ void gmpv_model_mouse(GmpvModel *model, gint x, gint y)
 	const gchar *cmd[] = {"mouse", x_str, y_str, NULL};
 
 	g_debug("Set mouse location to (%s, %s)", x_str, y_str);
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 
 	g_free(x_str);
 	g_free(y_str);
@@ -1003,7 +1003,7 @@ void gmpv_model_key_down(GmpvModel *model, const gchar* keystr)
 	const gchar *cmd[] = {"keydown", keystr, NULL};
 
 	g_debug("Sent '%s' key down to mpv", keystr);
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_key_up(GmpvModel *model, const gchar* keystr)
@@ -1011,7 +1011,7 @@ void gmpv_model_key_up(GmpvModel *model, const gchar* keystr)
 	const gchar *cmd[] = {"keyup", keystr, NULL};
 
 	g_debug("Sent '%s' key up to mpv", keystr);
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_key_press(GmpvModel *model, const gchar* keystr)
@@ -1019,13 +1019,15 @@ void gmpv_model_key_press(GmpvModel *model, const gchar* keystr)
 	const gchar *cmd[] = {"keypress", keystr, NULL};
 
 	g_debug("Sent '%s' key press to mpv", keystr);
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_reset_keys(GmpvModel *model)
 {
+	const gchar *cmd[] = {"keyup", NULL};
+
 	g_debug("Sent global key up to mpv");
-	gmpv_mpv_command_string(GMPV_MPV(model->player), "keyup");
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_play(GmpvModel *model)
@@ -1042,56 +1044,56 @@ void gmpv_model_stop(GmpvModel *model)
 {
 	const gchar *cmd[] = {"stop", NULL};
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_forward(GmpvModel *model)
 {
 	const gchar *cmd[] = {"seek", "10", NULL};
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_rewind(GmpvModel *model)
 {
 	const gchar *cmd[] = {"seek", "-10", NULL};
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_next_chapter(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_previous_chapter(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_next_playlist_entry(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "playlist-next", "weak", NULL};
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_previous_playlist_entry(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "playlist-prev", "weak", NULL};
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_shuffle_playlist(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "playlist-shuffle", NULL};
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_seek(GmpvModel *model, gdouble value)
@@ -1107,7 +1109,7 @@ void gmpv_model_seek_offset(GmpvModel *model, gdouble offset)
 	g_ascii_dtostr(buf, G_ASCII_DTOSTR_BUF_SIZE, offset);
 	cmd[1] = buf;
 
-	gmpv_mpv_command(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
 }
 
 void gmpv_model_load_audio_track(GmpvModel *model, const gchar *filename)
