@@ -124,7 +124,7 @@ executable('gnome-mpv', sources,
   dependencies: [
     libgtk,
     libgio,
-    dependency('mpv', version: '>= 1.20'),
+    dependency('mpv', version: '>= 1.101'),
     dependency('epoxy')
   ],
   link_with: extra_libs,
