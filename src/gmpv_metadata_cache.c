@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 gnome-mpv
+ * Copyright (c) 2017-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -35,30 +35,16 @@ struct _GmpvMetadataCacheClass
 	GObjectClass parent_class;
 };
 
-static void dispose(GObject *object)
-{
-	GmpvMetadataCache *cache = GMPV_METADATA_CACHE(object);
-
-	g_source_clear(&cache->fetch_timeout_id);
-	g_clear_object(&GMPV_METADATA_CACHE(object)->fetcher);
-}
-
-static void finalize(GObject *object)
-{
-	GmpvMetadataCache *cache = GMPV_METADATA_CACHE(object);
-
-	g_hash_table_unref(cache->table);
-	g_queue_free_full(cache->fetch_queue, g_free);
-}
-
+static GmpvMetadataCacheEntry *gmpv_metadata_cache_entry_new(void);
+static void gmpv_metadata_cache_entry_free(GmpvMetadataCacheEntry *entry);
+static void dispose(GObject *object);
+static void finalize(GObject *object);
 static void metadata_to_ptr_array(mpv_node metadata, GPtrArray *array);
 static void mpv_event_notify(	GmpvMpv *mpv,
 				gint event_id,
 				gpointer event_data,
 				gpointer data );
 static gboolean fetch_metadata(GmpvMetadataCache *cache);
-static GmpvMetadataCacheEntry *gmpv_metadata_cache_entry_new(void);
-static void gmpv_metadata_cache_entry_free(GmpvMetadataCacheEntry *entry);
 
 G_DEFINE_TYPE(GmpvMetadataCache, gmpv_metadata_cache, G_TYPE_OBJECT)
 
@@ -74,9 +60,28 @@ static GmpvMetadataCacheEntry *gmpv_metadata_cache_entry_new(void)
 
 static void gmpv_metadata_cache_entry_free(GmpvMetadataCacheEntry *entry)
 {
-	g_free(entry->title);
-	g_ptr_array_free(entry->tags, TRUE);
-	g_free(entry);
+	if(entry)
+	{
+		g_free(entry->title);
+		g_ptr_array_free(entry->tags, TRUE);
+		g_free(entry);
+	}
+}
+
+static void dispose(GObject *object)
+{
+	GmpvMetadataCache *cache = GMPV_METADATA_CACHE(object);
+
+	g_source_clear(&cache->fetch_timeout_id);
+	g_clear_object(&GMPV_METADATA_CACHE(object)->fetcher);
+}
+
+static void finalize(GObject *object)
+{
+	GmpvMetadataCache *cache = GMPV_METADATA_CACHE(object);
+
+	g_hash_table_unref(cache->table);
+	g_queue_free_full(cache->fetch_queue, g_free);
 }
 
 static void metadata_to_ptr_array(mpv_node metadata, GPtrArray *array)
@@ -131,8 +136,6 @@ static void mpv_event_notify(	GmpvMpv *mpv,
 		if(entry)
 		{
 			const gchar *cmd[] = {"playlist-next", "force", NULL};
-			gint64 playlist_pos = 0;
-			gint64 playlist_count = 0;
 			gchar *media_title = NULL;
 			mpv_node metadata;
 
@@ -140,14 +143,6 @@ static void mpv_event_notify(	GmpvMpv *mpv,
 						"duration",
 						MPV_FORMAT_DOUBLE,
 						&entry->duration );
-			gmpv_mpv_get_property(	mpv,
-						"playlist-pos",
-						MPV_FORMAT_INT64,
-						&playlist_pos );
-			gmpv_mpv_get_property(	mpv,
-						"playlist-count",
-						MPV_FORMAT_INT64,
-						&playlist_count );
 			gmpv_mpv_get_property(	mpv,
 						"media-title",
 						MPV_FORMAT_STRING,
