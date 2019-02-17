@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, 2016-2017 gnome-mpv
+ * Copyright (c) 2014-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -23,7 +23,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <mpv/client.h>
-#include <mpv/opengl_cb.h>
+#include <mpv/render_gl.h>
 
 #include "gmpv_common.h"
 
@@ -52,7 +52,7 @@ struct _GmpvMpvClass
 };
 
 GmpvMpv *gmpv_mpv_new(gint64 wid);
-mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv);
+mpv_render_context *gmpv_mpv_get_render_context(GmpvMpv *mpv);
 gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv);
 void gmpv_mpv_initialize(GmpvMpv *mpv);
 void gmpv_mpv_init_gl(GmpvMpv *mpv);

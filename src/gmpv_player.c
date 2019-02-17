@@ -399,7 +399,7 @@ static void apply_default_options(GmpvMpv *mpv)
 		const gchar *name;
 		const gchar *value;
 	}
-	options[] = {	{"vo", "opengl,vdpau,vaapi,xv,x11,opengl-cb,"},
+	options[] = {	{"vo", "opengl,vdpau,vaapi,xv,x11,libmpv,"},
 			{"osd-level", "1"},
 			{"softvol", "yes"},
 			{"force-window", "immediate"},

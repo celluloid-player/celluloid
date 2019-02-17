@@ -232,19 +232,25 @@ gint gmpv_mpv_set_property_flag(	GmpvMpv *mpv,
 	return rc;
 }
 
-void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,
-					mpv_opengl_cb_update_fn func,
-					void *data )
+void gmpv_mpv_set_render_update_callback(	GmpvMpv *mpv,
+						mpv_render_update_fn func,
+						void *data )
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
 
-	priv->opengl_cb_callback = func;
-	priv->opengl_cb_callback_data = data;
+	priv->render_update_callback = func;
+	priv->render_update_callback_data = data;
 
-	if(priv->opengl_ctx)
+	if(priv->render_ctx)
 	{
-		mpv_opengl_cb_set_update_callback(priv->opengl_ctx, func, data);
+		mpv_render_context_set_update_callback
+			(priv->render_ctx, func, data);
 	}
+}
+
+guint64 gmpv_mpv_render_context_update(GmpvMpv *mpv)
+{
+	return mpv_render_context_update(get_private(mpv)->render_ctx);
 }
 
 gint gmpv_mpv_load_config_file(GmpvMpv *mpv, const gchar *filename)

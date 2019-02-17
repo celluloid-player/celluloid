@@ -22,7 +22,7 @@
 
 #include <glib.h>
 #include <mpv/client.h>
-#include <mpv/opengl_cb.h>
+#include <mpv/render_gl.h>
 
 #include "gmpv_mpv.h"
 
@@ -51,9 +51,10 @@ gint gmpv_mpv_set_property_string(	GmpvMpv *mpv,
 void gmpv_mpv_set_event_callback(	GmpvMpv *mpv,
 					void (*func)(mpv_event *, void *),
 					void *data );
-void gmpv_mpv_set_opengl_cb_callback(	GmpvMpv *mpv,
-					mpv_opengl_cb_update_fn func,
-					void *data );
+void gmpv_mpv_set_render_update_callback(	GmpvMpv *mpv,
+						mpv_render_update_fn func,
+						void *data );
+guint64 gmpv_mpv_render_context_update(GmpvMpv *mpv);
 gint gmpv_mpv_load_config_file(GmpvMpv *mpv, const gchar *filename);
 gint gmpv_mpv_observe_property(	GmpvMpv *mpv,
 				guint64 reply_userdata,

@@ -113,7 +113,7 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 						GType type,
 						GParamFlags flags );
 static gboolean emit_frame_ready(gpointer data);
-static void opengl_cb_update_callback(gpointer opengl_cb_ctx);
+static void render_update_callback(gpointer render_ctx);
 static void metadata_update_handler(	GmpvPlayer *player,
 					gint64 pos,
 					gpointer data );
@@ -448,7 +448,7 @@ static void dispose(GObject *object)
 
 	if(mpv)
 	{
-		gmpv_mpv_set_opengl_cb_callback(mpv, NULL, NULL);
+		gmpv_mpv_set_render_update_callback(mpv, NULL, NULL);
 		g_clear_object(&model->player);
 		while(g_source_remove_by_user_data(model));
 	}
@@ -660,12 +660,18 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 
 static gboolean emit_frame_ready(gpointer data)
 {
-	g_signal_emit_by_name(data, "frame-ready");
+	GmpvModel *model = data;
+	guint64 flags = gmpv_mpv_render_context_update(GMPV_MPV(model->player));
+
+	if(flags&MPV_RENDER_UPDATE_FRAME)
+	{
+		g_signal_emit_by_name(model, "frame-ready");
+	}
 
 	return FALSE;
 }
 
-static void opengl_cb_update_callback(gpointer data)
+static void render_update_callback(gpointer data)
 {
 	g_idle_add_full(	G_PRIORITY_HIGH,
 				emit_frame_ready,
@@ -963,7 +969,7 @@ void gmpv_model_initialize(GmpvModel *model, const gchar *options)
 	GmpvMpv *mpv = GMPV_MPV(model->player);
 
 	gmpv_mpv_initialize(mpv);
-	gmpv_mpv_set_opengl_cb_callback(mpv, opengl_cb_update_callback, model);
+	gmpv_mpv_set_render_update_callback(mpv, render_update_callback, model);
 }
 
 void gmpv_model_reset(GmpvModel *model)
@@ -1180,16 +1186,23 @@ void gmpv_model_initialize_gl(GmpvModel *model)
 
 void gmpv_model_render_frame(GmpvModel *model, gint width, gint height)
 {
-	mpv_opengl_cb_context *opengl_ctx;
+	mpv_render_context *render_ctx;
 
-	opengl_ctx = gmpv_mpv_get_opengl_cb_context(GMPV_MPV(model->player));
+	render_ctx = gmpv_mpv_get_render_context(GMPV_MPV(model->player));
 
-	if(opengl_ctx)
+	if(render_ctx)
 	{
-		int fbo = -1;
-
+		gint fbo = -1;
 		glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo);
-		mpv_opengl_cb_draw(opengl_ctx, fbo, width, (-1)*height);
+
+		mpv_opengl_fbo opengl_fbo =
+			{fbo, width, height, 0};
+		mpv_render_param params[] =
+			{	{MPV_RENDER_PARAM_OPENGL_FBO, &opengl_fbo},
+				{MPV_RENDER_PARAM_FLIP_Y, &(int){1}},
+				{0, NULL} };
+
+		mpv_render_context_render(render_ctx, params);
 	}
 }
 

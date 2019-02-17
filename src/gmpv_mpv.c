@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2018 gnome-mpv
+ * Copyright (c) 2014-2019 gnome-mpv
  *
  * This file is part of GNOME MPV.
  *
@@ -49,7 +49,6 @@
 #include "gmpv_def.h"
 #include "gmpv_marshal.h"
 
-static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name);
 static void *get_proc_address(void *fn_ctx, const gchar *name);
 static void set_property(	GObject *object,
 				guint property_id,
@@ -72,34 +71,17 @@ static void mpv_log_message(	GmpvMpv *mpv,
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static gboolean process_mpv_events(gpointer data);
 static gboolean check_mpv_version(const gchar *version);
+static gpointer get_wl_display(void);
+static gpointer get_x11_display(void);
 static void initialize(GmpvMpv *mpv);
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append);
 static void reset(GmpvMpv *mpv);
 
 G_DEFINE_TYPE_WITH_PRIVATE(GmpvMpv, gmpv_mpv, G_TYPE_OBJECT)
 
-static void *GLAPIENTRY glMPGetNativeDisplay(const gchar *name)
-{
-       GdkDisplay *display = gdk_display_get_default();
-
-#ifdef GDK_WINDOWING_WAYLAND
-       if(GDK_IS_WAYLAND_DISPLAY(display) && g_strcmp0(name, "wl") == 0)
-               return gdk_wayland_display_get_wl_display(display);
-#endif
-#ifdef GDK_WINDOWING_X11
-       if(GDK_IS_X11_DISPLAY(display) && g_strcmp0(name, "x11") == 0)
-               return gdk_x11_display_get_xdisplay(display);
-#endif
-
-       return NULL;
-}
-
 static void *get_proc_address(void *fn_ctx, const gchar *name)
 {
 	GdkDisplay *display = gdk_display_get_default();
-
-	if(g_strcmp0(name, "glMPGetNativeDisplay") == 0)
-		return glMPGetNativeDisplay;
 
 #ifdef GDK_WINDOWING_WAYLAND
 	if (GDK_IS_WAYLAND_DISPLAY(display))
@@ -321,6 +303,38 @@ static gboolean check_mpv_version(const gchar *version)
 	return result;
 }
 
+static gpointer get_wl_display(void)
+{
+	gpointer wl_display = NULL;
+
+#ifdef GDK_WINDOWING_WAYLAND
+	GdkDisplay *display = gdk_display_get_default();
+
+	if(GDK_IS_WAYLAND_DISPLAY(display))
+	{
+		wl_display =  gdk_wayland_display_get_wl_display(display);
+	}
+#endif
+
+	return wl_display;
+}
+
+static gpointer get_x11_display(void)
+{
+	gpointer x11_display = NULL;
+
+#ifdef GDK_WINDOWING_X11
+	GdkDisplay *display = gdk_display_get_default();
+
+	if(GDK_IS_X11_DISPLAY(display))
+	{
+		x11_display = gdk_x11_display_get_xdisplay(display);
+	}
+#endif
+
+	return x11_display;
+}
+
 static void initialize(GmpvMpv *mpv)
 {
 	GmpvMpvPrivate *priv = get_private(mpv);
@@ -329,8 +343,8 @@ static void initialize(GmpvMpv *mpv)
 
 	if(priv->wid < 0)
 	{
-		g_info("Forcing --vo=opengl-cb");
-		mpv_set_option_string(priv->mpv_ctx, "vo", "opengl-cb");
+		g_info("Forcing --vo=libmpv");
+		mpv_set_option_string(priv->mpv_ctx, "vo", "libmpv");
 	}
 	else if(priv->wid == 0)
 	{
@@ -358,13 +372,6 @@ static void initialize(GmpvMpv *mpv)
 				MIN_MPV_MAJOR,
 				MIN_MPV_MINOR,
 				MIN_MPV_PATCH );
-	}
-
-	if(priv->use_opengl)
-	{
-		priv->opengl_ctx =	mpv_get_sub_api
-					(	priv->mpv_ctx,
-						MPV_SUB_API_OPENGL_CB );
 	}
 
 	priv->ready = TRUE;
@@ -427,10 +434,10 @@ static void reset(GmpvMpv *mpv)
 	priv->mpv_ctx = mpv_create();
 	gmpv_mpv_initialize(mpv);
 
-	gmpv_mpv_set_opengl_cb_callback
+	gmpv_mpv_set_render_update_callback
 		(	mpv,
-			priv->opengl_cb_callback,
-			priv->opengl_cb_callback_data );
+			priv->render_update_callback,
+			priv->render_update_callback_data );
 
 	gmpv_mpv_set_property_string(mpv, "loop", loop?"inf":"no");
 	gmpv_mpv_set_property(mpv, "pause", MPV_FORMAT_FLAG, &pause);
@@ -573,13 +580,13 @@ static void gmpv_mpv_init(GmpvMpv *mpv)
 	setlocale(LC_NUMERIC, "C");
 
 	priv->mpv_ctx = mpv_create();
-	priv->opengl_ctx = NULL;
+	priv->render_ctx = NULL;
 	priv->ready = FALSE;
 	priv->init_vo_config = TRUE;
 	priv->use_opengl = FALSE;
 	priv->wid = -1;
-	priv->opengl_cb_callback_data = NULL;
-	priv->opengl_cb_callback = NULL;
+	priv->render_update_callback_data = NULL;
+	priv->render_update_callback = NULL;
 }
 
 GmpvMpv *gmpv_mpv_new(gint64 wid)
@@ -587,9 +594,9 @@ GmpvMpv *gmpv_mpv_new(gint64 wid)
 	return GMPV_MPV(g_object_new(gmpv_mpv_get_type(), "wid", wid, NULL));
 }
 
-inline mpv_opengl_cb_context *gmpv_mpv_get_opengl_cb_context(GmpvMpv *mpv)
+inline mpv_render_context *gmpv_mpv_get_render_context(GmpvMpv *mpv)
 {
-	return get_private(mpv)->opengl_ctx;
+	return get_private(mpv)->render_ctx;
 }
 
 inline gboolean gmpv_mpv_get_use_opengl_cb(GmpvMpv *mpv)
@@ -604,19 +611,26 @@ void gmpv_mpv_initialize(GmpvMpv *mpv)
 
 void gmpv_mpv_init_gl(GmpvMpv *mpv)
 {
-	mpv_opengl_cb_context *opengl_ctx = gmpv_mpv_get_opengl_cb_context(mpv);
-	gint rc = mpv_opengl_cb_init_gl(	opengl_ctx,
-						"GL_MP_MPGetNativeDisplay",
-						get_proc_address,
-						NULL );
+	GmpvMpvPrivate *priv = get_private(mpv);
+	mpv_opengl_init_params init_params =
+		{.get_proc_address = get_proc_address};
+	mpv_render_param params[] =
+		{	{MPV_RENDER_PARAM_API_TYPE, MPV_RENDER_API_TYPE_OPENGL},
+			{MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &init_params},
+			{MPV_RENDER_PARAM_WL_DISPLAY, get_wl_display()},
+			{MPV_RENDER_PARAM_X11_DISPLAY, get_x11_display()},
+			{0, NULL} };
+	gint rc = mpv_render_context_create(	&priv->render_ctx,
+						priv->mpv_ctx,
+						params );
 
 	if(rc >= 0)
 	{
-		g_debug("Initialized opengl-cb");
+		g_debug("Initialized render context");
 	}
 	else
 	{
-		g_critical("Failed to initialize opengl-cb");
+		g_critical("Failed to initialize render context");
 	}
 }
 
@@ -632,12 +646,12 @@ void gmpv_mpv_quit(GmpvMpv *mpv)
 	g_info("Terminating mpv");
 	gmpv_mpv_command_string(mpv, "quit");
 
-	if(priv->opengl_ctx)
+	if(priv->render_ctx)
 	{
-		g_debug("Uninitializing opengl-cb");
-		mpv_opengl_cb_uninit_gl(priv->opengl_ctx);
+		g_debug("Uninitializing render context");
+		mpv_render_context_free(priv->render_ctx);
 
-		priv->opengl_ctx = NULL;
+		priv->render_ctx = NULL;
 	}
 
 	g_assert(priv->mpv_ctx);
