@@ -1,4 +1,4 @@
-project('gnome-mpv', 'c',
+project('celluloid', 'c',
   version: '0.16',
   meson_version: '>= 0.40.0',
   default_options: [

@@ -1,1 +1,1 @@
-install_man('gnome-mpv.1')
+install_man('celluloid.1')

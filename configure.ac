@@ -1,10 +1,10 @@
 AC_PREREQ([2.69])
 
-AC_INIT(	[gnome-mpv],
+AC_INIT(	[celluloid],
 		[0.16],
-		[http://github.com/gnome-mpv/gnome-mpv/issues],
-		[gnome-mpv],
-		[http://github.com/gnome-mpv/gnome-mpv] )
+		[http://github.com/celluloid-player/celluloid/issues],
+		[celluloid],
+		[http://github.com/celluloid/celluloid] )
 
 AC_CONFIG_SRCDIR([src/gmpv_main.c])
 AC_CONFIG_MACRO_DIR([m4])
@@ -14,7 +14,7 @@ AM_SILENT_RULES([yes])
 AM_MAINTAINER_MODE([enable])
 
 # i18n
-GETTEXT_PACKAGE=gnome-mpv
+GETTEXT_PACKAGE=celluloid
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 AM_GNU_GETTEXT_VERSION([0.19.7])

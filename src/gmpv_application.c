@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2016-2019 gnome-mpv
  *
- * This file is part of GNOME MPV.
+ * This file is part of Celluloid.
  *
- * GNOME MPV is free software: you can redistribute it and/or modify
+ * Celluloid is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME MPV is distributed in the hope that it will be useful,
+ * Celluloid is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <glib/gi18n.h>
@@ -77,15 +77,22 @@ static void migrate_config()
 {
 	const gchar *keys[] = {	"dark-theme-enable",
 				"csd-enable",
+				"always-use-floating-controls",
+				"always-autohide-cursor",
+				"use-skip-buttons-for-playlist",
 				"last-folder-enable",
+				"always-open-new-window",
 				"mpv-options",
 				"mpv-config-file",
 				"mpv-config-enable",
 				"mpv-input-config-file",
 				"mpv-input-config-enable",
+				"mpris-enable",
+				"media-keys-enable",
+				"prefetch-metadata",
 				NULL };
 
-	GSettings *old_settings = g_settings_new("org.gnome-mpv");
+	GSettings *old_settings = g_settings_new("io.github.GnomeMpv");
 	GSettings *new_settings = g_settings_new(CONFIG_ROOT);
 
 	if(!g_settings_get_boolean(new_settings, "settings-migrated"))
@@ -251,7 +258,7 @@ static gint options_handler(	GApplication *gapp,
 
 	if(version)
 	{
-		g_printf("GNOME MPV " VERSION "\n");
+		g_printf("Celluloid " VERSION "\n");
 	}
 	else
 	{
@@ -343,7 +350,7 @@ static gint command_line_handler(	GApplication *gapp,
 
 static void startup_handler(GApplication *gapp, gpointer data)
 {
-	g_set_application_name(_("GNOME MPV"));
+	g_set_application_name(_("Celluloid"));
 	gtk_window_set_default_icon_name(ICON_NAME);
 
 	bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALEDIR);
@@ -351,7 +358,7 @@ static void startup_handler(GApplication *gapp, gpointer data)
 	textdomain(GETTEXT_PACKAGE);
 	create_dirs();
 
-	g_info("Starting GNOME MPV " VERSION);
+	g_info("Starting Celluloid " VERSION);
 }
 
 static void idle_handler(	GObject *object,

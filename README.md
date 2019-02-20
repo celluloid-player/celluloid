@@ -1,10 +1,10 @@
-# GNOME MPV
+# Celluloid
 
-GNOME MPV is a simple GTK+ frontend for mpv. GNOME MPV interacts with mpv via
-the client API exported by libmpv, allowing access to mpv's powerful playback
-capabilities.
+Celluloid (formerly GNOME MPV) is a simple GTK+ frontend for mpv. Celluloid
+interacts with mpv via the client API exported by libmpv, allowing access to
+mpv's powerful playback capabilities.
 
-![Screenshot](https://gnome-mpv.github.io/images/screenshot-0.png)
+![Screenshot](https://celluloid-player.github.io/images/screenshot-0.png)
 
 ## Dependencies
 
@@ -80,13 +80,13 @@ meson build && cd build && ninja && sudo ninja install
 
 ### Opening files
 
-There are 4 ways to open files in GNOME MPV.
+There are 4 ways to open files in Celluloid.
 
 1. Passing files and/or URIs as command line arguments.
 2. Using the file chooser dialog box, accessible via the "Open" menu item.
 3. Typing URI into the "Open Location" dialog box, accessible via the
    menu item with the same name.
-4. Dragging and dropping files or URIs onto GNOME MPV.
+4. Dragging and dropping files or URIs onto Celluloid.
 
 ### Manipulating playlist
 
@@ -102,7 +102,7 @@ your keyboard.
 
 ### Configuration
 
-GNOME MPV can be configured using the preferences dialog accessible via the
+Celluloid can be configured using the preferences dialog accessible via the
 "Preferences" menu item. Additional configuration options can be set from an
 external file using the same syntax as mpv's `mpv.conf`. See mpv's man page for
 the full list of options. The file must be specified and enabled in the
@@ -113,8 +113,8 @@ preferences dialog. The syntax used is the same as mpv's command line options.
 
 ### User Scripts
 
-GNOME MPV can use most mpv user scripts as-is. Some user scripts may define
-keybindings that conflict with GNOME MPV, in which case you'll need to resolve
+Celluloid can use most mpv user scripts as-is. Some user scripts may define
+keybindings that conflict with Celluloid, in which case you'll need to resolve
 the conflict by explicitly defining new keybindings using `input.conf`. See
 [mpv's manual](https://mpv.io/manual/stable/#lua-scripting-[,flags]]%29) for
 more details.
@@ -125,9 +125,9 @@ be found [here](https://github.com/mpv-player/mpv/wiki/User-Scripts).
 
 ### Keybindings
 
-GNOME MPV defines a set of keybindings in the macro `DEFAULT_KEYBINDS`, which
+Celluloid defines a set of keybindings in the macro `DEFAULT_KEYBINDS`, which
 can be found in
-[src/gmpv_def.h](https://github.com/gnome-mpv/gnome-mpv/blob/master/src/gmpv_def.h).
+[src/gmpv_def.h](https://github.com/celluloid/celluloid/blob/master/src/gmpv_def.h).
 The syntax used is exactly the same as mpv's `input.conf`. These keybindings are
 applied on top of default keybindings provided by mpv.
 
@@ -137,9 +137,9 @@ Additional keybindings can be defined in an external file using mpv's
 
 ## Contributing Translations
 
-GNOME MPV uses [Zanata](https://zanata.org) to coordinate
-translations. You can find GNOME MPV's page
-[here](https://translate.zanata.org/iteration/view/gnome-mpv/master). To
+Celluloid uses [Zanata](https://zanata.org) to coordinate
+translations. You can find Celluloid's page
+[here](https://translate.zanata.org/iteration/view/celluloid/master). To
 start translating, follow the instructions
 [here](http://docs.zanata.org/en/release/user-guide/translator-guide/). If you'd
 like to add a new language, open an issue on GitHub.
@@ -151,16 +151,16 @@ Your name will then appear in the About dialog when your translation is active.
 
 ## License
 
-GNOME MPV is free software: you can redistribute it and/or modify
+Celluloid is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-GNOME MPV is distributed in the hope that it will be useful,
+Celluloid is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
+along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
 

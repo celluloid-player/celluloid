@@ -1,4 +1,4 @@
-man_MANS=gnome-mpv.1
+man_MANS=celluloid.1
 
 EXTRA_DIST = $(man_MANS)
 

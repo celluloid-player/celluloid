@@ -1,28 +1,28 @@
 /*
  * Copyright (c) 2014-2019 gnome-mpv
  *
- * This file is part of GNOME MPV.
+ * This file is part of Celluloid.
  *
- * GNOME MPV is free software: you can redistribute it and/or modify
+ * Celluloid is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME MPV is distributed in the hope that it will be useful,
+ * Celluloid is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME MPV.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef DEF_H
 #define DEF_H
 
-#define APP_ID "io.github.GnomeMpv"
+#define APP_ID "io.github.Celluloid"
 #define ICON_NAME APP_ID
-#define BIN_NAME "gnome-mpv"
+#define BIN_NAME "celluloid"
 #define CONFIG_DIR BIN_NAME
 #define CONFIG_ROOT APP_ID
 #define CONFIG_WIN_STATE APP_ID".window-state"
@@ -31,8 +31,8 @@
 #define MPRIS_TRACK_LIST_BEFORE 10
 #define MPRIS_TRACK_LIST_AFTER 10
 #define MPRIS_TRACK_ID_NO_TRACK "/org/mpris/MediaPlayer2/TrackList/NoTrack"
-#define MPRIS_TRACK_ID_PREFIX "/io/github/GnomeMpv/Track/"
-#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.io.github.GnomeMpv"
+#define MPRIS_TRACK_ID_PREFIX "/io/github/Celluloid/Track/"
+#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.io.github.Celluloid"
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define PLAYLIST_MIN_WIDTH 20

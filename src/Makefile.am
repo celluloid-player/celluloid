@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-bin_PROGRAMS = gnome-mpv
+bin_PROGRAMS = celluloid
 
 mpris_generated = mpris/gmpv_mpris_gdbus.c mpris/gmpv_mpris_gdbus.h
 mpris_files =	mpris/gmpv_mpris.c mpris/gmpv_mpris.h \
@@ -38,7 +38,7 @@ media_key_files = media_keys/gmpv_media_keys.c media_keys/gmpv_media_keys.h
 
 BUILT_SOURCES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 
-gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
+celluloid_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_application.c gmpv_application.h \
 			gmpv_common.c gmpv_common.h \
 			gmpv_controller.c gmpv_controller.h \
@@ -69,12 +69,12 @@ gnome_mpv_SOURCES =	gmpv_main.c gmpv_def.h \
 			$(mpris_files) $(marshal_files) $(media_key_files) \
 			$(authors_files)
 
-gnome_mpv_CFLAGS =	$(DEPS_CFLAGS) \
+celluloid_CFLAGS =	$(DEPS_CFLAGS) \
 			-DG_SETTINGS_ENABLE_BACKEND \
 			-DPACKAGE_LOCALEDIR=\""$(localedir)"\" \
 			-Impris
 
-gnome_mpv_LDADD = $(DEPS_LIBS)
+celluloid_LDADD = $(DEPS_LIBS)
 
 CLEANFILES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 EXTRA_DIST = meson.build generate_authors.py

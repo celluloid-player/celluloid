@@ -120,7 +120,7 @@ else
   sources += generated_marshal_sources
 endif
 
-executable('gnome-mpv', sources,
+executable('celluloid', sources,
   dependencies: [
     libgtk,
     libgio,
