@@ -479,7 +479,7 @@ static void gmpv_mpv_class_init(GmpvMpvClass* klass)
 	pspec = g_param_spec_boolean
 		(	"ready",
 			"Ready",
-			"Whether mpv is initialized and ready to recieve commands",
+			"Whether mpv is initialized and ready to receive commands",
 			FALSE,
 			G_PARAM_READABLE );
 	g_object_class_install_property(obj_class, PROP_READY, pspec);
