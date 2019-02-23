@@ -1538,7 +1538,7 @@ void gmpv_view_show_about_dialog(GmpvView *view)
 				"license-type",
 				GTK_LICENSE_GPL_3_0,
 				"copyright",
-				"\u00A9 2014-2017 The Celluloid authors",
+				"\u00A9 2014-2019 The Celluloid authors",
 				"authors",
 				authors,
 				"translator-credits",
