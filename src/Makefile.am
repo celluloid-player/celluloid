@@ -55,7 +55,7 @@ celluloid_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_mpv.c gmpv_mpv.h \
 			gmpv_mpv_private.h \
 			gmpv_open_location_dialog.c gmpv_open_location_dialog.h \
-			gmpv_player.c gmpv_player.h \
+			gmpv_player.c gmpv_player.h gmpv_player_private.h \
 			gmpv_player_options.c gmpv_player_options.h \
 			gmpv_playlist_widget.c gmpv_playlist_widget.h \
 			gmpv_plugins_manager.c gmpv_plugins_manager.h \

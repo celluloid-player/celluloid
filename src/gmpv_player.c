@@ -22,6 +22,7 @@
 #include <glib/gi18n.h>
 
 #include "gmpv_player.h"
+#include "gmpv_player_private.h"
 #include "gmpv_player_options.h"
 #include "gmpv_marshal.h"
 #include "gmpv_metadata_cache.h"
@@ -30,40 +31,10 @@
 
 typedef struct _GmpvLogLevel GmpvLogLevel;
 
-enum
-{
-	PROP_0,
-	PROP_PLAYLIST,
-	PROP_METADATA,
-	PROP_TRACK_LIST,
-	PROP_EXTRA_OPTIONS,
-	N_PROPERTIES
-};
-
 struct _GmpvLogLevel
 {
 	const gchar *prefix;
 	mpv_log_level level;
-};
-
-struct _GmpvPlayer
-{
-	GmpvMpv parent;
-	GmpvMetadataCache *cache;
-	GPtrArray *playlist;
-	GPtrArray *metadata;
-	GPtrArray *track_list;
-	GHashTable *log_levels;
-	gboolean loaded;
-	gboolean new_file;
-	gboolean init_vo_config;
-	gchar *tmp_input_config;
-	gchar *extra_options;
-};
-
-struct _GmpvPlayerClass
-{
-	GmpvMpvClass parent_class;
 };
 
 static void set_property(	GObject *object,
@@ -105,14 +76,14 @@ static void cache_update_handler(	GmpvMetadataCache *cache,
 					const gchar *uri,
 					gpointer data );
 
-G_DEFINE_TYPE(GmpvPlayer, gmpv_player, GMPV_TYPE_MPV)
+G_DEFINE_TYPE_WITH_PRIVATE(GmpvPlayer, gmpv_player, GMPV_TYPE_MPV)
 
 static void set_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
 				GParamSpec *pspec )
 {
-	GmpvPlayer *self = GMPV_PLAYER(object);
+	GmpvPlayerPrivate *priv = get_private(object);
 
 	switch(property_id)
 	{
@@ -123,8 +94,8 @@ static void set_property(	GObject *object,
 		break;
 
 		case PROP_EXTRA_OPTIONS:
-		g_free(self->extra_options);
-		self->extra_options = g_value_dup_string(value);
+		g_free(priv->extra_options);
+		priv->extra_options = g_value_dup_string(value);
 		break;
 
 		default:
@@ -138,24 +109,24 @@ static void get_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec )
 {
-	GmpvPlayer *self = GMPV_PLAYER(object);
+	GmpvPlayerPrivate *priv = get_private(object);
 
 	switch(property_id)
 	{
 		case PROP_PLAYLIST:
-		g_value_set_pointer(value, self->playlist);
+		g_value_set_pointer(value, priv->playlist);
 		break;
 
 		case PROP_METADATA:
-		g_value_set_pointer(value, self->metadata);
+		g_value_set_pointer(value, priv->metadata);
 		break;
 
 		case PROP_TRACK_LIST:
-		g_value_set_pointer(value, self->track_list);
+		g_value_set_pointer(value, priv->track_list);
 		break;
 
 		case PROP_EXTRA_OPTIONS:
-		g_value_set_string(value, self->extra_options);
+		g_value_set_string(value, priv->extra_options);
 		break;
 
 		default:
@@ -166,25 +137,25 @@ static void get_property(	GObject *object,
 
 static void finalize(GObject *object)
 {
-	GmpvPlayer *player = GMPV_PLAYER(object);
+	GmpvPlayerPrivate *priv = get_private(object);
 
-	if(player->tmp_input_config)
+	if(priv->tmp_input_config)
 	{
-		g_unlink(player->tmp_input_config);
+		g_unlink(priv->tmp_input_config);
 	}
 
-	g_free(player->tmp_input_config);
-	g_free(player->extra_options);
-	g_ptr_array_free(player->playlist, TRUE);
-	g_ptr_array_free(player->metadata, TRUE);
-	g_ptr_array_free(player->track_list, TRUE);
+	g_free(priv->tmp_input_config);
+	g_free(priv->extra_options);
+	g_ptr_array_free(priv->playlist, TRUE);
+	g_ptr_array_free(priv->metadata, TRUE);
+	g_ptr_array_free(priv->track_list, TRUE);
 
 	G_OBJECT_CLASS(gmpv_player_parent_class)->finalize(object);
 }
 
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 {
-	GmpvPlayer *player = GMPV_PLAYER(mpv);
+	GmpvPlayerPrivate *priv = get_private(mpv);
 
 	if(event_id == MPV_EVENT_START_FILE)
 	{
@@ -206,24 +177,24 @@ static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
 	}
 	else if(event_id == MPV_EVENT_END_FILE)
 	{
-		if(player->loaded)
+		if(priv->loaded)
 		{
-			player->new_file = FALSE;
+			priv->new_file = FALSE;
 		}
 	}
 	else if(event_id == MPV_EVENT_IDLE)
 	{
-		player->loaded = FALSE;
+		priv->loaded = FALSE;
 	}
 	else if(event_id == MPV_EVENT_FILE_LOADED)
 	{
-		player->loaded = TRUE;
+		priv->loaded = TRUE;
 	}
 	else if(event_id == MPV_EVENT_VIDEO_RECONFIG)
 	{
-		if(player->new_file)
+		if(priv->new_file)
 		{
-			g_signal_emit_by_name(player, "autofit");
+			g_signal_emit_by_name(GMPV_PLAYER(mpv), "autofit");
 		}
 	}
 
@@ -236,14 +207,14 @@ static void mpv_log_message(	GmpvMpv *mpv,
 				const gchar *prefix,
 				const gchar *text )
 {
-	GmpvPlayer *player = GMPV_PLAYER(mpv);
+	GmpvPlayerPrivate *priv = get_private(mpv);
 	gsize prefix_len = strlen(prefix);
 	gboolean found = FALSE;
 	const gchar *iter_prefix;
 	gpointer iter_level;
 	GHashTableIter iter;
 
-	g_hash_table_iter_init(&iter, player->log_levels);
+	g_hash_table_iter_init(&iter, priv->log_levels);
 
 	while(	!found &&
 		g_hash_table_iter_next(	&iter,
@@ -299,6 +270,7 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 					gpointer value )
 {
 	GmpvPlayer *player = GMPV_PLAYER(mpv);
+	GmpvPlayerPrivate *priv = get_private(mpv);
 
 	if(g_strcmp0(name, "pause") == 0)
 	{
@@ -310,7 +282,7 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		if(idle_active && !pause && !player->init_vo_config)
+		if(idle_active && !pause && !priv->init_vo_config)
 		{
 			load_from_playlist(player);
 		}
@@ -325,10 +297,10 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 					MPV_FORMAT_FLAG,
 					&idle_active );
 
-		was_empty =	player->init_vo_config ||
-				player->playlist->len == 0;
+		was_empty =	priv->init_vo_config ||
+				priv->playlist->len == 0;
 
-		if(!idle_active && !player->init_vo_config)
+		if(!idle_active && !priv->init_vo_config)
 		{
 			update_playlist(player);
 		}
@@ -336,7 +308,7 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 		/* Check if we're transitioning from empty playlist to non-empty
 		 * playlist.
 		 */
-		if(was_empty && player->playlist->len > 0)
+		if(was_empty && priv->playlist->len > 0)
 		{
 			gmpv_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
@@ -351,9 +323,9 @@ static void mpv_property_changed(	GmpvMpv *mpv,
 	}
 	else if(g_strcmp0(name, "vo-configured") == 0)
 	{
-		if(player->init_vo_config)
+		if(priv->init_vo_config)
 		{
-			player->init_vo_config = FALSE;
+			priv->init_vo_config = FALSE;
 			load_scripts(player);
 			load_from_playlist(player);
 		}
@@ -440,7 +412,6 @@ static void apply_default_options(GmpvMpv *mpv)
 
 static void initialize(GmpvMpv *mpv)
 {
-
 	GmpvPlayer *player = GMPV_PLAYER(mpv);
 	GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
 	gdouble volume = g_settings_get_double(win_settings, "volume")*100;
@@ -457,7 +428,7 @@ static void initialize(GmpvMpv *mpv)
 	g_debug("Setting volume to %f", volume);
 	gmpv_mpv_set_property(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
 
-	gmpv_player_options_init(GMPV_PLAYER(mpv));
+	gmpv_player_options_init(player);
 
 	g_object_unref(win_settings);
 }
@@ -498,8 +469,9 @@ static gint apply_options_array_string(GmpvMpv *mpv, gchar *args)
 
 static void apply_extra_options(GmpvPlayer *player)
 {
+	GmpvPlayerPrivate *priv = get_private(player);
 	GmpvMpv *mpv = GMPV_MPV(player);
-	gchar *extra_options = player->extra_options;
+	gchar *extra_options = priv->extra_options;
 
 	g_debug("Applying extra mpv options: %s", extra_options);
 
@@ -514,6 +486,7 @@ static void apply_extra_options(GmpvPlayer *player)
 static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 {
 	GmpvPlayer *player = GMPV_PLAYER(mpv);
+	GmpvPlayerPrivate *priv = get_private(mpv);
 	gboolean ready = FALSE;
 	gboolean idle_active = FALSE;
 
@@ -527,8 +500,8 @@ static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 	{
 		if(!append)
 		{
-			player->new_file = TRUE;
-			g_ptr_array_set_size(player->playlist, 0);
+			priv->new_file = TRUE;
+			g_ptr_array_set_size(priv->playlist, 0);
 		}
 
 		add_file_to_playlist(player, uri);
@@ -537,8 +510,8 @@ static void load_file(GmpvMpv *mpv, const gchar *uri, gboolean append)
 	{
 		if(!append)
 		{
-			player->new_file = TRUE;
-			player->loaded = FALSE;
+			priv->new_file = TRUE;
+			priv->loaded = FALSE;
 		}
 
 		GMPV_MPV_CLASS(gmpv_player_parent_class)
@@ -588,20 +561,21 @@ static void reset(GmpvMpv *mpv)
 
 static void load_input_conf(GmpvPlayer *player, const gchar *input_conf)
 {
+	GmpvPlayerPrivate *priv = get_private(player);
 	const gchar *default_keybinds[] = DEFAULT_KEYBINDS;
 	gchar *tmp_path;
 	FILE *tmp_file;
 	gint tmp_fd;
 
-	if(player->tmp_input_config)
+	if(priv->tmp_input_config)
 	{
-		g_unlink(player->tmp_input_config);
-		g_free(player->tmp_input_config);
+		g_unlink(priv->tmp_input_config);
+		g_free(priv->tmp_input_config);
 	}
 
 	tmp_fd = g_file_open_tmp("."BIN_NAME"-XXXXXX", &tmp_path, NULL);
 	tmp_file = fdopen(tmp_fd, "w");
-	player->tmp_input_config = tmp_path;
+	priv->tmp_input_config = tmp_path;
 
 	if(!tmp_file)
 	{
@@ -777,13 +751,13 @@ static void add_file_to_playlist(GmpvPlayer *player, const gchar *uri)
 {
 	GmpvPlaylistEntry *entry = gmpv_playlist_entry_new(uri, NULL);
 
-	g_ptr_array_add(player->playlist, entry);
+	g_ptr_array_add(get_private(player)->playlist, entry);
 }
 
 static void load_from_playlist(GmpvPlayer *player)
 {
 	GmpvMpv *mpv = GMPV_MPV(player);
-	GPtrArray *playlist = player->playlist;
+	GPtrArray *playlist = get_private(player)->playlist;
 
 	for(guint i = 0; playlist && i < playlist->len; i++)
 	{
@@ -817,15 +791,17 @@ static GmpvPlaylistEntry *parse_playlist_entry(mpv_node_list *node)
 
 static void update_playlist(GmpvPlayer *player)
 {
+	GmpvPlayerPrivate *priv;
 	GSettings *settings;
 	gboolean prefetch_metadata;
 	const mpv_node_list *org_list;
 	mpv_node playlist;
 
+	priv = get_private(player);
 	settings = g_settings_new(CONFIG_ROOT);
 	prefetch_metadata = g_settings_get_boolean(settings, "prefetch-metadata");
 
-	g_ptr_array_set_size(player->playlist, 0);
+	g_ptr_array_set_size(priv->playlist, 0);
 
 	gmpv_mpv_get_property
 		(GMPV_MPV(player), "playlist", MPV_FORMAT_NODE, &playlist);
@@ -845,11 +821,11 @@ static void update_playlist(GmpvPlayer *player)
 				GmpvMetadataCacheEntry *cache_entry;
 
 				cache_entry =	gmpv_metadata_cache_lookup
-						(player->cache, entry->filename);
+						(priv->cache, entry->filename);
 				entry->title =	g_strdup(cache_entry->title);
 			}
 
-			g_ptr_array_add(player->playlist, entry);
+			g_ptr_array_add(priv->playlist, entry);
 		}
 
 		mpv_free_node_contents(&playlist);
@@ -860,7 +836,7 @@ static void update_playlist(GmpvPlayer *player)
 	if(prefetch_metadata)
 	{
 		gmpv_metadata_cache_load_playlist
-			(player->cache, player->playlist);
+			(priv->cache, priv->playlist);
 	}
 
 	g_object_unref(settings);
@@ -868,10 +844,11 @@ static void update_playlist(GmpvPlayer *player)
 
 static void update_metadata(GmpvPlayer *player)
 {
+	GmpvPlayerPrivate *priv = get_private(player);
 	mpv_node_list *org_list = NULL;
 	mpv_node metadata;
 
-	g_ptr_array_set_size(player->metadata, 0);
+	g_ptr_array_set_size(priv->metadata, 0);
 	gmpv_mpv_get_property(	GMPV_MPV(player),
 				"metadata",
 				MPV_FORMAT_NODE,
@@ -895,7 +872,7 @@ static void update_metadata(GmpvPlayer *player)
 				entry =	gmpv_metadata_entry_new
 					(key, value.u.string);
 
-				g_ptr_array_add(player->metadata, entry);
+				g_ptr_array_add(priv->metadata, entry);
 			}
 			else
 			{
@@ -913,10 +890,11 @@ static void update_metadata(GmpvPlayer *player)
 
 static void update_track_list(GmpvPlayer *player)
 {
+	GmpvPlayerPrivate *priv = get_private(player);
 	mpv_node_list *org_list = NULL;
 	mpv_node track_list;
 
-	g_ptr_array_set_size(player->track_list, 0);
+	g_ptr_array_set_size(priv->track_list, 0);
 	gmpv_mpv_get_property(	GMPV_MPV(player),
 				"track-list",
 				MPV_FORMAT_NODE,
@@ -930,7 +908,7 @@ static void update_track_list(GmpvPlayer *player)
 			GmpvTrack *entry =	parse_track_entry
 						(org_list->values[i].u.list);
 
-			g_ptr_array_add(player->track_list, entry);
+			g_ptr_array_add(priv->track_list, entry);
 		}
 
 		mpv_free_node_contents(&track_list);
@@ -942,11 +920,11 @@ static void cache_update_handler(	GmpvMetadataCache *cache,
 					const gchar *uri,
 					gpointer data )
 {
-	GmpvPlayer *player = data;
+	GmpvPlayerPrivate *priv = get_private(data);
 
-	for(guint i = 0; i < player->playlist->len; i++)
+	for(guint i = 0; i < priv->playlist->len; i++)
 	{
-		GmpvPlaylistEntry *entry = g_ptr_array_index(player->playlist, i);
+		GmpvPlaylistEntry *entry = g_ptr_array_index(priv->playlist, i);
 
 		if(g_strcmp0(entry->filename, uri) == 0)
 		{
@@ -1029,24 +1007,26 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 
 static void gmpv_player_init(GmpvPlayer *player)
 {
-	player->cache =		gmpv_metadata_cache_new();
-	player->playlist =	g_ptr_array_new_with_free_func
+	GmpvPlayerPrivate *priv = get_private(player);
+
+	priv->cache =		gmpv_metadata_cache_new();
+	priv->playlist =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)gmpv_playlist_entry_free);
-	player->metadata =	g_ptr_array_new_with_free_func
+	priv->metadata =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)gmpv_metadata_entry_free);
-	player->track_list =	g_ptr_array_new_with_free_func
+	priv->track_list =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)gmpv_track_free);
-	player->log_levels =	g_hash_table_new_full(	g_str_hash,
+	priv->log_levels =	g_hash_table_new_full(	g_str_hash,
 							g_str_equal,
 							g_free,
 							NULL );
-	player->loaded = FALSE;
-	player->new_file = TRUE;
-	player->init_vo_config = TRUE;
-	player->tmp_input_config = NULL;
-	player->extra_options = NULL;
+	priv->loaded = FALSE;
+	priv->new_file = TRUE;
+	priv->init_vo_config = TRUE;
+	priv->tmp_input_config = NULL;
+	priv->extra_options = NULL;
 
-	g_signal_connect(	player->cache,
+	g_signal_connect(	priv->cache,
 				"update",
 				G_CALLBACK(cache_update_handler),
 				player );
@@ -1071,7 +1051,7 @@ void gmpv_player_set_playlist_position(GmpvPlayer *player, gint64 position)
 
 	if(position != playlist_pos)
 	{
-		gmpv_mpv_set_property(	GMPV_MPV(player),
+		gmpv_mpv_set_property(	mpv,
 					"playlist-pos",
 					MPV_FORMAT_INT64,
 					&position );
@@ -1095,7 +1075,8 @@ void gmpv_player_remove_playlist_entry(GmpvPlayer *player, gint64 position)
 	 */
 	if(idle_active || playlist_count == 1)
 	{
-		g_ptr_array_remove_index(player->playlist, (guint)position);
+		g_ptr_array_remove_index(	get_private(player)->playlist,
+						(guint)position );
 		g_object_notify(G_OBJECT(player), "playlist");
 	}
 
@@ -1121,7 +1102,7 @@ void gmpv_player_move_playlist_entry(GmpvPlayer *player, gint64 src, gint64 dst)
 		GPtrArray *playlist;
 		GmpvPlaylistEntry **entry;
 
-		playlist = player->playlist;
+		playlist = get_private(player)->playlist;
 		entry = (GmpvPlaylistEntry **)&g_ptr_array_index(playlist, src);
 
 		g_ptr_array_insert(playlist, (gint)dst, *entry);
@@ -1169,6 +1150,7 @@ void gmpv_player_set_log_level(	GmpvPlayer *player,
 
 	GHashTableIter iter;
 	gpointer iter_level = GINT_TO_POINTER(DEFAULT_LOG_LEVEL);
+	GmpvPlayerPrivate *priv = get_private(player);
 	mpv_log_level max_level = DEFAULT_LOG_LEVEL;
 	gboolean found = FALSE;
 	gint i = 0;
@@ -1181,14 +1163,14 @@ void gmpv_player_set_log_level(	GmpvPlayer *player,
 
 	if(found && g_strcmp0(prefix, "all") != 0)
 	{
-		g_hash_table_replace(	player->log_levels,
+		g_hash_table_replace(	priv->log_levels,
 					g_strdup(prefix),
 					GINT_TO_POINTER(level_map[i].level) );
 	}
 
 	max_level = level_map[i].level;
 
-	g_hash_table_iter_init(&iter, player->log_levels);
+	g_hash_table_iter_init(&iter, priv->log_levels);
 
 	while(g_hash_table_iter_next(&iter, NULL, &iter_level))
 	{

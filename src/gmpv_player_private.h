@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2019 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -17,32 +17,46 @@
  * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef GMPV_PLAYER_PRIVATE_H
+#define GMPV_PLAYER_PRIVATE_H
 
-#include <glib-object.h>
+#include <gtk/gtk.h>
 
-#include "gmpv_mpv.h"
+#include "gmpv_metadata_cache.h"
 
 G_BEGIN_DECLS
 
-#define GMPV_TYPE_PLAYER (gmpv_player_get_type())
+typedef struct _GmpvPlayerPrivate GmpvPlayerPrivate;
 
-G_DECLARE_DERIVABLE_TYPE(GmpvPlayer, gmpv_player, GMPV, PLAYER, GmpvMpv)
-
-struct _GmpvPlayerClass
+enum
 {
-	GmpvMpvClass parent_class;
+	PROP_0,
+	PROP_PLAYLIST,
+	PROP_METADATA,
+	PROP_TRACK_LIST,
+	PROP_EXTRA_OPTIONS,
+	N_PROPERTIES
 };
 
-GmpvPlayer *gmpv_player_new(gint64 wid);
-void gmpv_player_set_playlist_position(GmpvPlayer *player, gint64 position);
-void gmpv_player_remove_playlist_entry(GmpvPlayer *player, gint64 position);
-void gmpv_player_move_playlist_entry(GmpvPlayer *player, gint64 src, gint64 dst);
-void gmpv_player_set_log_level(	GmpvPlayer *player,
-				const gchar *prefix,
-				const gchar *level );
+struct _GmpvPlayerPrivate
+{
+	GmpvMpv parent;
+	GmpvMetadataCache *cache;
+	GPtrArray *playlist;
+	GPtrArray *metadata;
+	GPtrArray *track_list;
+	GHashTable *log_levels;
+	gboolean loaded;
+	gboolean new_file;
+	gboolean init_vo_config;
+	gchar *tmp_input_config;
+	gchar *extra_options;
+};
+
+#define get_private(player) \
+	G_TYPE_INSTANCE_GET_PRIVATE(player, GMPV_TYPE_PLAYER, GmpvPlayerPrivate)
 
 G_END_DECLS
 
 #endif
+
