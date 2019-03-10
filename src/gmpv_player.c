@@ -29,14 +29,6 @@
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_def.h"
 
-typedef struct _GmpvLogLevel GmpvLogLevel;
-
-struct _GmpvLogLevel
-{
-	const gchar *prefix;
-	mpv_log_level level;
-};
-
 static void set_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
@@ -1092,7 +1084,9 @@ void gmpv_player_remove_playlist_entry(GmpvPlayer *player, gint64 position)
 	}
 }
 
-void gmpv_player_move_playlist_entry(GmpvPlayer *player, gint64 src, gint64 dst)
+void gmpv_player_move_playlist_entry(	GmpvPlayer *player,
+					gint64 src,
+					gint64 dst )
 {
 	GmpvMpv *mpv = GMPV_MPV(player);
 	gboolean idle_active = gmpv_mpv_get_property_flag(mpv, "idle-active");
