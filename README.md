@@ -35,7 +35,7 @@ mpv's powerful playback capabilities.
 - OpenSUSE: https://software.opensuse.org/package/gnome-mpv
 - Gentoo: https://packages.gentoo.org/packages/media-video/gnome-mpv
 - Guix: https://www.gnu.org/software/guix/packages/g.html#gnome-mpv
-- Solus: https://packages.solus-project.com/shannon/g/gnome-mpv/
+- Solus: https://packages.getsol.us/shannon/g/gnome-mpv/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
 ### Flatpak
