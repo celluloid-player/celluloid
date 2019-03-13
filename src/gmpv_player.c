@@ -38,6 +38,8 @@ static void get_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec );
 static void finalize(GObject *object);
+static void autofit(GmpvPlayer *player);
+static void metadata_update(GmpvPlayer *player, gint64 pos);
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data);
 static void mpv_log_message(	GmpvMpv *mpv,
 				mpv_log_level log_level,
@@ -143,6 +145,14 @@ static void finalize(GObject *object)
 	g_ptr_array_free(priv->track_list, TRUE);
 
 	G_OBJECT_CLASS(gmpv_player_parent_class)->finalize(object);
+}
+
+static void autofit(GmpvPlayer *player)
+{
+}
+
+static void metadata_update(GmpvPlayer *player, gint64 pos)
+{
 }
 
 static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
@@ -937,6 +947,8 @@ static void gmpv_player_class_init(GmpvPlayerClass *klass)
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
+	klass->autofit = autofit;
+	klass->metadata_update = metadata_update;
 	mpv_class->mpv_event_notify = mpv_event_notify;
 	mpv_class->mpv_log_message = mpv_log_message;
 	mpv_class->mpv_property_changed = mpv_property_changed;

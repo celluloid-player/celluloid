@@ -33,6 +33,8 @@ G_DECLARE_DERIVABLE_TYPE(GmpvPlayer, gmpv_player, GMPV, PLAYER, GmpvMpv)
 struct _GmpvPlayerClass
 {
 	GmpvMpvClass parent_class;
+	void (*autofit)(GmpvPlayer *player);
+	void (*metadata_update)(GmpvPlayer *player, gint64 pos);
 };
 
 GmpvPlayer *gmpv_player_new(gint64 wid);

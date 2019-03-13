@@ -21,19 +21,12 @@
 
 #include "gmpv_model.h"
 #include "gmpv_marshal.h"
-#include "gmpv_player.h"
 #include "gmpv_mpv_wrapper.h"
 #include "gmpv_metadata_cache.h"
 
 enum
 {
 	PROP_INVALID,
-	PROP_MPV,
-	PROP_EXTRA_OPTIONS,
-	PROP_READY,
-	PROP_PLAYLIST,
-	PROP_METADATA,
-	PROP_TRACK_LIST,
 	PROP_AID,
 	PROP_VID,
 	PROP_SID,
@@ -57,8 +50,7 @@ enum
 
 struct _GmpvModel
 {
-	GObject parent;
-	GmpvPlayer *player;
+	GmpvPlayer parent;
 	gchar *extra_options;
 	gboolean ready;
 	GmpvMetadataCache *cache;
@@ -91,7 +83,6 @@ struct _GmpvModelClass
 	GObjectClass parent_class;
 };
 
-static void constructed(GObject *object);
 static void set_property(	GObject *object,
 				guint property_id,
 				const GValue *value,
@@ -114,92 +105,12 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 						GParamFlags flags );
 static gboolean emit_frame_ready(gpointer data);
 static void render_update_callback(gpointer render_ctx);
-static void metadata_update_handler(	GmpvPlayer *player,
-					gint64 pos,
-					gpointer data );
-static void window_resize_handler(	GmpvMpv *mpv,
-					gint64 width,
-					gint64 height,
-					gpointer data );
-static void window_move_handler(	GmpvMpv *mpv,
-					gboolean flip_x,
-					gboolean flip_y,
-					GValue *x,
-					GValue *y,
-					gpointer data );
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
 					const gchar *name,
 					gpointer value,
 					gpointer data );
-static void error_handler(GmpvMpv *mpv, const gchar* message, gpointer data);
-static void message_handler(GmpvMpv *mpv, const gchar* message, gpointer data);
-static void shutdown_handler(GmpvMpv *mpv, gpointer data);
 
-G_DEFINE_TYPE(GmpvModel, gmpv_model, G_TYPE_OBJECT)
-
-static void constructed(GObject *object)
-{
-	GmpvModel *model = GMPV_MODEL(object);
-
-	g_assert(model->player);
-
-	g_object_bind_property(	model,
-				"extra-options",
-				model->player,
-				"extra-options",
-				G_BINDING_DEFAULT );
-	g_object_bind_property(	model->player,
-				"ready",
-				model,
-				"ready",
-				G_BINDING_DEFAULT );
-	g_object_bind_property(	model->player,
-				"playlist",
-				model,
-				"playlist",
-				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );
-	g_object_bind_property(	model->player,
-				"metadata",
-				model,
-				"metadata",
-				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );
-	g_object_bind_property(	model->player,
-				"track-list",
-				model,
-				"track-list",
-				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );
-
-	g_signal_connect(	model->player,
-				"metadata-update",
-				G_CALLBACK(metadata_update_handler),
-				model );
-	g_signal_connect(	model->player,
-				"window-resize",
-				G_CALLBACK(window_resize_handler),
-				model );
-	g_signal_connect(	model->player,
-				"window-move",
-				G_CALLBACK(window_move_handler),
-				model );
-	g_signal_connect(	model->player,
-				"mpv-property-changed",
-				G_CALLBACK(mpv_prop_change_handler),
-				model );
-	g_signal_connect(	model->player,
-				"error",
-				G_CALLBACK(error_handler),
-				model );
-	g_signal_connect(	model->player,
-				"message",
-				G_CALLBACK(message_handler),
-				model );
-	g_signal_connect(	model->player,
-				"shutdown",
-				G_CALLBACK(shutdown_handler),
-				model );
-
-	G_OBJECT_CLASS(gmpv_model_parent_class)->constructed(object);
-}
+G_DEFINE_TYPE(GmpvModel, gmpv_model, GMPV_TYPE_PLAYER)
 
 static void set_property(	GObject *object,
 				guint property_id,
@@ -210,31 +121,6 @@ static void set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_MPV:
-		self->player = g_value_get_pointer(value);
-		break;
-
-		case PROP_EXTRA_OPTIONS:
-		g_free(self->extra_options);
-		self->extra_options = g_value_dup_string(value);
-		break;
-
-		case PROP_READY:
-		self->ready = g_value_get_boolean(value);
-		break;
-
-		case PROP_PLAYLIST:
-		self->playlist = g_value_get_pointer(value);
-		break;
-
-		case PROP_METADATA:
-		self->metadata = g_value_get_pointer(value);
-		break;
-
-		case PROP_TRACK_LIST:
-		self->track_list = g_value_get_pointer(value);
-		break;
-
 		case PROP_AID:
 		g_free(self->aid);
 		self->aid = g_value_dup_string(value);
@@ -339,30 +225,6 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_MPV:
-		g_value_set_pointer(value, self->player);
-		break;
-
-		case PROP_EXTRA_OPTIONS:
-		g_value_set_string(value, self->extra_options);
-		break;
-
-		case PROP_READY:
-		g_value_set_boolean(value, self->ready);
-		break;
-
-		case PROP_PLAYLIST:
-		g_value_set_pointer(value, self->playlist);
-		break;
-
-		case PROP_METADATA:
-		g_value_set_pointer(value, self->metadata);
-		break;
-
-		case PROP_TRACK_LIST:
-		g_value_set_pointer(value, self->track_list);
-		break;
-
 		case PROP_AID:
 		g_value_set_string(value, self->aid);
 		break;
@@ -444,12 +306,11 @@ static void get_property(	GObject *object,
 static void dispose(GObject *object)
 {
 	GmpvModel *model = GMPV_MODEL(object);
-	GmpvMpv *mpv = GMPV_MPV(model->player);
+	GmpvMpv *mpv = GMPV_MPV(model);
 
 	if(mpv)
 	{
 		gmpv_mpv_set_render_update_callback(mpv, NULL, NULL);
-		g_clear_object(&model->player);
 		while(g_source_remove_by_user_data(model));
 	}
 
@@ -478,7 +339,7 @@ static void set_mpv_property(	GObject *object,
 				GParamSpec *pspec )
 {
 	GmpvModel *self = GMPV_MODEL(object);
-	GmpvMpv *mpv = GMPV_MPV(self->player);
+	GmpvMpv *mpv = GMPV_MPV(self);
 
 	switch(property_id)
 	{
@@ -661,7 +522,7 @@ static GParamSpec *g_param_spec_by_type(	const gchar *name,
 static gboolean emit_frame_ready(gpointer data)
 {
 	GmpvModel *model = data;
-	guint64 flags = gmpv_mpv_render_context_update(GMPV_MPV(model->player));
+	guint64 flags = gmpv_mpv_render_context_update(GMPV_MPV(model));
 
 	if(flags&MPV_RENDER_UPDATE_FRAME)
 	{
@@ -677,31 +538,6 @@ static void render_update_callback(gpointer data)
 				emit_frame_ready,
 				data,
 				NULL );
-}
-
-static void metadata_update_handler(	GmpvPlayer *player,
-					gint64 pos,
-					gpointer data )
-{
-	g_signal_emit_by_name(data, "metadata-update", pos);
-}
-
-static void window_resize_handler(	GmpvMpv *mpv,
-					gint64 width,
-					gint64 height,
-					gpointer data )
-{
-	g_signal_emit_by_name(data, "window-resize", width, height);
-}
-
-static void window_move_handler(	GmpvMpv *mpv,
-					gboolean flip_x,
-					gboolean flip_y,
-					GValue *x,
-					GValue *y,
-					gpointer data )
-{
-	g_signal_emit_by_name(data, "window-move", flip_x, flip_y, x, y);
 }
 
 static void mpv_prop_change_handler(	GmpvMpv *mpv,
@@ -731,21 +567,6 @@ static void mpv_prop_change_handler(	GmpvMpv *mpv,
 			GMPV_MODEL(data)->update_mpv_properties = TRUE;
 		}
 	}
-}
-
-static void error_handler(GmpvMpv *mpv, const gchar *message, gpointer data)
-{
-	g_signal_emit_by_name(data, "error", message);
-}
-
-static void message_handler(GmpvMpv *mpv, const gchar* message, gpointer data)
-{
-	g_signal_emit_by_name(data, "message", message);
-}
-
-static void shutdown_handler(GmpvMpv *mpv, gpointer data)
-{
-	g_signal_emit_by_name(data, "shutdown");
 }
 
 static void gmpv_model_class_init(GmpvModelClass *klass)
@@ -783,55 +604,10 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
-	obj_class->constructed = constructed;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 	obj_class->dispose = dispose;
 	obj_class->finalize = finalize;
-
-	pspec = g_param_spec_pointer
-		(	"mpv",
-			"mpv",
-			"GmpvMpv instance to use",
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_MPV, pspec);
-
-	pspec = g_param_spec_string
-		(	"extra-options",
-			"Extra options",
-			"Extra options to pass to mpv",
-			NULL,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_EXTRA_OPTIONS, pspec);
-
-	pspec = g_param_spec_boolean
-		(	"ready",
-			"Ready",
-			"Whether mpv is ready to receive commands",
-			FALSE,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_READY, pspec);
-
-	pspec = g_param_spec_pointer
-		(	"playlist",
-			"playlist",
-			"The playlist",
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_PLAYLIST, pspec);
-
-	pspec = g_param_spec_pointer
-		(	"metadata",
-			"metadata",
-			"Metadata tags of the current file",
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_METADATA, pspec);
-
-	pspec = g_param_spec_pointer
-		(	"track-list",
-			"track-list",
-			"Audio, video, and subtitle tracks of the current file",
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_TRACK_LIST, pspec);
 
 	for(int i = 0; mpv_props[i].name; i++)
 	{
@@ -862,74 +638,10 @@ static void gmpv_model_class_init(GmpvModelClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-	g_signal_new(	"metadata-update",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_gen_marshal_VOID__INT64,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_INT64 );
-	g_signal_new(	"window-resize",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_gen_marshal_VOID__INT64_INT64,
-			G_TYPE_NONE,
-			2,
-			G_TYPE_INT64,
-			G_TYPE_INT64 );
-	g_signal_new(	"window-move",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_gen_marshal_VOID__BOOLEAN_BOOLEAN_POINTER_POINTER,
-			G_TYPE_NONE,
-			4,
-			G_TYPE_BOOLEAN,
-			G_TYPE_BOOLEAN,
-			G_TYPE_POINTER,
-			G_TYPE_POINTER );
-	g_signal_new(	"message",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__STRING,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_STRING );
-	g_signal_new(	"error",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__STRING,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_STRING );
-	g_signal_new(	"shutdown",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
 }
 
 static void gmpv_model_init(GmpvModel *model)
 {
-	model->player = NULL;
 	model->extra_options = NULL;
 	model->ready = FALSE;
 	model->cache = NULL;
@@ -959,14 +671,21 @@ static void gmpv_model_init(GmpvModel *model)
 
 GmpvModel *gmpv_model_new(gint64 wid)
 {
-	return GMPV_MODEL(g_object_new(	gmpv_model_get_type(),
-					"mpv", gmpv_player_new(wid),
-					NULL ));
+	GmpvModel *model =  GMPV_MODEL(g_object_new(	gmpv_model_get_type(),
+							"wid", wid,
+							NULL ));
+
+	g_signal_connect(	model,
+				"mpv-property-changed",
+				G_CALLBACK(mpv_prop_change_handler),
+				model );
+
+	return model;
 }
 
 void gmpv_model_initialize(GmpvModel *model, const gchar *options)
 {
-	GmpvMpv *mpv = GMPV_MPV(model->player);
+	GmpvMpv *mpv = GMPV_MPV(model);
 
 	gmpv_mpv_initialize(mpv);
 	gmpv_mpv_set_render_update_callback(mpv, render_update_callback, model);
@@ -977,7 +696,7 @@ void gmpv_model_reset(GmpvModel *model)
 	model->ready = FALSE;
 	g_object_notify(G_OBJECT(model), "ready");
 
-	gmpv_mpv_reset(GMPV_MPV(model->player));
+	gmpv_mpv_reset(GMPV_MPV(model));
 }
 
 void gmpv_model_quit(GmpvModel *model)
@@ -987,7 +706,7 @@ void gmpv_model_quit(GmpvModel *model)
 		model->ready = FALSE;
 		g_object_notify(G_OBJECT(model), "ready");
 
-		gmpv_mpv_quit(GMPV_MPV(model->player));
+		gmpv_mpv_quit(GMPV_MPV(model));
 	}
 }
 
@@ -998,7 +717,7 @@ void gmpv_model_mouse(GmpvModel *model, gint x, gint y)
 	const gchar *cmd[] = {"mouse", x_str, y_str, NULL};
 
 	g_debug("Set mouse location to (%s, %s)", x_str, y_str);
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 
 	g_free(x_str);
 	g_free(y_str);
@@ -1009,7 +728,7 @@ void gmpv_model_key_down(GmpvModel *model, const gchar* keystr)
 	const gchar *cmd[] = {"keydown", keystr, NULL};
 
 	g_debug("Sent '%s' key down to mpv", keystr);
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_key_up(GmpvModel *model, const gchar* keystr)
@@ -1017,7 +736,7 @@ void gmpv_model_key_up(GmpvModel *model, const gchar* keystr)
 	const gchar *cmd[] = {"keyup", keystr, NULL};
 
 	g_debug("Sent '%s' key up to mpv", keystr);
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_key_press(GmpvModel *model, const gchar* keystr)
@@ -1025,7 +744,7 @@ void gmpv_model_key_press(GmpvModel *model, const gchar* keystr)
 	const gchar *cmd[] = {"keypress", keystr, NULL};
 
 	g_debug("Sent '%s' key press to mpv", keystr);
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_reset_keys(GmpvModel *model)
@@ -1033,78 +752,78 @@ void gmpv_model_reset_keys(GmpvModel *model)
 	const gchar *cmd[] = {"keyup", NULL};
 
 	g_debug("Sent global key up to mpv");
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_play(GmpvModel *model)
 {
-	gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "pause", FALSE);
+	gmpv_mpv_set_property_flag(GMPV_MPV(model), "pause", FALSE);
 }
 
 void gmpv_model_pause(GmpvModel *model)
 {
-	gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "pause", TRUE);
+	gmpv_mpv_set_property_flag(GMPV_MPV(model), "pause", TRUE);
 }
 
 void gmpv_model_stop(GmpvModel *model)
 {
 	const gchar *cmd[] = {"stop", NULL};
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_forward(GmpvModel *model)
 {
 	const gchar *cmd[] = {"seek", "10", NULL};
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_rewind(GmpvModel *model)
 {
 	const gchar *cmd[] = {"seek", "-10", NULL};
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_next_chapter(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", NULL};
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_previous_chapter(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "cycle", "chapter", "down", NULL};
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_next_playlist_entry(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "playlist-next", "weak", NULL};
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_previous_playlist_entry(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "playlist-prev", "weak", NULL};
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_shuffle_playlist(GmpvModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "playlist-shuffle", NULL};
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_seek(GmpvModel *model, gdouble value)
 {
-	gmpv_mpv_set_property(GMPV_MPV(model->player), "time-pos", MPV_FORMAT_DOUBLE, &value);
+	gmpv_mpv_set_property(GMPV_MPV(model), "time-pos", MPV_FORMAT_DOUBLE, &value);
 }
 
 void gmpv_model_seek_offset(GmpvModel *model, gdouble offset)
@@ -1115,19 +834,19 @@ void gmpv_model_seek_offset(GmpvModel *model, gdouble offset)
 	g_ascii_dtostr(buf, G_ASCII_DTOSTR_BUF_SIZE, offset);
 	cmd[1] = buf;
 
-	gmpv_mpv_command_async(GMPV_MPV(model->player), cmd);
+	gmpv_mpv_command_async(GMPV_MPV(model), cmd);
 }
 
 void gmpv_model_load_audio_track(GmpvModel *model, const gchar *filename)
 {
 	gmpv_mpv_load_track
-		(GMPV_MPV(model->player), filename, TRACK_TYPE_AUDIO);
+		(GMPV_MPV(model), filename, TRACK_TYPE_AUDIO);
 }
 
 void gmpv_model_load_subtitle_track(GmpvModel *model, const gchar *filename)
 {
 	gmpv_mpv_load_track
-		(GMPV_MPV(model->player), filename, TRACK_TYPE_SUBTITLE);
+		(GMPV_MPV(model), filename, TRACK_TYPE_SUBTITLE);
 }
 
 gdouble gmpv_model_get_time_position(GmpvModel *model)
@@ -1136,7 +855,7 @@ gdouble gmpv_model_get_time_position(GmpvModel *model)
 
 	if(!model->idle_active)
 	{
-		gmpv_mpv_get_property(	GMPV_MPV(model->player),
+		gmpv_mpv_get_property(	GMPV_MPV(model),
 					"time-pos",
 					MPV_FORMAT_DOUBLE,
 					&time_pos );
@@ -1148,22 +867,22 @@ gdouble gmpv_model_get_time_position(GmpvModel *model)
 
 void gmpv_model_set_playlist_position(GmpvModel *model, gint64 position)
 {
-	gmpv_player_set_playlist_position(model->player, position);
+	gmpv_player_set_playlist_position(GMPV_PLAYER(model), position);
 }
 
 void gmpv_model_remove_playlist_entry(GmpvModel *model, gint64 position)
 {
-	gmpv_player_remove_playlist_entry(model->player, position);
+	gmpv_player_remove_playlist_entry(GMPV_PLAYER(model), position);
 }
 
 void gmpv_model_move_playlist_entry(GmpvModel *model, gint64 src, gint64 dst)
 {
-	gmpv_player_move_playlist_entry(model->player, src, dst);
+	gmpv_player_move_playlist_entry(GMPV_PLAYER(model), src, dst);
 }
 
 void gmpv_model_load_file(GmpvModel *model, const gchar *uri, gboolean append)
 {
-	gmpv_mpv_load(GMPV_MPV(model->player), uri, append);
+	gmpv_mpv_load(GMPV_MPV(model), uri, append);
 
 	/* Start playing when replacing the playlist, ie. not appending, or
 	 * adding the first file to the playlist.
@@ -1176,19 +895,19 @@ void gmpv_model_load_file(GmpvModel *model, const gchar *uri, gboolean append)
 
 gboolean gmpv_model_get_use_opengl_cb(GmpvModel *model)
 {
-	return gmpv_mpv_get_use_opengl_cb(GMPV_MPV(model->player));
+	return gmpv_mpv_get_use_opengl_cb(GMPV_MPV(model));
 }
 
 void gmpv_model_initialize_gl(GmpvModel *model)
 {
-	gmpv_mpv_init_gl(GMPV_MPV(model->player));
+	gmpv_mpv_init_gl(GMPV_MPV(model));
 }
 
 void gmpv_model_render_frame(GmpvModel *model, gint width, gint height)
 {
 	mpv_render_context *render_ctx;
 
-	render_ctx = gmpv_mpv_get_render_context(GMPV_MPV(model->player));
+	render_ctx = gmpv_mpv_get_render_context(GMPV_MPV(model));
 
 	if(render_ctx)
 	{
@@ -1210,7 +929,7 @@ void gmpv_model_get_video_geometry(	GmpvModel *model,
 					gint64 *width,
 					gint64 *height )
 {
-	GmpvMpv *mpv = GMPV_MPV(model->player);
+	GmpvMpv *mpv = GMPV_MPV(model);
 
 	gmpv_mpv_get_property(mpv, "dwidth", MPV_FORMAT_INT64, width);
 	gmpv_mpv_get_property(mpv, "dheight", MPV_FORMAT_INT64, height);
@@ -1218,7 +937,7 @@ void gmpv_model_get_video_geometry(	GmpvModel *model,
 
 gchar *gmpv_model_get_current_path(GmpvModel *model)
 {
-	GmpvMpv *mpv = GMPV_MPV(model->player);
+	GmpvMpv *mpv = GMPV_MPV(model);
 	gchar *path = gmpv_mpv_get_property_string(mpv, "path");
 	gchar *buf = g_strdup(path);
 

@@ -23,12 +23,13 @@
 #include <glib.h>
 
 #include "gmpv_mpv.h"
+#include "gmpv_player.h"
 
 G_BEGIN_DECLS
 
 #define GMPV_TYPE_MODEL (gmpv_model_get_type())
 
-G_DECLARE_FINAL_TYPE(GmpvModel, gmpv_model, GMPV, MODEL, GObject)
+G_DECLARE_FINAL_TYPE(GmpvModel, gmpv_model, GMPV, MODEL, GmpvPlayer)
 
 GmpvModel *gmpv_model_new(gint64 wid);
 void gmpv_model_initialize(GmpvModel *model, const gchar *options);
