@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2018 gnome-mpv
+ * Copyright (c) 2014-2019 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -22,6 +22,7 @@
 #include <gio/gio.h>
 #include <gdk/gdk.h>
 
+#include "gmpv_main_window_private.h"
 #include "gmpv_def.h"
 #include "gmpv_marshal.h"
 #include "gmpv_menu.h"
@@ -31,42 +32,6 @@
 #include "gmpv_header_bar.h"
 #include "gmpv_control_box.h"
 #include "gmpv_video_area.h"
-
-enum
-{
-	PROP_0,
-	PROP_ALWAYS_FLOATING,
-	N_PROPERTIES
-};
-
-struct _GmpvMainWindow
-{
-	GtkApplicationWindow parent_instance;
-	gint width_offset;
-	gint height_offset;
-	gint resize_target[2];
-	gboolean csd;
-	gboolean always_floating;
-	gboolean use_floating_controls;
-	gboolean fullscreen;
-	gboolean playlist_visible;
-	gboolean playlist_first_toggle;
-	gboolean pre_fs_playlist_visible;
-	gint playlist_width;
-	guint resize_tag;
-	const GPtrArray *track_list;
-	GtkWidget *header_bar;
-	GtkWidget *main_box;
-	GtkWidget *vid_area_paned;
-	GtkWidget *vid_area;
-	GtkWidget *control_box;
-	GtkWidget *playlist;
-};
-
-struct _GmpvMainWindowClass
-{
-	GtkApplicationWindowClass parent_class;
-};
 
 static void constructed(GObject *object);
 static void dispose(GObject *object);
@@ -88,28 +53,28 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 					gpointer data );
 static gboolean resize_to_target(gpointer data);
 
-G_DEFINE_TYPE(GmpvMainWindow, gmpv_main_window, GTK_TYPE_APPLICATION_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE(GmpvMainWindow, gmpv_main_window, GTK_TYPE_APPLICATION_WINDOW)
 
 static void constructed(GObject *object)
 {
-	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
+	GmpvMainWindowPrivate *priv = get_private(object);
 
-	self->playlist = gmpv_playlist_widget_new();
+	priv->playlist = gmpv_playlist_widget_new();
 
-	gtk_widget_show_all(self->playlist);
-	gtk_widget_hide(self->playlist);
-	gtk_widget_set_no_show_all(self->playlist, TRUE);
+	gtk_widget_show_all(priv->playlist);
+	gtk_widget_hide(priv->playlist);
+	gtk_widget_set_no_show_all(priv->playlist, TRUE);
 
-	gtk_widget_show_all(self->control_box);
-	gtk_widget_hide(self->control_box);
-	gtk_widget_set_no_show_all(self->control_box, TRUE);
+	gtk_widget_show_all(priv->control_box);
+	gtk_widget_hide(priv->control_box);
+	gtk_widget_set_no_show_all(priv->control_box, TRUE);
 
-	gtk_paned_pack1(	GTK_PANED(self->vid_area_paned),
-				self->vid_area,
+	gtk_paned_pack1(	GTK_PANED(priv->vid_area_paned),
+				priv->vid_area,
 				TRUE,
 				TRUE );
-	gtk_paned_pack2(	GTK_PANED(self->vid_area_paned),
-				self->playlist,
+	gtk_paned_pack2(	GTK_PANED(priv->vid_area_paned),
+				priv->playlist,
 				FALSE,
 				FALSE );
 
@@ -118,7 +83,7 @@ static void constructed(GObject *object)
 
 static void dispose(GObject *object)
 {
-	g_source_clear(&GMPV_MAIN_WINDOW(object)->resize_tag);
+	g_source_clear(&get_private(object)->resize_tag);
 
 	G_OBJECT_CLASS(gmpv_main_window_parent_class)->dispose(object);
 }
@@ -128,11 +93,11 @@ static void set_property(	GObject *object,
 				const GValue *value,
 				GParamSpec *pspec )
 {
-	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
+	GmpvMainWindowPrivate *priv = get_private(object);
 
 	if(property_id == PROP_ALWAYS_FLOATING)
 	{
-		self->always_floating = g_value_get_boolean(value);
+		priv->always_floating = g_value_get_boolean(value);
 	}
 	else
 	{
@@ -145,11 +110,11 @@ static void get_property(	GObject *object,
 				GValue *value,
 				GParamSpec *pspec )
 {
-	GmpvMainWindow *self = GMPV_MAIN_WINDOW(object);
+	GmpvMainWindowPrivate *priv = get_private(object);
 
 	if(property_id == PROP_ALWAYS_FLOATING)
 	{
-		g_value_set_boolean(value, self->always_floating);
+		g_value_set_boolean(value, priv->always_floating);
 	}
 	else
 	{
@@ -174,7 +139,8 @@ static void notify(GObject *object, GParamSpec *pspec)
 	if(g_strcmp0(pspec->name, "always-use-floating-controls") == 0)
 	{
 		GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(object);
-		gboolean floating = wnd->always_floating || wnd->fullscreen;
+		GmpvMainWindowPrivate *priv = get_private(wnd);
+		gboolean floating = priv->always_floating || priv->fullscreen;
 
 		gmpv_main_window_set_use_floating_controls(wnd, floating);
 	}
@@ -185,6 +151,7 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 					gpointer data )
 {
 	GmpvMainWindow *wnd = data;
+	GmpvMainWindowPrivate *priv = get_private(wnd);
 	GdkWindow *gdk_window = gtk_widget_get_window(data);
 	GdkDisplay *display = gdk_display_get_default();
 	GdkMonitor *monitor =	gdk_display_get_monitor_at_window
@@ -192,8 +159,8 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 	GdkRectangle monitor_geom = {0};
 	gint width = allocation->width;
 	gint height = allocation->height;
-	gint target_width = wnd->resize_target[0];
-	gint target_height = wnd->resize_target[1];
+	gint target_width = priv->resize_target[0];
+	gint target_height = priv->resize_target[1];
 
 	g_signal_handlers_disconnect_by_func
 		(widget, resize_video_area_finalize, data);
@@ -205,13 +172,13 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 	&& (	target_width < monitor_geom.width &&
 		target_height < monitor_geom.height )
 	&& !gtk_window_is_maximized(GTK_WINDOW(wnd))
-	&& !wnd->fullscreen)
+	&& !priv->fullscreen)
 	{
-		wnd->width_offset += target_width-width;
-		wnd->height_offset += target_height-height;
+		priv->width_offset += target_width-width;
+		priv->height_offset += target_height-height;
 
-		g_source_clear(&wnd->resize_tag);
-		wnd->resize_tag = g_idle_add_full(	G_PRIORITY_HIGH_IDLE,
+		g_source_clear(&priv->resize_tag);
+		priv->resize_tag = g_idle_add_full(	G_PRIORITY_HIGH_IDLE,
 							resize_to_target,
 							wnd,
 							NULL );
@@ -221,23 +188,24 @@ static void resize_video_area_finalize(	GtkWidget *widget,
 static gboolean resize_to_target(gpointer data)
 {
 	GmpvMainWindow *wnd = data;
-	gint target_width = wnd->resize_target[0];
-	gint target_height = wnd->resize_target[1];
+	GmpvMainWindowPrivate *priv = get_private(data);
+	gint target_width = priv->resize_target[0];
+	gint target_height = priv->resize_target[1];
 
-	g_source_clear(&wnd->resize_tag);
+	g_source_clear(&priv->resize_tag);
 
 	/* Emulate mpv resizing behavior by using GDK_GRAVITY_CENTER */
 	gtk_window_set_gravity(GTK_WINDOW(wnd), GDK_GRAVITY_CENTER);
 	gtk_window_resize(	GTK_WINDOW(wnd),
-				target_width+wnd->width_offset,
-				target_height+wnd->height_offset );
+				target_width+priv->width_offset,
+				target_height+priv->height_offset );
 	gtk_window_set_gravity(GTK_WINDOW(wnd), GDK_GRAVITY_NORTH_WEST);
 
 	/* Prevent graphical glitches that appear when calling
 	 * gmpv_main_window_resize_video_area() with the current size as the
 	 * target size.
 	 */
-	gmpv_playlist_widget_queue_draw(GMPV_PLAYLIST_WIDGET(wnd->playlist));
+	gmpv_playlist_widget_queue_draw(GMPV_PLAYLIST_WIDGET(priv->playlist));
 
 	return FALSE;
 }
@@ -285,54 +253,55 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 
 static void gmpv_main_window_init(GmpvMainWindow *wnd)
 {
+	GmpvMainWindowPrivate *priv = get_private(wnd);
 	GmpvControlBox *vid_area_control_box = NULL;
 
-	wnd->csd = FALSE;
-	wnd->always_floating = FALSE;
-	wnd->use_floating_controls = FALSE;
-	wnd->fullscreen = FALSE;
-	wnd->playlist_visible = FALSE;
-	wnd->pre_fs_playlist_visible = FALSE;
-	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
-	wnd->resize_tag = 0;
-	wnd->track_list = NULL;
-	wnd->header_bar = gmpv_header_bar_new();
-	wnd->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	wnd->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
-	wnd->vid_area = gmpv_video_area_new();
-	wnd->control_box = gmpv_control_box_new();
+	priv->csd = FALSE;
+	priv->always_floating = FALSE;
+	priv->use_floating_controls = FALSE;
+	priv->fullscreen = FALSE;
+	priv->playlist_visible = FALSE;
+	priv->pre_fs_playlist_visible = FALSE;
+	priv->playlist_width = PLAYLIST_DEFAULT_WIDTH;
+	priv->resize_tag = 0;
+	priv->track_list = NULL;
+	priv->header_bar = gmpv_header_bar_new();
+	priv->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	priv->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+	priv->vid_area = gmpv_video_area_new();
+	priv->control_box = gmpv_control_box_new();
 
-	wnd->playlist_first_toggle = TRUE;
-	wnd->width_offset = 0;
-	wnd->height_offset = 0;
+	priv->playlist_first_toggle = TRUE;
+	priv->width_offset = 0;
+	priv->height_offset = 0;
 
 	vid_area_control_box =	gmpv_video_area_get_control_box
-				(GMPV_VIDEO_AREA(wnd->vid_area));
+				(GMPV_VIDEO_AREA(priv->vid_area));
 
 	g_object_bind_property(	wnd, "title",
-				wnd->vid_area, "title",
+				priv->vid_area, "title",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	wnd->control_box, "duration",
+	g_object_bind_property(	priv->control_box, "duration",
 				vid_area_control_box, "duration",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	wnd->control_box, "pause",
+	g_object_bind_property(	priv->control_box, "pause",
 				vid_area_control_box, "pause",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	wnd->control_box, "skip-enabled",
+	g_object_bind_property(	priv->control_box, "skip-enabled",
 				vid_area_control_box, "skip-enabled",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	wnd->control_box, "time-position",
+	g_object_bind_property(	priv->control_box, "time-position",
 				vid_area_control_box, "time-position",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	wnd->control_box, "volume",
+	g_object_bind_property(	priv->control_box, "volume",
 				vid_area_control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
 
-	g_signal_connect(	wnd->control_box,
+	g_signal_connect(	priv->control_box,
 				"seek",
 				G_CALLBACK(seek_handler),
 				wnd );
-	g_signal_connect(	wnd->control_box,
+	g_signal_connect(	priv->control_box,
 				"button-clicked",
 				G_CALLBACK(button_clicked_handler),
 				wnd );
@@ -345,13 +314,13 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 				G_CALLBACK(button_clicked_handler),
 				wnd );
 
-	gtk_widget_add_events(	wnd->vid_area,
+	gtk_widget_add_events(	priv->vid_area,
 				GDK_ENTER_NOTIFY_MASK
 				|GDK_LEAVE_NOTIFY_MASK );
 
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 
-	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
+	gtk_paned_set_position(	GTK_PANED(priv->vid_area_paned),
 				MAIN_WINDOW_DEFAULT_WIDTH
 				-PLAYLIST_DEFAULT_WIDTH );
 
@@ -360,9 +329,9 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
 					MAIN_WINDOW_DEFAULT_HEIGHT );
 
 	gtk_box_pack_start
-		(GTK_BOX(wnd->main_box), wnd->vid_area_paned, TRUE, TRUE, 0);
-	gtk_container_add(GTK_CONTAINER(wnd->main_box), wnd->control_box);
-	gtk_container_add(GTK_CONTAINER(wnd), wnd->main_box);
+		(GTK_BOX(priv->main_box), priv->vid_area_paned, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(priv->main_box), priv->control_box);
+	gtk_container_add(GTK_CONTAINER(wnd), priv->main_box);
 }
 
 GtkWidget *gmpv_main_window_new(	GtkApplication *app,
@@ -378,34 +347,36 @@ GtkWidget *gmpv_main_window_new(	GtkApplication *app,
 
 GmpvPlaylistWidget *gmpv_main_window_get_playlist(GmpvMainWindow *wnd)
 {
-	return GMPV_PLAYLIST_WIDGET(wnd->playlist);
+	return GMPV_PLAYLIST_WIDGET(get_private(wnd)->playlist);
 }
 
 GmpvControlBox *gmpv_main_window_get_control_box(GmpvMainWindow *wnd)
 {
-	return GMPV_CONTROL_BOX(wnd->control_box);
+	return GMPV_CONTROL_BOX(get_private(wnd)->control_box);
 }
 
 GmpvVideoArea *gmpv_main_window_get_video_area(GmpvMainWindow *wnd)
 {
-	return GMPV_VIDEO_AREA(wnd->vid_area);
+	return GMPV_VIDEO_AREA(get_private(wnd)->vid_area);
 }
 
 void gmpv_main_window_set_use_floating_controls(	GmpvMainWindow *wnd,
 							gboolean floating )
 {
-	if(floating != wnd->use_floating_controls)
+	GmpvMainWindowPrivate *priv = get_private(wnd);
+
+	if(floating != priv->use_floating_controls)
 	{
 		GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 		gboolean controls_visible =	g_settings_get_boolean
 						(settings, "show-controls");
 
 		gtk_widget_set_visible
-			(wnd->control_box, controls_visible && !floating);
+			(priv->control_box, controls_visible && !floating);
 		gmpv_video_area_set_control_box_visible
-			(GMPV_VIDEO_AREA(wnd->vid_area), floating);
+			(GMPV_VIDEO_AREA(priv->vid_area), floating);
 
-		wnd->use_floating_controls = floating;
+		priv->use_floating_controls = floating;
 
 		g_clear_object(&settings);
 	}
@@ -413,30 +384,32 @@ void gmpv_main_window_set_use_floating_controls(	GmpvMainWindow *wnd,
 
 gboolean gmpv_main_window_get_use_floating_controls(GmpvMainWindow *wnd)
 {
-	return wnd->use_floating_controls;
+	return get_private(wnd)->use_floating_controls;
 }
 
 void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 {
-	if(fullscreen != wnd->fullscreen)
+	GmpvMainWindowPrivate *priv = get_private(wnd);
+
+	if(fullscreen != priv->fullscreen)
 	{
-		GmpvVideoArea *vid_area = GMPV_VIDEO_AREA(wnd->vid_area);
-		gboolean floating = wnd->always_floating || fullscreen;
+		GmpvVideoArea *vid_area = GMPV_VIDEO_AREA(priv->vid_area);
+		gboolean floating = priv->always_floating || fullscreen;
 		gboolean playlist_visible =	!fullscreen &&
-						wnd->pre_fs_playlist_visible;
+						priv->pre_fs_playlist_visible;
 
 		if(fullscreen)
 		{
 			gtk_window_fullscreen(GTK_WINDOW(wnd));
 			gtk_window_present(GTK_WINDOW(wnd));
 
-			wnd->pre_fs_playlist_visible = wnd->playlist_visible;
+			priv->pre_fs_playlist_visible = priv->playlist_visible;
 		}
 		else
 		{
 			gtk_window_unfullscreen(GTK_WINDOW(wnd));
 
-			wnd->playlist_visible = wnd->pre_fs_playlist_visible;
+			priv->playlist_visible = priv->pre_fs_playlist_visible;
 		}
 
 		if(!gmpv_main_window_get_csd_enabled(wnd))
@@ -447,31 +420,32 @@ void gmpv_main_window_set_fullscreen(GmpvMainWindow *wnd, gboolean fullscreen)
 
 		gmpv_video_area_set_fullscreen_state(vid_area, fullscreen);
 		gmpv_main_window_set_use_floating_controls(wnd, floating);
-		gtk_widget_set_visible(wnd->playlist, playlist_visible);
+		gtk_widget_set_visible(priv->playlist, playlist_visible);
 
-		wnd->fullscreen = fullscreen;
+		priv->fullscreen = fullscreen;
 	}
 }
 
 gboolean gmpv_main_window_get_fullscreen(GmpvMainWindow *wnd)
 {
-	return wnd->fullscreen;
+	return get_private(wnd)->fullscreen;
 }
 
 void gmpv_main_window_toggle_fullscreen(GmpvMainWindow *wnd)
 {
-	gmpv_main_window_set_fullscreen(wnd, !wnd->fullscreen);
+	gmpv_main_window_set_fullscreen(wnd, !get_private(wnd)->fullscreen);
 }
 
 void gmpv_main_window_reset(GmpvMainWindow *wnd)
 {
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
-	gmpv_control_box_reset(GMPV_CONTROL_BOX(wnd->control_box));
+	gmpv_control_box_reset(GMPV_CONTROL_BOX(get_private(wnd)->control_box));
 }
 
 void gmpv_main_window_save_state(GmpvMainWindow *wnd)
 {
 	GSettings *settings;
+	GmpvMainWindowPrivate *priv;
 	gint width;
 	gint height;
 	gint handle_pos;
@@ -479,9 +453,10 @@ void gmpv_main_window_save_state(GmpvMainWindow *wnd)
 	gboolean controls_visible;
 
 	settings = g_settings_new(CONFIG_WIN_STATE);
-	handle_pos = gtk_paned_get_position(GTK_PANED(wnd->vid_area_paned));
-	volume = gmpv_control_box_get_volume(GMPV_CONTROL_BOX(wnd->control_box));
-	controls_visible = gtk_widget_get_visible(wnd->control_box);
+	priv = get_private(wnd);
+	handle_pos = gtk_paned_get_position(GTK_PANED(priv->vid_area_paned));
+	volume = gmpv_control_box_get_volume(GMPV_CONTROL_BOX(priv->control_box));
+	controls_visible = gtk_widget_get_visible(priv->control_box);
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
@@ -489,7 +464,7 @@ void gmpv_main_window_save_state(GmpvMainWindow *wnd)
 	g_settings_set_int(settings, "height", height);
 	g_settings_set_double(settings, "volume", volume);
 	g_settings_set_boolean(settings, "show-controls", controls_visible);
-	g_settings_set_boolean(settings, "show-playlist", wnd->playlist_visible);
+	g_settings_set_boolean(settings, "show-playlist", priv->playlist_visible);
 
 	if(gmpv_main_window_get_playlist_visible(wnd))
 	{
@@ -501,7 +476,7 @@ void gmpv_main_window_save_state(GmpvMainWindow *wnd)
 	{
 		g_settings_set_int(	settings,
 					"playlist-width",
-					wnd->playlist_width );
+					priv->playlist_width );
 	}
 
 	g_clear_object(&settings);
@@ -512,28 +487,29 @@ void gmpv_main_window_load_state(GmpvMainWindow *wnd)
 	if(!gtk_widget_get_realized(GTK_WIDGET(wnd)))
 	{
 		GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
+		GmpvMainWindowPrivate *priv = get_private(wnd);
 		gint width = g_settings_get_int(settings, "width");
 		gint height = g_settings_get_int(settings, "height");
 		gint handle_pos;
 		gboolean controls_visible;
 		gdouble volume;
 
-		wnd->playlist_width
+		priv->playlist_width
 			= g_settings_get_int(settings, "playlist-width");
-		wnd->playlist_visible
+		priv->playlist_visible
 			= g_settings_get_boolean(settings, "show-playlist");
 		controls_visible
 			= g_settings_get_boolean(settings, "show-controls");
 		volume = g_settings_get_double(settings, "volume");
-		handle_pos = width-(wnd->playlist_visible?wnd->playlist_width:0);
+		handle_pos = width-(priv->playlist_visible?priv->playlist_width:0);
 
 		gmpv_control_box_set_volume
-			(GMPV_CONTROL_BOX(wnd->control_box), volume);
-		gtk_widget_set_visible(wnd->control_box, controls_visible);
-		gtk_widget_set_visible(wnd->playlist, wnd->playlist_visible);
+			(GMPV_CONTROL_BOX(priv->control_box), volume);
+		gtk_widget_set_visible(priv->control_box, controls_visible);
+		gtk_widget_set_visible(priv->playlist, priv->playlist_visible);
 		gtk_window_resize(GTK_WINDOW(wnd), width, height);
 		gtk_paned_set_position
-			(GTK_PANED(wnd->vid_area_paned), handle_pos);
+			(GTK_PANED(priv->vid_area_paned), handle_pos);
 
 		g_clear_object(&settings);
 	}
@@ -547,14 +523,16 @@ void gmpv_main_window_load_state(GmpvMainWindow *wnd)
 void gmpv_main_window_update_track_list(	GmpvMainWindow *wnd,
 						const GPtrArray *track_list )
 {
-	wnd->track_list = track_list;
+	GmpvMainWindowPrivate *priv = get_private(wnd);
+
+	priv->track_list = track_list;
 
 	if(gmpv_main_window_get_csd_enabled(wnd))
 	{
 		gmpv_header_bar_update_track_list
-			(GMPV_HEADER_BAR(wnd->header_bar), track_list);
+			(GMPV_HEADER_BAR(priv->header_bar), track_list);
 		gmpv_video_area_update_track_list
-			(GMPV_VIDEO_AREA(wnd->vid_area), track_list);
+			(GMPV_VIDEO_AREA(priv->vid_area), track_list);
 	}
 	else
 	{
@@ -576,44 +554,50 @@ void gmpv_main_window_resize_video_area(	GmpvMainWindow *wnd,
 						gint width,
 						gint height )
 {
-	g_signal_connect(	wnd->vid_area,
+	GmpvMainWindowPrivate *priv = get_private(wnd);
+
+	g_signal_connect(	priv->vid_area,
 				"size-allocate",
 				G_CALLBACK(resize_video_area_finalize),
 				wnd );
 
-	wnd->resize_target[0] = width;
-	wnd->resize_target[1] = height;
+	priv->resize_target[0] = width;
+	priv->resize_target[1] = height;
 	resize_to_target(wnd);
 
 	/* The size may not change, so this is needed to ensure that
 	 * resize_video_area_finalize() will be called so that the event handler
 	 * will be disconnected.
 	 */
-	gtk_widget_queue_allocate(wnd->vid_area);
+	gtk_widget_queue_allocate(priv->vid_area);
 }
 
 void gmpv_main_window_enable_csd(GmpvMainWindow *wnd)
 {
-	wnd->csd = TRUE;
-	wnd->playlist_width = PLAYLIST_DEFAULT_WIDTH;
+	GmpvMainWindowPrivate *priv = get_private(wnd);
 
-	gtk_paned_set_position(	GTK_PANED(wnd->vid_area_paned),
+	priv->csd = TRUE;
+	priv->playlist_width = PLAYLIST_DEFAULT_WIDTH;
+
+	gtk_paned_set_position(	GTK_PANED(priv->vid_area_paned),
 				MAIN_WINDOW_DEFAULT_WIDTH
 				-PLAYLIST_DEFAULT_WIDTH );
 
-	gtk_window_set_titlebar(GTK_WINDOW(wnd), wnd->header_bar);
+	gtk_window_set_titlebar(GTK_WINDOW(wnd), priv->header_bar);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 }
 
 gboolean gmpv_main_window_get_csd_enabled(GmpvMainWindow *wnd)
 {
-	return wnd->csd;
+	return get_private(wnd)->csd;
 }
 
 void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 						gboolean visible )
 {
-	if(visible != wnd->playlist_visible && !wnd->fullscreen)
+	GmpvMainWindowPrivate *priv = get_private(wnd);
+
+	if(visible != priv->playlist_visible && !priv->fullscreen)
 	{
 		GdkWindow *gdk_window;
 		GdkWindowState window_state;
@@ -630,31 +614,31 @@ void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 				GDK_WINDOW_STATE_BOTTOM_RESIZABLE |
 				GDK_WINDOW_STATE_LEFT_RESIZABLE );
 		handle_pos =	gtk_paned_get_position
-				(GTK_PANED(wnd->vid_area_paned));
+				(GTK_PANED(priv->vid_area_paned));
 
 		gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
-		if(wnd->playlist_first_toggle && visible)
+		if(priv->playlist_first_toggle && visible)
 		{
-			gint new_pos = width-(resize?0:wnd->playlist_width);
+			gint new_pos = width-(resize?0:priv->playlist_width);
 
 			gtk_paned_set_position
-				(GTK_PANED(wnd->vid_area_paned), new_pos);
+				(GTK_PANED(priv->vid_area_paned), new_pos);
 		}
 		else if(!visible)
 		{
-			wnd->playlist_width = width-handle_pos;
+			priv->playlist_width = width-handle_pos;
 		}
 
-		wnd->playlist_visible = visible;
-		gtk_widget_set_visible(wnd->playlist, visible);
+		priv->playlist_visible = visible;
+		gtk_widget_set_visible(priv->playlist, visible);
 
 		if(resize)
 		{
 			gint new_width;
 
 			new_width =	visible?
-					width+wnd->playlist_width:
+					width+priv->playlist_width:
 					handle_pos;
 
 			gtk_window_resize(	GTK_WINDOW(wnd),
@@ -662,22 +646,23 @@ void gmpv_main_window_set_playlist_visible(	GmpvMainWindow *wnd,
 						height );
 		}
 
-		wnd->playlist_first_toggle = FALSE;
+		priv->playlist_first_toggle = FALSE;
 	}
 }
 
 gboolean gmpv_main_window_get_playlist_visible(GmpvMainWindow *wnd)
 {
-	return gtk_widget_get_visible(GTK_WIDGET(wnd->playlist));
+	return gtk_widget_get_visible(GTK_WIDGET(get_private(wnd)->playlist));
 }
 
 void gmpv_main_window_set_controls_visible(	GmpvMainWindow *wnd,
 						gboolean visible )
 {
 	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
-	const gboolean floating = wnd->use_floating_controls;
+	GmpvMainWindowPrivate *priv = get_private(wnd);
+	const gboolean floating = priv->use_floating_controls;
 
-	gtk_widget_set_visible(GTK_WIDGET(wnd->control_box), visible && !floating);
+	gtk_widget_set_visible(GTK_WIDGET(priv->control_box), visible && !floating);
 	g_settings_set_boolean(settings, "show-controls", visible);
 
 	g_clear_object(&settings);
@@ -685,6 +670,6 @@ void gmpv_main_window_set_controls_visible(	GmpvMainWindow *wnd,
 
 gboolean gmpv_main_window_get_controls_visible(GmpvMainWindow *wnd)
 {
-	return gtk_widget_get_visible(GTK_WIDGET(wnd->control_box));
+	return gtk_widget_get_visible(GTK_WIDGET(get_private(wnd)->control_box));
 }
 

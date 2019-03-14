@@ -48,7 +48,7 @@ celluloid_SOURCES =	gmpv_main.c gmpv_def.h \
 			gmpv_control_box.c gmpv_control_box.h \
 			gmpv_file_chooser.c gmpv_file_chooser.h \
 			gmpv_header_bar.c gmpv_header_bar.h \
-			gmpv_main_window.c gmpv_main_window.h \
+			gmpv_main_window.c gmpv_main_window.h gmpv_main_window_private.h \
 			gmpv_menu.c gmpv_menu.h \
 			gmpv_metadata_cache.c gmpv_metadata_cache.h \
 			gmpv_model.c gmpv_model.h \

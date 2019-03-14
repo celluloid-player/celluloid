@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 gnome-mpv
+ * Copyright (c) 2014-2019 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -32,7 +32,12 @@ G_BEGIN_DECLS
 
 #define GMPV_TYPE_MAIN_WINDOW (gmpv_main_window_get_type ())
 
-G_DECLARE_FINAL_TYPE(GmpvMainWindow, gmpv_main_window, GMPV, MAIN_WINDOW, GtkApplicationWindow)
+G_DECLARE_DERIVABLE_TYPE(GmpvMainWindow, gmpv_main_window, GMPV, MAIN_WINDOW, GtkApplicationWindow)
+
+struct _GmpvMainWindowClass
+{
+	GtkApplicationWindowClass parent_class;
+};
 
 GtkWidget *gmpv_main_window_new(	GtkApplication *app,
 					gboolean always_floating );
