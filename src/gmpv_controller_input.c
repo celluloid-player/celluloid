@@ -247,6 +247,9 @@ static gboolean scroll_handler(	GtkWidget *widget,
 
 void gmpv_controller_input_connect_signals(GmpvController *controller)
 {
+	GmpvMainWindow *wnd = gmpv_view_get_main_window(controller->view);
+	GmpvVideoArea *video_area = gmpv_main_window_get_video_area(wnd);
+
 	g_signal_connect(	controller->view,
 				"key-press-event",
 				G_CALLBACK(key_press_handler),
@@ -255,11 +258,11 @@ void gmpv_controller_input_connect_signals(GmpvController *controller)
 				"key-release-event",
 				G_CALLBACK(key_release_handler),
 				controller );
-	g_signal_connect(	controller->view,
+	g_signal_connect(	video_area,
 				"button-press-event",
 				G_CALLBACK(mouse_button_handler),
 				controller );
-	g_signal_connect(	controller->view,
+	g_signal_connect(	video_area,
 				"button-release-event",
 				G_CALLBACK(mouse_button_handler),
 				controller );

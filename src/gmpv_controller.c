@@ -68,7 +68,7 @@ static void file_open_handler(	GmpvView *view,
 				gboolean append,
 				gpointer data );
 static void grab_handler(GmpvView *view, gboolean was_grabbed, gpointer data);
-static void delete_handler(GmpvView *view, gpointer data);
+static gboolean delete_handler(GmpvView *view, GdkEvent *event, gpointer data);
 static void playlist_item_activated_handler(	GmpvView *view,
 						gint pos,
 						gpointer data );
@@ -151,13 +151,15 @@ static void constructed(GObject *object)
 					"always-use-floating-controls" );
 
 	controller->view = gmpv_view_new(controller->app, always_floating);
-	window = gmpv_view_get_main_window(controller->view);
+	window = GMPV_MAIN_WINDOW(controller->view);
 	wid = gmpv_video_area_get_xid(gmpv_main_window_get_video_area(window));
 	controller->model = gmpv_model_new(wid);
 
 	connect_signals(controller);
 	gmpv_controller_action_register_actions(controller);
 	gmpv_controller_input_connect_signals(controller);
+
+	gtk_widget_show_all(GTK_WIDGET(window));
 
 	g_signal_connect(	controller->settings,
 				"changed::mpris-enable",
@@ -260,7 +262,8 @@ static void dispose(GObject *object)
 	{
 		gmpv_view_make_gl_context_current(controller->view);
 		g_clear_object(&controller->model);
-		g_clear_object(&controller->view);
+		gtk_widget_destroy(GTK_WIDGET(controller->view));
+		controller->view = NULL;
 	}
 
 	G_OBJECT_CLASS(gmpv_controller_parent_class)->dispose(object);
@@ -394,9 +397,11 @@ static void grab_handler(GmpvView *view, gboolean was_grabbed, gpointer data)
 	}
 }
 
-static void delete_handler(GmpvView *view, gpointer data)
+static gboolean delete_handler(GmpvView *view, GdkEvent *event, gpointer data)
 {
 	g_signal_emit_by_name(data, "shutdown");
+
+	return TRUE;
 }
 
 static void playlist_item_activated_handler(	GmpvView *view,
@@ -611,7 +616,7 @@ static void connect_signals(GmpvController *controller)
 				G_CALLBACK(grab_handler),
 				controller );
 	g_signal_connect(	controller->view,
-				"delete-notify",
+				"delete-event",
 				G_CALLBACK(delete_handler),
 				controller );
 	g_signal_connect(	controller->view,

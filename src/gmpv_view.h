@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 gnome-mpv
+ * Copyright (c) 2017-2019 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 #define GMPV_TYPE_VIEW (gmpv_view_get_type())
 
-G_DECLARE_FINAL_TYPE(GmpvView, gmpv_view, GMPV, VIEW, GObject)
+G_DECLARE_FINAL_TYPE(GmpvView, gmpv_view, GMPV, VIEW, GmpvMainWindow)
 
 GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating);
 GmpvMainWindow *gmpv_view_get_main_window(GmpvView *view);

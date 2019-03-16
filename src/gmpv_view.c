@@ -33,10 +33,8 @@
 enum
 {
 	PROP_0,
-	PROP_WINDOW,
 	PROP_PLAYLIST_COUNT,
 	PROP_PAUSE,
-	PROP_TITLE,
 	PROP_VOLUME,
 	PROP_DURATION,
 	PROP_PLAYLIST_POS,
@@ -50,13 +48,11 @@ enum
 
 struct _GmpvView
 {
-	GObject parent;
-	GmpvMainWindow *wnd;
+	GmpvMainWindow parent;
 
 	/* Properties */
 	gint playlist_count;
 	gboolean pause;
-	gchar *title;
 	gdouble volume;
 	gdouble duration;
 	gint playlist_pos;
@@ -70,10 +66,10 @@ struct _GmpvView
 
 struct _GmpvViewClass
 {
-	GObjectClass parent_class;
+	GmpvMainWindowClass parent_class;
 };
 
-G_DEFINE_TYPE(GmpvView, gmpv_view, G_TYPE_OBJECT)
+G_DEFINE_TYPE(GmpvView, gmpv_view, GMPV_TYPE_MAIN_WINDOW)
 
 static void constructed(GObject *object);
 static void set_property(	GObject *object,
@@ -84,9 +80,8 @@ static void get_property(	GObject *object,
 				guint property_id,
 				GValue *value,
 				GParamSpec *pspec );
-static void dispose(GObject * object);
-static void finalize(GObject * object);
 static void load_css(GmpvView *view);
+static void load_settings(GmpvView *view);
 static void save_playlist(GmpvView *view, GFile *file, GError **error);
 static void show_message_dialog(	GmpvMainWindow *wnd,
 					GtkMessageType type,
@@ -94,12 +89,6 @@ static void show_message_dialog(	GmpvMainWindow *wnd,
 					const gchar *prefix,
 					const gchar *msg );
 static void update_display_fps(GmpvView *view);
-
-/* Control box signals */
-static void button_clicked_handler(	GtkWidget *widget,
-					const gchar *button,
-					gpointer data );
-static void seek_handler(GtkWidget *widget, gdouble value, gpointer data);
 
 /* Dialog responses */
 static void open_dialog_response_handler(	GtkDialog *dialog,
@@ -117,27 +106,7 @@ static void open_subtitle_track_dialog_response_handler(	GtkDialog *dialog,
 static void preferences_dialog_response_handler(	GtkDialog *dialog,
 							gint response_id,
 							gpointer data );
-
-/* User inputs */
-static void key_press_handler(	GmpvMainWindow *wnd,
-				GdkEvent *event,
-				gpointer data );
-static void key_release_handler(	GmpvMainWindow *wnd,
-					GdkEvent *event,
-					gpointer data );
-static void button_press_handler(	GmpvMainWindow *wnd,
-					GdkEvent *event,
-					gpointer data );
-static void button_release_handler(	GmpvMainWindow *wnd,
-					GdkEvent *event,
-					gpointer data );
-static void motion_notify_handler(	GmpvMainWindow *wnd,
-					GdkEvent *event,
-					gpointer data );
-static void scroll_handler(	GmpvMainWindow *wnd,
-				GdkEvent *event,
-				gpointer data );
-
+static void realize_handler(GtkWidget *widget, gpointer data);
 static void size_allocate_handler(	GtkWidget *widget,
 					GdkRectangle *allocation,
 					gpointer data );
@@ -157,7 +126,6 @@ static gboolean window_state_handler(	GtkWidget *widget,
 static void screen_changed_handler(	GtkWidget *wnd,
 					GdkScreen *previous_screen,
 					gpointer data );
-static void grab_handler(GtkWidget *widget, gboolean was_grabbed, gpointer data);
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data );
@@ -177,38 +145,18 @@ static void playlist_row_reordered_handler(	GmpvPlaylistWidget *widget,
 
 static void constructed(GObject *object)
 {
+	G_OBJECT_CLASS(gmpv_view_parent_class)->constructed(object);
+
 	GmpvView *view = GMPV_VIEW(object);
-	GmpvVideoArea *video_area = gmpv_main_window_get_video_area(view->wnd);
-	GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(view->wnd);
-	GmpvControlBox *control_box;
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	gboolean csd_enable;
-	gboolean dark_theme_enable;
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvVideoArea *video_area = gmpv_main_window_get_video_area(wnd);
+	GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(wnd);
+	GmpvControlBox *control_box = gmpv_main_window_get_control_box(wnd);
 
-	csd_enable = g_settings_get_boolean
-				(settings, "csd-enable");
-	dark_theme_enable = g_settings_get_boolean
-				(settings, "dark-theme-enable");
-	control_box = gmpv_main_window_get_control_box(view->wnd);
-
-	gmpv_main_window_load_state(view->wnd);
+	gmpv_main_window_load_state(wnd);
 	load_css(view);
-	gtk_widget_show_all(GTK_WIDGET(view->wnd));
+	load_settings(view);
 
-	g_object_set(	control_box,
-			"show-fullscreen-button", !csd_enable,
-			"skip-enabled", FALSE,
-			NULL );
-	g_object_set(	gtk_settings_get_default(),
-			"gtk-application-prefer-dark-theme",
-			dark_theme_enable,
-			NULL );
-
-	g_object_unref(settings);
-
-	g_object_bind_property(	view, "title",
-				view->wnd, "title",
-				G_BINDING_DEFAULT );
 	g_object_bind_property(	view, "duration",
 				control_box, "duration",
 				G_BINDING_DEFAULT );
@@ -228,23 +176,6 @@ static void constructed(GObject *object)
 				view, "playlist-count",
 				G_BINDING_DEFAULT );
 
-	g_signal_connect(	view->wnd,
-				"button-clicked",
-				G_CALLBACK(button_clicked_handler),
-				view );
-	g_signal_connect(	view->wnd,
-				"seek",
-				G_CALLBACK(seek_handler),
-				view );
-
-	g_signal_connect(	view->wnd,
-				"key-press-event",
-				G_CALLBACK(key_press_handler),
-				view );
-	g_signal_connect(	view->wnd,
-				"key-release-event",
-				G_CALLBACK(key_release_handler),
-				view );
 	g_signal_connect(	video_area,
 				"size-allocate",
 				G_CALLBACK(size_allocate_handler),
@@ -254,27 +185,6 @@ static void constructed(GObject *object)
 				G_CALLBACK(render_handler),
 				view );
 	g_signal_connect(	video_area,
-				"button-press-event",
-				G_CALLBACK(button_press_handler),
-				view );
-	g_signal_connect(	video_area,
-				"button-release-event",
-				G_CALLBACK(button_release_handler),
-				view );
-	g_signal_connect(	video_area,
-				"motion-notify-event",
-				G_CALLBACK(motion_notify_handler),
-				view );
-	g_signal_connect(	video_area,
-				"scroll-event",
-				G_CALLBACK(scroll_handler),
-				view );
-
-	g_signal_connect_after(	view->wnd,
-				"draw",
-				G_CALLBACK(draw_handler),
-				view );
-	g_signal_connect(	video_area,
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
 				view );
@@ -282,19 +192,15 @@ static void constructed(GObject *object)
 				"drag-data-received",
 				G_CALLBACK(drag_data_handler),
 				view );
-	g_signal_connect(	view->wnd,
+	g_signal_connect(	wnd,
 				"window-state-event",
 				G_CALLBACK(window_state_handler),
 				view );
-	g_signal_connect(	view->wnd,
+	g_signal_connect(	wnd,
 				"screen-changed",
 				G_CALLBACK(screen_changed_handler),
 				view );
-	g_signal_connect(	view->wnd,
-				"grab-notify",
-				G_CALLBACK(grab_handler),
-				view );
-	g_signal_connect(	view->wnd,
+	g_signal_connect(	wnd,
 				"delete-event",
 				G_CALLBACK(delete_handler),
 				view );
@@ -314,11 +220,6 @@ static void constructed(GObject *object)
 				"rows-reordered",
 				G_CALLBACK(playlist_row_reordered_handler),
 				view );
-
-	gtk_widget_realize(GTK_WIDGET(view->wnd));
-	update_display_fps(view);
-
-	G_OBJECT_CLASS(gmpv_view_parent_class)->constructed(object);
 }
 
 static void set_property(	GObject *object,
@@ -327,19 +228,11 @@ static void set_property(	GObject *object,
 				GParamSpec *pspec )
 {
 	GmpvView *self = GMPV_VIEW(object);
-	GmpvControlBox* control_box = NULL;
-
-	if(self->wnd)
-	{
-		 control_box = gmpv_main_window_get_control_box(self->wnd);
-	}
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(self);
+	GmpvControlBox* control_box = gmpv_main_window_get_control_box(wnd);
 
 	switch(property_id)
 	{
-		case PROP_WINDOW:
-		self->wnd = g_value_get_pointer(value);
-		break;
-
 		case PROP_PLAYLIST_COUNT:
 		self->playlist_count = g_value_get_int(value);
 
@@ -358,11 +251,6 @@ static void set_property(	GObject *object,
 		self->pause = g_value_get_boolean(value);
 		break;
 
-		case PROP_TITLE:
-		g_free(self->title);
-		self->title = g_value_dup_string(value);
-		break;
-
 		case PROP_VOLUME:
 		self->volume = g_value_get_double(value);
 		break;
@@ -373,13 +261,13 @@ static void set_property(	GObject *object,
 
 		case PROP_PLAYLIST_POS:
 		self->playlist_pos = g_value_get_int(value);
-		GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(self->wnd);
+		GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(wnd);
 		gmpv_playlist_widget_set_indicator_pos(playlist, self->playlist_pos);
 		break;
 
 		case PROP_TRACK_LIST:
 		self->track_list = g_value_get_pointer(value);
-		gmpv_main_window_update_track_list(self->wnd, self->track_list);
+		gmpv_main_window_update_track_list(wnd, self->track_list);
 		break;
 
 		case PROP_SKIP_ENABLED:
@@ -392,7 +280,7 @@ static void set_property(	GObject *object,
 
 		case PROP_FULLSCREEN:
 		self->fullscreen = g_value_get_boolean(value);
-		gmpv_main_window_set_fullscreen(self->wnd, self->fullscreen);
+		gmpv_main_window_set_fullscreen(wnd, self->fullscreen);
 		break;
 
 		case PROP_DISPLAY_FPS:
@@ -414,20 +302,12 @@ static void get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_WINDOW:
-		g_value_set_pointer(value, self->wnd);
-		break;
-
 		case PROP_PLAYLIST_COUNT:
 		g_value_set_int(value, self->playlist_count);
 		break;
 
 		case PROP_PAUSE:
 		g_value_set_boolean(value, self->pause);
-		break;
-
-		case PROP_TITLE:
-		g_value_set_string(value, self->title);
 		break;
 
 		case PROP_VOLUME:
@@ -468,26 +348,6 @@ static void get_property(	GObject *object,
 	}
 }
 
-static void dispose(GObject *object)
-{
-	GmpvView *view = GMPV_VIEW(object);
-
-	if(view->wnd)
-	{
-		gtk_widget_destroy(GTK_WIDGET(view->wnd));
-		view->wnd = NULL;
-	}
-
-	G_OBJECT_CLASS(gmpv_view_parent_class)->dispose(object);
-}
-
-static void finalize(GObject *object)
-{
-	g_free(GMPV_VIEW(object)->title);
-
-	G_OBJECT_CLASS(gmpv_view_parent_class)->finalize(object);
-}
-
 static void load_css(GmpvView *view)
 {
 	const gchar *style;
@@ -505,16 +365,41 @@ static void load_css(GmpvView *view)
 	}
 
 	gtk_style_context_add_provider_for_screen
-		(	gtk_window_get_screen(GTK_WINDOW(view->wnd)),
+		(	gtk_window_get_screen(GTK_WINDOW(view)),
 			GTK_STYLE_PROVIDER(style_provider),
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
 
 	g_object_unref(style_provider);
 }
 
+static void load_settings(GmpvView *view)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvControlBox *control_box = gmpv_main_window_get_control_box(wnd);
+	gboolean csd_enable;
+	gboolean dark_theme_enable;
+
+	csd_enable =	g_settings_get_boolean
+			(settings, "csd-enable");
+	dark_theme_enable =	g_settings_get_boolean
+				(settings, "dark-theme-enable");
+
+	g_object_set(	control_box,
+			"show-fullscreen-button", !csd_enable,
+			"skip-enabled", FALSE,
+			NULL );
+	g_object_set(	gtk_settings_get_default(),
+			"gtk-application-prefer-dark-theme", dark_theme_enable,
+			NULL );
+
+	g_object_unref(settings);
+}
+
 static void save_playlist(GmpvView *view, GFile *file, GError **error)
 {
-	GmpvPlaylistWidget *wgt = gmpv_main_window_get_playlist(view->wnd);
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvPlaylistWidget *wgt = gmpv_main_window_get_playlist(wnd);
 	GPtrArray *playlist = gmpv_playlist_widget_get_contents(wgt);
 	gboolean rc = TRUE;
 	GOutputStream *dest_stream = NULL;
@@ -620,7 +505,7 @@ void show_message_dialog(	GmpvMainWindow *wnd,
 
 static void update_display_fps(GmpvView *view)
 {
-	GtkWidget *wnd = GTK_WIDGET(view->wnd);
+	GtkWidget *wnd = GTK_WIDGET(view);
 	GdkWindow *gdkwindow = gtk_widget_get_window(wnd);
 	GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(wnd));
 	GdkDisplay *display = gdk_screen_get_display(screen);
@@ -629,21 +514,6 @@ static void update_display_fps(GmpvView *view)
 
 	view->display_fps = gdk_monitor_get_refresh_rate(monitor)/1000.0;
 	g_object_notify(G_OBJECT(view), "display-fps");
-}
-
-static void button_clicked_handler(	GtkWidget *widget,
-					const gchar *button,
-					gpointer data )
-{
-	gchar *name = g_strconcat("button-clicked::", button, NULL);
-
-	g_signal_emit_by_name(data, name);
-	g_free(name);
-}
-
-static void seek_handler(GtkWidget *widget, gdouble value, gpointer data)
-{
-	g_signal_emit_by_name(data, "seek", value);
 }
 
 static void open_dialog_response_handler(	GtkDialog *dialog,
@@ -748,17 +618,17 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 {
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
-		GmpvView *view;
+		GmpvMainWindow *wnd;
 		GSettings *settings;
 		gboolean csd_enable;
 
-		view = data;
+		wnd = GMPV_MAIN_WINDOW(data);
 		settings = g_settings_new(CONFIG_ROOT);
 		csd_enable = g_settings_get_boolean(settings, "csd-enable");
 
-		if(gmpv_main_window_get_csd_enabled(view->wnd) != csd_enable)
+		if(gmpv_main_window_get_csd_enabled(wnd) != csd_enable)
 		{
-			show_message_dialog(	view->wnd,
+			show_message_dialog(	wnd,
 						GTK_MESSAGE_INFO,
 						g_get_application_name(),
 						NULL,
@@ -768,7 +638,7 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 						"take effect.") );
 		}
 
-		gtk_widget_queue_draw(GTK_WIDGET(view->wnd));
+		gtk_widget_queue_draw(GTK_WIDGET(wnd));
 		g_signal_emit_by_name(data, "preferences-updated");
 
 		g_object_unref(settings);
@@ -777,46 +647,9 @@ static void preferences_dialog_response_handler(	GtkDialog *dialog,
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-static void key_press_handler(	GmpvMainWindow *wnd,
-				GdkEvent *event,
-				gpointer data )
+static void realize_handler(GtkWidget *widget, gpointer data)
 {
-	g_signal_emit_by_name(data, "key-press-event", event);
-}
-
-static void key_release_handler(	GmpvMainWindow *wnd,
-					GdkEvent *event,
-					gpointer data )
-{
-	g_signal_emit_by_name(data, "key-release-event", event);
-}
-
-static void button_press_handler(	GmpvMainWindow *wnd,
-					GdkEvent *event,
-					gpointer data )
-{
-	g_signal_emit_by_name(data, "button-press-event", event);
-}
-
-static void button_release_handler(	GmpvMainWindow *wnd,
-					GdkEvent *event,
-					gpointer data )
-{
-	g_signal_emit_by_name(data, "button-release-event", event);
-}
-
-static void motion_notify_handler(	GmpvMainWindow *wnd,
-					GdkEvent *event,
-					gpointer data )
-{
-	g_signal_emit_by_name(data, "motion-notify-event", event);
-}
-
-static void scroll_handler(	GmpvMainWindow *wnd,
-				GdkEvent *event,
-				gpointer data )
-{
-	g_signal_emit_by_name(data, "scroll-event", event);
+	update_display_fps(GMPV_VIEW(widget));
 }
 
 static void size_allocate_handler(	GtkWidget *widget,
@@ -836,24 +669,20 @@ static void render_handler(GmpvVideoArea *area, gpointer data)
 
 static gboolean draw_handler(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
-	GmpvView *view = data;
-	GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(view->wnd);
-	guint signal_id = g_signal_lookup("draw", GMPV_TYPE_MAIN_WINDOW);
+	GmpvView *view = GMPV_VIEW(widget);
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvPlaylistWidget *playlist = gmpv_main_window_get_playlist(wnd);
+	const GSignalMatchType match = G_SIGNAL_MATCH_ID|G_SIGNAL_MATCH_DATA;
+	const guint signal_id = g_signal_lookup("draw", GMPV_TYPE_VIEW);
 
-	g_signal_handlers_disconnect_matched(	widget,
-						G_SIGNAL_MATCH_ID|
-						G_SIGNAL_MATCH_DATA,
-						signal_id,
-						0,
-						0,
-						NULL,
-						view );
+	g_signal_handlers_disconnect_matched
+		(view, match, signal_id, 0, 0, NULL, NULL);
 
 	if(gmpv_playlist_widget_empty(playlist))
 	{
 		GmpvControlBox *control_box;
 
-		control_box = gmpv_main_window_get_control_box(view->wnd);
+		control_box = gmpv_main_window_get_control_box(wnd);
 		g_object_set(control_box, "enabled", FALSE, NULL);
 	}
 
@@ -930,11 +759,6 @@ static void screen_changed_handler(	GtkWidget *wnd,
 	update_display_fps(data);
 }
 
-static void grab_handler(GtkWidget *widget, gboolean was_grabbed, gpointer data)
-{
-	g_signal_emit_by_name(data, "grab-notify", was_grabbed);
-}
-
 static gboolean delete_handler(	GtkWidget *widget,
 				GdkEvent *event,
 				gpointer data )
@@ -944,9 +768,7 @@ static gboolean delete_handler(	GtkWidget *widget,
 		gmpv_main_window_save_state(GMPV_MAIN_WINDOW(widget));
 	}
 
-	g_signal_emit_by_name(data, "delete-notify");
-
-	return TRUE;
+	return FALSE;
 }
 
 static void playlist_row_activated_handler(	GmpvPlaylistWidget *playlist,
@@ -991,15 +813,6 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 	object_class->constructed = constructed;
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
-	object_class->dispose = dispose;
-	object_class->finalize = finalize;
-
-	pspec = g_param_spec_pointer
-		(	"window",
-			"Window",
-			"The GmpvMainWindow to use",
-			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_WINDOW, pspec);
 
 	pspec = g_param_spec_int
 		(	"playlist-count",
@@ -1018,14 +831,6 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_PAUSE, pspec);
-
-	pspec = g_param_spec_string
-		(	"title",
-			"Title",
-			"The title of the window",
-			_("Celluloid"),
-			G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_TITLE, pspec);
 
 	pspec = g_param_spec_double
 		(	"volume",
@@ -1111,25 +916,6 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 			G_TYPE_INT );
 
 	/* Controls-related signals */
-	g_signal_new(	"button-clicked",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST|G_SIGNAL_DETAILED,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
-	g_signal_new(	"seek",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__DOUBLE,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_DOUBLE );
 	g_signal_new(	"volume-changed",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1140,69 +926,6 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_DOUBLE );
-
-	/* User input signals */
-	g_signal_new(	"key-press-event",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__POINTER,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_POINTER);
-	g_signal_new(	"key-release-event",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__POINTER,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_POINTER );
-	g_signal_new(	"button-press-event",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__POINTER,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_POINTER );
-	g_signal_new(	"button-release-event",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__POINTER,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_POINTER );
-	g_signal_new(	"motion-notify-event",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__POINTER,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_POINTER );
-	g_signal_new(	"scroll-event",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__POINTER,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_POINTER );
-
 	g_signal_new(	"ready",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1261,25 +984,6 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 			2,
 			G_TYPE_POINTER,
 			G_TYPE_BOOLEAN );
-	g_signal_new(	"grab-notify",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__BOOLEAN,
-			G_TYPE_NONE,
-			1,
-			G_TYPE_BOOLEAN );
-	g_signal_new(	"delete-notify",
-			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
-			0,
-			NULL,
-			NULL,
-			g_cclosure_marshal_VOID__VOID,
-			G_TYPE_NONE,
-			0 );
 	g_signal_new(	"playlist-item-activated",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1325,10 +1029,8 @@ static void gmpv_view_class_init(GmpvViewClass *klass)
 
 static void gmpv_view_init(GmpvView *view)
 {
-	view->wnd = NULL;
 	view->playlist_count = 0;
 	view->pause = FALSE;
-	view->title = NULL;
 	view->volume = 0.0;
 	view->duration = 0.0;
 	view->playlist_pos = 0;
@@ -1336,17 +1038,25 @@ static void gmpv_view_init(GmpvView *view)
 	view->loop = FALSE;
 	view->fullscreen = FALSE;
 	view->display_fps = 0;
+
+	g_signal_connect(view, "realize", G_CALLBACK(realize_handler), NULL);
+	g_signal_connect_after(view, "draw", G_CALLBACK(draw_handler), NULL);
 }
 
 GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating)
 {
+	GmpvView *view = GMPV_VIEW(g_object_new(	gmpv_view_get_type(),
+							"application",
+							app,
+							"always-use-floating-controls",
+							always_floating,
+							NULL ));
 	GtkApplication *gtk_app = GTK_APPLICATION(app);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	GtkWidget *window = gmpv_main_window_new(gtk_app, always_floating);
 
 	if(g_settings_get_boolean(settings, "csd-enable"))
 	{
-		gmpv_main_window_enable_csd(GMPV_MAIN_WINDOW(window));
+		gmpv_main_window_enable_csd(GMPV_MAIN_WINDOW(view));
 	}
 	else
 	{
@@ -1358,14 +1068,12 @@ GmpvView *gmpv_view_new(GmpvApplication *app, gboolean always_floating)
 
 	g_object_unref(settings);
 
-	return GMPV_VIEW(g_object_new(	gmpv_view_get_type(),
-					"window", window,
-					NULL ));
+	return view;
 }
 
 GmpvMainWindow *gmpv_view_get_main_window(GmpvView *view)
 {
-	return view->wnd;
+	return GMPV_MAIN_WINDOW(view);
 }
 
 void gmpv_view_show_open_dialog(GmpvView *view, gboolean append)
@@ -1377,7 +1085,7 @@ void gmpv_view_show_open_dialog(GmpvView *view, gboolean append)
 	chooser = gmpv_file_chooser_new(	append?
 						_("Add File to Playlist"):
 						_("Open File"),
-						GTK_WINDOW(view->wnd),
+						GTK_WINDOW(view),
 						GTK_FILE_CHOOSER_ACTION_OPEN );
 	args = g_ptr_array_new();
 	append_buf = g_malloc(sizeof(gboolean));
@@ -1401,7 +1109,7 @@ void gmpv_view_show_open_location_dialog(GmpvView *view, gboolean append)
 	GPtrArray *args;
 	gboolean *append_buf;
 
-	dlg = gmpv_open_location_dialog_new(	GTK_WINDOW(view->wnd),
+	dlg = gmpv_open_location_dialog_new(	GTK_WINDOW(view),
 						append?
 						_("Add Location to Playlist"):
 						_("Open Location") );
@@ -1426,7 +1134,7 @@ void gmpv_view_show_open_audio_track_dialog(GmpvView *view)
 {
 	GmpvFileChooser *chooser =	gmpv_file_chooser_new
 					(	_("Load Audio Track…"),
-						GTK_WINDOW(view->wnd),
+						GTK_WINDOW(view),
 						GTK_FILE_CHOOSER_ACTION_OPEN );
 
 	g_signal_connect
@@ -1445,7 +1153,7 @@ void gmpv_view_show_open_subtitle_track_dialog(GmpvView *view)
 {
 	GmpvFileChooser *chooser =	gmpv_file_chooser_new
 					(	_("Load Subtitle Track…"),
-						GTK_WINDOW(view->wnd),
+						GTK_WINDOW(view),
 						GTK_FILE_CHOOSER_ACTION_OPEN );
 
 	g_signal_connect
@@ -1470,7 +1178,7 @@ void gmpv_view_show_save_playlist_dialog(GmpvView *view)
 	dest_file = NULL;
 	file_chooser =	gmpv_file_chooser_new
 			(	_("Save Playlist"),
-				GTK_WINDOW(view->wnd),
+				GTK_WINDOW(view),
 				GTK_FILE_CHOOSER_ACTION_SAVE );
 	gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
 	error = NULL;
@@ -1493,7 +1201,7 @@ void gmpv_view_show_save_playlist_dialog(GmpvView *view)
 
 	if(error)
 	{
-		show_message_dialog(	view->wnd,
+		show_message_dialog(	GMPV_MAIN_WINDOW(view),
 					GTK_MESSAGE_ERROR,
 					_("Error"),
 					NULL,
@@ -1505,7 +1213,7 @@ void gmpv_view_show_save_playlist_dialog(GmpvView *view)
 
 void gmpv_view_show_preferences_dialog(GmpvView *view)
 {
-	GtkWidget *dialog = gmpv_preferences_dialog_new(GTK_WINDOW(view->wnd));
+	GtkWidget *dialog = gmpv_preferences_dialog_new(GTK_WINDOW(view));
 
 	g_signal_connect_after(	dialog,
 				"response",
@@ -1517,7 +1225,7 @@ void gmpv_view_show_preferences_dialog(GmpvView *view)
 
 void gmpv_view_show_shortcuts_dialog(GmpvView *view)
 {
-	GtkWidget *wnd = gmpv_shortcuts_window_new(GTK_WINDOW(view->wnd));
+	GtkWidget *wnd = gmpv_shortcuts_window_new(GTK_WINDOW(view));
 
 	gtk_widget_show_all(wnd);
 }
@@ -1526,7 +1234,7 @@ void gmpv_view_show_about_dialog(GmpvView *view)
 {
 	const gchar *const authors[] = AUTHORS;
 
-	gtk_show_about_dialog(	GTK_WINDOW(view->wnd),
+	gtk_show_about_dialog(	GTK_WINDOW(view),
 				"logo-icon-name",
 				ICON_NAME,
 				"version",
@@ -1552,34 +1260,36 @@ void gmpv_view_show_message_dialog(	GmpvView *view,
 					const gchar *prefix,
 					const gchar *msg )
 {
-	show_message_dialog(view->wnd, type, title, prefix, msg);
+	show_message_dialog(GMPV_MAIN_WINDOW(view), type, title, prefix, msg);
 }
 
 void gmpv_view_present(GmpvView *view)
 {
-	gtk_window_present(GTK_WINDOW(view->wnd));
+	gtk_window_present(GTK_WINDOW(view));
 }
 
 void gmpv_view_quit(GmpvView *view)
 {
-	gtk_window_close(GTK_WINDOW(view->wnd));
+	gtk_window_close(GTK_WINDOW(view));
 }
 
 void gmpv_view_reset(GmpvView *view)
 {
-	gmpv_main_window_reset(view->wnd);
+	gmpv_main_window_reset(GMPV_MAIN_WINDOW(view));
 }
 
 void gmpv_view_queue_render(GmpvView *view)
 {
-	GmpvVideoArea *area = gmpv_main_window_get_video_area(view->wnd);
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvVideoArea *area = gmpv_main_window_get_video_area(wnd);
 
 	gmpv_video_area_queue_render(area);
 }
 
 void gmpv_view_make_gl_context_current(GmpvView *view)
 {
-	GmpvVideoArea *video_area = gmpv_main_window_get_video_area(view->wnd);
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvVideoArea *video_area = gmpv_main_window_get_video_area(wnd);
 	GtkGLArea *gl_area = gmpv_video_area_get_gl_area(video_area);
 
 	gtk_widget_realize(GTK_WIDGET(gl_area));
@@ -1588,21 +1298,23 @@ void gmpv_view_make_gl_context_current(GmpvView *view)
 
 void gmpv_view_set_use_opengl_cb(GmpvView *view, gboolean use_opengl_cb)
 {
-	GmpvVideoArea *area = gmpv_main_window_get_video_area(view->wnd);
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvVideoArea *area = gmpv_main_window_get_video_area(wnd);
 
 	gmpv_video_area_set_use_opengl(area, use_opengl_cb);
 }
 
 gint gmpv_view_get_scale_factor(GmpvView *view)
 {
-	GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(view->wnd));
+	GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(view));
 
 	return gdk_window_get_scale_factor(gdk_window);
 }
 
 void gmpv_view_get_video_area_geometry(GmpvView *view, gint *width, gint *height)
 {
-	GmpvVideoArea *area = gmpv_main_window_get_video_area(view->wnd);
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvVideoArea *area = gmpv_main_window_get_video_area(wnd);
 	GtkAllocation allocation;
 
 	gtk_widget_get_allocation(GTK_WIDGET(area), &allocation);
@@ -1617,7 +1329,7 @@ void gmpv_view_move(	GmpvView *view,
 			GValue *x,
 			GValue *y )
 {
-	GtkWindow *window = GTK_WINDOW(view->wnd);
+	GtkWindow *window = GTK_WINDOW(view);
 	GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
 	GdkDisplay *display = gdk_display_get_default();
 	GdkMonitor *monitor =	gdk_display_get_monitor_at_window
@@ -1658,26 +1370,28 @@ void gmpv_view_move(	GmpvView *view,
 
 void gmpv_view_resize_video_area(GmpvView *view, gint width, gint height)
 {
-	gmpv_main_window_resize_video_area(view->wnd, width, height);
+	gmpv_main_window_resize_video_area
+		(GMPV_MAIN_WINDOW(view), width, height);
 }
 
 void gmpv_view_set_fullscreen(GmpvView *view, gboolean fullscreen)
 {
 	g_object_set(view, "fullscreen", fullscreen, NULL);
-	gmpv_main_window_set_fullscreen(view->wnd, fullscreen);
+	gmpv_main_window_set_fullscreen(GMPV_MAIN_WINDOW(view), fullscreen);
 }
 
 void gmpv_view_set_time_position(GmpvView *view, gdouble position)
 {
 	GmpvControlBox *control_box;
 
-	control_box = gmpv_main_window_get_control_box(view->wnd);
+	control_box = gmpv_main_window_get_control_box(GMPV_MAIN_WINDOW(view));
 	g_object_set(control_box, "time-position", position, NULL);
 }
 
 void gmpv_view_update_playlist(GmpvView *view, GPtrArray *playlist)
 {
-	GmpvPlaylistWidget *wgt = gmpv_main_window_get_playlist(view->wnd);
+	GmpvMainWindow *wnd = GMPV_MAIN_WINDOW(view);
+	GmpvPlaylistWidget *wgt = gmpv_main_window_get_playlist(wnd);
 
 	gmpv_playlist_widget_update_contents(wgt, playlist);
 }
@@ -1689,21 +1403,21 @@ void gmpv_view_set_playlist_pos(GmpvView *view, gint64 pos)
 
 void gmpv_view_set_playlist_visible(GmpvView *view, gboolean visible)
 {
-	gmpv_main_window_set_playlist_visible(view->wnd, visible);
+	gmpv_main_window_set_playlist_visible(GMPV_MAIN_WINDOW(view), visible);
 }
 
 gboolean gmpv_view_get_playlist_visible(GmpvView *view)
 {
-	return gmpv_main_window_get_playlist_visible(view->wnd);
+	return gmpv_main_window_get_playlist_visible(GMPV_MAIN_WINDOW(view));
 }
 
 void gmpv_view_set_controls_visible(GmpvView *view, gboolean visible)
 {
-	gmpv_main_window_set_controls_visible(view->wnd, visible);
+	gmpv_main_window_set_controls_visible(GMPV_MAIN_WINDOW(view), visible);
 }
 
 gboolean gmpv_view_get_controls_visible(GmpvView *view)
 {
-	return gmpv_main_window_get_controls_visible(view->wnd);
+	return gmpv_main_window_get_controls_visible(GMPV_MAIN_WINDOW(view));
 }
 

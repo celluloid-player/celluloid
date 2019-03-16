@@ -131,7 +131,10 @@ static void button_clicked_handler(	GmpvControlBox *control_box,
 					const gchar *button,
 					gpointer data )
 {
-	g_signal_emit_by_name(data, "button-clicked", button);
+	gchar *name = g_strconcat("button-clicked::", button, NULL);
+
+	g_signal_emit_by_name(data, name);
+	g_free(name);
 }
 
 static void notify(GObject *object, GParamSpec *pspec)
@@ -231,7 +234,7 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 
 	g_signal_new(	"button-clicked",
 			G_TYPE_FROM_CLASS(klass),
-			G_SIGNAL_RUN_FIRST,
+			G_SIGNAL_RUN_FIRST|G_SIGNAL_DETAILED,
 			0,
 			NULL,
 			NULL,
