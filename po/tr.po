@@ -1,11 +1,12 @@
 # Serdar Sağlam <teknomobil@msn.com>, 2019. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-02-18 09:39+0000\n"
-"Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
+"PO-Revision-Date: 2019-02-25 03:06+0000\n"
+"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -14,70 +15,18 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n>1)\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#: data/org.gnome-mpv.gschema.xml:9 data/io.github.Celluloid.gschema.xml:16
-msgid "Enable or disable dark theme"
-msgstr "Koyu temayı etkinleştir veya devre dışı bırak"
-
-#: data/org.gnome-mpv.gschema.xml:15 data/io.github.Celluloid.gschema.xml:22
-msgid "Enable or disable client-side decorations"
-msgstr "İstemci tarafı süslemelerini etkinleştir veya devre dışı bırak"
-
-#: data/org.gnome-mpv.gschema.xml:21 data/io.github.Celluloid.gschema.xml:46
-msgid ""
-"Whether or not to make file chooser dialog remember last folder accessed"
-msgstr ""
-"Dosya seçici iletişim kutusunun erişilen son klasörünü hatırlasın veya "
-"hatırlamasın"
-
-#: data/org.gnome-mpv.gschema.xml:27 data/io.github.Celluloid.gschema.xml:58
-#: src/gmpv_application.c:459
-msgid "Options to pass to mpv"
-msgstr "Mpv'ye geçiş seçenekleri"
-
-#: data/org.gnome-mpv.gschema.xml:33 data/io.github.Celluloid.gschema.xml:64
-msgid "Path to mpv configuration file"
-msgstr "Mpv yapılandırma dosyası yolu"
-
-#: data/org.gnome-mpv.gschema.xml:39 data/io.github.Celluloid.gschema.xml:70
-msgid "Load or don't load mpv configuration file"
-msgstr "Mpv yapılandırma dosyasını yükle veya yükleme"
-
-#: data/org.gnome-mpv.gschema.xml:45 data/io.github.Celluloid.gschema.xml:76
-msgid "Path to mpv input configuration file"
-msgstr "Mpv giriş yapılandırma dosyası yolu"
-
-#: data/org.gnome-mpv.gschema.xml:51 data/io.github.Celluloid.gschema.xml:82
-msgid "Load or don't load mpv input configuration file"
-msgstr "Mpv giriş yapılandırma dosyasını yükle veya yükleme"
-
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.Celluloid.gschema.xml:110
-msgid "Width of the window"
-msgstr "Pencere genişliği"
-
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.Celluloid.gschema.xml:116
-msgid "Height of the window"
-msgstr "Pencere yüksekliği"
-
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.Celluloid.gschema.xml:123
-msgid "Volume of player"
-msgstr "Oynatıcı hacmi"
-
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.Celluloid.gschema.xml:129
-msgid "Width of the playlist"
-msgstr "Oynatma listesi genişliği"
-
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.Celluloid.gschema.xml:141
-msgid "Show or not show the playlist"
-msgstr "Oynatma listesini göster veya gösterme"
-
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.Celluloid.gschema.xml:147
-msgid "URI of the last folder accessed"
-msgstr "Erişilen son klasörün URI'si"
-
 #: data/io.github.Celluloid.gschema.xml:10
 msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr "Ayarların önceki sürümden zaten geçirilmiş olup olmadığı"
+
+#: data/io.github.Celluloid.gschema.xml:16
+msgid "Enable or disable dark theme"
+msgstr "Koyu temayı etkinleştir veya devre dışı bırak"
+
+#: data/io.github.Celluloid.gschema.xml:22
+msgid "Enable or disable client-side decorations"
+msgstr "İstemci tarafı süslemelerini etkinleştir veya devre dışı bırak"
 
 #: data/io.github.Celluloid.gschema.xml:28
 msgid "Whether or not to use floating controls in windowed mode"
@@ -93,17 +42,46 @@ msgstr ""
 "Oynatma listesini kontrol etmek için atlama düğmelerinin kullanılıp "
 "kullanılmayacağı"
 
+#: data/io.github.Celluloid.gschema.xml:46
+msgid ""
+"Whether or not to make file chooser dialog remember last folder accessed"
+msgstr ""
+"Dosya seçici iletişim kutusunun erişilen son klasörünü hatırlasın veya "
+"hatırlamasın"
+
 #: data/io.github.Celluloid.gschema.xml:52
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr "Zaten bir örnek olduğunda yeni pencereler oluşturup oluşturmama"
+
+#: data/io.github.Celluloid.gschema.xml:58 src/gmpv_application.c:466
+msgid "Options to pass to mpv"
+msgstr "Mpv'ye geçiş seçenekleri"
+
+#: data/io.github.Celluloid.gschema.xml:64
+msgid "Path to mpv configuration file"
+msgstr "Mpv yapılandırma dosyası yolu"
+
+#: data/io.github.Celluloid.gschema.xml:70
+msgid "Load or don't load mpv configuration file"
+msgstr "Mpv yapılandırma dosyasını yükle veya yükleme"
+
+#: data/io.github.Celluloid.gschema.xml:76
+msgid "Path to mpv input configuration file"
+msgstr "Mpv giriş yapılandırma dosyası yolu"
+
+#: data/io.github.Celluloid.gschema.xml:82
+msgid "Load or don't load mpv input configuration file"
+msgstr "Mpv giriş yapılandırma dosyasını yükle veya yükleme"
 
 #: data/io.github.Celluloid.gschema.xml:88
 msgid "Whether or not to enable MPRIS support"
 msgstr "MPRIS desteğinin etkinleştirilip etkinleştirilmeyeceği"
 
 #: data/io.github.Celluloid.gschema.xml:94
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
-msgstr "GNOME Ayarlar Daemon tabanlı medya tuşlarını destekleyip desteklememek"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgstr ""
+"GNOME Ayarlar Yönetim tabanlı medya tuşlarını destekleyip desteklememek"
 
 #: data/io.github.Celluloid.gschema.xml:100
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
@@ -111,13 +89,36 @@ msgstr ""
 "Güncel olmayan oynatma listeleri için üst verilerin önceden getirilip "
 "getirilmeyeceği"
 
+#: data/io.github.Celluloid.gschema.xml:110
+msgid "Width of the window"
+msgstr "Pencere genişliği"
+
+#: data/io.github.Celluloid.gschema.xml:116
+msgid "Height of the window"
+msgstr "Pencere yüksekliği"
+
+#: data/io.github.Celluloid.gschema.xml:123
+msgid "Volume of player"
+msgstr "Oynatıcı hacmi"
+
+#: data/io.github.Celluloid.gschema.xml:129
+msgid "Width of the playlist"
+msgstr "Oynatma listesi genişliği"
+
 #: data/io.github.Celluloid.gschema.xml:135
 msgid "Show or not show the controls"
 msgstr "Kontrolleri göster veya gösterme"
 
+#: data/io.github.Celluloid.gschema.xml:141
+msgid "Show or not show the playlist"
+msgstr "Oynatma listesini göster veya gösterme"
+
+#: data/io.github.Celluloid.gschema.xml:147
+msgid "URI of the last folder accessed"
+msgstr "Erişilen son klasörün URI'si"
+
 #: data/io.github.Celluloid.appdata.xml.in:7
-#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:346
-#: src/gmpv_view.c:1026
+#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:353
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -134,10 +135,10 @@ msgid ""
 "libraries. Celluloid also offers an option to disable client-side "
 "decorations (CSD) for better compatibility with non-GNOME systems."
 msgstr ""
-"Celluloid, neredeyse tüm video ve ses formatlarını oynatabilen çok güçlü bir "
-"medya oynatıcısı olan Mpv için basit bir GTK + ön yüzüdür. Celluloid'nin "
-"tasarımı GNOME HIG'i temel alır, ancak GNOME kütüphanelerine bağlı değildir. "
-"Celluloid, GNOME dışı sistemlerle daha iyi uyumluluk için istemci tarafı "
+"Celluloid, neredeyse tüm video ve ses formatlarını oynatabilen çok güçlü bir"
+" medya oynatıcısı olan Mpv için basit bir GTK+ ön yüzüdür. Celluloid'nin "
+"tasarımı GNOME HIG'i temel alır, ancak GNOME kütüphanelerine bağlı değildir."
+" Celluloid, GNOME dışı sistemlerle daha iyi uyumluluk için istemci tarafı "
 "süslemeleri (CSD) devre dışı bırakma seçeneği de sunar."
 
 #: data/io.github.Celluloid.appdata.xml.in:19
@@ -160,83 +161,91 @@ msgstr "MPRIS2 D-Bus arayüzü"
 #: data/io.github.Celluloid.appdata.xml.in:60
 #: data/io.github.Celluloid.appdata.xml.in:88
 msgid "This release contains the following changes:"
-msgstr ""
+msgstr "Bu sürüm aşağıdaki değişiklikleri içerir:"
 
 #: data/io.github.Celluloid.appdata.xml.in:33
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Tercihler iletişim kutusunda Genel sekmeyi böl"
 
 #: data/io.github.Celluloid.appdata.xml.in:36
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
+"Döşeme pencere yöneticileri altında oynatma listesini değiştirirken "
+"davranışı iyileştirin"
 
 #: data/io.github.Celluloid.appdata.xml.in:39
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Uygulama menüsü ögelerini birincil menüye taşı"
 
 #: data/io.github.Celluloid.appdata.xml.in:42
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Her pencere için ayrı MPRIS DBus bağlantısı kullan"
 
 #: data/io.github.Celluloid.appdata.xml.in:45
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "MPRIS özelliği LoopStatus için destek ekle"
 
 #: data/io.github.Celluloid.appdata.xml.in:48
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Seçenek ekle - komut satırından keyfi mpv seçeneklerini ayarlamak için "
+"--mpv-seçenekleri"
 
 #: data/io.github.Celluloid.appdata.xml.in:53
 #: data/io.github.Celluloid.appdata.xml.in:81
 #: data/io.github.Celluloid.appdata.xml.in:109
 msgid "This listing is incomplete. See git log for complete changelog."
-msgstr ""
+msgstr "Bu liste eksik. Değişiklikler için (git) günlüğüne bakın"
 
 #: data/io.github.Celluloid.appdata.xml.in:64
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr ""
+msgstr "Öntanımlı ekran görüntüsü dizinini XDG_PICTURES_DIR olarak ayarla"
 
 #: data/io.github.Celluloid.appdata.xml.in:67
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
+"İyileştirme ekle - -pencere-ölçeği, -otoölçek - otoölçek-büyük ve otoölçek-"
+"küçük"
 
 #: data/io.github.Celluloid.appdata.xml.in:71
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "WM_ROLE ayarı için komut satırı seçeneği ekle"
 
 #: data/io.github.Celluloid.appdata.xml.in:74
 msgid "Add context menu item for removing playlist items"
-msgstr ""
+msgstr "Oynatma listesi ögelerini kaldırmak için içerik menüsü ögesi ekle"
 
 #: data/io.github.Celluloid.appdata.xml.in:77
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
+"Oynatma listesi ögelerinin konumunu kopyalamak için bağlam menüsü ögesi ekle"
 
 #: data/io.github.Celluloid.appdata.xml.in:92
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Atla düğmelerinin bölümler yerine oynatma listesi girişlerini değiştirmesini"
+" sağlamak için seçenek ekle"
 
 #: data/io.github.Celluloid.appdata.xml.in:96
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "Dosya seçicinin yerel olmayan kaynakları kabul etmesini sağla"
 
 #: data/io.github.Celluloid.appdata.xml.in:99
 msgid "Add right-click menu entry for looping a single file"
-msgstr ""
+msgstr "Tek bir dosyayı yinelemek için sağ tıklatma menüsü girişi ekle"
 
 #: data/io.github.Celluloid.appdata.xml.in:102
 msgid "Handle property change events for fullscreen and window-scale"
-msgstr ""
+msgstr "Tam ekran ve pencere ölçeği için özellik değiştirme olaylarını işle"
 
 #: data/io.github.Celluloid.appdata.xml.in:105
-#, fuzzy
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr "Pencere kipine fare imlecini otomatik gizle"
+msgstr "Pencere kipinde fare imlecini otomatik gizle"
 
 #: data/io.github.Celluloid.appdata.xml.in:119
 msgid "The main window showing the application in action"
@@ -250,45 +259,46 @@ msgstr "CSD'nin devre dışı bırakıldığı ana pencere"
 msgid "The main window with playlist open"
 msgstr "Oynatma listesi açık olan ana pencere"
 
-#: data/io.github.Celluloid.desktop.in:6
-msgid "film;movie;video;"
+#. Translators: This is an icon name, don't translate!
+#: data/io.github.Celluloid.desktop.in:8
+msgid "io.github.Celluloid"
+msgstr "io.github.Celluloid"
+
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
+#: data/io.github.Celluloid.desktop.in:16
+msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
 
-#. Translators: This is an icon name, don't translate!
-#: data/io.github.Celluloid.desktop.in:9
-#, fuzzy
-msgid "io.github.Celluloid"
-msgstr "Celluloid"
-
-#: data/io.github.Celluloid.desktop.in:21
+#: data/io.github.Celluloid.desktop.in:22
 msgid "New Window"
 msgstr "Yeni Pencere"
 
-#: src/gmpv_application.c:386
+#: src/gmpv_application.c:393
 msgid "Playing"
 msgstr "Oynatılıyor"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:442
 msgid "Show release version"
 msgstr "Mevcut sürümü göster"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:450
 msgid "Enqueue"
 msgstr "Kuyruğa al"
 
-#: src/gmpv_application.c:451
+#: src/gmpv_application.c:458
 msgid "Create a new window"
 msgstr "Yeni pencere oluştur"
 
-#: src/gmpv_application.c:460
+#: src/gmpv_application.c:467
 msgid "OPTIONS"
 msgstr "SEÇENEKLER"
 
-#: src/gmpv_application.c:467
+#: src/gmpv_application.c:474
 msgid "Set the window role"
 msgstr "Pencere rolünü ayarla"
 
-#: src/gmpv_application.c:475
+#: src/gmpv_application.c:482
 msgid "Don't connect to an already-running instance"
 msgstr "Zaten çalışan bir örneğe bağlanmayın"
 
@@ -328,7 +338,7 @@ msgstr "Yinele"
 msgid "Toggle Fullscreen"
 msgstr "Tam Ekran ⏎"
 
-#: src/gmpv_controller.c:842 src/gmpv_view.c:1498
+#: src/gmpv_controller.c:847 src/gmpv_view.c:1206
 msgid "Error"
 msgstr "Hata"
 
@@ -362,7 +372,6 @@ msgstr "Yok"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "Bilinmeyen"
@@ -417,11 +426,11 @@ msgstr "_Görünüm"
 
 #: src/gmpv_menu.c:196 src/gmpv_menu.c:232
 msgid "_Toggle Controls"
-msgstr "Kontrol Tuşları ⏎"
+msgstr "_Kontrol Tuşları"
 
 #: src/gmpv_menu.c:197 src/gmpv_menu.c:234
 msgid "_Toggle Playlist"
-msgstr "Oynatma Listesi ⏎"
+msgstr "_Oynatma Listesi"
 
 #: src/gmpv_menu.c:198
 msgid "_Fullscreen"
@@ -437,7 +446,7 @@ msgstr "_Klavye Kısayolları"
 
 #: src/gmpv_menu.c:201 src/gmpv_menu.c:243
 msgid "_About Celluloid"
-msgstr "GNOME Mpv _Hakkında"
+msgstr "Celluloid _Hakkında"
 
 #: src/gmpv_mpv.c:201
 #, c-format
@@ -456,7 +465,7 @@ msgstr "_İptal"
 msgid "_Open"
 msgstr "_Aç"
 
-#: src/gmpv_player.c:509
+#: src/gmpv_player.c:483
 msgid "Failed to apply one or more MPV options."
 msgstr "Bir veya daha fazla MPV seçeneği uygulanamadı."
 
@@ -857,7 +866,7 @@ msgstr "Oynat"
 msgid "Seeking"
 msgstr "Geçiş"
 
-#: src/gmpv_view.c:765
+#: src/gmpv_view.c:635
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -865,41 +874,38 @@ msgstr ""
 "İstemci tarafı süslemelerin etkinleştirilmesi veya devre dışı bırakılması "
 "için yeniden başlatma gerekir."
 
-#: src/gmpv_view.c:1378
+#: src/gmpv_view.c:1086
 msgid "Add File to Playlist"
 msgstr "Oynatma Listesine Dosya Ekle"
 
-#: src/gmpv_view.c:1379
+#: src/gmpv_view.c:1087
 msgid "Open File"
 msgstr "Dosya Aç"
 
-#: src/gmpv_view.c:1406
+#: src/gmpv_view.c:1114
 msgid "Add Location to Playlist"
 msgstr "Oynatma Listesine Konum Ekle"
 
-#: src/gmpv_view.c:1407
+#: src/gmpv_view.c:1115
 msgid "Open Location"
 msgstr "Konum Aç"
 
-#: src/gmpv_view.c:1428
+#: src/gmpv_view.c:1136
 msgid "Load Audio Track…"
 msgstr "Ses Parçası Yükle…"
 
-#: src/gmpv_view.c:1447
+#: src/gmpv_view.c:1155
 msgid "Load Subtitle Track…"
 msgstr "Altyazı Parçası Yükle…"
 
-#: src/gmpv_view.c:1472
+#: src/gmpv_view.c:1180
 msgid "Save Playlist"
 msgstr "Oynatma Listesini Kaydet"
 
-#: src/gmpv_view.c:1535
+#: src/gmpv_view.c:1243
 msgid "A GTK frontend for MPV"
 msgstr "MPV için bir GTK arayüzü"
 
-#: src/gmpv_view.c:1545
+#: src/gmpv_view.c:1253
 msgid "translator-credits"
 msgstr "Serdar Sağlam <teknomobil@yandex.com>"
-
-#~ msgid "io.github.GnomeMpv"
-#~ msgstr "io.github.GnomeMpv"

@@ -1,11 +1,11 @@
-# Patrik Nilsson <translation@hembas.se>, 2017. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2017-09-14 08:54+0000\n"
-"Last-Translator: Patrik Nilsson <translation@hembas.se>\n"
+"PO-Revision-Date: 2019-02-20 01:51+0000\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -14,70 +14,18 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#: data/org.gnome-mpv.gschema.xml:9 data/io.github.Celluloid.gschema.xml:16
-msgid "Enable or disable dark theme"
-msgstr "Aktivera eller inaktivera mörkt tema"
-
-#: data/org.gnome-mpv.gschema.xml:15 data/io.github.Celluloid.gschema.xml:22
-msgid "Enable or disable client-side decorations"
-msgstr "Aktivera eller inaktivera fönsterdekorationer i klienten"
-
-#: data/org.gnome-mpv.gschema.xml:21 data/io.github.Celluloid.gschema.xml:46
-msgid ""
-"Whether or not to make file chooser dialog remember last folder accessed"
-msgstr ""
-"Om dialogrutan för val av filer ska komma ihåg den senast använda mappen "
-"eller inte"
-
-#: data/org.gnome-mpv.gschema.xml:27 data/io.github.Celluloid.gschema.xml:58
-#: src/gmpv_application.c:459
-msgid "Options to pass to mpv"
-msgstr "Alternativ att skicka vidare till mpv"
-
-#: data/org.gnome-mpv.gschema.xml:33 data/io.github.Celluloid.gschema.xml:64
-msgid "Path to mpv configuration file"
-msgstr "Sökväg till mpv konfigurationsfil"
-
-#: data/org.gnome-mpv.gschema.xml:39 data/io.github.Celluloid.gschema.xml:70
-msgid "Load or don't load mpv configuration file"
-msgstr "Läs eller läs ej in mpv konfigurationsfil"
-
-#: data/org.gnome-mpv.gschema.xml:45 data/io.github.Celluloid.gschema.xml:76
-msgid "Path to mpv input configuration file"
-msgstr "Sökväg till konfigurationsfil för mpv tangentbindningar"
-
-#: data/org.gnome-mpv.gschema.xml:51 data/io.github.Celluloid.gschema.xml:82
-msgid "Load or don't load mpv input configuration file"
-msgstr "Läs eller läs ej in konfigurationsfil för mpv tangentbindningar"
-
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.Celluloid.gschema.xml:110
-msgid "Width of the window"
-msgstr "Fönsterbredd"
-
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.Celluloid.gschema.xml:116
-msgid "Height of the window"
-msgstr "Fönsterhöjd"
-
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.Celluloid.gschema.xml:123
-msgid "Volume of player"
-msgstr "Volym för spelaren"
-
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.Celluloid.gschema.xml:129
-msgid "Width of the playlist"
-msgstr "Spellistans bredd"
-
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.Celluloid.gschema.xml:141
-msgid "Show or not show the playlist"
-msgstr "Visa eller visa ej spellistan"
-
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.Celluloid.gschema.xml:147
-msgid "URI of the last folder accessed"
-msgstr "URI för den senast använda mappen"
-
 #: data/io.github.Celluloid.gschema.xml:10
 msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr "Om inställningarna redan har migrerats från den föregående versionen"
+
+#: data/io.github.Celluloid.gschema.xml:16
+msgid "Enable or disable dark theme"
+msgstr "Aktivera eller inaktivera mörkt tema"
+
+#: data/io.github.Celluloid.gschema.xml:22
+msgid "Enable or disable client-side decorations"
+msgstr "Aktivera eller inaktivera fönsterdekorationer i klienten"
 
 #: data/io.github.Celluloid.gschema.xml:28
 msgid "Whether or not to use floating controls in windowed mode"
@@ -91,31 +39,82 @@ msgstr ""
 msgid "Whether or not to use skip buttons for controlling playlist"
 msgstr ""
 
+#: data/io.github.Celluloid.gschema.xml:46
+msgid ""
+"Whether or not to make file chooser dialog remember last folder accessed"
+msgstr ""
+"Om dialogrutan för val av filer ska komma ihåg den senast använda mappen "
+"eller inte"
+
 #: data/io.github.Celluloid.gschema.xml:52
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr ""
+
+#: data/io.github.Celluloid.gschema.xml:58 src/gmpv_application.c:466
+msgid "Options to pass to mpv"
+msgstr "Alternativ att skicka vidare till mpv"
+
+#: data/io.github.Celluloid.gschema.xml:64
+msgid "Path to mpv configuration file"
+msgstr "Sökväg till mpv konfigurationsfil"
+
+#: data/io.github.Celluloid.gschema.xml:70
+msgid "Load or don't load mpv configuration file"
+msgstr "Läs eller läs ej in mpv konfigurationsfil"
+
+#: data/io.github.Celluloid.gschema.xml:76
+msgid "Path to mpv input configuration file"
+msgstr "Sökväg till konfigurationsfil för mpv tangentbindningar"
+
+#: data/io.github.Celluloid.gschema.xml:82
+msgid "Load or don't load mpv input configuration file"
+msgstr "Läs eller läs ej in konfigurationsfil för mpv tangentbindningar"
 
 #: data/io.github.Celluloid.gschema.xml:88
 msgid "Whether or not to enable MPRIS support"
 msgstr "Om stöd för MPRIS ska aktiveras eller inte"
 
 #: data/io.github.Celluloid.gschema.xml:94
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
-"Om stöd för GNOME-Settings-Daemon-baserade media knappar ska aktiveras eller "
-"inte"
+"Om stöd för GNOME-Settings-Daemon-baserade media knappar ska aktiveras eller"
+" inte"
 
 #: data/io.github.Celluloid.gschema.xml:100
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
 msgstr ""
 
+#: data/io.github.Celluloid.gschema.xml:110
+msgid "Width of the window"
+msgstr "Fönsterbredd"
+
+#: data/io.github.Celluloid.gschema.xml:116
+msgid "Height of the window"
+msgstr "Fönsterhöjd"
+
+#: data/io.github.Celluloid.gschema.xml:123
+msgid "Volume of player"
+msgstr "Volym för spelaren"
+
+#: data/io.github.Celluloid.gschema.xml:129
+msgid "Width of the playlist"
+msgstr "Spellistans bredd"
+
 #: data/io.github.Celluloid.gschema.xml:135
 msgid "Show or not show the controls"
 msgstr "Visa eller visa ej kontrollerna"
 
+#: data/io.github.Celluloid.gschema.xml:141
+msgid "Show or not show the playlist"
+msgstr "Visa eller visa ej spellistan"
+
+#: data/io.github.Celluloid.gschema.xml:147
+msgid "URI of the last folder accessed"
+msgstr "URI för den senast använda mappen"
+
 #: data/io.github.Celluloid.appdata.xml.in:7
-#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:346
-#: src/gmpv_view.c:1026
+#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:353
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -199,8 +198,8 @@ msgstr ""
 
 #: data/io.github.Celluloid.appdata.xml.in:67
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 
 #: data/io.github.Celluloid.appdata.xml.in:71
@@ -249,45 +248,47 @@ msgstr "Huvudfönstret med CSD inaktiverat"
 msgid "The main window with playlist open"
 msgstr "Huvudfönstret med spellista öppen"
 
-#: data/io.github.Celluloid.desktop.in:6
-msgid "film;movie;video;"
-msgstr ""
-
 #. Translators: This is an icon name, don't translate!
-#: data/io.github.Celluloid.desktop.in:9
+#: data/io.github.Celluloid.desktop.in:8
 #, fuzzy
 msgid "io.github.Celluloid"
 msgstr "Celluloid"
 
-#: data/io.github.Celluloid.desktop.in:21
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
+#: data/io.github.Celluloid.desktop.in:16
+msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
+msgstr ""
+
+#: data/io.github.Celluloid.desktop.in:22
 msgid "New Window"
 msgstr "Nytt fönster"
 
-#: src/gmpv_application.c:386
+#: src/gmpv_application.c:393
 msgid "Playing"
 msgstr "Spelar"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:442
 msgid "Show release version"
 msgstr "Visa utgivningsversion"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:450
 msgid "Enqueue"
 msgstr "Lägg till i kö"
 
-#: src/gmpv_application.c:451
+#: src/gmpv_application.c:458
 msgid "Create a new window"
 msgstr "Skapa ett nytt fönster"
 
-#: src/gmpv_application.c:460
+#: src/gmpv_application.c:467
 msgid "OPTIONS"
 msgstr ""
 
-#: src/gmpv_application.c:467
+#: src/gmpv_application.c:474
 msgid "Set the window role"
 msgstr ""
 
-#: src/gmpv_application.c:475
+#: src/gmpv_application.c:482
 msgid "Don't connect to an already-running instance"
 msgstr "Anslut inte till en instans som redan körs"
 
@@ -327,7 +328,7 @@ msgstr ""
 msgid "Toggle Fullscreen"
 msgstr "Växla helskärm"
 
-#: src/gmpv_controller.c:842 src/gmpv_view.c:1498
+#: src/gmpv_controller.c:847 src/gmpv_view.c:1206
 msgid "Error"
 msgstr "Fel"
 
@@ -361,7 +362,6 @@ msgstr "Inga"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "Okänd"
@@ -455,7 +455,7 @@ msgstr "_Avbryt"
 msgid "_Open"
 msgstr "_Öppna"
 
-#: src/gmpv_player.c:509
+#: src/gmpv_player.c:483
 msgid "Failed to apply one or more MPV options."
 msgstr "Misslyckades att tillämpa en eller flera MPV alternativ."
 
@@ -856,7 +856,7 @@ msgstr "Uppspelning"
 msgid "Seeking"
 msgstr "Söker"
 
-#: src/gmpv_view.c:765
+#: src/gmpv_view.c:635
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -864,38 +864,38 @@ msgstr ""
 "Aktivering eller inaktivering av fönsterdekorationer i klienten kräver en "
 "omstart innan det träder i kraft."
 
-#: src/gmpv_view.c:1378
+#: src/gmpv_view.c:1086
 msgid "Add File to Playlist"
 msgstr "Lägg till fil i spellista"
 
-#: src/gmpv_view.c:1379
+#: src/gmpv_view.c:1087
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: src/gmpv_view.c:1406
+#: src/gmpv_view.c:1114
 msgid "Add Location to Playlist"
 msgstr "Lägg till plats till spellista"
 
-#: src/gmpv_view.c:1407
+#: src/gmpv_view.c:1115
 msgid "Open Location"
 msgstr "Öppna plats"
 
-#: src/gmpv_view.c:1428
+#: src/gmpv_view.c:1136
 msgid "Load Audio Track…"
 msgstr "Öppna ljudspår..."
 
-#: src/gmpv_view.c:1447
+#: src/gmpv_view.c:1155
 msgid "Load Subtitle Track…"
 msgstr "Öppna undertext spår..."
 
-#: src/gmpv_view.c:1472
+#: src/gmpv_view.c:1180
 msgid "Save Playlist"
 msgstr "Spara spellista"
 
-#: src/gmpv_view.c:1535
+#: src/gmpv_view.c:1243
 msgid "A GTK frontend for MPV"
 msgstr "Ett GTK gränssnitt för MPV"
 
-#: src/gmpv_view.c:1545
+#: src/gmpv_view.c:1253
 msgid "translator-credits"
 msgstr "Patrik Nilsson <translation@hembas.se>"

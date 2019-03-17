@@ -1,12 +1,10 @@
-# gnome-mpv <gnome-mpv@teknik.io>, 2016. #zanata
-# wb9688 <wbertrums@gmail.com>, 2016. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2017. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2017-08-02 12:10+0000\n"
+"PO-Revision-Date: 2019-02-20 01:51+0000\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -16,75 +14,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#: data/org.gnome-mpv.gschema.xml:9 data/io.github.Celluloid.gschema.xml:16
-msgid "Enable or disable dark theme"
-msgstr "Schakel donker thema in of uit"
-
-#: data/org.gnome-mpv.gschema.xml:15 data/io.github.Celluloid.gschema.xml:22
-msgid "Enable or disable client-side decorations"
-msgstr "Schakel client-side decoraties in of uit"
-
-#: data/org.gnome-mpv.gschema.xml:21 data/io.github.Celluloid.gschema.xml:46
-#, fuzzy
-msgid ""
-"Whether or not to make file chooser dialog remember last folder accessed"
-msgstr ""
-"Laat de bestandskiezer de laatst geraadpleegde map wel of niet onthouden"
-
-#: data/org.gnome-mpv.gschema.xml:27 data/io.github.Celluloid.gschema.xml:58
-#: src/gmpv_application.c:459
-msgid "Options to pass to mpv"
-msgstr "Opties om door te geven aan mpv"
-
-#: data/org.gnome-mpv.gschema.xml:33 data/io.github.Celluloid.gschema.xml:64
-msgid "Path to mpv configuration file"
-msgstr "Pad naar mpv configuratiebestand"
-
-#: data/org.gnome-mpv.gschema.xml:39 data/io.github.Celluloid.gschema.xml:70
-#, fuzzy
-msgid "Load or don't load mpv configuration file"
-msgstr "Laad mpv configuratiebestand wel of niet"
-
-#: data/org.gnome-mpv.gschema.xml:45 data/io.github.Celluloid.gschema.xml:76
-#, fuzzy
-msgid "Path to mpv input configuration file"
-msgstr "Pad naar mpv input configuratiebestand"
-
-#: data/org.gnome-mpv.gschema.xml:51 data/io.github.Celluloid.gschema.xml:82
-#, fuzzy
-msgid "Load or don't load mpv input configuration file"
-msgstr "Laad mpv input configuratiebestand wel of niet"
-
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.Celluloid.gschema.xml:110
-msgid "Width of the window"
-msgstr "Breedte van het venster"
-
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.Celluloid.gschema.xml:116
-msgid "Height of the window"
-msgstr "Hoogte van het venster"
-
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.Celluloid.gschema.xml:123
-#, fuzzy
-msgid "Volume of player"
-msgstr "Volume van de speler"
-
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.Celluloid.gschema.xml:129
-msgid "Width of the playlist"
-msgstr "Breedte van de afspeellijst"
-
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.Celluloid.gschema.xml:141
-msgid "Show or not show the playlist"
-msgstr "Geef de afspeellijst wel of niet weer"
-
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.Celluloid.gschema.xml:147
-msgid "URI of the last folder accessed"
-msgstr "URI van de map die het laatst is geraadpleegd"
-
 #: data/io.github.Celluloid.gschema.xml:10
 #, fuzzy
 msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr "Of de instellingen al gemigreerd zijn van een vorige versie"
+
+#: data/io.github.Celluloid.gschema.xml:16
+msgid "Enable or disable dark theme"
+msgstr "Schakel donker thema in of uit"
+
+#: data/io.github.Celluloid.gschema.xml:22
+msgid "Enable or disable client-side decorations"
+msgstr "Schakel client-side decoraties in of uit"
 
 #: data/io.github.Celluloid.gschema.xml:28
 msgid "Whether or not to use floating controls in windowed mode"
@@ -98,30 +40,85 @@ msgstr ""
 msgid "Whether or not to use skip buttons for controlling playlist"
 msgstr ""
 
+#: data/io.github.Celluloid.gschema.xml:46
+#, fuzzy
+msgid ""
+"Whether or not to make file chooser dialog remember last folder accessed"
+msgstr ""
+"Laat de bestandskiezer de laatst geraadpleegde map wel of niet onthouden"
+
 #: data/io.github.Celluloid.gschema.xml:52
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr ""
+
+#: data/io.github.Celluloid.gschema.xml:58 src/gmpv_application.c:466
+msgid "Options to pass to mpv"
+msgstr "Opties om door te geven aan mpv"
+
+#: data/io.github.Celluloid.gschema.xml:64
+msgid "Path to mpv configuration file"
+msgstr "Pad naar mpv configuratiebestand"
+
+#: data/io.github.Celluloid.gschema.xml:70
+#, fuzzy
+msgid "Load or don't load mpv configuration file"
+msgstr "Laad mpv configuratiebestand wel of niet"
+
+#: data/io.github.Celluloid.gschema.xml:76
+#, fuzzy
+msgid "Path to mpv input configuration file"
+msgstr "Pad naar mpv input configuratiebestand"
+
+#: data/io.github.Celluloid.gschema.xml:82
+#, fuzzy
+msgid "Load or don't load mpv input configuration file"
+msgstr "Laad mpv input configuratiebestand wel of niet"
 
 #: data/io.github.Celluloid.gschema.xml:88
 msgid "Whether or not to enable MPRIS support"
 msgstr ""
 
 #: data/io.github.Celluloid.gschema.xml:94
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 
 #: data/io.github.Celluloid.gschema.xml:100
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
 msgstr ""
 
+#: data/io.github.Celluloid.gschema.xml:110
+msgid "Width of the window"
+msgstr "Breedte van het venster"
+
+#: data/io.github.Celluloid.gschema.xml:116
+msgid "Height of the window"
+msgstr "Hoogte van het venster"
+
+#: data/io.github.Celluloid.gschema.xml:123
+#, fuzzy
+msgid "Volume of player"
+msgstr "Volume van de speler"
+
+#: data/io.github.Celluloid.gschema.xml:129
+msgid "Width of the playlist"
+msgstr "Breedte van de afspeellijst"
+
 #: data/io.github.Celluloid.gschema.xml:135
 #, fuzzy
 msgid "Show or not show the controls"
 msgstr "Geef de controls wel of niet weer"
 
+#: data/io.github.Celluloid.gschema.xml:141
+msgid "Show or not show the playlist"
+msgstr "Geef de afspeellijst wel of niet weer"
+
+#: data/io.github.Celluloid.gschema.xml:147
+msgid "URI of the last folder accessed"
+msgstr "URI van de map die het laatst is geraadpleegd"
+
 #: data/io.github.Celluloid.appdata.xml.in:7
-#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:346
-#: src/gmpv_view.c:1026
+#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:353
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -140,9 +137,9 @@ msgid ""
 msgstr ""
 "Celluloid is een simpele GTK+ frontend voor mpv, wat een erg krachtige "
 "mediaspeler is die eigenlijk alle video en audio formaten kan afspelen. Het "
-"design van Celluloid is gebaseerd op GNOME HIG, maar het gebruikt geen GNOME "
-"bibliotheken. Celluloid heeft ook een optie om client-side decoraties (CSD) "
-"uit te zetten voor betere compatibiliteit met niet-GNOME systemen"
+"design van Celluloid is gebaseerd op GNOME HIG, maar het gebruikt geen GNOME"
+" bibliotheken. Celluloid heeft ook een optie om client-side decoraties (CSD)"
+" uit te zetten voor betere compatibiliteit met niet-GNOME systemen"
 
 #: data/io.github.Celluloid.appdata.xml.in:19
 msgid "Features:"
@@ -205,8 +202,8 @@ msgstr ""
 
 #: data/io.github.Celluloid.appdata.xml.in:67
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 
 #: data/io.github.Celluloid.appdata.xml.in:71
@@ -254,46 +251,48 @@ msgstr "Het hoofdvenster met CSD uitgeschakeld"
 msgid "The main window with playlist open"
 msgstr "Het hoofdvenster met een afspeellijst open"
 
-#: data/io.github.Celluloid.desktop.in:6
-msgid "film;movie;video;"
-msgstr ""
-
 #. Translators: This is an icon name, don't translate!
-#: data/io.github.Celluloid.desktop.in:9
+#: data/io.github.Celluloid.desktop.in:8
 #, fuzzy
 msgid "io.github.Celluloid"
 msgstr "Celluloid"
 
-#: data/io.github.Celluloid.desktop.in:21
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
+#: data/io.github.Celluloid.desktop.in:16
+msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
+msgstr ""
+
+#: data/io.github.Celluloid.desktop.in:22
 msgid "New Window"
 msgstr ""
 
-#: src/gmpv_application.c:386
+#: src/gmpv_application.c:393
 msgid "Playing"
 msgstr "Afspelen"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:442
 msgid "Show release version"
 msgstr "Toon release versie"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:450
 #, fuzzy
 msgid "Enqueue"
 msgstr "Voeg toe aan wachtrij"
 
-#: src/gmpv_application.c:451
+#: src/gmpv_application.c:458
 msgid "Create a new window"
 msgstr ""
 
-#: src/gmpv_application.c:460
+#: src/gmpv_application.c:467
 msgid "OPTIONS"
 msgstr ""
 
-#: src/gmpv_application.c:467
+#: src/gmpv_application.c:474
 msgid "Set the window role"
 msgstr ""
 
-#: src/gmpv_application.c:475
+#: src/gmpv_application.c:482
 #, fuzzy
 msgid "Don't connect to an already-running instance"
 msgstr "Verbind niet met instanties die al draaien"
@@ -334,7 +333,7 @@ msgstr ""
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: src/gmpv_controller.c:842 src/gmpv_view.c:1498
+#: src/gmpv_controller.c:847 src/gmpv_view.c:1206
 msgid "Error"
 msgstr "Fout"
 
@@ -368,7 +367,6 @@ msgstr "Geen"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "Onbekend"
@@ -462,7 +460,7 @@ msgstr "_Annuleren"
 msgid "_Open"
 msgstr "_Open"
 
-#: src/gmpv_player.c:509
+#: src/gmpv_player.c:483
 msgid "Failed to apply one or more MPV options."
 msgstr "Het toepassen van een of meerdere MPV opties is mislukt."
 
@@ -868,44 +866,44 @@ msgstr "Afspelen"
 msgid "Seeking"
 msgstr "Zoeken"
 
-#: src/gmpv_view.c:765
+#: src/gmpv_view.c:635
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
 
-#: src/gmpv_view.c:1378
+#: src/gmpv_view.c:1086
 msgid "Add File to Playlist"
 msgstr "Voeg Bestand toe aan Afspeellijst"
 
-#: src/gmpv_view.c:1379
+#: src/gmpv_view.c:1087
 msgid "Open File"
 msgstr "Open Bestand"
 
-#: src/gmpv_view.c:1406
+#: src/gmpv_view.c:1114
 msgid "Add Location to Playlist"
 msgstr ""
 
-#: src/gmpv_view.c:1407
+#: src/gmpv_view.c:1115
 msgid "Open Location"
 msgstr "Open Locatie"
 
-#: src/gmpv_view.c:1428
+#: src/gmpv_view.c:1136
 msgid "Load Audio Track…"
 msgstr ""
 
-#: src/gmpv_view.c:1447
+#: src/gmpv_view.c:1155
 msgid "Load Subtitle Track…"
 msgstr ""
 
-#: src/gmpv_view.c:1472
+#: src/gmpv_view.c:1180
 msgid "Save Playlist"
 msgstr "Sla Afspeellijst op"
 
-#: src/gmpv_view.c:1535
+#: src/gmpv_view.c:1243
 msgid "A GTK frontend for MPV"
 msgstr "Een GTK frontend voor MPV"
 
-#: src/gmpv_view.c:1545
+#: src/gmpv_view.c:1253
 msgid "translator-credits"
 msgstr ""

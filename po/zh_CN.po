@@ -4,16 +4,14 @@
 # This file is distributed under the same license as the gnome-mpv package.
 # sun <warmsun0220@gmail.com>, 2015.
 # Mingye Wang <arthur2e5@aosc.xyz>, 2015.
-# gnome-mpv <gnome-mpv@teknik.io>, 2015. #zanata
-# Mingye Wang <arthur2e5@aosc.xyz>, 2016. #zanata
-# Huang Jiayao <huangjiayao_1992@163.com>, 2017. #zanata
-# Huang Jiayao <huangjiayao_1992@163.com>, 2018. #zanata
+# Huang Jiayao <huangjiayao_1992@163.com>, 2019. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2018-09-11 07:36+0000\n"
+"PO-Revision-Date: 2019-03-14 05:45+0000\n"
 "Last-Translator: Huang Jiayao <huangjiayao_1992@163.com>\n"
 "Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
 "Language: zh_CN\n"
@@ -23,68 +21,18 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Zanata 4.6.2\n"
 
-#: data/org.gnome-mpv.gschema.xml:9 data/io.github.Celluloid.gschema.xml:16
-msgid "Enable or disable dark theme"
-msgstr "启用或禁用暗色主题"
-
-#: data/org.gnome-mpv.gschema.xml:15 data/io.github.Celluloid.gschema.xml:22
-msgid "Enable or disable client-side decorations"
-msgstr "启用或禁用客户端装饰"
-
-#: data/org.gnome-mpv.gschema.xml:21 data/io.github.Celluloid.gschema.xml:46
-msgid ""
-"Whether or not to make file chooser dialog remember last folder accessed"
-msgstr "是否让文件选择对话框记住最近访问的文件夹"
-
-#: data/org.gnome-mpv.gschema.xml:27 data/io.github.Celluloid.gschema.xml:58
-#: src/gmpv_application.c:459
-msgid "Options to pass to mpv"
-msgstr "要传递给 mpv 的选项"
-
-#: data/org.gnome-mpv.gschema.xml:33 data/io.github.Celluloid.gschema.xml:64
-msgid "Path to mpv configuration file"
-msgstr "mpv 配置文件的路径"
-
-#: data/org.gnome-mpv.gschema.xml:39 data/io.github.Celluloid.gschema.xml:70
-msgid "Load or don't load mpv configuration file"
-msgstr "是否载入 mpv 配置文件"
-
-#: data/org.gnome-mpv.gschema.xml:45 data/io.github.Celluloid.gschema.xml:76
-msgid "Path to mpv input configuration file"
-msgstr "mpv 输入配置文件的路径"
-
-#: data/org.gnome-mpv.gschema.xml:51 data/io.github.Celluloid.gschema.xml:82
-msgid "Load or don't load mpv input configuration file"
-msgstr "是否载入 mpv 输入配置文件"
-
-#: data/org.gnome-mpv.gschema.xml:61 data/io.github.Celluloid.gschema.xml:110
-msgid "Width of the window"
-msgstr "窗口宽度"
-
-#: data/org.gnome-mpv.gschema.xml:67 data/io.github.Celluloid.gschema.xml:116
-msgid "Height of the window"
-msgstr "窗口高度"
-
-#: data/org.gnome-mpv.gschema.xml:73 data/io.github.Celluloid.gschema.xml:123
-msgid "Volume of player"
-msgstr "播放器音量"
-
-#: data/org.gnome-mpv.gschema.xml:79 data/io.github.Celluloid.gschema.xml:129
-msgid "Width of the playlist"
-msgstr "播放列表宽度"
-
-#: data/org.gnome-mpv.gschema.xml:85 data/io.github.Celluloid.gschema.xml:141
-msgid "Show or not show the playlist"
-msgstr "是否显示播放列表"
-
-#: data/org.gnome-mpv.gschema.xml:91 data/io.github.Celluloid.gschema.xml:147
-msgid "URI of the last folder accessed"
-msgstr "最近访问的文件夹 URI"
-
 #: data/io.github.Celluloid.gschema.xml:10
 msgid ""
 "Whether the settings has already been migrated from the previous version"
 msgstr "是否已从上一个版本迁移设置"
+
+#: data/io.github.Celluloid.gschema.xml:16
+msgid "Enable or disable dark theme"
+msgstr "启用或禁用暗色主题"
+
+#: data/io.github.Celluloid.gschema.xml:22
+msgid "Enable or disable client-side decorations"
+msgstr "启用或禁用客户端装饰"
 
 #: data/io.github.Celluloid.gschema.xml:28
 msgid "Whether or not to use floating controls in windowed mode"
@@ -98,29 +46,78 @@ msgstr "是否在窗口模式下自动隐藏鼠标指针"
 msgid "Whether or not to use skip buttons for controlling playlist"
 msgstr "是否使用跳转按钮控制播放列表"
 
+#: data/io.github.Celluloid.gschema.xml:46
+msgid ""
+"Whether or not to make file chooser dialog remember last folder accessed"
+msgstr "是否让文件选择对话框记住最近访问的文件夹"
+
 #: data/io.github.Celluloid.gschema.xml:52
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr "当已经有一个实例在运行时，是否允许创建新窗口"
+
+#: data/io.github.Celluloid.gschema.xml:58 src/gmpv_application.c:466
+msgid "Options to pass to mpv"
+msgstr "要传递给 mpv 的选项"
+
+#: data/io.github.Celluloid.gschema.xml:64
+msgid "Path to mpv configuration file"
+msgstr "mpv 配置文件的路径"
+
+#: data/io.github.Celluloid.gschema.xml:70
+msgid "Load or don't load mpv configuration file"
+msgstr "是否载入 mpv 配置文件"
+
+#: data/io.github.Celluloid.gschema.xml:76
+msgid "Path to mpv input configuration file"
+msgstr "mpv 输入配置文件的路径"
+
+#: data/io.github.Celluloid.gschema.xml:82
+msgid "Load or don't load mpv input configuration file"
+msgstr "是否载入 mpv 输入配置文件"
 
 #: data/io.github.Celluloid.gschema.xml:88
 msgid "Whether or not to enable MPRIS support"
 msgstr "是否启用 MPRIS 支持"
 
 #: data/io.github.Celluloid.gschema.xml:94
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr "是否启用基于 GNOME-Setting-Daemon 的媒体键支持"
 
 #: data/io.github.Celluloid.gschema.xml:100
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
 msgstr "是否预先读取非当前播放列表项的元数据"
 
+#: data/io.github.Celluloid.gschema.xml:110
+msgid "Width of the window"
+msgstr "窗口宽度"
+
+#: data/io.github.Celluloid.gschema.xml:116
+msgid "Height of the window"
+msgstr "窗口高度"
+
+#: data/io.github.Celluloid.gschema.xml:123
+msgid "Volume of player"
+msgstr "播放器音量"
+
+#: data/io.github.Celluloid.gschema.xml:129
+msgid "Width of the playlist"
+msgstr "播放列表宽度"
+
 #: data/io.github.Celluloid.gschema.xml:135
 msgid "Show or not show the controls"
 msgstr "是否显示控制栏"
 
+#: data/io.github.Celluloid.gschema.xml:141
+msgid "Show or not show the playlist"
+msgstr "是否显示播放列表"
+
+#: data/io.github.Celluloid.gschema.xml:147
+msgid "URI of the last folder accessed"
+msgstr "最近访问的文件夹 URI"
+
 #: data/io.github.Celluloid.appdata.xml.in:7
-#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:346
-#: src/gmpv_view.c:1026
+#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:353
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -137,10 +134,9 @@ msgid ""
 "libraries. Celluloid also offers an option to disable client-side "
 "decorations (CSD) for better compatibility with non-GNOME systems."
 msgstr ""
-"Celluloid 是一个简单的 GTK+ mpv 前端，mpv 是一个功能强大的媒体播放器，可用于"
-"播放几乎所有的视频和音频格式。尽管该程序不依赖于任何 GNOME 库，Celluloid 是一"
-"个基于 GNOME HIG（人机界面准则）设计的程序。Celluloid 还提供禁用客户端装饰"
-"（CSD）的选项以为不运行 GNOME 的系统提供更好的兼容性。"
+"Celluloid 是一个简单的 GTK+ mpv 前端，mpv 是一个功能强大的媒体播放器，可用于播放几乎所有的视频和音频格式。尽管该程序不依赖于任何"
+" GNOME 库，Celluloid 是一个基于 GNOME HIG（人机界面准则）设计的程序。Celluloid "
+"还提供禁用客户端装饰（CSD）的选项以为不运行 GNOME 的系统提供更好的兼容性。"
 
 #: data/io.github.Celluloid.appdata.xml.in:19
 msgid "Features:"
@@ -162,83 +158,83 @@ msgstr "MPRIS2 D-Bus 接口"
 #: data/io.github.Celluloid.appdata.xml.in:60
 #: data/io.github.Celluloid.appdata.xml.in:88
 msgid "This release contains the following changes:"
-msgstr ""
+msgstr "该发布版本包含了以下变更："
 
 #: data/io.github.Celluloid.appdata.xml.in:33
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "在首选项对话框中分离“通用”标签页"
 
 #: data/io.github.Celluloid.appdata.xml.in:36
 msgid "Improve behavior when toggling playlist under tiling window managers"
-msgstr ""
+msgstr "改善平铺式窗口管理器下的切换显示播放列表功能"
 
 #: data/io.github.Celluloid.appdata.xml.in:39
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "将 App Menu 的项目移动到主菜单"
 
 #: data/io.github.Celluloid.appdata.xml.in:42
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "为每个窗口使用分离的 MPRIS DBus 连接"
 
 #: data/io.github.Celluloid.appdata.xml.in:45
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "添加 MPRIS 属性 LoopStatus 的支持"
 
 #: data/io.github.Celluloid.appdata.xml.in:48
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
-msgstr ""
+msgstr "通过 --mpv-options 选项从命令行中设置任意 mpv 参数"
 
 #: data/io.github.Celluloid.appdata.xml.in:53
 #: data/io.github.Celluloid.appdata.xml.in:81
 #: data/io.github.Celluloid.appdata.xml.in:109
 msgid "This listing is incomplete. See git log for complete changelog."
-msgstr ""
+msgstr "这个列表不是完整的。请到 git log 中查看完整的 changelog。"
 
 #: data/io.github.Celluloid.appdata.xml.in:64
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr ""
+msgstr "设置默认的截图目录为 XDG_PICTURES_DIR"
 
 #: data/io.github.Celluloid.appdata.xml.in:67
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
+"改善对 --window-scale、 --autofit、 --autofit-larger 和 --autofit-smaller 的处理"
 
 #: data/io.github.Celluloid.appdata.xml.in:71
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "增加一个命令行参数来设置 WM_ROLE"
 
 #: data/io.github.Celluloid.appdata.xml.in:74
 msgid "Add context menu item for removing playlist items"
-msgstr ""
+msgstr "增加上下文菜单项来移除播放列表里的项目"
 
 #: data/io.github.Celluloid.appdata.xml.in:77
 msgid "Add context menu item for copying location of playlist items"
-msgstr ""
+msgstr "增加上下文菜单项来复制播放列表项目的路径"
 
 #: data/io.github.Celluloid.appdata.xml.in:92
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
-msgstr ""
+msgstr "增加选项来让跳转按钮可以切换播放列表项，而不是切换章节"
 
 #: data/io.github.Celluloid.appdata.xml.in:96
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "让文件选择器可以接受非本地路径"
 
 #: data/io.github.Celluloid.appdata.xml.in:99
 msgid "Add right-click menu entry for looping a single file"
-msgstr ""
+msgstr "增加循环播放单个文件的右键菜单项"
 
 #: data/io.github.Celluloid.appdata.xml.in:102
 msgid "Handle property change events for fullscreen and window-scale"
-msgstr ""
+msgstr "处理全屏和窗口大小的属性变化事件"
 
 #: data/io.github.Celluloid.appdata.xml.in:105
-#, fuzzy
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr "在窗口模式下自动隐藏鼠标指针"
+msgstr "增加选项以在窗口模式下自动隐藏鼠标指针"
 
 #: data/io.github.Celluloid.appdata.xml.in:119
 msgid "The main window showing the application in action"
@@ -252,45 +248,46 @@ msgstr "关闭了 CSD 的主窗口"
 msgid "The main window with playlist open"
 msgstr "打开了播放列表的主窗口"
 
-#: data/io.github.Celluloid.desktop.in:6
-msgid "film;movie;video;"
+#. Translators: This is an icon name, don't translate!
+#: data/io.github.Celluloid.desktop.in:8
+msgid "io.github.Celluloid"
 msgstr ""
 
-#. Translators: This is an icon name, don't translate!
-#: data/io.github.Celluloid.desktop.in:9
-#, fuzzy
-msgid "io.github.Celluloid"
-msgstr "Celluloid"
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
+#: data/io.github.Celluloid.desktop.in:16
+msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
+msgstr ""
 
-#: data/io.github.Celluloid.desktop.in:21
+#: data/io.github.Celluloid.desktop.in:22
 msgid "New Window"
 msgstr "新建窗口"
 
-#: src/gmpv_application.c:386
+#: src/gmpv_application.c:393
 msgid "Playing"
 msgstr "正在播放"
 
-#: src/gmpv_application.c:435
+#: src/gmpv_application.c:442
 msgid "Show release version"
 msgstr "显示发布版本号"
 
-#: src/gmpv_application.c:443
+#: src/gmpv_application.c:450
 msgid "Enqueue"
 msgstr "加入队列"
 
-#: src/gmpv_application.c:451
+#: src/gmpv_application.c:458
 msgid "Create a new window"
 msgstr "创建一个新窗口"
 
-#: src/gmpv_application.c:460
-msgid "OPTIONS"
-msgstr ""
-
 #: src/gmpv_application.c:467
+msgid "OPTIONS"
+msgstr "选项"
+
+#: src/gmpv_application.c:474
 msgid "Set the window role"
 msgstr "设置窗口规则"
 
-#: src/gmpv_application.c:475
+#: src/gmpv_application.c:482
 msgid "Don't connect to an already-running instance"
 msgstr "不要连接到已经运行中的实例"
 
@@ -324,13 +321,13 @@ msgstr "上一章节"
 
 #: src/gmpv_control_box.c:472
 msgid "Loop Playlist"
-msgstr ""
+msgstr "循环播放列表"
 
 #: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "切换全屏"
 
-#: src/gmpv_controller.c:842 src/gmpv_view.c:1498
+#: src/gmpv_controller.c:847 src/gmpv_view.c:1206
 msgid "Error"
 msgstr "错误"
 
@@ -364,7 +361,6 @@ msgstr "无"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/gmpv_menu.c:107
 msgid "Unknown"
 msgstr "未知"
@@ -379,11 +375,11 @@ msgstr "文件(_F)"
 
 #: src/gmpv_menu.c:186 src/gmpv_menu.c:260
 msgid "_Open…"
-msgstr ""
+msgstr "打开...(_O)"
 
 #: src/gmpv_menu.c:187 src/gmpv_menu.c:261
 msgid "Open _Location…"
-msgstr ""
+msgstr "打开路径...(_L)"
 
 #: src/gmpv_menu.c:188 src/gmpv_menu.c:235
 msgid "_Save Playlist"
@@ -439,7 +435,7 @@ msgstr "快捷键(_K)"
 
 #: src/gmpv_menu.c:201 src/gmpv_menu.c:243
 msgid "_About Celluloid"
-msgstr ""
+msgstr "关于 Celluloid(_A)"
 
 #: src/gmpv_mpv.c:201
 #, c-format
@@ -458,7 +454,7 @@ msgstr "取消(_C)"
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: src/gmpv_player.c:509
+#: src/gmpv_player.c:483
 msgid "Failed to apply one or more MPV options."
 msgstr "应用一个或多个 MPV 选项失败。"
 
@@ -595,15 +591,15 @@ msgstr "额外的 MPV 选项："
 
 #: src/gmpv_preferences_dialog.c:374
 msgid "Interface"
-msgstr ""
+msgstr "用户界面"
 
 #: src/gmpv_preferences_dialog.c:377
 msgid "Config Files"
-msgstr ""
+msgstr "配置文件"
 
 #: src/gmpv_preferences_dialog.c:380
 msgid "Miscellaneous"
-msgstr ""
+msgstr "杂项"
 
 #: src/gmpv_preferences_dialog.c:383
 msgid "Plugins"
@@ -857,45 +853,45 @@ msgstr "回放"
 msgid "Seeking"
 msgstr "跳转"
 
-#: src/gmpv_view.c:765
+#: src/gmpv_view.c:635
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr "启用或禁用客户端装饰（CSD），需要重启播放器以生效。"
 
-#: src/gmpv_view.c:1378
+#: src/gmpv_view.c:1086
 msgid "Add File to Playlist"
 msgstr "添加文件到播放列表"
 
-#: src/gmpv_view.c:1379
+#: src/gmpv_view.c:1087
 msgid "Open File"
 msgstr "打开文件"
 
-#: src/gmpv_view.c:1406
+#: src/gmpv_view.c:1114
 msgid "Add Location to Playlist"
 msgstr "添加路径到播放列表"
 
-#: src/gmpv_view.c:1407
+#: src/gmpv_view.c:1115
 msgid "Open Location"
 msgstr "打开路径"
 
-#: src/gmpv_view.c:1428
+#: src/gmpv_view.c:1136
 msgid "Load Audio Track…"
 msgstr "加载音频轨道..."
 
-#: src/gmpv_view.c:1447
+#: src/gmpv_view.c:1155
 msgid "Load Subtitle Track…"
 msgstr "加载字幕轨道..."
 
-#: src/gmpv_view.c:1472
+#: src/gmpv_view.c:1180
 msgid "Save Playlist"
 msgstr "保存播放列表"
 
-#: src/gmpv_view.c:1535
+#: src/gmpv_view.c:1243
 msgid "A GTK frontend for MPV"
 msgstr "MPV 的 GTK 前端程序"
 
-#: src/gmpv_view.c:1545
+#: src/gmpv_view.c:1253
 msgid "translator-credits"
 msgstr ""
 "Mingye Wang <arthur2e5@aosc.xyz>, 2015, 2016.\n"
