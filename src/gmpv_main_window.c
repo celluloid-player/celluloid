@@ -238,10 +238,9 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
 			0,
 			NULL,
 			NULL,
-			g_cclosure_marshal_VOID__STRING,
+			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
-			1,
-			G_TYPE_STRING );
+			0 );
 	g_signal_new(	"seek",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
