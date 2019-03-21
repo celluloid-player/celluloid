@@ -54,7 +54,6 @@ struct _GmpvModel
 	gchar *extra_options;
 	gboolean ready;
 	GmpvMetadataCache *cache;
-	GPtrArray *playlist;
 	GPtrArray *metadata;
 	GPtrArray *track_list;
 	gboolean update_mpv_properties;
@@ -645,7 +644,6 @@ static void gmpv_model_init(GmpvModel *model)
 	model->extra_options = NULL;
 	model->ready = FALSE;
 	model->cache = NULL;
-	model->playlist = NULL;
 	model->metadata = NULL;
 	model->track_list = NULL;
 	model->update_mpv_properties = TRUE;
@@ -887,7 +885,7 @@ void gmpv_model_load_file(GmpvModel *model, const gchar *uri, gboolean append)
 	/* Start playing when replacing the playlist, ie. not appending, or
 	 * adding the first file to the playlist.
 	 */
-	if(!append || model->playlist->len == 1)
+	if(!append || model->playlist_count == 1)
 	{
 		gmpv_model_play(model);
 	}
