@@ -579,11 +579,6 @@ void gmpv_main_window_enable_csd(GmpvMainWindow *wnd)
 	GmpvMainWindowPrivate *priv = get_private(wnd);
 
 	priv->csd = TRUE;
-	priv->playlist_width = PLAYLIST_DEFAULT_WIDTH;
-
-	gtk_paned_set_position(	GTK_PANED(priv->vid_area_paned),
-				MAIN_WINDOW_DEFAULT_WIDTH
-				-PLAYLIST_DEFAULT_WIDTH );
 
 	gtk_window_set_titlebar(GTK_WINDOW(wnd), priv->header_bar);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
