@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 gnome-mpv
+ * Copyright (c) 2016-2019 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -270,7 +270,7 @@ void gmpv_controller_input_connect_signals(GmpvController *controller)
 				"motion-notify-event",
 				G_CALLBACK(mouse_move_handler),
 				controller );
-	g_signal_connect(	controller->view,
+	g_signal_connect(	video_area,
 				"scroll-event",
 				G_CALLBACK(scroll_handler),
 				controller );
