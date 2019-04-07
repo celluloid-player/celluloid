@@ -125,9 +125,11 @@
 				"&", "ampersand",\
 				"*", "asterisk",\
 				"-", "minus",\
+				"-", "KP_Subtract",\
 				"_", "underscore",\
 				"=", "equal",\
 				"+", "plus",\
+				"+", "KP_Add",\
 				";", "semicolon",\
 				":", "colon",\
 				"'", "apostrophe",\
