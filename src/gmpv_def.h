@@ -124,6 +124,7 @@
 				"^", "caret",\
 				"&", "ampersand",\
 				"*", "asterisk",\
+				"*", "KP_Multiply",\
 				"-", "minus",\
 				"-", "KP_Subtract",\
 				"_", "underscore",\
@@ -135,6 +136,7 @@
 				"'", "apostrophe",\
 				"\"", "quotedbl",\
 				"/", "slash",\
+				"/", "KP_Divide",\
 				"\\", "backslash",\
 				"(", "parenleft",\
 				")", "parenright",\
