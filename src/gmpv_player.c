@@ -390,7 +390,6 @@ static void apply_default_options(GmpvMpv *mpv)
 			{"input-cursor", "no"},
 			{"cursor-autohide", "no"},
 			{"softvol-max", "100"},
-			{"config", "no"},
 			{"config-dir", config_dir},
 			{"watch-later-directory", watch_dir},
 			{"screenshot-directory", screenshot_dir},
