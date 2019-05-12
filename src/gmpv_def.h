@@ -154,6 +154,23 @@
 				"DEL", "Delete",\
 				"ENTER", "Return",\
 				"INS", "Insert",\
+				"VOLUME_LOWER", "AudioLowerVolume",\
+				"MUTE", "AudioMute",\
+				"VOLUME_UP", "AudioRaiseVolume",\
+				"PLAY", "AudioPlay",\
+				"STOP", "AudioStop",\
+				"PREV", "AudioPrev",\
+				"NEXT", "AudioNext",\
+				"FORWARD", "AudioForward",\
+				"REWIND", "AudioRewind",\
+				"MENU", "Menu",\
+				"HOMEPAGE", "HomePage",\
+				"MAIL", "Mail",\
+				"FAVORITES", "Favorites",\
+				"SEARCH", "Search",\
+				"SLEEP", "Sleep",\
+				"CANCEL", "Cancel",\
+				"RECORD", "AudioRecord",\
 				"", "Control_L",\
 				"", "Control_R",\
 				"", "Alt_L",\
