@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 gnome-mpv
+ * Copyright (c) 2015-2019 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -19,6 +19,8 @@
 
 #include "gmpv_media_keys.h"
 #include "gmpv_def.h"
+
+#include <stdbool.h>
 
 enum
 {
@@ -180,38 +182,30 @@ static void g_signal_handler(	GDBusProxy *proxy,
 
 	if(g_strcmp0(gmpv_application, APP_ID) == 0)
 	{
+		const struct
+		{
+			const char *gsd_key;
+			const char *mpv_key;
+		}
+		dict[] = {	{"Next",	"NEXT"},
+				{"Previous",	"PREV"},
+				{"Pause",	"PAUSE"},
+				{"Stop",	"STOP"},
+				{"Play",	"PLAY"},
+				{"FastForward","FORWARD"},
+				{"Rewind",	"REWIND"},
+				{NULL,		NULL} };
+
 		GmpvModel *model = gmpv_controller_get_model(self->controller);
+		bool done = false;
 
-		if(g_strcmp0(key, "Next") == 0)
+		for(int i = 0; !done && dict[i].gsd_key; i++)
 		{
-			gmpv_model_next_playlist_entry(model);
-		}
-		else if(g_strcmp0(key, "Previous") == 0)
-		{
-			gmpv_model_previous_playlist_entry(model);
-		}
-		else if(g_strcmp0(key, "Pause") == 0)
-		{
-			gmpv_model_pause(model);
-		}
-		else if(g_strcmp0(key, "Stop") == 0)
-		{
-			gmpv_model_stop(model);
-		}
-		else if(g_strcmp0(key, "Play") == 0)
-		{
-			gboolean pause = FALSE;
-
-			g_object_get(model, "pause", &pause, NULL);
-			(pause?gmpv_model_play:gmpv_model_pause)(model);
-		}
-		else if(g_strcmp0(key, "FastForward") == 0)
-		{
-			gmpv_model_forward(model);
-		}
-		else if(g_strcmp0(key, "Rewind") == 0)
-		{
-			gmpv_model_rewind(model);
+			if(g_strcmp0(dict[i].gsd_key, key) == 0)
+			{
+				gmpv_model_key_press(model, dict[i].mpv_key);
+				done = true;
+			}
 		}
 	}
 }

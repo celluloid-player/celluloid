@@ -100,6 +100,7 @@
 		"F9 script-message gmpv-action win.toggle-playlist",\
 		"DEL script-message gmpv-action win.remove-selected-playlist-item",\
 		"U stop",\
+		"STOP stop",\
 		"F11 cycle fullscreen",\
 		"WHEEL_UP add volume 2",\
 		"WHEEL_DOWN add volume -2",\
