@@ -2,14 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Toni Estevez <toni.estevez@gmail.com>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-02-20 01:51+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2019-04-18 05:03+0000\n"
+"Last-Translator: Toni Estevez <toni.estevez@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -160,23 +161,25 @@ msgstr "Interfaz de D-Bus MPRIS2"
 #: data/io.github.Celluloid.appdata.xml.in:60
 #: data/io.github.Celluloid.appdata.xml.in:88
 msgid "This release contains the following changes:"
-msgstr ""
+msgstr "Esta versión contiene los cambios siguientes:"
 
 #: data/io.github.Celluloid.appdata.xml.in:33
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Dividir la pestaña General en el diálogo de preferencias"
 
 #: data/io.github.Celluloid.appdata.xml.in:36
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
+"Mejorar el comportamiento al alternar la lista de reproducción en los "
+"gestores de ventana de mosaico"
 
 #: data/io.github.Celluloid.appdata.xml.in:39
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Mover los elementos del menú de la aplicación al menú principal"
 
 #: data/io.github.Celluloid.appdata.xml.in:42
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Utilice una conexión DBus MPRIS separada para cada ventana"
 
 #: data/io.github.Celluloid.appdata.xml.in:45
 msgid "Add support for MPRIS property LoopStatus"
@@ -228,13 +231,16 @@ msgstr ""
 #: data/io.github.Celluloid.appdata.xml.in:99
 msgid "Add right-click menu entry for looping a single file"
 msgstr ""
+"Añadir una entrada en el menú contextual para reproducir un solo archivo en "
+"bucle"
 
 #: data/io.github.Celluloid.appdata.xml.in:102
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
+"Manejar eventos de cambio de propiedad para pantalla completa y escalado de "
+"ventana"
 
 #: data/io.github.Celluloid.appdata.xml.in:105
-#, fuzzy
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr "Ocultar automáticamente el puntero del ratón en el modo de ventana"
 
@@ -253,15 +259,16 @@ msgstr "La ventana principal con la lista de reproducción abierta"
 
 #. Translators: This is an icon name, don't translate!
 #: data/io.github.Celluloid.desktop.in:8
-#, fuzzy
 msgid "io.github.Celluloid"
-msgstr "Celluloid"
+msgstr "io.github.Celluloid"
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
+"Vídeo; Película; Filme; Clip; Serie; Reproductor; DVD; TV; Disco; Álbum; "
+"Música; GNOME; mpv;"
 
 #: data/io.github.Celluloid.desktop.in:22
 msgid "New Window"
@@ -285,11 +292,11 @@ msgstr "Crear una nueva ventana"
 
 #: src/gmpv_application.c:467
 msgid "OPTIONS"
-msgstr ""
+msgstr "OPCIONES"
 
 #: src/gmpv_application.c:474
 msgid "Set the window role"
-msgstr ""
+msgstr "Establecer el comportamiento de la ventana"
 
 #: src/gmpv_application.c:482
 msgid "Don't connect to an already-running instance"
@@ -325,7 +332,7 @@ msgstr "Capítulo anterior"
 
 #: src/gmpv_control_box.c:472
 msgid "Loop Playlist"
-msgstr ""
+msgstr "Reproducir en bucle la _lista"
 
 #: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
 msgid "Toggle Fullscreen"
@@ -379,11 +386,11 @@ msgstr "_Archivo"
 
 #: src/gmpv_menu.c:186 src/gmpv_menu.c:260
 msgid "_Open…"
-msgstr ""
+msgstr "_Abrir..."
 
 #: src/gmpv_menu.c:187 src/gmpv_menu.c:261
 msgid "Open _Location…"
-msgstr ""
+msgstr "Abrir una _ubicación..."
 
 #: src/gmpv_menu.c:188 src/gmpv_menu.c:235
 msgid "_Save Playlist"
@@ -439,7 +446,7 @@ msgstr "Atajos de _teclado"
 
 #: src/gmpv_menu.c:201 src/gmpv_menu.c:243
 msgid "_About Celluloid"
-msgstr ""
+msgstr "_Acerda de Celluloid"
 
 #: src/gmpv_mpv.c:201
 #, c-format
@@ -596,7 +603,7 @@ msgstr "Opciones extra de MPV:"
 
 #: src/gmpv_preferences_dialog.c:374
 msgid "Interface"
-msgstr ""
+msgstr "Interfaz"
 
 #: src/gmpv_preferences_dialog.c:377
 msgid "Config Files"

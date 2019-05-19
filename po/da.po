@@ -1,13 +1,14 @@
 # Danish translation for Celluloid
 # scootergrisen, 2017.
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
+# scootergrisen <scootergrisen@gmail.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-02-20 01:50+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2019-03-21 11:07+0000\n"
+"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +41,8 @@ msgstr "Om musemarkøren automatisk skal skjules i vinduestilstand"
 
 #: data/io.github.Celluloid.gschema.xml:40
 msgid "Whether or not to use skip buttons for controlling playlist"
-msgstr "Hvorvidt der skal bruges spring over-knapper til at styre spilleliste"
+msgstr ""
+"Hvorvidt der skal bruges spring over-knapper til at styre afspilningsliste"
 
 #: data/io.github.Celluloid.gschema.xml:46
 msgid ""
@@ -102,7 +104,7 @@ msgstr "Afspillerens lydstyrke"
 
 #: data/io.github.Celluloid.gschema.xml:129
 msgid "Width of the playlist"
-msgstr "Spillelistens bredde"
+msgstr "Afspilningslistens bredde"
 
 #: data/io.github.Celluloid.gschema.xml:135
 msgid "Show or not show the controls"
@@ -110,7 +112,7 @@ msgstr "Vis eller skjul kontrolelementerne"
 
 #: data/io.github.Celluloid.gschema.xml:141
 msgid "Show or not show the playlist"
-msgstr "Vis eller skjul spilleliste"
+msgstr "Vis eller skjul afspilningsliste"
 
 #: data/io.github.Celluloid.gschema.xml:147
 msgid "URI of the last folder accessed"
@@ -147,7 +149,7 @@ msgstr "Funktionaliteter:"
 
 #: data/io.github.Celluloid.appdata.xml.in:21
 msgid "Drag and drop playlist"
-msgstr "Træk og slip spilleliste"
+msgstr "Træk og slip afspilningsliste"
 
 #: data/io.github.Celluloid.appdata.xml.in:22
 msgid "Loading external mpv configuration files"
@@ -161,83 +163,95 @@ msgstr "MPRIS2 D-Bus-grænseflade"
 #: data/io.github.Celluloid.appdata.xml.in:60
 #: data/io.github.Celluloid.appdata.xml.in:88
 msgid "This release contains the following changes:"
-msgstr ""
+msgstr "Udgivelsen indeholder følgende ændringer:"
 
 #: data/io.github.Celluloid.appdata.xml.in:33
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Opdeling af Generelt-fanebladet i præferencer-dialogen."
 
 #: data/io.github.Celluloid.appdata.xml.in:36
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
+"Forbedret opførsel når afspilningslisten vises/skjules under fliselæggende "
+"vindueshåndteringer"
 
 #: data/io.github.Celluloid.appdata.xml.in:39
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Flyt punkterne fra programmenuen til den primære menu"
 
 #: data/io.github.Celluloid.appdata.xml.in:42
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Brug separat MPRIS DBus-forbindelse til hvert vindue"
 
 #: data/io.github.Celluloid.appdata.xml.in:45
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "Tilføj understøttelse af MPRIS-egenskaben LoopStatus"
 
 #: data/io.github.Celluloid.appdata.xml.in:48
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Tilføj tilvalget --mpv-options til indstilling af vilkårlige tilvalg fra "
+"kommandolinjen"
 
 #: data/io.github.Celluloid.appdata.xml.in:53
 #: data/io.github.Celluloid.appdata.xml.in:81
 #: data/io.github.Celluloid.appdata.xml.in:109
 msgid "This listing is incomplete. See git log for complete changelog."
-msgstr ""
+msgstr "Listen er ikke komplet. Se git-loggen for en komplet ændringslog."
 
 #: data/io.github.Celluloid.appdata.xml.in:64
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr ""
+msgstr "Indstil standardmappen for skærmbilleder til XDG_PICTURES_DIR"
 
 #: data/io.github.Celluloid.appdata.xml.in:67
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and "
 "--autofit-smaller"
 msgstr ""
+"Forbedret håndtering af --window-scale, --autofit, --autofit-larger og "
+"--autofit-smaller"
 
 #: data/io.github.Celluloid.appdata.xml.in:71
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "Tilføj kommandolinjetilvalg for indstilling af WM_ROLE"
 
 #: data/io.github.Celluloid.appdata.xml.in:74
 msgid "Add context menu item for removing playlist items"
-msgstr ""
+msgstr "Tilføj punkt i genvejsmenuen til fjernelse af afspilningslistepunkter"
 
 #: data/io.github.Celluloid.appdata.xml.in:77
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
+"Tilføj punkt i genvejsmenuen til kopiering af placering for "
+"afspilningslistepunkter"
 
 #: data/io.github.Celluloid.appdata.xml.in:92
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Tilføjet valgmulighed for at få spring over-knappen til at ændre "
+"afspilningslistepunkter frem for kapitler."
 
 #: data/io.github.Celluloid.appdata.xml.in:96
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "Fået filvælgeren til at accepterer placeringer som ikke er lokale"
 
 #: data/io.github.Celluloid.appdata.xml.in:99
 msgid "Add right-click menu entry for looping a single file"
-msgstr ""
+msgstr "Tilføj menupunkt ved højreklik for at afspille en enkelt fil i løkke"
 
 #: data/io.github.Celluloid.appdata.xml.in:102
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
+"Håndter hændelser af egenskabsændring for fuldskærm og vinduesskalering"
 
 #: data/io.github.Celluloid.appdata.xml.in:105
-#, fuzzy
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr "Skjul automatisk musemarkøren i vinduestilstand"
+msgstr ""
+"Tilføjet valgmulighed for automatisk at skjule musemarkøren i "
+"vinduestilstand"
 
 #: data/io.github.Celluloid.appdata.xml.in:119
 msgid "The main window showing the application in action"
@@ -249,19 +263,18 @@ msgstr "Hovedvinduet med deaktiveret skærmdisplay"
 
 #: data/io.github.Celluloid.appdata.xml.in:127
 msgid "The main window with playlist open"
-msgstr "Hovedvinduet med åben spilleliste"
+msgstr "Hovedvinduet med åben afspilningsliste"
 
 #. Translators: This is an icon name, don't translate!
 #: data/io.github.Celluloid.desktop.in:8
-#, fuzzy
 msgid "io.github.Celluloid"
-msgstr "Celluloid"
+msgstr "io.github.Celluloid"
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr ""
+msgstr "Video;Film;Klip;Serier;Afspiller;DVD;TV;Disk;Album;Musik;GNOME;mpv;"
 
 #: data/io.github.Celluloid.desktop.in:22
 msgid "New Window"
@@ -371,7 +384,7 @@ msgstr "Ukendt"
 
 #: src/gmpv_menu.c:140
 msgid "_Load External…"
-msgstr "_Indlæs ekstern…"
+msgstr "_Indlæs eksternt…"
 
 #: src/gmpv_menu.c:185
 msgid "_File"
@@ -387,7 +400,7 @@ msgstr "Åbn _placering…"
 
 #: src/gmpv_menu.c:188 src/gmpv_menu.c:235
 msgid "_Save Playlist"
-msgstr "_Gem spilleliste"
+msgstr "_Gem afspilningsliste"
 
 #: src/gmpv_menu.c:189 src/gmpv_menu.c:263
 msgid "_New Window"
@@ -423,7 +436,7 @@ msgstr "_Kontrolelementer til/fra"
 
 #: src/gmpv_menu.c:197 src/gmpv_menu.c:234
 msgid "_Toggle Playlist"
-msgstr "_Spilleliste til/fra"
+msgstr "_Afspilningsliste til/fra"
 
 #: src/gmpv_menu.c:198
 msgid "_Fullscreen"
@@ -488,11 +501,11 @@ msgstr "Løkke_fil"
 
 #: src/gmpv_playlist_widget.c:536
 msgid "Loop _Playlist"
-msgstr "Løkke_spilleliste"
+msgstr "Afspil afspilningsliste i _løkke"
 
 #: src/gmpv_playlist_widget.c:663
 msgid "Playlist"
-msgstr "Spilleliste"
+msgstr "Afspilningsliste"
 
 #: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
 msgid "Add Plugin"
@@ -553,7 +566,7 @@ msgstr "Skjul automatisk musemarkøren i vinduestilstand"
 
 #: src/gmpv_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
-msgstr "Brug spring over-knapper til at styre spilleliste"
+msgstr "Brug spring over-knapper til at styre afspilningsliste"
 
 #: src/gmpv_preferences_dialog.c:310
 msgid "Remember last file's location"
@@ -629,11 +642,11 @@ msgstr "Åbn placering"
 
 #: src/gmpv_shortcuts_window.c:58
 msgid "Add file to playlist"
-msgstr "Tilføj fil til spilleliste"
+msgstr "Tilføj fil til afspilningsliste"
 
 #: src/gmpv_shortcuts_window.c:59
 msgid "Add location to playlist"
-msgstr "Tilføj placering til spilleliste"
+msgstr "Tilføj placering til afspilningsliste"
 
 #: src/gmpv_shortcuts_window.c:60
 msgid "Show preferences dialog"
@@ -645,7 +658,7 @@ msgstr "Kontrolelementer til/fra"
 
 #: src/gmpv_shortcuts_window.c:62
 msgid "Toggle playlist"
-msgstr "Spilleliste til/fra"
+msgstr "Afspilningsliste til/fra"
 
 #: src/gmpv_shortcuts_window.c:63
 msgid "Toggle fullscreen mode"
@@ -689,7 +702,7 @@ msgstr "Søg til forrige/næste undertekst"
 
 #: src/gmpv_shortcuts_window.c:75
 msgid "Step backward/forward a single frame"
-msgstr "Trin baglæns/fremad ét billede"
+msgstr "Ét billede baglæns/fremad"
 
 #: src/gmpv_shortcuts_window.c:76
 msgid "Seek to the beginning of the previous/next chapter"
@@ -709,15 +722,15 @@ msgstr "Nulstil afspilningshastigheden til normal"
 
 #: src/gmpv_shortcuts_window.c:82
 msgid "Go backward/forward in the playlist"
-msgstr "Gå baglæns/fremad i spillelisten"
+msgstr "Gå baglæns/fremad i afspilningslisten"
 
 #: src/gmpv_shortcuts_window.c:83
 msgid "Remove selected playlist item"
-msgstr "Fjern den valgte post fra spillelisten"
+msgstr "Fjern den valgte post fra afspilningslisten"
 
 #: src/gmpv_shortcuts_window.c:84
 msgid "Save playlist"
-msgstr "Gem spilleliste"
+msgstr "Gem afspilningsliste"
 
 #: src/gmpv_shortcuts_window.c:85
 msgid "Set/clear A-B loop points"
@@ -870,7 +883,7 @@ msgstr ""
 
 #: src/gmpv_view.c:1086
 msgid "Add File to Playlist"
-msgstr "Tilføj fil til spilleliste"
+msgstr "Tilføj fil til afspilningsliste"
 
 #: src/gmpv_view.c:1087
 msgid "Open File"
@@ -878,7 +891,7 @@ msgstr "Åbn fil"
 
 #: src/gmpv_view.c:1114
 msgid "Add Location to Playlist"
-msgstr "Tilføj placering til spilleliste"
+msgstr "Tilføj placering til afspilningsliste"
 
 #: src/gmpv_view.c:1115
 msgid "Open Location"
@@ -894,7 +907,7 @@ msgstr "Indlæs undertekstspor…"
 
 #: src/gmpv_view.c:1180
 msgid "Save Playlist"
-msgstr "Gem spilleliste"
+msgstr "Gem afspilningsliste"
 
 #: src/gmpv_view.c:1243
 msgid "A GTK frontend for MPV"

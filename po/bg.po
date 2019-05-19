@@ -1,11 +1,12 @@
+# cybercop <cybercop_montana@abv.bg>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-02-20 01:50+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2019-05-19 04:30+0000\n"
+"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
 "Language-Team: Bulgarian\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
@@ -155,83 +156,100 @@ msgstr "MPRIS2 D-Bus интерфейс"
 #: data/io.github.Celluloid.appdata.xml.in:60
 #: data/io.github.Celluloid.appdata.xml.in:88
 msgid "This release contains the following changes:"
-msgstr ""
+msgstr "Това издание съдържа следните промени:"
 
 #: data/io.github.Celluloid.appdata.xml.in:33
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Разделен е разделът Общи в диалога с настройките"
 
 #: data/io.github.Celluloid.appdata.xml.in:36
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
+"Подобряване на поведението при превключване на списъка за изпълнение при "
+"тилинг мениджъри на прозорци "
 
 #: data/io.github.Celluloid.appdata.xml.in:39
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Преместени са елементите от менюто на програмите в основното меню"
 
 #: data/io.github.Celluloid.appdata.xml.in:42
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Използвана е отделна MPRIS DBus връзка за всеки прозорец"
 
 #: data/io.github.Celluloid.appdata.xml.in:45
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "Добавена е поддръжка за свойствата на MPRIS LoopStatus"
 
 #: data/io.github.Celluloid.appdata.xml.in:48
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Добавете опция --mpv-options за задаване на произволни mpv опции от команден"
+" ред"
 
 #: data/io.github.Celluloid.appdata.xml.in:53
 #: data/io.github.Celluloid.appdata.xml.in:81
 #: data/io.github.Celluloid.appdata.xml.in:109
 msgid "This listing is incomplete. See git log for complete changelog."
-msgstr ""
+msgstr "Списъкът не е завършен. Вижте Git лога за пълния списък с промени."
 
 #: data/io.github.Celluloid.appdata.xml.in:64
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
 msgstr ""
+"Задаване на директорията за снимки на екрана по подразбиране в "
+"XDG_PICTURES_DIR"
 
 #: data/io.github.Celluloid.appdata.xml.in:67
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and "
 "--autofit-smaller"
 msgstr ""
+"Подобряване на обработката на мащаба на - Window, --autofit, --autofit-large"
+" и --autofit-small"
 
 #: data/io.github.Celluloid.appdata.xml.in:71
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "Добавяне опцията за команден ред за настройка на WM_ROLE"
 
 #: data/io.github.Celluloid.appdata.xml.in:74
 msgid "Add context menu item for removing playlist items"
 msgstr ""
+"Добавена е опция в контекстното меню за премахване на елементи от списъка за"
+" изпълнение"
 
 #: data/io.github.Celluloid.appdata.xml.in:77
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
+"Добавяне на елемент от контекстното меню за копиране на местоположението на "
+"елементите от списъка за изпълнение"
 
 #: data/io.github.Celluloid.appdata.xml.in:92
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Добавена е опция, бутона за пропускане да променя елементите от списъка, а "
+"не не заглавията"
 
 #: data/io.github.Celluloid.appdata.xml.in:96
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "Файловия браузър има възможност да избира не-локални местоположение"
 
 #: data/io.github.Celluloid.appdata.xml.in:99
 msgid "Add right-click menu entry for looping a single file"
 msgstr ""
+"Добавяне на елемент в менюто при десен бутон на мишката за превъртане на "
+"единичен файл"
 
 #: data/io.github.Celluloid.appdata.xml.in:102
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
+"Обработване на събития за промяна на свойствата за цял екран и мащаб на "
+"прозореца"
 
 #: data/io.github.Celluloid.appdata.xml.in:105
-#, fuzzy
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr "Автоматично скриване на курсора на мишката в прозоречен режим"
+msgstr "Добавена е опция за скриване на курсора на мишката в прозоречен режим"
 
 #: data/io.github.Celluloid.appdata.xml.in:119
 msgid "The main window showing the application in action"
@@ -247,15 +265,14 @@ msgstr "Главният прозорец с отворен спъсък за и
 
 #. Translators: This is an icon name, don't translate!
 #: data/io.github.Celluloid.desktop.in:8
-#, fuzzy
 msgid "io.github.Celluloid"
-msgstr "Celluloid"
+msgstr "io.github.Celluloid"
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr ""
+msgstr "Видео;Кино;Филм;Клип;Сериал;Плеър;DVD;TV;Диск, Албум;Музика;Gnome;MPV"
 
 #: data/io.github.Celluloid.desktop.in:22
 msgid "New Window"
