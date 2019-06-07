@@ -124,6 +124,7 @@ executable('celluloid', sources,
   dependencies: [
     libgtk,
     libgio,
+    meson.get_compiler('c').find_library('m', required: false),
     dependency('mpv', version: '>= 1.101'),
     dependency('epoxy')
   ],

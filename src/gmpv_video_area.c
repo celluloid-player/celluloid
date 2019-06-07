@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 gnome-mpv
+ * Copyright (c) 2016-2019 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <glib-object.h>
+#include <math.h>
 
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
@@ -48,6 +49,9 @@ struct _GmpvVideoArea
 	GtkWidget *header_bar;
 	GtkWidget *control_box_revealer;
 	GtkWidget *header_bar_revealer;
+	guint32 last_motion_time;
+	gdouble last_motion_x;
+	gdouble last_motion_y;
 	guint timeout_tag;
 	gboolean fullscreen;
 	gboolean fs_control_hover;
@@ -189,24 +193,42 @@ static gboolean timeout_handler(gpointer data)
 
 static gboolean motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 {
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	GmpvVideoArea *area = GMPV_VIDEO_AREA(widget);
-	GdkCursor *cursor;
+	const gdouble dist = sqrt(	pow(event->x - area->last_motion_x, 2) +
+					pow(event->y - area->last_motion_y, 2) );
+	const gdouble speed = dist / (event->time - area->last_motion_time);
 
-	cursor = gdk_cursor_new_from_name(gdk_display_get_default(), "default");
-	gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
+	area->last_motion_time = event->time;
+	area->last_motion_x = event->x;
+	area->last_motion_y = event->y;
 
-	if(area->control_box)
+	if(speed >= g_settings_get_double(settings, "controls-unhide-cursor-speed"))
 	{
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->control_box_revealer), TRUE);
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->header_bar_revealer), area->fullscreen);
+		GdkCursor *cursor =	gdk_cursor_new_from_name
+					(	gdk_display_get_default(),
+						"default" );
+
+		gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
+
+		if(area->control_box)
+		{
+			gtk_revealer_set_reveal_child
+				(	GTK_REVEALER(area->control_box_revealer),
+					TRUE );
+			gtk_revealer_set_reveal_child
+				(	GTK_REVEALER(area->header_bar_revealer),
+					area->fullscreen );
+		}
+
+		g_source_clear(&area->timeout_tag);
+		area->timeout_tag =	g_timeout_add_seconds
+					(	FS_CONTROL_HIDE_DELAY,
+						timeout_handler,
+						area );
 	}
 
-	g_source_clear(&area->timeout_tag);
-	area->timeout_tag = g_timeout_add_seconds(	FS_CONTROL_HIDE_DELAY,
-							timeout_handler,
-							area );
+	g_object_unref(settings);
 
 	return	GTK_WIDGET_CLASS(gmpv_video_area_parent_class)
 		->motion_notify_event(widget, event);
@@ -303,6 +325,9 @@ static void gmpv_video_area_init(GmpvVideoArea *area)
 	area->header_bar = gmpv_header_bar_new();
 	area->control_box_revealer = gtk_revealer_new();
 	area->header_bar_revealer = gtk_revealer_new();
+	area->last_motion_time = 0;
+	area->last_motion_x = -1;
+	area->last_motion_y = -1;
 	area->timeout_tag = 0;
 	area->fullscreen = FALSE;
 	area->fs_control_hover = FALSE;
