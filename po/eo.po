@@ -48,7 +48,7 @@ msgstr "Ĉu memorigi laste atingitan dosierujon al la dosierelekta interagujo"
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr "Ĉu krei ekstrajn fenestrojn kiam unu fenestro jamas"
 
-#: data/io.github.Celluloid.gschema.xml:58 src/gmpv_application.c:466
+#: data/io.github.Celluloid.gschema.xml:58 src/celluloid_application.c:466
 msgid "Options to pass to mpv"
 msgstr "Elektebloj transdonotaj al mpv"
 
@@ -111,7 +111,7 @@ msgid "URI of the last folder accessed"
 msgstr "URI de la laste atingita dosierujo"
 
 #: data/io.github.Celluloid.appdata.xml.in:7
-#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:353
+#: data/io.github.Celluloid.desktop.in:4 src/celluloid_application.c:353
 msgid "Celluloid"
 msgstr "Celuloido"
 
@@ -266,635 +266,635 @@ msgstr "Disko;DVD;Filmo;GNOME;KD;mpv;Muziko;Seriaĵo;Televido;TV;"
 msgid "New Window"
 msgstr "Nova fenestro"
 
-#: src/gmpv_application.c:393
+#: src/celluloid_application.c:393
 msgid "Playing"
 msgstr "Ludanta"
 
-#: src/gmpv_application.c:442
+#: src/celluloid_application.c:442
 msgid "Show release version"
 msgstr "Montri version"
 
-#: src/gmpv_application.c:450
+#: src/celluloid_application.c:450
 msgid "Enqueue"
 msgstr "Envicigi"
 
-#: src/gmpv_application.c:458
+#: src/celluloid_application.c:458
 msgid "Create a new window"
 msgstr "Krei novan fenestron"
 
-#: src/gmpv_application.c:467
+#: src/celluloid_application.c:467
 msgid "OPTIONS"
 msgstr "ELEKTEBLOJ"
 
-#: src/gmpv_application.c:474
+#: src/celluloid_application.c:474
 msgid "Set the window role"
 msgstr "Agordi rolon de la fenestro"
 
-#: src/gmpv_application.c:482
+#: src/celluloid_application.c:482
 msgid "Don't connect to an already-running instance"
 msgstr "Ne konekti al jama rulaĵo"
 
-#: src/gmpv_control_box.c:297
+#: src/celluloid_control_box.c:297
 msgid "Pause"
 msgstr "Paŭzigi"
 
-#: src/gmpv_control_box.c:297 src/gmpv_control_box.c:454
+#: src/celluloid_control_box.c:297 src/celluloid_control_box.c:454
 msgid "Play"
 msgstr "Ludi"
 
-#: src/gmpv_control_box.c:457
+#: src/celluloid_control_box.c:457
 msgid "Stop"
 msgstr "Haltigi"
 
-#: src/gmpv_control_box.c:460
+#: src/celluloid_control_box.c:460
 msgid "Forward"
 msgstr "Pluen"
 
-#: src/gmpv_control_box.c:463
+#: src/celluloid_control_box.c:463
 msgid "Rewind"
 msgstr "Reen"
 
-#: src/gmpv_control_box.c:466
+#: src/celluloid_control_box.c:466
 msgid "Next Chapter"
 msgstr "Sekva ĉapitro"
 
-#: src/gmpv_control_box.c:469
+#: src/celluloid_control_box.c:469
 msgid "Previous Chapter"
 msgstr "Antaŭa ĉapitro"
 
-#: src/gmpv_control_box.c:472
+#: src/celluloid_control_box.c:472
 msgid "Loop Playlist"
 msgstr "Ripetadi ludliston"
 
-#: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
+#: src/celluloid_control_box.c:475 src/celluloid_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "Baskuligi tutekranan reĝimon"
 
-#: src/gmpv_controller.c:847 src/gmpv_view.c:1206
+#: src/celluloid_controller.c:847 src/celluloid_view.c:1206
 msgid "Error"
 msgstr "Eraro"
 
-#: src/gmpv_file_chooser.c:124 src/gmpv_plugins_manager.c:148
+#: src/celluloid_file_chooser.c:124 src/celluloid_plugins_manager.c:148
 msgid "All Files"
 msgstr "Ĉiuj dosieroj"
 
-#: src/gmpv_file_chooser.c:132
+#: src/celluloid_file_chooser.c:132
 msgid "Media Files"
 msgstr "Aŭdovidaj dosieroj"
 
-#: src/gmpv_file_chooser.c:143
+#: src/celluloid_file_chooser.c:143
 msgid "Audio Files"
 msgstr "Sonaj dosieroj"
 
-#: src/gmpv_file_chooser.c:151
+#: src/celluloid_file_chooser.c:151
 msgid "Video Files"
 msgstr "Filmaj dosieroj"
 
-#: src/gmpv_file_chooser.c:159
+#: src/celluloid_file_chooser.c:159
 msgid "Image Files"
 msgstr "Bildaj dosieroj"
 
-#: src/gmpv_file_chooser.c:169
+#: src/celluloid_file_chooser.c:169
 msgid "Subtitle Files"
 msgstr "Subtekstaj dosieroj"
 
-#: src/gmpv_menu.c:92
+#: src/celluloid_menu.c:92
 msgid "None"
 msgstr "Neniu"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:107
+#: src/celluloid_menu.c:107
 msgid "Unknown"
 msgstr "Nekonata"
 
-#: src/gmpv_menu.c:140
+#: src/celluloid_menu.c:140
 msgid "_Load External…"
 msgstr "En_legi eksteran…"
 
-#: src/gmpv_menu.c:185
+#: src/celluloid_menu.c:185
 msgid "_File"
 msgstr "_Dosiero"
 
-#: src/gmpv_menu.c:186 src/gmpv_menu.c:260
+#: src/celluloid_menu.c:186 src/celluloid_menu.c:260
 msgid "_Open…"
 msgstr "_Malfermi…"
 
-#: src/gmpv_menu.c:187 src/gmpv_menu.c:261
+#: src/celluloid_menu.c:187 src/celluloid_menu.c:261
 msgid "Open _Location…"
 msgstr "Malfermi _lokon…"
 
-#: src/gmpv_menu.c:188 src/gmpv_menu.c:235
+#: src/celluloid_menu.c:188 src/celluloid_menu.c:235
 msgid "_Save Playlist"
 msgstr "_Konservi ludliston"
 
-#: src/gmpv_menu.c:189 src/gmpv_menu.c:263
+#: src/celluloid_menu.c:189 src/celluloid_menu.c:263
 msgid "_New Window"
 msgstr "_Nova fenestro"
 
-#: src/gmpv_menu.c:190
+#: src/celluloid_menu.c:190
 msgid "_Edit"
 msgstr "R_edakti"
 
-#: src/gmpv_menu.c:191 src/gmpv_menu.c:241
+#: src/celluloid_menu.c:191 src/celluloid_menu.c:241
 msgid "_Preferences"
 msgstr "_Agordoj"
 
-#: src/gmpv_menu.c:192 src/gmpv_menu.c:237
+#: src/celluloid_menu.c:192 src/celluloid_menu.c:237
 msgid "_Video Track"
 msgstr "Variaĵo de _filmo"
 
-#: src/gmpv_menu.c:193 src/gmpv_menu.c:238
+#: src/celluloid_menu.c:193 src/celluloid_menu.c:238
 msgid "_Audio Track"
 msgstr "Variaĵo de _sono"
 
-#: src/gmpv_menu.c:194 src/gmpv_menu.c:239
+#: src/celluloid_menu.c:194 src/celluloid_menu.c:239
 msgid "S_ubtitle Track"
 msgstr "Variaĵo de s_ubteksto"
 
-#: src/gmpv_menu.c:195
+#: src/celluloid_menu.c:195
 msgid "_View"
 msgstr "_Vido"
 
-#: src/gmpv_menu.c:196 src/gmpv_menu.c:232
+#: src/celluloid_menu.c:196 src/celluloid_menu.c:232
 msgid "_Toggle Controls"
 msgstr "_Baskuligi regilojn"
 
-#: src/gmpv_menu.c:197 src/gmpv_menu.c:234
+#: src/celluloid_menu.c:197 src/celluloid_menu.c:234
 msgid "_Toggle Playlist"
 msgstr "_Baskuligi ludliston"
 
-#: src/gmpv_menu.c:198
+#: src/celluloid_menu.c:198
 msgid "_Fullscreen"
 msgstr "_Tutekrana reĝimo"
 
-#: src/gmpv_menu.c:199
+#: src/celluloid_menu.c:199
 msgid "_Help"
 msgstr "_Helpo"
 
-#: src/gmpv_menu.c:200 src/gmpv_menu.c:242
+#: src/celluloid_menu.c:200 src/celluloid_menu.c:242
 msgid "_Keyboard Shortcuts"
 msgstr "_Klavkombinoj"
 
-#: src/gmpv_menu.c:201 src/gmpv_menu.c:243
+#: src/celluloid_menu.c:201 src/celluloid_menu.c:243
 msgid "_About Celluloid"
 msgstr "_Pri Celuloido"
 
-#: src/gmpv_mpv.c:201
+#: src/celluloid_mpv.c:201
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Ludo ĉesis malnormale. Kialo: %s"
 
-#: src/gmpv_open_location_dialog.c:123
+#: src/celluloid_open_location_dialog.c:123
 msgid "Location:"
 msgstr "Loko:"
 
-#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:386
+#: src/celluloid_open_location_dialog.c:127 src/celluloid_preferences_dialog.c:386
 msgid "_Cancel"
 msgstr "_Nuligi"
 
-#: src/gmpv_open_location_dialog.c:129
+#: src/celluloid_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Malfermi"
 
-#: src/gmpv_player.c:483
+#: src/celluloid_player.c:483
 msgid "Failed to apply one or more MPV options."
 msgstr "Malsukcesis apliki unu aŭ pli da elektebloj de MPV"
 
-#: src/gmpv_playlist_widget.c:529
+#: src/celluloid_playlist_widget.c:529
 msgid "_Copy Location"
 msgstr "_Kopii lokon"
 
-#: src/gmpv_playlist_widget.c:530
+#: src/celluloid_playlist_widget.c:530
 msgid "_Remove"
 msgstr "_Forigi"
 
-#: src/gmpv_playlist_widget.c:532
+#: src/celluloid_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Aldoni…"
 
-#: src/gmpv_playlist_widget.c:533
+#: src/celluloid_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "Aldoni _lokon…"
 
-#: src/gmpv_playlist_widget.c:534
+#: src/celluloid_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr "_Miksi"
 
-#: src/gmpv_playlist_widget.c:535
+#: src/celluloid_playlist_widget.c:535
 msgid "Loop _File"
 msgstr "Ripedati _dosieron"
 
-#: src/gmpv_playlist_widget.c:536
+#: src/celluloid_playlist_widget.c:536
 msgid "Loop _Playlist"
 msgstr "Ripetadi _ludliston"
 
-#: src/gmpv_playlist_widget.c:663
+#: src/celluloid_playlist_widget.c:663
 msgid "Playlist"
 msgstr "Ludlisto"
 
-#: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
+#: src/celluloid_plugins_manager.c:141 src/celluloid_plugins_manager.c:382
 msgid "Add Plugin"
 msgstr "Aldoni kromprogramon"
 
-#: src/gmpv_plugins_manager.c:153
+#: src/celluloid_plugins_manager.c:153
 msgid "Lua Plugins"
 msgstr "Kromprogramoj en Lua"
 
-#: src/gmpv_plugins_manager.c:159
+#: src/celluloid_plugins_manager.c:159
 msgid "JavaScript Plugins"
 msgstr "Kromprogramoj en Ĝavoskripto"
 
-#: src/gmpv_plugins_manager.c:164
+#: src/celluloid_plugins_manager.c:164
 msgid "C Plugins"
 msgstr "Kromprogramoj en C"
 
-#: src/gmpv_plugins_manager.c:309
+#: src/celluloid_plugins_manager.c:309
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Malskucesis kopii dosieron de « %s » al « %s ». Kialo: « %s »"
 
-#: src/gmpv_plugins_manager.c:358
+#: src/celluloid_plugins_manager.c:358
 msgid "No plugins found"
 msgstr "Neniuj kromprogramoj troviĝis"
 
-#: src/gmpv_plugins_manager_item.c:69
+#: src/celluloid_plugins_manager_item.c:69
 msgid "Remove"
 msgstr "Forigi"
 
-#: src/gmpv_plugins_manager_item.c:163
+#: src/celluloid_plugins_manager_item.c:163
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "Ĉu vi certe volas forigi ĉi tiun skripton? Tiu agon ne eblos malfari."
 
-#: src/gmpv_plugins_manager_item.c:184
+#: src/celluloid_plugins_manager_item.c:184
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Malsukcesis forigi dosieron « %s ». Kialo: %s"
 
-#: src/gmpv_preferences_dialog.c:295
+#: src/celluloid_preferences_dialog.c:295
 msgid "Enable client-side decorations"
 msgstr "Ŝalti klient-flankajn ornamaĵojn"
 
-#: src/gmpv_preferences_dialog.c:298
+#: src/celluloid_preferences_dialog.c:298
 msgid "Enable dark theme"
 msgstr "Ŝalti malhelan haŭton"
 
-#: src/gmpv_preferences_dialog.c:301
+#: src/celluloid_preferences_dialog.c:301
 msgid "Use floating controls in windowed mode"
 msgstr "Uzi surfilmajn regilojn en fenestra reĝimo"
 
-#: src/gmpv_preferences_dialog.c:304
+#: src/celluloid_preferences_dialog.c:304
 msgid "Autohide mouse cursor in windowed mode"
 msgstr "Memfare kaŝi musmontrilon en fenestra reĝimo"
 
-#: src/gmpv_preferences_dialog.c:307
+#: src/celluloid_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
 msgstr "Uzi preterpasajn butonojn por regi ludliston"
 
-#: src/gmpv_preferences_dialog.c:310
+#: src/celluloid_preferences_dialog.c:310
 msgid "Remember last file's location"
 msgstr "Memori lokon de lasta dosiero"
 
-#: src/gmpv_preferences_dialog.c:315
+#: src/celluloid_preferences_dialog.c:315
 msgid "Load MPV configuration file"
 msgstr "Enlegi agordan dosieron de MPV"
 
-#: src/gmpv_preferences_dialog.c:318
+#: src/celluloid_preferences_dialog.c:318
 msgid "MPV configuration file:"
 msgstr "Agorda dosiero de MPV:"
 
-#: src/gmpv_preferences_dialog.c:321
+#: src/celluloid_preferences_dialog.c:321
 msgid "Load MPV input configuration file"
 msgstr "Enlegi enigan agordan dosieron de MPV"
 
-#: src/gmpv_preferences_dialog.c:324
+#: src/celluloid_preferences_dialog.c:324
 msgid "MPV input configuration file:"
 msgstr "Eniga agorda dosiero de MPV:"
 
-#: src/gmpv_preferences_dialog.c:329
+#: src/celluloid_preferences_dialog.c:329
 msgid "Always open new window"
 msgstr "Ĉiam malfermi novan fenestron"
 
-#: src/gmpv_preferences_dialog.c:332
+#: src/celluloid_preferences_dialog.c:332
 msgid "Prefetch metadata"
 msgstr "Antaŭpeti metadatumojn"
 
-#: src/gmpv_preferences_dialog.c:335
+#: src/celluloid_preferences_dialog.c:335
 msgid "Enable MPRIS support"
 msgstr "Ŝalti subtenon de MPRIS"
 
-#: src/gmpv_preferences_dialog.c:338
+#: src/celluloid_preferences_dialog.c:338
 msgid "Enable media keys support"
 msgstr "Ŝalti subtenon de aŭdovidaj klavoj"
 
-#: src/gmpv_preferences_dialog.c:341
+#: src/celluloid_preferences_dialog.c:341
 msgid "Extra MPV options:"
 msgstr "Ekstraj elektebloj de MPV:"
 
-#: src/gmpv_preferences_dialog.c:374
+#: src/celluloid_preferences_dialog.c:374
 msgid "Interface"
 msgstr "Fasado"
 
-#: src/gmpv_preferences_dialog.c:377
+#: src/celluloid_preferences_dialog.c:377
 msgid "Config Files"
 msgstr "Agordaj dosieroj"
 
-#: src/gmpv_preferences_dialog.c:380
+#: src/celluloid_preferences_dialog.c:380
 msgid "Miscellaneous"
 msgstr "Diversaj"
 
-#: src/gmpv_preferences_dialog.c:383
+#: src/celluloid_preferences_dialog.c:383
 msgid "Plugins"
 msgstr "Kromprogramoj"
 
-#: src/gmpv_preferences_dialog.c:388
+#: src/celluloid_preferences_dialog.c:388
 msgid "_Save"
 msgstr "_Konservi"
 
-#: src/gmpv_preferences_dialog.c:405
+#: src/celluloid_preferences_dialog.c:405
 msgid "Preferences"
 msgstr "Agordoj"
 
-#: src/gmpv_shortcuts_window.c:56
+#: src/celluloid_shortcuts_window.c:56
 msgid "Open file"
 msgstr "Malfermi dosieron"
 
-#: src/gmpv_shortcuts_window.c:57
+#: src/celluloid_shortcuts_window.c:57
 msgid "Open location"
 msgstr "Malfermi lokon"
 
-#: src/gmpv_shortcuts_window.c:58
+#: src/celluloid_shortcuts_window.c:58
 msgid "Add file to playlist"
 msgstr "Aldoni dosieron al ludlisto"
 
-#: src/gmpv_shortcuts_window.c:59
+#: src/celluloid_shortcuts_window.c:59
 msgid "Add location to playlist"
 msgstr "Aldoni lokon al ludlisto"
 
-#: src/gmpv_shortcuts_window.c:60
+#: src/celluloid_shortcuts_window.c:60
 msgid "Show preferences dialog"
 msgstr "Montri agordan interagujon"
 
-#: src/gmpv_shortcuts_window.c:61
+#: src/celluloid_shortcuts_window.c:61
 msgid "Toggle controls"
 msgstr "Baskuligi regilojn"
 
-#: src/gmpv_shortcuts_window.c:62
+#: src/celluloid_shortcuts_window.c:62
 msgid "Toggle playlist"
 msgstr "Baskuligi ludliston"
 
-#: src/gmpv_shortcuts_window.c:63
+#: src/celluloid_shortcuts_window.c:63
 msgid "Toggle fullscreen mode"
 msgstr "Baskuligi tutekranan reĝimon"
 
-#: src/gmpv_shortcuts_window.c:64
+#: src/celluloid_shortcuts_window.c:64
 msgid "Leave fullscreen mode"
 msgstr "Forlasi tutekranan reĝimon"
 
-#: src/gmpv_shortcuts_window.c:65
+#: src/celluloid_shortcuts_window.c:65
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr "Baskuligi statojn de surfilma regilaro inter normala kaj tempomontra"
 
-#: src/gmpv_shortcuts_window.c:66
+#: src/celluloid_shortcuts_window.c:66
 msgid "Show filename on the OSD"
 msgstr "Montri dosiernomon en la surfilma regilaro"
 
-#: src/gmpv_shortcuts_window.c:67
+#: src/celluloid_shortcuts_window.c:67
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "Montri progreson, pasintan tempon, kaj daŭron en la surfilma regilaro"
 
-#: src/gmpv_shortcuts_window.c:70
+#: src/celluloid_shortcuts_window.c:70
 msgid "Seek backward/forward 5 seconds"
 msgstr "Tempiri 5 sekundojn reen/pluen"
 
-#: src/gmpv_shortcuts_window.c:71
+#: src/celluloid_shortcuts_window.c:71
 msgid "Exact seek backward/forward 1 second"
 msgstr "Precize tempiri 1 sekundon reen/pluen"
 
-#: src/gmpv_shortcuts_window.c:72
+#: src/celluloid_shortcuts_window.c:72
 msgid "Seek backward/forward 1 minute"
 msgstr "Tempiri 1 minuton reen/pluen"
 
-#: src/gmpv_shortcuts_window.c:73
+#: src/celluloid_shortcuts_window.c:73
 msgid "Exact seek backward/forward 5 seconds"
 msgstr "Precize tempiri 5 sekundojn reen/pluen"
 
-#: src/gmpv_shortcuts_window.c:74
+#: src/celluloid_shortcuts_window.c:74
 msgid "Seek to previous/next subtitle"
 msgstr "Tempiri al la lasta/sekva subteksto"
 
-#: src/gmpv_shortcuts_window.c:75
+#: src/celluloid_shortcuts_window.c:75
 msgid "Step backward/forward a single frame"
 msgstr "Tempiri unu filmeron reen/pluen"
 
-#: src/gmpv_shortcuts_window.c:76
+#: src/celluloid_shortcuts_window.c:76
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr "Tempiri al la komenco de la lasta/sekva ĉapitro"
 
-#: src/gmpv_shortcuts_window.c:79
+#: src/celluloid_shortcuts_window.c:79
 msgid "Decrease/increase playback speed by 10%"
 msgstr "Alkrementi/dekrementi ludrapidon je 10%"
 
-#: src/gmpv_shortcuts_window.c:80
+#: src/celluloid_shortcuts_window.c:80
 msgid "Halve/double current playback speed"
 msgstr "Du onigi/obligi la nunan ludrapidon"
 
-#: src/gmpv_shortcuts_window.c:81
+#: src/celluloid_shortcuts_window.c:81
 msgid "Reset playback speed to normal"
 msgstr "Restarigi norman ludrapidon"
 
-#: src/gmpv_shortcuts_window.c:82
+#: src/celluloid_shortcuts_window.c:82
 msgid "Go backward/forward in the playlist"
 msgstr "Iri pluen/antaŭen ludliste"
 
-#: src/gmpv_shortcuts_window.c:83
+#: src/celluloid_shortcuts_window.c:83
 msgid "Remove selected playlist item"
 msgstr "Forigi elektitan ludlisteron"
 
-#: src/gmpv_shortcuts_window.c:84
+#: src/celluloid_shortcuts_window.c:84
 msgid "Save playlist"
 msgstr "Konservi ludliston"
 
-#: src/gmpv_shortcuts_window.c:85
+#: src/celluloid_shortcuts_window.c:85
 msgid "Set/clear A-B loop points"
 msgstr "Meti/forigi limojn A-B de ripetado"
 
-#: src/gmpv_shortcuts_window.c:86
+#: src/celluloid_shortcuts_window.c:86
 msgid "Toggle infinite looping"
 msgstr "Baskuligi senfinan ripetadon"
 
-#: src/gmpv_shortcuts_window.c:87
+#: src/celluloid_shortcuts_window.c:87
 msgid "Pause or unpause"
 msgstr "Paŭzigi aŭ malpaŭzigi"
 
-#: src/gmpv_shortcuts_window.c:88
+#: src/celluloid_shortcuts_window.c:88
 msgid "Quit"
 msgstr "Ĉesi"
 
-#: src/gmpv_shortcuts_window.c:89
+#: src/celluloid_shortcuts_window.c:89
 msgid "Save current playback position and quit"
 msgstr "Konservi nunan templokon kaj ĉesi"
 
-#: src/gmpv_shortcuts_window.c:92
+#: src/celluloid_shortcuts_window.c:92
 msgid "Cycle through audio tracks"
 msgstr "Cikli tra sonpecoj"
 
-#: src/gmpv_shortcuts_window.c:93 src/gmpv_shortcuts_window.c:94
+#: src/celluloid_shortcuts_window.c:93 src/celluloid_shortcuts_window.c:94
 msgid "Decrease/increase volume"
 msgstr "(Mal)laŭtigi"
 
-#: src/gmpv_shortcuts_window.c:95
+#: src/celluloid_shortcuts_window.c:95
 msgid "Mute or unmute"
 msgstr "(Mal)silentigi"
 
-#: src/gmpv_shortcuts_window.c:96
+#: src/celluloid_shortcuts_window.c:96
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "Alĝustigi prokraston de sono po 0,1 sekundoj"
 
-#: src/gmpv_shortcuts_window.c:99
+#: src/celluloid_shortcuts_window.c:99
 msgid "Toggle subtitle visibility"
 msgstr "Baskuligi videblecon de subteksto"
 
-#: src/gmpv_shortcuts_window.c:100
+#: src/celluloid_shortcuts_window.c:100
 msgid "Cycle through available subtitles"
 msgstr "Cikli tra eblaj subtekstoj"
 
-#: src/gmpv_shortcuts_window.c:101
+#: src/celluloid_shortcuts_window.c:101
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "Alĝustigi prokraston de subtekstoj po 0,1 sekundoj"
 
-#: src/gmpv_shortcuts_window.c:102
+#: src/celluloid_shortcuts_window.c:102
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr "Baskuligi transpason de stilo de SSA/ASS-subteksto"
 
-#: src/gmpv_shortcuts_window.c:103
+#: src/celluloid_shortcuts_window.c:103
 msgid "Move subtitles up/down"
 msgstr "Movi subtekstojn supren/suben"
 
-#: src/gmpv_shortcuts_window.c:104
+#: src/celluloid_shortcuts_window.c:104
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr "Baskuligi reĝimon de formata kongrueco kun VSFilter"
 
-#: src/gmpv_shortcuts_window.c:107
+#: src/celluloid_shortcuts_window.c:107
 msgid "Cycle through video tracks"
 msgstr "Cikli tra variaĵoj de filmo"
 
-#: src/gmpv_shortcuts_window.c:108
+#: src/celluloid_shortcuts_window.c:108
 msgid "Decrease/increase pan-and-scan range"
 msgstr "(Mal)pliigi amplekson de glitado"
 
-#: src/gmpv_shortcuts_window.c:109
+#: src/celluloid_shortcuts_window.c:109
 msgid "Take a screenshot"
 msgstr "Fari ekrankopion"
 
-#: src/gmpv_shortcuts_window.c:110
+#: src/celluloid_shortcuts_window.c:110
 msgid "Take a screenshot, without subtitles"
 msgstr "Fari ekrankopion, sen subteksto"
 
-#: src/gmpv_shortcuts_window.c:111
+#: src/celluloid_shortcuts_window.c:111
 msgid "Take a screenshot, as the window shows it"
 msgstr "Fari ekrankopion tian, kian montras la fenestro"
 
-#: src/gmpv_shortcuts_window.c:112
+#: src/celluloid_shortcuts_window.c:112
 msgid "Resize video to half its original size"
 msgstr "Regrandigi filmon al duono de originala grando"
 
-#: src/gmpv_shortcuts_window.c:113
+#: src/celluloid_shortcuts_window.c:113
 msgid "Resize video to its original size"
 msgstr "Regrandigi filmon al originala grando"
 
-#: src/gmpv_shortcuts_window.c:114
+#: src/celluloid_shortcuts_window.c:114
 msgid "Resize video to double its original size"
 msgstr "Regrandigi filmon al duoblo de originala grando"
 
-#: src/gmpv_shortcuts_window.c:115
+#: src/celluloid_shortcuts_window.c:115
 msgid "Adjust contrast"
 msgstr "Alĝustigi kontraston"
 
-#: src/gmpv_shortcuts_window.c:116
+#: src/celluloid_shortcuts_window.c:116
 msgid "Adjust brightness"
 msgstr "Alĝustigi helecon"
 
-#: src/gmpv_shortcuts_window.c:117
+#: src/celluloid_shortcuts_window.c:117
 msgid "Adjust gamma"
 msgstr "Alĝustigi gamaon"
 
-#: src/gmpv_shortcuts_window.c:118
+#: src/celluloid_shortcuts_window.c:118
 msgid "Adjust saturation"
 msgstr "Alĝustigi saturecon"
 
-#: src/gmpv_shortcuts_window.c:119
+#: src/celluloid_shortcuts_window.c:119
 msgid "Activate or deactivate deinterlacer"
 msgstr "Aktivigi aŭ malaktivigi malinterplektilon"
 
-#: src/gmpv_shortcuts_window.c:120
+#: src/celluloid_shortcuts_window.c:120
 msgid "Cycle aspect ratio override"
 msgstr "Cikligi transpason de bildformato"
 
-#: src/gmpv_shortcuts_window.c:123
+#: src/celluloid_shortcuts_window.c:123
 msgid "User Interface"
 msgstr "Fasado"
 
-#: src/gmpv_shortcuts_window.c:124
+#: src/celluloid_shortcuts_window.c:124
 msgid "Video"
 msgstr "Filmo"
 
-#: src/gmpv_shortcuts_window.c:125
+#: src/celluloid_shortcuts_window.c:125
 msgid "Audio"
 msgstr "Sono"
 
-#: src/gmpv_shortcuts_window.c:126
+#: src/celluloid_shortcuts_window.c:126
 msgid "Subtitle"
 msgstr "Subteksto"
 
-#: src/gmpv_shortcuts_window.c:127
+#: src/celluloid_shortcuts_window.c:127
 msgid "Playback"
 msgstr "Ludo"
 
-#: src/gmpv_shortcuts_window.c:128
+#: src/celluloid_shortcuts_window.c:128
 msgid "Seeking"
 msgstr "Tempiro"
 
-#: src/gmpv_view.c:635
+#: src/celluloid_view.c:635
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
 "(Mal)ŝalto de klient-flankaj ornamaĵoj postulas restartigon por efektiviĝi"
 
-#: src/gmpv_view.c:1086
+#: src/celluloid_view.c:1086
 msgid "Add File to Playlist"
 msgstr "Aldoni dosieron al ludlisto"
 
-#: src/gmpv_view.c:1087
+#: src/celluloid_view.c:1087
 msgid "Open File"
 msgstr "Malfermi dosieron"
 
-#: src/gmpv_view.c:1114
+#: src/celluloid_view.c:1114
 msgid "Add Location to Playlist"
 msgstr "Aldoni lokon al ludlisto"
 
-#: src/gmpv_view.c:1115
+#: src/celluloid_view.c:1115
 msgid "Open Location"
 msgstr "Malfermi lokon"
 
-#: src/gmpv_view.c:1136
+#: src/celluloid_view.c:1136
 msgid "Load Audio Track…"
 msgstr "Enlegi variaĵon de sono…"
 
-#: src/gmpv_view.c:1155
+#: src/celluloid_view.c:1155
 msgid "Load Subtitle Track…"
 msgstr "Enlegi variaĵon de subteksto…"
 
-#: src/gmpv_view.c:1180
+#: src/celluloid_view.c:1180
 msgid "Save Playlist"
 msgstr "Konservi ludliston"
 
-#: src/gmpv_view.c:1243
+#: src/celluloid_view.c:1243
 msgid "A GTK frontend for MPV"
 msgstr "Fasado por MPV per GTK"
 
-#: src/gmpv_view.c:1253
+#: src/celluloid_view.c:1253
 msgid "translator-credits"
 msgstr "Tirifto"

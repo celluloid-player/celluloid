@@ -37,8 +37,8 @@ EXTRA_DIST =	$(appstream_in_files) \
 		io.github.Celluloid-symbolic.svg \
 		io.github.GnomeMpv.gschema.xml \
 		io.github.Celluloid.gschema.xml \
-		gmpv_mpris_gdbus.xml \
-		gmpv_marshal.lst \
+		celluloid-mpris-gdbus.xml \
+		celluloid-marshal.lst \
 		meson.build
 
 DISTCLEANFILES = $(appstream_XML) $(desktop_DATA) $(dbusservice_DATA)

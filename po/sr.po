@@ -50,7 +50,7 @@ msgstr ""
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr "Да ли да креира нови прозор када је примерак већ присутан"
 
-#: data/io.github.Celluloid.gschema.xml:58 src/gmpv_application.c:466
+#: data/io.github.Celluloid.gschema.xml:58 src/celluloid_application.c:466
 msgid "Options to pass to mpv"
 msgstr "Опције које треба пренети на mpv"
 
@@ -113,7 +113,7 @@ msgid "URI of the last folder accessed"
 msgstr "URI последње приступљеног директоријума"
 
 #: data/io.github.Celluloid.appdata.xml.in:7
-#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:353
+#: data/io.github.Celluloid.desktop.in:4 src/celluloid_application.c:353
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -262,598 +262,598 @@ msgstr ""
 msgid "New Window"
 msgstr "Нови прозор"
 
-#: src/gmpv_application.c:393
+#: src/celluloid_application.c:393
 msgid "Playing"
 msgstr "Репродукција"
 
-#: src/gmpv_application.c:442
+#: src/celluloid_application.c:442
 msgid "Show release version"
 msgstr "Прикажи верзију издања"
 
-#: src/gmpv_application.c:450
+#: src/celluloid_application.c:450
 msgid "Enqueue"
 msgstr "Нанижи"
 
-#: src/gmpv_application.c:458
+#: src/celluloid_application.c:458
 msgid "Create a new window"
 msgstr "Направи нови прозор"
 
-#: src/gmpv_application.c:467
+#: src/celluloid_application.c:467
 msgid "OPTIONS"
 msgstr ""
 
-#: src/gmpv_application.c:474
+#: src/celluloid_application.c:474
 msgid "Set the window role"
 msgstr ""
 
-#: src/gmpv_application.c:482
+#: src/celluloid_application.c:482
 msgid "Don't connect to an already-running instance"
 msgstr "Не повезуј на већ покренут примерак"
 
-#: src/gmpv_control_box.c:297
+#: src/celluloid_control_box.c:297
 msgid "Pause"
 msgstr "Паузирај"
 
-#: src/gmpv_control_box.c:297 src/gmpv_control_box.c:454
+#: src/celluloid_control_box.c:297 src/celluloid_control_box.c:454
 msgid "Play"
 msgstr "Пусти"
 
-#: src/gmpv_control_box.c:457
+#: src/celluloid_control_box.c:457
 msgid "Stop"
 msgstr "Заустави"
 
-#: src/gmpv_control_box.c:460
+#: src/celluloid_control_box.c:460
 msgid "Forward"
 msgstr "Напред"
 
-#: src/gmpv_control_box.c:463
+#: src/celluloid_control_box.c:463
 msgid "Rewind"
 msgstr "Назад"
 
-#: src/gmpv_control_box.c:466
+#: src/celluloid_control_box.c:466
 msgid "Next Chapter"
 msgstr "Следеће Поглавље"
 
-#: src/gmpv_control_box.c:469
+#: src/celluloid_control_box.c:469
 msgid "Previous Chapter"
 msgstr "Претходно Поглавље"
 
-#: src/gmpv_control_box.c:472
+#: src/celluloid_control_box.c:472
 msgid "Loop Playlist"
 msgstr ""
 
-#: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
+#: src/celluloid_control_box.c:475 src/celluloid_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "Цео Екран"
 
-#: src/gmpv_controller.c:847 src/gmpv_view.c:1206
+#: src/celluloid_controller.c:847 src/celluloid_view.c:1206
 msgid "Error"
 msgstr "Грешка"
 
-#: src/gmpv_file_chooser.c:124 src/gmpv_plugins_manager.c:148
+#: src/celluloid_file_chooser.c:124 src/celluloid_plugins_manager.c:148
 msgid "All Files"
 msgstr "Све Датотеке"
 
-#: src/gmpv_file_chooser.c:132
+#: src/celluloid_file_chooser.c:132
 msgid "Media Files"
 msgstr "Медијски записи"
 
-#: src/gmpv_file_chooser.c:143
+#: src/celluloid_file_chooser.c:143
 msgid "Audio Files"
 msgstr "Звучни записи"
 
-#: src/gmpv_file_chooser.c:151
+#: src/celluloid_file_chooser.c:151
 msgid "Video Files"
 msgstr "Видео записи"
 
-#: src/gmpv_file_chooser.c:159
+#: src/celluloid_file_chooser.c:159
 msgid "Image Files"
 msgstr "Слике"
 
-#: src/gmpv_file_chooser.c:169
+#: src/celluloid_file_chooser.c:169
 msgid "Subtitle Files"
 msgstr "Преводи"
 
-#: src/gmpv_menu.c:92
+#: src/celluloid_menu.c:92
 msgid "None"
 msgstr "Ниједан"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:107
+#: src/celluloid_menu.c:107
 msgid "Unknown"
 msgstr "Непознато"
 
-#: src/gmpv_menu.c:140
+#: src/celluloid_menu.c:140
 msgid "_Load External…"
 msgstr "_Учитај Спољне..."
 
-#: src/gmpv_menu.c:185
+#: src/celluloid_menu.c:185
 msgid "_File"
 msgstr "_Датотека"
 
-#: src/gmpv_menu.c:186 src/gmpv_menu.c:260
+#: src/celluloid_menu.c:186 src/celluloid_menu.c:260
 msgid "_Open…"
 msgstr ""
 
-#: src/gmpv_menu.c:187 src/gmpv_menu.c:261
+#: src/celluloid_menu.c:187 src/celluloid_menu.c:261
 msgid "Open _Location…"
 msgstr ""
 
-#: src/gmpv_menu.c:188 src/gmpv_menu.c:235
+#: src/celluloid_menu.c:188 src/celluloid_menu.c:235
 msgid "_Save Playlist"
 msgstr "_Сачувај Листу Пуштања"
 
-#: src/gmpv_menu.c:189 src/gmpv_menu.c:263
+#: src/celluloid_menu.c:189 src/celluloid_menu.c:263
 msgid "_New Window"
 msgstr "_Нови прозор"
 
-#: src/gmpv_menu.c:190
+#: src/celluloid_menu.c:190
 msgid "_Edit"
 msgstr "_Уреди"
 
-#: src/gmpv_menu.c:191 src/gmpv_menu.c:241
+#: src/celluloid_menu.c:191 src/celluloid_menu.c:241
 msgid "_Preferences"
 msgstr "_Поставке"
 
-#: src/gmpv_menu.c:192 src/gmpv_menu.c:237
+#: src/celluloid_menu.c:192 src/celluloid_menu.c:237
 msgid "_Video Track"
 msgstr "_Видео Снимак"
 
-#: src/gmpv_menu.c:193 src/gmpv_menu.c:238
+#: src/celluloid_menu.c:193 src/celluloid_menu.c:238
 msgid "_Audio Track"
 msgstr "_Аудио Снимак"
 
-#: src/gmpv_menu.c:194 src/gmpv_menu.c:239
+#: src/celluloid_menu.c:194 src/celluloid_menu.c:239
 msgid "S_ubtitle Track"
 msgstr "_Превод"
 
-#: src/gmpv_menu.c:195
+#: src/celluloid_menu.c:195
 msgid "_View"
 msgstr "_Преглед"
 
-#: src/gmpv_menu.c:196 src/gmpv_menu.c:232
+#: src/celluloid_menu.c:196 src/celluloid_menu.c:232
 msgid "_Toggle Controls"
 msgstr "_Прикажи Контроле"
 
-#: src/gmpv_menu.c:197 src/gmpv_menu.c:234
+#: src/celluloid_menu.c:197 src/celluloid_menu.c:234
 msgid "_Toggle Playlist"
 msgstr "_Прикажи Листу Пуштања"
 
-#: src/gmpv_menu.c:198
+#: src/celluloid_menu.c:198
 msgid "_Fullscreen"
 msgstr "_Цео Екран"
 
-#: src/gmpv_menu.c:199
+#: src/celluloid_menu.c:199
 msgid "_Help"
 msgstr "_Помоћ"
 
-#: src/gmpv_menu.c:200 src/gmpv_menu.c:242
+#: src/celluloid_menu.c:200 src/celluloid_menu.c:242
 msgid "_Keyboard Shortcuts"
 msgstr "_Пречице Тастатуре"
 
-#: src/gmpv_menu.c:201 src/gmpv_menu.c:243
+#: src/celluloid_menu.c:201 src/celluloid_menu.c:243
 msgid "_About Celluloid"
 msgstr ""
 
-#: src/gmpv_mpv.c:201
+#: src/celluloid_mpv.c:201
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Репродукција је неправилно окончана. Разлог: %s."
 
-#: src/gmpv_open_location_dialog.c:123
+#: src/celluloid_open_location_dialog.c:123
 msgid "Location:"
 msgstr "Локација:"
 
-#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:386
+#: src/celluloid_open_location_dialog.c:127 src/celluloid_preferences_dialog.c:386
 msgid "_Cancel"
 msgstr "_Откажи"
 
-#: src/gmpv_open_location_dialog.c:129
+#: src/celluloid_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Отвори"
 
-#: src/gmpv_player.c:483
+#: src/celluloid_player.c:483
 msgid "Failed to apply one or more MPV options."
 msgstr "Неуспешна примена једне или више MPV опција."
 
-#: src/gmpv_playlist_widget.c:529
+#: src/celluloid_playlist_widget.c:529
 msgid "_Copy Location"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:530
+#: src/celluloid_playlist_widget.c:530
 msgid "_Remove"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:532
+#: src/celluloid_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Додај..."
 
-#: src/gmpv_playlist_widget.c:533
+#: src/celluloid_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "Додај_Локацију..."
 
-#: src/gmpv_playlist_widget.c:534
+#: src/celluloid_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr "_Насумично"
 
-#: src/gmpv_playlist_widget.c:535
+#: src/celluloid_playlist_widget.c:535
 msgid "Loop _File"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:536
+#: src/celluloid_playlist_widget.c:536
 msgid "Loop _Playlist"
 msgstr ""
 
-#: src/gmpv_playlist_widget.c:663
+#: src/celluloid_playlist_widget.c:663
 msgid "Playlist"
 msgstr "Листа Пуштања"
 
-#: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
+#: src/celluloid_plugins_manager.c:141 src/celluloid_plugins_manager.c:382
 msgid "Add Plugin"
 msgstr ""
 
-#: src/gmpv_plugins_manager.c:153
+#: src/celluloid_plugins_manager.c:153
 msgid "Lua Plugins"
 msgstr ""
 
-#: src/gmpv_plugins_manager.c:159
+#: src/celluloid_plugins_manager.c:159
 msgid "JavaScript Plugins"
 msgstr ""
 
-#: src/gmpv_plugins_manager.c:164
+#: src/celluloid_plugins_manager.c:164
 msgid "C Plugins"
 msgstr ""
 
-#: src/gmpv_plugins_manager.c:309
+#: src/celluloid_plugins_manager.c:309
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Неуспешно копирање датотеке из '%s' у '%s'. Разлог: %s"
 
-#: src/gmpv_plugins_manager.c:358
+#: src/celluloid_plugins_manager.c:358
 msgid "No plugins found"
 msgstr ""
 
-#: src/gmpv_plugins_manager_item.c:69
+#: src/celluloid_plugins_manager_item.c:69
 msgid "Remove"
 msgstr "Уклони"
 
-#: src/gmpv_plugins_manager_item.c:163
+#: src/celluloid_plugins_manager_item.c:163
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Сигурно желите да уклоните ову скрипту? Овај поступак не може бити опозван."
 
-#: src/gmpv_plugins_manager_item.c:184
+#: src/celluloid_plugins_manager_item.c:184
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Неуспешно брисање датотеке '%s'. Разлог: %s"
 
-#: src/gmpv_preferences_dialog.c:295
+#: src/celluloid_preferences_dialog.c:295
 msgid "Enable client-side decorations"
 msgstr "Омогући украсе клијента"
 
-#: src/gmpv_preferences_dialog.c:298
+#: src/celluloid_preferences_dialog.c:298
 msgid "Enable dark theme"
 msgstr "Омогући тамну тему"
 
-#: src/gmpv_preferences_dialog.c:301
+#: src/celluloid_preferences_dialog.c:301
 msgid "Use floating controls in windowed mode"
 msgstr "Користи пливајуће контроле у режиму прозора"
 
-#: src/gmpv_preferences_dialog.c:304
+#: src/celluloid_preferences_dialog.c:304
 msgid "Autohide mouse cursor in windowed mode"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:307
+#: src/celluloid_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:310
+#: src/celluloid_preferences_dialog.c:310
 msgid "Remember last file's location"
 msgstr "Упамти локацију последње датотеке"
 
-#: src/gmpv_preferences_dialog.c:315
+#: src/celluloid_preferences_dialog.c:315
 msgid "Load MPV configuration file"
 msgstr "Учитај MPV конфигурациону датотеку"
 
-#: src/gmpv_preferences_dialog.c:318
+#: src/celluloid_preferences_dialog.c:318
 msgid "MPV configuration file:"
 msgstr "MPV конфигурациона датотека:"
 
-#: src/gmpv_preferences_dialog.c:321
+#: src/celluloid_preferences_dialog.c:321
 msgid "Load MPV input configuration file"
 msgstr "Учитај MPV конфигурациону датотеку уноса"
 
-#: src/gmpv_preferences_dialog.c:324
+#: src/celluloid_preferences_dialog.c:324
 msgid "MPV input configuration file:"
 msgstr "MPV конфигурациона датотека уноса:"
 
-#: src/gmpv_preferences_dialog.c:329
+#: src/celluloid_preferences_dialog.c:329
 msgid "Always open new window"
 msgstr "Увек отвори нови прозор"
 
-#: src/gmpv_preferences_dialog.c:332
+#: src/celluloid_preferences_dialog.c:332
 msgid "Prefetch metadata"
 msgstr "Припреми метаподатке"
 
-#: src/gmpv_preferences_dialog.c:335
+#: src/celluloid_preferences_dialog.c:335
 msgid "Enable MPRIS support"
 msgstr "Омогући подршку за MPRIS"
 
-#: src/gmpv_preferences_dialog.c:338
+#: src/celluloid_preferences_dialog.c:338
 msgid "Enable media keys support"
 msgstr "Омогући подршку за мултимедијалне тастере"
 
-#: src/gmpv_preferences_dialog.c:341
+#: src/celluloid_preferences_dialog.c:341
 msgid "Extra MPV options:"
 msgstr "Додатне MPV опције:"
 
-#: src/gmpv_preferences_dialog.c:374
+#: src/celluloid_preferences_dialog.c:374
 msgid "Interface"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:377
+#: src/celluloid_preferences_dialog.c:377
 msgid "Config Files"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:380
+#: src/celluloid_preferences_dialog.c:380
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:383
+#: src/celluloid_preferences_dialog.c:383
 msgid "Plugins"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:388
+#: src/celluloid_preferences_dialog.c:388
 msgid "_Save"
 msgstr "_Сачувај"
 
-#: src/gmpv_preferences_dialog.c:405
+#: src/celluloid_preferences_dialog.c:405
 msgid "Preferences"
 msgstr "Поставке"
 
-#: src/gmpv_shortcuts_window.c:56
+#: src/celluloid_shortcuts_window.c:56
 msgid "Open file"
 msgstr "Отвори датотеку"
 
-#: src/gmpv_shortcuts_window.c:57
+#: src/celluloid_shortcuts_window.c:57
 msgid "Open location"
 msgstr "Отвори локацију"
 
-#: src/gmpv_shortcuts_window.c:58
+#: src/celluloid_shortcuts_window.c:58
 msgid "Add file to playlist"
 msgstr "Додај датотеку у листу"
 
-#: src/gmpv_shortcuts_window.c:59
+#: src/celluloid_shortcuts_window.c:59
 msgid "Add location to playlist"
 msgstr "Додај место у листу"
 
-#: src/gmpv_shortcuts_window.c:60
+#: src/celluloid_shortcuts_window.c:60
 msgid "Show preferences dialog"
 msgstr "Прикажи дијалог поставки"
 
-#: src/gmpv_shortcuts_window.c:61
+#: src/celluloid_shortcuts_window.c:61
 msgid "Toggle controls"
 msgstr "Прикажи контроле"
 
-#: src/gmpv_shortcuts_window.c:62
+#: src/celluloid_shortcuts_window.c:62
 msgid "Toggle playlist"
 msgstr "Прикажи листу пуштања"
 
-#: src/gmpv_shortcuts_window.c:63
+#: src/celluloid_shortcuts_window.c:63
 msgid "Toggle fullscreen mode"
 msgstr "Прикажи у режиму целог екрана"
 
-#: src/gmpv_shortcuts_window.c:64
+#: src/celluloid_shortcuts_window.c:64
 msgid "Leave fullscreen mode"
 msgstr "Напусти режим целог екрана"
 
-#: src/gmpv_shortcuts_window.c:65
+#: src/celluloid_shortcuts_window.c:65
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr "Промени OSD приказ између нормалног и време пуштања/дужина"
 
-#: src/gmpv_shortcuts_window.c:66
+#: src/celluloid_shortcuts_window.c:66
 msgid "Show filename on the OSD"
 msgstr "Прикажи име датотеке у OSD"
 
-#: src/gmpv_shortcuts_window.c:67
+#: src/celluloid_shortcuts_window.c:67
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "Прикажи напредак, протекло време и дужину на OSD"
 
-#: src/gmpv_shortcuts_window.c:70
+#: src/celluloid_shortcuts_window.c:70
 msgid "Seek backward/forward 5 seconds"
 msgstr "Пребаци 5 секунди уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:71
+#: src/celluloid_shortcuts_window.c:71
 msgid "Exact seek backward/forward 1 second"
 msgstr "Пребаци тачно 1 секунд уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:72
+#: src/celluloid_shortcuts_window.c:72
 msgid "Seek backward/forward 1 minute"
 msgstr "Пребаци 1 минут уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:73
+#: src/celluloid_shortcuts_window.c:73
 msgid "Exact seek backward/forward 5 seconds"
 msgstr "Пребаци тачно 5 секунди уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:74
+#: src/celluloid_shortcuts_window.c:74
 msgid "Seek to previous/next subtitle"
 msgstr "Пребаци на претходни/следећи поднатпис"
 
-#: src/gmpv_shortcuts_window.c:75
+#: src/celluloid_shortcuts_window.c:75
 msgid "Step backward/forward a single frame"
 msgstr "Корак за једну слику уназад/унапред"
 
-#: src/gmpv_shortcuts_window.c:76
+#: src/celluloid_shortcuts_window.c:76
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr "Пребаци на почетак претходног/следећег поглавља"
 
-#: src/gmpv_shortcuts_window.c:79
+#: src/celluloid_shortcuts_window.c:79
 msgid "Decrease/increase playback speed by 10%"
 msgstr "Успори/убрзај репродукцију за 10%"
 
-#: src/gmpv_shortcuts_window.c:80
+#: src/celluloid_shortcuts_window.c:80
 msgid "Halve/double current playback speed"
 msgstr "Преполови/удвостручи тренутну брзину репродукције"
 
-#: src/gmpv_shortcuts_window.c:81
+#: src/celluloid_shortcuts_window.c:81
 msgid "Reset playback speed to normal"
 msgstr "Поврати нормалну брзину репродукције"
 
-#: src/gmpv_shortcuts_window.c:82
+#: src/celluloid_shortcuts_window.c:82
 msgid "Go backward/forward in the playlist"
 msgstr "Иди уназад/унапред у листи пуштања"
 
-#: src/gmpv_shortcuts_window.c:83
+#: src/celluloid_shortcuts_window.c:83
 msgid "Remove selected playlist item"
 msgstr "Избаци означену ставку из листе пуштања"
 
-#: src/gmpv_shortcuts_window.c:84
+#: src/celluloid_shortcuts_window.c:84
 msgid "Save playlist"
 msgstr "Сачувај листу пуштања"
 
-#: src/gmpv_shortcuts_window.c:85
+#: src/celluloid_shortcuts_window.c:85
 msgid "Set/clear A-B loop points"
 msgstr "Постави/очисти A-B тачке понављања"
 
-#: src/gmpv_shortcuts_window.c:86
+#: src/celluloid_shortcuts_window.c:86
 msgid "Toggle infinite looping"
 msgstr "Укључи бесконачно понављање"
 
-#: src/gmpv_shortcuts_window.c:87
+#: src/celluloid_shortcuts_window.c:87
 msgid "Pause or unpause"
 msgstr "Паузирај или настави"
 
-#: src/gmpv_shortcuts_window.c:88
+#: src/celluloid_shortcuts_window.c:88
 msgid "Quit"
 msgstr "Напусти"
 
-#: src/gmpv_shortcuts_window.c:89
+#: src/celluloid_shortcuts_window.c:89
 msgid "Save current playback position and quit"
 msgstr "Сачувај тренутну позицију репродукције и напусти"
 
-#: src/gmpv_shortcuts_window.c:92
+#: src/celluloid_shortcuts_window.c:92
 msgid "Cycle through audio tracks"
 msgstr "Кружи кроз аудио снимке"
 
-#: src/gmpv_shortcuts_window.c:93 src/gmpv_shortcuts_window.c:94
+#: src/celluloid_shortcuts_window.c:93 src/celluloid_shortcuts_window.c:94
 msgid "Decrease/increase volume"
 msgstr "Смањи/појачај"
 
-#: src/gmpv_shortcuts_window.c:95
+#: src/celluloid_shortcuts_window.c:95
 msgid "Mute or unmute"
 msgstr "Искључи или укључи звук"
 
-#: src/gmpv_shortcuts_window.c:96
+#: src/celluloid_shortcuts_window.c:96
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "Прилагоди кашњење звука за +/- 0.1 секунд"
 
-#: src/gmpv_shortcuts_window.c:99
+#: src/celluloid_shortcuts_window.c:99
 msgid "Toggle subtitle visibility"
 msgstr "Промени видљивост поднатписа"
 
-#: src/gmpv_shortcuts_window.c:100
+#: src/celluloid_shortcuts_window.c:100
 msgid "Cycle through available subtitles"
 msgstr "Кружи кроз доступне поднатписе"
 
-#: src/gmpv_shortcuts_window.c:101
+#: src/celluloid_shortcuts_window.c:101
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "Прилагоди кашњење поднатписа за +/- 0.1 секунд"
 
-#: src/gmpv_shortcuts_window.c:102
+#: src/celluloid_shortcuts_window.c:102
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr "Измени SSA/ASS стил поднатписа"
 
-#: src/gmpv_shortcuts_window.c:103
+#: src/celluloid_shortcuts_window.c:103
 msgid "Move subtitles up/down"
 msgstr "Помери поднатписе горе/доле"
 
-#: src/gmpv_shortcuts_window.c:104
+#: src/celluloid_shortcuts_window.c:104
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr "Измени VSFilter режим усклађености"
 
-#: src/gmpv_shortcuts_window.c:107
+#: src/celluloid_shortcuts_window.c:107
 msgid "Cycle through video tracks"
 msgstr "Кружи кроз видео снимке"
 
-#: src/gmpv_shortcuts_window.c:108
+#: src/celluloid_shortcuts_window.c:108
 msgid "Decrease/increase pan-and-scan range"
 msgstr "Повећај/умањи опсег скенирања односа"
 
-#: src/gmpv_shortcuts_window.c:109
+#: src/celluloid_shortcuts_window.c:109
 msgid "Take a screenshot"
 msgstr "Направи снимак екрана"
 
-#: src/gmpv_shortcuts_window.c:110
+#: src/celluloid_shortcuts_window.c:110
 msgid "Take a screenshot, without subtitles"
 msgstr "Направи снимак екрана без поднатписа"
 
-#: src/gmpv_shortcuts_window.c:111
+#: src/celluloid_shortcuts_window.c:111
 msgid "Take a screenshot, as the window shows it"
 msgstr "Направи снимак екрана како га прозор приказује"
 
-#: src/gmpv_shortcuts_window.c:112
+#: src/celluloid_shortcuts_window.c:112
 msgid "Resize video to half its original size"
 msgstr "Преполови оригиналну величину видео снимка"
 
-#: src/gmpv_shortcuts_window.c:113
+#: src/celluloid_shortcuts_window.c:113
 msgid "Resize video to its original size"
 msgstr "Поврати оригиналну величину видео снимка"
 
-#: src/gmpv_shortcuts_window.c:114
+#: src/celluloid_shortcuts_window.c:114
 msgid "Resize video to double its original size"
 msgstr "Удвостручи оригиналну величину видео снимка"
 
-#: src/gmpv_shortcuts_window.c:115
+#: src/celluloid_shortcuts_window.c:115
 msgid "Adjust contrast"
 msgstr "Прилагоди контраст"
 
-#: src/gmpv_shortcuts_window.c:116
+#: src/celluloid_shortcuts_window.c:116
 msgid "Adjust brightness"
 msgstr "Прилагоди осветљеност"
 
-#: src/gmpv_shortcuts_window.c:117
+#: src/celluloid_shortcuts_window.c:117
 msgid "Adjust gamma"
 msgstr "Прилагоди гаму"
 
-#: src/gmpv_shortcuts_window.c:118
+#: src/celluloid_shortcuts_window.c:118
 msgid "Adjust saturation"
 msgstr "Прилагоди засићење"
 
-#: src/gmpv_shortcuts_window.c:119
+#: src/celluloid_shortcuts_window.c:119
 msgid "Activate or deactivate deinterlacer"
 msgstr "Омогући или онемогући преплитање"
 
-#: src/gmpv_shortcuts_window.c:120
+#: src/celluloid_shortcuts_window.c:120
 msgid "Cycle aspect ratio override"
 msgstr "Кружи кроз промену размере"
 
-#: src/gmpv_shortcuts_window.c:123
+#: src/celluloid_shortcuts_window.c:123
 msgid "User Interface"
 msgstr "Корисничко Сучеље"
 
-#: src/gmpv_shortcuts_window.c:124
+#: src/celluloid_shortcuts_window.c:124
 msgid "Video"
 msgstr "Видео"
 
-#: src/gmpv_shortcuts_window.c:125
+#: src/celluloid_shortcuts_window.c:125
 msgid "Audio"
 msgstr "Аудио"
 
-#: src/gmpv_shortcuts_window.c:126
+#: src/celluloid_shortcuts_window.c:126
 msgid "Subtitle"
 msgstr "Поднатпис"
 
-#: src/gmpv_shortcuts_window.c:127
+#: src/celluloid_shortcuts_window.c:127
 msgid "Playback"
 msgstr "Репродукција"
 
-#: src/gmpv_shortcuts_window.c:128
+#: src/celluloid_shortcuts_window.c:128
 msgid "Seeking"
 msgstr "Трагање"
 
-#: src/gmpv_view.c:635
+#: src/celluloid_view.c:635
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -861,38 +861,38 @@ msgstr ""
 "Потребно је поновно покретање да би измена подешавања украса клијента имала "
 "ефекат."
 
-#: src/gmpv_view.c:1086
+#: src/celluloid_view.c:1086
 msgid "Add File to Playlist"
 msgstr "Додај Датотеку у Листу Пуштања"
 
-#: src/gmpv_view.c:1087
+#: src/celluloid_view.c:1087
 msgid "Open File"
 msgstr "Отвори Датотеку"
 
-#: src/gmpv_view.c:1114
+#: src/celluloid_view.c:1114
 msgid "Add Location to Playlist"
 msgstr "Додај Локацију у Листу Пуштања"
 
-#: src/gmpv_view.c:1115
+#: src/celluloid_view.c:1115
 msgid "Open Location"
 msgstr "Отвори Локацију"
 
-#: src/gmpv_view.c:1136
+#: src/celluloid_view.c:1136
 msgid "Load Audio Track…"
 msgstr "Учитај звучни запис…"
 
-#: src/gmpv_view.c:1155
+#: src/celluloid_view.c:1155
 msgid "Load Subtitle Track…"
 msgstr "Учитај превод…"
 
-#: src/gmpv_view.c:1180
+#: src/celluloid_view.c:1180
 msgid "Save Playlist"
 msgstr "Сачувај Листу Пуштања"
 
-#: src/gmpv_view.c:1243
+#: src/celluloid_view.c:1243
 msgid "A GTK frontend for MPV"
 msgstr "GTK прочеље за MPV"
 
-#: src/gmpv_view.c:1253
+#: src/celluloid_view.c:1253
 msgid "translator-credits"
 msgstr "Срђан С."

@@ -48,7 +48,7 @@ msgstr "Recorda la ubicació de l'últim fitxer obert"
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr "Crea finestres noves quan ja hi ha una instància"
 
-#: data/io.github.Celluloid.gschema.xml:58 src/gmpv_application.c:466
+#: data/io.github.Celluloid.gschema.xml:58 src/celluloid_application.c:466
 msgid "Options to pass to mpv"
 msgstr "Opcions extra per a l'MPV"
 
@@ -112,7 +112,7 @@ msgid "URI of the last folder accessed"
 msgstr "Ubicació de l'última carpeta accedida"
 
 #: data/io.github.Celluloid.appdata.xml.in:7
-#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:353
+#: data/io.github.Celluloid.desktop.in:4 src/celluloid_application.c:353
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -263,598 +263,598 @@ msgstr ""
 msgid "New Window"
 msgstr "Finestra nova"
 
-#: src/gmpv_application.c:393
+#: src/celluloid_application.c:393
 msgid "Playing"
 msgstr "En reproducció"
 
-#: src/gmpv_application.c:442
+#: src/celluloid_application.c:442
 msgid "Show release version"
 msgstr "Mostra la versió"
 
-#: src/gmpv_application.c:450
+#: src/celluloid_application.c:450
 msgid "Enqueue"
 msgstr "Posar a la cua"
 
-#: src/gmpv_application.c:458
+#: src/celluloid_application.c:458
 msgid "Create a new window"
 msgstr "Crea una finestra nova"
 
-#: src/gmpv_application.c:467
+#: src/celluloid_application.c:467
 msgid "OPTIONS"
 msgstr ""
 
-#: src/gmpv_application.c:474
+#: src/celluloid_application.c:474
 msgid "Set the window role"
 msgstr ""
 
-#: src/gmpv_application.c:482
+#: src/celluloid_application.c:482
 msgid "Don't connect to an already-running instance"
 msgstr "No connectis a una instància que ja s'està executant"
 
-#: src/gmpv_control_box.c:297
+#: src/celluloid_control_box.c:297
 msgid "Pause"
 msgstr "Posa en pausa"
 
-#: src/gmpv_control_box.c:297 src/gmpv_control_box.c:454
+#: src/celluloid_control_box.c:297 src/celluloid_control_box.c:454
 msgid "Play"
 msgstr "Reprodueix"
 
-#: src/gmpv_control_box.c:457
+#: src/celluloid_control_box.c:457
 msgid "Stop"
 msgstr "Atura"
 
-#: src/gmpv_control_box.c:460
+#: src/celluloid_control_box.c:460
 msgid "Forward"
 msgstr "Avança"
 
-#: src/gmpv_control_box.c:463
+#: src/celluloid_control_box.c:463
 msgid "Rewind"
 msgstr "Rebobina"
 
-#: src/gmpv_control_box.c:466
+#: src/celluloid_control_box.c:466
 msgid "Next Chapter"
 msgstr "Capítol següent"
 
-#: src/gmpv_control_box.c:469
+#: src/celluloid_control_box.c:469
 msgid "Previous Chapter"
 msgstr "Capítol anterior"
 
-#: src/gmpv_control_box.c:472
+#: src/celluloid_control_box.c:472
 msgid "Loop Playlist"
 msgstr ""
 
-#: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
+#: src/celluloid_control_box.c:475 src/celluloid_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "Activa/desactiva la pantalla completa"
 
-#: src/gmpv_controller.c:847 src/gmpv_view.c:1206
+#: src/celluloid_controller.c:847 src/celluloid_view.c:1206
 msgid "Error"
 msgstr "Error"
 
-#: src/gmpv_file_chooser.c:124 src/gmpv_plugins_manager.c:148
+#: src/celluloid_file_chooser.c:124 src/celluloid_plugins_manager.c:148
 msgid "All Files"
 msgstr "Tots els fitxers"
 
-#: src/gmpv_file_chooser.c:132
+#: src/celluloid_file_chooser.c:132
 msgid "Media Files"
 msgstr "Fitxers multimèdia"
 
-#: src/gmpv_file_chooser.c:143
+#: src/celluloid_file_chooser.c:143
 msgid "Audio Files"
 msgstr "Fitxers d'àudio"
 
-#: src/gmpv_file_chooser.c:151
+#: src/celluloid_file_chooser.c:151
 msgid "Video Files"
 msgstr "Fitxers de vídeo"
 
-#: src/gmpv_file_chooser.c:159
+#: src/celluloid_file_chooser.c:159
 msgid "Image Files"
 msgstr "Fitxers d'imatge"
 
-#: src/gmpv_file_chooser.c:169
+#: src/celluloid_file_chooser.c:169
 msgid "Subtitle Files"
 msgstr "Fitxers de subtítols"
 
-#: src/gmpv_menu.c:92
+#: src/celluloid_menu.c:92
 msgid "None"
 msgstr "Cap"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:107
+#: src/celluloid_menu.c:107
 msgid "Unknown"
 msgstr "Desconeguda"
 
-#: src/gmpv_menu.c:140
+#: src/celluloid_menu.c:140
 msgid "_Load External…"
 msgstr "_Obre..."
 
-#: src/gmpv_menu.c:185
+#: src/celluloid_menu.c:185
 msgid "_File"
 msgstr "_Fitxer"
 
-#: src/gmpv_menu.c:186 src/gmpv_menu.c:260
+#: src/celluloid_menu.c:186 src/celluloid_menu.c:260
 msgid "_Open…"
 msgstr ""
 
-#: src/gmpv_menu.c:187 src/gmpv_menu.c:261
+#: src/celluloid_menu.c:187 src/celluloid_menu.c:261
 msgid "Open _Location…"
 msgstr ""
 
-#: src/gmpv_menu.c:188 src/gmpv_menu.c:235
+#: src/celluloid_menu.c:188 src/celluloid_menu.c:235
 msgid "_Save Playlist"
 msgstr "_Desa la llista de reproducció..."
 
-#: src/gmpv_menu.c:189 src/gmpv_menu.c:263
+#: src/celluloid_menu.c:189 src/celluloid_menu.c:263
 msgid "_New Window"
 msgstr "Finestra _nova"
 
-#: src/gmpv_menu.c:190
+#: src/celluloid_menu.c:190
 msgid "_Edit"
 msgstr "_Edita"
 
-#: src/gmpv_menu.c:191 src/gmpv_menu.c:241
+#: src/celluloid_menu.c:191 src/celluloid_menu.c:241
 msgid "_Preferences"
 msgstr "_Preferències"
 
-#: src/gmpv_menu.c:192 src/gmpv_menu.c:237
+#: src/celluloid_menu.c:192 src/celluloid_menu.c:237
 msgid "_Video Track"
 msgstr "Pista de _vídeo"
 
-#: src/gmpv_menu.c:193 src/gmpv_menu.c:238
+#: src/celluloid_menu.c:193 src/celluloid_menu.c:238
 msgid "_Audio Track"
 msgstr "Pista d'à_udio"
 
-#: src/gmpv_menu.c:194 src/gmpv_menu.c:239
+#: src/celluloid_menu.c:194 src/celluloid_menu.c:239
 msgid "S_ubtitle Track"
 msgstr "Pista de _subtítols"
 
-#: src/gmpv_menu.c:195
+#: src/celluloid_menu.c:195
 msgid "_View"
 msgstr "_Vista"
 
-#: src/gmpv_menu.c:196 src/gmpv_menu.c:232
+#: src/celluloid_menu.c:196 src/celluloid_menu.c:232
 msgid "_Toggle Controls"
 msgstr "Mostra/amaga els _controls"
 
-#: src/gmpv_menu.c:197 src/gmpv_menu.c:234
+#: src/celluloid_menu.c:197 src/celluloid_menu.c:234
 msgid "_Toggle Playlist"
 msgstr "Mostra/amaga la _llista de reproducció"
 
-#: src/gmpv_menu.c:198
+#: src/celluloid_menu.c:198
 msgid "_Fullscreen"
 msgstr "_Pantalla completa"
 
-#: src/gmpv_menu.c:199
+#: src/celluloid_menu.c:199
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: src/gmpv_menu.c:200 src/gmpv_menu.c:242
+#: src/celluloid_menu.c:200 src/celluloid_menu.c:242
 msgid "_Keyboard Shortcuts"
 msgstr "Dreceres de _teclat"
 
-#: src/gmpv_menu.c:201 src/gmpv_menu.c:243
+#: src/celluloid_menu.c:201 src/celluloid_menu.c:243
 msgid "_About Celluloid"
 msgstr ""
 
-#: src/gmpv_mpv.c:201
+#: src/celluloid_mpv.c:201
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "La reproducció ha acabat de forma anòmala. Motiu: %s"
 
-#: src/gmpv_open_location_dialog.c:123
+#: src/celluloid_open_location_dialog.c:123
 msgid "Location:"
 msgstr "Ubicació:"
 
-#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:386
+#: src/celluloid_open_location_dialog.c:127 src/celluloid_preferences_dialog.c:386
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: src/gmpv_open_location_dialog.c:129
+#: src/celluloid_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Obre"
 
-#: src/gmpv_player.c:483
+#: src/celluloid_player.c:483
 msgid "Failed to apply one or more MPV options."
 msgstr "No s'han pogut aplicar una o més opcions de l'MPV."
 
-#: src/gmpv_playlist_widget.c:529
+#: src/celluloid_playlist_widget.c:529
 msgid "_Copy Location"
 msgstr "_Copia la ubicació"
 
-#: src/gmpv_playlist_widget.c:530
+#: src/celluloid_playlist_widget.c:530
 msgid "_Remove"
 msgstr "_Suprimeix"
 
-#: src/gmpv_playlist_widget.c:532
+#: src/celluloid_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Afegeix…"
 
-#: src/gmpv_playlist_widget.c:533
+#: src/celluloid_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "Afegeix una _ubicació..."
 
-#: src/gmpv_playlist_widget.c:534
+#: src/celluloid_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr "_Mescla"
 
-#: src/gmpv_playlist_widget.c:535
+#: src/celluloid_playlist_widget.c:535
 msgid "Loop _File"
 msgstr "Reprodueix en bucle el _fitxer"
 
-#: src/gmpv_playlist_widget.c:536
+#: src/celluloid_playlist_widget.c:536
 msgid "Loop _Playlist"
 msgstr "Reprodueix en bucle la _llista"
 
-#: src/gmpv_playlist_widget.c:663
+#: src/celluloid_playlist_widget.c:663
 msgid "Playlist"
 msgstr "Llista de reproducció"
 
-#: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
+#: src/celluloid_plugins_manager.c:141 src/celluloid_plugins_manager.c:382
 msgid "Add Plugin"
 msgstr "Afegeix un connector"
 
-#: src/gmpv_plugins_manager.c:153
+#: src/celluloid_plugins_manager.c:153
 msgid "Lua Plugins"
 msgstr "Connectors Lua"
 
-#: src/gmpv_plugins_manager.c:159
+#: src/celluloid_plugins_manager.c:159
 msgid "JavaScript Plugins"
 msgstr "Connectors JavaScript"
 
-#: src/gmpv_plugins_manager.c:164
+#: src/celluloid_plugins_manager.c:164
 msgid "C Plugins"
 msgstr "Connectors C"
 
-#: src/gmpv_plugins_manager.c:309
+#: src/celluloid_plugins_manager.c:309
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "No s'ha pogut copiar el fitxer de «%s» a «%s». Motiu: %s"
 
-#: src/gmpv_plugins_manager.c:358
+#: src/celluloid_plugins_manager.c:358
 msgid "No plugins found"
 msgstr "No s'ha trobat cap connector"
 
-#: src/gmpv_plugins_manager_item.c:69
+#: src/celluloid_plugins_manager_item.c:69
 msgid "Remove"
 msgstr "Suprimeix"
 
-#: src/gmpv_plugins_manager_item.c:163
+#: src/celluloid_plugins_manager_item.c:163
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Segur que voleu suprimir aquest script? Aquesta acció no es pot desfer."
 
-#: src/gmpv_plugins_manager_item.c:184
+#: src/celluloid_plugins_manager_item.c:184
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "No s'ha pogut suprimir el fitxer «%s». Motiu: %s"
 
-#: src/gmpv_preferences_dialog.c:295
+#: src/celluloid_preferences_dialog.c:295
 msgid "Enable client-side decorations"
 msgstr "Activa les decoracions del client"
 
-#: src/gmpv_preferences_dialog.c:298
+#: src/celluloid_preferences_dialog.c:298
 msgid "Enable dark theme"
 msgstr "Activa el tema fosc"
 
-#: src/gmpv_preferences_dialog.c:301
+#: src/celluloid_preferences_dialog.c:301
 msgid "Use floating controls in windowed mode"
 msgstr "Utilitza controls flotants al mode de finestra"
 
-#: src/gmpv_preferences_dialog.c:304
+#: src/celluloid_preferences_dialog.c:304
 msgid "Autohide mouse cursor in windowed mode"
 msgstr "Amaga automàticament el punter del ratolí al mode de finestra"
 
-#: src/gmpv_preferences_dialog.c:307
+#: src/celluloid_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
 msgstr "Utilitza els botons de salt per controlar la llista de reproducció"
 
-#: src/gmpv_preferences_dialog.c:310
+#: src/celluloid_preferences_dialog.c:310
 msgid "Remember last file's location"
 msgstr "Recorda la ubicació de l'últim fitxer"
 
-#: src/gmpv_preferences_dialog.c:315
+#: src/celluloid_preferences_dialog.c:315
 msgid "Load MPV configuration file"
 msgstr "Carrega un fitxer de configuració de l'MPV"
 
-#: src/gmpv_preferences_dialog.c:318
+#: src/celluloid_preferences_dialog.c:318
 msgid "MPV configuration file:"
 msgstr "Fitxer de configuració de l'MPV:"
 
-#: src/gmpv_preferences_dialog.c:321
+#: src/celluloid_preferences_dialog.c:321
 msgid "Load MPV input configuration file"
 msgstr "Carrega un fitxer de configuració d'entrada de l'MPV"
 
-#: src/gmpv_preferences_dialog.c:324
+#: src/celluloid_preferences_dialog.c:324
 msgid "MPV input configuration file:"
 msgstr "Fitxer de configuració d'entrada de l'MPV:"
 
-#: src/gmpv_preferences_dialog.c:329
+#: src/celluloid_preferences_dialog.c:329
 msgid "Always open new window"
 msgstr "Obre sempre una finestra nova"
 
-#: src/gmpv_preferences_dialog.c:332
+#: src/celluloid_preferences_dialog.c:332
 msgid "Prefetch metadata"
 msgstr "Precarrega les metadades"
 
-#: src/gmpv_preferences_dialog.c:335
+#: src/celluloid_preferences_dialog.c:335
 msgid "Enable MPRIS support"
 msgstr "Activa la compatibilitat amb la interfície MPRIS"
 
-#: src/gmpv_preferences_dialog.c:338
+#: src/celluloid_preferences_dialog.c:338
 msgid "Enable media keys support"
 msgstr "Activa les tecles multimèdia"
 
-#: src/gmpv_preferences_dialog.c:341
+#: src/celluloid_preferences_dialog.c:341
 msgid "Extra MPV options:"
 msgstr "Opcions addicionals de l'MPV:"
 
-#: src/gmpv_preferences_dialog.c:374
+#: src/celluloid_preferences_dialog.c:374
 msgid "Interface"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:377
+#: src/celluloid_preferences_dialog.c:377
 msgid "Config Files"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:380
+#: src/celluloid_preferences_dialog.c:380
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/gmpv_preferences_dialog.c:383
+#: src/celluloid_preferences_dialog.c:383
 msgid "Plugins"
 msgstr "Connectors"
 
-#: src/gmpv_preferences_dialog.c:388
+#: src/celluloid_preferences_dialog.c:388
 msgid "_Save"
 msgstr "_Desa"
 
-#: src/gmpv_preferences_dialog.c:405
+#: src/celluloid_preferences_dialog.c:405
 msgid "Preferences"
 msgstr "Preferències"
 
-#: src/gmpv_shortcuts_window.c:56
+#: src/celluloid_shortcuts_window.c:56
 msgid "Open file"
 msgstr "Obre un fitxer"
 
-#: src/gmpv_shortcuts_window.c:57
+#: src/celluloid_shortcuts_window.c:57
 msgid "Open location"
 msgstr "Obre una ubicació"
 
-#: src/gmpv_shortcuts_window.c:58
+#: src/celluloid_shortcuts_window.c:58
 msgid "Add file to playlist"
 msgstr "Afegeix un fitxer a la llista de reproducció"
 
-#: src/gmpv_shortcuts_window.c:59
+#: src/celluloid_shortcuts_window.c:59
 msgid "Add location to playlist"
 msgstr "Afegeix una ubicació a la llista de reproducció"
 
-#: src/gmpv_shortcuts_window.c:60
+#: src/celluloid_shortcuts_window.c:60
 msgid "Show preferences dialog"
 msgstr "Mostra el diàleg de preferències"
 
-#: src/gmpv_shortcuts_window.c:61
+#: src/celluloid_shortcuts_window.c:61
 msgid "Toggle controls"
 msgstr "Mostra/amaga els controls"
 
-#: src/gmpv_shortcuts_window.c:62
+#: src/celluloid_shortcuts_window.c:62
 msgid "Toggle playlist"
 msgstr "Mostra/amaga la llista de reproducció"
 
-#: src/gmpv_shortcuts_window.c:63
+#: src/celluloid_shortcuts_window.c:63
 msgid "Toggle fullscreen mode"
 msgstr "Activa/desactiva el mode de pantalla completa"
 
-#: src/gmpv_shortcuts_window.c:64
+#: src/celluloid_shortcuts_window.c:64
 msgid "Leave fullscreen mode"
 msgstr "Surt del mode de pantalla completa"
 
-#: src/gmpv_shortcuts_window.c:65
+#: src/celluloid_shortcuts_window.c:65
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr "Mostra/amaga en pantalla el temps de reproducció i la durada"
 
-#: src/gmpv_shortcuts_window.c:66
+#: src/celluloid_shortcuts_window.c:66
 msgid "Show filename on the OSD"
 msgstr "Mostra en pantalla el nom del fitxer"
 
-#: src/gmpv_shortcuts_window.c:67
+#: src/celluloid_shortcuts_window.c:67
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "Mostra en pantalla el progrés, el temps transcorregut i la durada"
 
-#: src/gmpv_shortcuts_window.c:70
+#: src/celluloid_shortcuts_window.c:70
 msgid "Seek backward/forward 5 seconds"
 msgstr "Salta 5 segons cap enrere/endavant"
 
-#: src/gmpv_shortcuts_window.c:71
+#: src/celluloid_shortcuts_window.c:71
 msgid "Exact seek backward/forward 1 second"
 msgstr "Salta exactament 1 segon cap enrere/endavant"
 
-#: src/gmpv_shortcuts_window.c:72
+#: src/celluloid_shortcuts_window.c:72
 msgid "Seek backward/forward 1 minute"
 msgstr "Salta 1 minut cap enrere/endavant"
 
-#: src/gmpv_shortcuts_window.c:73
+#: src/celluloid_shortcuts_window.c:73
 msgid "Exact seek backward/forward 5 seconds"
 msgstr "Salta exactament 5 segons cap enrere/endavant"
 
-#: src/gmpv_shortcuts_window.c:74
+#: src/celluloid_shortcuts_window.c:74
 msgid "Seek to previous/next subtitle"
 msgstr "Salta als subtítols anteriors/següents"
 
-#: src/gmpv_shortcuts_window.c:75
+#: src/celluloid_shortcuts_window.c:75
 msgid "Step backward/forward a single frame"
 msgstr "Retrocedeix/avança un sol fotograma"
 
-#: src/gmpv_shortcuts_window.c:76
+#: src/celluloid_shortcuts_window.c:76
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr "Salta al principi del capítol anterior/següent"
 
-#: src/gmpv_shortcuts_window.c:79
+#: src/celluloid_shortcuts_window.c:79
 msgid "Decrease/increase playback speed by 10%"
 msgstr "Disminueix/augmenta la velocitat de reproducció un 10%"
 
-#: src/gmpv_shortcuts_window.c:80
+#: src/celluloid_shortcuts_window.c:80
 msgid "Halve/double current playback speed"
 msgstr "Redueix a la meitat / duplica la velocitat de reproducció"
 
-#: src/gmpv_shortcuts_window.c:81
+#: src/celluloid_shortcuts_window.c:81
 msgid "Reset playback speed to normal"
 msgstr "Restableix la velocitat de reproducció"
 
-#: src/gmpv_shortcuts_window.c:82
+#: src/celluloid_shortcuts_window.c:82
 msgid "Go backward/forward in the playlist"
 msgstr "Retrocedeix/avança a la llista de reprodució"
 
-#: src/gmpv_shortcuts_window.c:83
+#: src/celluloid_shortcuts_window.c:83
 msgid "Remove selected playlist item"
 msgstr "Suprimeix l'element seleccionat de la llista de reproducció"
 
-#: src/gmpv_shortcuts_window.c:84
+#: src/celluloid_shortcuts_window.c:84
 msgid "Save playlist"
 msgstr "Desa la llista de reproducció"
 
-#: src/gmpv_shortcuts_window.c:85
+#: src/celluloid_shortcuts_window.c:85
 msgid "Set/clear A-B loop points"
 msgstr "Fixa/esborra els punts A-B del bucle"
 
-#: src/gmpv_shortcuts_window.c:86
+#: src/celluloid_shortcuts_window.c:86
 msgid "Toggle infinite looping"
 msgstr "Activa/desactiva la reproducció en bucle"
 
-#: src/gmpv_shortcuts_window.c:87
+#: src/celluloid_shortcuts_window.c:87
 msgid "Pause or unpause"
 msgstr "Posa on pausa / reprèn"
 
-#: src/gmpv_shortcuts_window.c:88
+#: src/celluloid_shortcuts_window.c:88
 msgid "Quit"
 msgstr "Surt"
 
-#: src/gmpv_shortcuts_window.c:89
+#: src/celluloid_shortcuts_window.c:89
 msgid "Save current playback position and quit"
 msgstr "Desa la posició de reproducció actual i surt"
 
-#: src/gmpv_shortcuts_window.c:92
+#: src/celluloid_shortcuts_window.c:92
 msgid "Cycle through audio tracks"
 msgstr "Selecciona la pista d'àudio següent"
 
-#: src/gmpv_shortcuts_window.c:93 src/gmpv_shortcuts_window.c:94
+#: src/celluloid_shortcuts_window.c:93 src/celluloid_shortcuts_window.c:94
 msgid "Decrease/increase volume"
 msgstr "Disminueix/augmenta el volum"
 
-#: src/gmpv_shortcuts_window.c:95
+#: src/celluloid_shortcuts_window.c:95
 msgid "Mute or unmute"
 msgstr "Silencia / activa el so"
 
-#: src/gmpv_shortcuts_window.c:96
+#: src/celluloid_shortcuts_window.c:96
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "Ajusta el retard de l'àudio en +/- 0.1 segons"
 
-#: src/gmpv_shortcuts_window.c:99
+#: src/celluloid_shortcuts_window.c:99
 msgid "Toggle subtitle visibility"
 msgstr "Mostra/amaga els subtítols"
 
-#: src/gmpv_shortcuts_window.c:100
+#: src/celluloid_shortcuts_window.c:100
 msgid "Cycle through available subtitles"
 msgstr "Selecciona els subtítols següents"
 
-#: src/gmpv_shortcuts_window.c:101
+#: src/celluloid_shortcuts_window.c:101
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "Ajusta el retard dels subtítols en +/- 0.1 segons"
 
-#: src/gmpv_shortcuts_window.c:102
+#: src/celluloid_shortcuts_window.c:102
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr "Activa/desactiva l'anulació de l'estil dels subtítols SSA/ASS"
 
-#: src/gmpv_shortcuts_window.c:103
+#: src/celluloid_shortcuts_window.c:103
 msgid "Move subtitles up/down"
 msgstr "Mou els subtítols amunt/avall"
 
-#: src/gmpv_shortcuts_window.c:104
+#: src/celluloid_shortcuts_window.c:104
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr "Activa/desactiva el mode de compatibilitat d'aspecte del VSFilter"
 
-#: src/gmpv_shortcuts_window.c:107
+#: src/celluloid_shortcuts_window.c:107
 msgid "Cycle through video tracks"
 msgstr "Selecciona la pista de vídeo següent"
 
-#: src/gmpv_shortcuts_window.c:108
+#: src/celluloid_shortcuts_window.c:108
 msgid "Decrease/increase pan-and-scan range"
 msgstr "Disminueix/augmenta el rang de reenquadrament (pan and scan)"
 
-#: src/gmpv_shortcuts_window.c:109
+#: src/celluloid_shortcuts_window.c:109
 msgid "Take a screenshot"
 msgstr "Fes una captura de pantalla"
 
-#: src/gmpv_shortcuts_window.c:110
+#: src/celluloid_shortcuts_window.c:110
 msgid "Take a screenshot, without subtitles"
 msgstr "Fes una captura de pantalla, sense subtítols"
 
-#: src/gmpv_shortcuts_window.c:111
+#: src/celluloid_shortcuts_window.c:111
 msgid "Take a screenshot, as the window shows it"
 msgstr "Fes una captura de pantalla, tal com es mostra a la finestra"
 
-#: src/gmpv_shortcuts_window.c:112
+#: src/celluloid_shortcuts_window.c:112
 msgid "Resize video to half its original size"
 msgstr "Redimensiona el vídeo a la meitat de la mida original"
 
-#: src/gmpv_shortcuts_window.c:113
+#: src/celluloid_shortcuts_window.c:113
 msgid "Resize video to its original size"
 msgstr "Redimensiona el vídeo a la mida original"
 
-#: src/gmpv_shortcuts_window.c:114
+#: src/celluloid_shortcuts_window.c:114
 msgid "Resize video to double its original size"
 msgstr "Redimensiona el vídeo al doble de la mida original"
 
-#: src/gmpv_shortcuts_window.c:115
+#: src/celluloid_shortcuts_window.c:115
 msgid "Adjust contrast"
 msgstr "Ajusta el contrast"
 
-#: src/gmpv_shortcuts_window.c:116
+#: src/celluloid_shortcuts_window.c:116
 msgid "Adjust brightness"
 msgstr "Ajusta la brillantor"
 
-#: src/gmpv_shortcuts_window.c:117
+#: src/celluloid_shortcuts_window.c:117
 msgid "Adjust gamma"
 msgstr "Ajusta la correcció gamma"
 
-#: src/gmpv_shortcuts_window.c:118
+#: src/celluloid_shortcuts_window.c:118
 msgid "Adjust saturation"
 msgstr "Ajusta la saturació"
 
-#: src/gmpv_shortcuts_window.c:119
+#: src/celluloid_shortcuts_window.c:119
 msgid "Activate or deactivate deinterlacer"
 msgstr "Activa/desactiva el desentrellaçat"
 
-#: src/gmpv_shortcuts_window.c:120
+#: src/celluloid_shortcuts_window.c:120
 msgid "Cycle aspect ratio override"
 msgstr "Selecciona la relació d'aspecte següent"
 
-#: src/gmpv_shortcuts_window.c:123
+#: src/celluloid_shortcuts_window.c:123
 msgid "User Interface"
 msgstr "Interfície d'usuari"
 
-#: src/gmpv_shortcuts_window.c:124
+#: src/celluloid_shortcuts_window.c:124
 msgid "Video"
 msgstr "Vídeo"
 
-#: src/gmpv_shortcuts_window.c:125
+#: src/celluloid_shortcuts_window.c:125
 msgid "Audio"
 msgstr "Àudio"
 
-#: src/gmpv_shortcuts_window.c:126
+#: src/celluloid_shortcuts_window.c:126
 msgid "Subtitle"
 msgstr "Subtítols"
 
-#: src/gmpv_shortcuts_window.c:127
+#: src/celluloid_shortcuts_window.c:127
 msgid "Playback"
 msgstr "Reproducció"
 
-#: src/gmpv_shortcuts_window.c:128
+#: src/celluloid_shortcuts_window.c:128
 msgid "Seeking"
 msgstr "Cerca"
 
-#: src/gmpv_view.c:635
+#: src/celluloid_view.c:635
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -862,39 +862,39 @@ msgstr ""
 "Per activar o desactivar les decoracions del costat del client cal reiniciar"
 " l'aplicació."
 
-#: src/gmpv_view.c:1086
+#: src/celluloid_view.c:1086
 msgid "Add File to Playlist"
 msgstr "Afegeix un fitxer a una llista de reproducció"
 
-#: src/gmpv_view.c:1087
+#: src/celluloid_view.c:1087
 msgid "Open File"
 msgstr "Obre un fitxer"
 
-#: src/gmpv_view.c:1114
+#: src/celluloid_view.c:1114
 msgid "Add Location to Playlist"
 msgstr "Afegeix una ubicació a la llista de reproducció"
 
-#: src/gmpv_view.c:1115
+#: src/celluloid_view.c:1115
 msgid "Open Location"
 msgstr "Obre una ubicació"
 
-#: src/gmpv_view.c:1136
+#: src/celluloid_view.c:1136
 msgid "Load Audio Track…"
 msgstr "Carrega una pista d'àudio..."
 
-#: src/gmpv_view.c:1155
+#: src/celluloid_view.c:1155
 msgid "Load Subtitle Track…"
 msgstr "Carrega una pista de subtítols..."
 
-#: src/gmpv_view.c:1180
+#: src/celluloid_view.c:1180
 msgid "Save Playlist"
 msgstr "Desa la llista de reproducció"
 
-#: src/gmpv_view.c:1243
+#: src/celluloid_view.c:1243
 msgid "A GTK frontend for MPV"
 msgstr "Una interfície GTK per a l'MPV"
 
-#: src/gmpv_view.c:1253
+#: src/celluloid_view.c:1253
 msgid "translator-credits"
 msgstr ""
 "Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"

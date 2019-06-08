@@ -1,47 +1,47 @@
 gnome = import('gnome')
 
 sources = [
-  'gmpv_application.c',
-  'gmpv_common.c',
-  'gmpv_control_box.c',
-  'gmpv_controller.c',
-  'gmpv_controller_actions.c',
-  'gmpv_controller_input.c',
-  'gmpv_file_chooser.c',
-  'gmpv_header_bar.c',
-  'gmpv_main.c',
-  'gmpv_main_window.c',
-  'gmpv_menu.c',
-  'gmpv_metadata_cache.c',
-  'gmpv_model.c',
-  'gmpv_mpv.c',
-  'gmpv_mpv_wrapper.c',
-  'gmpv_open_location_dialog.c',
-  'gmpv_player.c',
-  'gmpv_player_options.c',
-  'gmpv_playlist_widget.c',
-  'gmpv_plugins_manager.c',
-  'gmpv_plugins_manager_item.c',
-  'gmpv_preferences_dialog.c',
-  'gmpv_seek_bar.c',
-  'gmpv_shortcuts_window.c',
-  'gmpv_video_area.c',
-  'gmpv_view.c',
+  'celluloid-application.c',
+  'celluloid-common.c',
+  'celluloid-control-box.c',
+  'celluloid-controller.c',
+  'celluloid-controller-actions.c',
+  'celluloid-controller-input.c',
+  'celluloid-file-chooser.c',
+  'celluloid-header-bar.c',
+  'celluloid-main.c',
+  'celluloid-main-window.c',
+  'celluloid-menu.c',
+  'celluloid-metadata-cache.c',
+  'celluloid-model.c',
+  'celluloid-mpv.c',
+  'celluloid-mpv-wrapper.c',
+  'celluloid-open-location-dialog.c',
+  'celluloid-player.c',
+  'celluloid-player-options.c',
+  'celluloid-playlist-widget.c',
+  'celluloid-plugins-manager.c',
+  'celluloid-plugins-manager-item.c',
+  'celluloid-preferences-dialog.c',
+  'celluloid-seek-bar.c',
+  'celluloid-shortcuts-window.c',
+  'celluloid-video-area.c',
+  'celluloid-view.c',
 
-  'media_keys/gmpv_media_keys.c',
+  'media-keys/celluloid-media-keys.c',
 
-  'mpris/gmpv_mpris.c',
-  'mpris/gmpv_mpris_module.c',
-  'mpris/gmpv_mpris_base.c',
-  'mpris/gmpv_mpris_player.c',
-  'mpris/gmpv_mpris_track_list.c'
+  'mpris/celluloid-mpris.c',
+  'mpris/celluloid-mpris-module.c',
+  'mpris/celluloid-mpris-base.c',
+  'mpris/celluloid-mpris-player.c',
+  'mpris/celluloid-mpris-track-list.c'
 ]
 
 sources += custom_target('authors',
   input: '../AUTHORS',
-  output: 'gmpv_authors.h',
+  output: 'celluloid-authors.h',
   command: [
-    find_program('generate_authors.py'),
+    find_program('generate-authors.py'),
     '@INPUT@', '@OUTPUT@'
   ]
 )
@@ -74,13 +74,13 @@ else
 endif
 
 generated_gdbus_sources = gnome.gdbus_codegen(
-  'gmpv_mpris_gdbus',
-  '../data/gmpv_mpris_gdbus.xml',
-  namespace: 'gmpv_mpris'
+  'celluloid-mpris-gdbus',
+  '../data/celluloid-mpris-gdbus.xml',
+  namespace: 'celluloid_mpris'
 )
 
-generated_marshal_sources = gnome.genmarshal('gmpv_marshal',
-  sources: '../data/gmpv_marshal.lst',
+generated_marshal_sources = gnome.genmarshal('celluloid-marshal',
+  sources: '../data/celluloid-marshal.lst',
   prefix: 'g_cclosure_gen_marshal',
 )
 

@@ -54,7 +54,7 @@ msgstr ""
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr "Przełącza otwieranie nowych okien kiedy program jest już uruchomiony"
 
-#: data/io.github.Celluloid.gschema.xml:58 src/gmpv_application.c:466
+#: data/io.github.Celluloid.gschema.xml:58 src/celluloid_application.c:466
 msgid "Options to pass to mpv"
 msgstr "Określa opcje przekazywane do programu mpv"
 
@@ -120,7 +120,7 @@ msgid "URI of the last folder accessed"
 msgstr "Przechowuje adres URI ostatnio używanego katalogu"
 
 #: data/io.github.Celluloid.appdata.xml.in:7
-#: data/io.github.Celluloid.desktop.in:4 src/gmpv_application.c:353
+#: data/io.github.Celluloid.desktop.in:4 src/celluloid_application.c:353
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -270,597 +270,597 @@ msgstr ""
 msgid "New Window"
 msgstr "Nowe okno"
 
-#: src/gmpv_application.c:393
+#: src/celluloid_application.c:393
 msgid "Playing"
 msgstr "Odtwarzanie"
 
-#: src/gmpv_application.c:442
+#: src/celluloid_application.c:442
 msgid "Show release version"
 msgstr "Wypisuje informacje o wersji"
 
-#: src/gmpv_application.c:450
+#: src/celluloid_application.c:450
 msgid "Enqueue"
 msgstr "Dodaje do kolejki odtwarzania"
 
-#: src/gmpv_application.c:458
+#: src/celluloid_application.c:458
 msgid "Create a new window"
 msgstr "Utwórz nowe okno"
 
-#: src/gmpv_application.c:467
+#: src/celluloid_application.c:467
 msgid "OPTIONS"
 msgstr "OPCJE"
 
-#: src/gmpv_application.c:474
+#: src/celluloid_application.c:474
 msgid "Set the window role"
 msgstr "Ustala rolę okna"
 
-#: src/gmpv_application.c:482
+#: src/celluloid_application.c:482
 msgid "Don't connect to an already-running instance"
 msgstr "Nie łączy z uruchomionym wystąpieniem programu"
 
-#: src/gmpv_control_box.c:297
+#: src/celluloid_control_box.c:297
 msgid "Pause"
 msgstr "Wstrzymuje odtwarzanie"
 
-#: src/gmpv_control_box.c:297 src/gmpv_control_box.c:454
+#: src/celluloid_control_box.c:297 src/celluloid_control_box.c:454
 msgid "Play"
 msgstr "Rozpoczyna odtwarznie"
 
-#: src/gmpv_control_box.c:457
+#: src/celluloid_control_box.c:457
 msgid "Stop"
 msgstr "Zatrzymuje odtwarzanie"
 
-#: src/gmpv_control_box.c:460
+#: src/celluloid_control_box.c:460
 msgid "Forward"
 msgstr "Przechodzi naprzód"
 
-#: src/gmpv_control_box.c:463
+#: src/celluloid_control_box.c:463
 msgid "Rewind"
 msgstr "Przechodzi wstecz"
 
-#: src/gmpv_control_box.c:466
+#: src/celluloid_control_box.c:466
 msgid "Next Chapter"
 msgstr "Następny rozdział"
 
-#: src/gmpv_control_box.c:469
+#: src/celluloid_control_box.c:469
 msgid "Previous Chapter"
 msgstr "Poprzedni rozdział"
 
-#: src/gmpv_control_box.c:472
+#: src/celluloid_control_box.c:472
 msgid "Loop Playlist"
 msgstr "Powtarza listę odtwarzania"
 
-#: src/gmpv_control_box.c:475 src/gmpv_header_bar.c:89
+#: src/celluloid_control_box.c:475 src/celluloid_header_bar.c:89
 msgid "Toggle Fullscreen"
 msgstr "Przełącza wyświetlanie na pełnym ekranie"
 
-#: src/gmpv_controller.c:847 src/gmpv_view.c:1206
+#: src/celluloid_controller.c:847 src/celluloid_view.c:1206
 msgid "Error"
 msgstr "Błąd"
 
-#: src/gmpv_file_chooser.c:124 src/gmpv_plugins_manager.c:148
+#: src/celluloid_file_chooser.c:124 src/celluloid_plugins_manager.c:148
 msgid "All Files"
 msgstr "Wszystkie pliki"
 
-#: src/gmpv_file_chooser.c:132
+#: src/celluloid_file_chooser.c:132
 msgid "Media Files"
 msgstr "Pliki multimediów"
 
-#: src/gmpv_file_chooser.c:143
+#: src/celluloid_file_chooser.c:143
 msgid "Audio Files"
 msgstr "Pliki dźwiękowe"
 
-#: src/gmpv_file_chooser.c:151
+#: src/celluloid_file_chooser.c:151
 msgid "Video Files"
 msgstr "Pliki wideo"
 
-#: src/gmpv_file_chooser.c:159
+#: src/celluloid_file_chooser.c:159
 msgid "Image Files"
 msgstr "Pliki obrazów"
 
-#: src/gmpv_file_chooser.c:169
+#: src/celluloid_file_chooser.c:169
 msgid "Subtitle Files"
 msgstr "Pliki napisów"
 
-#: src/gmpv_menu.c:92
+#: src/celluloid_menu.c:92
 msgid "None"
 msgstr "Brak"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/gmpv_menu.c:107
+#: src/celluloid_menu.c:107
 msgid "Unknown"
 msgstr "Nieznana"
 
-#: src/gmpv_menu.c:140
+#: src/celluloid_menu.c:140
 msgid "_Load External…"
 msgstr "_Wczytaj zewnętrzną..."
 
-#: src/gmpv_menu.c:185
+#: src/celluloid_menu.c:185
 msgid "_File"
 msgstr "_Plik"
 
-#: src/gmpv_menu.c:186 src/gmpv_menu.c:260
+#: src/celluloid_menu.c:186 src/celluloid_menu.c:260
 msgid "_Open…"
 msgstr "_Otwórz…"
 
-#: src/gmpv_menu.c:187 src/gmpv_menu.c:261
+#: src/celluloid_menu.c:187 src/celluloid_menu.c:261
 msgid "Open _Location…"
 msgstr "Otwórz położ_enie…"
 
-#: src/gmpv_menu.c:188 src/gmpv_menu.c:235
+#: src/celluloid_menu.c:188 src/celluloid_menu.c:235
 msgid "_Save Playlist"
 msgstr "Z_apisz listę odtwarzania"
 
-#: src/gmpv_menu.c:189 src/gmpv_menu.c:263
+#: src/celluloid_menu.c:189 src/celluloid_menu.c:263
 msgid "_New Window"
 msgstr "_Nowe okno "
 
-#: src/gmpv_menu.c:190
+#: src/celluloid_menu.c:190
 msgid "_Edit"
 msgstr "_Edycja"
 
-#: src/gmpv_menu.c:191 src/gmpv_menu.c:241
+#: src/celluloid_menu.c:191 src/celluloid_menu.c:241
 msgid "_Preferences"
 msgstr "P_referencje"
 
-#: src/gmpv_menu.c:192 src/gmpv_menu.c:237
+#: src/celluloid_menu.c:192 src/celluloid_menu.c:237
 msgid "_Video Track"
 msgstr "Ścieżka _wideo"
 
-#: src/gmpv_menu.c:193 src/gmpv_menu.c:238
+#: src/celluloid_menu.c:193 src/celluloid_menu.c:238
 msgid "_Audio Track"
 msgstr "Ścieżka _dźwiękowa"
 
-#: src/gmpv_menu.c:194 src/gmpv_menu.c:239
+#: src/celluloid_menu.c:194 src/celluloid_menu.c:239
 msgid "S_ubtitle Track"
 msgstr "Ścieżka _napisów"
 
-#: src/gmpv_menu.c:195
+#: src/celluloid_menu.c:195
 msgid "_View"
 msgstr "_Widok"
 
-#: src/gmpv_menu.c:196 src/gmpv_menu.c:232
+#: src/celluloid_menu.c:196 src/celluloid_menu.c:232
 msgid "_Toggle Controls"
 msgstr "P_rzyciski sterujące"
 
-#: src/gmpv_menu.c:197 src/gmpv_menu.c:234
+#: src/celluloid_menu.c:197 src/celluloid_menu.c:234
 msgid "_Toggle Playlist"
 msgstr "_Lista odtwarzania"
 
-#: src/gmpv_menu.c:198
+#: src/celluloid_menu.c:198
 msgid "_Fullscreen"
 msgstr "_Pełny ekran"
 
-#: src/gmpv_menu.c:199
+#: src/celluloid_menu.c:199
 msgid "_Help"
 msgstr "Pomo_c"
 
-#: src/gmpv_menu.c:200 src/gmpv_menu.c:242
+#: src/celluloid_menu.c:200 src/celluloid_menu.c:242
 msgid "_Keyboard Shortcuts"
 msgstr "_Skróty klawiszowe"
 
-#: src/gmpv_menu.c:201 src/gmpv_menu.c:243
+#: src/celluloid_menu.c:201 src/celluloid_menu.c:243
 msgid "_About Celluloid"
 msgstr "_O programie"
 
-#: src/gmpv_mpv.c:201
+#: src/celluloid_mpv.c:201
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Zakończono odtwarzanie w nieprawidłowy sposób. Powód: %s"
 
-#: src/gmpv_open_location_dialog.c:123
+#: src/celluloid_open_location_dialog.c:123
 msgid "Location:"
 msgstr "Położenie:"
 
-#: src/gmpv_open_location_dialog.c:127 src/gmpv_preferences_dialog.c:386
+#: src/celluloid_open_location_dialog.c:127 src/celluloid_preferences_dialog.c:386
 msgid "_Cancel"
 msgstr "_Anuluj"
 
-#: src/gmpv_open_location_dialog.c:129
+#: src/celluloid_open_location_dialog.c:129
 msgid "_Open"
 msgstr "_Otwórz"
 
-#: src/gmpv_player.c:483
+#: src/celluloid_player.c:483
 msgid "Failed to apply one or more MPV options."
 msgstr "Nie udało się wprowadzić jednej lub więcej opcji MPV."
 
-#: src/gmpv_playlist_widget.c:529
+#: src/celluloid_playlist_widget.c:529
 msgid "_Copy Location"
 msgstr "_Skopiuj położenie"
 
-#: src/gmpv_playlist_widget.c:530
+#: src/celluloid_playlist_widget.c:530
 msgid "_Remove"
 msgstr "_Usuń"
 
-#: src/gmpv_playlist_widget.c:532
+#: src/celluloid_playlist_widget.c:532
 msgid "_Add…"
 msgstr "_Dodaj..."
 
-#: src/gmpv_playlist_widget.c:533
+#: src/celluloid_playlist_widget.c:533
 msgid "Add _Location…"
 msgstr "Dodaj p_ołożenie…"
 
-#: src/gmpv_playlist_widget.c:534
+#: src/celluloid_playlist_widget.c:534
 msgid "_Shuffle"
 msgstr "Wy_mieszaj"
 
-#: src/gmpv_playlist_widget.c:535
+#: src/celluloid_playlist_widget.c:535
 msgid "Loop _File"
 msgstr "Powtarzanie p_liku"
 
-#: src/gmpv_playlist_widget.c:536
+#: src/celluloid_playlist_widget.c:536
 msgid "Loop _Playlist"
 msgstr "Powtarzanie l_isty odtwarzania"
 
-#: src/gmpv_playlist_widget.c:663
+#: src/celluloid_playlist_widget.c:663
 msgid "Playlist"
 msgstr "Lista odtwarzania"
 
-#: src/gmpv_plugins_manager.c:141 src/gmpv_plugins_manager.c:382
+#: src/celluloid_plugins_manager.c:141 src/celluloid_plugins_manager.c:382
 msgid "Add Plugin"
 msgstr "Dodawanie wtyczki"
 
-#: src/gmpv_plugins_manager.c:153
+#: src/celluloid_plugins_manager.c:153
 msgid "Lua Plugins"
 msgstr "Wtyczki Lua"
 
-#: src/gmpv_plugins_manager.c:159
+#: src/celluloid_plugins_manager.c:159
 msgid "JavaScript Plugins"
 msgstr "Wtyczki JavaScript"
 
-#: src/gmpv_plugins_manager.c:164
+#: src/celluloid_plugins_manager.c:164
 msgid "C Plugins"
 msgstr "Wtyczki C"
 
-#: src/gmpv_plugins_manager.c:309
+#: src/celluloid_plugins_manager.c:309
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Nie udało się skopiować pliku z położenia „%s” do „%s”. Powód: %s"
 
-#: src/gmpv_plugins_manager.c:358
+#: src/celluloid_plugins_manager.c:358
 msgid "No plugins found"
 msgstr "Nie odnaleziono wtyczek"
 
-#: src/gmpv_plugins_manager_item.c:69
+#: src/celluloid_plugins_manager_item.c:69
 msgid "Remove"
 msgstr "Usuń"
 
-#: src/gmpv_plugins_manager_item.c:163
+#: src/celluloid_plugins_manager_item.c:163
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "Usunąć ten skrypt? Tej czynności nie można cofnąć."
 
-#: src/gmpv_plugins_manager_item.c:184
+#: src/celluloid_plugins_manager_item.c:184
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Nie można usunąć pliku „%s”. Powód: %s"
 
-#: src/gmpv_preferences_dialog.c:295
+#: src/celluloid_preferences_dialog.c:295
 msgid "Enable client-side decorations"
 msgstr "Obramowania okien po stronie klienta"
 
-#: src/gmpv_preferences_dialog.c:298
+#: src/celluloid_preferences_dialog.c:298
 msgid "Enable dark theme"
 msgstr "Ciemny styl"
 
-#: src/gmpv_preferences_dialog.c:301
+#: src/celluloid_preferences_dialog.c:301
 msgid "Use floating controls in windowed mode"
 msgstr "Nieutwierdzone przyciski sterujące w trybie okna "
 
-#: src/gmpv_preferences_dialog.c:304
+#: src/celluloid_preferences_dialog.c:304
 msgid "Autohide mouse cursor in windowed mode"
 msgstr "Automatyczne ukrywanie wskaźnika myszy w trybie okna"
 
-#: src/gmpv_preferences_dialog.c:307
+#: src/celluloid_preferences_dialog.c:307
 msgid "Use skip buttons for controlling playlist"
 msgstr "Używanie przycisków przechodzenia do sterowania listą odtwarzania"
 
-#: src/gmpv_preferences_dialog.c:310
+#: src/celluloid_preferences_dialog.c:310
 msgid "Remember last file's location"
 msgstr "Przechowywanie położenia ostatnich plików"
 
-#: src/gmpv_preferences_dialog.c:315
+#: src/celluloid_preferences_dialog.c:315
 msgid "Load MPV configuration file"
 msgstr "Wczytywanie pliku konfiguracji MPV"
 
-#: src/gmpv_preferences_dialog.c:318
+#: src/celluloid_preferences_dialog.c:318
 msgid "MPV configuration file:"
 msgstr "Plik konfiguracji MPV:"
 
-#: src/gmpv_preferences_dialog.c:321
+#: src/celluloid_preferences_dialog.c:321
 msgid "Load MPV input configuration file"
 msgstr "Wczytywanie pliku konfiguracji skrótów MPV"
 
-#: src/gmpv_preferences_dialog.c:324
+#: src/celluloid_preferences_dialog.c:324
 msgid "MPV input configuration file:"
 msgstr "Plik konfiguracji skrótów MPV:"
 
-#: src/gmpv_preferences_dialog.c:329
+#: src/celluloid_preferences_dialog.c:329
 msgid "Always open new window"
 msgstr "Otwieranie zawsze w nowym oknie"
 
-#: src/gmpv_preferences_dialog.c:332
+#: src/celluloid_preferences_dialog.c:332
 msgid "Prefetch metadata"
 msgstr "Wcześniejsze wczytywanie metadanych"
 
-#: src/gmpv_preferences_dialog.c:335
+#: src/celluloid_preferences_dialog.c:335
 msgid "Enable MPRIS support"
 msgstr "Obsługa MPRIS"
 
-#: src/gmpv_preferences_dialog.c:338
+#: src/celluloid_preferences_dialog.c:338
 msgid "Enable media keys support"
 msgstr "Obsługa przycisków multimediów"
 
-#: src/gmpv_preferences_dialog.c:341
+#: src/celluloid_preferences_dialog.c:341
 msgid "Extra MPV options:"
 msgstr "Dodatkowe opcje MPV:"
 
-#: src/gmpv_preferences_dialog.c:374
+#: src/celluloid_preferences_dialog.c:374
 msgid "Interface"
 msgstr "Interfejs"
 
-#: src/gmpv_preferences_dialog.c:377
+#: src/celluloid_preferences_dialog.c:377
 msgid "Config Files"
 msgstr "Pliki konfiguracyjne"
 
-#: src/gmpv_preferences_dialog.c:380
+#: src/celluloid_preferences_dialog.c:380
 msgid "Miscellaneous"
 msgstr "Różne"
 
-#: src/gmpv_preferences_dialog.c:383
+#: src/celluloid_preferences_dialog.c:383
 msgid "Plugins"
 msgstr "Wtyczki"
 
-#: src/gmpv_preferences_dialog.c:388
+#: src/celluloid_preferences_dialog.c:388
 msgid "_Save"
 msgstr "_Zapisz"
 
-#: src/gmpv_preferences_dialog.c:405
+#: src/celluloid_preferences_dialog.c:405
 msgid "Preferences"
 msgstr "Preferencje"
 
-#: src/gmpv_shortcuts_window.c:56
+#: src/celluloid_shortcuts_window.c:56
 msgid "Open file"
 msgstr "Otwarcie pliku"
 
-#: src/gmpv_shortcuts_window.c:57
+#: src/celluloid_shortcuts_window.c:57
 msgid "Open location"
 msgstr "Otwarcie położenia"
 
-#: src/gmpv_shortcuts_window.c:58
+#: src/celluloid_shortcuts_window.c:58
 msgid "Add file to playlist"
 msgstr "Dodanie pliku do listy odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:59
+#: src/celluloid_shortcuts_window.c:59
 msgid "Add location to playlist"
 msgstr "Dodani położenia do listy odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:60
+#: src/celluloid_shortcuts_window.c:60
 msgid "Show preferences dialog"
 msgstr "Wyświetlenie okna preferencji"
 
-#: src/gmpv_shortcuts_window.c:61
+#: src/celluloid_shortcuts_window.c:61
 msgid "Toggle controls"
 msgstr "Przełączenie wyświetlania przycisków sterujących"
 
-#: src/gmpv_shortcuts_window.c:62
+#: src/celluloid_shortcuts_window.c:62
 msgid "Toggle playlist"
 msgstr "Przełączenie wyświetlania listy odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:63
+#: src/celluloid_shortcuts_window.c:63
 msgid "Toggle fullscreen mode"
 msgstr "Przełączenie trybu pełnoekranowego"
 
-#: src/gmpv_shortcuts_window.c:64
+#: src/celluloid_shortcuts_window.c:64
 msgid "Leave fullscreen mode"
 msgstr "Opuszczenie trybu pełnoekranowego"
 
-#: src/gmpv_shortcuts_window.c:65
+#: src/celluloid_shortcuts_window.c:65
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr "Przełączenie wyświetlania czasu odtwarzania/trwania w menu ekranowym"
 
-#: src/gmpv_shortcuts_window.c:66
+#: src/celluloid_shortcuts_window.c:66
 msgid "Show filename on the OSD"
 msgstr "Wyświetlenie nazwy pliku w menu ekranowym"
 
-#: src/gmpv_shortcuts_window.c:67
+#: src/celluloid_shortcuts_window.c:67
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "Wyświetlenie postępu, czasu odtwarzania i trwania w menu ekranowym"
 
-#: src/gmpv_shortcuts_window.c:70
+#: src/celluloid_shortcuts_window.c:70
 msgid "Seek backward/forward 5 seconds"
 msgstr "Przejście 5 sekund wstecz/naprzód"
 
-#: src/gmpv_shortcuts_window.c:71
+#: src/celluloid_shortcuts_window.c:71
 msgid "Exact seek backward/forward 1 second"
 msgstr "Dokładne przejście 1 sekundę wstecz/naprzód"
 
-#: src/gmpv_shortcuts_window.c:72
+#: src/celluloid_shortcuts_window.c:72
 msgid "Seek backward/forward 1 minute"
 msgstr "Przejście 1 minutę wstecz/naprzód"
 
-#: src/gmpv_shortcuts_window.c:73
+#: src/celluloid_shortcuts_window.c:73
 msgid "Exact seek backward/forward 5 seconds"
 msgstr "Dokładne przejście 5 sekund wstecz/naprzód"
 
-#: src/gmpv_shortcuts_window.c:74
+#: src/celluloid_shortcuts_window.c:74
 msgid "Seek to previous/next subtitle"
 msgstr "Przejście do poprzedniego/następnego napisu dialogowego"
 
-#: src/gmpv_shortcuts_window.c:75
+#: src/celluloid_shortcuts_window.c:75
 msgid "Step backward/forward a single frame"
 msgstr "Przejście pojedynczą klatkę wstecz/naprzód"
 
-#: src/gmpv_shortcuts_window.c:76
+#: src/celluloid_shortcuts_window.c:76
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr "Przejście do początku poprzedniego/następnego rozdziału"
 
-#: src/gmpv_shortcuts_window.c:79
+#: src/celluloid_shortcuts_window.c:79
 msgid "Decrease/increase playback speed by 10%"
 msgstr "Zmniejszenie/zwiększenie prędkości odtwarzania o 10%"
 
-#: src/gmpv_shortcuts_window.c:80
+#: src/celluloid_shortcuts_window.c:80
 msgid "Halve/double current playback speed"
 msgstr "Dwukrotne zmniejszenie/zwiększenie aktualnej prędkości odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:81
+#: src/celluloid_shortcuts_window.c:81
 msgid "Reset playback speed to normal"
 msgstr "Przywrócenie zwykłej prędkości odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:82
+#: src/celluloid_shortcuts_window.c:82
 msgid "Go backward/forward in the playlist"
 msgstr "Przejście wstecz/naprzód na liście odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:83
+#: src/celluloid_shortcuts_window.c:83
 msgid "Remove selected playlist item"
 msgstr "Usunięcie zaznaczonego elementu listy odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:84
+#: src/celluloid_shortcuts_window.c:84
 msgid "Save playlist"
 msgstr "Zapisanie listy odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:85
+#: src/celluloid_shortcuts_window.c:85
 msgid "Set/clear A-B loop points"
 msgstr "Ustalenie/wyczyszczenie punktów zapętlenia A-B"
 
-#: src/gmpv_shortcuts_window.c:86
+#: src/celluloid_shortcuts_window.c:86
 msgid "Toggle infinite looping"
 msgstr "Przełączenia zapętlonego odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:87
+#: src/celluloid_shortcuts_window.c:87
 msgid "Pause or unpause"
 msgstr "Przełączenie wstrzymania odtwarzania"
 
-#: src/gmpv_shortcuts_window.c:88
+#: src/celluloid_shortcuts_window.c:88
 msgid "Quit"
 msgstr "Zakończenie działania"
 
-#: src/gmpv_shortcuts_window.c:89
+#: src/celluloid_shortcuts_window.c:89
 msgid "Save current playback position and quit"
 msgstr "Zapisanie aktualnego położenia i zakończenie działania"
 
-#: src/gmpv_shortcuts_window.c:92
+#: src/celluloid_shortcuts_window.c:92
 msgid "Cycle through audio tracks"
 msgstr "Przełączenie ścieżki dźwiękowej"
 
-#: src/gmpv_shortcuts_window.c:93 src/gmpv_shortcuts_window.c:94
+#: src/celluloid_shortcuts_window.c:93 src/celluloid_shortcuts_window.c:94
 msgid "Decrease/increase volume"
 msgstr "Zmniejszenie/zwiększenie głośności"
 
-#: src/gmpv_shortcuts_window.c:95
+#: src/celluloid_shortcuts_window.c:95
 msgid "Mute or unmute"
 msgstr "Przełączenie wyciszenia dźwięku"
 
-#: src/gmpv_shortcuts_window.c:96
+#: src/celluloid_shortcuts_window.c:96
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "Dostosowanie opóźnienia dźwięku o +/- 0,1 s"
 
-#: src/gmpv_shortcuts_window.c:99
+#: src/celluloid_shortcuts_window.c:99
 msgid "Toggle subtitle visibility"
 msgstr "Przełączenie widoczności napisów"
 
-#: src/gmpv_shortcuts_window.c:100
+#: src/celluloid_shortcuts_window.c:100
 msgid "Cycle through available subtitles"
 msgstr "Przełączenie ścieżki napisów"
 
-#: src/gmpv_shortcuts_window.c:101
+#: src/celluloid_shortcuts_window.c:101
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "Dostosowanie opóźnienia napisów o +/- 0,1 s"
 
-#: src/gmpv_shortcuts_window.c:102
+#: src/celluloid_shortcuts_window.c:102
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr "Przełączenie zastępowania stylów napisów SSA/ASS"
 
-#: src/gmpv_shortcuts_window.c:103
+#: src/celluloid_shortcuts_window.c:103
 msgid "Move subtitles up/down"
 msgstr "Przemieszczenie napisów w górę/dół"
 
-#: src/gmpv_shortcuts_window.c:104
+#: src/celluloid_shortcuts_window.c:104
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr "Przełączenie tryby kompatybilności proporcji VSFilter"
 
-#: src/gmpv_shortcuts_window.c:107
+#: src/celluloid_shortcuts_window.c:107
 msgid "Cycle through video tracks"
 msgstr "Przełączenie ścieżki wideo"
 
-#: src/gmpv_shortcuts_window.c:108
+#: src/celluloid_shortcuts_window.c:108
 msgid "Decrease/increase pan-and-scan range"
 msgstr "Zmniejszenie/zwiększenie zasięgu pan-and-scan"
 
-#: src/gmpv_shortcuts_window.c:109
+#: src/celluloid_shortcuts_window.c:109
 msgid "Take a screenshot"
 msgstr "Przechwycenie obrazu"
 
-#: src/gmpv_shortcuts_window.c:110
+#: src/celluloid_shortcuts_window.c:110
 msgid "Take a screenshot, without subtitles"
 msgstr "Przechwycenie obrazu bez napisów"
 
-#: src/gmpv_shortcuts_window.c:111
+#: src/celluloid_shortcuts_window.c:111
 msgid "Take a screenshot, as the window shows it"
 msgstr "Przechwycenie obrazu wyświetlanego w oknie"
 
-#: src/gmpv_shortcuts_window.c:112
+#: src/celluloid_shortcuts_window.c:112
 msgid "Resize video to half its original size"
 msgstr "Ustalenie rozmiaru obrazu dwukrotnie mniejszego niż pierwotny"
 
-#: src/gmpv_shortcuts_window.c:113
+#: src/celluloid_shortcuts_window.c:113
 msgid "Resize video to its original size"
 msgstr "Przywrócenie pierwotnego rozmiaru obrazu"
 
-#: src/gmpv_shortcuts_window.c:114
+#: src/celluloid_shortcuts_window.c:114
 msgid "Resize video to double its original size"
 msgstr "Ustalenie rozmiaru obrazu dwukrotnie większego niż pierwotny"
 
-#: src/gmpv_shortcuts_window.c:115
+#: src/celluloid_shortcuts_window.c:115
 msgid "Adjust contrast"
 msgstr "Dostosowanie kontrastu"
 
-#: src/gmpv_shortcuts_window.c:116
+#: src/celluloid_shortcuts_window.c:116
 msgid "Adjust brightness"
 msgstr "Dostosowanie jasności"
 
-#: src/gmpv_shortcuts_window.c:117
+#: src/celluloid_shortcuts_window.c:117
 msgid "Adjust gamma"
 msgstr "Dostosowanie gamma"
 
-#: src/gmpv_shortcuts_window.c:118
+#: src/celluloid_shortcuts_window.c:118
 msgid "Adjust saturation"
 msgstr "Dostosowanie nasycenia"
 
-#: src/gmpv_shortcuts_window.c:119
+#: src/celluloid_shortcuts_window.c:119
 msgid "Activate or deactivate deinterlacer"
 msgstr "Przełączenie usuwania przeplotu"
 
-#: src/gmpv_shortcuts_window.c:120
+#: src/celluloid_shortcuts_window.c:120
 msgid "Cycle aspect ratio override"
 msgstr "Przełączenie proporcji obrazu"
 
-#: src/gmpv_shortcuts_window.c:123
+#: src/celluloid_shortcuts_window.c:123
 msgid "User Interface"
 msgstr "Interfejs użytkownika"
 
-#: src/gmpv_shortcuts_window.c:124
+#: src/celluloid_shortcuts_window.c:124
 msgid "Video"
 msgstr "Wideo"
 
-#: src/gmpv_shortcuts_window.c:125
+#: src/celluloid_shortcuts_window.c:125
 msgid "Audio"
 msgstr "Dźwięk"
 
-#: src/gmpv_shortcuts_window.c:126
+#: src/celluloid_shortcuts_window.c:126
 msgid "Subtitle"
 msgstr "Napisy dialogowe"
 
-#: src/gmpv_shortcuts_window.c:127
+#: src/celluloid_shortcuts_window.c:127
 msgid "Playback"
 msgstr "Odtwarzanie"
 
-#: src/gmpv_shortcuts_window.c:128
+#: src/celluloid_shortcuts_window.c:128
 msgid "Seeking"
 msgstr "Przeszukiwanie"
 
-#: src/gmpv_view.c:635
+#: src/celluloid_view.c:635
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -868,38 +868,38 @@ msgstr ""
 "Włączenie lub wyłączenie obramowania po stronie klienta wymaga ponownego "
 "uruchomienia programu, aby wprowadzić zmiany."
 
-#: src/gmpv_view.c:1086
+#: src/celluloid_view.c:1086
 msgid "Add File to Playlist"
 msgstr "Dodawanie pliku do listy odtwarzania"
 
-#: src/gmpv_view.c:1087
+#: src/celluloid_view.c:1087
 msgid "Open File"
 msgstr "Wybór pliku"
 
-#: src/gmpv_view.c:1114
+#: src/celluloid_view.c:1114
 msgid "Add Location to Playlist"
 msgstr "Dodawanie położenia do listy odtwarzania"
 
-#: src/gmpv_view.c:1115
+#: src/celluloid_view.c:1115
 msgid "Open Location"
 msgstr "Otwieranie położenia"
 
-#: src/gmpv_view.c:1136
+#: src/celluloid_view.c:1136
 msgid "Load Audio Track…"
 msgstr "Wczytywanie ścieżki dźwiękowej…"
 
-#: src/gmpv_view.c:1155
+#: src/celluloid_view.c:1155
 msgid "Load Subtitle Track…"
 msgstr "Wczytywanie ścieżki napisów…"
 
-#: src/gmpv_view.c:1180
+#: src/celluloid_view.c:1180
 msgid "Save Playlist"
 msgstr "Zapisywanie listy odtwarzania"
 
-#: src/gmpv_view.c:1243
+#: src/celluloid_view.c:1243
 msgid "A GTK frontend for MPV"
 msgstr "Wykorzystuje interfejs GTK do obsługi programu MPV"
 
-#: src/gmpv_view.c:1253
+#: src/celluloid_view.c:1253
 msgid "translator-credits"
 msgstr "Piotr Sokół <psokol.l10n@gmail.com>, 2016, 2019."
