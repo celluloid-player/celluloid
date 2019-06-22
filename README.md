@@ -33,7 +33,7 @@ mpv's powerful playback capabilities.
 - Fedora (rpmfusion): https://admin.rpmfusion.org/pkgdb/package/free/gnome-mpv/
 - OpenSUSE: https://software.opensuse.org/package/gnome-mpv
 - Gentoo: https://packages.gentoo.org/packages/media-video/gnome-mpv
-- Guix: https://www.gnu.org/software/guix/packages/g.html#gnome-mpv
+- Guix: http://guix.info/packages/gnome-mpv-0.16
 - Solus: https://packages.getsol.us/shannon/g/gnome-mpv/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
