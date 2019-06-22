@@ -230,9 +230,13 @@ mpv_event_notify(CelluloidMpv *mpv, gint event_id, gpointer event_data)
 	}
 	else if(event_id == MPV_EVENT_END_FILE)
 	{
+		GSettings *settings = g_settings_new(CONFIG_ROOT);
+		const gchar *ignore_key = "ignore-playback-errors";
+
 		mpv_event_end_file *ef_event = event_data;
 
-		if(ef_event->reason == MPV_END_FILE_REASON_ERROR)
+		if(	!g_settings_get_boolean(settings, ignore_key) &&
+			ef_event->reason == MPV_END_FILE_REASON_ERROR )
 		{
 			const gchar *err;
 			gchar *msg;
@@ -248,6 +252,8 @@ mpv_event_notify(CelluloidMpv *mpv, gint event_id, gpointer event_data)
 
 			g_free(msg);
 		}
+
+		g_object_unref(settings);
 	}
 	else if(event_id == MPV_EVENT_LOG_MESSAGE)
 	{
