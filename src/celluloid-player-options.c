@@ -34,11 +34,16 @@
 #include "celluloid-def.h"
 #include "celluloid-def.h"
 
+static GdkRectangle
+get_monitor_geometry(CelluloidMainWindow *window);
+
 static gboolean
 parse_geom_token(const gchar **iter, GValue *value);
 
 static gboolean
-parse_dim_string(const gchar *geom_str, gint64 dim[2]);
+parse_dim_string(	const gchar *geom_str,
+			GdkRectangle monitor_geom,
+			gint64 dim[2] );
 
 static gboolean
 parse_pos_token_prefix(const gchar **iter, gchar **prefix);
@@ -50,8 +55,8 @@ static gboolean
 parse_pos_string(const gchar *geom_str, gboolean flip[2], GValue pos[2]);
 
 static void
-parse_geom_string(	CelluloidMpv *mpv,
-			const gchar *geom_str,
+parse_geom_string(	const gchar *geom_str,
+			GdkRectangle monitor_geom,
 			gboolean flip[2],
 			GValue pos[2],
 			gint64 dim[2] );
@@ -63,10 +68,10 @@ static gboolean
 handle_window_scale(CelluloidMpv *mpv, gint64 dim[2]);
 
 static gboolean
-handle_autofit(CelluloidMpv *mpv, gint64 dim[2]);
+handle_autofit(CelluloidMpv *mpv, gint64 dim[2], GdkRectangle monitor_geom);
 
 static void
-handle_geometry(CelluloidPlayer *player);
+handle_geometry(CelluloidPlayer *player, GdkRectangle monitor_geom);
 
 static void
 handle_fs(CelluloidPlayer *player);
@@ -79,6 +84,20 @@ ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
 
 static void
 autofit_handler(CelluloidMpv *mpv, gpointer data);
+
+static GdkRectangle
+get_monitor_geometry(CelluloidMainWindow *window)
+{
+	GdkRectangle result;
+	GdkWindow *gdkwindow =	gtk_widget_get_window(GTK_WIDGET(window));
+	GdkDisplay *display =	gdk_window_get_display(gdkwindow);
+	GdkMonitor *monitor =	gdk_display_get_monitor_at_window
+				(display, gdkwindow);
+
+	gdk_monitor_get_geometry(monitor, &result);
+
+	return result;
+}
 
 static gboolean
 parse_geom_token(const gchar **iter, GValue *value)
@@ -110,9 +129,10 @@ parse_geom_token(const gchar **iter, GValue *value)
 }
 
 static gboolean
-parse_dim_string(const gchar *geom_str, gint64 dim[2])
+parse_dim_string(	const gchar *geom_str,
+			GdkRectangle monitor_geom,
+			gint64 dim[2] )
 {
-	GdkScreen *screen = gdk_screen_get_default();
 	gint screen_dim[2] = {0, 0};
 	gdouble multiplier[2] = {-1, -1};
 	gchar **tokens = g_strsplit(geom_str, "x", 2);
@@ -120,8 +140,8 @@ parse_dim_string(const gchar *geom_str, gint64 dim[2])
 
 	dim[0] = -1;
 	dim[1] = -1;
-	screen_dim[0] = gdk_screen_get_width(screen);
-	screen_dim[1] = gdk_screen_get_height(screen);
+	screen_dim[0] = monitor_geom.width;
+	screen_dim[1] = monitor_geom.height;
 
 	while(tokens && tokens[++i] && i < 3)
 	{
@@ -209,8 +229,8 @@ parse_pos_string(const gchar *geom_str, gboolean flip[2], GValue pos[2])
 }
 
 static void
-parse_geom_string(	CelluloidMpv *mpv,
-			const gchar *geom_str,
+parse_geom_string(	const gchar *geom_str,
+			GdkRectangle monitor_geom,
 			gboolean flip[2],
 			GValue pos[2],
 			gint64 dim[2] )
@@ -219,7 +239,7 @@ parse_geom_string(	CelluloidMpv *mpv,
 	{
 		if(geom_str[0] != '+' && geom_str[0] != '-')
 		{
-			parse_dim_string(geom_str, dim);
+			parse_dim_string(geom_str, monitor_geom, dim);
 		}
 
 		/* Move the beginning of the string to the 'position' section */
@@ -248,8 +268,9 @@ static void
 ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 {
 	CelluloidPlayer *player = CELLULOID_PLAYER(object);
+	GdkRectangle monitor_geom = get_monitor_geometry(data);
 
-	handle_geometry(player);
+	handle_geometry(player, monitor_geom);
 	handle_fs(player);
 	handle_msg_level(player);
 }
@@ -258,11 +279,12 @@ static void
 autofit_handler(CelluloidMpv *mpv, gpointer data)
 {
 	gint64 dim[2] = {0, 0};
+	GdkRectangle monitor_geom = get_monitor_geometry(data);
 
 	if(get_video_dimensions(mpv, dim))
 	{
 		handle_window_scale(mpv, dim);
-		handle_autofit(mpv, dim);
+		handle_autofit(mpv, dim, monitor_geom);
 	}
 
 	if(dim[0] > 0 && dim[1] > 0)
@@ -304,7 +326,7 @@ handle_window_scale(CelluloidMpv *mpv, gint64 dim[2])
 }
 
 static gboolean
-handle_autofit(CelluloidMpv *mpv, gint64 dim[2])
+handle_autofit(CelluloidMpv *mpv, gint64 dim[2], GdkRectangle monitor_geom)
 {
 	CelluloidMpvPrivate *priv = get_private(mpv);
 	gint64 autofit_dim[2] = {0, 0};
@@ -333,19 +355,19 @@ handle_autofit(CelluloidMpv *mpv, gint64 dim[2])
 	if(autofit_set)
 	{
 		g_debug("Retrieved option --autofit=%s", autofit_str);
-		parse_dim_string(autofit_str, autofit_dim);
+		parse_dim_string(autofit_str, monitor_geom, autofit_dim);
 	}
 
 	if(larger_set)
 	{
 		g_debug("Retrieved option --autofit-larger=%s", larger_str);
-		parse_dim_string(larger_str, larger_dim);
+		parse_dim_string(larger_str, monitor_geom, larger_dim);
 	}
 
 	if(smaller_set)
 	{
 		g_debug("Retrieved option --autofit-smaller=%s", smaller_str);
-		parse_dim_string(smaller_str, smaller_dim);
+		parse_dim_string(smaller_str, monitor_geom, smaller_dim);
 	}
 
 	if(updated)
@@ -378,7 +400,7 @@ handle_autofit(CelluloidMpv *mpv, gint64 dim[2])
 }
 
 static void
-handle_geometry(CelluloidPlayer *player)
+handle_geometry(CelluloidPlayer *player, GdkRectangle monitor_geom)
 {
 	gchar *geometry_str =	celluloid_mpv_get_property_string
 				(CELLULOID_MPV(player), "options/geometry");
@@ -390,7 +412,7 @@ handle_geometry(CelluloidPlayer *player)
 		gboolean flip[2] = {FALSE, FALSE};
 
 		parse_geom_string
-			(CELLULOID_MPV(player), geometry_str, flip, pos, dim);
+			(geometry_str, monitor_geom, flip, pos, dim);
 
 		if(G_IS_VALUE(&pos[0]) && G_IS_VALUE(&pos[1]))
 		{
@@ -461,14 +483,15 @@ module_log_level_free(module_log_level *level)
 }
 
 void
-celluloid_player_options_init(CelluloidPlayer *player)
+celluloid_player_options_init(	CelluloidPlayer *player,
+				CelluloidMainWindow *window )
 {
 	g_signal_connect(	player,
 				"notify::ready",
 				G_CALLBACK(ready_handler),
-				NULL );
+				window );
 	g_signal_connect(	player,
 				"autofit",
 				G_CALLBACK(autofit_handler),
-				NULL );
+				window );
 }

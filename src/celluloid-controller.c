@@ -32,6 +32,7 @@
 #include "celluloid-controller-actions.h"
 #include "celluloid-controller-input.h"
 #include "celluloid-controller-input.h"
+#include "celluloid-player-options.h"
 #include "celluloid-def.h"
 #include "celluloid-def.h"
 
@@ -421,6 +422,10 @@ view_ready_handler(CelluloidView *view, gpointer data)
 	const gchar *cli_options = celluloid_application_get_mpv_options(app);
 	gchar *pref_options = g_settings_get_string(settings, "mpv-options");
 	gchar *options = g_strjoin(" ", pref_options, cli_options, NULL);
+
+	celluloid_player_options_init
+		(	CELLULOID_PLAYER(controller->model),
+			CELLULOID_MAIN_WINDOW(controller->view) );
 
 	g_object_set(model, "extra-options", options, NULL);
 	celluloid_model_initialize(model, options);

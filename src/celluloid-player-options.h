@@ -25,6 +25,7 @@
 
 #include "celluloid-player.h"
 #include "celluloid-player.h"
+#include "celluloid-main-window.h"
 
 G_BEGIN_DECLS
 
@@ -40,7 +41,8 @@ void
 module_log_level_free(module_log_level *level);
 
 void
-celluloid_player_options_init(CelluloidPlayer *player);
+celluloid_player_options_init(	CelluloidPlayer *player,
+				CelluloidMainWindow *window );
 
 G_END_DECLS
 

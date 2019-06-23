@@ -488,14 +488,11 @@ initialize(CelluloidMpv *mpv)
 	load_input_config_file(player);
 	apply_extra_options(player);
 	observe_properties(mpv);
-	celluloid_player_options_init(CELLULOID_PLAYER(mpv));
 
 	CELLULOID_MPV_CLASS(celluloid_player_parent_class)->initialize(mpv);
 
 	g_debug("Setting volume to %f", volume);
 	celluloid_mpv_set_property(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
-
-	celluloid_player_options_init(player);
 
 	g_object_unref(win_settings);
 }
