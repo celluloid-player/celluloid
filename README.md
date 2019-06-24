@@ -60,6 +60,12 @@ flatpak install https://dl.tingping.se/flatpak/gnome-mpv.flatpakref
 Run the following command in the source code directory to build and install:
 
 ```sh
+meson build && cd build && ninja && sudo ninja install
+```
+
+Alternatively, you can use Autotools:
+
+```sh
 ./autogen.sh && make && sudo make install
 ```
 
@@ -67,12 +73,6 @@ When building from release tarballs, replace `./autogen.sh` with `./configure`:
 
 ```sh
 ./configure && make && sudo make install
-```
-
-Alternatively, you can use Meson:
-
-```sh
-meson build && cd build && ninja && sudo ninja install
 ```
 
 ## Usage
