@@ -23,7 +23,6 @@
 #include <glib.h>
 
 #include "celluloid-application.h"
-#include "celluloid-application.h"
 
 G_BEGIN_DECLS
 

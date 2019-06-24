@@ -43,16 +43,10 @@
 #endif
 
 #include "celluloid-mpv.h"
-#include "celluloid-mpv.h"
-#include "celluloid-mpv-private.h"
 #include "celluloid-mpv-private.h"
 #include "celluloid-mpv-wrapper.h"
-#include "celluloid-mpv-wrapper.h"
-#include "celluloid-common.h"
 #include "celluloid-common.h"
 #include "celluloid-def.h"
-#include "celluloid-def.h"
-#include "celluloid-marshal.h"
 #include "celluloid-marshal.h"
 
 static void *

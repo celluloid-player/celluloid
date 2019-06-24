@@ -23,14 +23,9 @@
 #include <gio/gio.h>
 
 #include "celluloid-application.h"
-#include "celluloid-application.h"
-#include "celluloid-controller.h"
 #include "celluloid-controller.h"
 #include "celluloid-mpv-wrapper.h"
-#include "celluloid-mpv-wrapper.h"
 #include "celluloid-common.h"
-#include "celluloid-common.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 struct _CelluloidApplication

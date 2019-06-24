@@ -24,7 +24,6 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-plugins-manager-item.h"
-#include "celluloid-plugins-manager-item.h"
 
 enum
 {

@@ -22,8 +22,6 @@
 #define MPRIS_TRACK_LIST_H
 
 #include "celluloid-mpris-module.h"
-#include "celluloid-mpris-module.h"
-#include "celluloid-controller.h"
 #include "celluloid-controller.h"
 
 #include <glib-object.h>

@@ -24,18 +24,11 @@
 #include <string.h>
 
 #include "celluloid-mpris-player.h"
-#include "celluloid-mpris-player.h"
-#include "celluloid-common.h"
 #include "celluloid-common.h"
 #include "celluloid-main-window.h"
-#include "celluloid-main-window.h"
-#include "celluloid-mpris.h"
 #include "celluloid-mpris.h"
 #include "celluloid-mpris-player.h"
-#include "celluloid-mpris-player.h"
 #include "celluloid-mpris-gdbus.h"
-#include "celluloid-mpris-gdbus.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 enum

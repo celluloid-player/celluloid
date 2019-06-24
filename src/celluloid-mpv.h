@@ -26,7 +26,6 @@
 #include <mpv/render_gl.h>
 
 #include "celluloid-common.h"
-#include "celluloid-common.h"
 
 G_BEGIN_DECLS
 

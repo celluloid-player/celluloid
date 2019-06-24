@@ -24,16 +24,10 @@
 #include <gdk/gdk.h>
 
 #include "celluloid-view.h"
-#include "celluloid-view.h"
-#include "celluloid-mpris.h"
 #include "celluloid-mpris.h"
 #include "celluloid-mpris-module.h"
-#include "celluloid-mpris-module.h"
-#include "celluloid-mpris-base.h"
 #include "celluloid-mpris-base.h"
 #include "celluloid-mpris-gdbus.h"
-#include "celluloid-mpris-gdbus.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 enum

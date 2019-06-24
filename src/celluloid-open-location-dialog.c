@@ -21,8 +21,6 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-open-location-dialog.h"
-#include "celluloid-open-location-dialog.h"
-#include "celluloid-main-window.h"
 #include "celluloid-main-window.h"
 
 struct _CelluloidOpenLocationDialog

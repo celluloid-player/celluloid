@@ -23,8 +23,6 @@
 #include <glib.h>
 
 #include "celluloid-mpv.h"
-#include "celluloid-mpv.h"
-#include "celluloid-player.h"
 #include "celluloid-player.h"
 
 G_BEGIN_DECLS

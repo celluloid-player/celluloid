@@ -24,14 +24,9 @@
 #include <mpv/client.h>
 
 #include "celluloid-player-options.h"
-#include "celluloid-player-options.h"
-#include "celluloid-mpv.h"
 #include "celluloid-mpv.h"
 #include "celluloid-mpv-private.h"
-#include "celluloid-mpv-private.h"
 #include "celluloid-mpv-wrapper.h"
-#include "celluloid-mpv-wrapper.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 static GdkRectangle

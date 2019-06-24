@@ -21,8 +21,6 @@
 #include <string.h>
 
 #include "celluloid-file-chooser.h"
-#include "celluloid-file-chooser.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 static void

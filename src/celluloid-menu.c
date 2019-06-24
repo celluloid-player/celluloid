@@ -23,8 +23,6 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-menu.h"
-#include "celluloid-menu.h"
-#include "celluloid-common.h"
 #include "celluloid-common.h"
 
 static void

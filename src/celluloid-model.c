@@ -20,12 +20,8 @@
 #include <epoxy/gl.h>
 
 #include "celluloid-model.h"
-#include "celluloid-model.h"
-#include "celluloid-marshal.h"
 #include "celluloid-marshal.h"
 #include "celluloid-mpv-wrapper.h"
-#include "celluloid-mpv-wrapper.h"
-#include "celluloid-metadata-cache.h"
 #include "celluloid-metadata-cache.h"
 
 enum

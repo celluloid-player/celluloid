@@ -20,24 +20,14 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-view.h"
-#include "celluloid-view.h"
-#include "celluloid-file-chooser.h"
 #include "celluloid-file-chooser.h"
 #include "celluloid-open-location-dialog.h"
-#include "celluloid-open-location-dialog.h"
-#include "celluloid-preferences-dialog.h"
 #include "celluloid-preferences-dialog.h"
 #include "celluloid-shortcuts-window.h"
-#include "celluloid-shortcuts-window.h"
-#include "celluloid-authors.h"
 #include "celluloid-authors.h"
 #include "celluloid-marshal.h"
-#include "celluloid-marshal.h"
-#include "celluloid-menu.h"
 #include "celluloid-menu.h"
 #include "celluloid-common.h"
-#include "celluloid-common.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 enum

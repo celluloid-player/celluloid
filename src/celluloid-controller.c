@@ -25,15 +25,10 @@
 #include <locale.h>
 
 #include "celluloid-controller-private.h"
-#include "celluloid-controller-private.h"
-#include "celluloid-controller.h"
 #include "celluloid-controller.h"
 #include "celluloid-controller-actions.h"
-#include "celluloid-controller-actions.h"
-#include "celluloid-controller-input.h"
 #include "celluloid-controller-input.h"
 #include "celluloid-player-options.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 static void

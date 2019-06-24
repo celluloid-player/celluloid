@@ -18,8 +18,6 @@
  */
 
 #include "celluloid-mpv-wrapper.h"
-#include "celluloid-mpv-wrapper.h"
-#include "celluloid-mpv-private.h"
 #include "celluloid-mpv-private.h"
 
 gint

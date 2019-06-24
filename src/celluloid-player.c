@@ -22,18 +22,11 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-player.h"
-#include "celluloid-player.h"
-#include "celluloid-player-private.h"
 #include "celluloid-player-private.h"
 #include "celluloid-player-options.h"
-#include "celluloid-player-options.h"
-#include "celluloid-marshal.h"
 #include "celluloid-marshal.h"
 #include "celluloid-metadata-cache.h"
-#include "celluloid-metadata-cache.h"
 #include "celluloid-mpv-wrapper.h"
-#include "celluloid-mpv-wrapper.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 static void

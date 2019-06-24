@@ -24,7 +24,6 @@
 #include <mpv/client.h>
 
 #include "celluloid-player.h"
-#include "celluloid-player.h"
 #include "celluloid-main-window.h"
 
 G_BEGIN_DECLS

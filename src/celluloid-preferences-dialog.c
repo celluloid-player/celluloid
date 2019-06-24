@@ -24,12 +24,8 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-preferences-dialog.h"
-#include "celluloid-preferences-dialog.h"
-#include "celluloid-plugins-manager.h"
 #include "celluloid-plugins-manager.h"
 #include "celluloid-main-window.h"
-#include "celluloid-main-window.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 typedef struct PreferencesDialogItem PreferencesDialogItem;

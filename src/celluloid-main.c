@@ -22,8 +22,6 @@
 #include <glib.h>
 
 #include "celluloid-application.h"
-#include "celluloid-application.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 int

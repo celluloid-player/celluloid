@@ -22,8 +22,6 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-control-box.h"
-#include "celluloid-control-box.h"
-#include "celluloid-seek-bar.h"
 #include "celluloid-seek-bar.h"
 
 enum

@@ -23,7 +23,6 @@
 #include <gtk/gtk.h>
 
 #include "celluloid-metadata-cache.h"
-#include "celluloid-metadata-cache.h"
 
 G_BEGIN_DECLS
 

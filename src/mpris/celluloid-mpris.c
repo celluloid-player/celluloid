@@ -25,14 +25,9 @@
 #include <gdk/gdk.h>
 
 #include "celluloid-mpris.h"
-#include "celluloid-mpris.h"
-#include "celluloid-mpris-base.h"
 #include "celluloid-mpris-base.h"
 #include "celluloid-mpris-player.h"
-#include "celluloid-mpris-player.h"
 #include "celluloid-mpris-track-list.h"
-#include "celluloid-mpris-track-list.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 enum

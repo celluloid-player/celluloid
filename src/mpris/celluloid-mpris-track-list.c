@@ -18,12 +18,8 @@
  */
 
 #include "celluloid-mpris-track-list.h"
-#include "celluloid-mpris-track-list.h"
-#include "celluloid-mpris-gdbus.h"
 #include "celluloid-mpris-gdbus.h"
 #include "celluloid-common.h"
-#include "celluloid-common.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 #include <glib/gprintf.h>

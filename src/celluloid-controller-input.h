@@ -23,7 +23,6 @@
 #include <glib.h>
 
 #include "celluloid-controller-input.h"
-#include "celluloid-controller-input.h"
 
 G_BEGIN_DECLS
 

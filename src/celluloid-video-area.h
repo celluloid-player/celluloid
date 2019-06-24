@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 
 #include "celluloid-control-box.h"
-#include "celluloid-control-box.h"
 
 #define CELLULOID_TYPE_VIDEO_AREA (celluloid_video_area_get_type ())
 

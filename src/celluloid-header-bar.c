@@ -22,8 +22,6 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-header-bar.h"
-#include "celluloid-header-bar.h"
-#include "celluloid-menu.h"
 #include "celluloid-menu.h"
 
 struct _CelluloidHeaderBar

@@ -18,8 +18,6 @@
  */
 
 #include "celluloid-media-keys.h"
-#include "celluloid-media-keys.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 #include <stdbool.h>

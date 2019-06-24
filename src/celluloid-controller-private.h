@@ -21,8 +21,6 @@
 #define CONTROLLER_PRIVATE_H
 
 #include "celluloid-model.h"
-#include "celluloid-model.h"
-#include "celluloid-view.h"
 #include "celluloid-view.h"
 #include "mpris/celluloid-mpris.h"
 #include "media-keys/celluloid-media-keys.h"

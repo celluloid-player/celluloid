@@ -22,7 +22,6 @@
 #include <gtk/gtk.h>
 
 #include "celluloid-shortcuts-window.h"
-#include "celluloid-shortcuts-window.h"
 
 struct _CelluloidShortcutsWindow
 {

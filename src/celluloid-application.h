@@ -23,8 +23,6 @@
 #include <gtk/gtk.h>
 
 #include "celluloid-main-window.h"
-#include "celluloid-main-window.h"
-#include "celluloid-mpv.h"
 #include "celluloid-mpv.h"
 
 G_BEGIN_DECLS

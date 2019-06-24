@@ -18,10 +18,7 @@
  */
 
 #include "celluloid-mpris-module.h"
-#include "celluloid-mpris-module.h"
 #include "celluloid-application.h"
-#include "celluloid-application.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 typedef struct _CelluloidSignalHandlerInfo CelluloidSignalHandlerInfo;

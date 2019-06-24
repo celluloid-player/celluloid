@@ -24,20 +24,12 @@
 #include <string.h>
 
 #include "celluloid-controller-private.h"
-#include "celluloid-controller-private.h"
-#include "celluloid-controller.h"
 #include "celluloid-controller.h"
 #include "celluloid-controller-input.h"
-#include "celluloid-controller-input.h"
-#include "celluloid-mpv.h"
 #include "celluloid-mpv.h"
 #include "celluloid-mpv-wrapper.h"
-#include "celluloid-mpv-wrapper.h"
-#include "celluloid-main-window.h"
 #include "celluloid-main-window.h"
 #include "celluloid-video-area.h"
-#include "celluloid-video-area.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 static gchar *

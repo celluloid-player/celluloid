@@ -25,7 +25,6 @@
 #include <mpv/render_gl.h>
 
 #include "celluloid-mpv.h"
-#include "celluloid-mpv.h"
 
 gint
 celluloid_mpv_command(CelluloidMpv *mpv, const gchar **cmd);

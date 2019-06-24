@@ -22,7 +22,6 @@
 #include <gtk/gtk.h>
 
 #include "celluloid-seek-bar.h"
-#include "celluloid-seek-bar.h"
 
 struct _CelluloidSeekBar
 {

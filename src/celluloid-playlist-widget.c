@@ -25,16 +25,10 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-playlist-widget.h"
-#include "celluloid-playlist-widget.h"
-#include "celluloid-metadata-cache.h"
 #include "celluloid-metadata-cache.h"
 #include "celluloid-marshal.h"
-#include "celluloid-marshal.h"
-#include "celluloid-common.h"
 #include "celluloid-common.h"
 #include "celluloid-menu.h"
-#include "celluloid-menu.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 enum

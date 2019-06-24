@@ -21,7 +21,6 @@
 #define MEDIA_KEYS_H
 
 #include "celluloid-controller.h"
-#include "celluloid-controller.h"
 
 G_BEGIN_DECLS
 

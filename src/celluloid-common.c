@@ -25,16 +25,10 @@
 #include <string.h>
 
 #include "celluloid-common.h"
-#include "celluloid-common.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 #include "celluloid-mpv.h"
-#include "celluloid-mpv.h"
-#include "celluloid-mpv-wrapper.h"
 #include "celluloid-mpv-wrapper.h"
 #include "celluloid-main-window.h"
-#include "celluloid-main-window.h"
-#include "celluloid-control-box.h"
 #include "celluloid-control-box.h"
 
 CelluloidPlaylistEntry *

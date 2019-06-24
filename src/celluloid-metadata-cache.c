@@ -18,10 +18,7 @@
  */
 
 #include "celluloid-metadata-cache.h"
-#include "celluloid-metadata-cache.h"
 #include "celluloid-mpv.h"
-#include "celluloid-mpv.h"
-#include "celluloid-mpv-wrapper.h"
 #include "celluloid-mpv-wrapper.h"
 
 struct _CelluloidMetadataCache

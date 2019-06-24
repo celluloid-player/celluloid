@@ -23,24 +23,14 @@
 #include <gdk/gdk.h>
 
 #include "celluloid-main-window-private.h"
-#include "celluloid-main-window-private.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 #include "celluloid-marshal.h"
-#include "celluloid-marshal.h"
-#include "celluloid-menu.h"
 #include "celluloid-menu.h"
 #include "celluloid-application.h"
-#include "celluloid-application.h"
-#include "celluloid-playlist-widget.h"
 #include "celluloid-playlist-widget.h"
 #include "celluloid-main-window.h"
-#include "celluloid-main-window.h"
-#include "celluloid-header-bar.h"
 #include "celluloid-header-bar.h"
 #include "celluloid-control-box.h"
-#include "celluloid-control-box.h"
-#include "celluloid-video-area.h"
 #include "celluloid-video-area.h"
 
 static void

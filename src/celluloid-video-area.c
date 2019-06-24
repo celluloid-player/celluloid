@@ -18,14 +18,9 @@
  */
 
 #include "celluloid-video-area.h"
-#include "celluloid-video-area.h"
-#include "celluloid-header-bar.h"
 #include "celluloid-header-bar.h"
 #include "celluloid-control-box.h"
-#include "celluloid-control-box.h"
 #include "celluloid-common.h"
-#include "celluloid-common.h"
-#include "celluloid-def.h"
 #include "celluloid-def.h"
 
 #include <gtk/gtk.h>

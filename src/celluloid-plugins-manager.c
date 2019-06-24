@@ -20,12 +20,8 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-plugins-manager.h"
-#include "celluloid-plugins-manager.h"
-#include "celluloid-plugins-manager-item.h"
 #include "celluloid-plugins-manager-item.h"
 #include "celluloid-file-chooser.h"
-#include "celluloid-file-chooser.h"
-#include "celluloid-common.h"
 #include "celluloid-common.h"
 
 enum

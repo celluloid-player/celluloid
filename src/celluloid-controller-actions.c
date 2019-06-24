@@ -20,12 +20,8 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-controller-actions.h"
-#include "celluloid-controller-actions.h"
-#include "celluloid-controller-private.h"
 #include "celluloid-controller-private.h"
 #include "celluloid-file-chooser.h"
-#include "celluloid-file-chooser.h"
-#include "celluloid-common.h"
 #include "celluloid-common.h"
 
 static gboolean

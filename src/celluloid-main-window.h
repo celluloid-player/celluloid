@@ -25,10 +25,7 @@
 #include <gtk/gtk.h>
 
 #include "celluloid-playlist-widget.h"
-#include "celluloid-playlist-widget.h"
 #include "celluloid-control-box.h"
-#include "celluloid-control-box.h"
-#include "celluloid-video-area.h"
 #include "celluloid-video-area.h"
 
 G_BEGIN_DECLS
