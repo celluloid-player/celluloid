@@ -20,7 +20,7 @@
 #ifndef DEF_H
 #define DEF_H
 
-#define APP_ID "io.github.CelluloidPlayer.Celluloid"
+#define APP_ID "io.github.celluloid-player.Celluloid"
 #define ICON_NAME APP_ID
 #define BIN_NAME "celluloid"
 #define CONFIG_DIR BIN_NAME
