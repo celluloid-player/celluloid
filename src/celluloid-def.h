@@ -20,7 +20,7 @@
 #ifndef DEF_H
 #define DEF_H
 
-#define APP_ID "io.github.Celluloid"
+#define APP_ID "io.github.CelluloidPlayer.Celluloid"
 #define ICON_NAME APP_ID
 #define BIN_NAME "celluloid"
 #define CONFIG_DIR BIN_NAME
@@ -31,8 +31,8 @@
 #define MPRIS_TRACK_LIST_BEFORE 10
 #define MPRIS_TRACK_LIST_AFTER 10
 #define MPRIS_TRACK_ID_NO_TRACK "/org/mpris/MediaPlayer2/TrackList/NoTrack"
-#define MPRIS_TRACK_ID_PREFIX "/io/github/Celluloid/Track/"
-#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2.io.github.Celluloid"
+#define MPRIS_TRACK_ID_PREFIX "/io/github/CelluloidPlayer/Celluloid/Track/"
+#define MPRIS_BUS_NAME "org.mpris.MediaPlayer2."APP_ID
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define PLAYLIST_MIN_WIDTH 20

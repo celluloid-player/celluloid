@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <schemalist gettext-domain="celluloid">
-	<schema path="/io/github/celluloid/" id="io.github.Celluloid">
-		<child	schema="io.github.Celluloid.window-state"
+	<schema	path="/io/github/celluloid-player/celluloid/"
+		id="io.github.CelluloidPlayer.Celluloid">
+		<child	schema="io.github.CelluloidPlayer.Celluloid.window-state"
 			name="window-state" />
 
 		<key name="settings-migrated" type="b">
@@ -115,8 +116,8 @@
 		</key>
 	</schema>
 
-	<schema	path="/io/github/celluloid/window-state/"
-		id="io.github.Celluloid.window-state">
+	<schema	path="/io/github/celluloid-player/celluloid/window-state/"
+		id="io.github.CelluloidPlayer.Celluloid.window-state">
 		<key name="width" type="i">
 			<default>640</default>
 			<summary>Width of the window</summary>
