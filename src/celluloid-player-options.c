@@ -437,7 +437,7 @@ handle_fs(CelluloidPlayer *player)
 	if(g_strcmp0(fs_str, "yes") == 0)
 	{
 		celluloid_mpv_command_string
-			(mpv, "script-message gmpv-action win.enter-fullscreen");
+			(mpv, "script-message celluloid-action win.enter-fullscreen");
 	}
 
 	mpv_free(fs_str);

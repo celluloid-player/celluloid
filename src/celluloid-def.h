@@ -26,7 +26,7 @@
 #define CONFIG_DIR BIN_NAME
 #define CONFIG_ROOT "io.github.celluloid-player.Celluloid"
 #define CONFIG_WIN_STATE CONFIG_ROOT".window-state"
-#define ACTION_PREFIX "gmpv-action"
+#define ACTION_PREFIX "celluloid-action"
 #define DEFAULT_LOG_LEVEL MPV_LOG_LEVEL_ERROR
 #define MPRIS_TRACK_LIST_BEFORE 10
 #define MPRIS_TRACK_LIST_AFTER 10
@@ -88,17 +88,17 @@
 				.info = 0} }
 
 #define DEFAULT_KEYBINDS \
-	{	"Ctrl+o script-message gmpv-action win.show-open-dialog(false)",\
-		"Ctrl+l script-message gmpv-action win.show-open-location-dialog(false)",\
-		"Ctrl+Shift+o script-message gmpv-action win.show-open-dialog(true)",\
-		"Ctrl+Shift+l script-message gmpv-action win.show-open-location-dialog(true)",\
-		"Ctrl+Shift+s script-message gmpv-action win.save-playlist",\
-		"Ctrl+q script-message gmpv-action win.quit",\
-		"Ctrl+? script-message gmpv-action win.show-shortcuts-dialog",\
-		"Ctrl+p script-message gmpv-action win.show-preferences-dialog",\
-		"Ctrl+h script-message gmpv-action win.toggle-controls",\
-		"F9 script-message gmpv-action win.toggle-playlist",\
-		"DEL script-message gmpv-action win.remove-selected-playlist-item",\
+	{	"Ctrl+o script-message celluloid-action win.show-open-dialog(false)",\
+		"Ctrl+l script-message celluloid-action win.show-open-location-dialog(false)",\
+		"Ctrl+Shift+o script-message celluloid-action win.show-open-dialog(true)",\
+		"Ctrl+Shift+l script-message celluloid-action win.show-open-location-dialog(true)",\
+		"Ctrl+Shift+s script-message celluloid-action win.save-playlist",\
+		"Ctrl+q script-message celluloid-action win.quit",\
+		"Ctrl+? script-message celluloid-action win.show-shortcuts-dialog",\
+		"Ctrl+p script-message celluloid-action win.show-preferences-dialog",\
+		"Ctrl+h script-message celluloid-action win.toggle-controls",\
+		"F9 script-message celluloid-action win.toggle-playlist",\
+		"DEL script-message celluloid-action win.remove-selected-playlist-item",\
 		"U stop",\
 		"STOP stop",\
 		"F11 cycle fullscreen",\
