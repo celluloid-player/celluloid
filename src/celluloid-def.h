@@ -20,12 +20,12 @@
 #ifndef DEF_H
 #define DEF_H
 
-#define APP_ID "io.github.celluloid-player.Celluloid"
+#define APP_ID "io.github.celluloid_player.Celluloid"
 #define ICON_NAME APP_ID
 #define BIN_NAME "celluloid"
 #define CONFIG_DIR BIN_NAME
-#define CONFIG_ROOT APP_ID
-#define CONFIG_WIN_STATE APP_ID".window-state"
+#define CONFIG_ROOT "io.github.celluloid-player.Celluloid"
+#define CONFIG_WIN_STATE CONFIG_ROOT".window-state"
 #define ACTION_PREFIX "gmpv-action"
 #define DEFAULT_LOG_LEVEL MPV_LOG_LEVEL_ERROR
 #define MPRIS_TRACK_LIST_BEFORE 10

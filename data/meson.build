@@ -2,20 +2,20 @@
 schemadir = join_paths(get_option('datadir'), 'glib-2.0/schemas')
 install_data([
   'io.github.GnomeMpv.gschema.xml',
-  'io.github.celluloid-player.Celluloid.gschema.xml',
+  'io.github.celluloid_player.Celluloid.gschema.xml',
 ], install_dir: schemadir)
 
 appdata = i18n.merge_file(
-  input: 'io.github.celluloid-player.Celluloid.appdata.xml.in',
-  output: 'io.github.celluloid-player.Celluloid.appdata.xml',
+  input: 'io.github.celluloid_player.Celluloid.appdata.xml.in',
+  output: 'io.github.celluloid_player.Celluloid.appdata.xml',
   po_dir: '../po',
   install: true,
   install_dir: join_paths(get_option('datadir'), 'metainfo')
 )
 
 desktop = i18n.merge_file(
-  input: 'io.github.celluloid-player.Celluloid.desktop.in',
-  output: 'io.github.celluloid-player.Celluloid.desktop',
+  input: 'io.github.celluloid_player.Celluloid.desktop.in',
+  output: 'io.github.celluloid_player.Celluloid.desktop',
   type: 'desktop',
   po_dir: '../po',
   install: true,
@@ -23,11 +23,11 @@ desktop = i18n.merge_file(
 )
 
 icondir = join_paths(get_option('datadir'), 'icons/hicolor')
-install_data('io.github.celluloid-player.Celluloid.svg',
+install_data('io.github.celluloid_player.Celluloid.svg',
   install_dir: join_paths(icondir, 'scalable/apps')
 )
 
-install_data('io.github.celluloid-player.Celluloid-symbolic.svg',
+install_data('io.github.celluloid_player.Celluloid-symbolic.svg',
   install_dir: join_paths(icondir, 'symbolic/apps')
 )
 
@@ -35,8 +35,8 @@ service_conf = configuration_data()
 service_conf.set('bindir', join_paths(get_option('prefix'), get_option('bindir')))
 
 configure_file(
-  input: 'io.github.celluloid-player.Celluloid.service.in',
-  output: 'io.github.celluloid-player.Celluloid.service',
+  input: 'io.github.celluloid_player.Celluloid.service.in',
+  output: 'io.github.celluloid_player.Celluloid.service',
   configuration: service_conf,
   install_dir: join_paths(get_option('datadir'), 'dbus-1', 'services')
 )

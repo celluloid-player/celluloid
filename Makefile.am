@@ -12,7 +12,7 @@ TAR_OPTIONS = --owner=0 --group=0
 export TAR_OPTIONS
 
 # Extract version numbers in appdata XML and the main meson build file
-APPDATA_VERSION = $(shell	xmllint	$(top_srcdir)/data/io.github.celluloid-player.Celluloid.appdata.xml.in \
+APPDATA_VERSION = $(shell	xmllint	$(top_srcdir)/data/io.github.celluloid_player.Celluloid.appdata.xml.in \
 					--xpath /component/releases/release/@version | \
 				sed 's/version="\([^s]\+\)"/\1/g;s/ /\n/g' | \
 				sort -rn | \
