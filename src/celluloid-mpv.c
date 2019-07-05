@@ -504,9 +504,9 @@ reset(CelluloidMpv *mpv)
 
 static void
 mpv_log_message(	CelluloidMpv *mpv,
-				mpv_log_level log_level,
-				const gchar *prefix,
-				const gchar *text )
+			mpv_log_level log_level,
+			const gchar *prefix,
+			const gchar *text )
 {
 }
 
