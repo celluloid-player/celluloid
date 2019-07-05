@@ -463,14 +463,21 @@ reset(CelluloidMpv *mpv)
 {
 	CelluloidMpvPrivate *priv = get_private(mpv);
 	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
-	gchar *loop_str;
-	gboolean loop;
+	gchar *loop_file_str;
+	gchar *loop_playlist_str;
+	gboolean loop_file;
+	gboolean loop_playlist;
 	gboolean pause;
 
-	loop_str = celluloid_mpv_get_property_string(mpv, "loop");
-	loop = (g_strcmp0(loop_str, "inf") == 0);
+	loop_file_str =		celluloid_mpv_get_property_string
+				(mpv, "loop-file");
+	loop_playlist_str =	celluloid_mpv_get_property_string
+				(mpv, "loop-playlist");
+	loop_file =		(g_strcmp0(loop_file_str, "inf") == 0);
+	loop_playlist =		(g_strcmp0(loop_playlist_str, "inf") == 0);
 
-	mpv_free(loop_str);
+	mpv_free(loop_file_str);
+	mpv_free(loop_playlist_str);
 
 	/* Reset priv->mpv_ctx */
 	priv->ready = FALSE;
@@ -487,8 +494,12 @@ reset(CelluloidMpv *mpv)
 			priv->render_update_callback,
 			priv->render_update_callback_data );
 
-	celluloid_mpv_set_property_string(mpv, "loop", loop?"inf":"no");
-	celluloid_mpv_set_property(mpv, "pause", MPV_FORMAT_FLAG, &pause);
+	celluloid_mpv_set_property_string
+		(mpv, "loop-file", loop_file?"inf":"no");
+	celluloid_mpv_set_property_string
+		(mpv, "loop-playlist", loop_playlist?"inf":"no");
+	celluloid_mpv_set_property
+		(mpv, "pause", MPV_FORMAT_FLAG, &pause);
 }
 
 static void
