@@ -324,6 +324,9 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	g_object_bind_property(	priv->control_box, "time-position",
 				vid_area_control_box, "time-position",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	priv->control_box, "loop",
+				vid_area_control_box, "loop",
+				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	priv->control_box, "volume",
 				vid_area_control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
