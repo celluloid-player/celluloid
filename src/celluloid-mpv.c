@@ -466,7 +466,6 @@ reset(CelluloidMpv *mpv)
 	gchar *loop_playlist_str;
 	gboolean loop_file;
 	gboolean loop_playlist;
-	gboolean pause;
 
 	loop_file_str =		celluloid_mpv_get_property_string
 				(mpv, "loop-file");
@@ -497,8 +496,6 @@ reset(CelluloidMpv *mpv)
 		(mpv, "loop-file", loop_file?"inf":"no");
 	celluloid_mpv_set_property_string
 		(mpv, "loop-playlist", loop_playlist?"inf":"no");
-	celluloid_mpv_set_property
-		(mpv, "pause", MPV_FORMAT_FLAG, &pause);
 }
 
 static void

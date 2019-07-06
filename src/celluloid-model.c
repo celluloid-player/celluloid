@@ -57,6 +57,7 @@ struct _CelluloidModel
 	GPtrArray *metadata;
 	GPtrArray *track_list;
 	gboolean update_mpv_properties;
+	gboolean resetting;
 	gchar *aid;
 	gchar *vid;
 	gchar *sid;
@@ -161,6 +162,20 @@ set_property(	GObject *object,
 
 		case PROP_CORE_IDLE:
 		self->core_idle = g_value_get_boolean(value);
+
+		if(self->resetting)
+		{
+			if(self->pause)
+			{
+				celluloid_model_pause(self);
+			}
+			else
+			{
+				celluloid_model_play(self);
+			}
+
+			self->resetting = FALSE;
+		}
 		break;
 
 		case PROP_IDLE_ACTIVE:
@@ -677,6 +692,7 @@ celluloid_model_init(CelluloidModel *model)
 	model->metadata = NULL;
 	model->track_list = NULL;
 	model->update_mpv_properties = TRUE;
+	model->resetting = FALSE;
 	model->aid = NULL;
 	model->vid = NULL;
 	model->sid = NULL;
@@ -727,6 +743,7 @@ celluloid_model_initialize(CelluloidModel *model, const gchar *options)
 void
 celluloid_model_reset(CelluloidModel *model)
 {
+	model->resetting = TRUE;
 	model->ready = FALSE;
 	g_object_notify(G_OBJECT(model), "ready");
 
