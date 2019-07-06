@@ -336,10 +336,8 @@ mpv_property_changed(CelluloidMpv *mpv, const gchar *name, gpointer value)
 		gboolean idle_active = FALSE;
 		gboolean pause = value?*((int *)value):TRUE;
 
-		celluloid_mpv_get_property(	mpv,
-					"idle-active",
-					MPV_FORMAT_FLAG,
-					&idle_active );
+		celluloid_mpv_get_property
+			(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
 
 		if(idle_active && !pause && !priv->init_vo_config)
 		{
@@ -351,10 +349,8 @@ mpv_property_changed(CelluloidMpv *mpv, const gchar *name, gpointer value)
 		gboolean idle_active = FALSE;
 		gboolean was_empty = FALSE;
 
-		celluloid_mpv_get_property(	mpv,
-					"idle-active",
-					MPV_FORMAT_FLAG,
-					&idle_active );
+		celluloid_mpv_get_property
+			(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
 
 		was_empty =	priv->init_vo_config ||
 				priv->playlist->len == 0;
