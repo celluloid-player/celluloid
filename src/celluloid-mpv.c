@@ -462,7 +462,6 @@ static void
 reset(CelluloidMpv *mpv)
 {
 	CelluloidMpvPrivate *priv = get_private(mpv);
-	const gchar *quit_cmd[] = {"quit_watch_later", NULL};
 	gchar *loop_file_str;
 	gchar *loop_playlist_str;
 	gboolean loop_file;
@@ -483,7 +482,7 @@ reset(CelluloidMpv *mpv)
 	priv->ready = FALSE;
 	g_object_notify(G_OBJECT(mpv), "ready");
 
-	celluloid_mpv_command(mpv, quit_cmd);
+	celluloid_mpv_command_string(mpv, "write-watch-later-config");
 	celluloid_mpv_quit(mpv);
 
 	priv->mpv_ctx = mpv_create();
