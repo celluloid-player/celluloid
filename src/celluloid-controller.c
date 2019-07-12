@@ -766,9 +766,6 @@ idle_active_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	if(idle_active)
 	{
 		celluloid_view_reset(CELLULOID_CONTROLLER(data)->view);
-
-		// Queue render to clear last frame from the buffer
-		celluloid_view_queue_render(CELLULOID_CONTROLLER(data)->view);
 	}
 	else if(controller->target_playlist_pos >= 0)
 	{
@@ -803,6 +800,10 @@ vid_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	GAction *action = g_action_map_lookup_action(map, "set-video-size");
 	gchar *vid_str = NULL;
 	gint64 vid = 0;
+
+	// Queue render to clear last frame from the buffer in case video
+	// becomes disabled
+	celluloid_view_queue_render(CELLULOID_CONTROLLER(data)->view);
 
 	g_object_get(object, "vid", &vid_str, NULL);
 	vid = g_ascii_strtoll(vid_str, NULL, 10);
