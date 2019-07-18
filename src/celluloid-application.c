@@ -462,6 +462,7 @@ celluloid_application_init(CelluloidApplication *app)
 	app->role = NULL;
 	app->inhibit_cookie = 0;
 
+	g_set_prgname(APP_ID);
 	g_action_map_add_action(G_ACTION_MAP(app), G_ACTION(new_window));
 
 	g_application_add_main_option
