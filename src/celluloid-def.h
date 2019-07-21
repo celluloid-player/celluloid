@@ -108,51 +108,17 @@
 		"WHEEL_RIGHT no-osd seek 10",\
 		NULL }
 
-#define KEYSTRING_MAP	{	"<", "less",\
-				">", "greater",\
-				"PGUP", "Page_Up",\
+#define KEYSTRING_MAP	{	"PGUP", "Page_Up",\
 				"PGDWN", "Page_Down",\
-				"BS", "BackSpace",\
-				".", "period",\
-				",", "comma",\
-				"`", "grave",\
-				"~", "asciitilde",\
-				"!", "exclam",\
-				"@", "at",\
-				"SHARP", "numbersign",\
-				"$", "dollar",\
-				"%", "percent",\
-				"^", "caret",\
-				"&", "ampersand",\
-				"*", "asterisk",\
-				"*", "KP_Multiply",\
-				"-", "minus",\
-				"-", "KP_Subtract",\
-				"_", "underscore",\
-				"=", "equal",\
-				"+", "plus",\
-				"+", "KP_Add",\
-				";", "semicolon",\
-				":", "colon",\
-				"'", "apostrophe",\
-				"\"", "quotedbl",\
-				"/", "slash",\
-				"/", "KP_Divide",\
-				"\\", "backslash",\
-				"(", "parenleft",\
-				")", "parenright",\
-				"[", "bracketleft",\
-				"]", "bracketright",\
-				"{", "braceleft",\
-				"}", "braceright",\
-				"?", "question",\
+				"BS", "\b",\
+				"SHARP", "#",\
 				"RIGHT", "Right",\
 				"LEFT", "Left",\
 				"UP", "Up",\
 				"DOWN", "Down",\
-				"ESC", "Escape",\
-				"DEL", "Delete",\
-				"ENTER", "Return",\
+				"ESC", "\x1b",\
+				"DEL", "\x7f",\
+				"ENTER", "\r",\
 				"INS", "Insert",\
 				"VOLUME_LOWER", "AudioLowerVolume",\
 				"MUTE", "AudioMute",\

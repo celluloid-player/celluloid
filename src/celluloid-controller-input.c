@@ -33,7 +33,13 @@
 #include "celluloid-def.h"
 
 static gchar *
-get_full_keystr(guint keyval, guint state);
+keyval_to_keystr(guint keyval);
+
+static gchar *
+get_modstr(guint state);
+
+static gchar *
+get_full_keystr(GdkEventKey *event);
 
 static gboolean
 key_press_handler(GtkWidget *widget, GdkEvent *event, gpointer data);
@@ -51,61 +57,77 @@ static gboolean
 scroll_handler(GtkWidget *widget, GdkEvent *event, gpointer data);
 
 static gchar *
-get_full_keystr(guint keyval, guint state)
+keyval_to_keystr(guint keyval)
 {
-	/* strlen("Ctrl+Alt+Shift+Meta+")+1 == 21 */
-	const gsize max_modstr_len = 21;
-	gchar modstr[max_modstr_len];
-	gboolean found = FALSE;
-	const gchar *keystr = gdk_keyval_name(keyval);
 	const gchar *keystrmap[] = KEYSTRING_MAP;
-	modstr[0] = '\0';
+	gboolean found = FALSE;
+	gchar key_utf8[7] = {0}; // 6 bytes for output and 1 for NULL terminator
+	const gchar *result = key_utf8;
 
-	if((state&GDK_SHIFT_MASK) != 0)
-	{
-		g_strlcat(modstr, "Shift+", max_modstr_len);
-	}
+	g_unichar_to_utf8(gdk_keyval_to_unicode(keyval), key_utf8);
+	result = result[0] ? result : gdk_keyval_name(keyval);
 
-	if((state&GDK_CONTROL_MASK) != 0)
-	{
-		g_strlcat(modstr, "Ctrl+", max_modstr_len);
-	}
-
-	if((state&GDK_MOD1_MASK) != 0)
-	{
-		g_strlcat(modstr, "Alt+", max_modstr_len);
-	}
-
-	/* Super is Meta in mpv */
-	if((state&GDK_SUPER_MASK) != 0)
-	{
-		g_strlcat(modstr, "Meta+", max_modstr_len);
-	}
-
-	/* Translate GDK key name to mpv key name */
 	for(gint i = 0; !found && keystrmap[i]; i += 2)
 	{
-		gint rc = g_ascii_strncasecmp(	keystr,
-						keystrmap[i+1],
-						KEYSTRING_MAX_LEN );
+		const gint rc = g_ascii_strncasecmp
+				(result, keystrmap[i+1], KEYSTRING_MAX_LEN);
 
 		if(rc == 0)
 		{
-			keystr = keystrmap[i];
+			result = keystrmap[i][0] ? keystrmap[i] : NULL;
 			found = TRUE;
 		}
 	}
 
-	return (strlen(keystr) > 0)?g_strconcat(modstr, keystr, NULL):NULL;
+	return result ? g_strdup(result) : NULL;
+}
+
+static gchar *
+get_modstr(guint state)
+{
+	const struct
+	{
+		guint mask;
+		gchar *str;
+	}
+	mod_map[] = {	{GDK_SHIFT_MASK, "Shift+"},
+			{GDK_CONTROL_MASK, "Ctrl+"},
+			{GDK_MOD1_MASK, "Alt+"},
+			{GDK_SUPER_MASK, "Meta+"}, // Super is Meta in mpv
+			{0, NULL} };
+
+	const gsize max_len = 21; // strlen("Ctrl+Alt+Shift+Meta")+1
+	gchar *result = g_malloc0(max_len);
+
+	for(gint i = 0; mod_map[i].str; i++)
+	{
+		if(state & mod_map[i].mask)
+		{
+			g_strlcat(result, mod_map[i].str, max_len);
+		}
+	}
+
+	return result;
+}
+
+static gchar *
+get_full_keystr(GdkEventKey *event)
+{
+	gchar *modstr = get_modstr(event->state);
+	gchar *keystr = keyval_to_keystr(event->keyval);
+	char *result = keystr ? g_strconcat(modstr, keystr, NULL) : NULL;
+
+	g_free(keystr);
+	g_free(modstr);
+
+	return result;
 }
 
 static gboolean
 key_press_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	CelluloidController *controller = data;
-	guint keyval = ((GdkEventKey*)event)->keyval;
-	guint state = ((GdkEventKey*)event)->state;
-	gchar *keystr = get_full_keystr(keyval, state);
+	gchar *keystr = get_full_keystr((GdkEventKey *)event);
 
 	if(keystr)
 	{
@@ -120,9 +142,7 @@ static gboolean
 key_release_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	CelluloidController *controller = data;
-	guint keyval = ((GdkEventKey*)event)->keyval;
-	guint state = ((GdkEventKey*)event)->state;
-	gchar *keystr = get_full_keystr(keyval, state);
+	gchar *keystr = get_full_keystr((GdkEventKey *)event);
 
 	if(keystr)
 	{
