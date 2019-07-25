@@ -597,6 +597,8 @@ reset(CelluloidMpv *mpv)
 
 	CELLULOID_MPV_CLASS(celluloid_player_parent_class)->reset(mpv);
 
+	load_scripts(CELLULOID_PLAYER(mpv));
+
 	if(!idle_active)
 	{
 		load_from_playlist(CELLULOID_PLAYER(mpv));
