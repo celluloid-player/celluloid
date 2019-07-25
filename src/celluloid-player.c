@@ -589,11 +589,14 @@ reset(CelluloidMpv *mpv)
 {
 	gboolean idle_active = FALSE;
 	gint64 playlist_pos = 0;
+	gdouble volume = 0;
 
 	celluloid_mpv_get_property
 		(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
 	celluloid_mpv_get_property
 		(mpv, "playlist-pos", MPV_FORMAT_INT64, &playlist_pos);
+	celluloid_mpv_get_property
+		(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
 
 	CELLULOID_MPV_CLASS(celluloid_player_parent_class)->reset(mpv);
 
@@ -609,6 +612,8 @@ reset(CelluloidMpv *mpv)
 		celluloid_mpv_set_property
 			(mpv, "playlist-pos", MPV_FORMAT_INT64, &playlist_pos);
 	}
+
+	celluloid_mpv_set_property(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
 }
 
 static void
