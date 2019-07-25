@@ -338,7 +338,7 @@ check_mpv_version(const gchar *version)
 		 * rest of the tokens. If it is greater, just skip them.
 		 */
 		result &= !(*endptr) && (token >= min_version[i]);
-		done = result && (token > min_version[i]);
+		done = result && (token >= min_version[i]);
 	}
 
 	g_strfreev(tokens);
