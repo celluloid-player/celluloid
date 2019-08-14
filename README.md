@@ -46,7 +46,7 @@ Stable releases are hosted on [Flathub](https://flathub.org):
 
 ```sh
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub io.github.GnomeMpv
+flatpak install flathub io.github.celluloid_player.Celluloid
 ```
 
 Development versions are also packaged:
