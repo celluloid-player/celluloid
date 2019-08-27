@@ -35,6 +35,7 @@ enum
 	PROP_TIME_POSITION,
 	PROP_LOOP,
 	PROP_VOLUME,
+	PROP_VOLUME_POPUP_VISIBLE,
 	N_PROPERTIES
 };
 
@@ -59,6 +60,7 @@ struct _CelluloidControlBox
 	gdouble time_position;
 	gboolean loop;
 	gdouble volume;
+	gboolean volume_popup_visible;
 };
 
 struct _CelluloidControlBoxClass
@@ -167,6 +169,20 @@ set_property(	GObject *object,
 		self->volume = g_value_get_double(value);
 		break;
 
+		case PROP_VOLUME_POPUP_VISIBLE:
+		self->volume_popup_visible = g_value_get_boolean(value);
+
+		if(	self->volume_popup_visible &&
+			gtk_widget_is_visible(GTK_WIDGET(self)) )
+		{
+			g_signal_emit_by_name(self->volume_button, "popup");
+		}
+		else if(!self->volume_popup_visible)
+		{
+			g_signal_emit_by_name(self->volume_button, "popdown");
+		}
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -213,6 +229,10 @@ get_property(	GObject *object,
 
 		case PROP_VOLUME:
 		g_value_set_double(value, self->volume);
+		break;
+
+		case PROP_VOLUME_POPUP_VISIBLE:
+		g_value_set_boolean(value, self->volume_popup_visible);
 		break;
 
 		default:
@@ -430,6 +450,15 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 	g_object_class_install_property
 		(object_class, PROP_VOLUME, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"volume-popup-visible",
+			"Volume popup visible",
+			"Whether or not the volume popup is visible",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_VOLUME_POPUP_VISIBLE, pspec);
+
 	g_signal_new(	"button-clicked",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -465,6 +494,8 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 static void
 celluloid_control_box_init(CelluloidControlBox *box)
 {
+	GtkWidget *popup = NULL;
+
 	box->play_button = gtk_button_new();
 	box->stop_button = gtk_button_new();
 	box->forward_button = gtk_button_new();
@@ -529,6 +560,12 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_container_add(GTK_CONTAINER(box), box->volume_button);
 	gtk_container_add(GTK_CONTAINER(box), box->fullscreen_button);
 
+	popup =	gtk_scale_button_get_popup
+		(GTK_SCALE_BUTTON(box->volume_button));
+
+	g_object_bind_property(	popup, "visible",
+				box, "volume-popup-visible",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "loop",
 				box->loop_button, "active",
 				G_BINDING_BIDIRECTIONAL );
@@ -621,9 +658,7 @@ celluloid_control_box_get_volume(CelluloidControlBox *box)
 gboolean
 celluloid_control_box_get_volume_popup_visible(CelluloidControlBox *box)
 {
-	GtkScaleButton *volume_button = GTK_SCALE_BUTTON(box->volume_button);
-
-	return gtk_widget_is_visible(gtk_scale_button_get_popup(volume_button));
+	return box->volume_popup_visible;
 }
 
 void

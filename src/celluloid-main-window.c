@@ -330,6 +330,9 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	g_object_bind_property(	priv->control_box, "volume",
 				vid_area_control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	priv->control_box, "volume-popup-visible",
+				vid_area_control_box, "volume-popup-visible",
+				G_BINDING_BIDIRECTIONAL );
 
 	g_signal_connect(	priv->control_box,
 				"seek",
