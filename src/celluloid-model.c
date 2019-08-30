@@ -22,7 +22,6 @@
 #include "celluloid-model.h"
 #include "celluloid-marshal.h"
 #include "celluloid-mpv-wrapper.h"
-#include "celluloid-metadata-cache.h"
 
 enum
 {
@@ -53,7 +52,6 @@ struct _CelluloidModel
 	CelluloidPlayer parent;
 	gchar *extra_options;
 	gboolean ready;
-	CelluloidMetadataCache *cache;
 	GPtrArray *metadata;
 	GPtrArray *track_list;
 	gboolean update_mpv_properties;
@@ -688,7 +686,6 @@ celluloid_model_init(CelluloidModel *model)
 {
 	model->extra_options = NULL;
 	model->ready = FALSE;
-	model->cache = NULL;
 	model->metadata = NULL;
 	model->track_list = NULL;
 	model->update_mpv_properties = TRUE;
