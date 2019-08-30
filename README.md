@@ -26,7 +26,7 @@ mpv's powerful playback capabilities.
 ## Installation
 
 ### GNU/Linux packages
-- Arch Linux: https://www.archlinux.org/packages/gnome-mpv
+- Arch Linux: https://www.archlinux.org/packages/celluloid
 - Arch Linux (Git): https://aur.archlinux.org/packages/celluloid-git
 - Debian testing: https://packages.debian.org/testing/gnome-mpv
 - Debian unstable: https://packages.debian.org/sid/gnome-mpv
