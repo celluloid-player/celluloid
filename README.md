@@ -30,7 +30,7 @@ mpv's powerful playback capabilities.
 - Arch Linux (Git): https://aur.archlinux.org/packages/celluloid-git
 - Debian testing: https://packages.debian.org/testing/gnome-mpv
 - Debian unstable: https://packages.debian.org/sid/gnome-mpv
-- Fedora (rpmfusion): https://admin.rpmfusion.org/pkgdb/package/free/gnome-mpv/
+- Fedora (rpmfusion): https://admin.rpmfusion.org/pkgdb/package/free/celluloid/
 - OpenSUSE: https://software.opensuse.org/package/celluloid
 - Gentoo: https://packages.gentoo.org/packages/media-video/gnome-mpv
 - Guix: http://guix.info/packages/gnome-mpv-0.16
