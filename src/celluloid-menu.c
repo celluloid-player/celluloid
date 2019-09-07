@@ -45,6 +45,9 @@ build_audio_track_menu(const GPtrArray *list);
 static GMenu *
 build_subtitle_track_menu(const GPtrArray *list);
 
+static GMenu *
+build_disc_menu(const GPtrArray *disc_list);
+
 static void
 split_track_list(	const GPtrArray *track_list,
 			GPtrArray **audio_tracks,
@@ -179,8 +182,36 @@ build_subtitle_track_menu(const GPtrArray *list)
 			"win.load-track('sub-add')" );
 }
 
+static GMenu *
+build_disc_menu(const GPtrArray *disc_list)
+{
+	GMenu *menu = g_menu_new();
+
+	for(guint i = 0; disc_list && i < disc_list->len; i++)
+	{
+		CelluloidDisc *disc = g_ptr_array_index(disc_list, i);
+		gchar *action =	g_strdup_printf
+				("win.open(('%s', false))", disc->uri);
+
+		g_menu_append(menu, disc->label, action);
+		g_free(action);
+	}
+
+	if(!disc_list || disc_list->len == 0)
+	{
+		/* Disable the menu item by setting the action to something
+		 * invalid.
+		 */
+		g_menu_append(menu, _("No disc found"), "_");
+	}
+
+	return menu;
+}
+
 void
-celluloid_menu_build_full(GMenu *menu, const GPtrArray *track_list)
+celluloid_menu_build_full(	GMenu *menu,
+				const GPtrArray *track_list,
+				const GPtrArray *disc_list )
 {
 	GPtrArray *audio_tracks = NULL;
 	GPtrArray *video_tracks = NULL;
@@ -188,6 +219,7 @@ celluloid_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 	GMenu *video_menu = NULL;
 	GMenu *audio_menu = NULL;
 	GMenu *subtitle_menu = NULL;
+	GMenu *disc_menu = NULL;
 
 	split_track_list
 		(track_list, &audio_tracks, &video_tracks, &subtitle_tracks);
@@ -195,11 +227,13 @@ celluloid_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 	video_menu = build_video_track_menu(video_tracks);
 	audio_menu = build_audio_track_menu(audio_tracks);
 	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
+	disc_menu = build_disc_menu(disc_list);
 
 	const CelluloidMenuEntry entries[]
 		= {	CELLULOID_MENU_SUBMENU(_("_File"), NULL),
 			CELLULOID_MENU_ITEM(_("_Open…"), "win.show-open-dialog(false)"),
 			CELLULOID_MENU_ITEM(_("Open _Location…"), "win.show-open-location-dialog(false)"),
+			CELLULOID_MENU_SUBMENU(_("Open _Disc…"), disc_menu),
 			CELLULOID_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
 			CELLULOID_MENU_ITEM(_("_New Window"), "app.new-window"),
 			CELLULOID_MENU_SUBMENU(_("_Edit"), NULL),
@@ -224,6 +258,7 @@ celluloid_menu_build_full(GMenu *menu, const GPtrArray *track_list)
 	g_object_unref(video_menu);
 	g_object_unref(audio_menu);
 	g_object_unref(subtitle_menu);
+	g_object_unref(disc_menu);
 }
 
 void
@@ -270,17 +305,22 @@ celluloid_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 }
 
 void
-celluloid_menu_build_open_btn(GMenu *menu)
+celluloid_menu_build_open_btn(GMenu *menu, const GPtrArray *disc_list)
 {
+	GMenu *disc_menu = build_disc_menu(disc_list);
+
 	const CelluloidMenuEntry entries[]
 		= {	CELLULOID_MENU_SEPARATOR,
 			CELLULOID_MENU_ITEM(_("_Open…"), "win.show-open-dialog(false)"),
 			CELLULOID_MENU_ITEM(_("Open _Location…"), "win.show-open-location-dialog(false)"),
+			CELLULOID_MENU_SUBMENU(_("Open _Disc"), disc_menu),
 			CELLULOID_MENU_SEPARATOR,
 			CELLULOID_MENU_ITEM(_("_New Window"), "app.new-window"),
 			CELLULOID_MENU_END };
 
 	celluloid_menu_build_menu(menu, entries, TRUE);
+
+	g_clear_object(&disc_menu);
 }
 
 void

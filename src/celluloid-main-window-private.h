@@ -49,6 +49,7 @@ struct _CelluloidMainWindowPrivate
 	gint playlist_width;
 	guint resize_tag;
 	const GPtrArray *track_list;
+	const GPtrArray *disc_list;
 	GtkWidget *header_bar;
 	GtkWidget *main_box;
 	GtkWidget *vid_area_paned;

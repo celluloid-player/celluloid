@@ -296,6 +296,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	priv->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	priv->resize_tag = 0;
 	priv->track_list = NULL;
+	priv->disc_list = NULL;
 	priv->header_bar = celluloid_header_bar_new();
 	priv->main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	priv->vid_area_paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
@@ -601,7 +602,42 @@ celluloid_main_window_update_track_list(	CelluloidMainWindow *wnd,
 		if(menu)
 		{
 			g_menu_remove_all(menu);
-			celluloid_menu_build_full(menu, track_list);
+
+			celluloid_menu_build_full
+				(menu, track_list, priv->disc_list);
+		}
+	}
+}
+
+void
+celluloid_main_window_update_disc_list(	CelluloidMainWindow *wnd,
+					const GPtrArray *disc_list )
+{
+	CelluloidMainWindowPrivate *priv = get_private(wnd);
+
+	priv->disc_list = disc_list;
+
+	if(celluloid_main_window_get_csd_enabled(wnd))
+	{
+		celluloid_header_bar_update_disc_list
+			(CELLULOID_HEADER_BAR(priv->header_bar), disc_list);
+		celluloid_video_area_update_disc_list
+			(CELLULOID_VIDEO_AREA(priv->vid_area), disc_list);
+	}
+	else
+	{
+		GtkApplication *app;
+		GMenu *menu;
+
+		app = gtk_window_get_application(GTK_WINDOW(wnd));
+		menu = G_MENU(gtk_application_get_menubar(app));
+
+		if(menu)
+		{
+			g_menu_remove_all(menu);
+
+			celluloid_menu_build_full
+				(menu, priv->track_list, disc_list);
 		}
 	}
 }

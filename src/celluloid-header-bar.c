@@ -69,7 +69,7 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	hdr->fullscreen_btn = gtk_button_new();
 	hdr->menu_btn = gtk_menu_button_new();
 
-	celluloid_menu_build_open_btn(open_btn_menu);
+	celluloid_menu_build_open_btn(open_btn_menu, NULL);
 	celluloid_menu_build_menu_btn(menu_btn_menu, NULL);
 
 	g_object_set(open_icon, "use-fallback", TRUE, NULL);
@@ -150,4 +150,16 @@ celluloid_header_bar_update_track_list(	CelluloidHeaderBar *hdr,
 	celluloid_menu_build_menu_btn(menu, track_list);
 	gtk_menu_button_set_menu_model
 		(GTK_MENU_BUTTON(hdr->menu_btn), G_MENU_MODEL(menu));
+}
+
+void
+celluloid_header_bar_update_disc_list(	CelluloidHeaderBar *hdr,
+					const GPtrArray *disc_list )
+{
+	GMenu *menu = g_menu_new();
+
+	celluloid_menu_build_open_btn(menu, disc_list);
+
+	gtk_menu_button_set_menu_model
+		(GTK_MENU_BUTTON(hdr->open_btn), G_MENU_MODEL(menu));
 }

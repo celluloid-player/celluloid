@@ -38,6 +38,10 @@ celluloid_video_area_update_track_list(	CelluloidVideoArea *hdr,
 					const GPtrArray *track_list );
 
 void
+celluloid_video_area_update_disc_list(	CelluloidVideoArea *hdr,
+					const GPtrArray *disc_list );
+
+void
 celluloid_video_area_set_fullscreen_state(	CelluloidVideoArea *area,
 						gboolean fullscreen );
 

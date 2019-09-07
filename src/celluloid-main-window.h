@@ -81,6 +81,10 @@ void
 celluloid_main_window_update_track_list(	CelluloidMainWindow *wnd,
 						const GPtrArray *track_list );
 
+void
+celluloid_main_window_update_disc_list(	CelluloidMainWindow *wnd,
+					const GPtrArray *disc_list );
+
 void celluloid_main_window_resize_video_area(	CelluloidMainWindow *wnd,
 						gint width,
 						gint height );

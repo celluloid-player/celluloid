@@ -39,6 +39,7 @@ enum
 	PROP_DURATION,
 	PROP_PLAYLIST_POS,
 	PROP_TRACK_LIST,
+	PROP_DISC_LIST,
 	PROP_SKIP_ENABLED,
 	PROP_LOOP,
 	PROP_FULLSCREEN,
@@ -57,6 +58,7 @@ struct _CelluloidView
 	gdouble duration;
 	gint playlist_pos;
 	GPtrArray *track_list;
+	GPtrArray *disc_list;
 	gboolean skip_enabled;
 	gboolean control_box_enabled;
 	gboolean loop;
@@ -325,6 +327,11 @@ set_property(	GObject *object,
 		celluloid_main_window_update_track_list(wnd, self->track_list);
 		break;
 
+		case PROP_DISC_LIST:
+		self->disc_list = g_value_get_pointer(value);
+		celluloid_main_window_update_disc_list(wnd, self->disc_list);
+		break;
+
 		case PROP_SKIP_ENABLED:
 		self->skip_enabled = g_value_get_boolean(value);
 		break;
@@ -380,6 +387,10 @@ get_property(	GObject *object,
 
 		case PROP_TRACK_LIST:
 		g_value_set_pointer(value, self->track_list);
+		break;
+
+		case PROP_DISC_LIST:
+		g_value_set_pointer(value, self->disc_list);
 		break;
 
 		case PROP_SKIP_ENABLED:
@@ -952,6 +963,13 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_TRACK_LIST, pspec);
 
+	pspec = g_param_spec_pointer
+		(	"disc-list",
+			"Disc list",
+			"The list of mounted discs",
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_DISC_LIST, pspec);
+
 	pspec = g_param_spec_boolean
 		(	"skip-enabled",
 			"Skip enabled",
@@ -1118,6 +1136,7 @@ celluloid_view_init(CelluloidView *view)
 	view->volume = 0.0;
 	view->duration = 0.0;
 	view->playlist_pos = 0;
+	view->disc_list = NULL;
 	view->skip_enabled = FALSE;
 	view->loop = FALSE;
 	view->fullscreen = FALSE;
@@ -1148,7 +1167,7 @@ celluloid_view_new(CelluloidApplication *app, gboolean always_floating)
 	{
 		GMenu *full_menu = g_menu_new();
 
-		celluloid_menu_build_full(full_menu, NULL);
+		celluloid_menu_build_full(full_menu, NULL, NULL);
 		gtk_application_set_menubar(gtk_app, G_MENU_MODEL(full_menu));
 	}
 

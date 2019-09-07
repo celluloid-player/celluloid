@@ -102,6 +102,20 @@ celluloid_track_free(CelluloidTrack *entry)
 	}
 }
 
+CelluloidDisc *
+celluloid_disc_new(void)
+{
+	return g_malloc0(sizeof(CelluloidDisc));
+}
+
+void
+celluloid_disc_free(CelluloidDisc *disc)
+{
+	g_free(disc->uri);
+	g_free(disc->label);
+	g_free(disc);
+}
+
 gchar *
 get_config_dir_path(void)
 {

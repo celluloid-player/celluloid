@@ -34,6 +34,7 @@ enum
 	PROP_PLAYLIST,
 	PROP_METADATA,
 	PROP_TRACK_LIST,
+	PROP_DISC_LIST,
 	PROP_EXTRA_OPTIONS,
 	N_PROPERTIES
 };
@@ -42,9 +43,11 @@ struct _CelluloidPlayerPrivate
 {
 	CelluloidMpv parent;
 	CelluloidMetadataCache *cache;
+	GVolumeMonitor *monitor;
 	GPtrArray *playlist;
 	GPtrArray *metadata;
 	GPtrArray *track_list;
+	GPtrArray *disc_list;
 	GHashTable *log_levels;
 	gboolean loaded;
 	gboolean new_file;

@@ -25,11 +25,12 @@
 
 G_BEGIN_DECLS
 
+typedef enum TrackType TrackType;
+
 typedef struct _CelluloidPlaylistEntry CelluloidPlaylistEntry;
 typedef struct _CelluloidMetadataEntry CelluloidMetadataEntry;
-
-typedef enum TrackType TrackType;
 typedef struct CelluloidTrack CelluloidTrack;
+typedef struct CelluloidDisc CelluloidDisc;
 
 enum TrackType
 {
@@ -62,6 +63,12 @@ struct CelluloidTrack
 	gchar *lang;
 };
 
+struct CelluloidDisc
+{
+	gchar *uri;
+	gchar *label;
+};
+
 CelluloidPlaylistEntry *
 celluloid_playlist_entry_new(const gchar *filename, const gchar *title);
 
@@ -79,6 +86,12 @@ celluloid_track_new(void);
 
 void
 celluloid_track_free(CelluloidTrack *entry);
+
+CelluloidDisc *
+celluloid_disc_new(void);
+
+void
+celluloid_disc_free(CelluloidDisc *disc);
 
 gchar *
 get_config_dir_path(void);

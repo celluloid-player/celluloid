@@ -121,6 +121,15 @@ cache_update_handler(	CelluloidMetadataCache *cache,
 			const gchar *uri,
 			gpointer data );
 
+static void
+mount_added_handler(GVolumeMonitor *monitor, GMount *mount, gpointer data);
+
+static void
+volume_removed_handler(GVolumeMonitor *monitor, GVolume *volume, gpointer data);
+
+static void
+guess_content_handler(GMount *mount, GAsyncResult *res, gpointer data);
+
 G_DEFINE_TYPE_WITH_PRIVATE(CelluloidPlayer, celluloid_player, CELLULOID_TYPE_MPV)
 
 static void
@@ -136,6 +145,7 @@ set_property(	GObject *object,
 		case PROP_PLAYLIST:
 		case PROP_METADATA:
 		case PROP_TRACK_LIST:
+		case PROP_DISC_LIST:
 		g_critical("Attempted to set read-only property");
 		break;
 
@@ -172,6 +182,10 @@ get_property(	GObject *object,
 		g_value_set_pointer(value, priv->track_list);
 		break;
 
+		case PROP_DISC_LIST:
+		g_value_set_pointer(value, priv->disc_list);
+		break;
+
 		case PROP_EXTRA_OPTIONS:
 		g_value_set_string(value, priv->extra_options);
 		break;
@@ -197,6 +211,7 @@ finalize(GObject *object)
 	g_ptr_array_free(priv->playlist, TRUE);
 	g_ptr_array_free(priv->metadata, TRUE);
 	g_ptr_array_free(priv->track_list, TRUE);
+	g_ptr_array_free(priv->disc_list, TRUE);
 
 	G_OBJECT_CLASS(celluloid_player_parent_class)->finalize(object);
 }
@@ -1014,6 +1029,100 @@ cache_update_handler(	CelluloidMetadataCache *cache,
 }
 
 static void
+mount_added_handler(GVolumeMonitor *monitor, GMount *mount, gpointer data)
+{
+	GAsyncReadyCallback callback
+		= (GAsyncReadyCallback)guess_content_handler;
+	gchar *name = g_mount_get_name(mount);
+
+	g_debug("Mount %s added", name);
+	g_mount_guess_content_type(mount, FALSE, NULL, callback, data);
+
+	g_free(name);
+}
+
+static void
+volume_removed_handler(GVolumeMonitor *monitor, GVolume *volume, gpointer data)
+{
+	GPtrArray *disc_list = get_private(data)->disc_list;
+	gboolean found = FALSE;
+	gchar *path = g_volume_get_identifier(volume, "unix-device");
+
+	for(guint i = 0; !found && path && i < disc_list->len; i++)
+	{
+		CelluloidDisc *disc = g_ptr_array_index(disc_list, i);
+
+		if(g_str_has_suffix(disc->uri, path))
+		{
+			g_ptr_array_remove_index(disc_list, i);
+
+			found = TRUE;
+		}
+	}
+
+	g_object_notify(G_OBJECT(data), "disc-list");
+}
+
+static void
+guess_content_handler(GMount *mount, GAsyncResult *res, gpointer data)
+{
+	GError *error = NULL;
+	gchar **types = g_mount_guess_content_type_finish(mount, res, &error);
+
+	if(error)
+	{
+		gchar *name = g_mount_get_name(mount);
+
+		g_warning(	"Failed to guess content type for mount %s: %s",
+				name,
+				error->message );
+
+		g_free(name);
+	}
+	else
+	{
+		CelluloidPlayer *player = data;
+		const gchar *protocol = NULL;
+		GVolume *volume = g_mount_get_volume(mount);
+		gchar *path = 	volume ?
+				g_volume_get_identifier(volume, "unix-device") :
+				NULL;
+
+		for(gint i = 0; path && !protocol && types && types[i]; i++)
+		{
+			if(g_strcmp0(types[i], "x-content/video-blueray") == 0)
+			{
+				protocol = "bd";
+			}
+			else if(g_strcmp0(types[i], "x-content/video-dvd") == 0)
+			{
+				protocol = "dvd";
+			}
+			else if(g_strcmp0(types[i], "x-content/audio-cdda") == 0)
+			{
+				protocol = "cdda";
+			}
+		}
+
+		if(path && protocol)
+		{
+			CelluloidDisc *disc = celluloid_disc_new();
+
+			disc->uri = g_strdup_printf("%s:///%s", protocol, path);
+			disc->label = g_mount_get_name(mount);
+
+			g_ptr_array_add(get_private(player)->disc_list, disc);
+			g_object_notify(G_OBJECT(player), "disc-list");
+		}
+
+		g_free(path);
+		g_clear_object(&volume);
+	}
+
+	g_strfreev(types);
+}
+
+static void
 celluloid_player_class_init(CelluloidPlayerClass *klass)
 {
 	CelluloidMpvClass *mpv_class = CELLULOID_MPV_CLASS(klass);
@@ -1053,6 +1162,13 @@ celluloid_player_class_init(CelluloidPlayerClass *klass)
 			G_PARAM_READABLE );
 	g_object_class_install_property(obj_class, PROP_TRACK_LIST, pspec);
 
+	pspec = g_param_spec_pointer
+		(	"disc-list",
+			"Disc list",
+			"List of mounted discs",
+			G_PARAM_READABLE );
+	g_object_class_install_property(obj_class, PROP_DISC_LIST, pspec);
+
 	pspec = g_param_spec_string
 		(	"extra-options",
 			"Extra options",
@@ -1088,12 +1204,15 @@ celluloid_player_init(CelluloidPlayer *player)
 	CelluloidPlayerPrivate *priv = get_private(player);
 
 	priv->cache =		celluloid_metadata_cache_new();
+	priv->monitor =		g_volume_monitor_get();
 	priv->playlist =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)celluloid_playlist_entry_free);
 	priv->metadata =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)celluloid_metadata_entry_free);
 	priv->track_list =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)celluloid_track_free);
+	priv->disc_list =	g_ptr_array_new_with_free_func
+				((GDestroyNotify)celluloid_disc_free);
 	priv->log_levels =	g_hash_table_new_full
 				(g_str_hash, g_str_equal, g_free, NULL);
 
@@ -1107,6 +1226,30 @@ celluloid_player_init(CelluloidPlayer *player)
 				"update",
 				G_CALLBACK(cache_update_handler),
 				player );
+	g_signal_connect(	priv->monitor,
+				"mount-added",
+				G_CALLBACK(mount_added_handler),
+				player );
+
+	// We need to connect to volume-removed instead of mount-removed because
+	// we need to use the path of the volume to figure out which entry in
+	// disc_list to remove. However, by the time mount-removed fires, the
+	// mount would no longer be associated with its volume. This works fine
+	// since we only add mounts with associated volumes to disc_list.
+	g_signal_connect(	priv->monitor,
+				"volume-removed",
+				G_CALLBACK(volume_removed_handler),
+				player );
+
+	// Emit mount-added to fill disc_list using mounts that already exist.
+	GList *mount_list = g_volume_monitor_get_mounts(priv->monitor);
+
+	for(GList *cur = mount_list; cur; cur = g_list_next(cur))
+	{
+		g_signal_emit_by_name(priv->monitor, "mount-added", cur->data);
+	}
+
+	g_list_free_full(mount_list, g_object_unref);
 }
 
 CelluloidPlayer *

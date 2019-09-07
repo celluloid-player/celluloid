@@ -584,6 +584,9 @@ connect_signals(CelluloidController *controller)
 	g_object_bind_property(	controller->model, "track-list",
 				controller->view, "track-list",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	controller->model, "disc-list",
+				controller->view, "disc-list",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->view, "display-fps",
 				controller->model, "display-fps",
 				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );

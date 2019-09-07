@@ -432,6 +432,14 @@ celluloid_video_area_update_track_list(	CelluloidVideoArea *area,
 }
 
 void
+celluloid_video_area_update_disc_list(	CelluloidVideoArea *area,
+					const GPtrArray *disc_list )
+{
+	celluloid_header_bar_update_disc_list
+		(CELLULOID_HEADER_BAR(area->header_bar), disc_list);
+}
+
+void
 celluloid_video_area_set_fullscreen_state(	CelluloidVideoArea *area,
 						gboolean fullscreen )
 {

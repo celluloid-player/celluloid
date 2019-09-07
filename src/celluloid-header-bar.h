@@ -45,4 +45,8 @@ void
 celluloid_header_bar_update_track_list(	CelluloidHeaderBar *hdr,
 					const GPtrArray *track_list );
 
+void
+celluloid_header_bar_update_disc_list(	CelluloidHeaderBar *hdr,
+					const GPtrArray *disc_list );
+
 #endif
