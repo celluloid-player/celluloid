@@ -803,7 +803,9 @@ celluloid_model_key_press(CelluloidModel *model, const gchar* keystr)
 void
 celluloid_model_reset_keys(CelluloidModel *model)
 {
-	const gchar *cmd[] = {"keyup", NULL};
+	// As of Sep 20, 2019, mpv will crash if the command doesn't have any
+	// arguments. The empty string is there to work around the issue.
+	const gchar *cmd[] = {"keyup", "", NULL};
 
 	g_debug("Sent global key up to mpv");
 	celluloid_mpv_command_async(CELLULOID_MPV(model), cmd);
