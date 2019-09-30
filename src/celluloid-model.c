@@ -32,6 +32,7 @@ enum
 	PROP_CHAPTERS,
 	PROP_CORE_IDLE,
 	PROP_IDLE_ACTIVE,
+	PROP_BORDER,
 	PROP_FULLSCREEN,
 	PROP_PAUSE,
 	PROP_LOOP_FILE,
@@ -62,6 +63,7 @@ struct _CelluloidModel
 	gint64 chapters;
 	gboolean core_idle;
 	gboolean idle_active;
+	gboolean border;
 	gboolean fullscreen;
 	gboolean pause;
 	gchar *loop_file;
@@ -185,6 +187,10 @@ set_property(	GObject *object,
 		}
 		break;
 
+		case PROP_BORDER:
+		self->border = g_value_get_boolean(value);
+		break;
+
 		case PROP_FULLSCREEN:
 		self->fullscreen = g_value_get_boolean(value);
 		break;
@@ -280,6 +286,10 @@ get_property(	GObject *object,
 
 		case PROP_IDLE_ACTIVE:
 		g_value_set_boolean(value, self->idle_active);
+		break;
+
+		case PROP_BORDER:
+		g_value_set_boolean(value, self->border);
 		break;
 
 		case PROP_FULLSCREEN:
@@ -397,6 +407,13 @@ set_mpv_property(	GObject *object,
 					"sid",
 					MPV_FORMAT_STRING,
 					&self->sid );
+		break;
+
+		case PROP_BORDER:
+		celluloid_mpv_set_property(	mpv,
+					"border",
+					MPV_FORMAT_FLAG,
+					&self->border );
 		break;
 
 		case PROP_FULLSCREEN:
@@ -628,6 +645,7 @@ celluloid_model_class_init(CelluloidModelClass *klass)
 			{"chapters", PROP_CHAPTERS, G_TYPE_INT64},
 			{"core-idle", PROP_CORE_IDLE, G_TYPE_BOOLEAN},
 			{"idle-active", PROP_IDLE_ACTIVE, G_TYPE_BOOLEAN},
+			{"border", PROP_BORDER, G_TYPE_BOOLEAN},
 			{"fullscreen", PROP_FULLSCREEN, G_TYPE_BOOLEAN},
 			{"pause", PROP_PAUSE, G_TYPE_BOOLEAN},
 			{"loop-file", PROP_LOOP_FILE, G_TYPE_STRING},
@@ -696,6 +714,7 @@ celluloid_model_init(CelluloidModel *model)
 	model->chapters = 0;
 	model->core_idle = FALSE;
 	model->idle_active = FALSE;
+	model->border = FALSE;
 	model->fullscreen = FALSE;
 	model->pause = TRUE;
 	model->loop_file = NULL;

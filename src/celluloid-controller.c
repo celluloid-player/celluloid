@@ -563,6 +563,9 @@ connect_signals(CelluloidController *controller)
 	g_object_bind_property(	controller->model, "core-idle",
 				controller, "idle",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	controller->model, "border",
+				controller->view, "border",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->model, "fullscreen",
 				controller->view, "fullscreen",
 				G_BINDING_BIDIRECTIONAL );
