@@ -69,9 +69,6 @@ static void
 handle_geometry(CelluloidPlayer *player, GdkRectangle monitor_geom);
 
 static void
-handle_fs(CelluloidPlayer *player);
-
-static void
 handle_msg_level(CelluloidPlayer *player);
 
 static void
@@ -266,7 +263,6 @@ ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	GdkRectangle monitor_geom = get_monitor_geometry(data);
 
 	handle_geometry(player, monitor_geom);
-	handle_fs(player);
 	handle_msg_level(player);
 }
 
@@ -426,21 +422,6 @@ handle_geometry(CelluloidPlayer *player, GdkRectangle monitor_geom)
 	}
 
 	mpv_free(geometry_str);
-}
-
-static void
-handle_fs(CelluloidPlayer *player)
-{
-	CelluloidMpv *mpv = CELLULOID_MPV(player);
-	gchar *fs_str =	celluloid_mpv_get_property_string(mpv, "options/fs");
-
-	if(g_strcmp0(fs_str, "yes") == 0)
-	{
-		celluloid_mpv_command_string
-			(mpv, "script-message celluloid-action win.enter-fullscreen");
-	}
-
-	mpv_free(fs_str);
 }
 
 static void
