@@ -414,6 +414,7 @@ observe_properties(CelluloidMpv *mpv)
 	celluloid_mpv_observe_property(mpv, 0, "chapters", MPV_FORMAT_INT64);
 	celluloid_mpv_observe_property(mpv, 0, "core-idle", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "idle-active", MPV_FORMAT_FLAG);
+	celluloid_mpv_observe_property(mpv, 0, "border", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "fullscreen", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "loop", MPV_FORMAT_STRING);

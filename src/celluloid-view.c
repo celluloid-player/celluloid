@@ -42,6 +42,7 @@ enum
 	PROP_DISC_LIST,
 	PROP_SKIP_ENABLED,
 	PROP_LOOP,
+	PROP_BORDER,
 	PROP_FULLSCREEN,
 	PROP_DISPLAY_FPS,
 	N_PROPERTIES
@@ -62,6 +63,7 @@ struct _CelluloidView
 	gboolean skip_enabled;
 	gboolean control_box_enabled;
 	gboolean loop;
+	gboolean border;
 	gboolean fullscreen;
 	gdouble display_fps;
 };
@@ -340,6 +342,11 @@ set_property(	GObject *object,
 		self->loop = g_value_get_boolean(value);
 		break;
 
+		case PROP_BORDER:
+		self->border = g_value_get_boolean(value);
+		gtk_window_set_decorated(GTK_WINDOW(wnd), self->border);
+		break;
+
 		case PROP_FULLSCREEN:
 		self->fullscreen = g_value_get_boolean(value);
 		celluloid_main_window_set_fullscreen(wnd, self->fullscreen);
@@ -399,6 +406,10 @@ get_property(	GObject *object,
 
 		case PROP_LOOP:
 		g_value_set_boolean(value, self->loop);
+		break;
+
+		case PROP_BORDER:
+		g_value_set_boolean(value, self->border);
 		break;
 
 		case PROP_FULLSCREEN:
@@ -987,6 +998,14 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 	g_object_class_install_property(object_class, PROP_LOOP, pspec);
 
 	pspec = g_param_spec_boolean
+		(	"border",
+			"Border",
+			"Whether or not the main window should have decorations",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_BORDER, pspec);
+
+	pspec = g_param_spec_boolean
 		(	"fullscreen",
 			"Fullscreen",
 			"Whether or not the player is current in fullscreen mode",
@@ -1139,6 +1158,7 @@ celluloid_view_init(CelluloidView *view)
 	view->disc_list = NULL;
 	view->skip_enabled = FALSE;
 	view->loop = FALSE;
+	view->border = FALSE;
 	view->fullscreen = FALSE;
 	view->display_fps = 0;
 
