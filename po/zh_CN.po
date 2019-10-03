@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-08-20 11:22+0000\n"
+"PO-Revision-Date: 2019-10-03 04:36+0000\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
 "Language: zh_CN\n"
@@ -60,7 +60,7 @@ msgid "Whether or not to create new windows when there is already an instance"
 msgstr "当已经有一个实例在运行时，是否允许创建新窗口"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:65
-#: src/celluloid-application.c:497
+#: src/celluloid-application.c:498
 msgid "Options to pass to mpv"
 msgstr "要传递给 mpv 的选项"
 
@@ -167,96 +167,135 @@ msgid "MPRIS2 D-Bus interface"
 msgstr "MPRIS2 D-Bus 接口"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:33
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:64
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:72
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:103
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:131
 msgid "This release contains the following changes:"
 msgstr "该发布版本包含了以下变更："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:37
+msgid "Rename project to Celluloid"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
+msgid "Add Turkish translation by @TeknoMobil"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:43
+msgid "Add Esperanto translation by @F3nd0"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:46
+msgid "Migrate from opengl-cb to the new render API"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
+msgid "Handle numpad keybindings"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
+msgid "Handle unicode keybindings"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
+msgid "Forward media key events to mpv"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
+msgid ""
+"Add dconf key for controlling cursor speed at which controls are unhidden"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:61
+msgid "Add option for suppressing playback errors"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:152
+msgid "This listing is incomplete. See git log for complete changelog."
+msgstr "这个列表不是完整的。请到 git log 中查看完整的 changelog。"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
 msgid "Split up the General tab in the preferences dialog"
 msgstr "在首选项对话框中分离“通用”标签页"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr "改善平铺式窗口管理器下的切换显示播放列表功能"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:43
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:82
 msgid "Move app menu items to primary menu"
 msgstr "将 App Menu 的项目移动到主菜单"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:46
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:85
 msgid "Use separate MPRIS DBus connection for each window"
 msgstr "为每个窗口使用分离的 MPRIS DBus 连接"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:88
 msgid "Add support for MPRIS property LoopStatus"
 msgstr "添加 MPRIS 属性 LoopStatus 的支持"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:91
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr "通过 --mpv-options 选项从命令行中设置任意 mpv 参数"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:85
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
-msgid "This listing is incomplete. See git log for complete changelog."
-msgstr "这个列表不是完整的。请到 git log 中查看完整的 changelog。"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:107
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
 msgstr "设置默认的截图目录为 XDG_PICTURES_DIR"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and "
 "--autofit-smaller"
 msgstr ""
 "改善对 --window-scale、 --autofit、 --autofit-larger 和 --autofit-smaller 的处理"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:75
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:114
 msgid "Add command line option for setting WM_ROLE"
 msgstr "增加一个命令行参数来设置 WM_ROLE"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:78
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
 msgid "Add context menu item for removing playlist items"
 msgstr "增加上下文菜单项来移除播放列表里的项目"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:81
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:120
 msgid "Add context menu item for copying location of playlist items"
 msgstr "增加上下文菜单项来复制播放列表项目的路径"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:135
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr "增加选项来让跳转按钮可以切换播放列表项，而不是切换章节"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:100
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:139
 msgid "Make the file chooser accept non-local locations"
 msgstr "让文件选择器可以接受非本地路径"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:103
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:142
 msgid "Add right-click menu entry for looping a single file"
 msgstr "增加循环播放单个文件的右键菜单项"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr "处理全屏和窗口大小的属性变化事件"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:109
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr "增加选项以在窗口模式下自动隐藏鼠标指针"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:123
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:162
 msgid "The main window showing the application in action"
 msgstr "显示运行中应用的主窗口"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "The main window with CSD disabled"
 msgstr "关闭了 CSD 的主窗口"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:131
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:170
 msgid "The main window with playlist open"
 msgstr "打开了播放列表的主窗口"
 
@@ -279,67 +318,67 @@ msgstr "新建窗口"
 msgid "Playing"
 msgstr "正在播放"
 
-#: src/celluloid-application.c:473
+#: src/celluloid-application.c:474
 msgid "Show release version"
 msgstr "显示发布版本号"
 
-#: src/celluloid-application.c:481
+#: src/celluloid-application.c:482
 msgid "Enqueue"
 msgstr "加入队列"
 
-#: src/celluloid-application.c:489
+#: src/celluloid-application.c:490
 msgid "Create a new window"
 msgstr "创建一个新窗口"
 
-#: src/celluloid-application.c:498
+#: src/celluloid-application.c:499
 msgid "OPTIONS"
 msgstr "选项"
 
-#: src/celluloid-application.c:505
+#: src/celluloid-application.c:506
 msgid "Set the window role"
 msgstr "设置窗口规则"
 
-#: src/celluloid-application.c:513
+#: src/celluloid-application.c:514
 msgid "Don't connect to an already-running instance"
 msgstr "不要连接到已经运行中的实例"
 
-#: src/celluloid-control-box.c:321
+#: src/celluloid-control-box.c:341
 msgid "Pause"
 msgstr "暂停"
 
-#: src/celluloid-control-box.c:321 src/celluloid-control-box.c:489
+#: src/celluloid-control-box.c:341 src/celluloid-control-box.c:520
 msgid "Play"
 msgstr "播放"
 
-#: src/celluloid-control-box.c:492
+#: src/celluloid-control-box.c:523
 msgid "Stop"
 msgstr "停止"
 
-#: src/celluloid-control-box.c:495
+#: src/celluloid-control-box.c:526
 msgid "Forward"
 msgstr "快进"
 
-#: src/celluloid-control-box.c:498
+#: src/celluloid-control-box.c:529
 msgid "Rewind"
 msgstr "快退"
 
-#: src/celluloid-control-box.c:501
+#: src/celluloid-control-box.c:532
 msgid "Next Chapter"
 msgstr "下一章节"
 
-#: src/celluloid-control-box.c:504
+#: src/celluloid-control-box.c:535
 msgid "Previous Chapter"
 msgstr "上一章节"
 
-#: src/celluloid-control-box.c:507
+#: src/celluloid-control-box.c:538
 msgid "Loop Playlist"
 msgstr "循环播放列表"
 
-#: src/celluloid-control-box.c:510 src/celluloid-header-bar.c:91
+#: src/celluloid-control-box.c:541 src/celluloid-header-bar.c:91
 msgid "Toggle Fullscreen"
 msgstr "切换全屏"
 
-#: src/celluloid-controller.c:957 src/celluloid-view.c:1299
+#: src/celluloid-controller.c:964 src/celluloid-view.c:1338
 msgid "Error"
 msgstr "错误"
 
@@ -367,87 +406,104 @@ msgstr "图像文件"
 msgid "Subtitle Files"
 msgstr "字幕文件"
 
-#: src/celluloid-menu.c:103
+#: src/celluloid-menu.c:106
 msgid "None"
 msgstr "无"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#: src/celluloid-menu.c:118
+#: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "未知"
 
-#: src/celluloid-menu.c:151
+#: src/celluloid-menu.c:154
 msgid "_Load External…"
 msgstr "载入外部(_L)…"
 
-#: src/celluloid-menu.c:200
+#. Disable the menu item by setting the action to something
+#. * invalid.
+#: src/celluloid-menu.c:205
+#, fuzzy
+msgid "No disc found"
+msgstr "未找到插件"
+
+#: src/celluloid-menu.c:233
 msgid "_File"
 msgstr "文件(_F)"
 
-#: src/celluloid-menu.c:201 src/celluloid-menu.c:277
+#: src/celluloid-menu.c:234 src/celluloid-menu.c:314
 msgid "_Open…"
 msgstr "打开...(_O)"
 
-#: src/celluloid-menu.c:202 src/celluloid-menu.c:278
+#: src/celluloid-menu.c:235 src/celluloid-menu.c:315
 msgid "Open _Location…"
 msgstr "打开路径...(_L)"
 
-#: src/celluloid-menu.c:203 src/celluloid-menu.c:251
+#: src/celluloid-menu.c:236
+#, fuzzy
+msgid "Open _Disc…"
+msgstr "打开路径...(_L)"
+
+#: src/celluloid-menu.c:237 src/celluloid-menu.c:286
 msgid "_Save Playlist"
 msgstr "保存播放列表(_S)"
 
-#: src/celluloid-menu.c:204 src/celluloid-menu.c:280
+#: src/celluloid-menu.c:238 src/celluloid-menu.c:318
 msgid "_New Window"
 msgstr "新建窗口(_N)"
 
-#: src/celluloid-menu.c:205
+#: src/celluloid-menu.c:239
 msgid "_Edit"
 msgstr "编辑(_E)"
 
-#: src/celluloid-menu.c:206 src/celluloid-menu.c:257
+#: src/celluloid-menu.c:240 src/celluloid-menu.c:292
 msgid "_Preferences"
 msgstr "首选项(_P)"
 
-#: src/celluloid-menu.c:207 src/celluloid-menu.c:253
+#: src/celluloid-menu.c:241 src/celluloid-menu.c:288
 msgid "_Video Track"
 msgstr "视频轨道(_V)"
 
-#: src/celluloid-menu.c:208 src/celluloid-menu.c:254
+#: src/celluloid-menu.c:242 src/celluloid-menu.c:289
 msgid "_Audio Track"
 msgstr "音轨(_A)"
 
-#: src/celluloid-menu.c:209 src/celluloid-menu.c:255
+#: src/celluloid-menu.c:243 src/celluloid-menu.c:290
 msgid "S_ubtitle Track"
 msgstr "字幕轨道(_u)"
 
-#: src/celluloid-menu.c:210
+#: src/celluloid-menu.c:244
 msgid "_View"
 msgstr "视图(_V)"
 
-#: src/celluloid-menu.c:211 src/celluloid-menu.c:248
+#: src/celluloid-menu.c:245 src/celluloid-menu.c:283
 msgid "_Toggle Controls"
 msgstr "切换控制栏(_T)"
 
-#: src/celluloid-menu.c:212 src/celluloid-menu.c:250
+#: src/celluloid-menu.c:246 src/celluloid-menu.c:285
 msgid "_Toggle Playlist"
 msgstr "切换播放列表(_T)"
 
-#: src/celluloid-menu.c:213
+#: src/celluloid-menu.c:247
 msgid "_Fullscreen"
 msgstr "全屏(_F)"
 
-#: src/celluloid-menu.c:214
+#: src/celluloid-menu.c:248
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: src/celluloid-menu.c:215 src/celluloid-menu.c:258
+#: src/celluloid-menu.c:249 src/celluloid-menu.c:293
 msgid "_Keyboard Shortcuts"
 msgstr "快捷键(_K)"
 
-#: src/celluloid-menu.c:216 src/celluloid-menu.c:259
+#: src/celluloid-menu.c:250 src/celluloid-menu.c:294
 msgid "_About Celluloid"
 msgstr "关于 Celluloid(_A)"
+
+#: src/celluloid-menu.c:316
+#, fuzzy
+msgid "Open _Disc"
+msgstr "打开文件"
 
 #: src/celluloid-mpv.c:240
 #, c-format
@@ -467,7 +523,7 @@ msgstr "取消(_C)"
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: src/celluloid-player.c:536
+#: src/celluloid-player.c:552
 msgid "Failed to apply one or more MPV options."
 msgstr "应用一个或多个 MPV 选项失败。"
 
@@ -870,45 +926,45 @@ msgstr "回放"
 msgid "Seeking"
 msgstr "跳转"
 
-#: src/celluloid-view.c:704
+#: src/celluloid-view.c:726
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr "启用或禁用客户端装饰（CSD），需要重启播放器以生效。"
 
-#: src/celluloid-view.c:1174
+#: src/celluloid-view.c:1213
 msgid "Add File to Playlist"
 msgstr "添加文件到播放列表"
 
-#: src/celluloid-view.c:1175
+#: src/celluloid-view.c:1214
 msgid "Open File"
 msgstr "打开文件"
 
-#: src/celluloid-view.c:1204
+#: src/celluloid-view.c:1243
 msgid "Add Location to Playlist"
 msgstr "添加路径到播放列表"
 
-#: src/celluloid-view.c:1205
+#: src/celluloid-view.c:1244
 msgid "Open Location"
 msgstr "打开路径"
 
-#: src/celluloid-view.c:1227
+#: src/celluloid-view.c:1266
 msgid "Load Audio Track…"
 msgstr "加载音频轨道..."
 
-#: src/celluloid-view.c:1247
+#: src/celluloid-view.c:1286
 msgid "Load Subtitle Track…"
 msgstr "加载字幕轨道..."
 
-#: src/celluloid-view.c:1273
+#: src/celluloid-view.c:1312
 msgid "Save Playlist"
 msgstr "保存播放列表"
 
-#: src/celluloid-view.c:1339
+#: src/celluloid-view.c:1378
 msgid "A GTK frontend for MPV"
 msgstr "MPV 的 GTK 前端程序"
 
-#: src/celluloid-view.c:1349
+#: src/celluloid-view.c:1388
 msgid "translator-credits"
 msgstr ""
 "Mingye Wang <arthur2e5@aosc.xyz>, 2015, 2016.\n"
