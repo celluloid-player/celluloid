@@ -1522,8 +1522,11 @@ celluloid_view_move(	CelluloidView *view,
 void
 celluloid_view_resize_video_area(CelluloidView *view, gint width, gint height)
 {
-	celluloid_main_window_resize_video_area
-		(CELLULOID_MAIN_WINDOW(view), width, height);
+	if(!view->fullscreen)
+	{
+		celluloid_main_window_resize_video_area
+			(CELLULOID_MAIN_WINDOW(view), width, height);
+	}
 }
 
 void
