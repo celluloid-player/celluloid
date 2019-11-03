@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-10-03 04:36+0000\n"
+"PO-Revision-Date: 2019-10-09 12:55+0000\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -137,23 +137,17 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "GTK+ frontend for mpv"
 msgstr "Mpv için GTK + arayüz"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
-"Celluloid is a simple GTK+ frontend for mpv, which is a very powerful media "
-"player capable of playing virtually all video and audio formats. The design "
-"of Celluloid is based on GNOME HIG, though it is not dependent on any GNOME "
-"libraries. Celluloid also offers an option to disable client-side "
-"decorations (CSD) for better compatibility with non-GNOME systems."
+"Celluloid is a simple media player that can play virtually all video and "
+"audio formats. It supports playlists and MPRIS2 media player controls. The "
+"design of Celluloid follows the GNOME Human Interface Guidelines, but can "
+"also be adapted for other systems that don't use client-side decorations "
+"(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid, neredeyse tüm video ve ses biçimlerini oynatabilen çok güçlü bir "
-"medya oynatıcısı olan Mpv için basit bir GTK+ ön yüzüdür. Celluloid'nin "
-"tasarımı GNOME HIG'i temel alır, ancak GNOME kütüphanelerine bağlı değildir."
-" Celluloid, GNOME dışı sistemlerle daha iyi uyumluluk için istemci tarafı "
-"süslemeleri (CSD) devre dışı bırakma seçeneği de sunar."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -314,19 +308,27 @@ msgstr "CSD'nin devre dışı bırakıldığı ana pencere"
 msgid "The main window with playlist open"
 msgstr "Oynatma listesi açık olan ana pencere"
 
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+msgid "Multimedia Player"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+msgid "Play movies and videos"
+msgstr ""
+
 #. Translators: This is an icon name, don't translate!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:8
+#: data/io.github.celluloid_player.Celluloid.desktop.in:9
 msgid "io.github.celluloid_player.Celluloid"
 msgstr "io.github.celluloid_player.Celluloid"
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:16
+#: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
 "Video;Film;Müzik;Klip;Diziler;Oynatıcı;DVD;TV;Disk;Albüm;Music;GNOME;mpv;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:22
+#: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
 msgstr "Yeni Pencere"
 

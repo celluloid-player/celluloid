@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-10-03 04:35+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2019-10-14 04:13+0000\n"
+"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -139,24 +139,22 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "GTK+ frontend for mpv"
 msgstr "GTK+-frontend til mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
-"Celluloid is a simple GTK+ frontend for mpv, which is a very powerful media "
-"player capable of playing virtually all video and audio formats. The design "
-"of Celluloid is based on GNOME HIG, though it is not dependent on any GNOME "
-"libraries. Celluloid also offers an option to disable client-side "
-"decorations (CSD) for better compatibility with non-GNOME systems."
+"Celluloid is a simple media player that can play virtually all video and "
+"audio formats. It supports playlists and MPRIS2 media player controls. The "
+"design of Celluloid follows the GNOME Human Interface Guidelines, but can "
+"also be adapted for other systems that don't use client-side decorations "
+"(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid er en simpel GTK+-frontend til mpv, som er en meget kraftful "
-"medieafspiller som er i stand til at afspille stort set alle video- og "
-"lydformater. Celluloids design er baseret på GNOME HIG, med det afhænger "
-"ikke af nogen GNOME-biblioteker. Celluloid tilbyder også en valgmulighed til"
-" at deaktivere klientsidedekorationer (CSD) for bedre kompatibilitet med "
-"systemer som ikke er GNOME."
+"Celluloid er en simpel medieafspiller som kan afspille næsten alle video- og"
+" lydformater. Den understøtter afspilningslister og "
+"MPRIS2-medieafspillerstyringer. Celluloids design følger GNOME Human "
+"Interface Guidelines men kan også tilpasses andre systemer der ikke bruger "
+"klientside-dekorationer (CSD). Den er baseret på mpv-biblioteket og GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -183,43 +181,41 @@ msgstr "Udgivelsen indeholder følgende ændringer:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:37
 msgid "Rename project to Celluloid"
-msgstr ""
+msgstr "Omdøb projektet til Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
 msgid "Add Turkish translation by @TeknoMobil"
-msgstr ""
+msgstr "Tilføj tyrkisk oversættelse af @TeknoMobil"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:43
 msgid "Add Esperanto translation by @F3nd0"
-msgstr ""
+msgstr "Tilføj esperanto oversættelse af @F3nd0"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:46
 msgid "Migrate from opengl-cb to the new render API"
-msgstr ""
+msgstr "Migrer fra opengl-cb til den nye gengivelses API"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
 msgid "Handle numpad keybindings"
-msgstr ""
+msgstr "Håndter tastebindinger for det numeriske tastatur"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid "Handle unicode keybindings"
-msgstr ""
+msgstr "Håndter tastebindinger for unicode"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
 msgid "Forward media key events to mpv"
-msgstr ""
+msgstr "Viderestil medietast-hændelser til mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
-#, fuzzy
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
-"Den laveste markørhastighed hvor flydende kontrolelementer ikke skjules."
+"Tilføj dconf-nøgle til styring af markørens hastighed hvor styringer skjules"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:61
-#, fuzzy
 msgid "Add option for suppressing playback errors"
-msgstr "Ignorer fejl ved afspilning"
+msgstr "Tilføj tilvalg til undertrykkelse af afspilningsfejl"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
@@ -322,18 +318,26 @@ msgstr "Hovedvinduet med deaktiveret skærmdisplay"
 msgid "The main window with playlist open"
 msgstr "Hovedvinduet med åben afspilningsliste"
 
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+msgid "Multimedia Player"
+msgstr "Multimedieafspiller"
+
+#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+msgid "Play movies and videos"
+msgstr "Afspil film og videoer"
+
 #. Translators: This is an icon name, don't translate!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:8
+#: data/io.github.celluloid_player.Celluloid.desktop.in:9
 msgid "io.github.celluloid_player.Celluloid"
 msgstr "io.github.celluloid_player.Celluloid"
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:16
+#: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Video;Film;Klip;Serier;Afspiller;DVD;TV;Disk;Album;Musik;GNOME;mpv;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:22
+#: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
 msgstr "Nyt vindue"
 
@@ -446,9 +450,8 @@ msgstr "_Indlæs eksternt…"
 #. Disable the menu item by setting the action to something
 #. * invalid.
 #: src/celluloid-menu.c:205
-#, fuzzy
 msgid "No disc found"
-msgstr "Ingen plugins fundet"
+msgstr "Ingen disk fundet"
 
 #: src/celluloid-menu.c:233
 msgid "_File"
@@ -463,9 +466,8 @@ msgid "Open _Location…"
 msgstr "Åbn _placering…"
 
 #: src/celluloid-menu.c:236
-#, fuzzy
 msgid "Open _Disc…"
-msgstr "Åbn _placering…"
+msgstr "Åbn _disk…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:286
 msgid "_Save Playlist"
@@ -524,9 +526,8 @@ msgid "_About Celluloid"
 msgstr "_Om Celluloid"
 
 #: src/celluloid-menu.c:316
-#, fuzzy
 msgid "Open _Disc"
-msgstr "Åbn fil"
+msgstr "Åbn _disk"
 
 #: src/celluloid-mpv.c:240
 #, c-format

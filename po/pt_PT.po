@@ -1,4 +1,5 @@
 # Bruno Guerreiro <american.jesus.pt@gmail.com>, 2016.
+# Filipe Tostevin <ftostevin@gmail.com>, 2019. #zanata
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 msgid ""
@@ -6,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-10-03 08:37+0000\n"
+"PO-Revision-Date: 2019-11-02 11:20+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -139,24 +140,23 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "GTK+ frontend for mpv"
 msgstr "Interface GTK+ para mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
-"Celluloid is a simple GTK+ frontend for mpv, which is a very powerful media "
-"player capable of playing virtually all video and audio formats. The design "
-"of Celluloid is based on GNOME HIG, though it is not dependent on any GNOME "
-"libraries. Celluloid also offers an option to disable client-side "
-"decorations (CSD) for better compatibility with non-GNOME systems."
+"Celluloid is a simple media player that can play virtually all video and "
+"audio formats. It supports playlists and MPRIS2 media player controls. The "
+"design of Celluloid follows the GNOME Human Interface Guidelines, but can "
+"also be adapted for other systems that don't use client-side decorations "
+"(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid é um interface simples em GTK+ para mpv, que é um poderoso "
-"reprodutor multimédia capaz de reproduzir praticamente todos os formatos de "
-"vídeo e áudio. O projeto do Celluloid é baseada em GNOME HIG, embora não "
-"seja dependente de todas as bibliotecas do GNOME. Celluloid também oferece "
-"uma opção para desativar decorações do lado do cliente (CSD) para melhor "
-"compatibilidade com os sistemas não-GNOME."
+"Celluloid é um reprodutor de multimédia simples que pode reproduzir "
+"praticamente todos os formatos de vídeo e áudio. Ele suporta listas de "
+"reprodução e controlos do reprodutor de multimédia MPRIS2. O projeto do "
+"Celluloid segue as Diretrizes de Interface Humana do GNOME, mas também pode "
+"ser adaptado para outros sistemas que não usam decorações do lado do cliente"
+" (CSD). Ele é baseado na biblioteca mpv e no GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -327,19 +327,27 @@ msgstr "Janela principal com CSD desativada"
 msgid "The main window with playlist open"
 msgstr "Janela principal com lista de reprodução aberta"
 
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+msgid "Multimedia Player"
+msgstr "Reprodutor multimédia"
+
+#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+msgid "Play movies and videos"
+msgstr "Reproduzir filmes e vídeos"
+
 #. Translators: This is an icon name, don't translate!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:8
+#: data/io.github.celluloid_player.Celluloid.desktop.in:9
 msgid "io.github.celluloid_player.Celluloid"
 msgstr "io.github.celluloid_player.Celluloid"
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:16
+#: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
-"Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
+"Vídeo;Filme;Clip;Séries;Reprodutor;DVD;TV;Disco;Álbum;Música;GNOME;mpv;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:22
+#: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
 msgstr "Nova janela"
 
@@ -433,7 +441,7 @@ msgstr "Ficheiros de Imagem"
 
 #: src/celluloid-file-chooser.c:179
 msgid "Subtitle Files"
-msgstr "Ficheires de Legenda"
+msgstr "Ficheiros de Legenda"
 
 #: src/celluloid-menu.c:106
 msgid "None"

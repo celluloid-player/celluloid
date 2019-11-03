@@ -6,13 +6,14 @@
 # Mingye Wang <arthur2e5@aosc.xyz>, 2015.
 # Huang Jiayao <huangjiayao_1992@163.com>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
+# 玉堂白鹤 <yjwork@qq.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-10-03 04:36+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2019-10-29 07:18+0000\n"
+"Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
 "Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -134,21 +135,17 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "GTK+ frontend for mpv"
 msgstr "MPV 的 GTK+ 前端程序"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
-"Celluloid is a simple GTK+ frontend for mpv, which is a very powerful media "
-"player capable of playing virtually all video and audio formats. The design "
-"of Celluloid is based on GNOME HIG, though it is not dependent on any GNOME "
-"libraries. Celluloid also offers an option to disable client-side "
-"decorations (CSD) for better compatibility with non-GNOME systems."
+"Celluloid is a simple media player that can play virtually all video and "
+"audio formats. It supports playlists and MPRIS2 media player controls. The "
+"design of Celluloid follows the GNOME Human Interface Guidelines, but can "
+"also be adapted for other systems that don't use client-side decorations "
+"(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid 是一个简单的 GTK+ mpv 前端，mpv 是一个功能强大的媒体播放器，可用于播放几乎所有的视频和音频格式。尽管该程序不依赖于任何"
-" GNOME 库，Celluloid 是一个基于 GNOME HIG（人机界面准则）设计的程序。Celluloid "
-"还提供禁用客户端装饰（CSD）的选项以为不运行 GNOME 的系统提供更好的兼容性。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -175,7 +172,7 @@ msgstr "该发布版本包含了以下变更："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:37
 msgid "Rename project to Celluloid"
-msgstr ""
+msgstr "将项目重命名为 Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
 msgid "Add Turkish translation by @TeknoMobil"
@@ -299,18 +296,26 @@ msgstr "关闭了 CSD 的主窗口"
 msgid "The main window with playlist open"
 msgstr "打开了播放列表的主窗口"
 
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+msgid "Multimedia Player"
+msgstr "多媒体播放器"
+
+#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+msgid "Play movies and videos"
+msgstr ""
+
 #. Translators: This is an icon name, don't translate!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:8
+#: data/io.github.celluloid_player.Celluloid.desktop.in:9
 msgid "io.github.celluloid_player.Celluloid"
 msgstr ""
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:16
+#: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:22
+#: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
 msgstr "新建窗口"
 
@@ -423,9 +428,8 @@ msgstr "载入外部(_L)…"
 #. Disable the menu item by setting the action to something
 #. * invalid.
 #: src/celluloid-menu.c:205
-#, fuzzy
 msgid "No disc found"
-msgstr "未找到插件"
+msgstr "未找到光盘"
 
 #: src/celluloid-menu.c:233
 msgid "_File"
@@ -440,9 +444,8 @@ msgid "Open _Location…"
 msgstr "打开路径...(_L)"
 
 #: src/celluloid-menu.c:236
-#, fuzzy
 msgid "Open _Disc…"
-msgstr "打开路径...(_L)"
+msgstr "打开光盘...(_D)"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:286
 msgid "_Save Playlist"
@@ -501,9 +504,8 @@ msgid "_About Celluloid"
 msgstr "关于 Celluloid(_A)"
 
 #: src/celluloid-menu.c:316
-#, fuzzy
 msgid "Open _Disc"
-msgstr "打开文件"
+msgstr "打开光盘(_D)"
 
 #: src/celluloid-mpv.c:240
 #, c-format

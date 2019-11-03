@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-10-04 08:54+0000\n"
+"PO-Revision-Date: 2019-10-24 10:44+0000\n"
 "Last-Translator: Carlos Henrique <neocazen@bol.com.br>\n"
 "Language-Team: Portuguese (Brazil)\n"
 "Language: pt_BR\n"
@@ -142,24 +142,22 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "GTK+ frontend for mpv"
 msgstr "Interface em GTK+  para o mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
-"Celluloid is a simple GTK+ frontend for mpv, which is a very powerful media "
-"player capable of playing virtually all video and audio formats. The design "
-"of Celluloid is based on GNOME HIG, though it is not dependent on any GNOME "
-"libraries. Celluloid also offers an option to disable client-side "
-"decorations (CSD) for better compatibility with non-GNOME systems."
+"Celluloid is a simple media player that can play virtually all video and "
+"audio formats. It supports playlists and MPRIS2 media player controls. The "
+"design of Celluloid follows the GNOME Human Interface Guidelines, but can "
+"also be adapted for other systems that don't use client-side decorations "
+"(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid é uma interface simples em GTK+ para o mpv, que é um poderoso "
-"reprodutor de mídia capaz de reproduzir praticamente todos os formatos de "
-"audio e vídeo. O design do Celluloid é baseado no GNOME HIG,  mas não "
-"depende de nenhuma biblioteca GNOME. Celluloid também oferece a opção de "
-"desativar as decorações de janelas independentes (client-side decorations "
-"[CSD]) para uma melhor compatibilidade com sistemas que não usam GNOME."
+"O Celluloid é um media player simples que pode reproduzir praticamente todos"
+" os formatos de vídeo e áudio. Ele suporta listas de reprodução e controles "
+"MPRIS2 media player. O design do Celluloid segue as Diretrizes da interface "
+"humana do GNOME, mas também pode ser adaptado para outros sistemas que não "
+"usam decorações do lado do cliente (CSD). É baseado na biblioteca mpv e GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -325,18 +323,26 @@ msgstr "Janela principal com CSD desativado"
 msgid "The main window with playlist open"
 msgstr "Janela principal com a lista de reprodução aberta"
 
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+msgid "Multimedia Player"
+msgstr "Tocador Multimídia"
+
+#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+msgid "Play movies and videos"
+msgstr "Reproduz filmes e vídeos"
+
 #. Translators: This is an icon name, don't translate!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:8
+#: data/io.github.celluloid_player.Celluloid.desktop.in:9
 msgid "io.github.celluloid_player.Celluloid"
 msgstr "io.github.celluloid_player.Celluloid"
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:16
+#: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Vídeo;Filme;Clipes;Séries;Tocar;DVD;TV;Disco;Álbum;Música;GNOME;mpv;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:22
+#: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
 msgstr "Nova Janela"
 
@@ -721,68 +727,68 @@ msgstr "Abrir local"
 
 #: src/celluloid-shortcuts-window.c:59
 msgid "Add file to playlist"
-msgstr "Adicionar arquivo à lista de reprodução"
+msgstr "Adiciona um arquivo à lista de reprodução"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Add location to playlist"
-msgstr "Adicionar local à lista de reprodução"
+msgstr "Adiciona um local à lista de reprodução"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Show preferences dialog"
-msgstr "Mostrar diálogo de preferências"
+msgstr "Mostra diálogo de preferências"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Toggle controls"
-msgstr "Exibir controles"
+msgstr "Exibe os controles"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Toggle playlist"
-msgstr "Mostrar lista de reprodução"
+msgstr "Mostra a lista de reprodução"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Toggle fullscreen mode"
-msgstr "Alternar modo tela cheia"
+msgstr "Alterna o modo tela cheia"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Leave fullscreen mode"
-msgstr "Sair do modo tela cheia"
+msgstr "Sai do modo tela cheia"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr ""
-"Alternar modos de sobreposição de tela (OSD) entre normal e tempo/duração"
+"Alterna os modos de sobreposição de tela (OSD) entre normal e tempo/duração"
 
 #: src/celluloid-shortcuts-window.c:67
 msgid "Show filename on the OSD"
-msgstr "Exibir o nome do arquivo na tela (OSD)"
+msgstr "Exibe o nome do arquivo na tela (OSD)"
 
 #: src/celluloid-shortcuts-window.c:68
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr "Mostrar o progresso, tempo passado, e a duração na tela (OSD)"
+msgstr "Mostra o progresso, tempo passado, e a duração na tela (OSD)"
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Seek backward/forward 5 seconds"
-msgstr "Avançar/retroceder 5 segundos"
+msgstr "Avança/retrocede 5 segundos"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Exact seek backward/forward 1 second"
-msgstr "Avançar/retroceder exatamente 1 segundo"
+msgstr "Avança/retrocede exatamente 1 segundo"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Seek backward/forward 1 minute"
-msgstr "Avançar/retroceder 1 minuto"
+msgstr "Avança/retrocede 1 minuto"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Exact seek backward/forward 5 seconds"
-msgstr "Avançar/retroceder 5 minutos"
+msgstr "Avança/retrocede 5 minutos"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Seek to previous/next subtitle"
-msgstr "Procurar a legenda anterior/seguinte"
+msgstr "Procura a legenda anterior/seguinte"
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Step backward/forward a single frame"
-msgstr "Avançar/retroceder um único quadro"
+msgstr "Avança/retrocede um único quadro"
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Seek to the beginning of the previous/next chapter"
@@ -790,39 +796,39 @@ msgstr "Ir para o início do anterior/próximo capítulo"
 
 #: src/celluloid-shortcuts-window.c:80
 msgid "Decrease/increase playback speed by 10%"
-msgstr "Aumentar/diminuir a velocidade de reprodução em 10%"
+msgstr "Aumenta/diminui a velocidade de reprodução em 10%"
 
 #: src/celluloid-shortcuts-window.c:81
 msgid "Halve/double current playback speed"
-msgstr "Reproduzir com metade/dobro da velocidade atual"
+msgstr "Reproduz com metade/dobro da velocidade atual"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Reset playback speed to normal"
-msgstr "Reiniciar a reprodução com velocidade normal"
+msgstr "Reinicia a reprodução com velocidade normal"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Go backward/forward in the playlist"
-msgstr "Avançar/voltar na lista de reprodução"
+msgstr "Avança/volta na lista de reprodução"
 
 #: src/celluloid-shortcuts-window.c:84
 msgid "Remove selected playlist item"
-msgstr "Remover item selecionado da lista de reprodução"
+msgstr "Remove item selecionado da lista de reprodução"
 
 #: src/celluloid-shortcuts-window.c:85
 msgid "Save playlist"
-msgstr "Salvar a lista de reprodução"
+msgstr "Salva a lista de reprodução"
 
 #: src/celluloid-shortcuts-window.c:86
 msgid "Set/clear A-B loop points"
-msgstr "Definir/limpar os pontos de loop A-B"
+msgstr "Define/limpa os pontos de loop A-B"
 
 #: src/celluloid-shortcuts-window.c:87
 msgid "Toggle infinite looping"
-msgstr "Mudar para modo de repetição infinita"
+msgstr "Muda para modo de repetição infinita"
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Pause or unpause"
-msgstr "Pausar ou Continuar"
+msgstr "Pausa ou Continua"
 
 #: src/celluloid-shortcuts-window.c:89
 msgid "Quit"
@@ -830,103 +836,103 @@ msgstr "Sair"
 
 #: src/celluloid-shortcuts-window.c:90
 msgid "Save current playback position and quit"
-msgstr "Salvar posição de reprodução e sair"
+msgstr "Salva a posição de reprodução e sai"
 
 #: src/celluloid-shortcuts-window.c:93
 msgid "Cycle through audio tracks"
-msgstr "Percorrer faixas de áudio"
+msgstr "Percorre pelas faixas de áudio"
 
 #: src/celluloid-shortcuts-window.c:94 src/celluloid-shortcuts-window.c:95
 msgid "Decrease/increase volume"
-msgstr "Aumentar/diminuir volume"
+msgstr "Aumenta/diminui volume"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Mute or unmute"
-msgstr "Silenciar ou não"
+msgstr "Silencia ou não"
 
 #: src/celluloid-shortcuts-window.c:97
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr "Ajustar o atraso de áudio em +/- 0,1 Segundos"
+msgstr "Ajusta o atraso de áudio em +/- 0,1 Segundos"
 
 #: src/celluloid-shortcuts-window.c:100
 msgid "Toggle subtitle visibility"
-msgstr "Alternar a visibilidade das legendas"
+msgstr "Alterna a visibilidade das legendas"
 
 #: src/celluloid-shortcuts-window.c:101
 msgid "Cycle through available subtitles"
-msgstr "Percorrer pelas legendas disponíveis"
+msgstr "Percorre pelas legendas disponíveis"
 
 #: src/celluloid-shortcuts-window.c:102
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr "Ajustar o atraso da legenda por +/- 0.1 segundos"
+msgstr "Ajusta o atraso da legenda por +/- 0.1 segundos"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr "Substituir alternadamente o estilo de legendas SSA/ASS"
+msgstr "Substitui alternadamente o estilo das legendas SSA/ASS"
 
 #: src/celluloid-shortcuts-window.c:104
 msgid "Move subtitles up/down"
-msgstr "Mover legendas para cima/para baixo"
+msgstr "Move as legendas para cima/para baixo"
 
 #: src/celluloid-shortcuts-window.c:105
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr "Alternar o modo de compatibilidade de aspecto do VSFilter"
+msgstr "Alterna o modo de compatibilidade de aspecto do VSFilter"
 
 #: src/celluloid-shortcuts-window.c:108
 msgid "Cycle through video tracks"
-msgstr "Percorrer pelas trilhas de vídeo"
+msgstr "Percorre pelas trilhas de vídeo"
 
 #: src/celluloid-shortcuts-window.c:109
 msgid "Decrease/increase pan-and-scan range"
-msgstr "Diminuir/aumentar o alcance da varredura de tela"
+msgstr "Diminui/aumenta o alcance da varredura de tela"
 
 #: src/celluloid-shortcuts-window.c:110
 msgid "Take a screenshot"
-msgstr "fazer uma captura de tela"
+msgstr "faz uma captura de tela"
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Take a screenshot, without subtitles"
-msgstr "Fazer uma captura de tela sem legendas"
+msgstr "Faz uma captura de tela sem legendas"
 
 #: src/celluloid-shortcuts-window.c:112
 msgid "Take a screenshot, as the window shows it"
-msgstr "Fazer uma captura de tela da janela mostrada"
+msgstr "Faz uma captura de tela da janela mostrada"
 
 #: src/celluloid-shortcuts-window.c:113
 msgid "Resize video to half its original size"
-msgstr "Redimensionar o vídeo para a metade do tamanho original"
+msgstr "Redimensiona o vídeo para a metade do tamanho original"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Resize video to its original size"
-msgstr "Redimensionar o vídeo para o tamanho original"
+msgstr "Redimensiona o vídeo para o tamanho original"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Resize video to double its original size"
-msgstr "Redimensionar o vídeo para o dobro da tela original"
+msgstr "Redimensiona o vídeo para o dobro da tela original"
 
 #: src/celluloid-shortcuts-window.c:116
 msgid "Adjust contrast"
-msgstr "Ajustar o contraste"
+msgstr "Ajusta o contraste"
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Adjust brightness"
-msgstr "Ajustar o brilho"
+msgstr "Ajusta o brilho"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Adjust gamma"
-msgstr "Ajustar o gama"
+msgstr "Ajusta o gama"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Adjust saturation"
-msgstr "Ajustar a saturação"
+msgstr "Ajusta a saturação"
 
 #: src/celluloid-shortcuts-window.c:120
 msgid "Activate or deactivate deinterlacer"
-msgstr "Ativar ou desativar desentrelace"
+msgstr "Ativa ou desativa desentrelace"
 
 #: src/celluloid-shortcuts-window.c:121
 msgid "Cycle aspect ratio override"
-msgstr "Percorrer pela proporção de aspecto ignorado"
+msgstr "Percorre pela proporção de aspecto ignorado"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "User Interface"
@@ -982,11 +988,11 @@ msgstr "Carregar Faixa de Áudio..."
 
 #: src/celluloid-view.c:1286
 msgid "Load Subtitle Track…"
-msgstr "Carregar Faixa de Legenda"
+msgstr "Carrega a Faixa de Legenda"
 
 #: src/celluloid-view.c:1312
 msgid "Save Playlist"
-msgstr "Salvar Lista de Reprodução"
+msgstr "Salva Lista de Reprodução"
 
 #: src/celluloid-view.c:1378
 msgid "A GTK frontend for MPV"
