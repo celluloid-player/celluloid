@@ -400,107 +400,107 @@ set_mpv_property(	GObject *object,
 	{
 		case PROP_AID:
 		celluloid_mpv_set_property(	mpv,
-					"aid",
-					MPV_FORMAT_STRING,
-					&self->aid );
+						"aid",
+						MPV_FORMAT_STRING,
+						&self->aid );
 		break;
 
 		case PROP_VID:
 		celluloid_mpv_set_property(	mpv,
-					"vid",
-					MPV_FORMAT_STRING,
-					&self->vid );
+						"vid",
+						MPV_FORMAT_STRING,
+						&self->vid );
 		break;
 
 		case PROP_SID:
 		celluloid_mpv_set_property(	mpv,
-					"sid",
-					MPV_FORMAT_STRING,
-					&self->sid );
+						"sid",
+						MPV_FORMAT_STRING,
+						&self->sid );
 		break;
 
 		case PROP_BORDER:
 		celluloid_mpv_set_property(	mpv,
-					"border",
-					MPV_FORMAT_FLAG,
-					&self->border );
+						"border",
+						MPV_FORMAT_FLAG,
+						&self->border );
 		break;
 
 		case PROP_FULLSCREEN:
 		celluloid_mpv_set_property(	mpv,
-					"fullscreen",
-					MPV_FORMAT_FLAG,
-					&self->fullscreen );
+						"fullscreen",
+						MPV_FORMAT_FLAG,
+						&self->fullscreen );
 		break;
 
 		case PROP_PAUSE:
 		celluloid_mpv_set_property(	mpv,
-					"pause",
-					MPV_FORMAT_FLAG,
-					&self->pause );
+						"pause",
+						MPV_FORMAT_FLAG,
+						&self->pause );
 		break;
 
 		case PROP_LOOP_FILE:
 		celluloid_mpv_set_property(	mpv,
-					"loop-file",
-					MPV_FORMAT_STRING,
-					&self->loop_file );
+						"loop-file",
+						MPV_FORMAT_STRING,
+						&self->loop_file );
 		break;
 
 		case PROP_LOOP_PLAYLIST:
 		celluloid_mpv_set_property(	mpv,
-					"loop-playlist",
-					MPV_FORMAT_STRING,
-					&self->loop_playlist );
+						"loop-playlist",
+						MPV_FORMAT_STRING,
+						&self->loop_playlist );
 		break;
 
 		case PROP_MEDIA_TITLE:
 		celluloid_mpv_set_property(	mpv,
-					"media-title",
-					MPV_FORMAT_INT64,
-					&self->media_title );
+						"media-title",
+						MPV_FORMAT_INT64,
+						&self->media_title );
 		break;
 
 		case PROP_PLAYLIST_POS:
 		celluloid_mpv_set_property(	mpv,
-					"playlist-pos",
-					MPV_FORMAT_INT64,
-					&self->playlist_pos );
+						"playlist-pos",
+						MPV_FORMAT_INT64,
+						&self->playlist_pos );
 		break;
 
 		case PROP_SPEED:
 		celluloid_mpv_set_property(	mpv,
-					"speed",
-					MPV_FORMAT_DOUBLE,
-					&self->speed );
+						"speed",
+						MPV_FORMAT_DOUBLE,
+						&self->speed );
 		break;
 
 		case PROP_VOLUME:
 		celluloid_mpv_set_property(	mpv,
-					"volume",
-					MPV_FORMAT_DOUBLE,
-					&self->volume );
+						"volume",
+						MPV_FORMAT_DOUBLE,
+						&self->volume );
 		break;
 
 		case PROP_VOLUME_MAX:
 		celluloid_mpv_set_property(	mpv,
-					"volume-max",
-					MPV_FORMAT_DOUBLE,
-					&self->volume_max );
+						"volume-max",
+						MPV_FORMAT_DOUBLE,
+						&self->volume_max );
 		break;
 
 		case PROP_WINDOW_SCALE:
 		celluloid_mpv_set_property(	mpv,
-					"window-scale",
-					MPV_FORMAT_DOUBLE,
-					&self->window_scale );
+						"window-scale",
+						MPV_FORMAT_DOUBLE,
+						&self->window_scale );
 		break;
 
 		case PROP_DISPLAY_FPS:
 		celluloid_mpv_set_property(	mpv,
-					"display-fps",
-					MPV_FORMAT_DOUBLE,
-					&self->display_fps );
+						"display-fps",
+						MPV_FORMAT_DOUBLE,
+						&self->display_fps );
 		break;
 	}
 }
