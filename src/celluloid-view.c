@@ -36,6 +36,7 @@ enum
 	PROP_PLAYLIST_COUNT,
 	PROP_PAUSE,
 	PROP_VOLUME,
+	PROP_VOLUME_MAX,
 	PROP_DURATION,
 	PROP_PLAYLIST_POS,
 	PROP_TRACK_LIST,
@@ -56,6 +57,7 @@ struct _CelluloidView
 	gint playlist_count;
 	gboolean pause;
 	gdouble volume;
+	gdouble volume_max;
 	gdouble duration;
 	gint playlist_pos;
 	GPtrArray *track_list;
@@ -223,6 +225,9 @@ constructed(GObject *object)
 	g_object_bind_property(	view, "volume",
 				control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	view, "volume-max",
+				control_box, "volume-max",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	playlist, "playlist-count",
 				view, "playlist-count",
 				G_BINDING_DEFAULT );
@@ -310,6 +315,10 @@ set_property(	GObject *object,
 		self->volume = g_value_get_double(value);
 		break;
 
+		case PROP_VOLUME_MAX:
+		self->volume_max = g_value_get_double(value);
+		break;
+
 		case PROP_DURATION:
 		self->duration = g_value_get_double(value);
 		break;
@@ -382,6 +391,10 @@ get_property(	GObject *object,
 
 		case PROP_VOLUME:
 		g_value_set_double(value, self->volume);
+		break;
+
+		case PROP_VOLUME_MAX:
+		g_value_set_double(value, self->volume_max);
 		break;
 
 		case PROP_DURATION:
@@ -948,6 +961,16 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 	g_object_class_install_property(object_class, PROP_VOLUME, pspec);
 
 	pspec = g_param_spec_double
+		(	"volume-max",
+			"Volume Max",
+			"The maximum amplification level",
+			0.0,
+			G_MAXDOUBLE,
+			100.0,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_VOLUME_MAX, pspec);
+
+	pspec = g_param_spec_double
 		(	"duration",
 			"Duration",
 			"The duration the seek bar is using",
@@ -1153,6 +1176,7 @@ celluloid_view_init(CelluloidView *view)
 	view->playlist_count = 0;
 	view->pause = FALSE;
 	view->volume = 0.0;
+	view->volume_max = 100.0;
 	view->duration = 0.0;
 	view->playlist_pos = 0;
 	view->disc_list = NULL;

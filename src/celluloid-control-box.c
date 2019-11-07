@@ -35,6 +35,7 @@ enum
 	PROP_TIME_POSITION,
 	PROP_LOOP,
 	PROP_VOLUME,
+	PROP_VOLUME_MAX,
 	PROP_VOLUME_POPUP_VISIBLE,
 	N_PROPERTIES
 };
@@ -60,6 +61,7 @@ struct _CelluloidControlBox
 	gdouble time_position;
 	gboolean loop;
 	gdouble volume;
+	gdouble volume_max;
 	gboolean volume_popup_visible;
 };
 
@@ -169,6 +171,10 @@ set_property(	GObject *object,
 		self->volume = g_value_get_double(value);
 		break;
 
+		case PROP_VOLUME_MAX:
+		self->volume_max = g_value_get_double(value);
+		break;
+
 		case PROP_VOLUME_POPUP_VISIBLE:
 		self->volume_popup_visible = g_value_get_boolean(value);
 
@@ -229,6 +235,10 @@ get_property(	GObject *object,
 
 		case PROP_VOLUME:
 		g_value_set_double(value, self->volume);
+		break;
+
+		case PROP_VOLUME_MAX:
+		g_value_set_double(value, self->volume_max);
 		break;
 
 		case PROP_VOLUME_POPUP_VISIBLE:
@@ -450,6 +460,17 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 	g_object_class_install_property
 		(object_class, PROP_VOLUME, pspec);
 
+	pspec = g_param_spec_double
+		(	"volume-max",
+			"Volume Max",
+			"The maximum amplification level",
+			0.0,
+			G_MAXDOUBLE,
+			100.0,
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_VOLUME_MAX, pspec);
+
 	pspec = g_param_spec_boolean
 		(	"volume-popup-visible",
 			"Volume popup visible",
@@ -495,6 +516,7 @@ static void
 celluloid_control_box_init(CelluloidControlBox *box)
 {
 	GtkWidget *popup = NULL;
+	GtkAdjustment *adjustment = NULL;
 
 	box->play_button = gtk_button_new();
 	box->stop_button = gtk_button_new();
@@ -514,6 +536,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->time_position = 0.0;
 	box->loop = FALSE;
 	box->volume = 0.0;
+	box->volume_max = 100.0;
 
 	init_button(	box->play_button,
 			"media-playback-start-symbolic",
@@ -562,9 +585,14 @@ celluloid_control_box_init(CelluloidControlBox *box)
 
 	popup =	gtk_scale_button_get_popup
 		(GTK_SCALE_BUTTON(box->volume_button));
+	adjustment =	gtk_scale_button_get_adjustment
+			(GTK_SCALE_BUTTON(box->volume_button));
 
 	g_object_bind_property(	popup, "visible",
 				box, "volume-popup-visible",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "volume-max",
+				adjustment, "upper",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "loop",
 				box->loop_button, "active",

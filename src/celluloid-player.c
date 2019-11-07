@@ -428,6 +428,7 @@ observe_properties(CelluloidMpv *mpv)
 	celluloid_mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
 	celluloid_mpv_observe_property(mpv, 0, "vo-configured", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_DOUBLE);
+	celluloid_mpv_observe_property(mpv, 0, "volume-max", MPV_FORMAT_DOUBLE);
 	celluloid_mpv_observe_property(mpv, 0, "window-scale", MPV_FORMAT_DOUBLE);
 }
 
