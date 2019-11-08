@@ -578,6 +578,9 @@ connect_signals(CelluloidController *controller)
 	g_object_bind_property(	controller->model, "volume",
 				controller->view, "volume",
 				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	controller->model, "volume-max",
+				controller->view, "volume-max",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->model, "duration",
 				controller->view, "duration",
 				G_BINDING_DEFAULT );
