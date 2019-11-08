@@ -591,9 +591,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	g_object_bind_property(	popup, "visible",
 				box, "volume-popup-visible",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	box, "volume-max",
-				adjustment, "upper",
-				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "loop",
 				box->loop_button, "active",
 				G_BINDING_BIDIRECTIONAL );
@@ -602,6 +599,13 @@ celluloid_control_box_init(CelluloidControlBox *box)
 					G_BINDING_BIDIRECTIONAL,
 					gtk_to_mpv_volume,
 					mpv_to_gtk_volume,
+					NULL,
+					NULL );
+	g_object_bind_property_full(	box, "volume-max",
+					adjustment, "upper",
+					G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE,
+					mpv_to_gtk_volume,
+					gtk_to_mpv_volume,
 					NULL,
 					NULL );
 
