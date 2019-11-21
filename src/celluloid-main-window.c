@@ -516,12 +516,16 @@ celluloid_main_window_save_state(CelluloidMainWindow *wnd)
 
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
-	g_settings_set_int(settings, "width", width);
-	g_settings_set_int(settings, "height", height);
 	g_settings_set_boolean(settings, "maximized", maximized);
 	g_settings_set_double(settings, "volume", volume);
 	g_settings_set_boolean(settings, "show-controls", controls_visible);
 	g_settings_set_boolean(settings, "show-playlist", priv->playlist_visible);
+
+	if(!maximized)
+	{
+		g_settings_set_int(settings, "width", width);
+		g_settings_set_int(settings, "height", height);
+	}
 
 	if(celluloid_main_window_get_playlist_visible(wnd))
 	{
