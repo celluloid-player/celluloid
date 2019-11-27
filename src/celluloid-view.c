@@ -206,10 +206,6 @@ constructed(GObject *object)
 	CelluloidControlBox *control_box =
 		celluloid_main_window_get_control_box(wnd);
 
-	celluloid_main_window_load_state(wnd);
-	load_css(view);
-	load_settings(view);
-
 	g_object_bind_property(	view, "duration",
 				control_box, "duration",
 				G_BINDING_DEFAULT );
@@ -231,6 +227,10 @@ constructed(GObject *object)
 	g_object_bind_property(	playlist, "playlist-count",
 				view, "playlist-count",
 				G_BINDING_DEFAULT );
+
+	celluloid_main_window_load_state(wnd);
+	load_css(view);
+	load_settings(view);
 
 	g_signal_connect(	video_area,
 				"size-allocate",

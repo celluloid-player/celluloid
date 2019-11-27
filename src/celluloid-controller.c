@@ -596,11 +596,12 @@ connect_signals(CelluloidController *controller)
 	g_object_bind_property(	controller->view, "display-fps",
 				controller->model, "display-fps",
 				G_BINDING_DEFAULT|G_BINDING_SYNC_CREATE );
-	g_object_bind_property_full(	controller->model, "loop-playlist",
-					controller->view, "loop",
-					G_BINDING_BIDIRECTIONAL,
-					loop_to_boolean,
+	g_object_bind_property_full(	controller->view, "loop",
+					controller->model, "loop-playlist",
+					G_BINDING_BIDIRECTIONAL|
+					G_BINDING_SYNC_CREATE,
 					boolean_to_loop,
+					loop_to_boolean,
 					NULL,
 					NULL );
 
