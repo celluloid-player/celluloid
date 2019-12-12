@@ -82,6 +82,12 @@ static void
 save_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
 
 static void
+search_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
+
+static void
+stop_search_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
+
+static void
 shuffle_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
 
 static void
@@ -325,6 +331,22 @@ save_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
+search_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data)
+{
+	CelluloidView *view = celluloid_controller_get_view(data);
+
+	g_object_set(view, "searching", TRUE, NULL);
+}
+
+static void
+stop_search_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data)
+{
+	CelluloidView *view = celluloid_controller_get_view(data);
+
+	g_object_set(view, "searching", FALSE, NULL);
+}
+
+static void
 shuffle_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data)
 {
 	celluloid_model_shuffle_playlist(celluloid_controller_get_model(data));
@@ -494,6 +516,10 @@ celluloid_controller_action_register_actions(CelluloidController *controller)
 			.activate = toggle_playlist_handler},
 			{.name = "save-playlist",
 			.activate = save_playlist_handler},
+			{.name = "search-playlist",
+			.activate = search_playlist_handler},
+			{.name = "stop-search-playlist",
+			.activate = stop_search_playlist_handler},
 			{.name = "shuffle-playlist",
 			.activate = shuffle_playlist_handler},
 			{.name = "copy-selected-playlist-item",

@@ -30,7 +30,7 @@ G_BEGIN_DECLS
 
 #define CELLULOID_TYPE_PLAYLIST_WIDGET (celluloid_playlist_widget_get_type ())
 
-G_DECLARE_FINAL_TYPE(CelluloidPlaylistWidget, celluloid_playlist_widget, CELLULOID, PLAYLIST_WIDGET, GtkScrolledWindow)
+G_DECLARE_FINAL_TYPE(CelluloidPlaylistWidget, celluloid_playlist_widget, CELLULOID, PLAYLIST_WIDGET, GtkBox)
 
 GtkWidget *
 celluloid_playlist_widget_new(void);

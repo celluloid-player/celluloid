@@ -270,11 +270,11 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 	CelluloidVideoArea *video_area =	celluloid_main_window_get_video_area
 						(wnd);
 
-	g_signal_connect(	controller->view,
+	g_signal_connect_after(	controller->view,
 				"key-press-event",
 				G_CALLBACK(key_press_handler),
 				controller );
-	g_signal_connect(	controller->view,
+	g_signal_connect_after(	controller->view,
 				"key-release-event",
 				G_CALLBACK(key_release_handler),
 				controller );

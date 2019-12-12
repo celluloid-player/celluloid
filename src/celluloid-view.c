@@ -46,6 +46,7 @@ enum
 	PROP_BORDER,
 	PROP_FULLSCREEN,
 	PROP_DISPLAY_FPS,
+	PROP_SEARCHING,
 	N_PROPERTIES
 };
 
@@ -68,6 +69,7 @@ struct _CelluloidView
 	gboolean border;
 	gboolean fullscreen;
 	gdouble display_fps;
+	gboolean searching;
 };
 
 struct _CelluloidViewClass
@@ -227,6 +229,9 @@ constructed(GObject *object)
 	g_object_bind_property(	playlist, "playlist-count",
 				view, "playlist-count",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	playlist, "searching",
+				view, "searching",
+				G_BINDING_BIDIRECTIONAL );
 
 	celluloid_main_window_load_state(wnd);
 	load_css(view);
@@ -365,6 +370,10 @@ set_property(	GObject *object,
 		self->display_fps = g_value_get_double(value);
 		break;
 
+		case PROP_SEARCHING:
+		self->searching = g_value_get_boolean(value);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -431,6 +440,10 @@ get_property(	GObject *object,
 
 		case PROP_DISPLAY_FPS:
 		g_value_set_double(value, self->display_fps);
+		break;
+
+		case PROP_SEARCHING:
+		g_value_set_boolean(value, self->searching);
 		break;
 
 		default:
@@ -1046,6 +1059,14 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			G_PARAM_READABLE );
 	g_object_class_install_property(object_class, PROP_DISPLAY_FPS, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"searching",
+			"Searching",
+			"Whether or not the user is searching the playlist",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_SEARCHING, pspec);
+
 	g_signal_new(	"video-area-resize",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST|G_SIGNAL_DETAILED,
@@ -1185,6 +1206,7 @@ celluloid_view_init(CelluloidView *view)
 	view->border = FALSE;
 	view->fullscreen = FALSE;
 	view->display_fps = 0;
+	view->searching = FALSE;
 
 	g_signal_connect(view, "realize", G_CALLBACK(realize_handler), NULL);
 	g_signal_connect_after(view, "draw", G_CALLBACK(draw_handler), NULL);

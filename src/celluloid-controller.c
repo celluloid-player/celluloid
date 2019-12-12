@@ -178,6 +178,9 @@ video_area_resize_handler(	CelluloidView *view,
 				gpointer data );
 
 static void
+searching_handler(GObject *object, GParamSpec *pspec, gpointer data);
+
+static void
 fullscreen_handler(GObject *object, GParamSpec *pspec, gpointer data);
 
 static void
@@ -663,6 +666,10 @@ connect_signals(CelluloidController *controller)
 				G_CALLBACK(fullscreen_handler),
 				controller );
 	g_signal_connect(	controller->view,
+				"notify::searching",
+				G_CALLBACK(searching_handler),
+				controller );
+	g_signal_connect(	controller->view,
 				"button-clicked::play",
 				G_CALLBACK(play_button_handler),
 				controller );
@@ -1052,6 +1059,16 @@ fullscreen_handler(GObject *object, GParamSpec *pspec, gpointer data)
 		(G_SIMPLE_ACTION(toggle_playlist), !fullscreen);
 	g_simple_action_set_enabled
 		(G_SIMPLE_ACTION(toggle_controls), !fullscreen);
+}
+
+static void
+searching_handler(GObject *object, GParamSpec *pspec, gpointer data)
+{
+	// When the search box becomes visible, it blocks all keyboard inputs
+	// from being handled by CelluloidController. This means that the key up
+	// event for the key that triggered the search will never arrive, so we
+	// need to explicitly reset key states here.
+	celluloid_model_reset_keys(CELLULOID_CONTROLLER(data)->model);
 }
 
 static void
