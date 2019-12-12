@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2019-10-14 04:57+0000\n"
+"PO-Revision-Date: 2019-12-03 06:46+0000\n"
 "Last-Translator: cybercop <cybercop_montana@abv.bg>\n"
 "Language-Team: Bulgarian\n"
 "Language: bg\n"
@@ -192,28 +192,26 @@ msgstr "Миграция от opengl-cb към нов API за рендиран�
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
 msgid "Handle numpad keybindings"
-msgstr ""
+msgstr "Присвояване на клавиши за цифрова клавиатура"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid "Handle unicode keybindings"
-msgstr ""
+msgstr "Присвояване на клавиши за Unicode"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
 msgid "Forward media key events to mpv"
 msgstr "Препращане на медийни ключови събития към mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
-#, fuzzy
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
-"Минималната скорост на курсора, при която да се покажат плаващите "
-"контролери."
+"Добавяне на dconf ключ за контролиране скоростта на курсора, когато "
+"контролерите са видими."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:61
-#, fuzzy
 msgid "Add option for suppressing playback errors"
-msgstr "Игнориране на грешки при възпроизвеждане"
+msgstr "Добавяне на опция за игнориране на грешки при възпроизвеждане"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
@@ -453,9 +451,8 @@ msgstr "_Зареждане на външен…"
 #. Disable the menu item by setting the action to something
 #. * invalid.
 #: src/celluloid-menu.c:205
-#, fuzzy
 msgid "No disc found"
-msgstr "Не са намерени разширения"
+msgstr "Не е намерен диск"
 
 #: src/celluloid-menu.c:233
 msgid "_File"
@@ -470,9 +467,8 @@ msgid "Open _Location…"
 msgstr "Отваряне на _местоположение..."
 
 #: src/celluloid-menu.c:236
-#, fuzzy
 msgid "Open _Disc…"
-msgstr "Отваряне на _местоположение..."
+msgstr "Отваряне на _диск..."
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:286
 msgid "_Save Playlist"
@@ -531,9 +527,8 @@ msgid "_About Celluloid"
 msgstr "_Относно Celluloid"
 
 #: src/celluloid-menu.c:316
-#, fuzzy
 msgid "Open _Disc"
-msgstr "Отваряне на файл"
+msgstr "Отваряне на _диск"
 
 #: src/celluloid-mpv.c:240
 #, c-format
