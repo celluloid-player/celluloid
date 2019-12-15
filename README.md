@@ -32,8 +32,8 @@ mpv's powerful playback capabilities.
 - Debian unstable: https://packages.debian.org/sid/gnome-mpv
 - Fedora (rpmfusion): https://admin.rpmfusion.org/pkgdb/package/free/celluloid/
 - OpenSUSE: https://software.opensuse.org/package/celluloid
-- Gentoo: https://packages.gentoo.org/packages/media-video/gnome-mpv
-- Guix: http://guix.info/packages/gnome-mpv-0.16
+- Gentoo: https://packages.gentoo.org/packages/media-video/celluloid
+- Guix: http://guix.gnu.org/packages/celluloid-0.17
 - Solus: https://packages.getsol.us/shannon/g/gnome-mpv/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
