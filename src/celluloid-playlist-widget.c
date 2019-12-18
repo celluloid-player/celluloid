@@ -57,8 +57,8 @@ struct _CelluloidPlaylistWidget
 	GtkWidget *tree_view;
 	GtkTreeViewColumn *title_column;
 	GtkCellRenderer *title_renderer;
+	GtkWidget *search_bar;
 	GtkWidget *search_entry;
-	GtkWidget *search_revealer;
 	gint last_x;
 	gint last_y;
 	gboolean dnd_delete;
@@ -319,14 +319,6 @@ constructed(GObject *object)
 				"stop-search",
 				G_CALLBACK(stop_search_handler),
 				self );
-	g_signal_connect_after(	self->search_entry,
-				"key-press-event",
-				G_CALLBACK(gtk_true),
-				self );
-	g_signal_connect_after(	self->search_entry,
-				"key-release-event",
-				G_CALLBACK(gtk_true),
-				self );
 
 	gtk_tree_view_enable_model_drag_source(	GTK_TREE_VIEW(self->tree_view),
 						GDK_BUTTON1_MASK,
@@ -350,8 +342,8 @@ constructed(GObject *object)
 	gtk_container_add(GTK_CONTAINER(self->scrolled_window), self->tree_view);
 	gtk_box_pack_start(GTK_BOX(self), self->scrolled_window, TRUE, TRUE, 0);
 
-	gtk_container_add(GTK_CONTAINER(self->search_revealer), self->search_entry);
-	gtk_box_pack_end(GTK_BOX(self), self->search_revealer, FALSE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(self->search_bar), self->search_entry);
+	gtk_box_pack_end(GTK_BOX(self), self->search_bar, FALSE, TRUE, 0);
 
 	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)->constructed(object);
 }
@@ -372,8 +364,8 @@ set_property(	GObject *object,
 	{
 		self->searching = g_value_get_boolean(value);
 
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(self->search_revealer), self->searching);
+		gtk_search_bar_set_search_mode
+			(GTK_SEARCH_BAR(self->search_bar), self->searching);
 
 		if(self->searching)
 		{
@@ -894,8 +886,8 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 				"weight", PLAYLIST_WEIGHT_COLUMN,
 				NULL );
 	wgt->scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+	wgt->search_bar = gtk_search_bar_new();
 	wgt->search_entry = gtk_search_entry_new();
-	wgt->search_revealer = gtk_revealer_new();
 	wgt->dnd_delete = TRUE;
 
 	gtk_orientable_set_orientation
