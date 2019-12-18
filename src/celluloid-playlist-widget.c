@@ -335,6 +335,7 @@ constructed(GObject *object)
 
 	gtk_widget_set_can_focus(self->tree_view, FALSE);
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(self->tree_view), FALSE);
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->tree_view), FALSE);
 
 	gtk_tree_view_append_column
 		(GTK_TREE_VIEW(self->tree_view), self->title_column);
