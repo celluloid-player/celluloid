@@ -340,10 +340,10 @@ constructed(GObject *object)
 		(GTK_TREE_VIEW(self->tree_view), self->title_column);
 
 	gtk_container_add(GTK_CONTAINER(self->scrolled_window), self->tree_view);
-	gtk_box_pack_start(GTK_BOX(self), self->scrolled_window, TRUE, TRUE, 0);
+	gtk_box_pack_end(GTK_BOX(self), self->scrolled_window, TRUE, TRUE, 0);
 
 	gtk_container_add(GTK_CONTAINER(self->search_bar), self->search_entry);
-	gtk_box_pack_end(GTK_BOX(self), self->search_bar, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(self), self->search_bar, FALSE, TRUE, 0);
 
 	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)->constructed(object);
 }
