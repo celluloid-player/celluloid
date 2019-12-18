@@ -325,6 +325,9 @@ constructed(GObject *object)
 				G_CALLBACK(stop_search_handler),
 				self );
 
+	g_object_bind_property(	self, "searching",
+				self->search_bar, "search-mode-enabled",
+				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property_full(	self, "playlist-count",
 					self->placeholder, "visible",
 					G_BINDING_DEFAULT,
@@ -380,9 +383,6 @@ set_property(	GObject *object,
 	else if(property_id == PROP_SEARCHING)
 	{
 		self->searching = g_value_get_boolean(value);
-
-		gtk_search_bar_set_search_mode
-			(GTK_SEARCH_BAR(self->search_bar), self->searching);
 
 		if(self->searching)
 		{

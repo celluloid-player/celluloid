@@ -372,6 +372,13 @@ set_property(	GObject *object,
 
 		case PROP_SEARCHING:
 		self->searching = g_value_get_boolean(value);
+
+		// Show playlist if we're about to enter search mode and it
+		// isn't already visible.
+		if(self->searching && !celluloid_view_get_playlist_visible(self))
+		{
+			celluloid_view_set_playlist_visible(self, TRUE);
+		}
 		break;
 
 		default:
