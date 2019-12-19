@@ -59,6 +59,8 @@ struct _CelluloidPlaylistWidget
 	GtkCellRenderer *title_renderer;
 	GtkWidget *search_bar;
 	GtkWidget *search_entry;
+	GtkWidget *placeholder;
+	GtkWidget *overlay;
 	gint last_x;
 	gint last_y;
 	gboolean dnd_delete;
@@ -91,6 +93,9 @@ get_property(	GObject *object,
 		guint property_id,
 		GValue *value,
 		GParamSpec *pspec );
+
+static gboolean
+is_zero(GBinding *binding, const GValue *from, GValue *to, gpointer data);
 
 static void
 drag_begin_handler(GtkWidget *widget, GdkDragContext *context, gpointer data);
@@ -320,6 +325,14 @@ constructed(GObject *object)
 				G_CALLBACK(stop_search_handler),
 				self );
 
+	g_object_bind_property_full(	self, "playlist-count",
+					self->placeholder, "visible",
+					G_BINDING_DEFAULT,
+					is_zero,
+					NULL,
+					NULL,
+					NULL );
+
 	gtk_tree_view_enable_model_drag_source(	GTK_TREE_VIEW(self->tree_view),
 						GDK_BUTTON1_MASK,
 						targets,
@@ -340,7 +353,10 @@ constructed(GObject *object)
 	gtk_tree_view_append_column
 		(GTK_TREE_VIEW(self->tree_view), self->title_column);
 
-	gtk_container_add(GTK_CONTAINER(self->scrolled_window), self->tree_view);
+	gtk_overlay_add_overlay(GTK_OVERLAY(self->overlay), self->placeholder);
+
+	gtk_container_add(GTK_CONTAINER(self->overlay), self->tree_view);
+	gtk_container_add(GTK_CONTAINER(self->scrolled_window), self->overlay);
 	gtk_box_pack_end(GTK_BOX(self), self->scrolled_window, TRUE, TRUE, 0);
 
 	gtk_container_add(GTK_CONTAINER(self->search_bar), self->search_entry);
@@ -399,6 +415,14 @@ get_property(	GObject *object,
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 	}
+}
+
+static gboolean
+is_zero(GBinding *binding, const GValue *from, GValue *to, gpointer data)
+{
+	g_value_set_boolean(to, g_value_get_int64(from) == 0);
+
+	return TRUE;
 }
 
 static void
@@ -876,6 +900,8 @@ celluloid_playlist_widget_class_init(CelluloidPlaylistWidgetClass *klass)
 static void
 celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 {
+	GtkStyleContext *style = NULL;
+
 	wgt->playlist_count = 0;
 	wgt->searching = FALSE;
 	wgt->title_renderer = gtk_cell_renderer_text_new();
@@ -889,7 +915,12 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	wgt->scrolled_window = gtk_scrolled_window_new(NULL, NULL);
 	wgt->search_bar = gtk_search_bar_new();
 	wgt->search_entry = gtk_search_entry_new();
+	wgt->placeholder = gtk_label_new(_("Playlist is empty"));
+	wgt->overlay = gtk_overlay_new();
 	wgt->dnd_delete = TRUE;
+
+	style = gtk_widget_get_style_context(wgt->placeholder);
+	gtk_style_context_add_class(style, "dim-label");
 
 	gtk_orientable_set_orientation
 		(GTK_ORIENTABLE(wgt), GTK_ORIENTATION_VERTICAL);
