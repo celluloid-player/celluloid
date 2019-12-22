@@ -371,7 +371,10 @@ set_property(	GObject *object,
 		break;
 
 		case PROP_SEARCHING:
-		self->searching = g_value_get_boolean(value);
+		// We do not display playlist in fullscreen mode so refuse to
+		// enter search mode here if we're in fullscreen mode.
+		self->searching =	!self->fullscreen &&
+					g_value_get_boolean(value);
 
 		// Show playlist if we're about to enter search mode and it
 		// isn't already visible.
