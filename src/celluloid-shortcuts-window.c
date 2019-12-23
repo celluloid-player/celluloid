@@ -98,15 +98,15 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{NULL, NULL} };
 	const ShortcutEntry subtitle[]
 		= {	{"v", _("Toggle subtitle visibility")},
-			{"i j", _("Cycle through available subtitles")},
-			{"x z", _("Adjust subtitle delay by +/- 0.1 seconds")},
+			{"j <Shift>j", _("Cycle through available subtitles")},
+			{"z <Shift>z", _("Adjust subtitle delay by +/- 0.1 seconds")},
 			{"u", _("Toggle SSA/ASS subtitles style override")},
-			{"r t", _("Move subtitles up/down")},
+			{"r <Shift>r", _("Move subtitles up/down")},
 			{"<Shift>v", _("Toggle VSFilter aspect compatibility mode")},
 			{NULL, NULL} };
 	const ShortcutEntry video[]
 		= {	{"underscore", _("Cycle through video tracks")},
-			{"w e", _("Decrease/increase pan-and-scan range")},
+			{"w <Shift>w", _("Decrease/increase pan-and-scan range")},
 			{"s", _("Take a screenshot")},
 			{"<Shift>s", _("Take a screenshot, without subtitles")},
 			{"<Ctrl>s", _("Take a screenshot, as the window shows it")},
