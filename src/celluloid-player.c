@@ -21,6 +21,7 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
+#include "celluloid-option-parser.h"
 #include "celluloid-player.h"
 #include "celluloid-player-private.h"
 #include "celluloid-player-options.h"
@@ -72,7 +73,7 @@ static void
 initialize(CelluloidMpv *mpv);
 
 static gint
-apply_options_array_string(CelluloidMpv *mpv, gchar *args);
+apply_options_array_string(CelluloidMpv *mpv, const gchar *args);
 
 static void
 apply_extra_options(CelluloidPlayer *player);
@@ -504,36 +505,31 @@ initialize(CelluloidMpv *mpv)
 }
 
 static gint
-apply_options_array_string(CelluloidMpv *mpv, gchar *args)
+apply_options_array_string(CelluloidMpv *mpv, const gchar *args)
 {
 	gint fail_count = 0;
-	gchar **tokens = g_regex_split_simple(	"(^|\\s+)--",
-						args,
-						G_REGEX_NO_AUTO_CAPTURE,
-						0 );
 
-	/* Skip the first token if it's non-NULL, since it is just going to be
-	 * empty string for any valid args.
-	 */
-	for(gint i = tokens[0]?1:0; tokens[i]; i++)
+	while(args && *args)
 	{
-		gchar **parts = g_strsplit(g_strchomp(tokens[i]), "=", 2);
-		const gchar *option = parts[0];
-		const gchar *value = (option?parts[1]:NULL)?:"";
+		gchar *key = NULL;
+		gchar *value = NULL;
 
-		g_debug("Applying option: --%s", tokens[i]);
+		args = parse_option(args, &key, &value);
 
-		if(celluloid_mpv_set_option_string(mpv, option, value) < 0)
+		g_debug("Applying option: --%s=%s", key, value);
+
+		if(celluloid_mpv_set_option_string(mpv, key, value) < 0)
 		{
 			fail_count++;
 
-			g_warning("Failed to apply option: --%s\n", tokens[i]);
+			g_warning(	"Failed to apply option: --%s=%s\n",
+					key,
+					value );
 		}
 
-		g_strfreev(parts);
+		g_free(key);
+		g_free(value);
 	}
-
-	g_strfreev(tokens);
 
 	return fail_count*(-1);
 }

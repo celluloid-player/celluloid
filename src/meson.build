@@ -17,6 +17,7 @@ sources = [
   'celluloid-mpv.c',
   'celluloid-mpv-wrapper.c',
   'celluloid-open-location-dialog.c',
+  'celluloid-option-parser.c',
   'celluloid-player.c',
   'celluloid-player-options.c',
   'celluloid-playlist-widget.c',
