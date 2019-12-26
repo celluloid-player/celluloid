@@ -17,5 +17,14 @@
  * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef OPTION_PARSER_H
+#define OPTION_PARSER_H
+
+G_BEGIN_DECLS
+
 const gchar *
 parse_option(const gchar *str, gchar **option, gchar **value);
+
+G_END_DECLS
+
+#endif
