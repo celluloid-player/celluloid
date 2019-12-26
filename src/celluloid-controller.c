@@ -213,6 +213,9 @@ celluloid_controller_class_init(CelluloidControllerClass *klass);
 static void
 celluloid_controller_init(CelluloidController *controller);
 
+static void
+update_extra_mpv_options(CelluloidController *controller);
+
 G_DEFINE_TYPE(CelluloidController, celluloid_controller, G_TYPE_OBJECT)
 
 static void
@@ -238,6 +241,7 @@ constructed(GObject *object)
 	connect_signals(controller);
 	celluloid_controller_action_register_actions(controller);
 	celluloid_controller_input_connect_signals(controller);
+	update_extra_mpv_options(controller);
 
 	gtk_widget_show_all(GTK_WIDGET(window));
 
@@ -414,23 +418,13 @@ static void
 view_ready_handler(CelluloidView *view, gpointer data)
 {
 	CelluloidController *controller = CELLULOID_CONTROLLER(data);
-	CelluloidApplication *app = controller->app;
 	CelluloidModel *model = controller->model;
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	const gchar *cli_options = celluloid_application_get_mpv_options(app);
-	gchar *pref_options = g_settings_get_string(settings, "mpv-options");
-	gchar *options = g_strjoin(" ", pref_options, cli_options, NULL);
 
 	celluloid_player_options_init
 		(	CELLULOID_PLAYER(controller->model),
 			CELLULOID_MAIN_WINDOW(controller->view) );
 
-	g_object_set(model, "extra-options", options, NULL);
 	celluloid_model_initialize(model);
-
-	g_free(options);
-	g_free(pref_options);
-	g_object_unref(settings);
 }
 
 static void
@@ -452,7 +446,10 @@ render_handler(CelluloidView *view, gpointer data)
 static void
 preferences_updated_handler(CelluloidView *view, gpointer data)
 {
-	celluloid_model_reset(CELLULOID_CONTROLLER(data)->model);
+	CelluloidController *controller = data;
+
+	update_extra_mpv_options(controller);
+	celluloid_model_reset(controller->model);
 }
 
 static void
@@ -1225,6 +1222,23 @@ celluloid_controller_init(CelluloidController *controller)
 	controller->settings = g_settings_new(CONFIG_ROOT);
 	controller->media_keys = NULL;
 	controller->mpris = NULL;
+}
+
+static void
+update_extra_mpv_options(CelluloidController *controller)
+{
+	GSettings *settings =		g_settings_new(CONFIG_ROOT);
+	const gchar *cli_options =	celluloid_application_get_mpv_options
+					(controller->app);
+	gchar *pref_options =		g_settings_get_string(settings, "mpv-options");
+	gchar *options =		g_strjoin(" ", pref_options, cli_options, NULL);
+
+
+	g_object_set(controller->model, "extra-options", options, NULL);
+
+	g_free(options);
+	g_free(pref_options);
+	g_object_unref(settings);
 }
 
 CelluloidController *
