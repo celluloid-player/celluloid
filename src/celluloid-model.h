@@ -35,7 +35,7 @@ CelluloidModel *
 celluloid_model_new(gint64 wid);
 
 void
-celluloid_model_initialize(CelluloidModel *model, const gchar *options);
+celluloid_model_initialize(CelluloidModel *model);
 
 void
 celluloid_model_reset(CelluloidModel *model);

@@ -765,7 +765,7 @@ celluloid_model_new(gint64 wid)
 }
 
 void
-celluloid_model_initialize(CelluloidModel *model, const gchar *options)
+celluloid_model_initialize(CelluloidModel *model)
 {
 	CelluloidMpv *mpv = CELLULOID_MPV(model);
 

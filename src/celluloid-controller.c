@@ -426,7 +426,7 @@ view_ready_handler(CelluloidView *view, gpointer data)
 			CELLULOID_MAIN_WINDOW(controller->view) );
 
 	g_object_set(model, "extra-options", options, NULL);
-	celluloid_model_initialize(model, options);
+	celluloid_model_initialize(model);
 
 	g_free(options);
 	g_free(pref_options);
