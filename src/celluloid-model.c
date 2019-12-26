@@ -721,7 +721,6 @@ static void
 celluloid_model_init(CelluloidModel *model)
 {
 	model->extra_options = NULL;
-	model->ready = FALSE;
 	model->metadata = NULL;
 	model->track_list = NULL;
 	model->update_mpv_properties = TRUE;
@@ -779,8 +778,6 @@ void
 celluloid_model_reset(CelluloidModel *model)
 {
 	model->resetting = TRUE;
-	model->ready = FALSE;
-	g_object_notify(G_OBJECT(model), "ready");
 
 	celluloid_mpv_reset(CELLULOID_MPV(model));
 }
@@ -788,13 +785,7 @@ celluloid_model_reset(CelluloidModel *model)
 void
 celluloid_model_quit(CelluloidModel *model)
 {
-	if(model->ready)
-	{
-		model->ready = FALSE;
-		g_object_notify(G_OBJECT(model), "ready");
-
-		celluloid_mpv_quit(CELLULOID_MPV(model));
-	}
+	celluloid_mpv_quit(CELLULOID_MPV(model));
 }
 
 void
