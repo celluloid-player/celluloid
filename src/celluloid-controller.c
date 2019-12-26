@@ -449,6 +449,7 @@ preferences_updated_handler(CelluloidView *view, gpointer data)
 	CelluloidController *controller = data;
 
 	update_extra_mpv_options(controller);
+	celluloid_view_make_gl_context_current(controller->view);
 	celluloid_model_reset(controller->model);
 }
 
