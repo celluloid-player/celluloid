@@ -162,17 +162,17 @@ mpv_event_notify(	CelluloidMpv *mpv,
 			mpv_node metadata;
 
 			celluloid_mpv_get_property(	mpv,
-						"duration",
-						MPV_FORMAT_DOUBLE,
-						&entry->duration );
+							"duration",
+							MPV_FORMAT_DOUBLE,
+							&entry->duration );
 			celluloid_mpv_get_property(	mpv,
-						"media-title",
-						MPV_FORMAT_STRING,
-						&media_title );
+							"media-title",
+							MPV_FORMAT_STRING,
+							&media_title );
 			celluloid_mpv_get_property(	mpv,
-						"metadata",
-						MPV_FORMAT_NODE,
-						&metadata );
+							"metadata",
+							MPV_FORMAT_NODE,
+							&metadata );
 
 			if(!entry->title)
 			{
