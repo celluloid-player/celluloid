@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -28,8 +28,12 @@ struct _CelluloidSeekBar
 	GtkBox parent_instance;
 	GtkWidget *seek_bar;
 	GtkWidget *label;
+	GtkWidget *popover;
+	GtkWidget *popover_label;
 	gdouble pos;
 	gdouble duration;
+	gboolean popover_visible;
+	guint popover_timeout_id;
 };
 
 struct _CelluloidSeekBarClass
@@ -38,15 +42,41 @@ struct _CelluloidSeekBarClass
 };
 
 static void
+dispose(GObject *object);
+
+static void
 change_value_handler(	GtkWidget *widget,
 			GtkScrollType scroll,
 			gdouble value,
 			gpointer data );
 
+static gboolean
+enter_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data);
+
+static gboolean
+leave_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data);
+
+static gboolean
+motion_handler(GtkWidget *widget, GdkEventMotion *event, gpointer data);
+
+static char *
+format_time(gint seconds, gboolean show_hour);
+
 static void
 update_label(CelluloidSeekBar *bar);
 
+static gboolean
+update_popover_visibility(CelluloidSeekBar *bar);
+
 G_DEFINE_TYPE(CelluloidSeekBar, celluloid_seek_bar, GTK_TYPE_BOX)
+
+static void
+dispose(GObject *object)
+{
+	g_clear_object(&CELLULOID_SEEK_BAR(object)->popover);
+
+	G_OBJECT_CLASS(celluloid_seek_bar_parent_class)->dispose(object);
+}
 
 static void
 change_value_handler(	GtkWidget *widget,
@@ -63,45 +93,140 @@ change_value_handler(	GtkWidget *widget,
 	}
 }
 
+static gboolean
+enter_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+{
+	CelluloidSeekBar *bar = data;
+
+	if(bar->popover_timeout_id > 0)
+	{
+		g_source_remove(bar->popover_timeout_id);
+	}
+
+	/* Don't show popover if duration is unknown */
+	if(bar->duration > 0)
+	{
+		bar->popover_visible = TRUE;
+		bar->popover_timeout_id =
+			g_timeout_add(	100,
+					(GSourceFunc)update_popover_visibility,
+					bar );
+	}
+
+	return FALSE;
+}
+
+static gboolean
+leave_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+{
+	CelluloidSeekBar *bar = data;
+
+	if(bar->popover_timeout_id > 0)
+	{
+		g_source_remove(bar->popover_timeout_id);
+	}
+
+	bar->popover_visible = FALSE;
+	bar->popover_timeout_id =
+		g_timeout_add(100, (GSourceFunc)update_popover_visibility, bar);
+
+	return FALSE;
+}
+
+static gboolean
+motion_handler(GtkWidget *widget, GdkEventMotion *event, gpointer data)
+{
+	CelluloidSeekBar *bar = data;
+	GdkRectangle rect = {	.x = (gint)event->x,
+				.y = 0,
+				.width = 0,
+				.height = 0 };
+	GdkRectangle range_rect;
+	gdouble progress = 0;
+	gchar *text = NULL;
+
+	gtk_range_get_range_rect(GTK_RANGE(bar->seek_bar), &range_rect);
+	rect.x = CLAMP(rect.x, range_rect.x, range_rect.x + range_rect.width);
+
+	gtk_popover_set_pointing_to(GTK_POPOVER(bar->popover), &rect);
+
+	progress = rect.x / (gdouble)(range_rect.x + range_rect.width);
+	text = format_time(	(gint)(progress * bar->duration),
+				bar->duration >= 3600 );
+	gtk_label_set_text(GTK_LABEL(bar->popover_label), text);
+
+	g_free(text);
+
+	return FALSE;
+}
+
+static char *
+format_time(gint seconds, gboolean show_hour)
+{
+	gchar *result = NULL;
+
+	if(show_hour)
+	{
+		result = g_strdup_printf(	"%02d:%02d:%02d",
+						seconds/3600,
+						(seconds%3600)/60,
+						seconds%60 );
+	}
+	else
+	{
+		result = g_strdup_printf("%02d:%02d", seconds/60, seconds%60);
+	}
+
+	return result;
+}
+
 static void
 update_label(CelluloidSeekBar *bar)
 {
 	gint sec = (gint)bar->pos;
 	gint duration = (gint)bar->duration;
-	gchar *output;
+	gchar *text;
 
-	/* Longer than one hour */
-	if(duration > 3600)
+	if(duration > 0)
 	{
-		output = g_strdup_printf(	"%02d:%02d:%02d/"
-						"%02d:%02d:%02d",
-						sec/3600,
-						(sec%3600)/60,
-						sec%60,
-						duration/3600,
-						(duration%3600)/60,
-						duration%60 );
-	}
-	else if(duration > 0)
-	{
-		output = g_strdup_printf(	"%02d:%02d/"
-						"%02d:%02d",
-						(sec%3600)/60,
-						sec%60,
-						(duration%3600)/60,
-						duration%60 );
+		gchar *sec_str = format_time(sec, duration >= 3600);
+		gchar *duration_str = format_time(duration, duration >= 3600);
+
+		text = g_strdup_printf("%s/%s", sec_str, duration_str);
+
+		g_free(sec_str);
+		g_free(duration_str);
 	}
 	else
 	{
-		output = g_strdup_printf("%02d:%02d", (sec%3600)/60, sec%60);
+		text = g_strdup_printf("%02d:%02d", (sec%3600)/60, sec%60);
 	}
 
-	gtk_label_set_text(GTK_LABEL(bar->label), output);
+	gtk_label_set_text(GTK_LABEL(bar->label), text);
+}
+
+static gboolean
+update_popover_visibility(CelluloidSeekBar *bar)
+{
+	if(bar->popover_visible)
+	{
+		gtk_popover_popup(GTK_POPOVER(bar->popover));
+	}
+	else
+	{
+		gtk_popover_popdown(GTK_POPOVER(bar->popover));
+	}
+
+	bar->popover_timeout_id = 0;
+
+	return G_SOURCE_REMOVE;
 }
 
 static void
 celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 {
+	G_OBJECT_CLASS(klass)->dispose = dispose;
+
 	g_signal_new(	"seek",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -118,18 +243,41 @@ static void
 celluloid_seek_bar_init(CelluloidSeekBar *bar)
 {
 	bar->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
-	bar->label = gtk_label_new("");
+	bar->label = gtk_label_new(NULL);
+	bar->popover = g_object_ref_sink(gtk_popover_new(bar->seek_bar));
+	bar->popover_label = gtk_label_new(NULL);
 	bar->duration = 0;
 	bar->pos = 0;
+	bar->popover_visible = FALSE;
+	bar->popover_timeout_id = 0;
 
 	update_label(bar);
+	gtk_popover_set_modal(GTK_POPOVER(bar->popover), FALSE);
+
 	gtk_scale_set_draw_value(GTK_SCALE(bar->seek_bar), FALSE);
 	gtk_range_set_increments(GTK_RANGE(bar->seek_bar), 10, 10);
 	gtk_widget_set_can_focus(bar->seek_bar, FALSE);
+	gtk_widget_add_events(bar->seek_bar, GDK_POINTER_MOTION_MASK);
+
+	gtk_container_add(GTK_CONTAINER(bar->popover), bar->popover_label);
+	gtk_container_set_border_width(GTK_CONTAINER(bar->popover), 6);
+	gtk_widget_show(bar->popover_label);
 
 	g_signal_connect(	bar->seek_bar,
 				"change-value",
 				G_CALLBACK(change_value_handler),
+				bar );
+	g_signal_connect(	bar->seek_bar,
+				"enter-notify-event",
+				G_CALLBACK(enter_handler),
+				bar );
+	g_signal_connect(	bar->seek_bar,
+				"leave-notify-event",
+				G_CALLBACK(leave_handler),
+				bar );
+	g_signal_connect(	bar->seek_bar,
+				"motion-notify-event",
+				G_CALLBACK(motion_handler),
 				bar );
 
 	gtk_box_pack_start(GTK_BOX(bar), bar->seek_bar, TRUE, TRUE, 0);
