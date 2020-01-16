@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -89,6 +89,12 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{"<Ctrl>q q", _("Quit")},
 			{"<Shift>q", _("Save current playback position and quit")},
 			{NULL, NULL} };
+	const ShortcutEntry playlist[]
+		= {	{"<Ctrl>f", _("Enter search mode")},
+			{"<Ctrl>g", _("Jump to next match")},
+			{"<Ctrl><Shift>g", _("Jump to previous match")},
+			{"Escape", _("Exit search mode")},
+			{NULL, NULL} };
 	const ShortcutEntry audio[]
 		= {	{"numbersign", _("Cycle through audio tracks")},
 			{"slash asterisk", _("Decrease/increase volume")},
@@ -127,6 +133,7 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{_("Subtitle"), subtitle},
 			{_("Playback"), playback},
 			{_("Seeking"), seeking},
+			{_("Playlist"), playlist},
 			{NULL, NULL} };
 	GtkWidget *section =	g_object_new
 				(	gtk_shortcuts_section_get_type(),
