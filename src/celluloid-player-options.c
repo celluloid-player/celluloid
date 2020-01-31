@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -269,10 +269,12 @@ ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 static void
 autofit_handler(CelluloidMpv *mpv, gpointer data)
 {
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	gint64 dim[2] = {0, 0};
 	GdkRectangle monitor_geom = get_monitor_geometry(data);
 
-	if(get_video_dimensions(mpv, dim))
+	if(	g_settings_get_boolean(settings, "autofit-enable") &&
+		get_video_dimensions(mpv, dim) )
 	{
 		handle_window_scale(mpv, dim);
 		handle_autofit(mpv, dim, monitor_geom);
@@ -285,6 +287,8 @@ autofit_handler(CelluloidMpv *mpv, gpointer data)
 			dim[1] );
 		g_signal_emit_by_name(mpv, "window-resize", dim[0], dim[1]);
 	}
+
+	g_object_unref(settings);
 }
 
 static gboolean

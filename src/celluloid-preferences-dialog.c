@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -299,7 +299,10 @@ static void
 celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 {
 	const PreferencesDialogItem interface_items[]
-		= {	{_("Enable client-side decorations"),
+		= {	{_("Automatically resize window to fit video"),
+			"autofit-enable",
+			ITEM_TYPE_CHECK_BOX},
+			{_("Enable client-side decorations"),
 			"csd-enable",
 			ITEM_TYPE_CHECK_BOX},
 			{_("Enable dark theme"),
