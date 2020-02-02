@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -34,6 +34,7 @@
 #define MPRIS_TRACK_ID_PREFIX "/io/github/CelluloidPlayer/Celluloid/Track/"
 #define MPRIS_BUS_NAME "org.mpris.MediaPlayer2."APP_ID
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
+#define MPV_OPTION_PREFIX "--mpv-"
 #define PLAYLIST_DEFAULT_WIDTH 200
 #define PLAYLIST_MIN_WIDTH 20
 #define CSD_WIDTH_OFFSET 52
