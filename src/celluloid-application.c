@@ -17,6 +17,7 @@
  * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <glib.h>
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
 #include <glib-unix.h>
@@ -307,6 +308,49 @@ options_handler(GApplication *gapp, GVariantDict *options, gpointer data)
 	return version?0:-1;
 }
 
+static gboolean
+local_cmdline_handler (	GApplication *gapp,
+			gchar ***arguments,
+			gint *exit_status)
+{
+	CelluloidApplication *app = CELLULOID_APPLICATION(gapp);
+	gchar **argv = *arguments;
+	g_clear_pointer(&app->mpv_options, g_free);
+
+	GPtrArray *options = g_ptr_array_new_with_free_func(g_free);
+	gint i = 1;
+	while(argv[i])
+	{
+		/*
+		 * Temporary check for --mpv-options
+		 */
+		if(g_str_has_prefix(argv[i], "--mpv-") && !g_str_has_prefix(argv[i], "--mpv-options"))
+		{
+			gchar *option = g_strconcat("--", argv[i] + sizeof("--mpv-") - 1, NULL);
+			g_ptr_array_add(options, (gpointer)option);
+
+			for(gint j = i; argv[j]; j++)
+			{
+				argv[j] = argv[j + 1];
+			}
+		}
+		else
+		{
+			i++;
+		}
+	}
+	if(options->len)
+	{
+		g_ptr_array_add(options, NULL);
+		gchar **data = (gchar **)options->pdata;
+		app->mpv_options = g_strjoinv(" ", data);
+	}
+	g_ptr_array_free(options, TRUE);
+
+	return	G_APPLICATION_CLASS(celluloid_application_parent_class)
+		->local_command_line(gapp, arguments, exit_status);
+}
+
 static gint
 command_line_handler(	GApplication *gapp,
 			GApplicationCommandLine *cli,
@@ -326,13 +370,20 @@ command_line_handler(	GApplication *gapp,
 	always_open_new_window =	g_settings_get_boolean
 					(settings, "always-open-new-window");
 
-	g_clear_pointer(&app->mpv_options, g_free);
 	g_clear_pointer(&app->role, g_free);
 
+	gchar *mpv_options = NULL;
 	g_variant_dict_lookup(options, "enqueue", "b", &app->enqueue);
 	g_variant_dict_lookup(options, "new-window", "b", &app->new_window);
-	g_variant_dict_lookup(options, "mpv-options", "s", &app->mpv_options);
+	g_variant_dict_lookup(options, "mpv-options", "s", &mpv_options);
 	g_variant_dict_lookup(options, "role", "s", &app->role);
+	if (mpv_options)
+	{
+		gchar *old_mpv_options = app->mpv_options;
+		app->mpv_options = g_strjoin(" ", mpv_options, app->mpv_options, NULL);
+		g_free(old_mpv_options);
+		g_free(mpv_options);
+	}
 
 	for(gint i = 0; i < n_files; i++)
 	{
@@ -448,6 +499,7 @@ shutdown_handler(CelluloidController *controller, gpointer data)
 static void
 celluloid_application_class_init(CelluloidApplicationClass *klass)
 {
+	G_APPLICATION_CLASS(klass)->local_command_line = local_cmdline_handler;
 }
 
 static void
