@@ -394,6 +394,8 @@ command_line_handler(	GApplication *gapp,
 	{
 		gchar *old_mpv_options = app->mpv_options;
 
+		g_warning("--mpv-options is deprecated and will be removed in future versions.");
+
 		app->mpv_options =
 			g_strjoin(" ", mpv_options, app->mpv_options, NULL);
 
