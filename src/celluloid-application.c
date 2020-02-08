@@ -330,8 +330,10 @@ local_command_line(GApplication *gapp, gchar ***arguments, gint *exit_status)
 
 		if(!excluded && g_str_has_prefix(argv[i], MPV_OPTION_PREFIX))
 		{
-			const gchar *suffix = argv[i] + sizeof("--mpv-") - 1;
-			gchar *option = g_strconcat("--", suffix, NULL);
+			const gchar *suffix =
+				argv[i] + sizeof(MPV_OPTION_PREFIX) - 1;
+			gchar *option =
+				g_strconcat("--", suffix, NULL);
 
 			g_ptr_array_add(options, option);
 
