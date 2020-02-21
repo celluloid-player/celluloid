@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -214,6 +214,13 @@ motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 {
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	CelluloidVideoArea *area = CELLULOID_VIDEO_AREA(widget);
+	const gint height = gtk_widget_get_allocated_height(widget);
+
+	const gdouble unhide_speed =
+		g_settings_get_double(settings, "controls-unhide-cursor-speed");
+	const gdouble dead_zone =
+		g_settings_get_double(settings, "controls-dead-zone-size");
+
 	const gdouble dist = sqrt(	pow(event->x - area->last_motion_x, 2) +
 					pow(event->y - area->last_motion_y, 2) );
 	const gdouble speed = dist / (event->time - area->last_motion_time);
@@ -222,7 +229,8 @@ motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 	area->last_motion_x = event->x;
 	area->last_motion_y = event->y;
 
-	if(speed >= g_settings_get_double(settings, "controls-unhide-cursor-speed"))
+	if(	speed >= unhide_speed &&
+		ABS((2 * event->y - height) / height) > dead_zone )
 	{
 		GdkCursor *cursor =	gdk_cursor_new_from_name
 					(	gdk_display_get_default(),
