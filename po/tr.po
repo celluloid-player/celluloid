@@ -1,13 +1,14 @@
 # Serdar Sağlam <teknomobil@msn.com>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 # Serdar Sağlam <teknomobil@msn.com>, 2020. #zanata
+# gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-16 03:13+0700\n"
-"PO-Revision-Date: 2020-01-16 05:13+0000\n"
-"Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2020-02-15 08:16+0000\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +90,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "MPRIS desteğinin etkinleştirilip etkinleştirilmeyeceği"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:107
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "GNOME Ayarlar Yönetim tabanlı medya tuşlarını destekleyip desteklememek"
 
@@ -101,8 +103,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:119
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr ""
 "Bir dosyanın oynatılması bir hatayla sona erdiğinde bir hata mesajı "
 "gösterilip gösterilmeyeceği"
@@ -164,8 +166,8 @@ msgstr ""
 "Celluloid, neredeyse tüm video ve ses biçimlerini oynatabilen basit bir "
 "medya oynatıcıdır.  Oynatma listelerini ve MPRIS2 medya oynatıcı "
 "kontrollerini destekler. Celluloid tasarımı GNOME Arayüz Kılavuzlarına "
-"uygundur, ancak istemci tarafı süslemeleri (CSD) kullanmayan diğer sistemler "
-"için de uyarlanabilir. Mpv kütüphanesine ve GTK'ya dayanmaktadır."
+"uygundur, ancak istemci tarafı süslemeleri (CSD) kullanmayan diğer sistemler"
+" için de uyarlanabilir. Mpv kütüphanesine ve GTK'ya dayanmaktadır."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -205,8 +207,8 @@ msgstr "Ukraynaca çeviriyi hazırlayan @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Mpv --border seçeneğini kullanarak pencere dekorasyonlarını göstermek / "
 "gizlemek için destek"
@@ -298,7 +300,8 @@ msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
-"Seçenek ekle, komut satırından mpv seçeneklerini ayarlamak için --mpv-options"
+"Seçenek ekle, komut satırından mpv seçeneklerini ayarlamak için --mpv-"
+"options"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:138
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
@@ -306,8 +309,8 @@ msgstr "Öntanımlı ekran görüntüsü dizinini XDG_PICTURES_DIR olarak ayarla
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:141
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 "İyileştirme ekle - -pencere-ölçeği, -otoölçek - otoölçek-büyük ve otoölçek-"
 "küçük"
@@ -329,8 +332,8 @@ msgstr ""
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
-"Atla düğmelerinin bölümler yerine oynatma listesi girişlerini değiştirmesini "
-"sağlamak için seçenek ekle"
+"Atla düğmelerinin bölümler yerine oynatma listesi girişlerini değiştirmesini"
+" sağlamak için seçenek ekle"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:170
 msgid "Make the file chooser accept non-local locations"
@@ -373,7 +376,8 @@ msgstr "Filmleri ve videoları oynatın"
 msgid "io.github.celluloid_player.Celluloid"
 msgstr "io.github.celluloid_player.Celluloid"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
@@ -481,7 +485,6 @@ msgstr "Yok"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Bilinmeyen"
@@ -492,7 +495,6 @@ msgstr "_Harici Kaynaktan Seç…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:205
 msgid "No disc found"
 msgstr "Disk bulunamadı"

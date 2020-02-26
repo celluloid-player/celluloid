@@ -2,12 +2,13 @@
 # scootergrisen, 2017.
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 # scootergrisen <scootergrisen@gmail.com>, 2019. #zanata
+# scootergrisen <scootergrisen@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-16 03:13+0700\n"
-"PO-Revision-Date: 2019-12-13 03:42+0000\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2020-02-16 06:45+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -24,9 +25,8 @@ msgstr ""
 "Hvorvidt indstillingerne allerede er blevet migreret fra den forrige version"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
-#, fuzzy
 msgid "Whether or not to automatically resize window to fit video"
-msgstr "Om musemarkøren automatisk skal skjules i vinduestilstand"
+msgstr "Om vinduet automatisk skal tilpasses til videoen"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable or disable dark theme"
@@ -90,22 +90,24 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Hvorvidt understøttelse af MPRIS skal aktiveres"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:107
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "Hvorvidt understøttelse af GNOME-Settings-Daemon-baserede medietaster skal "
 "aktiveres"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:113
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
-msgstr "Hvorvidt metadata skal hentes på forhånd for poster som ikke er i brug"
+msgstr ""
+"Hvorvidt metadata skal hentes på forhånd for poster som ikke er i brug"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:119
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr ""
-"Hvorvidt der skal vises en fejlmeddelelse når afspilningen af en fil slutter "
-"med en fejl"
+"Hvorvidt der skal vises en fejlmeddelelse når afspilningen af en fil slutter"
+" med en fejl"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:129
 msgid "Width of the window"
@@ -161,11 +163,11 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid er en simpel medieafspiller som kan afspille næsten alle video- og "
-"lydformater. Den understøtter afspilningslister og MPRIS2-"
-"medieafspillerstyringer. Celluloids design følger GNOME Human Interface "
-"Guidelines men kan også tilpasses andre systemer der ikke bruger klientside-"
-"dekorationer (CSD). Den er baseret på mpv-biblioteket og GTK."
+"Celluloid er en simpel medieafspiller som kan afspille næsten alle video- og"
+" lydformater. Den understøtter afspilningslister og "
+"MPRIS2-medieafspillerstyringer. Celluloids design følger GNOME Human "
+"Interface Guidelines men kan også tilpasses andre systemer der ikke bruger "
+"klientside-dekorationer (CSD). Den er baseret på mpv-biblioteket og GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -205,8 +207,8 @@ msgstr "Tilføj ukrainsk oversættelse af @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Tilføj understøttelse til at vise/skjule vinduesdekorationer med mpv "
 "tilvalget --border"
@@ -307,11 +309,11 @@ msgstr "Indstil standardmappen for skærmbilleder til XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:141
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
-"Forbedret håndtering af --window-scale, --autofit, --autofit-larger og --"
-"autofit-smaller"
+"Forbedret håndtering af --window-scale, --autofit, --autofit-larger og "
+"--autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
 msgid "Add command line option for setting WM_ROLE"
@@ -350,7 +352,8 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:179
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr ""
-"Tilføjet valgmulighed for automatisk at skjule musemarkøren i vinduestilstand"
+"Tilføjet valgmulighed for automatisk at skjule musemarkøren i "
+"vinduestilstand"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
 msgid "The main window showing the application in action"
@@ -377,7 +380,8 @@ msgstr "Afspil film og videoer"
 msgid "io.github.celluloid_player.Celluloid"
 msgstr "io.github.celluloid_player.Celluloid"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Video;Film;Klip;Serier;Afspiller;DVD;TV;Disk;Album;Musik;GNOME;mpv;"
@@ -484,7 +488,6 @@ msgstr "Intet"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Ukendt"
@@ -495,7 +498,6 @@ msgstr "_Indlæs eksternt…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:205
 msgid "No disc found"
 msgstr "Ingen disk fundet"
@@ -525,9 +527,8 @@ msgid "_New Window"
 msgstr "_Nyt vindue"
 
 #: src/celluloid-menu.c:239
-#, fuzzy
 msgid "_Quit"
-msgstr "Afslut"
+msgstr "_Afslut"
 
 #: src/celluloid-menu.c:240
 msgid "_Edit"
@@ -636,9 +637,8 @@ msgid "Playlist"
 msgstr "Afspilningsliste"
 
 #: src/celluloid-playlist-widget.c:918
-#, fuzzy
 msgid "Playlist is empty"
-msgstr "Afspilningsliste"
+msgstr "Afspilningslisten er tom"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
@@ -683,7 +683,7 @@ msgstr "Kunne ikke slette filen '%s'. Årsag: %s"
 
 #: src/celluloid-preferences-dialog.c:302
 msgid "Automatically resize window to fit video"
-msgstr ""
+msgstr "Tilpas automatisk vinduet til videoen"
 
 #: src/celluloid-preferences-dialog.c:305
 msgid "Enable client-side decorations"
@@ -895,19 +895,19 @@ msgstr "Gem nuværende afspilningsposition og afslut"
 
 #: src/celluloid-shortcuts-window.c:93
 msgid "Enter search mode"
-msgstr ""
+msgstr "Gå i søgetilstand"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Jump to next match"
-msgstr ""
+msgstr "Hop til næste resultat"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Jump to previous match"
-msgstr ""
+msgstr "Hop til forrige resultat"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Exit search mode"
-msgstr ""
+msgstr "Afslut søgetilstand"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Cycle through audio tracks"
