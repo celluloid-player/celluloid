@@ -82,7 +82,7 @@ get_monitor_geometry(CelluloidMainWindow *window)
 {
 	GdkRectangle result;
 	GdkWindow *gdkwindow =	gtk_widget_get_window(GTK_WIDGET(window));
-	int scale_factor = 	gdk_window_get_scale_factor(gdkwindow);
+	gint scale_factor = 	gdk_window_get_scale_factor(gdkwindow);
 	GdkDisplay *display =	gdk_window_get_display(gdkwindow);
 	GdkMonitor *monitor =	gdk_display_get_monitor_at_window
 				(display, gdkwindow);
