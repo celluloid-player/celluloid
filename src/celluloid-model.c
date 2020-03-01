@@ -998,7 +998,7 @@ celluloid_model_load_file(	CelluloidModel *model,
 	/* Start playing when replacing the playlist, ie. not appending, or
 	 * adding the first file to the playlist.
 	 */
-	if(!append || model->playlist_count == 1)
+	if(!append || model->playlist_count == 0)
 	{
 		celluloid_model_play(model);
 	}
