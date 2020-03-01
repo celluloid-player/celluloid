@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -296,6 +296,22 @@ constructed(GObject *object)
 				"drag-data-delete",
 				G_CALLBACK(drag_data_delete_handler),
 				self );
+	g_signal_connect_after(	self->placeholder,
+				"drag-begin",
+				G_CALLBACK(drag_begin_handler),
+				self );
+	g_signal_connect(	self->placeholder,
+				"drag-data-get",
+				G_CALLBACK(drag_data_get_handler),
+				self );
+	g_signal_connect(	self->placeholder,
+				"drag-data-received",
+				G_CALLBACK(drag_data_received_handler),
+				self );
+	g_signal_connect(	self->placeholder,
+				"drag-data-delete",
+				G_CALLBACK(drag_data_delete_handler),
+				self );
 	g_signal_connect(	self->tree_view,
 				"row-activated",
 				G_CALLBACK(row_activated_handler),
@@ -348,6 +364,12 @@ constructed(GObject *object)
 						targets,
 						G_N_ELEMENTS(targets),
 						GDK_ACTION_MOVE );
+
+	gtk_drag_dest_set(	self->placeholder,
+				GTK_DEST_DEFAULT_ALL,
+				targets,
+				G_N_ELEMENTS(targets),
+				GDK_ACTION_MOVE );
 
 	gtk_widget_set_can_focus(self->tree_view, FALSE);
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(self->tree_view), FALSE);
