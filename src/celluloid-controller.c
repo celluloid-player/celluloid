@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -569,6 +569,9 @@ connect_signals(CelluloidController *controller)
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->model, "fullscreen",
 				controller->view, "fullscreen",
+				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	controller->model, "window-maximized",
+				controller->view, "maximized",
 				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	controller->model, "pause",
 				controller->view, "pause",

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -44,6 +44,7 @@ enum
 	PROP_SPEED,
 	PROP_VOLUME,
 	PROP_VOLUME_MAX,
+	PROP_WINDOW_MAXIMIZED,
 	PROP_WINDOW_SCALE,
 	PROP_DISPLAY_FPS,
 	N_PROPERTIES
@@ -76,6 +77,7 @@ struct _CelluloidModel
 	gdouble speed;
 	gdouble volume;
 	gdouble volume_max;
+	gboolean window_maximized;
 	gdouble window_scale;
 	gdouble display_fps;
 };
@@ -240,6 +242,10 @@ set_property(	GObject *object,
 		self->volume_max = g_value_get_double(value);
 		break;
 
+		case PROP_WINDOW_MAXIMIZED:
+		self->window_maximized = g_value_get_boolean(value);
+		break;
+
 		case PROP_WINDOW_SCALE:
 		self->window_scale = g_value_get_double(value);
 		break;
@@ -340,6 +346,10 @@ get_property(	GObject *object,
 
 		case PROP_VOLUME_MAX:
 		g_value_set_double(value, self->volume_max);
+		break;
+
+		case PROP_WINDOW_MAXIMIZED:
+		g_value_set_boolean(value, self->window_maximized);
 		break;
 
 		case PROP_WINDOW_SCALE:
@@ -487,6 +497,13 @@ set_mpv_property(	GObject *object,
 						"volume-max",
 						MPV_FORMAT_DOUBLE,
 						&self->volume_max );
+		break;
+
+		case PROP_WINDOW_MAXIMIZED:
+		celluloid_mpv_set_property(	mpv,
+						"window-maximized",
+						MPV_FORMAT_FLAG,
+						&self->window_maximized );
 		break;
 
 		case PROP_WINDOW_SCALE:
@@ -674,6 +691,7 @@ celluloid_model_class_init(CelluloidModelClass *klass)
 			{"speed", PROP_SPEED, G_TYPE_DOUBLE},
 			{"volume", PROP_VOLUME, G_TYPE_DOUBLE},
 			{"volume-max", PROP_VOLUME_MAX, G_TYPE_DOUBLE},
+			{"window-maximized", PROP_WINDOW_MAXIMIZED, G_TYPE_BOOLEAN},
 			{"window-scale", PROP_WINDOW_SCALE, G_TYPE_DOUBLE},
 			{"display-fps", PROP_DISPLAY_FPS, G_TYPE_DOUBLE},
 			{NULL, PROP_INVALID, 0} };
@@ -743,6 +761,7 @@ celluloid_model_init(CelluloidModel *model)
 	model->speed = 1.0;
 	model->volume = 1.0;
 	model->volume_max = 100.0;
+	model->window_maximized = FALSE;
 	model->window_scale = 1.0;
 	model->display_fps = 0.0;
 }

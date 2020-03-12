@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -430,6 +430,7 @@ observe_properties(CelluloidMpv *mpv)
 	celluloid_mpv_observe_property(mpv, 0, "vo-configured", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_DOUBLE);
 	celluloid_mpv_observe_property(mpv, 0, "volume-max", MPV_FORMAT_DOUBLE);
+	celluloid_mpv_observe_property(mpv, 0, "window-maximized", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "window-scale", MPV_FORMAT_DOUBLE);
 }
 

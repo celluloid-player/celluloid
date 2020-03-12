@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -45,6 +45,7 @@ enum
 	PROP_LOOP,
 	PROP_BORDER,
 	PROP_FULLSCREEN,
+	PROP_MAXIMIZED,
 	PROP_DISPLAY_FPS,
 	PROP_SEARCHING,
 	N_PROPERTIES
@@ -68,6 +69,7 @@ struct _CelluloidView
 	gboolean loop;
 	gboolean border;
 	gboolean fullscreen;
+	gboolean maximized;
 	gdouble display_fps;
 	gboolean searching;
 };
@@ -210,6 +212,9 @@ constructed(GObject *object)
 
 	g_object_bind_property(	view, "duration",
 				control_box, "duration",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	wnd, "is-maximized",
+				view, "maximized",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	view, "pause",
 				control_box, "pause",
@@ -366,6 +371,19 @@ set_property(	GObject *object,
 		celluloid_main_window_set_fullscreen(wnd, self->fullscreen);
 		break;
 
+		case PROP_MAXIMIZED:
+		self->maximized = g_value_get_boolean(value);
+
+		if(self->maximized)
+		{
+			gtk_window_maximize(GTK_WINDOW(wnd));
+		}
+		else
+		{
+			gtk_window_unmaximize(GTK_WINDOW(wnd));
+		}
+		break;
+
 		case PROP_DISPLAY_FPS:
 		self->display_fps = g_value_get_double(value);
 		break;
@@ -446,6 +464,10 @@ get_property(	GObject *object,
 
 		case PROP_FULLSCREEN:
 		g_value_set_boolean(value, self->fullscreen);
+		break;
+
+		case PROP_MAXIMIZED:
+		g_value_set_boolean(value, self->maximized);
 		break;
 
 		case PROP_DISPLAY_FPS:
@@ -1059,6 +1081,14 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_FULLSCREEN, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"maximized",
+			"Maximized",
+			"Whether or not the main window is maximized",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_MAXIMIZED, pspec);
+
 	pspec = g_param_spec_double
 		(	"display-fps",
 			"Display FPS",
@@ -1215,6 +1245,7 @@ celluloid_view_init(CelluloidView *view)
 	view->loop = FALSE;
 	view->border = FALSE;
 	view->fullscreen = FALSE;
+	view->maximized = FALSE;
 	view->display_fps = 0;
 	view->searching = FALSE;
 
