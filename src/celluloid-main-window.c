@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -321,6 +321,9 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	priv->control_box, "skip-enabled",
 				vid_area_control_box, "skip-enabled",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	priv->control_box, "show-fullscreen-button",
+				vid_area_control_box, "show-fullscreen-button",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	priv->control_box, "time-position",
 				vid_area_control_box, "time-position",
