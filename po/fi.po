@@ -1,12 +1,13 @@
 # Kimmo Kujansuu <mrkujansuu@gmail.com>, 2019. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2020. #zanata
+# Kimmo Kujansuu <mrkujansuu@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-12 23:48+0700\n"
-"PO-Revision-Date: 2020-02-16 07:18+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2020-03-26 05:12-0400\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +23,7 @@ msgstr "Onko asetukset jo siirretty edellisestä versiosta"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Whether or not to automatically resize window to fit video"
-msgstr ""
+msgstr "Muuttaako ikkuna automaattisesti videon kokoa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable or disable dark theme"
@@ -64,19 +65,19 @@ msgstr "Vaihtoehdot siirtyä MPV:hen"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:77
 msgid "Path to mpv configuration file"
-msgstr "Polku MPV-määritystiedostoon"
+msgstr "Polku MPV-asetustiedostoon"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:83
 msgid "Load or don't load mpv configuration file"
-msgstr "Lataa tai älä lataa MPV-määritystiedostoa"
+msgstr "Lataa tai älä lataa MPV-asetustiedostoa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:89
 msgid "Path to mpv input configuration file"
-msgstr "Polku MPV-sisääntulon määritystiedostoon"
+msgstr "Polku MPV-sisääntulon asetustiedostoon"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:95
 msgid "Load or don't load mpv input configuration file"
-msgstr "Lataa tai älä lataa MPV-sisääntulon määritystiedostoa"
+msgstr "Lataa tai älä lataa MPV-sisääntulon asetustiedostoa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:101
 msgid "Whether or not to enable MPRIS support"
@@ -143,7 +144,7 @@ msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
 msgid "GTK+ frontend for mpv"
-msgstr "GTK+ käyttöliittymä MPV:lle"
+msgstr "GTK+-käyttöliittymä MPV:lle"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -169,11 +170,11 @@ msgstr "Vedä ja pudota soittolista"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
-msgstr "Ladataan ulkoisia MPV-määritystiedostoja"
+msgstr "Ladataan ulkoisia MPV-asetustiedostoja"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:27
 msgid "MPRIS2 D-Bus interface"
-msgstr "MPRIS2 D-Bus liitäntä"
+msgstr "MPRIS2 -D-Bus-liitäntä"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:30
 msgid "The Celluloid Developers"
@@ -442,7 +443,7 @@ msgstr "Toista soittolistaa tauotta"
 
 #: src/celluloid-control-box.c:564 src/celluloid-header-bar.c:91
 msgid "Toggle Fullscreen"
-msgstr "Vaihda kokoruutuun"
+msgstr "Koko näytön tila päällä/pois"
 
 #: src/celluloid-controller.c:973 src/celluloid-view.c:1394
 msgid "Error"
@@ -518,7 +519,7 @@ msgstr "_Uusi ikkuna"
 
 #: src/celluloid-menu.c:239
 msgid "_Quit"
-msgstr ""
+msgstr "_Lopeta"
 
 #: src/celluloid-menu.c:240
 msgid "_Edit"
@@ -538,7 +539,7 @@ msgstr "_Ääniraita"
 
 #: src/celluloid-menu.c:244 src/celluloid-menu.c:291
 msgid "S_ubtitle Track"
-msgstr "T_ekstitys raita"
+msgstr "T_ekstitysraita"
 
 #: src/celluloid-menu.c:245
 msgid "_View"
@@ -546,15 +547,15 @@ msgstr "_Näytä"
 
 #: src/celluloid-menu.c:246 src/celluloid-menu.c:284
 msgid "_Toggle Controls"
-msgstr "_Vaihda säädöt"
+msgstr "_Säätimet päällä/pois"
 
 #: src/celluloid-menu.c:247 src/celluloid-menu.c:286
 msgid "_Toggle Playlist"
-msgstr "_Vaihda soittolista"
+msgstr "_Soittolista päällä/pois"
 
 #: src/celluloid-menu.c:248
 msgid "_Fullscreen"
-msgstr "_Kokoruutu"
+msgstr "_Koko näyttö"
 
 #: src/celluloid-menu.c:249
 msgid "_Help"
@@ -566,7 +567,7 @@ msgstr "_Pikanäppäimet"
 
 #: src/celluloid-menu.c:251 src/celluloid-menu.c:295
 msgid "_About Celluloid"
-msgstr "_Tietoja Celluloid"
+msgstr "_Tietoja - Celluloid"
 
 #: src/celluloid-menu.c:317
 msgid "Open _Disc"
@@ -628,7 +629,7 @@ msgstr "Soittolista"
 
 #: src/celluloid-playlist-widget.c:918
 msgid "Playlist is empty"
-msgstr ""
+msgstr "Soittolista on tyhjä"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
@@ -636,15 +637,15 @@ msgstr "Lisää laajennus"
 
 #: src/celluloid-plugins-manager.c:175
 msgid "Lua Plugins"
-msgstr "Lua -laajennus"
+msgstr "Lua-laajennukset"
 
 #: src/celluloid-plugins-manager.c:181
 msgid "JavaScript Plugins"
-msgstr "JavaScript -laajennukset"
+msgstr "JavaScript-laajennukset"
 
 #: src/celluloid-plugins-manager.c:186
 msgid "C Plugins"
-msgstr "C -laajennukset"
+msgstr "C-laajennukset"
 
 #: src/celluloid-plugins-manager.c:334
 #, c-format
@@ -673,7 +674,7 @@ msgstr "Tiedostoa %s ei voitu poistaa. Syy: %s"
 
 #: src/celluloid-preferences-dialog.c:302
 msgid "Automatically resize window to fit video"
-msgstr ""
+msgstr "Ikkunan koon muuttaminen automaattisesti videon mukaan"
 
 #: src/celluloid-preferences-dialog.c:305
 msgid "Enable client-side decorations"
@@ -701,19 +702,19 @@ msgstr "Muista tiedostojen viimeinen sijainti"
 
 #: src/celluloid-preferences-dialog.c:325
 msgid "Load MPV configuration file"
-msgstr "Lataa MPV-määritystiedosto"
+msgstr "Lataa MPV-asetustiedosto"
 
 #: src/celluloid-preferences-dialog.c:328
 msgid "MPV configuration file:"
-msgstr "MPV-määritystiedosto:"
+msgstr "MPV-asetustiedosto:"
 
 #: src/celluloid-preferences-dialog.c:331
 msgid "Load MPV input configuration file"
-msgstr "Lataa MPV-sisääntulon määritystiedosto"
+msgstr "Lataa MPV-sisääntulon asetustiedosto"
 
 #: src/celluloid-preferences-dialog.c:334
 msgid "MPV input configuration file:"
-msgstr "MPV-sisääntulon määritystiedosto:"
+msgstr "MPV-sisääntulon asetustiedosto:"
 
 #: src/celluloid-preferences-dialog.c:339
 msgid "Always open new window"
@@ -745,7 +746,7 @@ msgstr "Käyttöliittymä"
 
 #: src/celluloid-preferences-dialog.c:390
 msgid "Config Files"
-msgstr "Määritä tiedostot"
+msgstr "Asetustiedostot"
 
 #: src/celluloid-preferences-dialog.c:393
 msgid "Miscellaneous"
@@ -781,23 +782,23 @@ msgstr "Lisää sijainti soittolistaan"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Show preferences dialog"
-msgstr "Näytä asetukset valintaikkuna"
+msgstr "Näytä Asetukset-valintaikkuna"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Toggle controls"
-msgstr "Vaihda säädöt"
+msgstr "Säätimet päällä/pois"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Toggle playlist"
-msgstr "Vaihda soittolista"
+msgstr "Soittolista päällä/pois"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Toggle fullscreen mode"
-msgstr "Vaihda kokoruutuun"
+msgstr "Vaihtele koko näytön tilan välillä"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Leave fullscreen mode"
-msgstr "Poistu kokoruudusta"
+msgstr "Poistu koko näytön tilasta"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Toggle OSD states between normal and playback time/duration"
@@ -885,19 +886,19 @@ msgstr "Tallenna nykyinen toistopaikka ja lopeta"
 
 #: src/celluloid-shortcuts-window.c:93
 msgid "Enter search mode"
-msgstr ""
+msgstr "Siirry hakutilaan"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Jump to next match"
-msgstr ""
+msgstr "Hyppää seuraavaan osumaan"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Jump to previous match"
-msgstr ""
+msgstr "Hyppää edelliseen osumaan"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Exit search mode"
-msgstr ""
+msgstr "Poistu hakutilasta"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Cycle through audio tracks"
@@ -1017,7 +1018,7 @@ msgstr "Toisto"
 
 #: src/celluloid-shortcuts-window.c:135
 msgid "Seeking"
-msgstr "Etsiä"
+msgstr "Siirtyminen"
 
 #: src/celluloid-view.c:762
 msgid ""
@@ -1057,7 +1058,7 @@ msgstr "Tallenna soittolista"
 
 #: src/celluloid-view.c:1434
 msgid "A GTK frontend for MPV"
-msgstr "MPV GTK+ käyttöliittymä"
+msgstr "MPV:n GTK+ -käyttöliittymä"
 
 #: src/celluloid-view.c:1444
 msgid "translator-credits"

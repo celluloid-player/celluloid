@@ -2,14 +2,14 @@
 # Filipe Tostevin <ftostevin@gmail.com>, 2019. #zanata
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2020-02-15 08:16+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2020-03-04 07:38-0500\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
@@ -24,10 +24,9 @@ msgid ""
 msgstr "Se as definições já foram migradas da versão anterior"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
-#, fuzzy
 msgid "Whether or not to automatically resize window to fit video"
 msgstr ""
-"Se deve ou não ocultar automaticamente o cursor do rato no modo de janela"
+"Se deve ou não redimensionar automaticamente a janela para caber no vídeo"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable or disable dark theme"
@@ -124,7 +123,7 @@ msgstr "Altura da janela"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:141
 msgid "Whether or not the window is maximized"
-msgstr ""
+msgstr "Se a janela está ou não maximizada"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:148
 msgid "Volume of player"
@@ -133,6 +132,7 @@ msgstr "Volume da aplicação"
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:154
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr ""
+"Se deve ou não repetir quando o final da lista de reprodução é atingido"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:160
 msgid "Width of the playlist"
@@ -193,7 +193,7 @@ msgstr "Interface MPRIS2 D-Bus"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:30
 msgid "The Celluloid Developers"
-msgstr ""
+msgstr "Os programadores do Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:64
@@ -205,29 +205,33 @@ msgstr "Esta versão contém as seguintes alterações:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Add Persian translation by @danialbehzadi"
-msgstr ""
+msgstr "Adicionar tradução persa por @danialbehzadi"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Add Ukranian translation by @vl-nix"
-msgstr ""
+msgstr "Adicionar tradução ucraniana por @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid ""
 "Add support for showing/hiding window decorations using the mpv option "
 "--border"
 msgstr ""
+"Adiciona suporte para mostrar/ocultar decorações de janelas usando a opção "
+"mpv --border"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Add menu item for opening discs"
-msgstr ""
+msgstr "Adicionar item de menu para abrir discos"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
+"Bloqueia o ocultar automaticamente o cursor quando o pop-up de volume "
+"estiver aberto no modo de janela"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:53
 msgid "Fix crash with mpv 0.30"
-msgstr ""
+msgstr "Corrige a falha com mpv 0.30"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
@@ -537,9 +541,8 @@ msgid "_New Window"
 msgstr "_Nova Janela"
 
 #: src/celluloid-menu.c:239
-#, fuzzy
 msgid "_Quit"
-msgstr "Sair"
+msgstr "_Sair"
 
 #: src/celluloid-menu.c:240
 msgid "_Edit"
@@ -648,9 +651,8 @@ msgid "Playlist"
 msgstr "Lista de reprodução"
 
 #: src/celluloid-playlist-widget.c:918
-#, fuzzy
 msgid "Playlist is empty"
-msgstr "Lista de reprodução"
+msgstr "Lista de reprodução está vazia"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
@@ -694,7 +696,7 @@ msgstr "Falha ao excluir ficheiro '%s'. Motivo: %s"
 
 #: src/celluloid-preferences-dialog.c:302
 msgid "Automatically resize window to fit video"
-msgstr ""
+msgstr "Redimensionar automaticamente a janela para caber no vídeo"
 
 #: src/celluloid-preferences-dialog.c:305
 msgid "Enable client-side decorations"
@@ -907,19 +909,19 @@ msgstr "Guardar posição na lista de reprodução e sair"
 
 #: src/celluloid-shortcuts-window.c:93
 msgid "Enter search mode"
-msgstr ""
+msgstr "Entrar no modo de pesquisa"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Jump to next match"
-msgstr ""
+msgstr "Ir para a próxima correspondência"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Jump to previous match"
-msgstr ""
+msgstr "Ir para a correspondência anterior"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Exit search mode"
-msgstr ""
+msgstr "Sair do modo de pesquisa"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Cycle through audio tracks"
