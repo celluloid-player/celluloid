@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2020-02-15 08:15-0500\n"
+"PO-Revision-Date: 2020-03-28 01:40-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Français\n"
 "Language: fr\n"
@@ -62,61 +62,67 @@ msgstr ""
 "La vitesse de pointeur minimum à partir de laquelle les commandes flottantes"
 " réapparaissent."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:53
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:54
+msgid ""
+"The size of the dead zone in which cursor movement will not cause the "
+"controls to be shown."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Whether or not to use skip buttons for controlling playlist"
 msgstr ""
 "Utiliser ou non les boutons de saut pour contrôler la liste de lecture"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:59
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid ""
 "Whether or not to make file chooser dialog remember last folder accessed"
 msgstr ""
 "Si oui ou non le sélecteur de fichier doit se souvenir du dernier dossier "
 "accédé"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:65
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Whether or not to create new windows when there is already an instance"
 msgstr ""
 "Si oui ou non il faut créer de nouvelles fenêtres quand il y a déjà une "
 "instance en cours"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:71
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:78
 #: src/celluloid-application.c:570
 msgid "Options to pass to mpv"
 msgstr "Options à activer dans mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:77
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Path to mpv configuration file"
 msgstr "Chemin du fichier de configuration de mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:83
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
 msgid "Load or don't load mpv configuration file"
 msgstr "Charger ou non le fichier de configuration de mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:89
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Path to mpv input configuration file"
 msgstr "Chemin du fichier de configuration des raccourcis de mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:95
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 msgid "Load or don't load mpv input configuration file"
 msgstr "Charger ou non le fichier de configuration de l'entrée de mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:101
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Whether or not to enable MPRIS support"
 msgstr "Activer ou non le support MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:107
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:114
 msgid ""
 "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "Activer ou non la prise en charge des touches multimédia de GNOME-Settings-"
 "Daemon"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:113
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:120
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
 msgstr "Pré-rechercher ou non les métadonnées pour les entrées non jouées"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:119
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
 "Whether or not to display an error message when playback of a file ends with"
 " an error"
@@ -124,39 +130,39 @@ msgstr ""
 "Si oui ou non il faut afficher un message d'erreur lorsque la lecture d'un "
 "fichier se finit avec une erreur"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:129
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:136
 msgid "Width of the window"
 msgstr "Largeur de la fenêtre"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:135
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Height of the window"
 msgstr "Hauteur de la fenêtre"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:141
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
 msgid "Whether or not the window is maximized"
 msgstr "Défini si la fenêtre est maximisée ou non"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
 msgid "Volume of player"
 msgstr "Volume du lecteur"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:154
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "Relancer ou non la liste de lecture lorsque la fin est atteinte"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:160
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Width of the playlist"
 msgstr "Largeur de la liste de lecture"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:166
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Show or not show the controls"
 msgstr "Afficher ou cacher les contrôles"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:172
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Show or not show the playlist"
 msgstr "Afficher ou cacher la liste de lecture"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:178
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:185
 msgid "URI of the last folder accessed"
 msgstr "Chemin d'accès du dernier dossier consulté"
 
@@ -478,7 +484,7 @@ msgstr "Lecture en boucle"
 msgid "Toggle Fullscreen"
 msgstr "Plein écran"
 
-#: src/celluloid-controller.c:973 src/celluloid-view.c:1394
+#: src/celluloid-controller.c:976 src/celluloid-view.c:1425
 msgid "Error"
 msgstr "Erreur"
 
@@ -625,43 +631,43 @@ msgstr "_Annuler"
 msgid "_Open"
 msgstr "_Ouvrir"
 
-#: src/celluloid-player.c:549
+#: src/celluloid-player.c:550
 msgid "Failed to apply one or more MPV options."
 msgstr "Impossible d'appliquer une ou plusieurs options à mpv."
 
-#: src/celluloid-playlist-widget.c:762
+#: src/celluloid-playlist-widget.c:784
 msgid "_Copy Location"
 msgstr "_Copier l'emplacement"
 
-#: src/celluloid-playlist-widget.c:763
+#: src/celluloid-playlist-widget.c:785
 msgid "_Remove"
 msgstr "_Supprimer"
 
-#: src/celluloid-playlist-widget.c:765
+#: src/celluloid-playlist-widget.c:787
 msgid "_Add…"
 msgstr "_Ajouter"
 
-#: src/celluloid-playlist-widget.c:766
+#: src/celluloid-playlist-widget.c:788
 msgid "Add _Location…"
 msgstr "Ajouter un _Emplacement"
 
-#: src/celluloid-playlist-widget.c:767
+#: src/celluloid-playlist-widget.c:789
 msgid "_Shuffle"
 msgstr "Lecture aléa_toire"
 
-#: src/celluloid-playlist-widget.c:768
+#: src/celluloid-playlist-widget.c:790
 msgid "Loop _File"
 msgstr "Lecture en boucle du _fichier"
 
-#: src/celluloid-playlist-widget.c:769
+#: src/celluloid-playlist-widget.c:791
 msgid "Loop _Playlist"
 msgstr "Lecture en boucle de la liste de _lecture"
 
-#: src/celluloid-playlist-widget.c:910 src/celluloid-shortcuts-window.c:136
+#: src/celluloid-playlist-widget.c:932 src/celluloid-shortcuts-window.c:136
 msgid "Playlist"
 msgstr "Liste de lecture"
 
-#: src/celluloid-playlist-widget.c:918
+#: src/celluloid-playlist-widget.c:940
 #, fuzzy
 msgid "Playlist is empty"
 msgstr "Liste de lecture"
@@ -1056,7 +1062,7 @@ msgstr "Lecture"
 msgid "Seeking"
 msgstr "Navigation"
 
-#: src/celluloid-view.c:762
+#: src/celluloid-view.c:784
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1064,39 +1070,39 @@ msgstr ""
 "Activation ou désactivation des décorations côté client. Nécessite un "
 "redémarrage pour prendre effet."
 
-#: src/celluloid-view.c:1269
+#: src/celluloid-view.c:1300
 msgid "Add File to Playlist"
 msgstr "Ajouter un fichier à la liste de lecture"
 
-#: src/celluloid-view.c:1270
+#: src/celluloid-view.c:1301
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
-#: src/celluloid-view.c:1299
+#: src/celluloid-view.c:1330
 msgid "Add Location to Playlist"
 msgstr "Ajouter l'emplacement à la liste de lecture"
 
-#: src/celluloid-view.c:1300
+#: src/celluloid-view.c:1331
 msgid "Open Location"
 msgstr "Ouvrir un emplacement"
 
-#: src/celluloid-view.c:1322
+#: src/celluloid-view.c:1353
 msgid "Load Audio Track…"
 msgstr "Chargement de la piste audio...."
 
-#: src/celluloid-view.c:1342
+#: src/celluloid-view.c:1373
 msgid "Load Subtitle Track…"
 msgstr "Chargement des sous-titres...."
 
-#: src/celluloid-view.c:1368
+#: src/celluloid-view.c:1399
 msgid "Save Playlist"
 msgstr "Enregistrer la liste de lecture"
 
-#: src/celluloid-view.c:1434
+#: src/celluloid-view.c:1465
 msgid "A GTK frontend for MPV"
 msgstr "Une interface GTK pour MPV"
 
-#: src/celluloid-view.c:1444
+#: src/celluloid-view.c:1475
 msgid "translator-credits"
 msgstr ""
 "Harenome Ranaivorarivony Razanajato\n"
