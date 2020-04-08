@@ -54,6 +54,7 @@ celluloid_SOURCES =	celluloid-main.c celluloid-def.h \
 			celluloid-model.c celluloid-model.h \
 			celluloid-mpv.c celluloid-mpv.h \
 			celluloid-mpv-private.h \
+			celluloid-option-parser.c celluloid-option-parser.h \
 			celluloid-open-location-dialog.c celluloid-open-location-dialog.h \
 			celluloid-player.c celluloid-player.h celluloid-player-private.h \
 			celluloid-player-options.c celluloid-player-options.h \
