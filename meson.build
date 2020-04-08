@@ -1,5 +1,5 @@
 project('celluloid', 'c',
-  version: '0.18',
+  version: '0.19',
   meson_version: '>= 0.40.0',
   default_options: [
     'warning_level=2',

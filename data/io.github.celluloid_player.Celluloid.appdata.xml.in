@@ -29,6 +29,59 @@
  </description>
  <developer_name>The Celluloid Developers</developer_name>
  <releases>
+  <release date="2020-04-08" version="0.19">
+   <description>
+    <p>
+     This release contains the following changes:
+    </p>
+    <ul>
+     <li>
+      Adjust the range of volume button based on the value of ht volume-max
+      property.
+     </li>
+     <li>
+      Retain window maximization state across sessions.
+     </li>
+     <li>
+      Retain loop state across sessions.
+     </li>
+     <li>
+      Implement playlist search.
+     </li>
+     <li>
+      Update the list of shortcuts in Keyboard Shortcuts dialog.
+     </li>
+     <li>
+      Correctly handle quotes and escape sequences in extra mpv options.
+     </li>
+     <li>
+      Display time at cursor position when hovering the seek bar.
+     </li>
+     <li>
+      Deprecate '--mpv-options'. Options starting with '--mpv-' can be
+      used to set mpv options instead. For example, passing
+      '--mpv-vf=vflip' to Celluloid is equivalent to passing
+      '--vf=vflip' to mpv.
+     </li>
+     <li>
+      Add support for configuring dead zone, an area in which mouse movement
+      will not cause controls to be shown.
+     </li>
+     <li>
+      Make window sizing work correctly with HiDPI displays.
+     </li>
+     <li>
+      Add Finnish translation by Kimmo Kujansuu.
+     </li>
+     <li>
+      Add Slovenian translation by @bertronika.
+     </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2019-11-05" version="0.18">
    <description>
     <p>
