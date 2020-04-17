@@ -462,6 +462,7 @@ startup_handler(GApplication *gapp, gpointer data)
 static void
 idle_handler(GObject *object, GParamSpec *pspec, gpointer data)
 {
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	CelluloidApplication *app = data;
 	CelluloidController *controller = NULL;
 	gboolean idle = TRUE;
@@ -477,7 +478,9 @@ idle_handler(GObject *object, GParamSpec *pspec, gpointer data)
 		controller = iter->data;
 	}
 
-	if(!idle && app->inhibit_cookie == 0)
+	if(	!idle &&
+		app->inhibit_cookie == 0 &&
+		g_settings_get_boolean(settings, "inhibit-idle") )
 	{
 		CelluloidView *view =
 			celluloid_controller_get_view(controller);
@@ -498,6 +501,8 @@ idle_handler(GObject *object, GParamSpec *pspec, gpointer data)
 
 		app->inhibit_cookie = 0;
 	}
+
+	g_object_unref(settings);
 }
 
 static void
