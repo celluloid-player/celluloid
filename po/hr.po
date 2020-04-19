@@ -1,13 +1,13 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 # gogo <trebelnik2@gmail.com>, 2019. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
+# gogo <trebelnik2@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2020-03-28 01:42-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2020-04-11 11:47-0400\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,8 @@ msgid ""
 msgstr "Jesu li postavke već migrirane iz prijašnje inačice"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
-#, fuzzy
 msgid "Whether or not to automatically resize window to fit video"
-msgstr ""
-"Treba li koristiti automatsko sakrivanje pokazivača miša u prozorskom načinu"
-" prikaza miša"
+msgstr "Treba li automatski prilagoditi prozor na video veličinu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable or disable dark theme"
@@ -57,6 +54,8 @@ msgid ""
 "The size of the dead zone in which cursor movement will not cause the "
 "controls to be shown."
 msgstr ""
+"Veličina mrtve zone u kojoj pomicanje pokazivača miša neće uzrokovati prikaz"
+" upravljanja."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Whether or not to use skip buttons for controlling playlist"
@@ -344,7 +343,7 @@ msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
 "Dodana je mogućnost za stvaranje tipki preskakanja stavki popisa izvođenja "
-"radije nego poglavlja."
+"radije nego poglavlja"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:170
 msgid "Make the file chooser accept non-local locations"
@@ -540,9 +539,8 @@ msgid "_New Window"
 msgstr "_Novi prozor"
 
 #: src/celluloid-menu.c:239
-#, fuzzy
 msgid "_Quit"
-msgstr "Zatvori"
+msgstr "_Zatvori"
 
 #: src/celluloid-menu.c:240
 msgid "_Edit"
@@ -651,9 +649,8 @@ msgid "Playlist"
 msgstr "Popis izvođenja"
 
 #: src/celluloid-playlist-widget.c:940
-#, fuzzy
 msgid "Playlist is empty"
-msgstr "Popis izvođenja"
+msgstr "Popis izvođenja je prazan"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
@@ -696,7 +693,7 @@ msgstr "Neuspjelo brisanje datoteke '%s'. Razlog: %s"
 
 #: src/celluloid-preferences-dialog.c:302
 msgid "Automatically resize window to fit video"
-msgstr ""
+msgstr "Automatski prilagodi prozor na video veličinu"
 
 #: src/celluloid-preferences-dialog.c:305
 msgid "Enable client-side decorations"
@@ -825,7 +822,7 @@ msgstr "Napusti cjelozaslonski prikaz"
 #: src/celluloid-shortcuts-window.c:66
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr ""
-"Uklj/Isklj OSD prikaz napredka i proteklog vremena/trajanja reprodukcije"
+"Uklj/Isklj OSD prikaz napretka i proteklog vremena/trajanja reprodukcije"
 
 #: src/celluloid-shortcuts-window.c:67
 msgid "Show filename on the OSD"
@@ -893,7 +890,7 @@ msgstr "Postavi/Ukloni A-B točke ponavljanja"
 
 #: src/celluloid-shortcuts-window.c:87
 msgid "Toggle infinite looping"
-msgstr "Uključ/Isklj beskonačno ponavljanje"
+msgstr "Uklj/Isklj beskonačno ponavljanje"
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Pause or unpause"
@@ -909,19 +906,19 @@ msgstr "Spremi trenutni položaj reprodukcije i zatvori"
 
 #: src/celluloid-shortcuts-window.c:93
 msgid "Enter search mode"
-msgstr ""
+msgstr "Pokreni način pretrage"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Jump to next match"
-msgstr ""
+msgstr "Idi na sljedeće podudaranje"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Jump to previous match"
-msgstr ""
+msgstr "Idi na prijašnje podudaranje"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Exit search mode"
-msgstr ""
+msgstr "Zatvori način pretrage"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Cycle through audio tracks"
@@ -941,7 +938,7 @@ msgstr "Prilagodi odgodu zvuka za +/- sekundi"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Toggle subtitle visibility"
-msgstr "Uklj/Isklj podnslov"
+msgstr "Uklj/Isklj podnaslov"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Cycle through available subtitles"

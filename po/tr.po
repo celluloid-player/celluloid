@@ -1,14 +1,13 @@
 # Serdar Sağlam <teknomobil@msn.com>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 # Serdar Sağlam <teknomobil@msn.com>, 2020. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2020-03-28 01:45-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2020-04-08 02:47-0400\n"
+"Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -23,9 +22,8 @@ msgid ""
 msgstr "Ayarların önceki sürümden zaten geçirilmiş olup olmadığı"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
-#, fuzzy
 msgid "Whether or not to automatically resize window to fit video"
-msgstr "Pencere kipinde fare imlecini otomatik gösterip göstermemek"
+msgstr "Pencerenin videoya sığacak şekilde boyutlandırılması"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable or disable dark theme"
@@ -52,6 +50,8 @@ msgid ""
 "The size of the dead zone in which cursor movement will not cause the "
 "controls to be shown."
 msgstr ""
+"İmleç hareketinin kontrollerin gösterilmesine neden olmayacağı ölü bölgenin "
+"boyutu."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Whether or not to use skip buttons for controlling playlist"
@@ -530,9 +530,8 @@ msgid "_New Window"
 msgstr "_Yeni Pencere"
 
 #: src/celluloid-menu.c:239
-#, fuzzy
 msgid "_Quit"
-msgstr "Çık"
+msgstr "_Çık"
 
 #: src/celluloid-menu.c:240
 msgid "_Edit"
@@ -641,9 +640,8 @@ msgid "Playlist"
 msgstr "Oynatma Listesi"
 
 #: src/celluloid-playlist-widget.c:940
-#, fuzzy
 msgid "Playlist is empty"
-msgstr "Oynatma Listesi"
+msgstr "Oynatma listesi boş"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
@@ -688,7 +686,7 @@ msgstr "Dosya silinemedi '%s'. Sebep: %s"
 
 #: src/celluloid-preferences-dialog.c:302
 msgid "Automatically resize window to fit video"
-msgstr ""
+msgstr "Videoya sığması için pencereyi otomatik olarak yeniden boyutlandır"
 
 #: src/celluloid-preferences-dialog.c:305
 msgid "Enable client-side decorations"
@@ -900,19 +898,19 @@ msgstr "Geçerli oynatma konumunu kaydet ve çık"
 
 #: src/celluloid-shortcuts-window.c:93
 msgid "Enter search mode"
-msgstr ""
+msgstr "Arama kipine gir"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Jump to next match"
-msgstr ""
+msgstr "Bir sonraki eşlemeye atla"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Jump to previous match"
-msgstr ""
+msgstr "Bir önceki eşlemeye atla"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Exit search mode"
-msgstr ""
+msgstr "Arama kipinden çık"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Cycle through audio tracks"

@@ -1,12 +1,11 @@
 # Nejc Bertoncelj <nbert@siol.net>, 2020. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-16 14:17+0700\n"
-"PO-Revision-Date: 2020-03-28 01:43-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"PO-Revision-Date: 2020-04-10 03:28-0400\n"
+"Last-Translator: Nejc Bertoncelj <nbert@siol.net>\n"
 "Language-Team: Slovenian\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -49,6 +48,7 @@ msgid ""
 "The size of the dead zone in which cursor movement will not cause the "
 "controls to be shown."
 msgstr ""
+"Velikost območja, kjer premik kazalca ne bo prikazal plavajočih gumbov"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Whether or not to use skip buttons for controlling playlist"
@@ -159,6 +159,11 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
+"Celluloid je preprost večpredstavnostni predvajalnik, ki lahko predvaja "
+"takorekoč vse zvočne in video formate. Podpira sezname predvajanje in nadzor"
+" predvajanja MPRIS2. Oblikovan je po GNOME-ovih smernicah HIG, lahko pa se "
+"prilagodi tudi sistemom brez njih. Celluloid je osnovan na predvajalniku MPV"
+" in knjižnici GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -247,11 +252,11 @@ msgstr "Obvladuj bližnjice na numerični tipkovnici"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
 msgid "Handle unicode keybindings"
-msgstr "Obvladuj bližnjice unicode"
+msgstr "Obvladuj Unicode tipkovne bližnjice"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Forward media key events to mpv"
-msgstr "Posreduj medijske tipke programu mpv"
+msgstr "Posreduj pritiske medijskih tipk programu mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
 msgid ""
@@ -628,19 +633,19 @@ msgstr "Seznam predvajanja je prazen"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
-msgstr "Dodaj vstavek"
+msgstr "Dodaj vtičnik"
 
 #: src/celluloid-plugins-manager.c:175
 msgid "Lua Plugins"
-msgstr "Lua vstavki"
+msgstr "Lua vtičniki"
 
 #: src/celluloid-plugins-manager.c:181
 msgid "JavaScript Plugins"
-msgstr "JavaScript vstavki"
+msgstr "JavaScript vtičniki"
 
 #: src/celluloid-plugins-manager.c:186
 msgid "C Plugins"
-msgstr "C vstavki"
+msgstr "C vtičniki"
 
 #: src/celluloid-plugins-manager.c:334
 #, c-format
@@ -649,7 +654,7 @@ msgstr "Napaka prenašanja iz '%s' v '%s'. Razlog: %s"
 
 #: src/celluloid-plugins-manager.c:385
 msgid "No plugins found"
-msgstr "Vstavki niso najdeni"
+msgstr "Vtičniki niso najdeni"
 
 #: src/celluloid-plugins-manager-item.c:79
 msgid "Remove"
@@ -797,15 +802,15 @@ msgstr "Zapusti celozaslonski način"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
+msgstr "Prikazu OSD dodaj čas predvajanja in trajanje"
 
 #: src/celluloid-shortcuts-window.c:67
 msgid "Show filename on the OSD"
-msgstr ""
+msgstr "Prikaži ime datoteke na OSD"
 
 #: src/celluloid-shortcuts-window.c:68
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr ""
+msgstr "Prikaži napredek, pretečen čas in trajanje na OSD"
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Seek backward/forward 5 seconds"
@@ -901,7 +906,7 @@ msgstr "Kroži skozi zvočne sledi"
 
 #: src/celluloid-shortcuts-window.c:100 src/celluloid-shortcuts-window.c:101
 msgid "Decrease/increase volume"
-msgstr "Znižaj/zvišaj glasnost"
+msgstr "Zvišaj/znižaj glasnost"
 
 #: src/celluloid-shortcuts-window.c:102
 msgid "Mute or unmute"
@@ -941,7 +946,7 @@ msgstr "Kroži skozi video sledi"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Decrease/increase pan-and-scan range"
-msgstr "Znižaj/zvišaj območje pomikanje-skeniranje"
+msgstr "Zvišaj/znižaj območje pomikanje-skeniranje (pan-scan)"
 
 #: src/celluloid-shortcuts-window.c:116
 msgid "Take a screenshot"
@@ -1057,4 +1062,4 @@ msgstr "GTK vmesnik za MPV"
 
 #: src/celluloid-view.c:1475
 msgid "translator-credits"
-msgstr "Nejc Bertoncelj <nejc@bertoncelj.eu.org>"
+msgstr "Nejc Bertoncelj <nejc at bertoncelj.eu.org>"
