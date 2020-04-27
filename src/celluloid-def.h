@@ -114,6 +114,10 @@
 				"PGDWN", "Page_Down",\
 				"BS", "\b",\
 				"SHARP", "#",\
+				"UP", "KP_Up",\
+				"DOWN", "KP_Down",\
+				"RIGHT", "KP_Right",\
+				"LEFT", "KP_Left",\
 				"RIGHT", "Right",\
 				"LEFT", "Left",\
 				"UP", "Up",\
