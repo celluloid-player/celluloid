@@ -16,7 +16,7 @@ mpv's powerful playback capabilities.
 - gcc (build)
 - glib >= 2.44
 - gtk >= 3.22
-- mpv >= 0.27
+- mpv >= 0.32
 - epoxy
 - lua (optional)
 - youtube-dl (optional)
