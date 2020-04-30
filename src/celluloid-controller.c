@@ -608,6 +608,9 @@ connect_signals(CelluloidController *controller)
 					loop_to_boolean,
 					NULL,
 					NULL );
+	g_object_bind_property(	controller->view, "shuffle",
+				controller->model, "shuffle",
+				G_BINDING_BIDIRECTIONAL|G_BINDING_SYNC_CREATE );
 
 	g_signal_connect(	controller->model,
 				"notify::ready",

@@ -37,6 +37,7 @@ enum
 	PROP_PAUSE,
 	PROP_LOOP_FILE,
 	PROP_LOOP_PLAYLIST,
+	PROP_SHUFFLE,
 	PROP_DURATION,
 	PROP_MEDIA_TITLE,
 	PROP_PLAYLIST_COUNT,
@@ -70,6 +71,7 @@ struct _CelluloidModel
 	gboolean pause;
 	gchar *loop_file;
 	gchar *loop_playlist;
+	gboolean shuffle;
 	gdouble duration;
 	gchar *media_title;
 	gint64 playlist_count;
@@ -213,6 +215,19 @@ set_property(	GObject *object,
 		self->loop_playlist = g_value_dup_string(value);
 		break;
 
+		case PROP_SHUFFLE:
+		self->shuffle = g_value_get_boolean(value);
+
+		if(self->shuffle)
+		{
+			celluloid_model_shuffle_playlist(self);
+		}
+		else
+		{
+			celluloid_model_unshuffle_playlist(self);
+		}
+		break;
+
 		case PROP_DURATION:
 		self->duration = g_value_get_double(value);
 		break;
@@ -318,6 +333,10 @@ get_property(	GObject *object,
 
 		case PROP_LOOP_PLAYLIST:
 		g_value_set_string(value, self->loop_playlist);
+		break;
+
+		case PROP_SHUFFLE:
+		g_value_set_boolean(value, self->shuffle);
 		break;
 
 		case PROP_DURATION:
@@ -715,6 +734,14 @@ celluloid_model_class_init(CelluloidModelClass *klass)
 			(obj_class, mpv_props[i].id, pspec);
 	}
 
+	pspec = g_param_spec_boolean
+		(	"shuffle",
+			"Shuffle",
+			"Whether or not the playlist is shuffled",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_SHUFFLE, pspec);
+
 	g_signal_new(	"playback-restart",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -754,6 +781,7 @@ celluloid_model_init(CelluloidModel *model)
 	model->pause = TRUE;
 	model->loop_file = NULL;
 	model->loop_playlist = NULL;
+	model->shuffle = FALSE;
 	model->duration = 0.0;
 	model->media_title = NULL;
 	model->playlist_count = 0;
@@ -931,6 +959,14 @@ void
 celluloid_model_shuffle_playlist(CelluloidModel *model)
 {
 	const gchar *cmd[] = {"osd-msg", "playlist-shuffle", NULL};
+
+	celluloid_mpv_command_async(CELLULOID_MPV(model), cmd);
+}
+
+void
+celluloid_model_unshuffle_playlist(CelluloidModel *model)
+{
+	const gchar *cmd[] = {"osd-msg", "playlist-unshuffle", NULL};
 
 	celluloid_mpv_command_async(CELLULOID_MPV(model), cmd);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 gnome-mpv
+ * Copyright (c) 2019-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *

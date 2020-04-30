@@ -43,6 +43,7 @@ enum
 	PROP_DISC_LIST,
 	PROP_SKIP_ENABLED,
 	PROP_LOOP,
+	PROP_SHUFFLE,
 	PROP_BORDER,
 	PROP_FULLSCREEN,
 	PROP_MAXIMIZED,
@@ -67,6 +68,7 @@ struct _CelluloidView
 	gboolean skip_enabled;
 	gboolean control_box_enabled;
 	gboolean loop;
+	gboolean shuffle;
 	gboolean border;
 	gboolean fullscreen;
 	gboolean maximized;
@@ -225,6 +227,9 @@ constructed(GObject *object)
 	g_object_bind_property(	view, "loop",
 				control_box, "loop",
 				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	view, "shuffle",
+				control_box, "shuffle",
+				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	view, "volume",
 				control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
@@ -361,6 +366,10 @@ set_property(	GObject *object,
 		self->loop = g_value_get_boolean(value);
 		break;
 
+		case PROP_SHUFFLE:
+		self->shuffle = g_value_get_boolean(value);
+		break;
+
 		case PROP_BORDER:
 		self->border = g_value_get_boolean(value);
 		gtk_window_set_decorated(GTK_WINDOW(wnd), self->border);
@@ -456,6 +465,10 @@ get_property(	GObject *object,
 
 		case PROP_LOOP:
 		g_value_set_boolean(value, self->loop);
+		break;
+
+		case PROP_SHUFFLE:
+		g_value_set_boolean(value, self->shuffle);
 		break;
 
 		case PROP_BORDER:
@@ -1066,6 +1079,14 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 	g_object_class_install_property(object_class, PROP_LOOP, pspec);
 
 	pspec = g_param_spec_boolean
+		(	"shuffle",
+			"Shuffle",
+			"Whether or not the the shuffle button is active",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_SHUFFLE, pspec);
+
+	pspec = g_param_spec_boolean
 		(	"border",
 			"Border",
 			"Whether or not the main window should have decorations",
@@ -1243,6 +1264,7 @@ celluloid_view_init(CelluloidView *view)
 	view->disc_list = NULL;
 	view->skip_enabled = FALSE;
 	view->loop = FALSE;
+	view->shuffle = FALSE;
 	view->border = FALSE;
 	view->fullscreen = FALSE;
 	view->maximized = FALSE;

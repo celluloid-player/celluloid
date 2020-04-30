@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -87,6 +87,9 @@ celluloid_model_previous_playlist_entry(CelluloidModel *model);
 
 void
 celluloid_model_shuffle_playlist(CelluloidModel *model);
+
+void
+celluloid_model_unshuffle_playlist(CelluloidModel *model);
 
 void
 celluloid_model_seek(CelluloidModel *model, gdouble value);

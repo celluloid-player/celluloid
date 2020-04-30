@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -34,6 +34,7 @@ enum
 	PROP_SHOW_FULLSCREEN_BUTTON,
 	PROP_TIME_POSITION,
 	PROP_LOOP,
+	PROP_SHUFFLE,
 	PROP_VOLUME,
 	PROP_VOLUME_MAX,
 	PROP_VOLUME_POPUP_VISIBLE,
@@ -50,6 +51,7 @@ struct _CelluloidControlBox
 	GtkWidget *next_button;
 	GtkWidget *previous_button;
 	GtkWidget *loop_button;
+	GtkWidget *shuffle_button;
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
@@ -60,6 +62,7 @@ struct _CelluloidControlBox
 	gboolean show_fullscreen_button;
 	gdouble time_position;
 	gboolean loop;
+	gboolean shuffle;
 	gdouble volume;
 	gdouble volume_max;
 	gboolean volume_popup_visible;
@@ -167,6 +170,10 @@ set_property(	GObject *object,
 		self->loop = g_value_get_boolean(value);
 		break;
 
+		case PROP_SHUFFLE:
+		self->shuffle = g_value_get_boolean(value);
+		break;
+
 		case PROP_VOLUME:
 		self->volume = g_value_get_double(value);
 		break;
@@ -231,6 +238,10 @@ get_property(	GObject *object,
 
 		case PROP_LOOP:
 		g_value_set_boolean(value, self->loop);
+		break;
+
+		case PROP_SHUFFLE:
+		g_value_set_boolean(value, self->shuffle);
 		break;
 
 		case PROP_VOLUME:
@@ -449,6 +460,15 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 	g_object_class_install_property
 		(object_class, PROP_LOOP, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"shuffle",
+			"Shuffle",
+			"Whether or not the the shuffle button is active",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_SHUFFLE, pspec);
+
 	pspec = g_param_spec_double
 		(	"volume",
 			"Volume",
@@ -526,6 +546,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->previous_button = gtk_button_new();
 	box->fullscreen_button = gtk_button_new();
 	box->loop_button = gtk_toggle_button_new();
+	box->shuffle_button = gtk_toggle_button_new();
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = celluloid_seek_bar_new();
 	box->skip_enabled = FALSE;
@@ -535,6 +556,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->show_fullscreen_button = FALSE;
 	box->time_position = 0.0;
 	box->loop = FALSE;
+	box->shuffle = FALSE;
 	box->volume = 0.0;
 	box->volume_max = 100.0;
 
@@ -559,6 +581,9 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	init_button(	box->loop_button,
 			"media-playlist-repeat-symbolic",
 			_("Loop Playlist") );
+	init_button(	box->shuffle_button,
+			"media-playlist-shuffle-symbolic",
+			_("Shuffle Playlist") );
 	init_button(	box->fullscreen_button,
 			"view-fullscreen-symbolic",
 			_("Toggle Fullscreen") );
@@ -580,6 +605,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_container_add(GTK_CONTAINER(box), box->next_button);
 	gtk_box_pack_start(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
 	gtk_container_add(GTK_CONTAINER(box), box->loop_button);
+	gtk_container_add(GTK_CONTAINER(box), box->shuffle_button);
 	gtk_container_add(GTK_CONTAINER(box), box->volume_button);
 	gtk_container_add(GTK_CONTAINER(box), box->fullscreen_button);
 
@@ -593,6 +619,9 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "loop",
 				box->loop_button, "active",
+				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	box, "shuffle",
+				box->shuffle_button, "active",
 				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property_full(	box->volume_button, "value",
 					box, "volume",
