@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 gnome-mpv
+ * Copyright (c) 2015-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -23,6 +23,18 @@
 #include "celluloid-controller-private.h"
 #include "celluloid-file-chooser.h"
 #include "celluloid-common.h"
+
+static gboolean
+boolean_to_state(	GBinding *binding,
+		const GValue *from_value,
+		GValue *to_value,
+		gpointer user_data );
+
+static gboolean
+state_to_boolean(	GBinding *binding,
+		const GValue *from_value,
+		GValue *to_value,
+		gpointer user_data );
 
 static gboolean
 track_id_to_state(	GBinding *binding,
@@ -88,7 +100,7 @@ static void
 stop_search_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
 
 static void
-shuffle_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
+toggle_shuffle_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
 
 static void
 copy_selected_playlist_item_handler(	GSimpleAction *action,
@@ -140,6 +152,34 @@ static void
 show_about_dialog_handler(	GSimpleAction *action,
 				GVariant *param,
 				gpointer data );
+
+static gboolean
+boolean_to_state(	GBinding *binding,
+		const GValue *from_value,
+		GValue *to_value,
+		gpointer user_data )
+{
+	gboolean from = g_value_get_boolean(from_value);
+	GVariant *to = g_variant_new("b", from);
+
+	g_value_set_variant(to_value, to);
+
+	return TRUE;
+}
+
+static gboolean
+state_to_boolean(	GBinding *binding,
+		const GValue *from_value,
+		GValue *to_value,
+		gpointer user_data )
+{
+	GVariant *from = g_value_get_variant(from_value);
+	gboolean to = g_variant_get_boolean(from);
+
+	g_value_set_boolean(to_value, to);
+
+	return TRUE;
+}
 
 static gboolean
 track_id_to_state(	GBinding *binding,
@@ -235,6 +275,16 @@ bind_properties(CelluloidController *controller)
 					G_BINDING_BIDIRECTIONAL,
 					track_id_to_state,
 					state_to_track_id,
+					NULL,
+					NULL );
+
+	action =	g_action_map_lookup_action
+			(G_ACTION_MAP(window), "toggle-shuffle-playlist");
+	g_object_bind_property_full(	controller->model, "shuffle",
+					action, "state",
+					G_BINDING_BIDIRECTIONAL,
+					boolean_to_state,
+					state_to_boolean,
 					NULL,
 					NULL );
 
@@ -347,9 +397,9 @@ stop_search_playlist_handler(GSimpleAction *action, GVariant *param, gpointer da
 }
 
 static void
-shuffle_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data)
+toggle_shuffle_playlist_handler(GSimpleAction *action, GVariant *value, gpointer data)
 {
-	celluloid_model_shuffle_playlist(celluloid_controller_get_model(data));
+	g_simple_action_set_state(action, value);
 }
 
 static void
@@ -520,8 +570,9 @@ celluloid_controller_action_register_actions(CelluloidController *controller)
 			.activate = search_playlist_handler},
 			{.name = "stop-search-playlist",
 			.activate = stop_search_playlist_handler},
-			{.name = "shuffle-playlist",
-			.activate = shuffle_playlist_handler},
+			{.name = "toggle-shuffle-playlist",
+			.state = "false",
+			.change_state = toggle_shuffle_playlist_handler},
 			{.name = "copy-selected-playlist-item",
 			.activate = copy_selected_playlist_item_handler},
 			{.name = "remove-selected-playlist-item",

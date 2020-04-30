@@ -786,7 +786,7 @@ mouse_press_handler(GtkWidget *widget, GdkEventButton *event, gpointer data)
 				CELLULOID_MENU_SEPARATOR,
 				CELLULOID_MENU_ITEM(_("_Add…"), "win.show-open-dialog(true)"),
 				CELLULOID_MENU_ITEM(_("Add _Location…"), "win.show-open-location-dialog(true)"),
-				CELLULOID_MENU_ITEM(_("_Shuffle"), "win.shuffle-playlist"),
+				CELLULOID_MENU_ITEM(_("_Shuffle"), "win.toggle-shuffle-playlist"),
 				CELLULOID_MENU_ITEM(_("Loop _File"), "win.toggle-loop-file"),
 				CELLULOID_MENU_ITEM(_("Loop _Playlist"), "win.toggle-loop-playlist"),
 				CELLULOID_MENU_END };
