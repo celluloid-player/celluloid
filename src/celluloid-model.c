@@ -55,7 +55,6 @@ struct _CelluloidModel
 {
 	CelluloidPlayer parent;
 	gchar *extra_options;
-	gboolean ready;
 	GPtrArray *metadata;
 	GPtrArray *track_list;
 	gboolean update_mpv_properties;
