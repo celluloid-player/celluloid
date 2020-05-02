@@ -221,13 +221,16 @@ set_property(	GObject *object,
 			self->shuffle = g_value_get_boolean(value);
 			g_object_get(self, "ready", &ready, NULL);
 
-			if(ready && self->shuffle)
+			if(ready)
 			{
-				celluloid_model_shuffle_playlist(self);
-			}
-			else
-			{
-				celluloid_model_unshuffle_playlist(self);
+				if(self->shuffle)
+				{
+					celluloid_model_shuffle_playlist(self);
+				}
+				else
+				{
+					celluloid_model_unshuffle_playlist(self);
+				}
 			}
 		}
 		break;
