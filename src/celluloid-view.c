@@ -117,6 +117,9 @@ show_message_dialog(	CelluloidMainWindow *wnd,
 static void
 update_display_fps(CelluloidView *view);
 
+static void
+show_open_track_dialog(CelluloidView  *view, TrackType type);
+
 /* Dialog responses */
 static void
 open_dialog_response_handler(GtkDialog *dialog, gint response_id, gpointer data);
@@ -127,17 +130,9 @@ open_location_dialog_response_handler(	GtkDialog *dialog,
 					gpointer data );
 
 static void
-open_audio_track_dialog_response_handler(	GtkDialog *dialog,
-						gint response_id,
-						gpointer data );
-static void
-open_video_track_dialog_response_handler(	GtkDialog *dialog,
-						gint response_id,
-						gpointer data );
-static void
-open_subtitle_track_dialog_response_handler(	GtkDialog *dialog,
-						gint response_id,
-						gpointer data );
+open_track_dialog_response_handler(	GtkDialog *dialog,
+					gint response_id,
+					gpointer data );
 
 static void
 preferences_dialog_response_handler(	GtkDialog *dialog,
@@ -679,6 +674,54 @@ update_display_fps(CelluloidView *view)
 }
 
 static void
+show_open_track_dialog(CelluloidView  *view, TrackType type)
+{
+	const gchar *title = NULL;
+
+	switch(type)
+	{
+		case TRACK_TYPE_AUDIO:
+		title = _("Load Audio Track…");
+		break;
+
+		case TRACK_TYPE_VIDEO:
+		title = _("Load Video Track…");
+		break;
+
+		case TRACK_TYPE_SUBTITLE:
+		title = _("Load Subtitle Track…");
+		break;
+
+		default:
+		g_assert_not_reached();
+		break;
+	}
+
+	CelluloidFileChooser *chooser =	celluloid_file_chooser_new
+					(	title,
+						GTK_WINDOW(view),
+						GTK_FILE_CHOOSER_ACTION_OPEN );
+
+	g_object_set_data(	G_OBJECT(chooser),
+				"track-type",
+				(gpointer)type );
+
+	g_signal_connect(	chooser,
+				"response",
+				G_CALLBACK(open_track_dialog_response_handler),
+				view );
+
+	celluloid_file_chooser_set_default_filters
+		(	chooser,
+			type == TRACK_TYPE_AUDIO,
+			type == TRACK_TYPE_VIDEO,
+			FALSE,
+			type == TRACK_TYPE_SUBTITLE );
+
+	celluloid_file_chooser_show(chooser);
+}
+
+static void
 open_dialog_response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 {
 	GPtrArray *args = data;
@@ -736,60 +779,42 @@ open_location_dialog_response_handler(	GtkDialog *dialog,
 }
 
 static void
-open_audio_track_dialog_response_handler(	GtkDialog *dialog,
-						gint response_id,
-						gpointer data )
+open_track_dialog_response_handler(	GtkDialog *dialog,
+					gint response_id,
+					gpointer data )
 {
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
 		GSList *uri_list = gtk_file_chooser_get_filenames(chooser);
+		const gchar *name = NULL;
 
-		for(GSList *iter = uri_list; iter; iter = g_slist_next(iter))
+		TrackType type =
+			(TrackType)
+			g_object_get_data(G_OBJECT(dialog), "track-type");
+
+		switch(type)
 		{
-			g_signal_emit_by_name(data, "audio-track-load", *iter);
+			case TRACK_TYPE_AUDIO:
+			name = "audio-track-load";
+			break;
+
+			case TRACK_TYPE_VIDEO:
+			name = "video-track-load";
+			break;
+
+			case TRACK_TYPE_SUBTITLE:
+			name = "subtitle-track-load";
+			break;
+
+			default:
+			g_assert_not_reached();
+			break;
 		}
 
-		g_slist_free_full(uri_list, g_free);
-	}
-
-	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
-}
-
-static void
-open_video_track_dialog_response_handler(	GtkDialog *dialog,
-						gint response_id,
-						gpointer data )
-{
-	if(response_id == GTK_RESPONSE_ACCEPT)
-	{
-		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
-		GSList *uri_list = gtk_file_chooser_get_filenames(chooser);
-
 		for(GSList *iter = uri_list; iter; iter = g_slist_next(iter))
 		{
-			g_signal_emit_by_name(data, "video-track-load", *iter);
-		}
-
-		g_slist_free_full(uri_list, g_free);
-	}
-
-	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
-}
-
-static void
-open_subtitle_track_dialog_response_handler(	GtkDialog *dialog,
-						gint response_id,
-						gpointer data )
-{
-	if(response_id == GTK_RESPONSE_ACCEPT)
-	{
-		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
-		GSList *uri_list = gtk_file_chooser_get_filenames(chooser);
-
-		for(GSList *iter = uri_list; iter; iter = g_slist_next(iter))
-		{
-			g_signal_emit_by_name(data, "subtitle-track-load", *iter);
+			g_signal_emit_by_name(data, name, *iter);
 		}
 
 		g_slist_free_full(uri_list, g_free);
@@ -1406,61 +1431,19 @@ celluloid_view_show_open_location_dialog(CelluloidView *view, gboolean append)
 void
 celluloid_view_show_open_audio_track_dialog(CelluloidView *view)
 {
-	CelluloidFileChooser *chooser =	celluloid_file_chooser_new
-					(	_("Load Audio Track…"),
-						GTK_WINDOW(view),
-						GTK_FILE_CHOOSER_ACTION_OPEN );
-
-	g_signal_connect
-		(	chooser,
-			"response",
-			G_CALLBACK(open_audio_track_dialog_response_handler),
-			view );
-
-	celluloid_file_chooser_set_default_filters
-		(chooser, TRUE, FALSE, FALSE, FALSE);
-
-	celluloid_file_chooser_show(chooser);
+	show_open_track_dialog(view, TRACK_TYPE_AUDIO);
 }
 
 void
 celluloid_view_show_open_video_track_dialog(CelluloidView *view)
 {
-	CelluloidFileChooser *chooser =	celluloid_file_chooser_new
-					(	_("Load Video Track…"),
-						GTK_WINDOW(view),
-						GTK_FILE_CHOOSER_ACTION_OPEN );
-
-	g_signal_connect
-		(	chooser,
-			"response",
-			G_CALLBACK(open_video_track_dialog_response_handler),
-			view );
-
-	celluloid_file_chooser_set_default_filters
-		(chooser, FALSE, TRUE, FALSE, FALSE);
-
-	celluloid_file_chooser_show(chooser);
+	show_open_track_dialog(view, TRACK_TYPE_VIDEO);
 }
 
 void
 celluloid_view_show_open_subtitle_track_dialog(CelluloidView *view)
 {
-	CelluloidFileChooser *chooser =	celluloid_file_chooser_new
-					(	_("Load Subtitle Track…"),
-						GTK_WINDOW(view),
-						GTK_FILE_CHOOSER_ACTION_OPEN );
-
-	g_signal_connect
-		(	chooser,
-			"response",
-			G_CALLBACK(open_subtitle_track_dialog_response_handler),
-			view );
-
-	celluloid_file_chooser_set_default_filters
-		(chooser, FALSE, FALSE, FALSE, TRUE);
-
-	celluloid_file_chooser_show(chooser);
+	show_open_track_dialog(view, TRACK_TYPE_SUBTITLE);
 }
 
 void
