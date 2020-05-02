@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 gnome-mpv
+ * Copyright (c) 2015-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -161,7 +161,9 @@ static GMenu *
 build_video_track_menu(const GPtrArray *list)
 {
 	return	build_menu_from_track_list
-		(list, "win.set-video-track", NULL);
+		(	list,
+			"win.set-video-track",
+			"win.load-track('video-add')" );
 }
 
 static GMenu *

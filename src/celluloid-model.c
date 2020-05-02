@@ -1004,6 +1004,13 @@ celluloid_model_load_audio_track(CelluloidModel *model, const gchar *filename)
 }
 
 void
+celluloid_model_load_video_track(CelluloidModel *model, const gchar *filename)
+{
+	celluloid_mpv_load_track
+		(CELLULOID_MPV(model), filename, TRACK_TYPE_VIDEO);
+}
+
+void
 celluloid_model_load_subtitle_track(	CelluloidModel *model,
 					const gchar *filename )
 {

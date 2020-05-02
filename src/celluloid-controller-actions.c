@@ -484,6 +484,10 @@ load_track_handler(GSimpleAction *action, GVariant *param, gpointer data)
 	{
 		celluloid_view_show_open_audio_track_dialog(view);
 	}
+	else if(g_strcmp0(cmd_name, "video-add") == 0)
+	{
+		celluloid_view_show_open_video_track_dialog(view);
+	}
 	else if(g_strcmp0(cmd_name, "sub-add") == 0)
 	{
 		celluloid_view_show_open_subtitle_track_dialog(view);

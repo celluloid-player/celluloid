@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -731,17 +731,23 @@ celluloid_mpv_load_track(CelluloidMpv *mpv, const gchar *uri, TrackType type)
 	const gchar *cmd[3] = {NULL};
 	gchar *path = g_filename_from_uri(uri, NULL, NULL);
 
-	if(type == TRACK_TYPE_AUDIO)
+	switch(type)
 	{
+		case TRACK_TYPE_AUDIO:
 		cmd[0] = "audio-add";
-	}
-	else if(type == TRACK_TYPE_SUBTITLE)
-	{
+		break;
+
+		case TRACK_TYPE_VIDEO:
+		cmd[0] = "video-add";
+		break;
+
+		case TRACK_TYPE_SUBTITLE:
 		cmd[0] = "sub-add";
-	}
-	else
-	{
+		break;
+
+		default:
 		g_assert_not_reached();
+		break;
 	}
 
 	cmd[1] = path?:uri;

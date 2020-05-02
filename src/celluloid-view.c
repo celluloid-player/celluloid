@@ -131,6 +131,10 @@ open_audio_track_dialog_response_handler(	GtkDialog *dialog,
 						gint response_id,
 						gpointer data );
 static void
+open_video_track_dialog_response_handler(	GtkDialog *dialog,
+						gint response_id,
+						gpointer data );
+static void
 open_subtitle_track_dialog_response_handler(	GtkDialog *dialog,
 						gint response_id,
 						gpointer data );
@@ -753,6 +757,27 @@ open_audio_track_dialog_response_handler(	GtkDialog *dialog,
 }
 
 static void
+open_video_track_dialog_response_handler(	GtkDialog *dialog,
+						gint response_id,
+						gpointer data )
+{
+	if(response_id == GTK_RESPONSE_ACCEPT)
+	{
+		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+		GSList *uri_list = gtk_file_chooser_get_filenames(chooser);
+
+		for(GSList *iter = uri_list; iter; iter = g_slist_next(iter))
+		{
+			g_signal_emit_by_name(data, "video-track-load", *iter);
+		}
+
+		g_slist_free_full(uri_list, g_free);
+	}
+
+	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
+}
+
+static void
 open_subtitle_track_dialog_response_handler(	GtkDialog *dialog,
 						gint response_id,
 						gpointer data )
@@ -1188,6 +1213,16 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			G_TYPE_NONE,
 			1,
 			G_TYPE_STRING );
+	g_signal_new(	"video-track-load",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
 	g_signal_new(	"subtitle-track-load",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1384,6 +1419,26 @@ celluloid_view_show_open_audio_track_dialog(CelluloidView *view)
 
 	celluloid_file_chooser_set_default_filters
 		(chooser, TRUE, FALSE, FALSE, FALSE);
+
+	celluloid_file_chooser_show(chooser);
+}
+
+void
+celluloid_view_show_open_video_track_dialog(CelluloidView *view)
+{
+	CelluloidFileChooser *chooser =	celluloid_file_chooser_new
+					(	_("Load Video Track…"),
+						GTK_WINDOW(view),
+						GTK_FILE_CHOOSER_ACTION_OPEN );
+
+	g_signal_connect
+		(	chooser,
+			"response",
+			G_CALLBACK(open_video_track_dialog_response_handler),
+			view );
+
+	celluloid_file_chooser_set_default_filters
+		(chooser, FALSE, TRUE, FALSE, FALSE);
 
 	celluloid_file_chooser_show(chooser);
 }

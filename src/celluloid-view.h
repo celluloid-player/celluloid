@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -44,6 +44,9 @@ celluloid_view_show_open_location_dialog(CelluloidView *view, gboolean append);
 
 void
 celluloid_view_show_open_audio_track_dialog(CelluloidView *view);
+
+void
+celluloid_view_show_open_video_track_dialog(CelluloidView *view);
 
 void
 celluloid_view_show_open_subtitle_track_dialog(CelluloidView *view);

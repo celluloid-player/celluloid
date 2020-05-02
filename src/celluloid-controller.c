@@ -80,6 +80,9 @@ static void
 audio_track_load_handler(CelluloidView *view, const gchar *uri, gpointer data);
 
 static void
+video_track_load_handler(CelluloidView *view, const gchar *uri, gpointer data);
+
+static void
 subtitle_track_load_handler(	CelluloidView *view,
 				const gchar *uri,
 				gpointer data );
@@ -460,6 +463,12 @@ audio_track_load_handler(CelluloidView *view, const gchar *uri, gpointer data)
 }
 
 static void
+video_track_load_handler(CelluloidView *view, const gchar *uri, gpointer data)
+{
+	celluloid_model_load_video_track(CELLULOID_CONTROLLER(data)->model, uri);
+}
+
+static void
 subtitle_track_load_handler(	CelluloidView *view,
 				const gchar *uri,
 				gpointer data )
@@ -721,6 +730,10 @@ connect_signals(CelluloidController *controller)
 	g_signal_connect(	controller->view,
 				"audio-track-load",
 				G_CALLBACK(audio_track_load_handler),
+				controller );
+	g_signal_connect(	controller->view,
+				"video-track-load",
+				G_CALLBACK(video_track_load_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"subtitle-track-load",
