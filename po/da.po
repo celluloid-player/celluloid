@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"POT-Creation-Date: 2020-05-09 13:53+0700\n"
 "PO-Revision-Date: 2020-04-07 05:54-0400\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish\n"
@@ -71,7 +71,7 @@ msgid "Whether or not to create new windows when there is already an instance"
 msgstr "Hvorvidt nye vinduer skal oprettes når der allerede er en instans"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
-#: src/celluloid-application.c:570
+#: src/celluloid-application.c:575
 msgid "Options to pass to mpv"
 msgstr "Tilvalg som skal videregives til mpv"
 
@@ -96,58 +96,60 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Hvorvidt understøttelse af MPRIS skal aktiveres"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid ""
-"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "Hvorvidt understøttelse af GNOME-Settings-Daemon-baserede medietaster skal "
 "aktiveres"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
 msgid "Whether or not to prefetch metadata for non-current playlist entries"
-msgstr ""
-"Hvorvidt metadata skal hentes på forhånd for poster som ikke er i brug"
+msgstr "Hvorvidt metadata skal hentes på forhånd for poster som ikke er i brug"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with"
-" an error"
+"Whether or not to display an error message when playback of a file ends with "
+"an error"
 msgstr ""
-"Hvorvidt der skal vises en fejlmeddelelse når afspilningen af en fil slutter"
-" med en fejl"
+"Hvorvidt der skal vises en fejlmeddelelse når afspilningen af en fil slutter "
+"med en fejl"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:136
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:132
+msgid "Whether or not to inhibit session idling when something is playing"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
 msgstr "Vinduets bredde"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:142
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
 msgid "Height of the window"
 msgstr "Vinduets højde"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:154
 msgid "Whether or not the window is maximized"
 msgstr "Om vinduet er maksimeret eller ej"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
 msgid "Volume of player"
 msgstr "Afspillerens lydstyrke"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "Om afspilningslisten skal fortsætte i løkke når slutningen er nået"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Width of the playlist"
 msgstr "Afspilningslistens bredde"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Show or not show the controls"
 msgstr "Vis eller skjul kontrolelementerne"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:185
 msgid "Show or not show the playlist"
 msgstr "Vis eller skjul afspilningsliste"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:185
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:191
 msgid "URI of the last folder accessed"
 msgstr "URI'en til mappen som der sidst var adgang til"
 
@@ -169,11 +171,11 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid er en simpel medieafspiller som kan afspille næsten alle video- og"
-" lydformater. Den understøtter afspilningslister og "
-"MPRIS2-medieafspillerstyringer. Celluloids design følger GNOME Human "
-"Interface Guidelines men kan også tilpasses andre systemer der ikke bruger "
-"klientside-dekorationer (CSD). Den er baseret på mpv-biblioteket og GTK."
+"Celluloid er en simpel medieafspiller som kan afspille næsten alle video- og "
+"lydformater. Den understøtter afspilningslister og MPRIS2-"
+"medieafspillerstyringer. Celluloids design følger GNOME Human Interface "
+"Guidelines men kan også tilpasses andre systemer der ikke bruger klientside-"
+"dekorationer (CSD). Den er baseret på mpv-biblioteket og GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -196,112 +198,169 @@ msgid "The Celluloid Developers"
 msgstr "Celluloids udviklere"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:64
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:103
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:134
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:162
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:215
 msgid "This release contains the following changes:"
 msgstr "Udgivelsen indeholder følgende ændringer:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
+msgid ""
+"Adjust the range of volume button based on the value of the volume-max "
+"property."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:42
+msgid "Retain window maximization state across sessions."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
+msgid "Retain loop state across sessions."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
+msgid "Implement playlist search."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:51
+msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
+msgid "Correctly handle quotes and escape sequences in extra mpv options."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
+msgid "Display time at cursor position when hovering the seek bar."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
+msgid ""
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
+"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"equivalent to passing '--vf=vflip' to mpv."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
+msgid ""
+"Add support for configuring dead zone, an area in which mouse movement will "
+"not cause controls to be shown."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
+msgid "Make window sizing work correctly with HiDPI displays."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
+msgid "Add Finnish translation by Kimmo Kujansuu."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
+msgid "Add Slovenian translation by @bertronika."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:149
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:208
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:236
+msgid "This listing is incomplete. See git log for complete changelog."
+msgstr "Listen er ikke komplet. Se git-loggen for en komplet ændringslog."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:91
 msgid "Add Persian translation by @danialbehzadi"
 msgstr "Tilføj persisk oversættelse af @danialbehzadi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
 msgid "Add Ukranian translation by @vl-nix"
 msgstr "Tilføj ukrainsk oversættelse af @vl-nix"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option "
-"--border"
+"Add support for showing/hiding window decorations using the mpv option --"
+"border"
 msgstr ""
 "Tilføj understøttelse til at vise/skjule vinduesdekorationer med mpv "
 "tilvalget --border"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:100
 msgid "Add menu item for opening discs"
 msgstr "Tilføj menupunkt til at åbne diske"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:103
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
 "Bloker automatisk skjulning af markør når lysstyrke-pop op er åben i "
 "vinduestilstand"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:53
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
 msgid "Fix crash with mpv 0.30"
 msgstr "Ret nedbryd med mpv 0.30"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:155
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:183
-msgid "This listing is incomplete. See git log for complete changelog."
-msgstr "Listen er ikke komplet. Se git-loggen for en komplet ændringslog."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
 msgid "Rename project to Celluloid"
 msgstr "Omdøb projektet til Celluloid"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
 msgid "Add Turkish translation by @TeknoMobil"
 msgstr "Tilføj tyrkisk oversættelse af @TeknoMobil"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
 msgid "Add Esperanto translation by @F3nd0"
 msgstr "Tilføj esperanto oversættelse af @F3nd0"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
 msgid "Migrate from opengl-cb to the new render API"
 msgstr "Migrer fra opengl-cb til den nye gengivelses API"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
 msgid "Handle numpad keybindings"
 msgstr "Håndter tastebindinger for det numeriske tastatur"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
 msgid "Handle unicode keybindings"
 msgstr "Håndter tastebindinger for unicode"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:139
 msgid "Forward media key events to mpv"
 msgstr "Viderestil medietast-hændelser til mpv"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:142
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
 "Tilføj dconf-nøgle til styring af markørens hastighed hvor styringer skjules"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
 msgid "Add option for suppressing playback errors"
 msgstr "Tilføj tilvalg til undertrykkelse af afspilningsfejl"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:107
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
 msgid "Split up the General tab in the preferences dialog"
 msgstr "Opdeling af Generelt-fanebladet i præferencer-dialogen."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
 "Forbedret opførsel når afspilningslisten vises/skjules under fliselæggende "
 "vindueshåndteringer"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Move app menu items to primary menu"
 msgstr "Flyt punkterne fra programmenuen til den primære menu"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:116
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Use separate MPRIS DBus connection for each window"
 msgstr "Brug separat MPRIS DBus-forbindelse til hvert vindue"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:172
 msgid "Add support for MPRIS property LoopStatus"
 msgstr "Tilføj understøttelse af MPRIS-egenskaben LoopStatus"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:122
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:175
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
@@ -309,67 +368,66 @@ msgstr ""
 "Tilføj tilvalget --mpv-options til indstilling af vilkårlige tilvalg fra "
 "kommandolinjen"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:138
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:191
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
 msgstr "Indstil standardmappen for skærmbilleder til XDG_PICTURES_DIR"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:141
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and "
-"--autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
+"autofit-smaller"
 msgstr ""
-"Forbedret håndtering af --window-scale, --autofit, --autofit-larger og "
-"--autofit-smaller"
+"Forbedret håndtering af --window-scale, --autofit, --autofit-larger og --"
+"autofit-smaller"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
 msgid "Add command line option for setting WM_ROLE"
 msgstr "Tilføj kommandolinjetilvalg for indstilling af WM_ROLE"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:201
 msgid "Add context menu item for removing playlist items"
 msgstr "Tilføj punkt i genvejsmenuen til fjernelse af afspilningslistepunkter"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:151
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:204
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
 "Tilføj punkt i genvejsmenuen til kopiering af placering for "
 "afspilningslistepunkter"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
 "Tilføjet valgmulighed for at få spring over-knappen til at ændre "
 "afspilningslistepunkter frem for kapitler."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:170
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
 msgid "Make the file chooser accept non-local locations"
 msgstr "Fået filvælgeren til at accepterer placeringer som ikke er lokale"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:173
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
 msgid "Add right-click menu entry for looping a single file"
 msgstr "Tilføj menupunkt ved højreklik for at afspille en enkelt fil i løkke"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:176
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
 "Håndter hændelser af egenskabsændring for fuldskærm og vinduesskalering"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:179
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr ""
-"Tilføjet valgmulighed for automatisk at skjule musemarkøren i "
-"vinduestilstand"
+"Tilføjet valgmulighed for automatisk at skjule musemarkøren i vinduestilstand"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
 msgid "The main window showing the application in action"
 msgstr "Hovedvinduet som viser programmet i funktion"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:197
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:250
 msgid "The main window with CSD disabled"
 msgstr "Hovedvinduet med deaktiveret skærmdisplay"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:201
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:254
 msgid "The main window with playlist open"
 msgstr "Hovedvinduet med åben afspilningsliste"
 
@@ -381,13 +439,7 @@ msgstr "Multimedieafspiller"
 msgid "Play movies and videos"
 msgstr "Afspil film og videoer"
 
-#. Translators: This is an icon name, don't translate!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:9
-msgid "io.github.celluloid_player.Celluloid"
-msgstr "io.github.celluloid_player.Celluloid"
-
-#. Translators: Search terms to find this application. Don't translate the
-#. semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Video;Film;Klip;Serier;Afspiller;DVD;TV;Disk;Album;Musik;GNOME;mpv;"
@@ -396,71 +448,75 @@ msgstr "Video;Film;Klip;Serier;Afspiller;DVD;TV;Disk;Album;Musik;GNOME;mpv;"
 msgid "New Window"
 msgstr "Nyt vindue"
 
-#: src/celluloid-application.c:492
+#: src/celluloid-application.c:495
 msgid "Playing"
 msgstr "Afspiller"
 
-#: src/celluloid-application.c:546
+#: src/celluloid-application.c:551
 msgid "Show release version"
 msgstr "Vis udgivelsesversion"
 
-#: src/celluloid-application.c:554
+#: src/celluloid-application.c:559
 msgid "Enqueue"
 msgstr "Sæt i kø"
 
-#: src/celluloid-application.c:562
+#: src/celluloid-application.c:567
 msgid "Create a new window"
 msgstr "Opret et nyt vindue"
 
-#: src/celluloid-application.c:571
+#: src/celluloid-application.c:576
 msgid "OPTIONS"
 msgstr "TILVALG"
 
-#: src/celluloid-application.c:578
+#: src/celluloid-application.c:583
 msgid "Set the window role"
 msgstr "Sæt vinduesrollen"
 
-#: src/celluloid-application.c:586
+#: src/celluloid-application.c:591
 msgid "Don't connect to an already-running instance"
 msgstr "Opret ikke forbindelse til en instans som allerede kører"
 
-#: src/celluloid-control-box.c:351
+#: src/celluloid-control-box.c:362
 msgid "Pause"
 msgstr "Pause"
 
-#: src/celluloid-control-box.c:351 src/celluloid-control-box.c:543
+#: src/celluloid-control-box.c:362 src/celluloid-control-box.c:565
 msgid "Play"
 msgstr "Afspil"
 
-#: src/celluloid-control-box.c:546
+#: src/celluloid-control-box.c:568
 msgid "Stop"
 msgstr "Stop"
 
-#: src/celluloid-control-box.c:549
+#: src/celluloid-control-box.c:571
 msgid "Forward"
 msgstr "Fremad"
 
-#: src/celluloid-control-box.c:552
+#: src/celluloid-control-box.c:574
 msgid "Rewind"
 msgstr "Baglæns"
 
-#: src/celluloid-control-box.c:555
+#: src/celluloid-control-box.c:577
 msgid "Next Chapter"
 msgstr "Næste kapitel"
 
-#: src/celluloid-control-box.c:558
+#: src/celluloid-control-box.c:580
 msgid "Previous Chapter"
 msgstr "Forrige kapitel"
 
-#: src/celluloid-control-box.c:561
+#: src/celluloid-control-box.c:583
 msgid "Loop Playlist"
 msgstr "Afspil afspilningsliste i løkke"
 
-#: src/celluloid-control-box.c:564 src/celluloid-header-bar.c:91
+#: src/celluloid-control-box.c:586
+msgid "Shuffle Playlist"
+msgstr ""
+
+#: src/celluloid-control-box.c:589 src/celluloid-header-bar.c:91
 msgid "Toggle Fullscreen"
 msgstr "Fuldskærm til/fra"
 
-#: src/celluloid-controller.c:976 src/celluloid-view.c:1425
+#: src/celluloid-controller.c:992 src/celluloid-view.c:1485
 msgid "Error"
 msgstr "Fejl"
 
@@ -494,6 +550,7 @@ msgstr "Intet"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
+#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Ukendt"
@@ -504,87 +561,88 @@ msgstr "_Indlæs eksternt…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#: src/celluloid-menu.c:205
+#.
+#: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Ingen disk fundet"
 
-#: src/celluloid-menu.c:233
+#: src/celluloid-menu.c:235
 msgid "_File"
 msgstr "_Fil"
 
-#: src/celluloid-menu.c:234 src/celluloid-menu.c:315
+#: src/celluloid-menu.c:236 src/celluloid-menu.c:317
 msgid "_Open…"
 msgstr "_Åbn…"
 
-#: src/celluloid-menu.c:235 src/celluloid-menu.c:316
+#: src/celluloid-menu.c:237 src/celluloid-menu.c:318
 msgid "Open _Location…"
 msgstr "Åbn _placering…"
 
-#: src/celluloid-menu.c:236
+#: src/celluloid-menu.c:238
 msgid "Open _Disc…"
 msgstr "Åbn _disk…"
 
-#: src/celluloid-menu.c:237 src/celluloid-menu.c:287
+#: src/celluloid-menu.c:239 src/celluloid-menu.c:289
 msgid "_Save Playlist"
 msgstr "_Gem afspilningsliste"
 
-#: src/celluloid-menu.c:238 src/celluloid-menu.c:319
+#: src/celluloid-menu.c:240 src/celluloid-menu.c:321
 msgid "_New Window"
 msgstr "_Nyt vindue"
 
-#: src/celluloid-menu.c:239
+#: src/celluloid-menu.c:241
 msgid "_Quit"
 msgstr "_Afslut"
 
-#: src/celluloid-menu.c:240
+#: src/celluloid-menu.c:242
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: src/celluloid-menu.c:241 src/celluloid-menu.c:293
+#: src/celluloid-menu.c:243 src/celluloid-menu.c:295
 msgid "_Preferences"
 msgstr "_Præferencer"
 
-#: src/celluloid-menu.c:242 src/celluloid-menu.c:289
+#: src/celluloid-menu.c:244 src/celluloid-menu.c:291
 msgid "_Video Track"
 msgstr "_Videospor"
 
-#: src/celluloid-menu.c:243 src/celluloid-menu.c:290
+#: src/celluloid-menu.c:245 src/celluloid-menu.c:292
 msgid "_Audio Track"
 msgstr "_Lydspor"
 
-#: src/celluloid-menu.c:244 src/celluloid-menu.c:291
+#: src/celluloid-menu.c:246 src/celluloid-menu.c:293
 msgid "S_ubtitle Track"
 msgstr "_Undertekstspor"
 
-#: src/celluloid-menu.c:245
+#: src/celluloid-menu.c:247
 msgid "_View"
 msgstr "_Vis"
 
-#: src/celluloid-menu.c:246 src/celluloid-menu.c:284
+#: src/celluloid-menu.c:248 src/celluloid-menu.c:286
 msgid "_Toggle Controls"
 msgstr "_Kontrolelementer til/fra"
 
-#: src/celluloid-menu.c:247 src/celluloid-menu.c:286
+#: src/celluloid-menu.c:249 src/celluloid-menu.c:288
 msgid "_Toggle Playlist"
 msgstr "_Afspilningsliste til/fra"
 
-#: src/celluloid-menu.c:248
+#: src/celluloid-menu.c:250
 msgid "_Fullscreen"
 msgstr "_Fuldskærm"
 
-#: src/celluloid-menu.c:249
+#: src/celluloid-menu.c:251
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: src/celluloid-menu.c:250 src/celluloid-menu.c:294
+#: src/celluloid-menu.c:252 src/celluloid-menu.c:296
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastaturgenveje"
 
-#: src/celluloid-menu.c:251 src/celluloid-menu.c:295
+#: src/celluloid-menu.c:253 src/celluloid-menu.c:297
 msgid "_About Celluloid"
 msgstr "_Om Celluloid"
 
-#: src/celluloid-menu.c:317
+#: src/celluloid-menu.c:319
 msgid "Open _Disc"
 msgstr "Åbn _disk"
 
@@ -1036,7 +1094,19 @@ msgstr "Afspilning"
 msgid "Seeking"
 msgstr "Søgning"
 
-#: src/celluloid-view.c:784
+#: src/celluloid-view.c:684
+msgid "Load Audio Track…"
+msgstr "Indlæs lydspor…"
+
+#: src/celluloid-view.c:688
+msgid "Load Video Track…"
+msgstr ""
+
+#: src/celluloid-view.c:692
+msgid "Load Subtitle Track…"
+msgstr "Indlæs undertekstspor…"
+
+#: src/celluloid-view.c:847
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1044,38 +1114,30 @@ msgstr ""
 "Aktivering eller deaktivering af klientsidedekorationer kræver genstart før "
 "ændringerne træder i kraft."
 
-#: src/celluloid-view.c:1300
+#: src/celluloid-view.c:1382
 msgid "Add File to Playlist"
 msgstr "Tilføj fil til afspilningsliste"
 
-#: src/celluloid-view.c:1301
+#: src/celluloid-view.c:1383
 msgid "Open File"
 msgstr "Åbn fil"
 
-#: src/celluloid-view.c:1330
+#: src/celluloid-view.c:1412
 msgid "Add Location to Playlist"
 msgstr "Tilføj placering til afspilningsliste"
 
-#: src/celluloid-view.c:1331
+#: src/celluloid-view.c:1413
 msgid "Open Location"
 msgstr "Åbn placering"
 
-#: src/celluloid-view.c:1353
-msgid "Load Audio Track…"
-msgstr "Indlæs lydspor…"
-
-#: src/celluloid-view.c:1373
-msgid "Load Subtitle Track…"
-msgstr "Indlæs undertekstspor…"
-
-#: src/celluloid-view.c:1399
+#: src/celluloid-view.c:1459
 msgid "Save Playlist"
 msgstr "Gem afspilningsliste"
 
-#: src/celluloid-view.c:1465
+#: src/celluloid-view.c:1525
 msgid "A GTK frontend for MPV"
 msgstr "En GTK-frontend til MPV"
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1535
 msgid "translator-credits"
 msgstr "scootergrisen"
