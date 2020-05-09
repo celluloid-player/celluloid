@@ -125,7 +125,7 @@ be found [here](https://github.com/mpv-player/mpv/wiki/User-Scripts).
 
 Celluloid defines a set of keybindings in the macro `DEFAULT_KEYBINDS`, which
 can be found in
-[src/gmpv_def.h](https://github.com/celluloid/celluloid/blob/master/src/gmpv_def.h).
+[src/celluloid-def.h](https://github.com/celluloid-player/celluloid/blob/master/src/celluloid-def.h).
 The syntax used is exactly the same as mpv's `input.conf`. These keybindings are
 applied on top of default keybindings provided by mpv.
 
