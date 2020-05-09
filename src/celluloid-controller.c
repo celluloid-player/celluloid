@@ -1290,11 +1290,12 @@ celluloid_controller_autofit(	CelluloidController *controller,
 	{
 		gint new_width = (gint)(multiplier*(gdouble)width);
 		gint new_height = (gint)(multiplier*(gdouble)height);
+		gint scale = celluloid_view_get_scale_factor(controller->view);
 
 		g_debug("Resizing window to %dx%d", new_width, new_height);
 		celluloid_view_resize_video_area(	controller->view,
-							new_width,
-							new_height );
+							new_width/scale,
+							new_height/scale );
 	}
 
 	g_free(vid);
