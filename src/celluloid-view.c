@@ -55,6 +55,7 @@ enum
 struct _CelluloidView
 {
 	CelluloidMainWindow parent;
+	gboolean disposed;
 
 	/* Properties */
 	gint playlist_count;
@@ -85,6 +86,9 @@ G_DEFINE_TYPE(CelluloidView, celluloid_view, CELLULOID_TYPE_MAIN_WINDOW)
 
 static void
 constructed(GObject *object);
+
+static void
+dispose(GObject *object);
 
 static void
 set_property(	GObject *object,
@@ -290,6 +294,20 @@ constructed(GObject *object)
 				"rows-reordered",
 				G_CALLBACK(playlist_row_reordered_handler),
 				view );
+}
+
+static void
+dispose(GObject *object)
+{
+	CelluloidView *view = CELLULOID_VIEW(object);
+
+	if(!view->disposed)
+	{
+		celluloid_main_window_save_state(CELLULOID_MAIN_WINDOW(object));
+		view->disposed = TRUE;
+	}
+
+	G_OBJECT_CLASS(celluloid_view_parent_class)->dispose(object);
 }
 
 static void
@@ -1037,6 +1055,7 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 	GParamSpec *pspec = NULL;
 
 	object_class->constructed = constructed;
+	object_class->dispose = dispose;
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
 
@@ -1315,6 +1334,7 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 static void
 celluloid_view_init(CelluloidView *view)
 {
+	view->disposed = FALSE;
 	view->playlist_count = 0;
 	view->pause = FALSE;
 	view->volume = 0.0;
