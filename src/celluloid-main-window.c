@@ -606,12 +606,13 @@ celluloid_main_window_update_track_list(	CelluloidMainWindow *wnd,
 
 	priv->track_list = track_list;
 
+	celluloid_video_area_update_track_list
+		(CELLULOID_VIDEO_AREA(priv->vid_area), track_list);
+
 	if(celluloid_main_window_get_csd_enabled(wnd))
 	{
 		celluloid_header_bar_update_track_list
 			(CELLULOID_HEADER_BAR(priv->header_bar), track_list);
-		celluloid_video_area_update_track_list
-			(CELLULOID_VIDEO_AREA(priv->vid_area), track_list);
 	}
 	else
 	{
