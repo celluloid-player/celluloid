@@ -670,22 +670,31 @@ celluloid_main_window_resize_video_area(	CelluloidMainWindow *wnd,
 						gint width,
 						gint height )
 {
-	CelluloidMainWindowPrivate *priv = get_private(wnd);
-
-	g_signal_connect(	priv->vid_area,
-				"size-allocate",
-				G_CALLBACK(resize_video_area_finalize),
-				wnd );
-
-	priv->resize_target[0] = width;
-	priv->resize_target[1] = height;
-	resize_to_target(wnd);
-
-	/* The size may not change, so this is needed to ensure that
-	 * resize_video_area_finalize() will be called so that the event handler
-	 * will be disconnected.
+	/* As of GNOME 3.36, attempting to resize the window while it is
+	 * maximized will cause the UI to stop rendering. Resizing while
+	 * fullscreen is unaffected, but it doesn't make sense to resize there
+	 * either.
 	 */
-	gtk_widget_queue_allocate(priv->vid_area);
+	if(	!get_private(wnd)->fullscreen &&
+		!gtk_window_is_maximized(GTK_WINDOW(wnd)) )
+	{
+		CelluloidMainWindowPrivate *priv = get_private(wnd);
+
+		g_signal_connect(	priv->vid_area,
+					"size-allocate",
+					G_CALLBACK(resize_video_area_finalize),
+					wnd );
+
+		priv->resize_target[0] = width;
+		priv->resize_target[1] = height;
+		resize_to_target(wnd);
+
+		/* The size may not change, so this is needed to ensure that
+		 * resize_video_area_finalize() will be called so that the event handler
+		 * will be disconnected.
+		 */
+		gtk_widget_queue_allocate(priv->vid_area);
+	}
 }
 
 void
