@@ -179,8 +179,11 @@ parse_option(const gchar *str, gchar **option, gchar **value)
 	}
 
 	str = parse_key(str, option);
-	str = (str && *str == '=') ? str + 1 : NULL;
-	str = parse_value(str, value);
+
+	if(str && *str == '=')
+	{
+		str = parse_value(++str, value);
+	}
 
 	return str;
 }
