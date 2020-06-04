@@ -1111,9 +1111,9 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 		(	"playlist-pos",
 			"Playlist position",
 			"The position of the current item in playlist",
-			0,
+			-1,
 			G_MAXINT,
-			0,
+			-1,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_PLAYLIST_POS, pspec);
 
