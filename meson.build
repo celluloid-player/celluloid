@@ -60,5 +60,6 @@ subdir('src')
 subdir('data')
 subdir('docs')
 subdir('po')
+subdir('test')
 
 meson.add_install_script('meson-post-install.py')
