@@ -102,9 +102,10 @@ your keyboard.
 
 Celluloid can be configured using the preferences dialog accessible via the
 "Preferences" menu item. Additional configuration options can be set from an
-external file using the same syntax as mpv's `mpv.conf`. See mpv's man page for
-the full list of options. The file must be specified and enabled in the
-preferences dialog under the "MPV Configuration" section.
+external file using the same syntax as mpv's `mpv.conf`.
+See [mpv's manual](https://mpv.io/manual/stable/) for the full list of options.
+The file must be specified and enabled in the preferences dialog under the "MPV
+Configuration" section.
 
 Options can also be set using the "Extra MPV Options" text box in the
 preferences dialog. The syntax used is the same as mpv's command line options.
