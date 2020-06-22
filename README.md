@@ -107,8 +107,12 @@ See [mpv's manual](https://mpv.io/manual/stable/) for the full list of options.
 The file must be specified and enabled in the preferences dialog under the "MPV
 Configuration" section.
 
-Options can also be set using the "Extra MPV Options" text box in the
-preferences dialog. The syntax used is the same as mpv's command line options.
+It is also possible to set mpv options by putting the options &mdash; as you
+would pass to mpv on the command line &mdash; in `Extra MPV Options` text box in
+the preferences dialog. You can also pass options directly on the command line
+by adding `mpv-` prefix to the option name. For example, using the option
+`--mpv-vf=flip` when launching Celluloid is equivalent to using `--vf=flip` in
+mpv.
 
 ### User Scripts
 
