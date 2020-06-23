@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-12 23:48+0700\n"
-"PO-Revision-Date: 2020-04-22 01:59-0400\n"
+"PO-Revision-Date: 2020-05-19 06:10-0400\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -109,7 +109,7 @@ msgstr "Näytetäänkö virheilmoitus, kun tiedoston toisto päättyy virheeseen
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Whether or not to inhibit session idling when something is playing"
-msgstr ""
+msgstr "Estetäänkö istunnon joutokäynti kun jotain soitetaan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -204,31 +204,31 @@ msgstr "Tämä julkaisu sisältää seuraavat muutokset:"
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
-msgstr ""
+msgstr "Säädä painikkeen aluetta äänenvoimakkuuden enimmäisarvon mukaan."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:42
 msgid "Retain window maximization state across sessions."
-msgstr ""
+msgstr "Säilytä ikkunan maksimitila istuntojen välillä."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
 msgid "Retain loop state across sessions."
-msgstr ""
+msgstr "Säilytä toisto tauotta koko istunnon ajan."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
 msgid "Implement playlist search."
-msgstr ""
+msgstr "Ota soittolistan haku käyttöön."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:51
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr ""
+msgstr "Päivitä pikanäppäinten luettelo pikanäppäimet-valintaikkunassa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
-msgstr ""
+msgstr "Käsitelle oikein lainaumerkkejä ja erikoismerkkejä MPV valinnoissa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
 msgid "Display time at cursor position when hovering the seek bar."
-msgstr ""
+msgstr "Näytä aika kohdistimessa kun siirrät hakupalkkia."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
@@ -236,24 +236,29 @@ msgid ""
 " mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
+"Jätä väliin '--mpv-options'. Asetukset, jotka alkavat '--mpv-' voidaan "
+"asettaa mpv-asetusten sen sijaan. Esimerkiksi, '--mpv-vf=vflip' on "
+"Celluloidin vastaava ohitus '--vf=vflip' mpv:n tilalle."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
+"Lisää tuki kuolleiden alueiden määrittämiselle. Alue, jolla hiiren "
+"liikkuminen ei aiheuta ohjauksen kuvakkeita näkyviin."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
 msgid "Make window sizing work correctly with HiDPI displays."
-msgstr ""
+msgstr "Tee ikkunoiden mitoitus oikein HiDPI-näytöillä."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr ""
+msgstr "Lisätty Suomi kielipaketti lähettäjä Kimmo Kujansuu"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
 msgid "Add Slovenian translation by @bertronika."
-msgstr ""
+msgstr "Lisätty Slovenian kielipaketti lähettäjä @bertronika."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
@@ -506,7 +511,7 @@ msgstr "Toista soittolistaa tauotta"
 
 #: src/celluloid-control-box.c:586
 msgid "Shuffle Playlist"
-msgstr ""
+msgstr "Sekoita soittolista"
 
 #: src/celluloid-control-box.c:589 src/celluloid-header-bar.c:91
 msgid "Toggle Fullscreen"
@@ -1093,7 +1098,7 @@ msgstr "Lataa ääniraita…"
 
 #: src/celluloid-view.c:688
 msgid "Load Video Track…"
-msgstr ""
+msgstr "Lataa video…"
 
 #: src/celluloid-view.c:692
 msgid "Load Subtitle Track…"

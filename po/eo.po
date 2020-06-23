@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-09 13:53+0700\n"
+"POT-Creation-Date: 2019-07-07 00:28+0700\n"
 "PO-Revision-Date: 2020-03-28 01:43-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Esperanto\n"
@@ -90,7 +90,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Ĉu ŝalti subtenon de MPRIS"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "Ĉu ŝalti subtenon de aŭdovidaj klavoj surbaze de « GNOME-Settings-Daemon »"
 
@@ -100,8 +101,8 @@ msgstr "Ĉu antaŭlegi metadatumojn por nenunaj leglisteroj"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr "Ĉu montri erarmesaĝon kiam legado de dosiero finiĝas per eraro"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
@@ -164,8 +165,8 @@ msgid ""
 msgstr ""
 "Celuloido estas simpla plurmedia legilo, kiu povas legi preskaŭ ĉiuj videaj "
 "kaj sonaj formatoj. Ĝi regas leglistojn kaj plurmedilegilajn regilojn laŭ "
-"MPRIS2. La fasono de Celuloido laŭas la hominterfacajn gvidliniojn de GNOME, "
-"sed ankaŭ povasadaptiĝi por aliaj sistemoj, kiuj ne uzas klientflankajn "
+"MPRIS2. La fasono de Celuloido laŭas la hominterfacajn gvidliniojn de GNOME,"
+" sed ankaŭ povasadaptiĝi por aliaj sistemoj, kiuj ne uzas klientflankajn "
 "ornamaĵojn (KFO). Ĝi baziĝas sur la bibliotekoj mpv kaj GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
@@ -229,8 +230,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 
@@ -272,8 +273,8 @@ msgstr "Aldoni ukrajnlingvigon tradukon de @vl-nx"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Aldoni regadon por kaŝadon/malkaŝadon de fenestraj ornamaĵoj per la mpv-"
 "opcio --border"
@@ -285,7 +286,8 @@ msgstr "Aldoni menueron por malfermi lumdiskojn"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:103
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
-"Embarasi aŭtomatan kaŝiĝon de kursuro dum ŝanĝo de laŭteco en fenestra reĝimo"
+"Embarasi aŭtomatan kaŝiĝon de kursuro dum ŝanĝo de laŭteco en fenestra "
+"reĝimo"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
 msgid "Fix crash with mpv 0.30"
@@ -364,8 +366,8 @@ msgstr "Agordi la implicitan ekrankopian dosierujon al XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 "Plibonigi traktadon de « --window-scale », « --autofit », « --autofit-"
 "larger », kaj « --autofit-smaller »"
@@ -425,7 +427,8 @@ msgstr "Plurmedia legilo"
 msgid "Play movies and videos"
 msgstr "Legi filmojn kaj videojn"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Disko;DVD;Filmo;GNOME;KD;mpv;Muziko;Seriaĵo;Televido;TV;"
@@ -536,7 +539,6 @@ msgstr "Neniu"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Nekonata"
@@ -547,7 +549,6 @@ msgstr "En_legi eksteran…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Neniu lumdisko trovita"

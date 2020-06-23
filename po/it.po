@@ -1,13 +1,13 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
-# Luca Trevisani <loropo9043@smlmail.com>, 2020. #zanata
+# Luca Trevisani <lucatrev90@libero.it>, 2020. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-09 13:53+0700\n"
-"PO-Revision-Date: 2020-04-08 01:02-0400\n"
-"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2020-05-15 02:23-0400\n"
+"Last-Translator: Luca Trevisani <lucatrev90@libero.it>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Whether or not to automatically resize window to fit video"
-msgstr "Ridimensiona automaticamente o meno la finestra per adattarla al video"
+msgstr ""
+"Ridimensiona automaticamente o meno la finestra per adattarla al video"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable or disable dark theme"
@@ -96,7 +97,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Abilita o meno il supporto a MPRIS"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "Abilita o meno il supporto ai tasti multimediali di GNOME Settings Daemon"
 
@@ -107,8 +109,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr ""
 "Visualizza o meno un messaggio di errore quando la riproduzione di un file "
 "termina con un errore"
@@ -116,6 +118,8 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Whether or not to inhibit session idling when something is playing"
 msgstr ""
+"Consenti o meno l'inattivazione della sessione quando qualcosa è in "
+"riproduzione"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -173,8 +177,8 @@ msgid ""
 msgstr ""
 "Celluloid è un semplice lettore multimediale in grado di riprodurre "
 "praticamente tutti i formati audio e video. Supporta playlist e controlli "
-"MPRIS2 del lettore multimediale. Il design di Celluloid segue le linee guida "
-"GNOME Human Interface, ma può anche essere adattato per altri sistemi che "
+"MPRIS2 del lettore multimediale. Il design di Celluloid segue le linee guida"
+" GNOME Human Interface, ma può anche essere adattato per altri sistemi che "
 "non usano decorazioni lato client (CSD). Si basa su libmpv e GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
@@ -238,8 +242,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 
@@ -280,8 +284,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:100
@@ -365,8 +369,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
@@ -422,7 +426,8 @@ msgstr "Riproduttore multimediale"
 msgid "Play movies and videos"
 msgstr "Riproduci film e video"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Video;Film;Riproduttore;DVD;TV;Audio;Disco;Album;Musica;GNOME;mpv;"
@@ -533,7 +538,6 @@ msgstr "Nessuna"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Sconosciuta"
@@ -544,7 +548,6 @@ msgstr "_Importa..."
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Nessun disco trovato"

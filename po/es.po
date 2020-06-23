@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-09 13:53+0700\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
 "PO-Revision-Date: 2020-03-28 01:44-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Spanish\n"
@@ -49,7 +49,8 @@ msgstr "Ocultar automáticamente el puntero del ratón en el modo de ventana"
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr ""
-"La velocidad mínima del cursor a la que se ocultarán los controles flotantes."
+"La velocidad mínima del cursor a la que se ocultarán los controles "
+"flotantes."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
@@ -96,7 +97,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Activar la compatibilidad con MPRIS"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr "Activar la compatibilidad con las teclas multimedia de GNOME"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
@@ -105,8 +107,8 @@ msgstr "Precargar los metadatos de las listas de reproducción no actuales"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr ""
 "Mostrar un mensaje de error cuando la reproducción de un archivo finaliza "
 "con un error"
@@ -173,8 +175,8 @@ msgstr ""
 "prácticamente cualquier formato de vídeo y audio. Admite listas de "
 "reproducción y controles de reproducción MPRIS2. El diseño de Celuloide "
 "sigue las guías de interfaz de GNOME, pero también puede adaptarse a otros "
-"entornos que no usan decoraciones del lado del cliente (CSD). Se basa en las "
-"bibliotecas mpv y GTK."
+"entornos que no usan decoraciones del lado del cliente (CSD). Se basa en las"
+" bibliotecas mpv y GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -237,8 +239,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 
@@ -281,8 +283,8 @@ msgstr "Añade la traducción al ucraniano hecha por vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Añade compatibilidad para mostrar/ocultar las decoraciones de la ventana "
 "usando la opción de mpv --border"
@@ -378,11 +380,11 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
-"Mejora el manejo de las opciones --window-scale, --autofit, --autofit-larger "
-"y --autofit-smaller"
+"Mejora el manejo de las opciones --window-scale, --autofit, --autofit-larger"
+" y --autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
 msgid "Add command line option for setting WM_ROLE"
@@ -426,8 +428,8 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr ""
-"Añade una opción para ocultar automáticamente el cursor del ratón en el modo "
-"de ventana"
+"Añade una opción para ocultar automáticamente el cursor del ratón en el modo"
+" de ventana"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
 msgid "The main window showing the application in action"
@@ -450,12 +452,13 @@ msgstr "Reproductor multimedia"
 msgid "Play movies and videos"
 msgstr "Reproduce películas y vídeos"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
-"vídeo;película;filme;clip;serie;reproductor;DVD;TV;disco;álbum;música; GNOME;"
-"mpv;"
+"vídeo;película;filme;clip;serie;reproductor;DVD;TV;disco;álbum;música; "
+"GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
@@ -563,7 +566,6 @@ msgstr "Ninguna"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Desconocida"
@@ -574,7 +576,6 @@ msgstr "_Abrir..."
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "No se ha encontrado ningún disco"
@@ -1124,8 +1125,8 @@ msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
-"Para activar o desactivar las decoraciones del lado del cliente es necesario "
-"reiniciar la aplicación."
+"Para activar o desactivar las decoraciones del lado del cliente es necesario"
+" reiniciar la aplicación."
 
 #: src/celluloid-view.c:1382
 msgid "Add File to Playlist"
