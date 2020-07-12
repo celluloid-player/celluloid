@@ -363,10 +363,6 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->fullscreen = FALSE;
 	area->fs_control_hover = FALSE;
 
-	gtk_style_context_add_class
-		(	gtk_widget_get_style_context(area->draw_area),
-			"celluloid-video-area" );
-
 	gtk_drag_dest_set(	GTK_WIDGET(area),
 				GTK_DEST_DEFAULT_ALL,
 				targets,
