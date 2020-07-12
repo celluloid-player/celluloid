@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -121,6 +121,7 @@ static void
 celluloid_open_location_dialog_init(CelluloidOpenLocationDialog *dlg)
 {
 	GdkGeometry geom;
+	gboolean use_header_bar = TRUE;
 
 	geom.max_width = G_MAXINT;
 	geom.max_height = 0;
@@ -128,6 +129,8 @@ celluloid_open_location_dialog_init(CelluloidOpenLocationDialog *dlg)
 	dlg->content_area = gtk_dialog_get_content_area(GTK_DIALOG(dlg));
 	dlg->loc_label = gtk_label_new(_("Location:"));
 	dlg->loc_entry = gtk_entry_new();
+
+	g_object_get(G_OBJECT(dlg), "use-header-bar", &use_header_bar, NULL);
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				_("_Cancel"),
@@ -144,9 +147,9 @@ celluloid_open_location_dialog_init(CelluloidOpenLocationDialog *dlg)
 	gtk_window_set_modal(GTK_WINDOW(dlg), 1);
 	gtk_container_set_border_width(GTK_CONTAINER(dlg->content_area), 12);
 
-	if(!gtk_dialog_get_header_bar(GTK_DIALOG(dlg)))
+	if(use_header_bar)
 	{
-		gtk_widget_set_margin_bottom(dlg->content_box, 6);
+		gtk_widget_set_margin_bottom(dlg->content_box, 12);
 	}
 
 	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
