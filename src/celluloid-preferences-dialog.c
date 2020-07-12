@@ -279,7 +279,7 @@ preferences_dialog_constructed(GObject *obj)
 		notebook = CELLULOID_PREFERENCES_DIALOG(obj)->notebook;
 
 		gtk_widget_set_margin_bottom(content_area, 12);
-		gtk_widget_set_margin_bottom(notebook, 6);
+		gtk_widget_set_margin_bottom(notebook, 12);
 	}
 
 	G_OBJECT_CLASS(celluloid_preferences_dialog_parent_class)->constructed(obj);
