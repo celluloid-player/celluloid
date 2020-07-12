@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -101,9 +101,14 @@ celluloid_file_chooser_new(	const gchar *title,
 		load_last_folder(GTK_FILE_CHOOSER(chooser));
 	}
 
+	if(	action != GTK_FILE_CHOOSER_ACTION_SAVE &&
+		action != GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER )
+	{
+		gtk_file_chooser_set_select_multiple(gtk_chooser, TRUE);
+	}
+
 	celluloid_file_chooser_set_modal(chooser, TRUE);
 	gtk_file_chooser_set_local_only(gtk_chooser, FALSE);
-	gtk_file_chooser_set_select_multiple(gtk_chooser, TRUE);
 	gtk_file_chooser_set_do_overwrite_confirmation(gtk_chooser, TRUE);
 
 	g_signal_connect(chooser, "response", G_CALLBACK(response_handler), NULL);
