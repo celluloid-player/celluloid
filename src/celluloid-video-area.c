@@ -314,6 +314,8 @@ celluloid_video_area_class_init(CelluloidVideoAreaClass *klass)
 	wgt_class->destroy = destroy;
 	wgt_class->motion_notify_event = motion_notify_event;
 
+	gtk_widget_class_set_css_name(wgt_class, "celluloid-video-area");
+
 	g_signal_new(	"render",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,

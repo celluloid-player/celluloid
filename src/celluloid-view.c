@@ -521,7 +521,7 @@ load_css(CelluloidView *view)
 	GtkCssProvider *style_provider;
 	gboolean css_loaded;
 
-	style =	".celluloid-video-area{background-color: black}"
+	style =	"celluloid-video-area{background-color: black}"
 		"celluloid-preferences-dialog .dialog-action-box{margin-right: 12px}";
 	style_provider = gtk_css_provider_new();
 	css_loaded =	gtk_css_provider_load_from_data
