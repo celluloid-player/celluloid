@@ -233,7 +233,7 @@ celluloid_menu_build_full(	GMenu *menu,
 
 	const CelluloidMenuEntry entries[]
 		= {	CELLULOID_MENU_SUBMENU(_("_File"), NULL),
-			CELLULOID_MENU_ITEM(_("_Open…"), "win.show-open-dialog(false)"),
+			CELLULOID_MENU_ITEM(_("_Open…"), "win.show-open-dialog((false, false))"),
 			CELLULOID_MENU_ITEM(_("Open _Location…"), "win.show-open-location-dialog(false)"),
 			CELLULOID_MENU_SUBMENU(_("Open _Disc…"), disc_menu),
 			CELLULOID_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
@@ -314,7 +314,7 @@ celluloid_menu_build_open_btn(GMenu *menu, const GPtrArray *disc_list)
 
 	const CelluloidMenuEntry entries[]
 		= {	CELLULOID_MENU_SEPARATOR,
-			CELLULOID_MENU_ITEM(_("_Open…"), "win.show-open-dialog(false)"),
+			CELLULOID_MENU_ITEM(_("_Open…"), "win.show-open-dialog((false, false))"),
 			CELLULOID_MENU_ITEM(_("Open _Location…"), "win.show-open-location-dialog(false)"),
 			CELLULOID_MENU_SUBMENU(_("Open _Disc"), disc_menu),
 			CELLULOID_MENU_SEPARATOR,

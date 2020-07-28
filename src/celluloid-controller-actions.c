@@ -324,10 +324,13 @@ open_handler(GSimpleAction *action, GVariant *param, gpointer data)
 static void
 show_open_dialog_handler(GSimpleAction *action, GVariant *param, gpointer data)
 {
-	gboolean append = g_variant_get_boolean(param);
+	gboolean folder = FALSE;
+	gboolean append = FALSE;
+
+	g_variant_get(param, "(bb)", &folder, &append);
 
 	celluloid_view_show_open_dialog
-		(celluloid_controller_get_view(data), FALSE, append);
+		(celluloid_controller_get_view(data), folder, append);
 }
 
 static void
@@ -546,7 +549,7 @@ celluloid_controller_action_register_actions(CelluloidController *controller)
 			.parameter_type = "(sb)"},
 			{.name = "show-open-dialog",
 			.activate = show_open_dialog_handler,
-			.parameter_type = "b"},
+			.parameter_type = "(bb)"},
 			{.name = "quit",
 			.activate = quit_handler},
 			{.name = "show-about-dialog",

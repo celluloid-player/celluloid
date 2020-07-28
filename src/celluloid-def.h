@@ -89,9 +89,9 @@
 				.info = 0} }
 
 #define DEFAULT_KEYBINDS \
-	{	"Ctrl+o script-message celluloid-action win.show-open-dialog(false)",\
+	{	"Ctrl+o script-message celluloid-action win.show-open-dialog((false, false))",\
 		"Ctrl+l script-message celluloid-action win.show-open-location-dialog(false)",\
-		"Ctrl+Shift+o script-message celluloid-action win.show-open-dialog(true)",\
+		"Ctrl+Shift+o script-message celluloid-action win.show-open-dialog((false, true))",\
 		"Ctrl+Shift+l script-message celluloid-action win.show-open-location-dialog(true)",\
 		"Ctrl+Shift+s script-message celluloid-action win.save-playlist",\
 		"Ctrl+f script-message celluloid-action win.search-playlist",\
