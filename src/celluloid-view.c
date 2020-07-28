@@ -1393,17 +1393,28 @@ celluloid_view_get_main_window(CelluloidView *view)
 }
 
 void
-celluloid_view_show_open_dialog(CelluloidView *view, gboolean append)
+celluloid_view_show_open_dialog(	CelluloidView *view,
+					gboolean folder,
+					gboolean append )
 {
 	CelluloidFileChooser *chooser;
 	GPtrArray *args;
+	const gchar *title;
+	GtkFileChooserAction action;
 	gboolean *append_buf;
 
-	chooser = celluloid_file_chooser_new(	append?
-						_("Add File to Playlist"):
-						_("Open File"),
-						GTK_WINDOW(view),
-						GTK_FILE_CHOOSER_ACTION_OPEN );
+	if(folder)
+	{
+		title = append ? _("Add Folder to Playlist") : _("Open Folder");
+		action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+	}
+	else
+	{
+		title = append ? _("Add File to Playlist") : _("Open File");
+		action = GTK_FILE_CHOOSER_ACTION_OPEN;
+	}
+
+	chooser = celluloid_file_chooser_new(title, GTK_WINDOW(view), action);
 	args = g_ptr_array_new();
 	append_buf = g_malloc(sizeof(gboolean));
 	*append_buf = append;
@@ -1416,7 +1427,12 @@ celluloid_view_show_open_dialog(CelluloidView *view, gboolean append)
 				G_CALLBACK(open_dialog_response_handler),
 				args );
 
-	celluloid_file_chooser_set_default_filters(chooser, TRUE, TRUE, TRUE, TRUE);
+	if(!folder)
+	{
+		celluloid_file_chooser_set_default_filters
+			(chooser, TRUE, TRUE, TRUE, TRUE);
+	}
+
 	celluloid_file_chooser_show(chooser);
 }
 

@@ -327,7 +327,7 @@ show_open_dialog_handler(GSimpleAction *action, GVariant *param, gpointer data)
 	gboolean append = g_variant_get_boolean(param);
 
 	celluloid_view_show_open_dialog
-		(celluloid_controller_get_view(data), append);
+		(celluloid_controller_get_view(data), FALSE, append);
 }
 
 static void

@@ -37,7 +37,9 @@ CelluloidMainWindow *
 celluloid_view_get_main_window(CelluloidView *view);
 
 void
-celluloid_view_show_open_dialog(CelluloidView *view, gboolean append);
+celluloid_view_show_open_dialog(	CelluloidView *view,
+					gboolean folder,
+					gboolean append );
 
 void
 celluloid_view_show_open_location_dialog(CelluloidView *view, gboolean append);
