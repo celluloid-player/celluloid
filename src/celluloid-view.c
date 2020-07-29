@@ -56,6 +56,7 @@ struct _CelluloidView
 {
 	CelluloidMainWindow parent;
 	gboolean disposed;
+	gboolean has_dialog;
 
 	/* Properties */
 	gint playlist_count;
@@ -112,7 +113,7 @@ static void
 save_playlist(CelluloidView *view, GFile *file, GError **error);
 
 static void
-show_message_dialog(	CelluloidMainWindow *wnd,
+show_message_dialog(	CelluloidView *view,
 			GtkMessageType type,
 			const gchar *title,
 			const gchar *prefix,
@@ -125,6 +126,11 @@ static void
 show_open_track_dialog(CelluloidView  *view, TrackType type);
 
 /* Dialog responses */
+static void
+message_dialog_response_handler(	GtkDialog *dialog,
+					gint response_id,
+					gpointer data);
+
 static void
 open_dialog_response_handler(GtkDialog *dialog, gint response_id, gpointer data);
 
@@ -615,23 +621,36 @@ save_playlist(CelluloidView *view, GFile *file, GError **error)
 }
 
 void
-show_message_dialog(	CelluloidMainWindow *wnd,
+show_message_dialog(	CelluloidView *view,
 			GtkMessageType type,
 			const gchar *title,
 			const gchar *prefix,
 			const gchar *msg )
 {
-	GtkWidget *dialog;
-	GtkWidget *msg_area;
-	GList *children;
+	GtkWidget *dialog = NULL;
+	GtkWidget *msg_area = NULL;
+	GList *children = NULL;
 
-	if(prefix)
+	if(view->has_dialog)
+	{
+		g_info("Error dialog suppressed because one is already being shown");
+
+		if(prefix)
+		{
+			g_info("Content: *%s* [%s] %s", title, prefix, msg);
+		}
+		else
+		{
+			g_info("Content: *%s* %s", title, msg);
+		}
+	}
+	else if(prefix)
 	{
 		gchar *prefix_escaped = g_markup_printf_escaped("%s", prefix);
 		gchar *msg_escaped = g_markup_printf_escaped("%s", msg);
 
 		dialog =	gtk_message_dialog_new_with_markup
-				(	GTK_WINDOW(wnd),
+				(	GTK_WINDOW(view),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					type,
 					GTK_BUTTONS_OK,
@@ -645,7 +664,7 @@ show_message_dialog(	CelluloidMainWindow *wnd,
 	else
 	{
 		dialog =	gtk_message_dialog_new
-				(	GTK_WINDOW(wnd),
+				(	GTK_WINDOW(view),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					type,
 					GTK_BUTTONS_OK,
@@ -653,29 +672,35 @@ show_message_dialog(	CelluloidMainWindow *wnd,
 					msg );
 	}
 
-	msg_area =	gtk_message_dialog_get_message_area
-			(GTK_MESSAGE_DIALOG(dialog));
-	children = gtk_container_get_children(GTK_CONTAINER(msg_area));
-
-	for(GList *iter = children; iter; iter = g_list_next(iter))
+	if(dialog)
 	{
-		if(GTK_IS_LABEL(iter->data))
+		view->has_dialog = TRUE;
+		msg_area =	gtk_message_dialog_get_message_area
+				(GTK_MESSAGE_DIALOG(dialog));
+		children = gtk_container_get_children(GTK_CONTAINER(msg_area));
+
+		for(GList *iter = children; iter; iter = g_list_next(iter))
 		{
-			gtk_label_set_line_wrap_mode
-				(GTK_LABEL(iter->data), PANGO_WRAP_WORD_CHAR);
+			if(GTK_IS_LABEL(iter->data))
+			{
+				gtk_label_set_line_wrap_mode
+					(	GTK_LABEL(iter->data),
+						PANGO_WRAP_WORD_CHAR );
+			}
 		}
-	}
 
-	g_list_free(children);
+		g_list_free(children);
 
-	g_signal_connect(	dialog,
+		g_signal_connect
+			(	dialog,
 				"response",
-				G_CALLBACK(gtk_widget_destroy),
-				NULL );
+				G_CALLBACK(message_dialog_response_handler),
+				view );
 
-	gtk_window_set_title(GTK_WINDOW(dialog), title);
-	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-	gtk_widget_show_all(dialog);
+		gtk_window_set_title(GTK_WINDOW(dialog), title);
+		gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+		gtk_widget_show_all(dialog);
+	}
 }
 
 static void
@@ -738,6 +763,16 @@ show_open_track_dialog(CelluloidView  *view, TrackType type)
 			type == TRACK_TYPE_SUBTITLE );
 
 	celluloid_file_chooser_show(chooser);
+}
+
+static void
+message_dialog_response_handler(	GtkDialog *dialog,
+					gint response_id,
+					gpointer data)
+{
+	CELLULOID_VIEW(data)->has_dialog = FALSE;
+
+	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
 static void
@@ -859,7 +894,7 @@ preferences_dialog_response_handler(	GtkDialog *dialog,
 
 		if(celluloid_main_window_get_csd_enabled(wnd) != csd_enable)
 		{
-			show_message_dialog(	wnd,
+			show_message_dialog(	CELLULOID_VIEW(data),
 						GTK_MESSAGE_INFO,
 						g_get_application_name(),
 						NULL,
@@ -1336,6 +1371,7 @@ static void
 celluloid_view_init(CelluloidView *view)
 {
 	view->disposed = FALSE;
+	view->has_dialog = FALSE;
 	view->playlist_count = 0;
 	view->pause = FALSE;
 	view->volume = 0.0;
@@ -1517,7 +1553,7 @@ celluloid_view_show_save_playlist_dialog(CelluloidView *view)
 
 	if(error)
 	{
-		show_message_dialog(	CELLULOID_MAIN_WINDOW(view),
+		show_message_dialog(	view,
 					GTK_MESSAGE_ERROR,
 					_("Error"),
 					NULL,
@@ -1580,8 +1616,7 @@ celluloid_view_show_message_dialog(	CelluloidView *view,
 					const gchar *prefix,
 					const gchar *msg )
 {
-	show_message_dialog
-		(CELLULOID_MAIN_WINDOW(view), type, title, prefix, msg);
+	show_message_dialog(view, type, title, prefix, msg);
 }
 
 void
