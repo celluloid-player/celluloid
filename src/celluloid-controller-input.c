@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -66,6 +66,7 @@ keyval_to_keystr(guint keyval)
 
 	g_unichar_to_utf8(gdk_keyval_to_unicode(keyval), key_utf8);
 	result = result[0] ? result : gdk_keyval_name(keyval);
+	found = !result;
 
 	for(gint i = 0; !found && keystrmap[i]; i += 2)
 	{
