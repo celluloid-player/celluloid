@@ -22,6 +22,8 @@
 #include <gtk/gtk.h>
 
 #include "celluloid-seek-bar.h"
+#include "celluloid-time-label.h"
+#include "celluloid-common.h"
 
 struct _CelluloidSeekBar
 {
@@ -59,12 +61,6 @@ leave_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data);
 static gboolean
 motion_handler(GtkWidget *widget, GdkEventMotion *event, gpointer data);
 
-static char *
-format_time(gint seconds, gboolean show_hour);
-
-static void
-update_label(CelluloidSeekBar *bar);
-
 static gboolean
 update_popover_visibility(CelluloidSeekBar *bar);
 
@@ -88,7 +84,10 @@ change_value_handler(	GtkWidget *widget,
 
 	if(bar->duration > 0)
 	{
-		update_label(data);
+		g_object_set(	bar->label,
+				"time", (gint)bar->pos,
+				"duration", (gint)bar->duration,
+				NULL );
 		g_signal_emit_by_name(data, "seek", value);
 	}
 }
@@ -160,51 +159,6 @@ motion_handler(GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	return FALSE;
 }
 
-static char *
-format_time(gint seconds, gboolean show_hour)
-{
-	gchar *result = NULL;
-
-	if(show_hour)
-	{
-		result = g_strdup_printf(	"%02d:%02d:%02d",
-						seconds/3600,
-						(seconds%3600)/60,
-						seconds%60 );
-	}
-	else
-	{
-		result = g_strdup_printf("%02d:%02d", seconds/60, seconds%60);
-	}
-
-	return result;
-}
-
-static void
-update_label(CelluloidSeekBar *bar)
-{
-	gint sec = (gint)bar->pos;
-	gint duration = (gint)bar->duration;
-	gchar *text;
-
-	if(duration > 0)
-	{
-		gchar *sec_str = format_time(sec, duration >= 3600);
-		gchar *duration_str = format_time(duration, duration >= 3600);
-
-		text = g_strdup_printf("%s/%s", sec_str, duration_str);
-
-		g_free(sec_str);
-		g_free(duration_str);
-	}
-	else
-	{
-		text = g_strdup_printf("%02d:%02d", (sec%3600)/60, sec%60);
-	}
-
-	gtk_label_set_text(GTK_LABEL(bar->label), text);
-}
-
 static gboolean
 update_popover_visibility(CelluloidSeekBar *bar)
 {
@@ -243,7 +197,7 @@ static void
 celluloid_seek_bar_init(CelluloidSeekBar *bar)
 {
 	bar->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
-	bar->label = gtk_label_new(NULL);
+	bar->label = celluloid_time_label_new();
 	bar->popover = g_object_ref_sink(gtk_popover_new(bar->seek_bar));
 	bar->popover_label = gtk_label_new(NULL);
 	bar->duration = 0;
@@ -251,7 +205,10 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 	bar->popover_visible = FALSE;
 	bar->popover_timeout_id = 0;
 
-	update_label(bar);
+	g_object_set(	bar->label,
+			"time", (gint)bar->pos,
+			"duration", (gint)bar->duration,
+			NULL );
 	gtk_popover_set_modal(GTK_POPOVER(bar->popover), FALSE);
 
 	gtk_scale_set_draw_value(GTK_SCALE(bar->seek_bar), FALSE);
@@ -295,7 +252,7 @@ celluloid_seek_bar_set_duration(CelluloidSeekBar *bar, gdouble duration)
 {
 	bar->duration = duration;
 
-	update_label(bar);
+	g_object_set(bar->label, "duration", (gint)duration, NULL);
 	gtk_range_set_range(GTK_RANGE(bar->seek_bar), 0, duration);
 }
 
@@ -310,6 +267,6 @@ celluloid_seek_bar_set_pos(CelluloidSeekBar *bar, gdouble pos)
 
 	if((gint)old_pos != (gint)pos)
 	{
-		update_label(bar);
+		g_object_set(bar->label, "time", (gint)pos, NULL);
 	}
 }

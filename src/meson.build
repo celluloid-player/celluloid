@@ -26,6 +26,7 @@ sources = [
   'celluloid-preferences-dialog.c',
   'celluloid-seek-bar.c',
   'celluloid-shortcuts-window.c',
+  'celluloid-time-label.c',
   'celluloid-video-area.c',
   'celluloid-view.c',
 

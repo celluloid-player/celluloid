@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -119,6 +119,9 @@ gslist_to_array(GSList *slist);
 
 gchar *
 strnjoinv(const gchar *separator, const gchar **str_array, gsize count);
+
+char *
+format_time(gint seconds, gboolean show_hour);
 
 void
 activate_action_string(GActionMap *map, const gchar *str);

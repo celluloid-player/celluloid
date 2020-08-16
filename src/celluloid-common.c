@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019 gnome-mpv
+ * Copyright (c) 2014-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -235,6 +235,26 @@ strnjoinv(const gchar *separator, const gchar **str_array, gsize count)
 	result = g_strjoinv(separator, args);
 
 	g_free(args);
+
+	return result;
+}
+
+char *
+format_time(gint seconds, gboolean show_hour)
+{
+	gchar *result = NULL;
+
+	if(show_hour)
+	{
+		result = g_strdup_printf(	"%02d:%02d:%02d",
+						seconds/3600,
+						(seconds%3600)/60,
+						seconds%60 );
+	}
+	else
+	{
+		result = g_strdup_printf("%02d:%02d", seconds/60, seconds%60);
+	}
 
 	return result;
 }
