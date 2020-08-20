@@ -201,6 +201,7 @@ get_max_pixel_size(GtkLabel *label, gint duration, gint *width, gint *height)
 			*height = *height < test_height ? test_height : *height;
 		}
 
+		g_free(time_str);
 		g_free(test_str);
 	}
 
