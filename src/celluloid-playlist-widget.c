@@ -379,6 +379,8 @@ constructed(GObject *object)
 		(GTK_TREE_VIEW(self->tree_view), self->title_column);
 
 	gtk_overlay_add_overlay(GTK_OVERLAY(self->overlay), self->placeholder);
+	gtk_overlay_set_overlay_pass_through
+		(GTK_OVERLAY(self->overlay), self->placeholder, TRUE);
 
 	gtk_container_add(GTK_CONTAINER(self->overlay), self->tree_view);
 	gtk_container_add(GTK_CONTAINER(self->scrolled_window), self->overlay);
