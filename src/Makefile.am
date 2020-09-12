@@ -64,6 +64,7 @@ celluloid_SOURCES =	celluloid-main.c celluloid-def.h \
 			celluloid-preferences-dialog.c celluloid-preferences-dialog.h \
 			celluloid-seek-bar.c celluloid-seek-bar.h \
 			celluloid-shortcuts-window.c celluloid-shortcuts-window.h \
+			celluloid-time-label.c celluloid-time-label.h \
 			celluloid-video-area.c celluloid-video-area.h \
 			celluloid-view.c celluloid-view.h \
 			celluloid-mpv-wrapper.c celluloid-mpv-wrapper.h \
