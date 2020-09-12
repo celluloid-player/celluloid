@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-01 21:42+0700\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
 "PO-Revision-Date: 2020-06-23 10:41-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Serbian (Latin)\n"
@@ -12,8 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "X-Generator: Zanata 4.6.2\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
@@ -93,7 +92,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Da li da omogući podršku za MPRIS"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "Da li da omogući podršku za multimedijalne tastere iz Gnomovih podešavanja"
 
@@ -103,8 +103,8 @@ msgstr "Da li da omogući pripremu metapodataka za spoljne unose liste"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
@@ -227,8 +227,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 
@@ -269,8 +269,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:100
@@ -354,8 +354,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
@@ -412,7 +412,8 @@ msgstr ""
 msgid "Play movies and videos"
 msgstr ""
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
@@ -523,7 +524,6 @@ msgstr "Nijedan"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Nepoznato"
@@ -534,7 +534,6 @@ msgstr "_Učitaj Spoljne..."
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr ""
@@ -548,9 +547,8 @@ msgid "_Open…"
 msgstr ""
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
-#, fuzzy
 msgid "Open _Folder…"
-msgstr "Otvori Datoteku"
+msgstr ""
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -661,9 +659,8 @@ msgid "_Add…"
 msgstr "_Dodaj..."
 
 #: src/celluloid-playlist-widget.c:788
-#, fuzzy
 msgid "Add _Folder…"
-msgstr "Dodaj_Lokaciju..."
+msgstr ""
 
 #: src/celluloid-playlist-widget.c:789
 msgid "Add _Location…"
@@ -1099,14 +1096,12 @@ msgstr ""
 "imala efekat."
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Add Folder to Playlist"
-msgstr "Dodaj Datoteku u Listu Puštanja"
+msgstr ""
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Open Folder"
-msgstr "Otvori Datoteku"
+msgstr ""
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"

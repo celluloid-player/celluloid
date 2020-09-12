@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-01 21:42+0700\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
 "PO-Revision-Date: 2020-06-30 08:57-0400\n"
 "Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
 "Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
@@ -98,7 +98,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "是否启用 MPRIS 支持"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr "是否启用基于 GNOME-Setting-Daemon 的媒体键支持"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
@@ -107,8 +108,8 @@ msgstr "是否预先读取非当前播放列表项的元数据"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr "当文件播放以错误结束时是否显示错误消息 "
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
@@ -231,8 +232,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 
@@ -273,8 +274,8 @@ msgstr "添加 @vl-nix 贡献的乌克兰语翻译"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr "使用 mpv 选项 --border 添加显示/隐藏窗口装饰的支持"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:100
@@ -358,11 +359,10 @@ msgstr "设置默认的截图目录为 XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
-"改善对 --window-scale、 --autofit、 --autofit-larger 和 --autofit-smaller 的"
-"处理"
+"改善对 --window-scale、 --autofit、 --autofit-larger 和 --autofit-smaller 的处理"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
 msgid "Add command line option for setting WM_ROLE"
@@ -417,7 +417,8 @@ msgstr "多媒体播放器"
 msgid "Play movies and videos"
 msgstr "播放电影和视频"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "视频;电影;剪辑;系列;播放器;DVD;TV;碟片;专辑;音乐;GNOME;mpv;"
@@ -528,7 +529,6 @@ msgstr "无"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "未知"
@@ -539,7 +539,6 @@ msgstr "载入外部(_L)…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "未找到光盘"
@@ -553,9 +552,8 @@ msgid "_Open…"
 msgstr "打开...(_O)"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
-#, fuzzy
 msgid "Open _Folder…"
-msgstr "打开文件"
+msgstr ""
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -664,9 +662,8 @@ msgid "_Add…"
 msgstr "添加(_A)…"
 
 #: src/celluloid-playlist-widget.c:788
-#, fuzzy
 msgid "Add _Folder…"
-msgstr "添加路径(_L)"
+msgstr ""
 
 #: src/celluloid-playlist-widget.c:789
 msgid "Add _Location…"
@@ -1098,14 +1095,12 @@ msgid ""
 msgstr "启用或禁用客户端装饰（CSD），需要重启播放器以生效。"
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Add Folder to Playlist"
-msgstr "添加文件到播放列表"
+msgstr ""
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Open Folder"
-msgstr "打开文件"
+msgstr ""
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"

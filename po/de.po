@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-01 21:42+0700\n"
-"PO-Revision-Date: 2020-05-27 05:28-0400\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2020-08-04 04:59-0400\n"
 "Last-Translator: Vincent Bermel <willovince@openmailbox.org>\n"
 "Language-Team: German Translations\n"
 "Language: de\n"
@@ -42,7 +42,8 @@ msgstr "Kombinierte Titel-/Menüleiste (CSD)"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Whether or not to use floating controls in windowed mode"
-msgstr "Ob im Fenstermodus ausblendende Bedienelemente verwendet werden sollen"
+msgstr ""
+"Ob im Fenstermodus ausblendende Bedienelemente verwendet werden sollen"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Whether or not to autohide mouse cursor in windowed mode"
@@ -101,7 +102,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Ob Steuerung über MPRIS aktiviert werden soll"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr "Ob mittels GNOME-Settings-Daemon Medientasten aktiviert werden sollen"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
@@ -112,10 +114,11 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr ""
-"Fehlermeldung anzeigen, wenn beim Abspielen einer Datei ein Fehler auftritt? "
+"Fehlermeldung anzeigen, wenn beim Abspielen einer Datei ein Fehler auftritt?"
+" "
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Whether or not to inhibit session idling when something is playing"
@@ -177,11 +180,11 @@ msgid ""
 msgstr ""
 "Celluloid ist ein einfach zu bedienender Medienspieler, der so gut wie alle "
 "Video- und Audioformate abspielen kann. Es werden Wiedergabelisten und "
-"Fernsteuerung über die MPRIS2-Schnittstelle unterstützt. Celluloid ist gemäß "
-"der \"GNOME Human Interface Guidelines\", der Designrichtlinien des GNOME-"
+"Fernsteuerung über die MPRIS2-Schnittstelle unterstützt. Celluloid ist gemäß"
+" der \"GNOME Human Interface Guidelines\", der Designrichtlinien des GNOME-"
 "Projekts gestaltet, kann aber für Systeme angepasst werden, welche keine "
-"clientseitigen Fensterdekorationen (CDSs) unterstützen. Die technische Basis "
-"stellen mpv und GTK."
+"clientseitigen Fensterdekorationen (CDSs) unterstützen. Die technische Basis"
+" stellen mpv und GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -239,8 +242,8 @@ msgstr "Liste der Tastenkombinationen aktualisiert."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr ""
-"Korrektes Interpretieren von Escape-Sequenzen und Anführungszeichen in Extra-"
-"MPV-Optionen."
+"Korrektes Interpretieren von Escape-Sequenzen und Anführungszeichen in "
+"Extra-MPV-Optionen."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
 msgid "Display time at cursor position when hovering the seek bar."
@@ -248,13 +251,13 @@ msgstr "Anzeige der Zeit, wenn der Mauszeiger über die Suchbar geführt wird."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 "Die Option der Kommandozeilenschnittstelle '--mpv-options' ist als veraltet "
-"markiert. Optionen beginnend mit 'mpv-' können stattdessen verwendet werden, "
-"um mpv-Optionen zu verwenden. So entspricht die Celluloid-Option '--mpv-"
+"markiert. Optionen beginnend mit 'mpv-' können stattdessen verwendet werden,"
+" um mpv-Optionen zu verwenden. So entspricht die Celluloid-Option '--mpv-"
 "vf=vflip' der mpv-Option '--vf=vflip'."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
@@ -298,8 +301,8 @@ msgstr "Ukrainische Übersetzung von@vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Möglichkeit Fensterdekorationen über die mpv-Option --border ein- und "
 "auszublenden"
@@ -394,8 +397,8 @@ msgstr "XDG_PICTURES_DIR ist nun standardmäßiger Screenshot-Speicherort."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 "Verbesserte Handhabung der Optionen --window-scale, --autofit, --autofit-"
 "larger, and --autofit-smaller"
@@ -416,8 +419,8 @@ msgstr "Neuer Kontextmenüeintrag zum Kopieren von Wiedergabelisten-Elementen"
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
-"Neue Option, die es erlaubt, das Verhalten der \"Überspringen\"-Schaltfläche "
-"zu verändern. Zur Wahl stehen Kapitelwechsel und Wechsel zwischen "
+"Neue Option, die es erlaubt, das Verhalten der \"Überspringen\"-Schaltfläche"
+" zu verändern. Zur Wahl stehen Kapitelwechsel und Wechsel zwischen "
 "Wiedergabelisten-Elementen."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
@@ -431,8 +434,8 @@ msgstr "Neues Rechtsklickmenü um einzelne Datei in Schleife zu spielen"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
-"Korrekte Handhabung von property change events für den Vollbildmodus und bei "
-"Fenstersklaierung"
+"Korrekte Handhabung von property change events für den Vollbildmodus und bei"
+" Fenstersklaierung"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
 msgid "Add option to autohide mouse cursor in windowed mode"
@@ -458,7 +461,8 @@ msgstr "Multimediaspieler"
 msgid "Play movies and videos"
 msgstr "Filme und Videos abspielen"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Video;Movie;Film;Clip;Serie;Spieler;DVD,TV;Album;Musik;GNOME;mpv"
@@ -570,7 +574,6 @@ msgstr "Keine"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Originalspur"
@@ -581,7 +584,6 @@ msgstr "_Importieren"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Kein Datenträger gefunden"
@@ -595,9 +597,8 @@ msgid "_Open…"
 msgstr "_Öffnen"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
-#, fuzzy
 msgid "Open _Folder…"
-msgstr "Datei öffnen"
+msgstr "_Ordner öffnen"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -706,9 +707,8 @@ msgid "_Add…"
 msgstr "_Hinzufügen"
 
 #: src/celluloid-playlist-widget.c:788
-#, fuzzy
 msgid "Add _Folder…"
-msgstr "_Verzeichnis oder URL hinzufügen"
+msgstr "Ordner _hinzufügen"
 
 #: src/celluloid-playlist-widget.c:789
 msgid "Add _Location…"
@@ -1141,14 +1141,12 @@ msgid ""
 msgstr "Die Änderung der Fensterdekoration erfordert einen Neustart."
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Add Folder to Playlist"
-msgstr "Datei zur _Wiedergabeliste hinzufügen"
+msgstr "Ordner zur Widergabeliste hinzufügen"
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Open Folder"
-msgstr "Datei öffnen"
+msgstr "Ordner öffnen"
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"

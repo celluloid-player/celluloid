@@ -1,13 +1,13 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
-# Luca Trevisani <lucatrev90@libero.it>, 2020. #zanata
+#,,,,zjf <Deace1942@cuvox.de>, 2020. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-01 21:42+0700\n"
-"PO-Revision-Date: 2020-06-23 10:44-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2020-09-12 08:27-0400\n"
+"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,8 @@ msgstr "Determina se usare i pulsanti di salto per controllare la playlist"
 msgid ""
 "Whether or not to make file chooser dialog remember last folder accessed"
 msgstr ""
-"Determina se la finestra di selezione file ricorda l'ultima cartella visitata"
+"Determina se la finestra di selezione file ricorda l'ultima cartella "
+"visitata"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Whether or not to create new windows when there is already an instance"
@@ -100,7 +101,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Determina se abilitare il supporto a MPRIS"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "Determina se abilitare il supporto ai tasti multimediali di GNOME-Settings-"
 "Daemon"
@@ -113,8 +115,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr ""
 "Determina se mostrare un messaggio di errore quando la riproduzione di un "
 "file termina con un errore"
@@ -182,8 +184,8 @@ msgid ""
 msgstr ""
 "Celluloid è un semplice lettore multimediale in grado di riprodurre "
 "praticamente tutti i formati audio e video. Supporta playlist e controlli "
-"MPRIS2 multimediali. Il design di Celluloid segue le linee guida GNOME Human "
-"Interface, ma può anche essere adattato per altri sistemi che non usano "
+"MPRIS2 multimediali. Il design di Celluloid segue le linee guida GNOME Human"
+" Interface, ma può anche essere adattato per altri sistemi che non usano "
 "decorazioni lato client (CSD). Si basa sulle librerie libmpv e GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
@@ -254,13 +256,13 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 "'--mpv-options' obsoleto. Le opzioni che iniziano con '--mpv-' possono "
-"essere usate come opzioni di mpv. Per esempio, '--mpv-vf=vflip' in Celluloid "
-"è l'equivalente di '--vf=vflip' in mpv."
+"essere usate come opzioni di mpv. Per esempio, '--mpv-vf=vflip' in Celluloid"
+" è l'equivalente di '--vf=vflip' in mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
 msgid ""
@@ -302,8 +304,8 @@ msgstr "Aggiunta traduzione ucraina di @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Aggiunto supporto per l'abilitazione delle decorazioni delle finestre "
 "tramite l'opzione di mpv --border"
@@ -315,8 +317,8 @@ msgstr "Aggiunta voce del menù per l'apertura di dischi"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:103
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
-"Blocco della disabilitazione del cursore quando il popup del volume è aperto "
-"in modalità finestra"
+"Blocco della disabilitazione del cursore quando il popup del volume è aperto"
+" in modalità finestra"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
 msgid "Fix crash with mpv 0.30"
@@ -367,7 +369,8 @@ msgstr "Divisione della scheda Generale nella finestra delle preferenze"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Improve behavior when toggling playlist under tiling window managers"
-msgstr "Migliorato il comportamento della playlist con i tiling window manager"
+msgstr ""
+"Migliorato il comportamento della playlist con i tiling window manager"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Move app menu items to primary menu"
@@ -395,11 +398,11 @@ msgstr "Cartella predefinita degli screenshot impostata a XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
-"Migliorata la gestione di --window-scale, --autofit, --autofit-larger, e --"
-"autofit-smaller"
+"Migliorata la gestione di --window-scale, --autofit, --autofit-larger, e "
+"--autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
 msgid "Add command line option for setting WM_ROLE"
@@ -461,7 +464,8 @@ msgstr "Riproduttore multimediale"
 msgid "Play movies and videos"
 msgstr "Riproduci film e video"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Video;Film;Clip;Serie;Player;DVD;TV;Disco;Album;Musica;GNOME;mpv;"
@@ -572,7 +576,6 @@ msgstr "Nessuna"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Sconosciuta"
@@ -583,7 +586,6 @@ msgstr "_Importa…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Nessun disco trovato"
@@ -597,9 +599,8 @@ msgid "_Open…"
 msgstr "_Apri…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
-#, fuzzy
 msgid "Open _Folder…"
-msgstr "Apri file"
+msgstr "Apri _Cartella..."
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -708,9 +709,8 @@ msgid "_Add…"
 msgstr "A_ggiungi…"
 
 #: src/celluloid-playlist-widget.c:788
-#, fuzzy
 msgid "Add _Folder…"
-msgstr "Aggiungi _Posizione…"
+msgstr "Aggiungi _Cartella..."
 
 #: src/celluloid-playlist-widget.c:789
 msgid "Add _Location…"
@@ -1146,14 +1146,12 @@ msgstr ""
 "un riavvio per avere effetto."
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Add Folder to Playlist"
-msgstr "Aggiungi File alla Playlist"
+msgstr "Aggiungi Cartella alla Playlist"
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Open Folder"
-msgstr "Apri file"
+msgstr "Apri Cartella"
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"

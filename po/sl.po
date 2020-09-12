@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-01 21:42+0700\n"
+"POT-Creation-Date: 2020-02-16 14:17+0700\n"
 "PO-Revision-Date: 2020-06-16 05:02-0400\n"
 "Last-Translator: Nejc Bertoncelj <nbert@siol.net>\n"
 "Language-Team: Slovenian\n"
@@ -11,8 +11,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0)\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0)\n"
 "X-Generator: Zanata 4.6.2\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
@@ -48,7 +47,8 @@ msgstr "Najmanjša hitrost kazalca, pri katerem bodo plavajoči gumbi skriti"
 msgid ""
 "The size of the dead zone in which cursor movement will not cause the "
 "controls to be shown."
-msgstr "Velikost območja, kjer premik kazalca ne bo prikazal plavajočih gumbov"
+msgstr ""
+"Velikost območja, kjer premik kazalca ne bo prikazal plavajočih gumbov"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Whether or not to use skip buttons for controlling playlist"
@@ -89,7 +89,8 @@ msgid "Whether or not to enable MPRIS support"
 msgstr "Naj se omogoči podpora MPRIS"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+msgid ""
+"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
 msgstr ""
 "Naj se omogoči podpora predstavnostnih tipk programa GNOME Settings Daemon"
 
@@ -99,8 +100,8 @@ msgstr "Naj se prenesejo metapodatki za neaktivne sezname predvajanja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid ""
-"Whether or not to display an error message when playback of a file ends with "
-"an error"
+"Whether or not to display an error message when playback of a file ends with"
+" an error"
 msgstr ""
 "Naj se prikaže opozorilo, ko se datoteka seznama predvajanja konča z napako"
 
@@ -163,10 +164,10 @@ msgid ""
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
 "Celluloid je preprost večpredstavnostni predvajalnik, ki lahko predvaja "
-"takorekoč vse zvočne in video formate. Podpira sezname predvajanje in nadzor "
-"predvajanja MPRIS2. Oblikovan je po GNOME-ovih smernicah HIG, lahko pa se "
-"prilagodi tudi sistemom brez njih. Celluloid je osnovan na predvajalniku MPV "
-"in knjižnici GTK."
+"takorekoč vse zvočne in video formate. Podpira sezname predvajanje in nadzor"
+" predvajanja MPRIS2. Oblikovan je po GNOME-ovih smernicah HIG, lahko pa se "
+"prilagodi tudi sistemom brez njih. Celluloid je osnovan na predvajalniku MPV"
+" in knjižnici GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -231,12 +232,12 @@ msgstr "Display time at cursor position when hovering the seek bar."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
@@ -279,8 +280,8 @@ msgstr "Dodan ukrajinski prevod (@vl-nix)"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr "Dodana podpora za prikazovanje/skrivanje oken z opcijo --border"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:100
@@ -368,8 +369,8 @@ msgstr "Nastavi privzeto mapo za posnetke zaslona na XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 "Izboljšaj podporo nastavitev --window-scale, --autofit, --autofit-larger in "
 "--autofit-smaller"
@@ -386,14 +387,15 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:204
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
-"V kontekstni meni dodaj gumb za kopiranje lokacije vnosov seznama predvajanja"
+"V kontekstni meni dodaj gumb za kopiranje lokacije vnosov seznama "
+"predvajanja"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
-"Dodaj možnost za preskakovanje vnosov seznama predvajanja namesto poglavij z "
-"gumbi za preskok."
+"Dodaj možnost za preskakovanje vnosov seznama predvajanja namesto poglavij z"
+" gumbi za preskok."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
 msgid "Make the file chooser accept non-local locations"
@@ -431,12 +433,12 @@ msgstr "Večpredstavnostni predvajalnik"
 msgid "Play movies and videos"
 msgstr "Predvajaj filme in videoposnetke"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
-"videoposnetek;video;film;videoizrezek;serija;predvajalnik;DVD;TV;CD;"
-"zgoščenka;album;glasba;GNOME;mpv;"
+"videoposnetek;video;film;videoizrezek;serija;predvajalnik;DVD;TV;CD;zgoščenka;album;glasba;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
@@ -544,7 +546,6 @@ msgstr "Brez"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Neznano"
@@ -555,7 +556,6 @@ msgstr "Naloži z_unanje..."
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Zgoščenka ni najdena"
@@ -569,9 +569,8 @@ msgid "_Open…"
 msgstr "_Odpri..."
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
-#, fuzzy
 msgid "Open _Folder…"
-msgstr "Odpri datoteko"
+msgstr ""
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -680,9 +679,8 @@ msgid "_Add…"
 msgstr "_Dodaj..."
 
 #: src/celluloid-playlist-widget.c:788
-#, fuzzy
 msgid "Add _Folder…"
-msgstr "Dodaj _lokacijo..."
+msgstr ""
 
 #: src/celluloid-playlist-widget.c:789
 msgid "Add _Location…"
@@ -1118,14 +1116,12 @@ msgstr ""
 "zagon."
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Add Folder to Playlist"
-msgstr "Dodaj datoteko na seznam predvajanja"
+msgstr ""
 
 #: src/celluloid-view.c:1444
-#, fuzzy
 msgid "Open Folder"
-msgstr "Odpri datoteko"
+msgstr ""
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"
