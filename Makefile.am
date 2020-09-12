@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = src data docs po
 
-EXTRA_DIST = README.md AUTHORS meson.build docs/meson.build meson-post-install.py po/meson.build
+EXTRA_DIST = README.md AUTHORS meson.build docs/meson.build test/meson.build test/test-option-parser.c meson-post-install.py po/meson.build
 
 UPDATE_DESKTOP = update-desktop-database -q || :
 UPDATE_ICON = gtk-update-icon-cache -q $(datadir)/icons/hicolor/ || :
