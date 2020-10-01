@@ -126,15 +126,26 @@ static GtkWidget *
 build_page(const PreferencesDialogItem *items, GSettings *settings)
 {
 	GtkWidget *grid = gtk_grid_new();
+	GSettingsSchema *schema = NULL;
 
 	gtk_container_set_border_width(GTK_CONTAINER(grid), 12);
 	gtk_grid_set_row_spacing(GTK_GRID(grid), 6);
 	gtk_grid_set_column_spacing(GTK_GRID(grid), 12);
 
+	g_object_get(settings, "settings-schema", &schema, NULL);
+
 	for(gint i = 0; items[i].type != ITEM_TYPE_INVALID; i++)
 	{
-		const gchar *label = items[i].label;
 		const gchar *key = items[i].key;
+		GSettingsSchemaKey *schema_key =
+			key ?
+			g_settings_schema_get_key(schema, key) :
+			NULL;
+		const gchar *summary =
+			schema_key ?
+			g_settings_schema_key_get_summary(schema_key) :
+			NULL;
+		const gchar *label = items[i].label ?: summary;
 		const PreferencesDialogItemType type = items[i].type;
 		GtkWidget *widget = NULL;
 		gboolean separate_label = FALSE;
@@ -232,7 +243,7 @@ build_page(const PreferencesDialogItem *items, GSettings *settings)
 		/* Expand the widget to fill both columns if it usually needs a
 		 * separate label but none is provided.
 		 */
-		if(separate_label && !label)
+		if(separate_label && label && !label[0])
 		{
 			width = 2;
 			xpos = 0;
@@ -240,7 +251,7 @@ build_page(const PreferencesDialogItem *items, GSettings *settings)
 
 		gtk_grid_attach(GTK_GRID(grid), widget, xpos, i, width, 1);
 
-		if(separate_label && label)
+		if(separate_label && label && label[0])
 		{
 			GtkWidget *label_widget = gtk_label_new(label);
 
@@ -301,62 +312,62 @@ static void
 celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 {
 	const PreferencesDialogItem interface_items[]
-		= {	{_("Automatically resize window to fit video"),
+		= {	{NULL,
 			"autofit-enable",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Enable client-side decorations"),
+			{NULL,
 			"csd-enable",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Enable dark theme"),
+			{NULL,
 			"dark-theme-enable",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Use floating controls in windowed mode"),
+			{NULL,
 			"always-use-floating-controls",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Autohide mouse cursor in windowed mode"),
+			{NULL,
 			"always-autohide-cursor",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Use skip buttons for controlling playlist"),
+			{NULL,
 			"use-skip-buttons-for-playlist",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Remember last file's location"),
+			{NULL,
 			"last-folder-enable",
 			ITEM_TYPE_CHECK_BOX},
 			{NULL, NULL, ITEM_TYPE_INVALID} };
 	const PreferencesDialogItem config_items[]
-		= {	{_("Load MPV configuration file"),
+		= {	{NULL,
 			"mpv-config-enable",
 			ITEM_TYPE_CHECK_BOX},
-			{_("MPV configuration file:"),
+			{_("mpv configuration file:"),
 			"mpv-config-file",
 			ITEM_TYPE_FILE_CHOOSER},
-			{_("Load MPV input configuration file"),
+			{NULL,
 			"mpv-input-config-enable",
 			ITEM_TYPE_CHECK_BOX},
-			{_("MPV input configuration file:"),
+			{_("mpv input configuration file:"),
 			"mpv-input-config-file",
 			ITEM_TYPE_FILE_CHOOSER},
 			{NULL, NULL, ITEM_TYPE_INVALID} };
 	const PreferencesDialogItem misc_items[]
-		= {	{_("Always open new window"),
+		= {	{NULL,
 			"always-open-new-window",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Ignore playback errors"),
+			{NULL,
 			"ignore-playback-errors",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Prefetch metadata"),
+			{NULL,
 			"prefetch-metadata",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Enable MPRIS support"),
+			{NULL,
 			"mpris-enable",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Enable media keys support"),
+			{NULL,
 			"media-keys-enable",
 			ITEM_TYPE_CHECK_BOX},
-			{_("Extra MPV options:"),
+			{_("Extra mpv options:"),
 			NULL,
 			ITEM_TYPE_LABEL},
-			{NULL,
+			{"",
 			"mpv-options",
 			ITEM_TYPE_TEXT_BOX},
 			{NULL, NULL, ITEM_TYPE_INVALID} };
