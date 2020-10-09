@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"POT-Creation-Date: 2020-10-09 22:16+0700\n"
 "PO-Revision-Date: 2020-06-23 10:50-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Turkish\n"
@@ -23,53 +23,51 @@ msgid ""
 msgstr "Ayarların önceki sürümden zaten geçirilmiş olup olmadığı"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
-msgid "Whether or not to automatically resize window to fit video"
-msgstr "Pencerenin videoya sığacak şekilde boyutlandırılması"
+msgid "Automatically resize window to fit video"
+msgstr "Videoya sığması için pencereyi otomatik olarak yeniden boyutlandır"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
-msgid "Enable or disable dark theme"
-msgstr "Koyu temayı etkinleştir veya devre dışı bırak"
+msgid "Enable dark theme"
+msgstr "Koyu temayı etkinleştir"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
-msgid "Enable or disable client-side decorations"
-msgstr "İstemci tarafı süslemelerini etkinleştir veya devre dışı bırak"
+msgid "Enable client-side decorations"
+msgstr "İstemci tarafı süslemelerini etkinleştir"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
-msgid "Whether or not to use floating controls in windowed mode"
-msgstr "Pencere kipinde kayan kontrollerin kullanılıp kullanılmayacağı"
+msgid "Use floating controls in windowed mode"
+msgstr "Pencere kipinde kayan kontroller kullan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-msgid "Whether or not to autohide mouse cursor in windowed mode"
-msgstr "Pencere kipinde fare imlecini otomatik gösterip göstermemek"
+#, fuzzy
+msgid "Automatically hide mouse cursor in windowed mode"
+msgstr "Pencere kipine fare imlecini otomatik gizle"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr "Yüzen kontrollerin yasak olacağı asgari imleç hızı."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
+#, fuzzy
 msgid ""
-"The size of the dead zone in which cursor movement will not cause the "
-"controls to be shown."
+"Size of the dead zone in which cursor movement will not cause the controls "
+"to be shown."
 msgstr ""
 "İmleç hareketinin kontrollerin gösterilmesine neden olmayacağı ölü bölgenin "
 "boyutu."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-msgid "Whether or not to use skip buttons for controlling playlist"
-msgstr ""
-"Oynatma listesini kontrol etmek için atlama düğmelerinin kullanılıp "
-"kullanılmayacağı"
+msgid "Use skip buttons for controlling playlist"
+msgstr "Oynatma listesini kontrol için atlama düğmelerini kullan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
-msgid ""
-"Whether or not to make file chooser dialog remember last folder accessed"
-msgstr ""
-"Dosya seçici iletişim kutusunun erişilen son klasörünü hatırlasın veya "
-"hatırlamasın"
+#, fuzzy
+msgid "Make file chooser remember last file's location"
+msgstr "Son dosyanın konumunu hatırla"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-msgid "Whether or not to create new windows when there is already an instance"
-msgstr "Zaten bir örnek olduğunda yeni pencereler oluşturup oluşturmama"
+msgid "Always open new window"
+msgstr "Her zaman yeni pencere aç"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
 #: src/celluloid-application.c:575
@@ -81,43 +79,37 @@ msgid "Path to mpv configuration file"
 msgstr "Mpv yapılandırma dosyası yolu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
-msgid "Load or don't load mpv configuration file"
-msgstr "Mpv yapılandırma dosyasını yükle veya yükleme"
+#, fuzzy
+msgid "Load mpv configuration file"
+msgstr "MPV yapılandırma dosyasını yükle"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Path to mpv input configuration file"
 msgstr "Mpv giriş yapılandırma dosyası yolu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
-msgid "Load or don't load mpv input configuration file"
-msgstr "Mpv giriş yapılandırma dosyasını yükle veya yükleme"
+#, fuzzy
+msgid "Load mpv input configuration file"
+msgstr "MPV giriş yapılandırma dosyasını yükle"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
-msgid "Whether or not to enable MPRIS support"
-msgstr "MPRIS desteğinin etkinleştirilip etkinleştirilmeyeceği"
+msgid "Enable MPRIS support"
+msgstr "MPRIS desteğini etkinleştir"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
-msgid ""
-"Whether or not to enable GNOME-Settings-Daemon-based media keys support"
-msgstr ""
-"GNOME Ayarlar Yönetim tabanlı medya tuşlarını destekleyip desteklememek"
+msgid "Enable media keys support"
+msgstr "Medya tuşları desteğini etkinleştir"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
-msgid "Whether or not to prefetch metadata for non-current playlist entries"
-msgstr ""
-"Güncel olmayan oynatma listeleri için üst verilerin önceden getirilip "
-"getirilmeyeceği"
+msgid "Prefetch metadata"
+msgstr "Meta verileri önceden al"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
-msgid ""
-"Whether or not to display an error message when playback of a file ends with"
-" an error"
-msgstr ""
-"Bir dosyanın oynatılması bir hatayla sona erdiğinde bir hata mesajı "
-"gösterilip gösterilmeyeceği"
+msgid "Ignore playback errors"
+msgstr "Oynatma hatalarını yoksay"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
-msgid "Whether or not to inhibit session idling when something is playing"
+msgid "Inhibit session idling"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
@@ -177,8 +169,8 @@ msgstr ""
 "Celluloid, neredeyse tüm video ve ses biçimlerini oynatabilen basit bir "
 "medya oynatıcıdır.  Oynatma listelerini ve MPRIS2 medya oynatıcı "
 "kontrollerini destekler. Celluloid tasarımı GNOME Arayüz Kılavuzlarına "
-"uygundur, ancak istemci tarafı süslemeleri (CSD) kullanmayan diğer sistemler"
-" için de uyarlanabilir. Mpv kütüphanesine ve GTK'ya dayanmaktadır."
+"uygundur, ancak istemci tarafı süslemeleri (CSD) kullanmayan diğer sistemler "
+"için de uyarlanabilir. Mpv kütüphanesine ve GTK'ya dayanmaktadır."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -201,233 +193,273 @@ msgid "The Celluloid Developers"
 msgstr "Celluloid Geliştiricileri"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:126
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:215
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:195
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:254
 msgid "This release contains the following changes:"
 msgstr "Bu sürüm aşağıdaki değişiklikleri içerir:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
+msgid "Make it possible to activate context menu when the playlist is empty."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
+msgid ""
+"Prevent constant resizing of the seek bar due to timestamp label resizing as "
+"its value changes."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
+msgid ""
+"Only show a single error dialog when a large number of errors occurs in "
+"rapid succession."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
+#, fuzzy
+msgid "Add menu item for opening folders."
+msgstr "Diskleri açmak için menü ögesi ekle"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
+msgid ""
+"Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
+"consistent with CSD mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:56
+msgid "Add support for loading external video tracks."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:59
+msgid "Make playlist shuffle toggleable."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
+msgid "Make arrow key bindings work with arrow keys on numpad."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:149
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:188
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:247
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
+msgid "This listing is incomplete. See git log for complete changelog."
+msgstr "Bu liste eksik. Değişiklikler için (git) günlüğüne bakın"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:42
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:81
 msgid "Retain window maximization state across sessions."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Retain loop state across sessions."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Implement playlist search."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:51
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Display time at cursor position when hovering the seek bar."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
-" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
+"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:109
 msgid "Make window sizing work correctly with HiDPI displays."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:112
 msgid "Add Finnish translation by Kimmo Kujansuu."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:115
 msgid "Add Slovenian translation by @bertronika."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:149
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:208
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:236
-msgid "This listing is incomplete. See git log for complete changelog."
-msgstr "Bu liste eksik. Değişiklikler için (git) günlüğüne bakın"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:91
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
 msgid "Add Persian translation by @danialbehzadi"
 msgstr "Farsça çeviriyi hazırlayan @danialbehzadi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
 msgid "Add Ukranian translation by @vl-nix"
 msgstr "Ukraynaca çeviriyi hazırlayan @vl-nix"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option "
-"--border"
+"Add support for showing/hiding window decorations using the mpv option --"
+"border"
 msgstr ""
 "Mpv --border seçeneğini kullanarak pencere dekorasyonlarını göstermek / "
 "gizlemek için destek"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:100
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:139
 msgid "Add menu item for opening discs"
 msgstr "Diskleri açmak için menü ögesi ekle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:103
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:142
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
 "Ses açılır penceresi pencereli kipte açıkken imlecin gizlenmesini engelle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
 msgid "Fix crash with mpv 0.30"
 msgstr "Mpv 0.30 kilitlenmesi düzeltildi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
 msgid "Rename project to Celluloid"
 msgstr "Proje Celluloid olarak yeniden adlandırıldı"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Add Turkish translation by @TeknoMobil"
 msgstr "Türkçe çeviriyi hazırlayan @Serdar Sağlam"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Add Esperanto translation by @F3nd0"
 msgstr "Esperanto çeviriyi hazırlayan @F3nd0"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Migrate from opengl-cb to the new render API"
 msgstr "Opengl-cb'den yeni render API'sına taşı"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:172
 msgid "Handle numpad keybindings"
 msgstr "Sayısal tuş takımlarını yönet"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:175
 msgid "Handle unicode keybindings"
 msgstr "Unicode tuş takımlarını  yönet"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:139
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:178
 msgid "Forward media key events to mpv"
 msgstr "Medya anahtarı olaylarını mpv'ye ilet"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:142
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:181
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
 "Denetimlerin yasak olduğu imleç hızını kontrol etmek için dconf anahtarı "
 "ekleyin"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid "Add option for suppressing playback errors"
 msgstr "Oynatma hatalarını bastırmak için seçenek ekle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:199
 msgid "Split up the General tab in the preferences dialog"
 msgstr "Tercihler iletişim kutusunda Genel sekmeyi böl"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:202
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
 "Döşeme pencere yöneticileri altında oynatma listesini değiştirirken "
 "davranışı iyileştirin"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:205
 msgid "Move app menu items to primary menu"
 msgstr "Uygulama menüsü ögelerini birincil menüye taşı"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:208
 msgid "Use separate MPRIS DBus connection for each window"
 msgstr "Her pencere için ayrı MPRIS DBus bağlantısı kullan"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:172
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:211
 msgid "Add support for MPRIS property LoopStatus"
 msgstr "MPRIS özelliği LoopStatus için destek ekle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:175
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:214
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
-"Seçenek ekle, komut satırından mpv seçeneklerini ayarlamak için --mpv-"
-"options"
+"Seçenek ekle, komut satırından mpv seçeneklerini ayarlamak için --mpv-options"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:191
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:230
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
 msgstr "Öntanımlı ekran görüntüsü dizinini XDG_PICTURES_DIR olarak ayarla"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:233
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and "
-"--autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
+"autofit-smaller"
 msgstr ""
 "İyileştirme ekle - -pencere-ölçeği, -otoölçek - otoölçek-büyük ve otoölçek-"
 "küçük"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
 msgid "Add command line option for setting WM_ROLE"
 msgstr "WM_ROLE ayarı için komut satırı seçeneği ekle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:201
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:240
 msgid "Add context menu item for removing playlist items"
 msgstr "Oynatma listesi ögelerini kaldırmak için içerik menüsü ögesi ekle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:204
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:243
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
 "Oynatma listesi ögelerinin konumunu kopyalamak için bağlam menüsü ögesi ekle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:258
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
-"Atla düğmelerinin bölümler yerine oynatma listesi girişlerini değiştirmesini"
-" sağlamak için seçenek ekle"
+"Atla düğmelerinin bölümler yerine oynatma listesi girişlerini değiştirmesini "
+"sağlamak için seçenek ekle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
 msgid "Make the file chooser accept non-local locations"
 msgstr "Dosya seçicinin yerel olmayan kaynakları kabul etmesini sağla"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
 msgid "Add right-click menu entry for looping a single file"
 msgstr "Tek bir dosyayı yinelemek için sağ tıklatma menüsü girişi ekle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr "Tam ekran ve pencere ölçeği için özellik değiştirme olaylarını işle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:271
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr "Pencere kipinde fare imlecini otomatik gizle"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
 msgid "The main window showing the application in action"
 msgstr "Uygulamayı çalışırken gösteren ana pencere"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:250
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:289
 msgid "The main window with CSD disabled"
 msgstr "CSD'nin devre dışı bırakıldığı ana pencere"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:254
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:293
 msgid "The main window with playlist open"
 msgstr "Oynatma listesi açık olan ana pencere"
 
@@ -439,8 +471,7 @@ msgstr "Çoklu Ortam Oynatıcı"
 msgid "Play movies and videos"
 msgstr "Filmleri ve videoları oynatın"
 
-#. Translators: Search terms to find this application. Don't translate the
-#. semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
@@ -552,6 +583,7 @@ msgstr "Yok"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
+#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Bilinmeyen"
@@ -562,6 +594,7 @@ msgstr "_Harici Kaynaktan Seç…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
+#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Disk bulunamadı"
@@ -660,7 +693,7 @@ msgid "Location:"
 msgstr "Konum:"
 
 #: src/celluloid-open-location-dialog.c:136
-#: src/celluloid-preferences-dialog.c:401
+#: src/celluloid-preferences-dialog.c:412
 msgid "_Cancel"
 msgstr "_İptal"
 
@@ -672,43 +705,43 @@ msgstr "_Aç"
 msgid "Failed to apply one or more MPV options."
 msgstr "Bir veya daha fazla MPV seçeneği uygulanamadı."
 
-#: src/celluloid-playlist-widget.c:784
+#: src/celluloid-playlist-widget.c:786
 msgid "_Copy Location"
 msgstr "Konumu _Kopyala"
 
-#: src/celluloid-playlist-widget.c:785
+#: src/celluloid-playlist-widget.c:787
 msgid "_Remove"
 msgstr "_Kaldır"
 
-#: src/celluloid-playlist-widget.c:787
+#: src/celluloid-playlist-widget.c:789
 msgid "_Add…"
 msgstr "_Ekle…"
 
-#: src/celluloid-playlist-widget.c:788
+#: src/celluloid-playlist-widget.c:790
 msgid "Add _Folder…"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:789
+#: src/celluloid-playlist-widget.c:791
 msgid "Add _Location…"
 msgstr "_Konum Ekle…"
 
-#: src/celluloid-playlist-widget.c:790
+#: src/celluloid-playlist-widget.c:792
 msgid "_Shuffle"
 msgstr "_Karıştır"
 
-#: src/celluloid-playlist-widget.c:791
+#: src/celluloid-playlist-widget.c:793
 msgid "Loop _File"
 msgstr "_Dosyayı Yinele"
 
-#: src/celluloid-playlist-widget.c:792
+#: src/celluloid-playlist-widget.c:794
 msgid "Loop _Playlist"
 msgstr "_Yinele"
 
-#: src/celluloid-playlist-widget.c:933 src/celluloid-shortcuts-window.c:136
+#: src/celluloid-playlist-widget.c:935 src/celluloid-shortcuts-window.c:136
 msgid "Playlist"
 msgstr "Oynatma Listesi"
 
-#: src/celluloid-playlist-widget.c:941
+#: src/celluloid-playlist-widget.c:943
 msgid "Playlist is empty"
 msgstr "Oynatma listesi boş"
 
@@ -753,95 +786,42 @@ msgstr ""
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Dosya silinemedi '%s'. Sebep: %s"
 
-#: src/celluloid-preferences-dialog.c:304
-msgid "Automatically resize window to fit video"
-msgstr "Videoya sığması için pencereyi otomatik olarak yeniden boyutlandır"
-
-#: src/celluloid-preferences-dialog.c:307
-msgid "Enable client-side decorations"
-msgstr "İstemci tarafı süslemelerini etkinleştir"
-
-#: src/celluloid-preferences-dialog.c:310
-msgid "Enable dark theme"
-msgstr "Koyu temayı etkinleştir"
-
-#: src/celluloid-preferences-dialog.c:313
-msgid "Use floating controls in windowed mode"
-msgstr "Pencere kipinde kayan kontroller kullan"
-
-#: src/celluloid-preferences-dialog.c:316
-msgid "Autohide mouse cursor in windowed mode"
-msgstr "Pencere kipine fare imlecini otomatik gizle"
-
-#: src/celluloid-preferences-dialog.c:319
-msgid "Use skip buttons for controlling playlist"
-msgstr "Oynatma listesini kontrol için atlama düğmelerini kullan"
-
-#: src/celluloid-preferences-dialog.c:322
-msgid "Remember last file's location"
-msgstr "Son dosyanın konumunu hatırla"
-
-#: src/celluloid-preferences-dialog.c:327
-msgid "Load MPV configuration file"
-msgstr "MPV yapılandırma dosyasını yükle"
-
-#: src/celluloid-preferences-dialog.c:330
-msgid "MPV configuration file:"
+#: src/celluloid-preferences-dialog.c:341
+#, fuzzy
+msgid "mpv configuration file:"
 msgstr "MPV yapılandırma dosyası:"
 
-#: src/celluloid-preferences-dialog.c:333
-msgid "Load MPV input configuration file"
-msgstr "MPV giriş yapılandırma dosyasını yükle"
-
-#: src/celluloid-preferences-dialog.c:336
-msgid "MPV input configuration file:"
+#: src/celluloid-preferences-dialog.c:347
+#, fuzzy
+msgid "mpv input configuration file:"
 msgstr "MPV giriş yapılandırma dosyası:"
 
-#: src/celluloid-preferences-dialog.c:341
-msgid "Always open new window"
-msgstr "Her zaman yeni pencere aç"
-
-#: src/celluloid-preferences-dialog.c:344
-msgid "Ignore playback errors"
-msgstr "Oynatma hatalarını yoksay"
-
-#: src/celluloid-preferences-dialog.c:347
-msgid "Prefetch metadata"
-msgstr "Meta verileri önceden al"
-
-#: src/celluloid-preferences-dialog.c:350
-msgid "Enable MPRIS support"
-msgstr "MPRIS desteğini etkinleştir"
-
-#: src/celluloid-preferences-dialog.c:353
-msgid "Enable media keys support"
-msgstr "Medya tuşları desteğini etkinleştir"
-
-#: src/celluloid-preferences-dialog.c:356
-msgid "Extra MPV options:"
+#: src/celluloid-preferences-dialog.c:367
+#, fuzzy
+msgid "Extra mpv options:"
 msgstr "Özel MPV seçenekleri:"
 
-#: src/celluloid-preferences-dialog.c:389
+#: src/celluloid-preferences-dialog.c:400
 msgid "Interface"
 msgstr "Arabirim"
 
-#: src/celluloid-preferences-dialog.c:392
+#: src/celluloid-preferences-dialog.c:403
 msgid "Config Files"
 msgstr "Yapılandırma Dosyaları"
 
-#: src/celluloid-preferences-dialog.c:395
+#: src/celluloid-preferences-dialog.c:406
 msgid "Miscellaneous"
 msgstr "Çeşitli"
 
-#: src/celluloid-preferences-dialog.c:398
+#: src/celluloid-preferences-dialog.c:409
 msgid "Plugins"
 msgstr "Eklentiler"
 
-#: src/celluloid-preferences-dialog.c:403
+#: src/celluloid-preferences-dialog.c:414
 msgid "_Save"
 msgstr "_Kaydet"
 
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:432
 msgid "Preferences"
 msgstr "Tercihler"
 
@@ -1156,3 +1136,59 @@ msgstr "MPV için bir GTK arayüzü"
 #: src/celluloid-view.c:1608
 msgid "translator-credits"
 msgstr "Serdar Sağlam <teknomobil@yandex.com>"
+
+#~ msgid "Whether or not to automatically resize window to fit video"
+#~ msgstr "Pencerenin videoya sığacak şekilde boyutlandırılması"
+
+#~ msgid "Enable or disable dark theme"
+#~ msgstr "Koyu temayı etkinleştir veya devre dışı bırak"
+
+#~ msgid "Enable or disable client-side decorations"
+#~ msgstr "İstemci tarafı süslemelerini etkinleştir veya devre dışı bırak"
+
+#~ msgid "Whether or not to use floating controls in windowed mode"
+#~ msgstr "Pencere kipinde kayan kontrollerin kullanılıp kullanılmayacağı"
+
+#~ msgid "Whether or not to autohide mouse cursor in windowed mode"
+#~ msgstr "Pencere kipinde fare imlecini otomatik gösterip göstermemek"
+
+#~ msgid "Whether or not to use skip buttons for controlling playlist"
+#~ msgstr ""
+#~ "Oynatma listesini kontrol etmek için atlama düğmelerinin kullanılıp "
+#~ "kullanılmayacağı"
+
+#~ msgid ""
+#~ "Whether or not to make file chooser dialog remember last folder accessed"
+#~ msgstr ""
+#~ "Dosya seçici iletişim kutusunun erişilen son klasörünü hatırlasın veya "
+#~ "hatırlamasın"
+
+#~ msgid ""
+#~ "Whether or not to create new windows when there is already an instance"
+#~ msgstr "Zaten bir örnek olduğunda yeni pencereler oluşturup oluşturmama"
+
+#~ msgid "Load or don't load mpv configuration file"
+#~ msgstr "Mpv yapılandırma dosyasını yükle veya yükleme"
+
+#~ msgid "Load or don't load mpv input configuration file"
+#~ msgstr "Mpv giriş yapılandırma dosyasını yükle veya yükleme"
+
+#~ msgid "Whether or not to enable MPRIS support"
+#~ msgstr "MPRIS desteğinin etkinleştirilip etkinleştirilmeyeceği"
+
+#~ msgid ""
+#~ "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
+#~ msgstr ""
+#~ "GNOME Ayarlar Yönetim tabanlı medya tuşlarını destekleyip desteklememek"
+
+#~ msgid "Whether or not to prefetch metadata for non-current playlist entries"
+#~ msgstr ""
+#~ "Güncel olmayan oynatma listeleri için üst verilerin önceden getirilip "
+#~ "getirilmeyeceği"
+
+#~ msgid ""
+#~ "Whether or not to display an error message when playback of a file ends "
+#~ "with an error"
+#~ msgstr ""
+#~ "Bir dosyanın oynatılması bir hatayla sona erdiğinde bir hata mesajı "
+#~ "gösterilip gösterilmeyeceği"
