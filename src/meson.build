@@ -55,6 +55,7 @@ cflags = [
   '-DPACKAGE_LOCALEDIR="@0@"'.format(localedir),
   '-DVERSION="@0@"'.format(meson.project_version()),
   '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
+  '-DG_LOG_DOMAIN="@0@"'.format(meson.project_name()),
   '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_44',
   '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_44',
   '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_22',

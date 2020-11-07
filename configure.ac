@@ -99,6 +99,8 @@ AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_44], [Prevents using newer
 AC_DEFINE([GDK_VERSION_MIN_REQUIRED], [GDK_VERSION_3_22], [Dont warn using older APIs])
 AC_DEFINE([GDK_VERSION_MAX_ALLOWED], [GDK_VERSION_3_22], [Prevents using newer APIs])
 
+AC_DEFINE_UNQUOTED([G_LOG_DOMAIN], "$PACKAGE_NAME", [Default logging facility])
+
 # Checks for header files.
 AC_CHECK_HEADERS([string.h stdio.h stdlib.h locale.h],[],[
 	AC_MSG_ERROR([Could not find required headers])
