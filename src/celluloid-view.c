@@ -983,7 +983,11 @@ drag_data_handler(	GtkWidget *widget,
 	gchar *type = gdk_atom_name(gtk_selection_data_get_target(sel_data));
 	const guchar *raw_data = gtk_selection_data_get_data(sel_data);
 	gchar **uri_list = gtk_selection_data_get_uris(sel_data);
-	gboolean append = CELLULOID_IS_PLAYLIST_WIDGET(widget);
+	GdkDragAction action = gdk_drag_context_get_selected_action(context);
+
+	// When shift is held, action will be set to GDK_ACTION_MOVE
+	gboolean append =	CELLULOID_IS_PLAYLIST_WIDGET(widget) ||
+				action == GDK_ACTION_MOVE;
 
 	if(g_strcmp0(type, "PLAYLIST_PATH") == 0)
 	{
