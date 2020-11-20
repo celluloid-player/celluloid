@@ -5,7 +5,7 @@ Reporting Bugs
 - Don't report multiple unrelated/barely related bugs in one issue.
 - Attach a log file.
 	- You can make celluloid print log messages by running
-	  `G_MESSAGES_DEBUG=all celluloid`
+	  `G_MESSAGES_DEBUG=all celluloid --mpv-options='--msg-level=all=trace'`
 - If the issue involves crashing, include a backtrace in the report.
 	- You can create a backtrace by running
 	  `gdb -ex 'set pagination off' -ex run -ex bt celluloid`
