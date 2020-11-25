@@ -9,7 +9,7 @@ mpris_files =	mpris/celluloid-mpris.c mpris/celluloid-mpris.h \
 		mpris/celluloid-mpris-player.c mpris/celluloid-mpris-player.h \
 		mpris/celluloid-mpris-track-list.c mpris/celluloid-mpris-track-list.h \
 		$(mpris_generated)
-$(mpris_generated): $(top_srcdir)/data/celluloid-mpris-gdbus.xml
+$(mpris_generated)&: $(top_srcdir)/data/celluloid-mpris-gdbus.xml
 	$(AM_V_GEN) \
 	$(GDBUS_CODEGEN) --c-namespace celluloid_mpris --generate-c-code mpris/celluloid-mpris-gdbus $< && \
 	$(SED) -i '1i#pragma GCC diagnostic ignored \"-Wconversion\"' mpris/celluloid-mpris-gdbus.c
