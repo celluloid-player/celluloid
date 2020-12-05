@@ -22,6 +22,7 @@
 #include "celluloid-model.h"
 #include "celluloid-marshal.h"
 #include "celluloid-mpv-wrapper.h"
+#include "celluloid-def.h"
 
 enum
 {
@@ -1062,6 +1063,10 @@ celluloid_model_load_file(	CelluloidModel *model,
 				const gchar *uri,
 				gboolean append )
 {
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	append |= g_settings_get_boolean(settings, "always-append-to-playlist");
+
 	celluloid_mpv_load(CELLULOID_MPV(model), uri, append);
 
 	/* Start playing when replacing the playlist, ie. not appending, or
@@ -1071,6 +1076,8 @@ celluloid_model_load_file(	CelluloidModel *model,
 	{
 		celluloid_model_play(model);
 	}
+
+	g_object_unref(settings);
 }
 
 gboolean
