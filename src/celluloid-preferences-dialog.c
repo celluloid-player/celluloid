@@ -257,7 +257,7 @@ build_page(const PreferencesDialogItem *items, GSettings *settings)
 
 			/* The grid should only have 2 columns, so the previous
 			 * widget connot be wider than 1 column if it needs a
-			 * seperate label.
+			 * separate label.
 			 */
 			g_assert(width == 1);
 
