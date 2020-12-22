@@ -286,6 +286,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 {
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 	CelluloidControlBox *vid_area_control_box = NULL;
+	CelluloidHeaderBar *vid_area_header_bar = NULL;
 
 	priv->csd = FALSE;
 	priv->always_floating = FALSE;
@@ -309,10 +310,20 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 
 	vid_area_control_box =	celluloid_video_area_get_control_box
 				(CELLULOID_VIDEO_AREA(priv->vid_area));
+	vid_area_header_bar =	celluloid_video_area_get_header_bar
+				(CELLULOID_VIDEO_AREA(priv->vid_area));
 
 	g_object_bind_property(	wnd, "title",
 				priv->vid_area, "title",
 				G_BINDING_DEFAULT );
+
+	g_object_bind_property(	priv->header_bar, "open-button-active",
+				vid_area_header_bar, "open-button-active",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	priv->header_bar, "menu-button-active",
+				vid_area_header_bar, "menu-button-active",
+				G_BINDING_DEFAULT );
+
 	g_object_bind_property(	priv->control_box, "duration",
 				vid_area_control_box, "duration",
 				G_BINDING_DEFAULT );
