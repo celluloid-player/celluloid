@@ -27,8 +27,8 @@
 enum
 {
 	PROP_0,
-	PROP_OPEN_POPOVER_VISIBLE,
-	PROP_MENU_POPOVER_VISIBLE,
+	PROP_OPEN_BUTTON_ACTIVE,
+	PROP_MENU_BUTTON_ACTIVE,
 	N_PROPERTIES
 };
 
@@ -60,11 +60,11 @@ set_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_OPEN_POPOVER_VISIBLE:
+		case PROP_OPEN_BUTTON_ACTIVE:
 		self->open_popover_visible = g_value_get_boolean(value);
 		break;
 
-		case PROP_MENU_POPOVER_VISIBLE:
+		case PROP_MENU_BUTTON_ACTIVE:
 		self->menu_popover_visible = g_value_get_boolean(value);
 		break;
 
@@ -84,11 +84,11 @@ get_property(	GObject *object,
 
 	switch(property_id)
 	{
-		case PROP_OPEN_POPOVER_VISIBLE:
+		case PROP_OPEN_BUTTON_ACTIVE:
 		g_value_set_boolean(value, self->open_popover_visible);
 		break;
 
-		case PROP_MENU_POPOVER_VISIBLE:
+		case PROP_MENU_BUTTON_ACTIVE:
 		g_value_set_boolean(value, self->menu_popover_visible);
 		break;
 
@@ -107,22 +107,22 @@ celluloid_header_bar_class_init(CelluloidHeaderBarClass *klass)
 	object_class->get_property = get_property;
 
 	pspec = g_param_spec_boolean
-		(	"open-popover-visible",
-			"Open popover visible",
-			"Whether or not the open menu popover is visible",
+		(	"open-button-active",
+			"Open button active",
+			"Whether or not the open button is active",
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property
-		(object_class, PROP_OPEN_POPOVER_VISIBLE, pspec);
+		(object_class, PROP_OPEN_BUTTON_ACTIVE, pspec);
 
 	pspec = g_param_spec_boolean
-		(	"menu-popover-visible",
-			"Menu popover visible",
-			"Whether or not the menu popover is visible",
+		(	"menu-button-active",
+			"Menu button active",
+			"Whether or not the menu button is active",
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property
-		(object_class, PROP_MENU_POPOVER_VISIBLE, pspec);
+		(object_class, PROP_MENU_BUTTON_ACTIVE, pspec);
 }
 
 static void
@@ -183,10 +183,10 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	gtk_header_bar_set_show_close_button(ghdr, TRUE);
 
 	g_object_bind_property(	hdr->open_btn, "active",
-				hdr, "open-popover-visible",
+				hdr, "open-button-active",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	hdr->menu_btn, "active",
-				hdr, "menu-popover-visible",
+				hdr, "menu-button-active",
 				G_BINDING_DEFAULT );
 }
 
