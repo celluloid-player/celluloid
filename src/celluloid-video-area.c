@@ -18,7 +18,6 @@
  */
 
 #include "celluloid-video-area.h"
-#include "celluloid-header-bar.h"
 #include "celluloid-control-box.h"
 #include "celluloid-common.h"
 #include "celluloid-def.h"
@@ -504,6 +503,12 @@ GtkGLArea *
 celluloid_video_area_get_gl_area(CelluloidVideoArea *area)
 {
 	return GTK_GL_AREA(area->gl_area);
+}
+
+CelluloidHeaderBar *
+celluloid_video_area_get_header_bar(CelluloidVideoArea *area)
+{
+	return CELLULOID_HEADER_BAR(area->header_bar);
 }
 
 CelluloidControlBox *

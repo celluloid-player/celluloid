@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 
 #include "celluloid-control-box.h"
+#include "celluloid-header-bar.h"
 
 #define CELLULOID_TYPE_VIDEO_AREA (celluloid_video_area_get_type ())
 
@@ -61,6 +62,9 @@ celluloid_video_area_get_draw_area(CelluloidVideoArea *area);
 
 GtkGLArea *
 celluloid_video_area_get_gl_area(CelluloidVideoArea *area);
+
+CelluloidHeaderBar *
+celluloid_video_area_get_header_bar(CelluloidVideoArea *area);
 
 CelluloidControlBox *
 celluloid_video_area_get_control_box(CelluloidVideoArea *area);
