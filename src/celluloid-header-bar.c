@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2020 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -24,12 +24,23 @@
 #include "celluloid-header-bar.h"
 #include "celluloid-menu.h"
 
+enum
+{
+	PROP_0,
+	PROP_OPEN_POPOVER_VISIBLE,
+	PROP_MENU_POPOVER_VISIBLE,
+	N_PROPERTIES
+};
+
 struct _CelluloidHeaderBar
 {
 	GtkHeaderBar parent_instance;
 	GtkWidget *open_btn;
 	GtkWidget *fullscreen_btn;
 	GtkWidget *menu_btn;
+
+	gboolean open_popover_visible;
+	gboolean menu_popover_visible;
 };
 
 struct _CelluloidHeaderBarClass
@@ -40,8 +51,78 @@ struct _CelluloidHeaderBarClass
 G_DEFINE_TYPE(CelluloidHeaderBar, celluloid_header_bar, GTK_TYPE_HEADER_BAR)
 
 static void
+set_property(	GObject *object,
+		guint property_id,
+		const GValue *value,
+		GParamSpec *pspec )
+{
+	CelluloidHeaderBar *self = CELLULOID_HEADER_BAR(object);
+
+	switch(property_id)
+	{
+		case PROP_OPEN_POPOVER_VISIBLE:
+		self->open_popover_visible = g_value_get_boolean(value);
+		break;
+
+		case PROP_MENU_POPOVER_VISIBLE:
+		self->menu_popover_visible = g_value_get_boolean(value);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+get_property(	GObject *object,
+		guint property_id,
+		GValue *value,
+		GParamSpec *pspec )
+{
+	CelluloidHeaderBar *self = CELLULOID_HEADER_BAR(object);
+
+	switch(property_id)
+	{
+		case PROP_OPEN_POPOVER_VISIBLE:
+		g_value_set_boolean(value, self->open_popover_visible);
+		break;
+
+		case PROP_MENU_POPOVER_VISIBLE:
+		g_value_set_boolean(value, self->menu_popover_visible);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+static void
 celluloid_header_bar_class_init(CelluloidHeaderBarClass *klass)
 {
+	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+	GParamSpec *pspec = NULL;
+
+	object_class->set_property = set_property;
+	object_class->get_property = get_property;
+
+	pspec = g_param_spec_boolean
+		(	"open-popover-visible",
+			"Open popover visible",
+			"Whether or not the open menu popover is visible",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_OPEN_POPOVER_VISIBLE, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"menu-popover-visible",
+			"Menu popover visible",
+			"Whether or not the menu popover is visible",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_MENU_POPOVER_VISIBLE, pspec);
 }
 
 static void
@@ -100,6 +181,13 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	gtk_header_bar_pack_end(ghdr, hdr->menu_btn);
 	gtk_header_bar_pack_end(ghdr, hdr->fullscreen_btn);
 	gtk_header_bar_set_show_close_button(ghdr, TRUE);
+
+	g_object_bind_property(	hdr->open_btn, "active",
+				hdr, "open-popover-visible",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	hdr->menu_btn, "active",
+				hdr, "menu-popover-visible",
+				G_BINDING_DEFAULT );
 }
 
 GtkWidget *
