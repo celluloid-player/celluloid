@@ -172,12 +172,19 @@ timeout_handler(gpointer data)
 	CelluloidVideoArea *area = data;
 	CelluloidControlBox *control_box = CELLULOID_CONTROL_BOX(area->control_box);
 	CelluloidHeaderBar *header_bar = CELLULOID_HEADER_BAR(area->header_bar);
+	gboolean open_button_active = FALSE;
+	gboolean menu_button_active = FALSE;
+
+	g_object_get(	header_bar,
+			"open-button-active", &open_button_active,
+			"menu-button-active", &menu_button_active,
+			NULL );
 
 	if(control_box
 	&& !area->fs_control_hover
 	&& !celluloid_control_box_get_volume_popup_visible(control_box)
-	&& !celluloid_header_bar_get_open_button_popup_visible(header_bar)
-	&& !celluloid_header_bar_get_menu_button_popup_visible(header_bar))
+	&& !open_button_active
+	&& !menu_button_active)
 	{
 		GSettings *settings;
 		gboolean always_autohide;
