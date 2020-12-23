@@ -276,6 +276,19 @@ render_handler(GtkGLArea *gl_area, GdkGLContext *context, gpointer data)
 }
 
 static void
+popover_notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
+{
+	gboolean value = FALSE;
+
+	g_object_get(gobject, pspec->name, &value, NULL);
+
+	if(value)
+	{
+		set_cursor_visible(CELLULOID_VIDEO_AREA(data), TRUE);
+	}
+}
+
+static void
 notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 {
 	/* Due to a GTK+ bug, the header bar isn't hidden completely if hidden
@@ -397,6 +410,18 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	g_signal_connect(	area->gl_area,
 				"render",
 				G_CALLBACK(render_handler),
+				area );
+	g_signal_connect(	area->control_box,
+				"notify::volume-popup-visible",
+				G_CALLBACK(popover_notify_handler),
+				area );
+	g_signal_connect(	area->header_bar,
+				"notify::open-button-active",
+				G_CALLBACK(popover_notify_handler),
+				area );
+	g_signal_connect(	area->header_bar,
+				"notify::menu-button-active",
+				G_CALLBACK(popover_notify_handler),
 				area );
 	g_signal_connect(	area->header_bar_revealer,
 				"notify::reveal-child",
