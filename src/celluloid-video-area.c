@@ -289,7 +289,7 @@ popover_notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 }
 
 static void
-notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
+reveal_notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 {
 	/* Due to a GTK+ bug, the header bar isn't hidden completely if hidden
 	 * by a GtkRevealer. Workaround this by manually hiding the revealer
@@ -425,11 +425,11 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 				area );
 	g_signal_connect(	area->header_bar_revealer,
 				"notify::reveal-child",
-				G_CALLBACK(notify_handler),
+				G_CALLBACK(reveal_notify_handler),
 				area );
 	g_signal_connect(	area->header_bar_revealer,
 				"notify::child-revealed",
-				G_CALLBACK(notify_handler),
+				G_CALLBACK(reveal_notify_handler),
 				area );
 	g_signal_connect(	area,
 				"enter-notify-event",
