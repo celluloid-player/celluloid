@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -235,8 +235,7 @@ motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 	area->last_motion_x = event->x;
 	area->last_motion_y = event->y;
 
-	if(	speed >= unhide_speed &&
-		ABS((2 * event->y - height) / height) > dead_zone )
+	if(speed >= unhide_speed)
 	{
 		GdkCursor *cursor =	gdk_cursor_new_from_name
 					(	gdk_display_get_default(),
@@ -244,7 +243,8 @@ motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 
 		gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 
-		if(area->control_box)
+		if(	area->control_box &&
+			ABS((2 * event->y - height) / height) > dead_zone )
 		{
 			gtk_revealer_set_reveal_child
 				(	GTK_REVEALER(area->control_box_revealer),
