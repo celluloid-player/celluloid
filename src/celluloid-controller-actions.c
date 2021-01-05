@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 gnome-mpv
+ * Copyright (c) 2015-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -119,6 +119,9 @@ show_preferences_dialog_handler(	GSimpleAction *action,
 
 static void
 quit_handler(GSimpleAction *action, GVariant *param, gpointer data);
+
+static void
+toggle_main_menu_handler(GSimpleAction *action, GVariant *param, gpointer data);
 
 static void
 set_audio_track_handler(GSimpleAction *action, GVariant *value, gpointer data);
@@ -456,6 +459,15 @@ quit_handler(GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
+toggle_main_menu_handler(GSimpleAction *action, GVariant *param, gpointer data)
+{
+	CelluloidView *view = celluloid_controller_get_view(data);
+	gboolean visible = celluloid_view_get_main_menu_visible(view);
+
+	celluloid_view_set_main_menu_visible(view, !visible);
+}
+
+static void
 set_audio_track_handler(GSimpleAction *action, GVariant *value, gpointer data)
 {
 	g_simple_action_set_state(action, value);
@@ -584,6 +596,8 @@ celluloid_controller_action_register_actions(CelluloidController *controller)
 			.activate = copy_selected_playlist_item_handler},
 			{.name = "remove-selected-playlist-item",
 			.activate = remove_selected_playlist_item_handler},
+			{.name = "toggle-main-menu",
+			.activate = toggle_main_menu_handler},
 			{.name = "set-audio-track",
 			.change_state = set_audio_track_handler,
 			.state = "@x 0",

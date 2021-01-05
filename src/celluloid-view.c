@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 gnome-mpv
+ * Copyright (c) 2017-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -1811,4 +1811,52 @@ celluloid_view_get_controls_visible(CelluloidView *view)
 {
 	return	celluloid_main_window_get_controls_visible
 		(CELLULOID_MAIN_WINDOW(view));
+}
+
+void
+celluloid_view_set_main_menu_visible(CelluloidView *view, gboolean visible)
+{
+	gboolean csd =
+		celluloid_main_window_get_csd_enabled
+		(CELLULOID_MAIN_WINDOW(view));
+
+	if(csd)
+	{
+		GtkWidget *header_bar = gtk_window_get_titlebar(GTK_WINDOW(view));
+
+		celluloid_header_bar_set_menu_button_popup_visible
+			(CELLULOID_HEADER_BAR(header_bar), visible);
+	}
+	else
+	{
+		gtk_application_window_set_show_menubar
+			(GTK_APPLICATION_WINDOW(view), visible);
+	}
+}
+
+gboolean
+celluloid_view_get_main_menu_visible(CelluloidView *view)
+{
+	gboolean csd =
+		celluloid_main_window_get_csd_enabled
+		(CELLULOID_MAIN_WINDOW(view));
+
+	gboolean result = FALSE;
+
+	if(csd)
+	{
+		GtkWidget *header_bar = gtk_window_get_titlebar(GTK_WINDOW(view));
+
+		result =
+			celluloid_header_bar_get_menu_button_popup_visible
+			(CELLULOID_HEADER_BAR(header_bar));
+	}
+	else
+	{
+		result =
+			gtk_application_window_get_show_menubar
+			(GTK_APPLICATION_WINDOW(view));
+	}
+
+	return result;
 }
