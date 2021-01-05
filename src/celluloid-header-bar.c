@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -205,6 +205,13 @@ celluloid_header_bar_get_open_button_popup_visible(CelluloidHeaderBar *hdr)
 	return gtk_widget_is_visible(popover);
 }
 
+void
+celluloid_header_bar_set_open_button_popup_visible(	CelluloidHeaderBar *hdr,
+							gboolean visible )
+{
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hdr->open_btn), visible);
+}
+
 gboolean
 celluloid_header_bar_get_menu_button_popup_visible(CelluloidHeaderBar *hdr)
 {
@@ -212,6 +219,13 @@ celluloid_header_bar_get_menu_button_popup_visible(CelluloidHeaderBar *hdr)
 	GtkWidget *popover = GTK_WIDGET(gtk_menu_button_get_popover(btn));
 
 	return gtk_widget_is_visible(popover);
+}
+
+void
+celluloid_header_bar_set_menu_button_popup_visible(	CelluloidHeaderBar *hdr,
+							gboolean visible )
+{
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hdr->menu_btn), visible);
 }
 
 void
