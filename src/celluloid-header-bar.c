@@ -149,6 +149,8 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	hdr->open_btn = gtk_menu_button_new();
 	hdr->fullscreen_btn = gtk_button_new();
 	hdr->menu_btn = gtk_menu_button_new();
+	hdr->open_popover_visible = FALSE;
+	hdr->menu_popover_visible = FALSE;
 
 	celluloid_menu_build_open_btn(open_btn_menu, NULL);
 	celluloid_menu_build_menu_btn(menu_btn_menu, NULL);
