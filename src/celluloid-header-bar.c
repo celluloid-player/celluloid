@@ -23,6 +23,7 @@
 
 #include "celluloid-header-bar.h"
 #include "celluloid-menu.h"
+#include "celluloid-def.h"
 
 enum
 {
@@ -129,6 +130,8 @@ static void
 celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 {
 	GtkHeaderBar *ghdr;
+	GSettings *settings;
+	gboolean csd;
 	GMenu *open_btn_menu;
 	GMenu *menu_btn_menu;
 	GtkWidget *open_icon;
@@ -136,6 +139,8 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	GtkWidget *menu_icon;
 
 	ghdr = GTK_HEADER_BAR(hdr);
+	settings = g_settings_new(CONFIG_ROOT);
+	csd = g_settings_get_boolean(settings, "csd-enable");
 	open_btn_menu = g_menu_new();
 	menu_btn_menu = g_menu_new();
 
@@ -182,6 +187,8 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	gtk_header_bar_pack_start(ghdr, hdr->open_btn);
 	gtk_header_bar_pack_end(ghdr, hdr->menu_btn);
 	gtk_header_bar_pack_end(ghdr, hdr->fullscreen_btn);
+
+	gtk_widget_set_no_show_all(hdr->fullscreen_btn, TRUE);
 	gtk_header_bar_set_show_close_button(ghdr, TRUE);
 
 	g_object_bind_property(	hdr->open_btn, "active",
@@ -190,6 +197,10 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	g_object_bind_property(	hdr->menu_btn, "active",
 				hdr, "menu-button-active",
 				G_BINDING_DEFAULT );
+
+	gtk_widget_set_visible(hdr->fullscreen_btn, csd);
+
+	g_object_unref(settings);
 }
 
 GtkWidget *
