@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2020 gnome-mpv
+ * Copyright (c) 2014-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -736,7 +736,7 @@ celluloid_control_box_set_fullscreen_state(	CelluloidControlBox *box,
 					GTK_ICON_SIZE_BUTTON );
 
 	gtk_widget_set_visible(	box->fullscreen_button,
-				!fullscreen && box->show_fullscreen_button );
+				box->show_fullscreen_button );
 }
 
 void
