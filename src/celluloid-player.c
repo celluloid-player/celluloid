@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 gnome-mpv
+ * Copyright (c) 2017-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -41,6 +41,9 @@ get_property(	GObject *object,
 		guint property_id,
 		GValue *value,
 		GParamSpec *pspec );
+
+static void
+dispose(GObject *object);
 
 static void
 finalize(GObject *object);
@@ -195,6 +198,17 @@ get_property(	GObject *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
 	}
+}
+
+static void
+dispose(GObject *object)
+{
+	CelluloidPlayerPrivate *priv = get_private(object);
+
+	g_clear_object(&priv->cache);
+	g_clear_object(&priv->monitor);
+
+	G_OBJECT_CLASS(celluloid_player_parent_class)->dispose(object);
 }
 
 static void
@@ -1138,6 +1152,7 @@ celluloid_player_class_init(CelluloidPlayerClass *klass)
 	mpv_class->reset = reset;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
+	obj_class->dispose = dispose;
 	obj_class->finalize = finalize;
 
 	pspec = g_param_spec_pointer
