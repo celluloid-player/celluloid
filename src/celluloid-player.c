@@ -531,15 +531,25 @@ apply_options_array_string(CelluloidMpv *mpv, const gchar *args)
 
 		args = parse_option(args, &key, &value);
 
-		g_debug("Applying option: --%s=%s", key, value);
-
-		if(celluloid_mpv_set_option_string(mpv, key, value) < 0)
+		if(key && *key)
 		{
-			fail_count++;
+			g_debug("Applying option: --%s=%s", key, value);
 
-			g_warning(	"Failed to apply option: --%s=%s\n",
-					key,
-					value );
+			if(celluloid_mpv_set_option_string(mpv, key, value) < 0)
+			{
+				fail_count++;
+
+				g_warning(	"Failed to apply option: --%s=%s\n",
+						key,
+						value );
+			}
+		}
+		else
+		{
+			g_warning("Failed to parse options");
+
+			args = NULL;
+			fail_count++;
 		}
 
 		g_free(key);
