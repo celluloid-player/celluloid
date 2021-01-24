@@ -392,6 +392,9 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	gtk_widget_add_events(area->gl_area, extra_events);
 
 	gtk_widget_set_valign(area->control_box_revealer, GTK_ALIGN_END);
+	gtk_revealer_set_transition_type
+		(GTK_REVEALER(area->control_box_revealer),
+		GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP);
 	gtk_revealer_set_reveal_child
 		(GTK_REVEALER(area->control_box_revealer), FALSE);
 
