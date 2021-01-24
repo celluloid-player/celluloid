@@ -6,14 +6,15 @@
 # Mingye Wang <arthur2e5@aosc.xyz>, 2015.
 # Julian <laichiaheng@outlook.com>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
+# Hsiu-Ming Chang <cges30901@gmail.com>, 2020. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-09 22:16+0700\n"
-"PO-Revision-Date: 2020-06-23 10:41-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2020-12-31 11:30-0500\n"
+"Last-Translator: Hsiu-Ming Chang <cges30901@gmail.com>\n"
 "Language-Team: zh_Hant <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -25,11 +26,11 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr ""
+msgstr "是否已從上一個版本遷移設定"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
-msgstr ""
+msgstr "自動調整視窗大小以符合影片"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable dark theme"
@@ -41,16 +42,15 @@ msgstr "啟用客戶端裝飾"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr ""
+msgstr "在視窗模式下啟用浮動控制介面"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr "視窗模式下自動隱藏游標"
+msgstr "在視窗模式下自動隱藏滑鼠游標"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
-msgstr ""
+msgstr "取消隱藏浮動控制介面的最小游標速度。"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
@@ -60,12 +60,11 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons for controlling playlist"
-msgstr ""
+msgstr "使用跳轉按鈕控制播放清單"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
-#, fuzzy
 msgid "Make file chooser remember last file's location"
-msgstr "記住最後一次開啟位置"
+msgstr "讓檔案選擇器記住上次的檔案位置"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -81,18 +80,16 @@ msgid "Path to mpv configuration file"
 msgstr "mpv 配置檔的路徑"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
-#, fuzzy
 msgid "Load mpv configuration file"
-msgstr "載入 MPV 配置檔"
+msgstr "載入 mpv 配置檔"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Path to mpv input configuration file"
 msgstr "mpv 輸入配置檔的路徑"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
-#, fuzzy
 msgid "Load mpv input configuration file"
-msgstr "載入 MPV 輸入配置檔"
+msgstr "載入 mpv 輸入配置檔"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Enable MPRIS support"
@@ -104,7 +101,7 @@ msgstr "啟用播放快捷鍵支援"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
 msgid "Prefetch metadata"
-msgstr ""
+msgstr "預先讀取詮釋資料"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid "Ignore playback errors"
@@ -124,7 +121,7 @@ msgstr "視窗高度"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:154
 msgid "Whether or not the window is maximized"
-msgstr ""
+msgstr "視窗是否最大化"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:161
 msgid "Volume of player"
@@ -132,23 +129,23 @@ msgstr "播放器音量"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Whether or not to loop when the end of playlist is reached"
-msgstr ""
+msgstr "播放清單結束時是否循環播放"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Width of the playlist"
-msgstr "播放列表寬度"
+msgstr "播放清單寬度"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Show or not show the controls"
-msgstr ""
+msgstr "是否顯示控制介面"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:185
 msgid "Show or not show the playlist"
-msgstr "是否顯示播放列表"
+msgstr "是否顯示播放清單"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:191
 msgid "URI of the last folder accessed"
-msgstr "最近訪問的資料夾 URI"
+msgstr "最近存取的資料夾 URI"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
@@ -158,7 +155,7 @@ msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
 msgid "GTK+ frontend for mpv"
-msgstr "MPV 之 GTK 前端程式"
+msgstr "MPV 的 GTK+ 前端程式"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -168,6 +165,9 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
+"Celluloid 是一個簡單的媒體播放器，可以播放幾乎所有影片和音訊格式。支援播放清單和 MPRIS2 媒體播放器控制介面。Celluloid "
+"的設計遵循 GNOME Human Interface Guidelines，但也可以適用於不使用客戶端裝飾 (CSD) 的其他系統。Celluloid"
+" 基於 mpv 函式庫和 GTK。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -175,11 +175,11 @@ msgstr "特性："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:25
 msgid "Drag and drop playlist"
-msgstr "拖放播放列表"
+msgstr "拖放播放清單"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
-msgstr "正在載入外部 mpv 配置檔"
+msgstr "載入外部 mpv 配置檔"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:27
 msgid "MPRIS2 D-Bus interface"
@@ -187,7 +187,7 @@ msgstr "MPRIS2 D-Bus 介面"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:30
 msgid "The Celluloid Developers"
-msgstr ""
+msgstr "Celluloid 開發者"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
@@ -197,7 +197,7 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:254
 msgid "This release contains the following changes:"
-msgstr ""
+msgstr "此發行版本包含了以下變更："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Make it possible to activate context menu when the playlist is empty."
@@ -205,8 +205,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid ""
-"Prevent constant resizing of the seek bar due to timestamp label resizing as "
-"its value changes."
+"Prevent constant resizing of the seek bar due to timestamp label resizing as"
+" its value changes."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
@@ -245,7 +245,7 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:247
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
 msgid "This listing is incomplete. See git log for complete changelog."
-msgstr ""
+msgstr "這個清單不是完整的。請到 git log 中檢視完整的變更記錄。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
 msgid ""
@@ -279,8 +279,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 
@@ -312,8 +312,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:139
@@ -397,8 +397,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:233
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
@@ -436,7 +436,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
 msgid "The main window showing the application in action"
-msgstr "顯示執行中套用的主視窗"
+msgstr "顯示執行中應用程式的主視窗"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:289
 msgid "The main window with CSD disabled"
@@ -444,7 +444,7 @@ msgstr "關閉了 CSD 的主視窗"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:293
 msgid "The main window with playlist open"
-msgstr "打開了播放列表的主視窗"
+msgstr "打開了播放清單的主視窗"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Multimedia Player"
@@ -454,10 +454,11 @@ msgstr "多媒體播放器"
 msgid "Play movies and videos"
 msgstr "播放電影和影片"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr ""
+msgstr "影片;電影;剪輯;系列;播放器;DVD;TV;光碟;專輯;音樂;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
@@ -469,15 +470,15 @@ msgstr "正在播放"
 
 #: src/celluloid-application.c:551
 msgid "Show release version"
-msgstr ""
+msgstr "顯示發行版本"
 
 #: src/celluloid-application.c:559
 msgid "Enqueue"
-msgstr ""
+msgstr "加入佇列"
 
 #: src/celluloid-application.c:567
 msgid "Create a new window"
-msgstr ""
+msgstr "建立一個新視窗"
 
 #: src/celluloid-application.c:576
 msgid "OPTIONS"
@@ -485,11 +486,11 @@ msgstr "選項"
 
 #: src/celluloid-application.c:583
 msgid "Set the window role"
-msgstr ""
+msgstr "設定視窗角色 (window role)"
 
 #: src/celluloid-application.c:591
 msgid "Don't connect to an already-running instance"
-msgstr ""
+msgstr "不要連接到正在執行的實體"
 
 #: src/celluloid-control-box.c:362
 msgid "Pause"
@@ -521,11 +522,11 @@ msgstr "前一章節"
 
 #: src/celluloid-control-box.c:583
 msgid "Loop Playlist"
-msgstr ""
+msgstr "循環播放清單"
 
 #: src/celluloid-control-box.c:586
 msgid "Shuffle Playlist"
-msgstr ""
+msgstr "隨機播放清單"
 
 #: src/celluloid-control-box.c:589 src/celluloid-header-bar.c:91
 msgid "Toggle Fullscreen"
@@ -565,21 +566,19 @@ msgstr "無"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "未知"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr ""
+msgstr "載入外部(_L)…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
-msgstr ""
+msgstr "未找到光碟"
 
 #: src/celluloid-menu.c:235
 msgid "_File"
@@ -591,7 +590,7 @@ msgstr "開啟(_O)…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr ""
+msgstr "開啟資料夾(_F)…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -599,20 +598,19 @@ msgstr "開啟位置(_L)…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr ""
+msgstr "開啟光碟...(_D)"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
-msgstr "儲存播放列表(_S)"
+msgstr "儲存播放清單(_S)"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:323
 msgid "_New Window"
 msgstr "新增視窗(_N)"
 
 #: src/celluloid-menu.c:242
-#, fuzzy
 msgid "_Quit"
-msgstr "離開"
+msgstr "退出(_Q)"
 
 #: src/celluloid-menu.c:243
 msgid "_Edit"
@@ -640,15 +638,15 @@ msgstr "檢視(_V)"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:287
 msgid "_Toggle Controls"
-msgstr ""
+msgstr "開關控制介面(_T)"
 
 #: src/celluloid-menu.c:250 src/celluloid-menu.c:289
 msgid "_Toggle Playlist"
-msgstr "切換播放列表(_T)"
+msgstr "開關播放清單(_T)"
 
 #: src/celluloid-menu.c:251
 msgid "_Fullscreen"
-msgstr "全屏(_F)"
+msgstr "全螢幕(_F)"
 
 #: src/celluloid-menu.c:252
 msgid "_Help"
@@ -664,12 +662,12 @@ msgstr "關於 Celluloid(_A)"
 
 #: src/celluloid-menu.c:321
 msgid "Open _Disc"
-msgstr "開啟檔案(_D)"
+msgstr "開啟光碟(_D)"
 
 #: src/celluloid-mpv.c:240
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr "回放被異常終止。原因：%s。"
+msgstr "播放被異常終止。原因：%s。"
 
 #: src/celluloid-open-location-dialog.c:130
 msgid "Location:"
@@ -702,32 +700,31 @@ msgstr "新增(_A)…"
 
 #: src/celluloid-playlist-widget.c:790
 msgid "Add _Folder…"
-msgstr ""
+msgstr "加入資料夾(_F)…"
 
 #: src/celluloid-playlist-widget.c:791
 msgid "Add _Location…"
-msgstr ""
+msgstr "加入位置(_L)…"
 
 #: src/celluloid-playlist-widget.c:792
 msgid "_Shuffle"
-msgstr ""
+msgstr "隨機播放(_S)"
 
 #: src/celluloid-playlist-widget.c:793
 msgid "Loop _File"
-msgstr ""
+msgstr "循環播放檔案(_F)"
 
 #: src/celluloid-playlist-widget.c:794
 msgid "Loop _Playlist"
-msgstr ""
+msgstr "循環播放清單(_P)"
 
 #: src/celluloid-playlist-widget.c:935 src/celluloid-shortcuts-window.c:136
 msgid "Playlist"
-msgstr "播放列表"
+msgstr "播放清單"
 
 #: src/celluloid-playlist-widget.c:943
-#, fuzzy
 msgid "Playlist is empty"
-msgstr "播放列表"
+msgstr "播放清單是空的"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
@@ -748,7 +745,7 @@ msgstr "C 外掛"
 #: src/celluloid-plugins-manager.c:334
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr "從 '%s' 複製檔案到 '%s' 失敗。原因：%s"
+msgstr "從「%s」複製檔案到「%s」失敗。原因：%s"
 
 #: src/celluloid-plugins-manager.c:385
 msgid "No plugins found"
@@ -766,22 +763,19 @@ msgstr "確定要移除此外掛？這動作將無法復原。"
 #: src/celluloid-plugins-manager-item.c:199
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr "移除 '%s' 失敗。原因：%s"
+msgstr "刪除檔案「%s」失敗。原因：%s"
 
 #: src/celluloid-preferences-dialog.c:341
-#, fuzzy
 msgid "mpv configuration file:"
-msgstr "MPV 配置檔："
+msgstr "mpv 配置檔："
 
 #: src/celluloid-preferences-dialog.c:347
-#, fuzzy
 msgid "mpv input configuration file:"
-msgstr "MPV 輸入配置檔："
+msgstr "mpv 輸入配置檔："
 
 #: src/celluloid-preferences-dialog.c:367
-#, fuzzy
 msgid "Extra mpv options:"
-msgstr "額外的 MPV 選項："
+msgstr "額外的 mpv 選項："
 
 #: src/celluloid-preferences-dialog.c:400
 msgid "Interface"
@@ -793,7 +787,7 @@ msgstr "設定檔"
 
 #: src/celluloid-preferences-dialog.c:406
 msgid "Miscellaneous"
-msgstr ""
+msgstr "雜項"
 
 #: src/celluloid-preferences-dialog.c:409
 msgid "Plugins"
@@ -825,83 +819,83 @@ msgstr "將位置加入至播放清單"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Show preferences dialog"
-msgstr ""
+msgstr "顯示偏好設定對話框"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Toggle controls"
-msgstr ""
+msgstr "開關控制介面"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Toggle playlist"
-msgstr ""
+msgstr "開關播放清單"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Toggle fullscreen mode"
-msgstr "開啟全螢幕"
+msgstr "開關全螢幕模式"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Leave fullscreen mode"
-msgstr "離開全螢幕"
+msgstr "離開全螢幕模式"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
+msgstr "切換 OSD 狀態為「普通」或者「播放時間/總時長」"
 
 #: src/celluloid-shortcuts-window.c:67
 msgid "Show filename on the OSD"
-msgstr ""
+msgstr "在 OSD 上顯示檔案名稱"
 
 #: src/celluloid-shortcuts-window.c:68
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr ""
+msgstr "在 OSD 上顯示進度、已播放時間、總時長"
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Seek backward/forward 5 seconds"
-msgstr ""
+msgstr "向後/向前跳轉 5 秒"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Exact seek backward/forward 1 second"
-msgstr ""
+msgstr "向後/向前精確跳轉 1 秒"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Seek backward/forward 1 minute"
-msgstr ""
+msgstr "向後/向前跳轉 1 分鐘"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Exact seek backward/forward 5 seconds"
-msgstr ""
+msgstr "向後/向前精確跳轉 5 秒"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Seek to previous/next subtitle"
-msgstr ""
+msgstr "跳轉到上一個/下一個字幕"
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Step backward/forward a single frame"
-msgstr ""
+msgstr "向後/向前一幀"
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr ""
+msgstr "前往上一章/下一章的開頭"
 
 #: src/celluloid-shortcuts-window.c:80
 msgid "Decrease/increase playback speed by 10%"
-msgstr ""
+msgstr "減少/增加 10% 播放速度"
 
 #: src/celluloid-shortcuts-window.c:81
 msgid "Halve/double current playback speed"
-msgstr ""
+msgstr "減半/加倍目前的播放速度"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Reset playback speed to normal"
-msgstr ""
+msgstr "重置播放速度為正常速度"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Go backward/forward in the playlist"
-msgstr ""
+msgstr "前往播放清單的前一項/後一項"
 
 #: src/celluloid-shortcuts-window.c:84
 msgid "Remove selected playlist item"
-msgstr ""
+msgstr "移除選擇的播放清單項目"
 
 #: src/celluloid-shortcuts-window.c:85
 msgid "Save playlist"
@@ -909,15 +903,15 @@ msgstr "儲存播放清單"
 
 #: src/celluloid-shortcuts-window.c:86
 msgid "Set/clear A-B loop points"
-msgstr ""
+msgstr "設定/清除 A-B 循環點"
 
 #: src/celluloid-shortcuts-window.c:87
 msgid "Toggle infinite looping"
-msgstr ""
+msgstr "開關無限循環"
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Pause or unpause"
-msgstr "是否暫停"
+msgstr "暫停或取消暫停"
 
 #: src/celluloid-shortcuts-window.c:89
 msgid "Quit"
@@ -925,27 +919,27 @@ msgstr "離開"
 
 #: src/celluloid-shortcuts-window.c:90
 msgid "Save current playback position and quit"
-msgstr ""
+msgstr "儲存目前播放位置並退出"
 
 #: src/celluloid-shortcuts-window.c:93
 msgid "Enter search mode"
-msgstr ""
+msgstr "進入搜尋模式"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Jump to next match"
-msgstr ""
+msgstr "跳到下一個符合項目"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Jump to previous match"
-msgstr ""
+msgstr "跳到上一個符合項目"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Exit search mode"
-msgstr ""
+msgstr "退出搜尋模式"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Cycle through audio tracks"
-msgstr ""
+msgstr "循環切換音軌"
 
 #: src/celluloid-shortcuts-window.c:100 src/celluloid-shortcuts-window.c:101
 msgid "Decrease/increase volume"
@@ -957,23 +951,23 @@ msgstr "是否靜音"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "調整音訊延遲 +/- 0.1 秒"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Toggle subtitle visibility"
-msgstr ""
+msgstr "開關字幕可見度"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Cycle through available subtitles"
-msgstr ""
+msgstr "循環切換可用字幕"
 
 #: src/celluloid-shortcuts-window.c:108
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "調整字幕延遲 +/- 0.1 秒"
 
 #: src/celluloid-shortcuts-window.c:109
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr ""
+msgstr "開關 SSA/ASS 字幕樣式覆蓋"
 
 #: src/celluloid-shortcuts-window.c:110
 msgid "Move subtitles up/down"
@@ -981,15 +975,15 @@ msgstr "字幕上下移動"
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr ""
+msgstr "開關 VSFilter aspect 相容模式"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Cycle through video tracks"
-msgstr ""
+msgstr "循環切換視訊軌道"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Decrease/increase pan-and-scan range"
-msgstr ""
+msgstr "減小/增加 pan-and-scan 範圍"
 
 #: src/celluloid-shortcuts-window.c:116
 msgid "Take a screenshot"
@@ -997,11 +991,11 @@ msgstr "拍攝螢幕擷圖"
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Take a screenshot, without subtitles"
-msgstr ""
+msgstr "拍攝螢幕擷圖，不包含字幕"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Take a screenshot, as the window shows it"
-msgstr ""
+msgstr "拍攝螢幕擷圖，就如同視窗中顯示的一樣"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Resize video to half its original size"
@@ -1037,7 +1031,7 @@ msgstr "是否啟用解調變"
 
 #: src/celluloid-shortcuts-window.c:127
 msgid "Cycle aspect ratio override"
-msgstr ""
+msgstr "循環切換寬高比覆蓋"
 
 #: src/celluloid-shortcuts-window.c:130
 msgid "User Interface"
@@ -1057,41 +1051,41 @@ msgstr "字幕"
 
 #: src/celluloid-shortcuts-window.c:134
 msgid "Playback"
-msgstr ""
+msgstr "播放"
 
 #: src/celluloid-shortcuts-window.c:135
 msgid "Seeking"
-msgstr ""
+msgstr "跳轉"
 
 #: src/celluloid-view.c:728
 msgid "Load Audio Track…"
-msgstr "載入音訊檔"
+msgstr "載入音軌…"
 
 #: src/celluloid-view.c:732
 msgid "Load Video Track…"
-msgstr ""
+msgstr "載入視訊軌道…"
 
 #: src/celluloid-view.c:736
 msgid "Load Subtitle Track…"
-msgstr "載入字幕檔"
+msgstr "載入字幕軌…"
 
 #: src/celluloid-view.c:901
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
-msgstr ""
+msgstr "啟用或停用客戶端裝飾（CSD），需要重新啟動播放器以生效。"
 
 #: src/celluloid-view.c:1444
 msgid "Add Folder to Playlist"
-msgstr ""
+msgstr "新增資料夾到播放清單"
 
 #: src/celluloid-view.c:1444
 msgid "Open Folder"
-msgstr ""
+msgstr "開啟資料夾"
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"
-msgstr "新增檔案到播放列表"
+msgstr "新增檔案到播放清單"
 
 #: src/celluloid-view.c:1449
 msgid "Open File"
@@ -1107,7 +1101,7 @@ msgstr "開啟位置"
 
 #: src/celluloid-view.c:1532
 msgid "Save Playlist"
-msgstr "儲存播放列表"
+msgstr "儲存播放清單"
 
 #: src/celluloid-view.c:1598
 msgid "A GTK frontend for MPV"
@@ -1117,27 +1111,5 @@ msgstr "MPV 的 GTK 前端程式"
 msgid "translator-credits"
 msgstr ""
 "Mingye Wang\n"
-"Sun"
-
-#~ msgid "Enable or disable dark theme"
-#~ msgstr "啟用或禁用暗色主題"
-
-#~ msgid "Enable or disable client-side decorations"
-#~ msgstr "啟用或禁用客戶端裝飾"
-
-#~ msgid ""
-#~ "Whether or not to make file chooser dialog remember last folder accessed"
-#~ msgstr "是否讓檔案選擇對話窗記住最近訪問的資料夾"
-
-#~ msgid ""
-#~ "Whether or not to create new windows when there is already an instance"
-#~ msgstr "當播放器使用時是否開啟新視窗"
-
-#~ msgid "Load or don't load mpv configuration file"
-#~ msgstr "是否載入 mpv 配置檔"
-
-#~ msgid "Load or don't load mpv input configuration file"
-#~ msgstr "是否載入 mpv 輸入配置檔"
-
-#~ msgid "Whether or not to enable MPRIS support"
-#~ msgstr "是否啟用 MPRIS 支援"
+"Sun\n"
+"張修銘 <cges30901@gmail.com>"

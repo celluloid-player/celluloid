@@ -1,12 +1,14 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
+#,,,,zjf <Deace1942@cuvox.de>, 2020. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
+# Luca Trevisani <luca9x@tiscali.it>, 2021. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-09 22:16+0700\n"
-"PO-Revision-Date: 2020-09-12 08:27-0400\n"
-"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2021-01-10 07:43-0500\n"
+"Last-Translator: Luca Trevisani <luca9x@tiscali.it>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +41,6 @@ msgid "Use floating controls in windowed mode"
 msgstr "Usa i controlli mobili in modalità finestra"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Automatically hide mouse cursor in windowed mode"
 msgstr "Nascondi automaticamente il cursore del mouse in modalità finestra"
 
@@ -50,22 +51,21 @@ msgstr ""
 "schermo."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
-#, fuzzy
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
-"La dimensione della zona morta in cui il movimento del cursore non farà "
-"apparire i controlli."
+"Dimensione della zona morta in cui il movimento del cursore non comporterà "
+"la visualizzazione dei controlli."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons for controlling playlist"
 msgstr "Usa i pulsanti di salto per controllare la playlist"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
-#, fuzzy
 msgid "Make file chooser remember last file's location"
-msgstr "Ricorda l'ultimo percorso dei file"
+msgstr ""
+"Fai in modo che selettore di file ricordi la posizione dell'ultimo file"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -81,18 +81,16 @@ msgid "Path to mpv configuration file"
 msgstr "Percorso del file di configurazione di mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
-#, fuzzy
 msgid "Load mpv configuration file"
-msgstr "Carica file di configurazione di MPV"
+msgstr "Carica il file di configurazione mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Path to mpv input configuration file"
 msgstr "Percorso del file delle configurazioni di input di mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
-#, fuzzy
 msgid "Load mpv input configuration file"
-msgstr "Carica file di input di MPV"
+msgstr "Carica il file delle configurazione di input di mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Enable MPRIS support"
@@ -112,7 +110,7 @@ msgstr "Ignora gli errori di riproduzione"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Inibisci l'inativazione della sessione"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -172,8 +170,8 @@ msgid ""
 msgstr ""
 "Celluloid è un semplice lettore multimediale in grado di riprodurre "
 "praticamente tutti i formati audio e video. Supporta playlist e controlli "
-"MPRIS2 multimediali. Il design di Celluloid segue le linee guida GNOME Human "
-"Interface, ma può anche essere adattato per altri sistemi che non usano "
+"MPRIS2 multimediali. Il design di Celluloid segue le linee guida GNOME Human"
+" Interface, ma può anche essere adattato per altri sistemi che non usano "
 "decorazioni lato client (CSD). Si basa sulle librerie libmpv e GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
@@ -209,41 +207,50 @@ msgstr "Questa versione contiene le seguenti modifiche:"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr ""
+"Rende possibile l'attivazione del menu contestuale quando la playlist è "
+"vuota."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid ""
-"Prevent constant resizing of the seek bar due to timestamp label resizing as "
-"its value changes."
+"Prevent constant resizing of the seek bar due to timestamp label resizing as"
+" its value changes."
 msgstr ""
+"Prevenzione del ridimensionamento costante della barra di ricerca a causa "
+"del ridimensionamento dell'etichetta timestamp quando il suo valore cambia."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
 msgstr ""
+"Mostra solo una finestra di dialogo di errore quando si verifica un numero "
+"elevato di errori in rapida successione."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
-#, fuzzy
 msgid "Add menu item for opening folders."
-msgstr "Aggiunta voce del menù per l'apertura di dischi"
+msgstr "Aggiunta una voce al menu per aprire le cartelle."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
+"Regola la posizione degli elementi della UI delle finestre di dialogo in "
+"modalità non CSD per essere più coerente con la modalità CSD."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:56
 msgid "Add support for loading external video tracks."
-msgstr ""
+msgstr "Aggiunto il supporto per il caricamento di tracce video esterne."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:59
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Resa attivabile la riproduzione in ordine casuale delle playlist."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr ""
+"Fa in modo che le associazioni dei tasti freccia funzionino con i tasti "
+"freccia sul tastierino numerico."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
@@ -295,20 +302,20 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 "'--mpv-options' obsoleto. Le opzioni che iniziano con '--mpv-' possono "
-"essere usate come opzioni di mpv. Per esempio, '--mpv-vf=vflip' in Celluloid "
-"è l'equivalente di '--vf=vflip' in mpv."
+"essere usate come opzioni di mpv. Per esempio, '--mpv-vf=vflip' in Celluloid"
+" è l'equivalente di '--vf=vflip' in mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
-"Aggiunto supporto alla zona morta, un'area nella quale i movimenti del "
+"Aggiunto supporto alla dead zone, un'area nella quale i movimenti del "
 "cursore non invocheranno i controlli a schermo."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:109
@@ -333,8 +340,8 @@ msgstr "Aggiunta traduzione ucraina di @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Aggiunto supporto per l'abilitazione delle decorazioni delle finestre "
 "tramite l'opzione di mpv --border"
@@ -346,8 +353,8 @@ msgstr "Aggiunta voce del menù per l'apertura di dischi"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:142
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
-"Blocco della disabilitazione del cursore quando il popup del volume è aperto "
-"in modalità finestra"
+"Blocco della disabilitazione del cursore quando il popup del volume è aperto"
+" in modalità finestra"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
 msgid "Fix crash with mpv 0.30"
@@ -398,7 +405,8 @@ msgstr "Divisione della scheda Generale nella finestra delle preferenze"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:202
 msgid "Improve behavior when toggling playlist under tiling window managers"
-msgstr "Migliorato il comportamento della playlist con i tiling window manager"
+msgstr ""
+"Migliorato il comportamento della playlist con i tiling window manager"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:205
 msgid "Move app menu items to primary menu"
@@ -426,11 +434,11 @@ msgstr "Cartella predefinita degli screenshot impostata a XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:233
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
-"Migliorata la gestione di --window-scale, --autofit, --autofit-larger, e --"
-"autofit-smaller"
+"Migliorata la gestione di --window-scale, --autofit, --autofit-larger, e "
+"--autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
 msgid "Add command line option for setting WM_ROLE"
@@ -443,7 +451,7 @@ msgstr "Aggiunta voce menù per la rimozione degli elementi della playlist"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:243
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
-"Aggiunta voce menù per la copia dell'indirizzo degli elementi della playlist"
+"Aggiunta voce menù per copiare la posizione degli elementi della playlist"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:258
 msgid ""
@@ -492,7 +500,8 @@ msgstr "Riproduttore multimediale"
 msgid "Play movies and videos"
 msgstr "Riproduci film e video"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Video;Film;Clip;Serie;Player;DVD;TV;Disco;Album;Musica;GNOME;mpv;"
@@ -559,15 +568,15 @@ msgstr "Capitolo precedente"
 
 #: src/celluloid-control-box.c:583
 msgid "Loop Playlist"
-msgstr "Ripetizione della Playlist"
+msgstr "Ripetizione della playlist"
 
 #: src/celluloid-control-box.c:586
 msgid "Shuffle Playlist"
-msgstr "Riordina la Playlist"
+msgstr "Riordina la playlist"
 
 #: src/celluloid-control-box.c:589 src/celluloid-header-bar.c:91
 msgid "Toggle Fullscreen"
-msgstr "Attiva/Disattiva Schermo Intero"
+msgstr "Attiva/disattiva schermo intero"
 
 #: src/celluloid-controller.c:992 src/celluloid-view.c:1558
 msgid "Error"
@@ -575,27 +584,27 @@ msgstr "Errore"
 
 #: src/celluloid-file-chooser.c:139 src/celluloid-plugins-manager.c:170
 msgid "All Files"
-msgstr "Tutti i File"
+msgstr "Tutti i file"
 
 #: src/celluloid-file-chooser.c:147
 msgid "Media Files"
-msgstr "File Multimediali"
+msgstr "File multimediali"
 
 #: src/celluloid-file-chooser.c:158
 msgid "Audio Files"
-msgstr "File Audio"
+msgstr "File audio"
 
 #: src/celluloid-file-chooser.c:166
 msgid "Video Files"
-msgstr "File Video"
+msgstr "File video"
 
 #: src/celluloid-file-chooser.c:174
 msgid "Image Files"
-msgstr "File Immagine"
+msgstr "File immagine"
 
 #: src/celluloid-file-chooser.c:184
 msgid "Subtitle Files"
-msgstr "File Sottotitoli"
+msgstr "File sottotitoli"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -603,7 +612,6 @@ msgstr "Nessuna"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Sconosciuta"
@@ -614,7 +622,6 @@ msgstr "_Importa…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Nessun disco trovato"
@@ -629,23 +636,23 @@ msgstr "_Apri…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr "Apri _Cartella..."
+msgstr "Apri _cartella..."
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
-msgstr "Apri _Posizione…"
+msgstr "Apri _posizione…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr "Apri _Disco…"
+msgstr "Apri _disco…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
-msgstr "_Salva Playlist"
+msgstr "_Salva playlist"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:323
 msgid "_New Window"
-msgstr "_Nuova Finestra"
+msgstr "_Nuova finestra"
 
 #: src/celluloid-menu.c:242
 msgid "_Quit"
@@ -661,15 +668,15 @@ msgstr "_Preferenze"
 
 #: src/celluloid-menu.c:245 src/celluloid-menu.c:292
 msgid "_Video Track"
-msgstr "Traccia _Video"
+msgstr "Traccia _video"
 
 #: src/celluloid-menu.c:246 src/celluloid-menu.c:293
 msgid "_Audio Track"
-msgstr "Traccia _Audio"
+msgstr "Traccia _audio"
 
 #: src/celluloid-menu.c:247 src/celluloid-menu.c:294
 msgid "S_ubtitle Track"
-msgstr "Traccia S_ottotitoli"
+msgstr "Traccia s_ottotitoli"
 
 #: src/celluloid-menu.c:248
 msgid "_View"
@@ -677,15 +684,15 @@ msgstr "_Visualizza"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:287
 msgid "_Toggle Controls"
-msgstr "Visualizza/Nascondi i _Controlli"
+msgstr "Visualizza/nascondi i _controlli"
 
 #: src/celluloid-menu.c:250 src/celluloid-menu.c:289
 msgid "_Toggle Playlist"
-msgstr "Visualizza/Nascondi la _Playlist"
+msgstr "Visualizza/nascondi la _playlist"
 
 #: src/celluloid-menu.c:251
 msgid "_Fullscreen"
-msgstr "Schermo _Intero"
+msgstr "Schermo _intero"
 
 #: src/celluloid-menu.c:252
 msgid "_Help"
@@ -693,7 +700,7 @@ msgstr "_Aiuto"
 
 #: src/celluloid-menu.c:253 src/celluloid-menu.c:297
 msgid "_Keyboard Shortcuts"
-msgstr "Scorciatoie da _Tastiera"
+msgstr "Scorciatoie da _tastiera"
 
 #: src/celluloid-menu.c:254 src/celluloid-menu.c:298
 msgid "_About Celluloid"
@@ -701,7 +708,7 @@ msgstr "I_nformazioni su Celluloid"
 
 #: src/celluloid-menu.c:321
 msgid "Open _Disc"
-msgstr "Apri _Disco"
+msgstr "Apri _disco"
 
 #: src/celluloid-mpv.c:240
 #, c-format
@@ -727,7 +734,7 @@ msgstr "Impossibile applicare una o più opzioni di MPV"
 
 #: src/celluloid-playlist-widget.c:786
 msgid "_Copy Location"
-msgstr "_Copia Posizione"
+msgstr "_Copia posizione"
 
 #: src/celluloid-playlist-widget.c:787
 msgid "_Remove"
@@ -739,23 +746,23 @@ msgstr "A_ggiungi…"
 
 #: src/celluloid-playlist-widget.c:790
 msgid "Add _Folder…"
-msgstr "Aggiungi _Cartella..."
+msgstr "Aggiungi _cartella..."
 
 #: src/celluloid-playlist-widget.c:791
 msgid "Add _Location…"
-msgstr "Aggiungi _Posizione…"
+msgstr "Aggiungi _posizione…"
 
 #: src/celluloid-playlist-widget.c:792
 msgid "_Shuffle"
-msgstr "Riproduzione Cas_uale"
+msgstr "Riproduzione cas_uale"
 
 #: src/celluloid-playlist-widget.c:793
 msgid "Loop _File"
-msgstr "Ripeti il _File"
+msgstr "Ripeti il _file"
 
 #: src/celluloid-playlist-widget.c:794
 msgid "Loop _Playlist"
-msgstr "Ripeti la _Playlist"
+msgstr "Ripeti la _playlist"
 
 #: src/celluloid-playlist-widget.c:935 src/celluloid-shortcuts-window.c:136
 msgid "Playlist"
@@ -767,7 +774,7 @@ msgstr "La playlist è vuota"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
-msgstr "Aggiungi Plugin"
+msgstr "Aggiungi plugin"
 
 #: src/celluloid-plugins-manager.c:175
 msgid "Lua Plugins"
@@ -807,19 +814,16 @@ msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Impossibile cancellare il file '%s'. Motivo: %s"
 
 #: src/celluloid-preferences-dialog.c:341
-#, fuzzy
 msgid "mpv configuration file:"
-msgstr "File di configurazione di MPV"
+msgstr "file di configurazione di mpv:"
 
 #: src/celluloid-preferences-dialog.c:347
-#, fuzzy
 msgid "mpv input configuration file:"
-msgstr "File di input di MPV"
+msgstr "file di configurazione degli input di mpv:"
 
 #: src/celluloid-preferences-dialog.c:367
-#, fuzzy
 msgid "Extra mpv options:"
-msgstr "Opzioni extra per MPV"
+msgstr "Opzioni extra di mpv:"
 
 #: src/celluloid-preferences-dialog.c:400
 msgid "Interface"
@@ -827,11 +831,11 @@ msgstr "Interfaccia"
 
 #: src/celluloid-preferences-dialog.c:403
 msgid "Config Files"
-msgstr "File di Configurazione"
+msgstr "File di configurazione"
 
 #: src/celluloid-preferences-dialog.c:406
 msgid "Miscellaneous"
-msgstr "Altre Opzioni"
+msgstr "Altre opzioni"
 
 #: src/celluloid-preferences-dialog.c:409
 msgid "Plugins"
@@ -867,15 +871,15 @@ msgstr "Mostra la finestra delle preferenze"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Toggle controls"
-msgstr "Visualizza/Nascondi i controlli"
+msgstr "Visualizza/nascondi i controlli"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Toggle playlist"
-msgstr "Visualizza/Nascondi la playlist"
+msgstr "Visualizza/nascondi la playlist"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Toggle fullscreen mode"
-msgstr "Attiva/Disattiva la modalità a schermo intero"
+msgstr "Attiva/disattiva la modalità a schermo intero"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Leave fullscreen mode"
@@ -883,7 +887,7 @@ msgstr "Esci dalla modalità a schermo intero"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr "Attiva/Disattiva la visualizzazione del tempo in sovrimpressione"
+msgstr "Attiva/disattiva la visualizzazione del tempo in sovrimpressione"
 
 #: src/celluloid-shortcuts-window.c:67
 msgid "Show filename on the OSD"
@@ -923,11 +927,11 @@ msgstr "Vai all'inizio del capitolo precedente/prossimo"
 
 #: src/celluloid-shortcuts-window.c:80
 msgid "Decrease/increase playback speed by 10%"
-msgstr "Diminuisci/Aumenta la velocità di riproduzione del 10%"
+msgstr "Diminuisci/aumenta la velocità di riproduzione del 10%"
 
 #: src/celluloid-shortcuts-window.c:81
 msgid "Halve/double current playback speed"
-msgstr "Dimezza/Raddoppia la velocità di riproduzione corrente"
+msgstr "Dimezza/raddoppia la velocità di riproduzione corrente"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Reset playback speed to normal"
@@ -951,7 +955,7 @@ msgstr "Imposta/rimuovi la ripetizione fra i punti A-B"
 
 #: src/celluloid-shortcuts-window.c:87
 msgid "Toggle infinite looping"
-msgstr "Attiva/Disattiva la ripetizione continua"
+msgstr "Attiva/disattiva la ripetizione continua"
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Pause or unpause"
@@ -987,11 +991,11 @@ msgstr "Scegli fra le tracce audio disponibili"
 
 #: src/celluloid-shortcuts-window.c:100 src/celluloid-shortcuts-window.c:101
 msgid "Decrease/increase volume"
-msgstr "Diminuisci/Aumenta il volume"
+msgstr "Diminuisci/aumenta il volume"
 
 #: src/celluloid-shortcuts-window.c:102
 msgid "Mute or unmute"
-msgstr "Attiva/Disattiva l'audio"
+msgstr "Attiva/disattiva l'audio"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Adjust audio delay by +/- 0.1 seconds"
@@ -999,7 +1003,7 @@ msgstr "Regola il ritardo dell'audio di +/- 0.1 secondi"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Toggle subtitle visibility"
-msgstr "Attiva/Disattiva la visualizzazione dei sottotitoli"
+msgstr "Attiva/disattiva la visualizzazione dei sottotitoli"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Cycle through available subtitles"
@@ -1011,7 +1015,7 @@ msgstr "Regola il ritardo dei sottotitoli di +/- 0.1 secondi"
 
 #: src/celluloid-shortcuts-window.c:109
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr "Attiva/Disattiva lo stile dei sottotitoli SSA/ASS"
+msgstr "Attiva/disattiva lo stile dei sottotitoli SSA/ASS"
 
 #: src/celluloid-shortcuts-window.c:110
 msgid "Move subtitles up/down"
@@ -1019,7 +1023,7 @@ msgstr "Sposta i sottotitoli su/giù"
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr "Attiva/Disattiva la modalità di compatibilità per VSFilter"
+msgstr "Attiva/disattiva la modalità di compatibilità per VSFilter"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Cycle through video tracks"
@@ -1103,15 +1107,15 @@ msgstr "Ricerca"
 
 #: src/celluloid-view.c:728
 msgid "Load Audio Track…"
-msgstr "Carica Traccia Audio…"
+msgstr "Carica traccia audio…"
 
 #: src/celluloid-view.c:732
 msgid "Load Video Track…"
-msgstr "Carica Traccia Video…"
+msgstr "Carica traccia video…"
 
 #: src/celluloid-view.c:736
 msgid "Load Subtitle Track…"
-msgstr "Carica Traccia Sottotitoli…"
+msgstr "Carica traccia sottotitoli…"
 
 #: src/celluloid-view.c:901
 msgid ""
@@ -1123,15 +1127,15 @@ msgstr ""
 
 #: src/celluloid-view.c:1444
 msgid "Add Folder to Playlist"
-msgstr "Aggiungi Cartella alla Playlist"
+msgstr "Aggiungi cartella alla playlist"
 
 #: src/celluloid-view.c:1444
 msgid "Open Folder"
-msgstr "Apri Cartella"
+msgstr "Apri cartella"
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"
-msgstr "Aggiungi File alla Playlist"
+msgstr "Aggiungi file alla playlist"
 
 #: src/celluloid-view.c:1449
 msgid "Open File"
@@ -1139,15 +1143,15 @@ msgstr "Apri file"
 
 #: src/celluloid-view.c:1485
 msgid "Add Location to Playlist"
-msgstr "Aggiungi Posizione alla Playlist"
+msgstr "Aggiungi posizione alla playlist"
 
 #: src/celluloid-view.c:1486
 msgid "Open Location"
-msgstr "Apri Posizione"
+msgstr "Apri posizione"
 
 #: src/celluloid-view.c:1532
 msgid "Save Playlist"
-msgstr "Salva Playlist"
+msgstr "Salva playlist"
 
 #: src/celluloid-view.c:1598
 msgid "A GTK frontend for MPV"
@@ -1158,65 +1162,3 @@ msgid "translator-credits"
 msgstr ""
 "Luca Trevisani\n"
 "Giusy Margarita"
-
-#~ msgid "Whether or not to automatically resize window to fit video"
-#~ msgstr ""
-#~ "Determina se ridimensionare automaticamente la finestra per adattarla "
-#~ "alle dimensioni del video"
-
-#~ msgid "Enable or disable dark theme"
-#~ msgstr "Attiva o disattiva il tema scuro"
-
-#~ msgid "Enable or disable client-side decorations"
-#~ msgstr "Attiva o disattiva le decorazioni client-side"
-
-#~ msgid "Whether or not to use floating controls in windowed mode"
-#~ msgstr "Determina se usare i controlli mobili in modalità finestra"
-
-#~ msgid "Whether or not to autohide mouse cursor in windowed mode"
-#~ msgstr ""
-#~ "Determina se nascondere automaticamente il cursore in modalità finestra"
-
-#~ msgid "Whether or not to use skip buttons for controlling playlist"
-#~ msgstr "Determina se usare i pulsanti di salto per controllare la playlist"
-
-#~ msgid ""
-#~ "Whether or not to make file chooser dialog remember last folder accessed"
-#~ msgstr ""
-#~ "Determina se la finestra di selezione file ricorda l'ultima cartella "
-#~ "visitata"
-
-#~ msgid ""
-#~ "Whether or not to create new windows when there is already an instance"
-#~ msgstr "Determina se creare nuove finestre quando è già avviata un'istanza"
-
-#~ msgid "Load or don't load mpv configuration file"
-#~ msgstr "Determina se caricare il file di configurazione di mpv"
-
-#~ msgid "Load or don't load mpv input configuration file"
-#~ msgstr "Determina se caricare il file delle configurazioni di input di mpv"
-
-#~ msgid "Whether or not to enable MPRIS support"
-#~ msgstr "Determina se abilitare il supporto a MPRIS"
-
-#~ msgid ""
-#~ "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
-#~ msgstr ""
-#~ "Determina se abilitare il supporto ai tasti multimediali di GNOME-"
-#~ "Settings-Daemon"
-
-#~ msgid "Whether or not to prefetch metadata for non-current playlist entries"
-#~ msgstr ""
-#~ "Determina se eseguire il precaricamento dei metadati per le voci della "
-#~ "playlist non selezionate"
-
-#~ msgid ""
-#~ "Whether or not to display an error message when playback of a file ends "
-#~ "with an error"
-#~ msgstr ""
-#~ "Determina se mostrare un messaggio di errore quando la riproduzione di un "
-#~ "file termina con un errore"
-
-#~ msgid "Whether or not to inhibit session idling when something is playing"
-#~ msgstr ""
-#~ "Determina se inibire la sessione di idle quando qualcosa è in riproduzione"

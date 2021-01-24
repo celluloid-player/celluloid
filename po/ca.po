@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-09 22:16+0700\n"
-"PO-Revision-Date: 2020-09-26 09:14-0400\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2020-12-25 05:54-0500\n"
 "Last-Translator: Toni Estevez <toni.estevez@gmail.com>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -38,9 +38,8 @@ msgid "Use floating controls in windowed mode"
 msgstr "Utilitza controls flotants al mode finestra"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr "Amaga automàticament el punter del ratolí al mode de finestra"
+msgstr "Amaga automàticament el punter del ratolí en el mode finestra"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
@@ -48,7 +47,6 @@ msgstr ""
 "La velocitat mínima del cursor a la qual s'amagaran els controls flotants."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
-#, fuzzy
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
@@ -61,7 +59,6 @@ msgid "Use skip buttons for controlling playlist"
 msgstr "Utilitza els botons de salt per controlar la llista de reproducció"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
-#, fuzzy
 msgid "Make file chooser remember last file's location"
 msgstr "Recorda la ubicació de l'últim fitxer"
 
@@ -79,7 +76,6 @@ msgid "Path to mpv configuration file"
 msgstr "Fitxer de configuració de l'mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
-#, fuzzy
 msgid "Load mpv configuration file"
 msgstr "Carrega un fitxer de configuració de l'mpv"
 
@@ -88,7 +84,6 @@ msgid "Path to mpv input configuration file"
 msgstr "Fitxer de configuració de l'entrada de l'mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
-#, fuzzy
 msgid "Load mpv input configuration file"
 msgstr "Carrega un fitxer de configuració de l'entrada de l'mpv"
 
@@ -110,7 +105,7 @@ msgstr "Ignora els errors de reproducció"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Desactiva la suspensió de la sessió"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -167,10 +162,10 @@ msgid ""
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
 "Cel·luloide és un reproductor multimèdia senzill que pot reproduir "
-"pràcticament qualsevol format de vídeo i àudio. Admet llistes de reproducció "
-"i controls de reproducció MPRIS2. El disseny del Celluloid segueix les guies "
-"d'interfície d'usuari del GNOME, però també pot adaptar-se a altres entorns "
-"que no fan servir les decoracions del client (CSD). Es basa en les "
+"pràcticament qualsevol format de vídeo i àudio. Admet llistes de reproducció"
+" i controls de reproducció MPRIS2. El disseny del Celluloid segueix les "
+"guies d'interfície d'usuari del GNOME, però també pot adaptar-se a altres "
+"entorns que no fan servir les decoracions del client (CSD). Es basa en les "
 "biblioteques mpv i GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
@@ -207,41 +202,49 @@ msgstr "Aquesta versió conté els canvis següents:"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr ""
+"Permet activar el menú de context quan la llista de reproducció és buida."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid ""
-"Prevent constant resizing of the seek bar due to timestamp label resizing as "
-"its value changes."
+"Prevent constant resizing of the seek bar due to timestamp label resizing as"
+" its value changes."
 msgstr ""
+"Evita el canvi constant de la mida de la barra de cerca a causa del canvi de"
+" mida de l'etiqueta de la marca de temps a mesura que canvia el seu valor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
 msgstr ""
+"Només mostra un diàleg d'error únic quan es produeix un gran nombre d'errors"
+" en una successió ràpida."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
-#, fuzzy
 msgid "Add menu item for opening folders."
-msgstr "Afegeix un element al menú per obrir discs"
+msgstr "Afegeix un element al menú per obrir carpetes."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
+"Ajusta la posició dels elements de la interfície d'usuari dels diàlegs "
+"modals en el mode no CSD per ser més coherent amb mode CSD."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:56
 msgid "Add support for loading external video tracks."
-msgstr ""
+msgstr "Afegeix la possibilitat de carregar pistes de vídeo externes."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:59
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Permet alternar la barreja de les llistes de reproducció."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr ""
+"Fa que les combinacions de tecles funcionin amb les tecles de fletxa del "
+"teclat numèric."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
@@ -283,8 +286,8 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr ""
-"Gestiona correctament les cometes i les seqüències d'escapada en les opcions "
-"extra de MPV."
+"Gestiona correctament les cometes i les seqüències d'escapada en les opcions"
+" extra de MPV."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Display time at cursor position when hovering the seek bar."
@@ -293,13 +296,13 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
-"Desaprova «--mpv-options». En el seu lloc, per configurar opcions de mpv, es "
-"poden fer servir opcions que comencin per «--mpv-». Per exemple, passar «--"
-"mpv-vf=vflip» al Celluloid equival a passar «--vf=vflip» a mpv."
+"Desaprova «--mpv-options». En el seu lloc, per configurar opcions de mpv, es"
+" poden fer servir opcions que comencin per «--mpv-». Per exemple, passar "
+"«--mpv-vf=vflip» al Celluloid equival a passar «--vf=vflip» a mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
 msgid ""
@@ -333,8 +336,8 @@ msgstr "Afegeix la traducció a l'ucraïnès feta per vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Afegeix compatibilitat per mostrar/amagar les decoracions de la finestra "
 "utilitzant l'opció --border de l'mpv"
@@ -399,8 +402,8 @@ msgstr "Divideix la pestanya General al diàleg de preferències"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:202
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
-"Millora el comportament en mostrar o ocultar la llista de reproducció en els "
-"gestors de finestra de mosaic"
+"Millora el comportament en mostrar o ocultar la llista de reproducció en els"
+" gestors de finestra de mosaic"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:205
 msgid "Move app menu items to primary menu"
@@ -433,11 +436,11 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:233
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
-"Millora el maneig de les opcions --window-scale, --autofit, --autofit-larger "
-"i --autofit-smaller"
+"Millora el maneig de les opcions --window-scale, --autofit, --autofit-larger"
+" i --autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
 msgid "Add command line option for setting WM_ROLE"
@@ -459,8 +462,8 @@ msgstr ""
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
-"Afegeix una opció per fer que els botons de salt seleccionin les entrades de "
-"la llista de reproducció en lloc dels capítols"
+"Afegeix una opció per fer que els botons de salt seleccionin les entrades de"
+" la llista de reproducció en lloc dels capítols"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
 msgid "Make the file chooser accept non-local locations"
@@ -503,12 +506,12 @@ msgstr "Reproductor multimèdia"
 msgid "Play movies and videos"
 msgstr "Reprodueix pel·lícules i vídeos"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
-"vídeo;pel·lícula;film;clip;sèrie;reproductor;DVD;TV;disc;àlbum;música;GNOME;"
-"mpv;"
+"vídeo;pel·lícula;film;clip;sèrie;reproductor;DVD;TV;disc;àlbum;música;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
@@ -616,7 +619,6 @@ msgstr "Cap"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Desconeguda"
@@ -627,7 +629,6 @@ msgstr "_Obre..."
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "No s'ha trobat cap disc"
@@ -819,17 +820,14 @@ msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "No s'ha pogut suprimir el fitxer «%s». Motiu: %s"
 
 #: src/celluloid-preferences-dialog.c:341
-#, fuzzy
 msgid "mpv configuration file:"
 msgstr "Fitxer de configuració de l'mpv:"
 
 #: src/celluloid-preferences-dialog.c:347
-#, fuzzy
 msgid "mpv input configuration file:"
 msgstr "Fitxer de configuració de l'entrada de l'mpv:"
 
 #: src/celluloid-preferences-dialog.c:367
-#, fuzzy
 msgid "Extra mpv options:"
 msgstr "Opcions addicionals de l'mpv:"
 
@@ -1170,55 +1168,3 @@ msgid "translator-credits"
 msgstr ""
 "Toni Estevez, toni.estevez@gmail.com\n"
 "Adolfo Jayme Barrientos, fitojb@ubuntu.com"
-
-#~ msgid "Whether or not to automatically resize window to fit video"
-#~ msgstr "Redimensiona automàticament la finestra a la mida del vídeo"
-
-#~ msgid "Enable or disable dark theme"
-#~ msgstr "Activa el tema fosc"
-
-#~ msgid "Enable or disable client-side decorations"
-#~ msgstr "Activa les decoracions del client"
-
-#~ msgid "Whether or not to use floating controls in windowed mode"
-#~ msgstr "Utilitza controls flotants en el mode finestra"
-
-#~ msgid "Whether or not to autohide mouse cursor in windowed mode"
-#~ msgstr "Amaga automàticament el punter del ratolí en el mode finestra"
-
-#~ msgid "Whether or not to use skip buttons for controlling playlist"
-#~ msgstr "Utilitza els botons de salt per controlar la llista de reproducció"
-
-#~ msgid ""
-#~ "Whether or not to make file chooser dialog remember last folder accessed"
-#~ msgstr "Recorda la ubicació de l'últim fitxer obert"
-
-#~ msgid ""
-#~ "Whether or not to create new windows when there is already an instance"
-#~ msgstr "Crea finestres noves quan ja hi hagi una instància"
-
-#~ msgid "Load or don't load mpv configuration file"
-#~ msgstr "Carrega el fitxer de configuració de l'mpv"
-
-#~ msgid "Load or don't load mpv input configuration file"
-#~ msgstr "Carrega el fitxer de configuració de l'entrada de l'mpv"
-
-#~ msgid "Whether or not to enable MPRIS support"
-#~ msgstr "Activa la compatibilitat amb la interfície MPRIS"
-
-#~ msgid ""
-#~ "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
-#~ msgstr "Activa la compatibilitat amb les tecles multimèdia del GNOME"
-
-#~ msgid "Whether or not to prefetch metadata for non-current playlist entries"
-#~ msgstr "Precarrega les metadades de les llistes de reproducció no actuals"
-
-#~ msgid ""
-#~ "Whether or not to display an error message when playback of a file ends "
-#~ "with an error"
-#~ msgstr ""
-#~ "Mostra un missatge d'error quan la reproducció d'un fitxer  finalitza amb "
-#~ "un error"
-
-#~ msgid "Whether or not to inhibit session idling when something is playing"
-#~ msgstr "Inhibir la suspensió de la sessió durant la reproducció"

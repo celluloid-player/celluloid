@@ -1,53 +1,47 @@
-# Romanian (ro_RO) translations for gnome-mpv package.
-# gnome-mpv
-# Copyright (C) 2015 THE gnome-mpv'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the gnone-mpv package.
-# Robert Datcu <robert.datcu@gmail.com>, 2015.
-# gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
-# gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
+# Sveinn í Felli <sv1@fellsnet.is>, 2020. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mpv 0.15\n"
+"Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2020-06-23 10:49-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Romanian Translations\n"
-"Language: ro\n"
+"POT-Creation-Date: 2020-10-09 22:16+0700\n"
+"PO-Revision-Date: 2020-11-13 11:57-0500\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
+"Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n%10!=1 || n%100==11)\n"
 "X-Generator: Zanata 4.6.2\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr ""
+msgstr "Hvort stillingar hafi þegar verið yfirfærðar úr fyrri útgáfu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
-msgstr ""
+msgstr "Aðlaga stærð gluggans sjálfvirkt að myndmerki"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable dark theme"
-msgstr "Activează tema întunecată"
+msgstr "Virkja dökkt þema"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
-msgstr "Activează decorațiile ferestrelor (CSD)"
+msgstr "Virkja gluggaskreytingar biðlara (CSD)"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr ""
+msgstr "Nota fljótandi stjórntæki í gluggaham"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Fela músarbendil sjálfvirkt í gluggaham"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
-msgstr ""
+msgstr "Lágmarkshraði bendils til að fljótandi stjórntæki birtist."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
@@ -61,88 +55,88 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Make file chooser remember last file's location"
-msgstr ""
+msgstr "Láta skráaval muna staðsetningu síðast notuðu skrár"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
-msgstr ""
+msgstr "Alltaf opna nýjan glugga"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
 #: src/celluloid-application.c:575
 msgid "Options to pass to mpv"
-msgstr ""
+msgstr "Viðföng til að gefa til mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Path to mpv configuration file"
-msgstr ""
+msgstr "Slóð að mpv stillingaskrá"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
 msgid "Load mpv configuration file"
-msgstr ""
+msgstr "Hlaða inn stillingaskrá mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Path to mpv input configuration file"
-msgstr ""
+msgstr "Slóð að inntaksstillingaskrá mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 msgid "Load mpv input configuration file"
-msgstr ""
+msgstr "Hlaða inn inntaksstillingaskrá mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Enable MPRIS support"
-msgstr ""
+msgstr "Virkja stuðning við MPRIS"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
 msgid "Enable media keys support"
-msgstr ""
+msgstr "Virkja stuðning við margmiðlunarlykla"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
 msgid "Prefetch metadata"
-msgstr ""
+msgstr "Sækja lýsigögn fyrirfram"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid "Ignore playback errors"
-msgstr ""
+msgstr "Hunsa villur í afspilun"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Koma í veg fyrir að setan verði aðgerðalaus"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
-msgstr ""
+msgstr "Breidd gluggans"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:148
 msgid "Height of the window"
-msgstr ""
+msgstr "Hæð gluggans"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:154
 msgid "Whether or not the window is maximized"
-msgstr ""
+msgstr "Hvort glugginn er hámarkaður eða ekki"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:161
 msgid "Volume of player"
-msgstr ""
+msgstr "Hljóðstyrkur spilarans"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Whether or not to loop when the end of playlist is reached"
-msgstr ""
+msgstr "Hvort eigi að endurtaka þegar enda spilunarlistans er náð"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Width of the playlist"
-msgstr ""
+msgstr "Breidd spilunarlistans"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Show or not show the controls"
-msgstr ""
+msgstr "Birta eða fela stjórntækin"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:185
 msgid "Show or not show the playlist"
-msgstr ""
+msgstr "Birta eða fela spilunarlistann"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:191
 msgid "URI of the last folder accessed"
-msgstr ""
+msgstr "Slóð á síðast notaða möppu"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
@@ -152,7 +146,7 @@ msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
 msgid "GTK+ frontend for mpv"
-msgstr ""
+msgstr "GTK+ viðmót fyrir mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -165,23 +159,23 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
-msgstr ""
+msgstr "Eiginleikar:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:25
 msgid "Drag and drop playlist"
-msgstr ""
+msgstr "Draga og sleppa á spilunarlista"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
-msgstr ""
+msgstr "Hleð inn utanaðkomandi mpv-stillingaskrám"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:27
 msgid "MPRIS2 D-Bus interface"
-msgstr ""
+msgstr "MPRIS2 D-Bus viðmót"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:30
 msgid "The Celluloid Developers"
-msgstr ""
+msgstr "Celluloid þróunarteymið"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
@@ -191,7 +185,7 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:254
 msgid "This release contains the following changes:"
-msgstr ""
+msgstr "Þessi útgáfa inniheldur eftirfarandi breytingar:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Make it possible to activate context menu when the playlist is empty."
@@ -290,19 +284,19 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:112
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr ""
+msgstr "Bætt við finnskri þýðingu eftir Kimmo Kujansuu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:115
 msgid "Add Slovenian translation by @bertronika."
-msgstr ""
+msgstr "Bætt við slóvenskri þýðingu eftir @bertronika."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
 msgid "Add Persian translation by @danialbehzadi"
-msgstr ""
+msgstr "Bætt við persneskri þýðingu eftir @danialbehzadi"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
 msgid "Add Ukranian translation by @vl-nix"
-msgstr ""
+msgstr "Bætt við úkraínskri þýðingu eftir @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
 msgid ""
@@ -312,7 +306,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:139
 msgid "Add menu item for opening discs"
-msgstr ""
+msgstr "Bætt við valmyndarfærslu til að opna diska"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:142
 msgid "Block cursor autohide when volume popup is open in windowed mode"
@@ -328,11 +322,11 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Add Turkish translation by @TeknoMobil"
-msgstr ""
+msgstr "Bætt við tyrkneskri þýðingu eftir @TeknoMobil"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Add Esperanto translation by @F3nd0"
-msgstr ""
+msgstr "Bætt við esperantó-þýðingu eftir @F3nd0"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Migrate from opengl-cb to the new render API"
@@ -430,234 +424,234 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Aðalglugginn sýnir virkni forritsins"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:289
 msgid "The main window with CSD disabled"
-msgstr ""
+msgstr "Aðalglugginn með CSD óvirkt"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:293
 msgid "The main window with playlist open"
-msgstr ""
+msgstr "Aðalglugginn með spilunarlistann opinn"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Multimedia Player"
-msgstr ""
+msgstr "Margmiðlunarspilari"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:6
 msgid "Play movies and videos"
-msgstr ""
+msgstr "Horfðu á kvikmyndir og myndskeið"
 
 #. Translators: Search terms to find this application. Don't translate the
 #. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
+"Myndskeið;Vídeó;Kvikmynd;Filma;Þættir;Spilari;DVD;TV;Diskur;albúm;tónlist;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
-msgstr ""
+msgstr "Nýr gluggi"
 
 #: src/celluloid-application.c:495
 msgid "Playing"
-msgstr ""
+msgstr "Spila"
 
 #: src/celluloid-application.c:551
 msgid "Show release version"
-msgstr ""
+msgstr "Sýna útgáfunúmer"
 
 #: src/celluloid-application.c:559
 msgid "Enqueue"
-msgstr ""
+msgstr "Setja í biðröð"
 
 #: src/celluloid-application.c:567
 msgid "Create a new window"
-msgstr ""
+msgstr "Búa til nýja glugga"
 
 #: src/celluloid-application.c:576
 msgid "OPTIONS"
-msgstr ""
+msgstr "VALKOSTIR"
 
 #: src/celluloid-application.c:583
 msgid "Set the window role"
-msgstr ""
+msgstr "Setja hlutverk glugga"
 
 #: src/celluloid-application.c:591
 msgid "Don't connect to an already-running instance"
-msgstr ""
+msgstr "Ekki tengjast við tilvik sem þegar er í gangi"
 
 #: src/celluloid-control-box.c:362
 msgid "Pause"
-msgstr ""
+msgstr "Í bið"
 
 #: src/celluloid-control-box.c:362 src/celluloid-control-box.c:565
 msgid "Play"
-msgstr ""
+msgstr "Spila"
 
 #: src/celluloid-control-box.c:568
 msgid "Stop"
-msgstr ""
+msgstr "Stöðva"
 
 #: src/celluloid-control-box.c:571
 msgid "Forward"
-msgstr ""
+msgstr "Spóla áfram"
 
 #: src/celluloid-control-box.c:574
 msgid "Rewind"
-msgstr ""
+msgstr "Spóla til baka"
 
 #: src/celluloid-control-box.c:577
 msgid "Next Chapter"
-msgstr ""
+msgstr "Næsti kafli"
 
 #: src/celluloid-control-box.c:580
 msgid "Previous Chapter"
-msgstr ""
+msgstr "Fyrri kafli"
 
 #: src/celluloid-control-box.c:583
 msgid "Loop Playlist"
-msgstr ""
+msgstr "Víxla endurtekningu spilunarlista af/á"
 
 #: src/celluloid-control-box.c:586
 msgid "Shuffle Playlist"
-msgstr ""
+msgstr "Stokka spilunarlista"
 
 #: src/celluloid-control-box.c:589 src/celluloid-header-bar.c:91
 msgid "Toggle Fullscreen"
-msgstr ""
+msgstr "Víxla skjáfylli af/á"
 
 #: src/celluloid-controller.c:992 src/celluloid-view.c:1558
 msgid "Error"
-msgstr ""
+msgstr "Villa"
 
 #: src/celluloid-file-chooser.c:139 src/celluloid-plugins-manager.c:170
 msgid "All Files"
-msgstr ""
+msgstr "Allar skrár"
 
 #: src/celluloid-file-chooser.c:147
 msgid "Media Files"
-msgstr ""
+msgstr "Margmiðlunarskrár"
 
 #: src/celluloid-file-chooser.c:158
 msgid "Audio Files"
-msgstr ""
+msgstr "Hljóðskrár"
 
 #: src/celluloid-file-chooser.c:166
 msgid "Video Files"
-msgstr ""
+msgstr "Myndskeiðasskrár"
 
 #: src/celluloid-file-chooser.c:174
 msgid "Image Files"
-msgstr ""
+msgstr "Myndskrár"
 
 #: src/celluloid-file-chooser.c:184
 msgid "Subtitle Files"
-msgstr ""
+msgstr "Skjátextaskrár"
 
 #: src/celluloid-menu.c:106
 msgid "None"
-msgstr ""
+msgstr "Ekkert"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
-msgstr ""
+msgstr "Óþekkt"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr ""
+msgstr "H_laða inn utanaðkomandi…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
-msgstr ""
+msgstr "Enginn diskur fannst"
 
 #: src/celluloid-menu.c:235
 msgid "_File"
-msgstr "_Fișier"
+msgstr "_Skrá"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
 msgid "_Open…"
-msgstr ""
+msgstr "_Opna…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr ""
+msgstr "Opna _möppu...…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
-msgstr ""
+msgstr "Opna staðsetnin_gu…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr ""
+msgstr "Opna _disk…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
-msgstr "_Salvează Lista Redare"
+msgstr "Vi_sta spilunarlista"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:323
 msgid "_New Window"
-msgstr ""
+msgstr "_Nýr gluggi"
 
 #: src/celluloid-menu.c:242
 msgid "_Quit"
-msgstr ""
+msgstr "_Hætta"
 
 #: src/celluloid-menu.c:243
 msgid "_Edit"
-msgstr "_Modifică"
+msgstr "Br_eyta"
 
 #: src/celluloid-menu.c:244 src/celluloid-menu.c:296
 msgid "_Preferences"
-msgstr "_Preferințe"
+msgstr "_Kjörstillingar"
 
 #: src/celluloid-menu.c:245 src/celluloid-menu.c:292
 msgid "_Video Track"
-msgstr ""
+msgstr "Mynds_por"
 
 #: src/celluloid-menu.c:246 src/celluloid-menu.c:293
 msgid "_Audio Track"
-msgstr ""
+msgstr "_Hljóðspor"
 
 #: src/celluloid-menu.c:247 src/celluloid-menu.c:294
 msgid "S_ubtitle Track"
-msgstr ""
+msgstr "Skjátextasp_or"
 
 #: src/celluloid-menu.c:248
 msgid "_View"
-msgstr "_Vizualizare"
+msgstr "S_koða"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:287
 msgid "_Toggle Controls"
-msgstr ""
+msgstr "Ví_xla stýringum af/á"
 
 #: src/celluloid-menu.c:250 src/celluloid-menu.c:289
 msgid "_Toggle Playlist"
-msgstr "_Afișează Lista Redare"
+msgstr "Ví_xla spilunarlista af/á"
 
 #: src/celluloid-menu.c:251
 msgid "_Fullscreen"
-msgstr "_Tot ecranul"
+msgstr "Skjá_fylli"
 
 #: src/celluloid-menu.c:252
 msgid "_Help"
-msgstr "_Ajutor"
+msgstr "_Hjálp"
 
 #: src/celluloid-menu.c:253 src/celluloid-menu.c:297
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "Flýtily_klar"
 
 #: src/celluloid-menu.c:254 src/celluloid-menu.c:298
 msgid "_About Celluloid"
-msgstr ""
+msgstr "_Um Celluloid"
 
 #: src/celluloid-menu.c:321
-#, fuzzy
 msgid "Open _Disc"
-msgstr "Deschide Fișier"
+msgstr "Opna _disk"
 
 #: src/celluloid-mpv.c:240
 #, c-format
@@ -666,16 +660,16 @@ msgstr ""
 
 #: src/celluloid-open-location-dialog.c:130
 msgid "Location:"
-msgstr "Adresă:"
+msgstr "Staðsetning:"
 
 #: src/celluloid-open-location-dialog.c:136
 #: src/celluloid-preferences-dialog.c:412
 msgid "_Cancel"
-msgstr "_Anulează"
+msgstr "_Hætta við"
 
 #: src/celluloid-open-location-dialog.c:138
 msgid "_Open"
-msgstr "_Deschide"
+msgstr "_Opna"
 
 #: src/celluloid-player.c:550
 msgid "Failed to apply one or more MPV options."
@@ -683,155 +677,156 @@ msgstr ""
 
 #: src/celluloid-playlist-widget.c:786
 msgid "_Copy Location"
-msgstr ""
+msgstr "_Afrita staðsetningu"
 
 #: src/celluloid-playlist-widget.c:787
 msgid "_Remove"
-msgstr ""
+msgstr "Fja_rlægja"
 
 #: src/celluloid-playlist-widget.c:789
 msgid "_Add…"
-msgstr ""
+msgstr "Bæt_a við…"
 
 #: src/celluloid-playlist-widget.c:790
 msgid "Add _Folder…"
-msgstr ""
+msgstr "Bæta við _möppu…"
 
 #: src/celluloid-playlist-widget.c:791
 msgid "Add _Location…"
-msgstr ""
+msgstr "Bæta við staðsetnin_gu…"
 
 #: src/celluloid-playlist-widget.c:792
 msgid "_Shuffle"
-msgstr ""
+msgstr "_Stokka"
 
 #: src/celluloid-playlist-widget.c:793
 msgid "Loop _File"
-msgstr ""
+msgstr "Endurtaka s_krá"
 
 #: src/celluloid-playlist-widget.c:794
 msgid "Loop _Playlist"
-msgstr ""
+msgstr "Endurtaka s_pilunarlista"
 
 #: src/celluloid-playlist-widget.c:935 src/celluloid-shortcuts-window.c:136
 msgid "Playlist"
-msgstr "Listă de redare"
+msgstr "Lagalisti"
 
 #: src/celluloid-playlist-widget.c:943
-#, fuzzy
 msgid "Playlist is empty"
-msgstr "Listă de redare"
+msgstr "Spilunarlisti er tómur"
 
 #: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
 msgid "Add Plugin"
-msgstr ""
+msgstr "Bæta við forritsviðbót"
 
 #: src/celluloid-plugins-manager.c:175
 msgid "Lua Plugins"
-msgstr ""
+msgstr "Lua-viðbætur"
 
 #: src/celluloid-plugins-manager.c:181
 msgid "JavaScript Plugins"
-msgstr ""
+msgstr "JavaScript-viðbætur"
 
 #: src/celluloid-plugins-manager.c:186
 msgid "C Plugins"
-msgstr ""
+msgstr "C-viðbætur"
 
 #: src/celluloid-plugins-manager.c:334
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr ""
+msgstr "Mistókst að afrita skrá úr '%s' yfir í '%s'. Ástæða: %s"
 
 #: src/celluloid-plugins-manager.c:385
 msgid "No plugins found"
-msgstr ""
+msgstr "Engar viðbætur fundust"
 
 #: src/celluloid-plugins-manager-item.c:79
 msgid "Remove"
-msgstr ""
+msgstr "Fjarlægja"
 
 #: src/celluloid-plugins-manager-item.c:178
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
+"Ertu viss um að þú viljir fjarlægja þessa skriftu? Það er ekki hægt að taka "
+"þetta aftur."
 
 #: src/celluloid-plugins-manager-item.c:199
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr ""
+msgstr "Mistókst að eyða skránni '%s'. Ástæða: %s"
 
 #: src/celluloid-preferences-dialog.c:341
 msgid "mpv configuration file:"
-msgstr ""
+msgstr "Stillingaskrá mpv:"
 
 #: src/celluloid-preferences-dialog.c:347
 msgid "mpv input configuration file:"
-msgstr ""
+msgstr "Inntaksstillingaskrá mpv:"
 
 #: src/celluloid-preferences-dialog.c:367
 msgid "Extra mpv options:"
-msgstr ""
+msgstr "Fleiri mpv-valkostir:"
 
 #: src/celluloid-preferences-dialog.c:400
 msgid "Interface"
-msgstr ""
+msgstr "Viðmót"
 
 #: src/celluloid-preferences-dialog.c:403
 msgid "Config Files"
-msgstr ""
+msgstr "Stillingaskrár"
 
 #: src/celluloid-preferences-dialog.c:406
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Ýmislegt"
 
 #: src/celluloid-preferences-dialog.c:409
 msgid "Plugins"
-msgstr ""
+msgstr "Viðbætur"
 
 #: src/celluloid-preferences-dialog.c:414
 msgid "_Save"
-msgstr "_Salvează"
+msgstr "Vi_sta"
 
 #: src/celluloid-preferences-dialog.c:432
 msgid "Preferences"
-msgstr "Preferințe"
+msgstr "Kjörstillingar"
 
 #: src/celluloid-shortcuts-window.c:57
 msgid "Open file"
-msgstr ""
+msgstr "Opna skrá"
 
 #: src/celluloid-shortcuts-window.c:58
 msgid "Open location"
-msgstr ""
+msgstr "Opna staðsetningu"
 
 #: src/celluloid-shortcuts-window.c:59
 msgid "Add file to playlist"
-msgstr ""
+msgstr "Bæta skrá á spilunarlista"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Add location to playlist"
-msgstr ""
+msgstr "Bæta staðsetningu á spilunarlista"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Show preferences dialog"
-msgstr ""
+msgstr "Birta kjörstillingaglugga"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Toggle controls"
-msgstr ""
+msgstr "Víxla stýringum af/á"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Toggle playlist"
-msgstr ""
+msgstr "Víxla spilunarlista af/á"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Toggle fullscreen mode"
-msgstr ""
+msgstr "Víxla heilskjásham af/á"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Hætta í skjáfylli"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Toggle OSD states between normal and playback time/duration"
@@ -839,7 +834,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:67
 msgid "Show filename on the OSD"
-msgstr ""
+msgstr "Birta heiti skráa í OSD-stjórntexta"
 
 #: src/celluloid-shortcuts-window.c:68
 msgid "Show progress, elapsed time, and duration on the OSD"
@@ -847,27 +842,27 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Leita afturábak/áfram um 5 sekúndur"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Exact seek backward/forward 1 second"
-msgstr ""
+msgstr "Leita nákvæmt afturábak/áfram um 1 sekúndu"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Seek backward/forward 1 minute"
-msgstr ""
+msgstr "Leita afturábak/áfram um 1 mínútu"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Exact seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Leita nákvæmt afturábak/áfram um 5 sekúndur"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Seek to previous/next subtitle"
-msgstr ""
+msgstr "Fara í fyrri/næsta skjátexta"
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Step backward/forward a single frame"
-msgstr ""
+msgstr "Fara afturábak/áfram um einn ramma"
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Seek to the beginning of the previous/next chapter"
@@ -875,27 +870,27 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:80
 msgid "Decrease/increase playback speed by 10%"
-msgstr ""
+msgstr "Minnka/auka afspilunarhraða um 10%"
 
 #: src/celluloid-shortcuts-window.c:81
 msgid "Halve/double current playback speed"
-msgstr ""
+msgstr "Helminga/tvöfalda núverandi afpilunarhraða"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Reset playback speed to normal"
-msgstr ""
+msgstr "Endurstilla afspilunarhraða á venjulegan"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Go backward/forward in the playlist"
-msgstr ""
+msgstr "Fara afturábak/áfram í spilunarlistanum"
 
 #: src/celluloid-shortcuts-window.c:84
 msgid "Remove selected playlist item"
-msgstr ""
+msgstr "Fjarlægja valið atriði úr spilunarlista"
 
 #: src/celluloid-shortcuts-window.c:85
 msgid "Save playlist"
-msgstr ""
+msgstr "Vista spilunarlista"
 
 #: src/celluloid-shortcuts-window.c:86
 msgid "Set/clear A-B loop points"
@@ -907,59 +902,59 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Pause or unpause"
-msgstr ""
+msgstr "Gera hlé eða halda áfram"
 
 #: src/celluloid-shortcuts-window.c:89
 msgid "Quit"
-msgstr ""
+msgstr "Hætta"
 
 #: src/celluloid-shortcuts-window.c:90
 msgid "Save current playback position and quit"
-msgstr ""
+msgstr "Vista núverandi staðsetningu í afspilun og hætta"
 
 #: src/celluloid-shortcuts-window.c:93
 msgid "Enter search mode"
-msgstr ""
+msgstr "Fara í leitarham"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Jump to next match"
-msgstr ""
+msgstr "Hoppa í næstu samsvörun"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Jump to previous match"
-msgstr ""
+msgstr "Hoppa í fyrri samsvörun"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Exit search mode"
-msgstr ""
+msgstr "Fara út úr leitarham"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Cycle through audio tracks"
-msgstr ""
+msgstr "Fletta í gegnum hljóðspor"
 
 #: src/celluloid-shortcuts-window.c:100 src/celluloid-shortcuts-window.c:101
 msgid "Decrease/increase volume"
-msgstr ""
+msgstr "Minnka/auka hljóðstyrk"
 
 #: src/celluloid-shortcuts-window.c:102
 msgid "Mute or unmute"
-msgstr ""
+msgstr "Þagga eða kveikja á hljóði"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Aðlaga töf hljóðs um +/- 0.1 sekúndur"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Toggle subtitle visibility"
-msgstr ""
+msgstr "Víxla sýnileika skjátexta af/á"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Cycle through available subtitles"
-msgstr ""
+msgstr "Fletta í gegnum tiltæka skjátexta"
 
 #: src/celluloid-shortcuts-window.c:108
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Aðlaga töf skjátexta um +/- 0.1 sekúndur"
 
 #: src/celluloid-shortcuts-window.c:109
 msgid "Toggle SSA/ASS subtitles style override"
@@ -967,7 +962,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:110
 msgid "Move subtitles up/down"
-msgstr ""
+msgstr "Færa skjátexta upp/niður"
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Toggle VSFilter aspect compatibility mode"
@@ -975,7 +970,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Cycle through video tracks"
-msgstr ""
+msgstr "Fletta í gegnum myndmerkisspor"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Decrease/increase pan-and-scan range"
@@ -983,47 +978,47 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:116
 msgid "Take a screenshot"
-msgstr ""
+msgstr "Taka skjámynd"
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Take a screenshot, without subtitles"
-msgstr ""
+msgstr "Taka skjámynd án skjátexta"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Take a screenshot, as the window shows it"
-msgstr ""
+msgstr "Taka skjámynd eins og glugginn sýnir"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Resize video to half its original size"
-msgstr ""
+msgstr "Aðlaga stærð í helming myndmerkis"
 
 #: src/celluloid-shortcuts-window.c:120
 msgid "Resize video to its original size"
-msgstr ""
+msgstr "Aðlaga stærð að upprunalegri stærð myndmerkis"
 
 #: src/celluloid-shortcuts-window.c:121
 msgid "Resize video to double its original size"
-msgstr ""
+msgstr "Aðlaga stærð í tvöfalda stærð myndmerkis"
 
 #: src/celluloid-shortcuts-window.c:122
 msgid "Adjust contrast"
-msgstr ""
+msgstr "Aðlaga birtuskil"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "Adjust brightness"
-msgstr ""
+msgstr "Aðlaga birtustig"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "Adjust gamma"
-msgstr ""
+msgstr "Aðlaga litróf"
 
 #: src/celluloid-shortcuts-window.c:125
 msgid "Adjust saturation"
-msgstr ""
+msgstr "Aðlaga litmettun"
 
 #: src/celluloid-shortcuts-window.c:126
 msgid "Activate or deactivate deinterlacer"
-msgstr ""
+msgstr "Virkja eða afvirkja affléttun"
 
 #: src/celluloid-shortcuts-window.c:127
 msgid "Cycle aspect ratio override"
@@ -1031,39 +1026,39 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:130
 msgid "User Interface"
-msgstr ""
+msgstr "Notandaviðmót"
 
 #: src/celluloid-shortcuts-window.c:131
 msgid "Video"
-msgstr ""
+msgstr "Myndmerki"
 
 #: src/celluloid-shortcuts-window.c:132
 msgid "Audio"
-msgstr ""
+msgstr "Hljóð"
 
 #: src/celluloid-shortcuts-window.c:133
 msgid "Subtitle"
-msgstr ""
+msgstr "Texti"
 
 #: src/celluloid-shortcuts-window.c:134
 msgid "Playback"
-msgstr ""
+msgstr "Afspilun"
 
 #: src/celluloid-shortcuts-window.c:135
 msgid "Seeking"
-msgstr ""
+msgstr "Leita"
 
 #: src/celluloid-view.c:728
 msgid "Load Audio Track…"
-msgstr ""
+msgstr "Hlaða inn hljóðspori…"
 
 #: src/celluloid-view.c:732
 msgid "Load Video Track…"
-msgstr ""
+msgstr "Hlaða inn myndskeiðspori…"
 
 #: src/celluloid-view.c:736
 msgid "Load Subtitle Track…"
-msgstr ""
+msgstr "Hlaða inn skjátextaspori…"
 
 #: src/celluloid-view.c:901
 msgid ""
@@ -1073,36 +1068,36 @@ msgstr ""
 
 #: src/celluloid-view.c:1444
 msgid "Add Folder to Playlist"
-msgstr ""
+msgstr "Bæta möppu á spilunarlista"
 
 #: src/celluloid-view.c:1444
 msgid "Open Folder"
-msgstr ""
+msgstr "Opna möppu..."
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"
-msgstr "Adaugă un fișier Listei de Redare"
+msgstr "Bæta skrá á spilunarlista"
 
 #: src/celluloid-view.c:1449
 msgid "Open File"
-msgstr "Deschide Fișier"
+msgstr "Opna skrá"
 
 #: src/celluloid-view.c:1485
 msgid "Add Location to Playlist"
-msgstr ""
+msgstr "Bæta staðsetningu á spilunarlista"
 
 #: src/celluloid-view.c:1486
 msgid "Open Location"
-msgstr "Deschide Adresa"
+msgstr "Opna staðsetningu"
 
 #: src/celluloid-view.c:1532
 msgid "Save Playlist"
-msgstr "Salvează Lista de Redare"
+msgstr "Vista spilunarlista"
 
 #: src/celluloid-view.c:1598
 msgid "A GTK frontend for MPV"
-msgstr "O interfață GTK pentru MPV"
+msgstr "GTK viðmót fyrir mpv"
 
 #: src/celluloid-view.c:1608
 msgid "translator-credits"
-msgstr "Robert Datcu"
+msgstr "Sveinn í Felli"

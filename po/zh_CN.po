@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-09 22:16+0700\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
 "PO-Revision-Date: 2020-06-30 08:57-0400\n"
 "Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
 "Language-Team: AOSC zh_CN <aosc@member.fsf.org>\n"
@@ -46,9 +46,8 @@ msgid "Use floating controls in windowed mode"
 msgstr "在窗口模式下启用浮动控制"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr "在窗口模式下自动隐藏鼠标指针"
+msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
@@ -65,9 +64,8 @@ msgid "Use skip buttons for controlling playlist"
 msgstr "使用跳转按钮控制播放列表"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
-#, fuzzy
 msgid "Make file chooser remember last file's location"
-msgstr "记住最后一次打开位置"
+msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -83,18 +81,16 @@ msgid "Path to mpv configuration file"
 msgstr "mpv 配置文件的路径"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
-#, fuzzy
 msgid "Load mpv configuration file"
-msgstr "加载 MPV 配置文件"
+msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Path to mpv input configuration file"
 msgstr "mpv 输入配置文件的路径"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
-#, fuzzy
 msgid "Load mpv input configuration file"
-msgstr "加载 MPV 输入配置文件"
+msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Enable MPRIS support"
@@ -207,8 +203,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid ""
-"Prevent constant resizing of the seek bar due to timestamp label resizing as "
-"its value changes."
+"Prevent constant resizing of the seek bar due to timestamp label resizing as"
+" its value changes."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
@@ -218,9 +214,8 @@ msgid ""
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
-#, fuzzy
 msgid "Add menu item for opening folders."
-msgstr "添加打开光盘的菜单项"
+msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid ""
@@ -282,8 +277,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 
@@ -315,8 +310,8 @@ msgstr "添加 @vl-nix 贡献的乌克兰语翻译"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr "使用 mpv 选项 --border 添加显示/隐藏窗口装饰的支持"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:139
@@ -400,11 +395,10 @@ msgstr "设置默认的截图目录为 XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:233
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
-"改善对 --window-scale、 --autofit、 --autofit-larger 和 --autofit-smaller 的"
-"处理"
+"改善对 --window-scale、 --autofit、 --autofit-larger 和 --autofit-smaller 的处理"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
 msgid "Add command line option for setting WM_ROLE"
@@ -459,7 +453,8 @@ msgstr "多媒体播放器"
 msgid "Play movies and videos"
 msgstr "播放电影和视频"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "视频;电影;剪辑;系列;播放器;DVD;TV;碟片;专辑;音乐;GNOME;mpv;"
@@ -570,7 +565,6 @@ msgstr "无"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "未知"
@@ -581,7 +575,6 @@ msgstr "载入外部(_L)…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "未找到光盘"
@@ -772,19 +765,16 @@ msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "删除文件 '%s' 失败。原因：%s"
 
 #: src/celluloid-preferences-dialog.c:341
-#, fuzzy
 msgid "mpv configuration file:"
-msgstr "MPV 配置文件："
+msgstr ""
 
 #: src/celluloid-preferences-dialog.c:347
-#, fuzzy
 msgid "mpv input configuration file:"
-msgstr "MPV 输入配置文件："
+msgstr ""
 
 #: src/celluloid-preferences-dialog.c:367
-#, fuzzy
 msgid "Extra mpv options:"
-msgstr "额外的 MPV 选项："
+msgstr ""
 
 #: src/celluloid-preferences-dialog.c:400
 msgid "Interface"
@@ -1123,53 +1113,3 @@ msgstr ""
 "Jeff Bai <jeffbai@aosc.xyz>, 2015, 2016.\n"
 "Sun <warmsun0220@gmail.com>, 2015, 2016.\n"
 "Huang Jiayao <huangjiayao_1992@163.com>, 2017, 2018."
-
-#~ msgid "Whether or not to automatically resize window to fit video"
-#~ msgstr "是否自动调整窗口大小以适合视频"
-
-#~ msgid "Enable or disable dark theme"
-#~ msgstr "启用或禁用暗色主题"
-
-#~ msgid "Enable or disable client-side decorations"
-#~ msgstr "启用或禁用客户端装饰"
-
-#~ msgid "Whether or not to use floating controls in windowed mode"
-#~ msgstr "是否在窗口模式下启用浮动控制"
-
-#~ msgid "Whether or not to autohide mouse cursor in windowed mode"
-#~ msgstr "是否在窗口模式下自动隐藏鼠标指针"
-
-#~ msgid "Whether or not to use skip buttons for controlling playlist"
-#~ msgstr "是否使用跳转按钮控制播放列表"
-
-#~ msgid ""
-#~ "Whether or not to make file chooser dialog remember last folder accessed"
-#~ msgstr "是否让文件选择对话框记住最近访问的文件夹"
-
-#~ msgid ""
-#~ "Whether or not to create new windows when there is already an instance"
-#~ msgstr "当已经有一个实例在运行时，是否允许创建新窗口"
-
-#~ msgid "Load or don't load mpv configuration file"
-#~ msgstr "是否载入 mpv 配置文件"
-
-#~ msgid "Load or don't load mpv input configuration file"
-#~ msgstr "是否载入 mpv 输入配置文件"
-
-#~ msgid "Whether or not to enable MPRIS support"
-#~ msgstr "是否启用 MPRIS 支持"
-
-#~ msgid ""
-#~ "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
-#~ msgstr "是否启用基于 GNOME-Setting-Daemon 的媒体键支持"
-
-#~ msgid "Whether or not to prefetch metadata for non-current playlist entries"
-#~ msgstr "是否预先读取非当前播放列表项的元数据"
-
-#~ msgid ""
-#~ "Whether or not to display an error message when playback of a file ends "
-#~ "with an error"
-#~ msgstr "当文件播放以错误结束时是否显示错误消息 "
-
-#~ msgid "Whether or not to inhibit session idling when something is playing"
-#~ msgstr "播放时是否禁止会话空闲"

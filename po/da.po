@@ -1,15 +1,15 @@
 # Danish translation for Celluloid
 # scootergrisen, 2017.
+# Erased User <erased-fdaad642-b1b0-4288-9184-618867b430d3@example.com>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
-# scootergrisen <scootergrisen@gmail.com>, 2019. #zanata
-# scootergrisen <scootergrisen@gmail.com>, 2020. #zanata
+# Erased User <erased-fdaad642-b1b0-4288-9184-618867b430d3@example.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-09 22:16+0700\n"
-"PO-Revision-Date: 2020-08-02 06:37-0400\n"
-"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
+"POT-Creation-Date: 2019-02-20 20:48+0700\n"
+"PO-Revision-Date: 2020-10-24 12:56-0400\n"
+"Last-Translator: Erased User <erased-fdaad642-b1b0-4288-9184-618867b430d3@example.com>\n"
 "Language-Team: Danish\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,6 @@ msgid "Use floating controls in windowed mode"
 msgstr "Vis flydende styring i vinduestilstand"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Automatically hide mouse cursor in windowed mode"
 msgstr "Skjul automatisk musemarkøren i vinduestilstand"
 
@@ -50,7 +49,6 @@ msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr "Den laveste markørhastighed hvor flydende styring ikke skjules."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
-#, fuzzy
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
@@ -61,9 +59,8 @@ msgid "Use skip buttons for controlling playlist"
 msgstr "Brug spring over-knapper til at styre afspilningsliste"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
-#, fuzzy
 msgid "Make file chooser remember last file's location"
-msgstr "Husk placeringen af den sidste fil"
+msgstr "Få tilvælgeren til at huske placeringen af den sidste fil"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -79,18 +76,16 @@ msgid "Path to mpv configuration file"
 msgstr "Stil til mpv-konfigurationsfil"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
-#, fuzzy
 msgid "Load mpv configuration file"
-msgstr "Indlæs MPV-konfigurationsfil"
+msgstr "Indlæs mpv-konfigurationsfil"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Path to mpv input configuration file"
 msgstr "Sti til mpv-input-konfigurationsfil"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
-#, fuzzy
 msgid "Load mpv input configuration file"
-msgstr "Indlæs MPV-input-konfigurationsfil"
+msgstr "Indlæs mpv-input-konfigurationsfil"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Enable MPRIS support"
@@ -110,7 +105,7 @@ msgstr "Ignorer fejl ved afspilning"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Forhindr sessionsinaktivitet"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -166,11 +161,11 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid er en simpel medieafspiller som kan afspille næsten alle video- og "
-"lydformater. Den understøtter afspilningslister og MPRIS2-"
-"medieafspillerstyring. Celluloids design følger GNOME Human Interface "
-"Guidelines men kan også tilpasses andre systemer der ikke bruger klientside-"
-"dekorationer (CSD). Den er baseret på mpv-biblioteket og GTK."
+"Celluloid er en simpel medieafspiller som kan afspille næsten alle video- og"
+" lydformater. Den understøtter afspilningslister og "
+"MPRIS2-medieafspillerstyring. Celluloids design følger GNOME Human Interface"
+" Guidelines men kan også tilpasses andre systemer der ikke bruger "
+"klientside-dekorationer (CSD). Den er baseret på mpv-biblioteket og GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -205,41 +200,48 @@ msgstr "Udgivelsen indeholder følgende ændringer:"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr ""
+"Gør det muligt at aktivere genvejsmenuen når afspilningslisten er tom."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid ""
-"Prevent constant resizing of the seek bar due to timestamp label resizing as "
-"its value changes."
+"Prevent constant resizing of the seek bar due to timestamp label resizing as"
+" its value changes."
 msgstr ""
+"Forhindr at størrelsen på søgelinjen konstant tilpasses pga. at størrelsen "
+"på tidsstempeletiketten tilpasses efterhånden som dens værdi ændres."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
 msgstr ""
+"Vis kun én fejldialog når der opstår et stort antal fejl hurtigt efter "
+"hinanden."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
-#, fuzzy
 msgid "Add menu item for opening folders."
-msgstr "Tilføj menupunkt til at åbne diske"
+msgstr "Tilføj menupunkt til at åbne mapper."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
+"Juster placeringen af brugerfladeelementer i modale dialoger i ikke-CSD-"
+"tilstand for at være mere konsistent med CSD-tilstand."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:56
 msgid "Add support for loading external video tracks."
-msgstr ""
+msgstr "Tilføj understøttelse af indlæsning af eksterne videospor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:59
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Gør så bland afspilningsliste kan slås til/fra."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr ""
+"Gør så piletastbindinger virker med piletaster på det numeriske tastatur."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
@@ -277,7 +279,8 @@ msgstr "Opdater listen over genveje i dialogen Tastaturgenveje."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr ""
-"Korrekt håndtering af citationstegn og undvigesekvenser i ekstra mpv-tilvalg."
+"Korrekt håndtering af citationstegn og undvigesekvenser i ekstra mpv-"
+"tilvalg."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Display time at cursor position when hovering the seek bar."
@@ -286,8 +289,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
 msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
+" mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 "Gør '--mpv-tilvalg' udgået. Tilvalg som begynder med '--mpv-' kan i stedet "
@@ -324,8 +327,8 @@ msgstr "Tilføj ukrainsk oversættelse af @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:136
 msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
+"Add support for showing/hiding window decorations using the mpv option "
+"--border"
 msgstr ""
 "Tilføj understøttelse til at vise/skjule vinduesdekorationer med mpv "
 "tilvalget --border"
@@ -418,11 +421,11 @@ msgstr "Indstil standardmappen for skærmbilleder til XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:233
 msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
+"Improve handling of --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 msgstr ""
-"Forbedret håndtering af --window-scale, --autofit, --autofit-larger og --"
-"autofit-smaller"
+"Forbedret håndtering af --window-scale, --autofit, --autofit-larger og "
+"--autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
 msgid "Add command line option for setting WM_ROLE"
@@ -461,7 +464,8 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:271
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr ""
-"Tilføjet valgmulighed for automatisk at skjule musemarkøren i vinduestilstand"
+"Tilføjet valgmulighed for automatisk at skjule musemarkøren i "
+"vinduestilstand"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
 msgid "The main window showing the application in action"
@@ -483,7 +487,8 @@ msgstr "Multimedieafspiller"
 msgid "Play movies and videos"
 msgstr "Afspil film og videoer"
 
-#. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Don't translate the
+#. semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr "Video;Film;Klip;Serier;Afspiller;DVD;TV;Disk;Album;Musik;GNOME;mpv;"
@@ -594,7 +599,6 @@ msgstr "Intet"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
-#.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
 msgstr "Ukendt"
@@ -605,7 +609,6 @@ msgstr "_Indlæs eksternt …"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
-#.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
 msgstr "Ingen disk fundet"
@@ -798,19 +801,16 @@ msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Kunne ikke slette filen '%s'. Årsag: %s"
 
 #: src/celluloid-preferences-dialog.c:341
-#, fuzzy
 msgid "mpv configuration file:"
-msgstr "MPV-konfigurationsfil:"
+msgstr "mpv-konfigurationsfil:"
 
 #: src/celluloid-preferences-dialog.c:347
-#, fuzzy
 msgid "mpv input configuration file:"
-msgstr "MPV-input-konfigurationsfil:"
+msgstr "mpv-input-konfigurationsfil:"
 
 #: src/celluloid-preferences-dialog.c:367
-#, fuzzy
 msgid "Extra mpv options:"
-msgstr "Ekstra MPV-tilvalg:"
+msgstr "Ekstra mpv-tilvalg:"
 
 #: src/celluloid-preferences-dialog.c:400
 msgid "Interface"
@@ -1148,60 +1148,3 @@ msgstr "En GTK-frontend til MPV"
 #: src/celluloid-view.c:1608
 msgid "translator-credits"
 msgstr "scootergrisen"
-
-#~ msgid "Whether or not to automatically resize window to fit video"
-#~ msgstr "Om vinduet automatisk skal tilpasses til videoen"
-
-#~ msgid "Enable or disable dark theme"
-#~ msgstr "Aktivér eller deaktivér mørkt tema"
-
-#~ msgid "Enable or disable client-side decorations"
-#~ msgstr "Aktivér eller deaktivér klientsidedekorationer"
-
-#~ msgid "Whether or not to use floating controls in windowed mode"
-#~ msgstr "Hvorvidt der skal bruges flydende styring i vinduestilstand"
-
-#~ msgid "Whether or not to autohide mouse cursor in windowed mode"
-#~ msgstr "Om musemarkøren automatisk skal skjules i vinduestilstand"
-
-#~ msgid "Whether or not to use skip buttons for controlling playlist"
-#~ msgstr ""
-#~ "Hvorvidt der skal bruges spring over-knapper til at styre afspilningsliste"
-
-#~ msgid ""
-#~ "Whether or not to make file chooser dialog remember last folder accessed"
-#~ msgstr ""
-#~ "Hvorvidt filvælger-dialogen skal huske mappen som der sidst var adgang til"
-
-#~ msgid ""
-#~ "Whether or not to create new windows when there is already an instance"
-#~ msgstr "Hvorvidt nye vinduer skal oprettes når der allerede er en instans"
-
-#~ msgid "Load or don't load mpv configuration file"
-#~ msgstr "Indlæs eller indlæs ikke mpv-konfigurationsfil"
-
-#~ msgid "Load or don't load mpv input configuration file"
-#~ msgstr "Indlæs eller indlæs ikke mpv-input-konfigurationsfil"
-
-#~ msgid "Whether or not to enable MPRIS support"
-#~ msgstr "Hvorvidt understøttelse af MPRIS skal aktiveres"
-
-#~ msgid ""
-#~ "Whether or not to enable GNOME-Settings-Daemon-based media keys support"
-#~ msgstr ""
-#~ "Hvorvidt understøttelse af GNOME-Settings-Daemon-baserede medietaster "
-#~ "skal aktiveres"
-
-#~ msgid "Whether or not to prefetch metadata for non-current playlist entries"
-#~ msgstr ""
-#~ "Hvorvidt metadata skal hentes på forhånd for poster som ikke er i brug"
-
-#~ msgid ""
-#~ "Whether or not to display an error message when playback of a file ends "
-#~ "with an error"
-#~ msgstr ""
-#~ "Hvorvidt der skal vises en fejlmeddelelse når afspilningen af en fil "
-#~ "slutter med en fejl"
-
-#~ msgid "Whether or not to inhibit session idling when something is playing"
-#~ msgstr "Hvorvidt inaktivitet af session skal forhindres når noget afspilles"
