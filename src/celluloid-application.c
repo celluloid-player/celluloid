@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -332,8 +332,24 @@ local_command_line(GApplication *gapp, gchar ***arguments, gint *exit_status)
 		{
 			const gchar *suffix =
 				argv[i] + sizeof(MPV_OPTION_PREFIX) - 1;
-			gchar *option =
-				g_strconcat("--", suffix, NULL);
+
+			const gchar *value = strchr(suffix, '=');
+			gchar *option = NULL;
+
+			g_assert(!value || value > suffix);
+
+			if(value)
+			{
+				gchar key[value - suffix + 1];
+
+				g_strlcpy(key, suffix, sizeof(key));
+
+				option = g_strdup_printf("--%s='%s'", key, value + 1);
+			}
+			else
+			{
+				option = g_strconcat("--", suffix, NULL);
+			}
 
 			g_ptr_array_add(options, option);
 
