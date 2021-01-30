@@ -607,6 +607,17 @@ celluloid_application_init(CelluloidApplication *app)
 			_("Don't connect to an already-running instance"),
 			NULL );
 
+	// This is only added so that mpv prefix options could be document in
+	// the --help text.
+	g_application_add_main_option
+		(	G_APPLICATION(app),
+			"mpv-MPVOPTION",
+			'\0',
+			G_OPTION_FLAG_NONE,
+			G_OPTION_ARG_NONE,
+			_("Set the mpv option MPVOPTION to VALUE"),
+			_("VALUE") );
+
 	g_signal_connect
 		(new_window, "activate", G_CALLBACK(new_window_handler), app);
 	g_signal_connect
