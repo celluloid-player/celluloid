@@ -372,7 +372,7 @@ local_command_line(GApplication *gapp, gchar ***arguments, gint *exit_status)
 		app->mpv_options = g_strjoinv(" ", (gchar **)options->pdata);
 	}
 
-	g_assert(!g_ptr_array_free(options, TRUE));
+	g_ptr_array_free(options, TRUE);
 
 	return	G_APPLICATION_CLASS(celluloid_application_parent_class)
 		->local_command_line(gapp, arguments, exit_status);
