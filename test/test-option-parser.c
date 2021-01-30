@@ -113,6 +113,36 @@ test_option_with_no_prefix(void)
 	g_free(val);
 }
 
+static void
+test_quoted_value(void)
+{
+	const gchar *str = "--foo='bar baz'";
+	gchar *key = NULL;
+	gchar *val = NULL;
+
+	str = parse_option(str, &key, &val);
+	g_assert_true(str && !*str);
+	g_assert_true(g_strcmp0(key, "foo") == 0);
+	g_assert_true(g_strcmp0(val, "bar baz") == 0);
+	g_free(key);
+	g_free(val);
+}
+
+static void
+test_double_quoted_value(void)
+{
+	const gchar *str = "--foo=\"bar baz\"";
+	gchar *key = NULL;
+	gchar *val = NULL;
+
+	str = parse_option(str, &key, &val);
+	g_assert_true(str && !*str);
+	g_assert_true(g_strcmp0(key, "foo") == 0);
+	g_assert_true(g_strcmp0(val, "bar baz") == 0);
+	g_free(key);
+	g_free(val);
+}
+
 int
 main(gint argc, gchar **argv)
 {
@@ -131,6 +161,10 @@ main(gint argc, gchar **argv)
 			test_multiple_options );
 	g_test_add_func("/test-option-with-no-prefix",
 			test_option_with_no_prefix );
+	g_test_add_func("/test-quoted-value",
+			test_quoted_value );
+	g_test_add_func("/test-double-quoted-value",
+			test_double_quoted_value );
 
 	return g_test_run();
 }
