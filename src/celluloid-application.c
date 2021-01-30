@@ -586,7 +586,7 @@ celluloid_application_init(CelluloidApplication *app)
 		(	G_APPLICATION(app),
 			"mpv-options",
 			'\0',
-			G_OPTION_FLAG_NONE,
+			G_OPTION_FLAG_HIDDEN,
 			G_OPTION_ARG_STRING,
 			_("Options to pass to mpv"),
 			_("OPTIONS") );
