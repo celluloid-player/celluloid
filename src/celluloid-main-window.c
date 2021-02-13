@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2020 gnome-mpv
+ * Copyright (c) 2014-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -519,21 +519,21 @@ celluloid_main_window_save_state(CelluloidMainWindow *wnd)
 	gint handle_pos;
 	gdouble volume;
 	gboolean loop;
-	gboolean controls_visible;
 
 	settings = g_settings_new(CONFIG_WIN_STATE);
 	priv = get_private(wnd);
 	maximized = gtk_window_is_maximized(GTK_WINDOW(wnd));
 	handle_pos = gtk_paned_get_position(GTK_PANED(priv->vid_area_paned));
-	controls_visible = gtk_widget_get_visible(priv->control_box);
 
 	g_object_get(priv->control_box, "volume", &volume, "loop", &loop, NULL);
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
+	// Controls visibility does not need to be saved here since
+	// celluloid_main_window_set_controls_visible() already updates the
+	// associated GSettings key when it is called.
 	g_settings_set_boolean(settings, "maximized", maximized);
 	g_settings_set_double(settings, "volume", volume/100.0);
 	g_settings_set_boolean(settings, "loop-playlist", loop);
-	g_settings_set_boolean(settings, "show-controls", controls_visible);
 	g_settings_set_boolean(settings, "show-playlist", priv->playlist_visible);
 
 	if(!maximized)
