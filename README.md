@@ -32,7 +32,7 @@ mpv's powerful playback capabilities.
 - Fedora (rpmfusion): https://admin.rpmfusion.org/pkgdb/package/free/celluloid/
 - OpenSUSE: https://software.opensuse.org/package/celluloid
 - Gentoo: https://packages.gentoo.org/packages/media-video/celluloid
-- Guix: http://guix.gnu.org/packages/celluloid-0.18
+- Guix: https://guix.gnu.org/en/packages/celluloid-0.20
 - Solus: https://packages.getsol.us/shannon/g/gnome-mpv/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
