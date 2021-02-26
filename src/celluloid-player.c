@@ -498,42 +498,10 @@ apply_default_options(CelluloidMpv *mpv)
 	g_free(watch_dir);
 }
 
-static gboolean
-extra_options_contains(CelluloidPlayer *player, const gchar *option)
-{
-	gboolean result = FALSE;
-	const gchar *extra_options = get_private(player)->extra_options;
-
-	while(extra_options && *extra_options && !result)
-	{
-		gchar *key = NULL;
-		gchar *value = NULL;
-
-		extra_options = parse_option(extra_options, &key, &value);
-
-		if(key && *key)
-		{
-			result |= g_strcmp0(key, option) == 0;
-		}
-		else
-		{
-			g_warning("Failed to parse options");
-
-			extra_options = NULL;
-		}
-
-		g_free(key);
-		g_free(value);
-	}
-
-	return result;
-}
-
 static void
 initialize(CelluloidMpv *mpv)
 {
 	CelluloidPlayer *player = CELLULOID_PLAYER(mpv);
-	GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
 
 	apply_default_options(mpv);
 	load_config_file(mpv);
@@ -542,18 +510,6 @@ initialize(CelluloidMpv *mpv)
 	observe_properties(mpv);
 
 	CELLULOID_MPV_CLASS(celluloid_player_parent_class)->initialize(mpv);
-
-	if(!extra_options_contains(player, "volume"))
-	{
-		gdouble volume = g_settings_get_double(win_settings, "volume")*100;
-
-		g_debug("Setting volume to %f", volume);
-
-		celluloid_mpv_set_property
-			(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
-	}
-
-	g_object_unref(win_settings);
 }
 
 static gint

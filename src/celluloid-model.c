@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 gnome-mpv
+ * Copyright (c) 2017-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -22,6 +22,7 @@
 #include "celluloid-model.h"
 #include "celluloid-marshal.h"
 #include "celluloid-mpv-wrapper.h"
+#include "celluloid-option-parser.h"
 #include "celluloid-def.h"
 
 enum
@@ -89,6 +90,9 @@ struct _CelluloidModelClass
 	GObjectClass parent_class;
 };
 
+static gboolean
+extra_options_contains(CelluloidModel *model, const gchar *option);
+
 static void
 set_property(	GObject *object,
 		guint property_id,
@@ -136,6 +140,44 @@ mpv_prop_change_handler(	CelluloidMpv *mpv,
 				gpointer data );
 
 G_DEFINE_TYPE(CelluloidModel, celluloid_model, CELLULOID_TYPE_PLAYER)
+
+static gboolean
+extra_options_contains(CelluloidModel *model, const gchar *option)
+{
+	gboolean result = FALSE;
+	gchar *extra_options = NULL;
+	const gchar *cur = NULL;
+
+	g_object_get(model, "extra-options", &extra_options, NULL);
+
+	cur = extra_options;
+
+	while(cur && *cur && !result)
+	{
+		gchar *key = NULL;
+		gchar *value = NULL;
+
+		cur = parse_option(cur, &key, &value);
+
+		if(key && *key)
+		{
+			result |= g_strcmp0(key, option) == 0;
+		}
+		else
+		{
+			g_warning("Failed to parse options");
+
+			cur = NULL;
+		}
+
+		g_free(key);
+		g_free(value);
+	}
+
+	g_free(extra_options);
+
+	return result;
+}
 
 static void
 set_property(	GObject *object,
@@ -827,6 +869,19 @@ celluloid_model_initialize(CelluloidModel *model)
 		(mpv);
 	celluloid_mpv_set_render_update_callback
 		(mpv, render_update_callback, model);
+
+	if(!extra_options_contains(model, "volume"))
+	{
+		GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
+		gdouble volume = g_settings_get_double(win_settings, "volume")*100;
+
+		g_debug("Setting volume to %f", volume);
+
+		celluloid_mpv_set_property
+			(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
+
+		g_object_unref(win_settings);
+	}
 }
 
 void
