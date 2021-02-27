@@ -523,14 +523,13 @@ celluloid_main_window_save_state(CelluloidMainWindow *wnd)
 	gboolean maximized;
 	gint handle_pos;
 	gdouble volume;
-	gboolean loop;
 
 	settings = g_settings_new(CONFIG_WIN_STATE);
 	priv = get_private(wnd);
 	maximized = gtk_window_is_maximized(GTK_WINDOW(wnd));
 	handle_pos = gtk_paned_get_position(GTK_PANED(priv->vid_area_paned));
 
-	g_object_get(priv->control_box, "volume", &volume, "loop", &loop, NULL);
+	g_object_get(priv->control_box, "volume", &volume, NULL);
 	gtk_window_get_size(GTK_WINDOW(wnd), &width, &height);
 
 	// Controls visibility does not need to be saved here since
@@ -538,7 +537,6 @@ celluloid_main_window_save_state(CelluloidMainWindow *wnd)
 	// associated GSettings key when it is called.
 	g_settings_set_boolean(settings, "maximized", maximized);
 	g_settings_set_double(settings, "volume", volume/100.0);
-	g_settings_set_boolean(settings, "loop-playlist", loop);
 	g_settings_set_boolean(settings, "show-playlist", priv->playlist_visible);
 
 	if(!maximized)
