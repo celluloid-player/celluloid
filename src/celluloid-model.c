@@ -879,6 +879,17 @@ celluloid_model_initialize(CelluloidModel *model)
 		g_object_set(model, "volume", volume, NULL);
 	}
 
+	if(extra_options_contains(model, "shuffle"))
+	{
+		// Sync the property to match mpv's
+		CelluloidMpv *mpv =
+			CELLULOID_MPV(model);
+		gboolean shuffle =
+			celluloid_mpv_get_property_flag(mpv, "shuffle");
+
+		g_object_set(model, "shuffle", shuffle, NULL);
+	}
+
 	if(extra_options_contains(model, "loop-playlist"))
 	{
 		// Sync the property to match mpv's
