@@ -864,6 +864,7 @@ void
 celluloid_model_initialize(CelluloidModel *model)
 {
 	CelluloidMpv *mpv = CELLULOID_MPV(model);
+	GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
 
 	celluloid_mpv_initialize
 		(mpv);
@@ -872,13 +873,10 @@ celluloid_model_initialize(CelluloidModel *model)
 
 	if(!extra_options_contains(model, "volume"))
 	{
-		GSettings *win_settings = g_settings_new(CONFIG_WIN_STATE);
 		gdouble volume = g_settings_get_double(win_settings, "volume")*100;
 
 		g_debug("Setting volume to %f", volume);
 		g_object_set(model, "volume", volume, NULL);
-
-		g_object_unref(win_settings);
 	}
 
 	if(extra_options_contains(model, "loop-playlist"))
@@ -893,6 +891,16 @@ celluloid_model_initialize(CelluloidModel *model)
 
 		mpv_free(loop_playlist);
 	}
+	else
+	{
+		const gchar *loop_playlist =
+			g_settings_get_boolean(win_settings, "loop-playlist") ?
+			"inf" : "no";
+
+		g_object_set(model, "loop-playlist", loop_playlist, NULL);
+	}
+
+	g_object_unref(win_settings);
 }
 
 void

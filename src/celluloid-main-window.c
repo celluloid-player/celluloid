@@ -571,7 +571,6 @@ celluloid_main_window_load_state(CelluloidMainWindow *wnd)
 		gint handle_pos;
 		gboolean controls_visible;
 		gdouble volume;
-		gboolean loop;
 
 		priv->playlist_width
 			= g_settings_get_int(settings, "playlist-width");
@@ -580,13 +579,9 @@ celluloid_main_window_load_state(CelluloidMainWindow *wnd)
 		controls_visible
 			= g_settings_get_boolean(settings, "show-controls");
 		volume = g_settings_get_double(settings, "volume");
-		loop = g_settings_get_boolean(settings, "loop-playlist");
 		handle_pos = width-(priv->playlist_visible?priv->playlist_width:0);
 
-		g_object_set(	priv->control_box,
-				"volume", volume,
-				"loop", loop,
-				NULL);
+		g_object_set(priv->control_box, "volume", volume, NULL);
 
 		gtk_widget_set_visible(priv->control_box, controls_visible);
 		gtk_widget_set_visible(priv->playlist, priv->playlist_visible);
