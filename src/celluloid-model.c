@@ -876,9 +876,7 @@ celluloid_model_initialize(CelluloidModel *model)
 		gdouble volume = g_settings_get_double(win_settings, "volume")*100;
 
 		g_debug("Setting volume to %f", volume);
-
-		celluloid_mpv_set_property
-			(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
+		g_object_set(model, "volume", volume, NULL);
 
 		g_object_unref(win_settings);
 	}
