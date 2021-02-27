@@ -882,6 +882,19 @@ celluloid_model_initialize(CelluloidModel *model)
 
 		g_object_unref(win_settings);
 	}
+
+	if(extra_options_contains(model, "loop-playlist"))
+	{
+		// Sync the property to match mpv's
+		CelluloidMpv *mpv =
+			CELLULOID_MPV(model);
+		gchar *loop_playlist =
+			celluloid_mpv_get_property_string(mpv, "loop-playlist");
+
+		g_object_set(model, "loop-playlist", loop_playlist, NULL);
+
+		mpv_free(loop_playlist);
+	}
 }
 
 void
