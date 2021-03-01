@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -151,9 +151,12 @@ mpv_event_notify(	CelluloidMpv *mpv,
 		celluloid_mpv_get_property
 			(mpv, "path", MPV_FORMAT_STRING, &path);
 
-		g_debug("Fetched metadata for %s", path);
+		if(path)
+		{
+			g_debug("Fetched metadata for %s", path);
 
-		entry =	g_hash_table_lookup(cache->table, path);
+			entry =	g_hash_table_lookup(cache->table, path);
+		}
 
 		if(entry)
 		{
