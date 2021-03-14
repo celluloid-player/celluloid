@@ -6,12 +6,13 @@
 # Jaroslav Svoboda <multi.flexi@seznam.cz>, 2019. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 # Pavel Zahradník <pavel.zahradnik@centrum.cz>, 2020. #zanata
+# Pavel Zahradník <pavel.zahradnik@centrum.cz>, 2021. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2020-09-30 05:32-0400\n"
+"PO-Revision-Date: 2021-01-29 06:44-0500\n"
 "Last-Translator: Pavel Zahradník <pavel.zahradnik@centrum.cz>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -44,7 +45,7 @@ msgstr "Použít v okenním režimu plovoucí ovládání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Automaticky skrýt kurzor myši v okenním režimu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
@@ -57,6 +58,8 @@ msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
+"Velikost mrtvé zóny, ve které pohyb kurzoru nezpůsobí zobrazení ovládacích "
+"prvků."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons for controlling playlist"
@@ -64,7 +67,7 @@ msgstr "Použít tlačítka pro přeskakování pro ovládání seznamu přehrá
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Make file chooser remember last file's location"
-msgstr ""
+msgstr "Pamatovat si poslední umístění v dialogu pro výběr souborů "
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -81,7 +84,7 @@ msgstr "Cesta ke konfiguračnímu souboru mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
 msgid "Load mpv configuration file"
-msgstr ""
+msgstr "Načíst konfigurační soubor mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Path to mpv input configuration file"
@@ -89,7 +92,7 @@ msgstr "Cesta ke konfiguračnímu souboru vstupu mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 msgid "Load mpv input configuration file"
-msgstr ""
+msgstr "Načíst vstupní konfigurační soubor mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Enable MPRIS support"
@@ -109,7 +112,7 @@ msgstr "Ignorovat chyby přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Zakázat přerušení relace"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -204,40 +207,47 @@ msgstr "Tato verze obsahuje následující změny:"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr ""
+"Kontextovou nabídku je možné vyvolat i při prázdném seznamu přehrávání."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as"
 " its value changes."
 msgstr ""
+"Oprava neustálých změn velikosti přehrávacího pruhu kvůli změnám velikosti "
+"ukazatele času. "
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
 msgstr ""
+"Při velkém počtu chyb, které nastanou v rychlém sledu, bude zobrazen pouze "
+"jeden chybový dialog."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
 msgid "Add menu item for opening folders."
-msgstr ""
+msgstr "Do nabídky přidána položka pro otevírání složek."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
+"Upraveno umístění prvků uživatelského rozhraní v modálních dialozích, aby "
+"bylo konzistentní s CSD módem."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:56
 msgid "Add support for loading external video tracks."
-msgstr ""
+msgstr "Přidána podpora pro nahrávání externích stop videa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:59
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Míchání skladeb v seznamu přehrávání je možné přepínat."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 msgid "Make arrow key bindings work with arrow keys on numpad."
-msgstr ""
+msgstr "Klávesové zkratky fungují s šipkami na numerické klávesnici."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
@@ -279,7 +289,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Display time at cursor position when hovering the seek bar."
-msgstr "Zobrazit čas na pozici kurzoru při najetí na lištu hledání."
+msgstr "Zobrazit čas na pozici kurzoru při najetí na přehrávací pruh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
 msgid ""
@@ -794,15 +804,15 @@ msgstr "Selhalo smazání souboru ‚%s‘. Důvod: %s"
 
 #: src/celluloid-preferences-dialog.c:341
 msgid "mpv configuration file:"
-msgstr ""
+msgstr "Konfigurační soubor mpv:"
 
 #: src/celluloid-preferences-dialog.c:347
 msgid "mpv input configuration file:"
-msgstr ""
+msgstr "Vstupní konfigurační soubor mpv:"
 
 #: src/celluloid-preferences-dialog.c:367
 msgid "Extra mpv options:"
-msgstr ""
+msgstr "Rozšířené možnosti mpv:"
 
 #: src/celluloid-preferences-dialog.c:400
 msgid "Interface"

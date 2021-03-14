@@ -1,13 +1,14 @@
 # gnome-mpv <gnome-mpv@teknik.io>, 2019. #zanata
 # Jan Wesselink <wesselaar@gmail.com>, 2020. #zanata
 # gnome-mpv <gnome-mpv@teknik.io>, 2020. #zanata
+# Jan Wesselink <wesselaar@gmail.com>, 2021. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2020-08-01 10:42-0400\n"
-"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
+"PO-Revision-Date: 2021-02-07 02:34-0500\n"
+"Last-Translator: Jan Wesselink <wesselaar@gmail.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -17,10 +18,9 @@ msgstr ""
 "X-Generator: Zanata 4.6.2\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
-#, fuzzy
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "Of de instellingen al gemigreerd zijn van een vorige versie"
+msgstr "Of de instellingen al gemigreerd zijn uit de vorige versie"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
@@ -40,19 +40,21 @@ msgstr "Gebruik zwevenden bedieningselementen in venstermodus"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Automatisch verbergen van muisaanwijzer in venstermodus"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr ""
 "De minimale cursorsnelheid waarbij de zwevende bedieningselementen weer "
-"zichtbaar zullen worden"
+"zichtbaar zullen worden."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
+"Grootte van de dode zone die voorkomt dat bij muisbeweging de bediening "
+"zichtbaar wordt. "
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons for controlling playlist"
@@ -60,7 +62,7 @@ msgstr "Gebruik skip knoppen voor bediening van afspeellijst"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Make file chooser remember last file's location"
-msgstr ""
+msgstr "Laat de bestandskiezer de laatste bestandslocatie onthouden"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -77,16 +79,15 @@ msgstr "Pad naar mpv configuratiebestand"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:90
 msgid "Load mpv configuration file"
-msgstr ""
+msgstr "Laad mpv configuratiebestand"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
-#, fuzzy
 msgid "Path to mpv input configuration file"
-msgstr "Pad naar mpv input configuratiebestand"
+msgstr "Pad naar mpv input configuratie bestand"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 msgid "Load mpv input configuration file"
-msgstr ""
+msgstr "Laad mpv input configuratiebestand"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Enable MPRIS support"
@@ -106,7 +107,7 @@ msgstr "Negeer afspeelfouten"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Blokkeer het inactiveren van de sessie"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -121,9 +122,8 @@ msgid "Whether or not the window is maximized"
 msgstr "Of het venster wel of niet gemaximaliseerd is"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:161
-#, fuzzy
 msgid "Volume of player"
-msgstr "Volume van de speler"
+msgstr "Volume van speler"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Whether or not to loop when the end of playlist is reached"
@@ -134,9 +134,8 @@ msgid "Width of the playlist"
 msgstr "Breedte van de afspeellijst"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:179
-#, fuzzy
 msgid "Show or not show the controls"
-msgstr "Geef de controls wel of niet weer"
+msgstr "Geef de bediening wel of niet weer"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:185
 msgid "Show or not show the playlist"
@@ -176,9 +175,8 @@ msgid "Features:"
 msgstr "Functies:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:25
-#, fuzzy
 msgid "Drag and drop playlist"
-msgstr "Drag and drop afspeellijst"
+msgstr "Sleep en plaats afspeellijst"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
@@ -205,6 +203,7 @@ msgstr "Deze uitgave bevat de volgende aanpassingen:"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr ""
+"Maak het mogelijk om contextmenu te activeren als afspeellijst leeg is."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid ""
@@ -220,7 +219,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
 msgid "Add menu item for opening folders."
-msgstr ""
+msgstr "Voeg menu-item toe om mappen te openen."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid ""
@@ -230,11 +229,11 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:56
 msgid "Add support for loading external video tracks."
-msgstr ""
+msgstr "Voeg ondersteuning to voor het laden van externe videofragmenten."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:59
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Maak willekeurig afspelen van afspeellijst schakelbaar."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 msgid "Make arrow key bindings work with arrow keys on numpad."
@@ -495,9 +494,8 @@ msgid "Show release version"
 msgstr "Toon release versie"
 
 #: src/celluloid-application.c:559
-#, fuzzy
 msgid "Enqueue"
-msgstr "Voeg toe aan wachtrij"
+msgstr "Voeg toe aan de wachtrij"
 
 #: src/celluloid-application.c:567
 msgid "Create a new window"
@@ -512,9 +510,8 @@ msgid "Set the window role"
 msgstr ""
 
 #: src/celluloid-application.c:591
-#, fuzzy
 msgid "Don't connect to an already-running instance"
-msgstr "Verbind niet met instanties die al draaien"
+msgstr "Verbind niet met instantie die al draait"
 
 #: src/celluloid-control-box.c:362
 msgid "Pause"
@@ -633,9 +630,8 @@ msgid "_New Window"
 msgstr "_Nieuw venster"
 
 #: src/celluloid-menu.c:242
-#, fuzzy
 msgid "_Quit"
-msgstr "_Afsluiten"
+msgstr "_Stoppen"
 
 #: src/celluloid-menu.c:243
 msgid "_Edit"
@@ -768,9 +764,9 @@ msgid "C Plugins"
 msgstr "C Plugins"
 
 #: src/celluloid-plugins-manager.c:334
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr "Bestand van '%s' naar '%s' kopiëren mislukt. Reden: %s"
+msgstr "Bestand van '%s' naar '%s' kopiëren is mislukt. Reden: %s"
 
 #: src/celluloid-plugins-manager.c:385
 msgid "No plugins found"
@@ -788,9 +784,9 @@ msgstr ""
 "ongedaan worden gemaakt."
 
 #: src/celluloid-plugins-manager-item.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr "Bestand '%s' verwijderen mislukt. Reden: %s"
+msgstr "Bestand '%s' verwijderen is mislukt. Reden: %s"
 
 #: src/celluloid-preferences-dialog.c:341
 msgid "mpv configuration file:"
@@ -1107,7 +1103,7 @@ msgstr ""
 
 #: src/celluloid-view.c:1444
 msgid "Add Folder to Playlist"
-msgstr ""
+msgstr "Voeg map toe aan afspeellijst"
 
 #: src/celluloid-view.c:1444
 msgid "Open Folder"
