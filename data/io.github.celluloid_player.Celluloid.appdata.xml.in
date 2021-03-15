@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2015-2020 gnome-mpv -->
+<!-- Copyright 2015-2021 gnome-mpv -->
 <component type="desktop">
  <id>io.github.celluloid_player.Celluloid</id>
  <metadata_license>CC-BY-SA-4.0</metadata_license>
@@ -29,6 +29,40 @@
  </description>
  <developer_name>The Celluloid Developers</developer_name>
  <releases>
+  <release date="2021-03-22" version="0.21">
+   <description>
+    <p>
+     This release contains the following changes:
+    </p>
+    <ul>
+     <li>
+      Add Basque translation by @aldatsa.
+     </li>
+     <li>
+      Make the shuffle and loop command line options work properly.
+     </li>
+     <li>
+      Make the main menu button toggleable by pressing F10.
+     </li>
+     <li>
+      Add a setting for always appending opened files to the playlist.
+     </li>
+     <li>
+      Allow appending files to playlist by holding shift while dropping files onto the video area.
+     </li>
+     <li>
+      Make CSD header bar toggleable via the mpv property "border".
+     </li>
+     <li>
+      Include Flatpak manifest in the repo. This allows Celluloid to be built in
+      one click in apps like GNOME Builder.
+     </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2020-09-19" version="0.20">
    <description>
     <p>
