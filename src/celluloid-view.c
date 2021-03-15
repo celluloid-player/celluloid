@@ -395,10 +395,17 @@ set_property(	GObject *object,
 
 		case PROP_BORDER:
 		self->border = g_value_get_boolean(value);
-		gtk_window_set_decorated
-			(GTK_WINDOW(wnd), self->border);
-		gtk_widget_set_visible
-			(gtk_window_get_titlebar(GTK_WINDOW(wnd)), self->border);
+		{
+			GtkWidget *titlebar =
+				gtk_window_get_titlebar(GTK_WINDOW(wnd));
+
+			if(titlebar)
+			{
+				gtk_widget_set_visible(titlebar, self->border);
+			}
+
+			gtk_window_set_decorated(GTK_WINDOW(wnd), self->border);
+		}
 		break;
 
 		case PROP_FULLSCREEN:
