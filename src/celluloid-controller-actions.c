@@ -462,9 +462,14 @@ static void
 toggle_main_menu_handler(GSimpleAction *action, GVariant *param, gpointer data)
 {
 	CelluloidView *view = celluloid_controller_get_view(data);
+	CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(view);
+	gboolean csd = celluloid_main_window_get_csd_enabled(wnd);
 	gboolean visible = celluloid_view_get_main_menu_visible(view);
 
-	celluloid_view_set_main_menu_visible(view, !visible);
+	if(csd)
+	{
+		celluloid_view_set_main_menu_visible(view, !visible);
+	}
 }
 
 static void
