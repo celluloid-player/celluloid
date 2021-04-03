@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -63,6 +63,12 @@ motion_handler(GtkWidget *widget, GdkEventMotion *event, gpointer data);
 
 static gboolean
 update_popover_visibility(CelluloidSeekBar *bar);
+
+static gint
+get_slider_length(GtkRange *range);
+
+static gdouble
+coord_to_time(GtkRange *range, gdouble coord);
 
 G_DEFINE_TYPE(CelluloidSeekBar, celluloid_seek_bar, GTK_TYPE_BOX)
 
@@ -136,24 +142,18 @@ static gboolean
 motion_handler(GtkWidget *widget, GdkEventMotion *event, gpointer data)
 {
 	CelluloidSeekBar *bar = data;
-	GdkRectangle rect = {	.x = (gint)event->x,
-				.y = 0,
-				.width = 0,
-				.height = 0 };
-	GdkRectangle range_rect;
-	gdouble progress = 0;
-	gchar *text = NULL;
 
-	gtk_range_get_range_rect(GTK_RANGE(bar->seek_bar), &range_rect);
-	rect.x = CLAMP(rect.x, range_rect.x, range_rect.x + range_rect.width);
+	const gint slider_length =
+		get_slider_length(GTK_RANGE(bar->seek_bar));
+	const gdouble time =
+		coord_to_time(GTK_RANGE(bar->seek_bar), event->x - slider_length);
 
+	GdkRectangle rect =
+		{.x = (gint)event->x, .y = 0, .width = 0, .height = 0};
 	gtk_popover_set_pointing_to(GTK_POPOVER(bar->popover), &rect);
 
-	progress = rect.x / (gdouble)(range_rect.x + range_rect.width);
-	text = format_time(	(gint)(progress * bar->duration),
-				bar->duration >= 3600 );
+	gchar *text = format_time((gint)time, bar->duration >= 3600);
 	gtk_label_set_text(GTK_LABEL(bar->popover_label), text);
-
 	g_free(text);
 
 	return FALSE;
@@ -174,6 +174,40 @@ update_popover_visibility(CelluloidSeekBar *bar)
 	bar->popover_timeout_id = 0;
 
 	return G_SOURCE_REMOVE;
+}
+
+static gint
+get_slider_length(GtkRange *range)
+{
+	gint slider_start = -1;
+	gint slider_end = -1;
+
+	gtk_range_get_slider_range(range, &slider_start, &slider_end);
+
+	return slider_end - slider_start;
+}
+
+static gdouble
+coord_to_time(GtkRange *range, gdouble coord)
+{
+	// TODO: Figure out how to get the actual margin
+	const gint margin = 1;
+
+	GtkAdjustment *adjustment = gtk_range_get_adjustment(range);
+	const gdouble lower = gtk_adjustment_get_lower(adjustment);
+	const gdouble upper = gtk_adjustment_get_upper(adjustment);
+	const gdouble page_size = gtk_adjustment_get_page_size(adjustment);
+
+	GdkRectangle range_rect;
+	gtk_range_get_range_rect(range, &range_rect);
+	const gint trough_start = range_rect.x + margin;
+	const gint trough_length = range_rect.width - 2 * margin;
+
+	const gdouble progress =
+		((gint)coord - trough_start) /
+		(gdouble)(trough_length - get_slider_length(range));
+
+	return lower + progress * (upper - lower - page_size);
 }
 
 static void
