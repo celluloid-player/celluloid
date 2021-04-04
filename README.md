@@ -140,12 +140,9 @@ Additional keybindings can be defined in an external file using mpv's
 
 ## Contributing Translations
 
-Celluloid uses [Zanata](https://zanata.org) to coordinate
-translations. You can find Celluloid's page
-[here](https://translate.zanata.org/iteration/view/celluloid/master). To
-start translating, follow the instructions
-[here](http://docs.zanata.org/en/release/user-guide/translator-guide/). If you'd
-like to add a new language, open an issue on GitHub.
+Celluloid uses [Weblate](https://weblate.org) to coordinate translations. You
+can find Celluloid's page [here](https://hosted.weblate.org/projects/celluloid).
+If you'd like to add a new language, open an issue on GitHub.
 
 While translating, you will find the string `translator-credits`. You should not
 translate this string. Instead, you should put your name, and optionally your
