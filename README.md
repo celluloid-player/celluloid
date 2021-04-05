@@ -140,6 +140,8 @@ Additional keybindings can be defined in an external file using mpv's
 
 ## Contributing Translations
 
+![Translation Status](https://hosted.weblate.org/widgets/celluloid/-/celluloid/horizontal-auto.svg)
+
 Celluloid uses [Weblate](https://weblate.org) to coordinate translations. You
 can find Celluloid's page [here](https://hosted.weblate.org/projects/celluloid).
 If you'd like to add a new language, open an issue on GitHub.
