@@ -144,7 +144,6 @@ Additional keybindings can be defined in an external file using mpv's
 
 Celluloid uses [Weblate](https://weblate.org) to coordinate translations. You
 can find Celluloid's page [here](https://hosted.weblate.org/projects/celluloid).
-If you'd like to add a new language, open an issue on GitHub.
 
 While translating, you will find the string `translator-credits`. You should not
 translate this string. Instead, you should put your name, and optionally your
