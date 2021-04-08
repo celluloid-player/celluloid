@@ -322,6 +322,9 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 				priv->vid_area, "title",
 				G_BINDING_DEFAULT );
 
+	g_object_bind_property(	wnd, "title",
+				priv->header_bar, "title",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	priv->header_bar, "open-button-active",
 				vid_area_header_bar, "open-button-active",
 				G_BINDING_DEFAULT );

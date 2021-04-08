@@ -26,7 +26,7 @@
 
 #define CELLULOID_TYPE_HEADER_BAR (celluloid_header_bar_get_type ())
 
-G_DECLARE_FINAL_TYPE(CelluloidHeaderBar, celluloid_header_bar, CELLULOID, HEADER_BAR, GtkHeaderBar)
+G_DECLARE_FINAL_TYPE(CelluloidHeaderBar, celluloid_header_bar, CELLULOID, HEADER_BAR, GtkBox)
 
 GtkWidget *
 celluloid_header_bar_new(void);

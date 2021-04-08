@@ -28,6 +28,7 @@
 enum
 {
 	PROP_0,
+	PROP_TITLE,
 	PROP_OPEN_BUTTON_ACTIVE,
 	PROP_MENU_BUTTON_ACTIVE,
 	N_PROPERTIES
@@ -35,21 +36,23 @@ enum
 
 struct _CelluloidHeaderBar
 {
-	GtkHeaderBar parent_instance;
+	GtkBox parent_instance;
+	GtkWidget *header_bar;
 	GtkWidget *open_btn;
 	GtkWidget *fullscreen_btn;
 	GtkWidget *menu_btn;
 
+	gchar *title;
 	gboolean open_popover_visible;
 	gboolean menu_popover_visible;
 };
 
 struct _CelluloidHeaderBarClass
 {
-	GtkHeaderBarClass parent_class;
+	GtkBoxClass parent_class;
 };
 
-G_DEFINE_TYPE(CelluloidHeaderBar, celluloid_header_bar, GTK_TYPE_HEADER_BAR)
+G_DEFINE_TYPE(CelluloidHeaderBar, celluloid_header_bar, GTK_TYPE_BOX)
 
 static void
 set_property(	GObject *object,
@@ -61,6 +64,11 @@ set_property(	GObject *object,
 
 	switch(property_id)
 	{
+		case PROP_TITLE:
+		g_free(self->title);
+		self->title = g_value_dup_string(value);
+		break;
+
 		case PROP_OPEN_BUTTON_ACTIVE:
 		self->open_popover_visible = g_value_get_boolean(value);
 		break;
@@ -85,6 +93,10 @@ get_property(	GObject *object,
 
 	switch(property_id)
 	{
+		case PROP_TITLE:
+		g_value_set_string(value, self->title);
+		break;
+
 		case PROP_OPEN_BUTTON_ACTIVE:
 		g_value_set_boolean(value, self->open_popover_visible);
 		break;
@@ -106,6 +118,15 @@ celluloid_header_bar_class_init(CelluloidHeaderBarClass *klass)
 
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
+
+	pspec = g_param_spec_string
+		(	"title",
+			"Title",
+			"The title to display in the header bar",
+			NULL,
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_TITLE, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"open-button-active",
@@ -138,7 +159,6 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	GtkWidget *fullscreen_icon;
 	GtkWidget *menu_icon;
 
-	ghdr = GTK_HEADER_BAR(hdr);
 	settings = g_settings_new(CONFIG_ROOT);
 	csd = g_settings_get_boolean(settings, "csd-enable");
 	open_btn_menu = g_menu_new();
@@ -151,11 +171,14 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	menu_icon =		gtk_image_new_from_icon_name
 				("open-menu-symbolic", GTK_ICON_SIZE_MENU);
 
+	hdr->header_bar = gtk_header_bar_new();
 	hdr->open_btn = gtk_menu_button_new();
 	hdr->fullscreen_btn = gtk_button_new();
 	hdr->menu_btn = gtk_menu_button_new();
 	hdr->open_popover_visible = FALSE;
 	hdr->menu_popover_visible = FALSE;
+
+	ghdr = GTK_HEADER_BAR(hdr->header_bar);
 
 	celluloid_menu_build_open_btn(open_btn_menu, NULL);
 	celluloid_menu_build_menu_btn(menu_btn_menu, NULL);
@@ -188,9 +211,14 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	gtk_header_bar_pack_end(ghdr, hdr->menu_btn);
 	gtk_header_bar_pack_end(ghdr, hdr->fullscreen_btn);
 
+	gtk_box_pack_start(GTK_BOX(hdr), hdr->header_bar, TRUE, TRUE, 0);
+
 	gtk_widget_set_no_show_all(hdr->fullscreen_btn, TRUE);
 	gtk_header_bar_set_show_close_button(ghdr, TRUE);
 
+	g_object_bind_property(	hdr, "title",
+				hdr->header_bar, "title",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	hdr->open_btn, "active",
 				hdr, "open-button-active",
 				G_BINDING_DEFAULT );
@@ -253,7 +281,7 @@ celluloid_header_bar_set_fullscreen_state(	CelluloidHeaderBar *hdr,
 					"view-fullscreen-symbolic",
 					GTK_ICON_SIZE_MENU );
 
-	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(hdr), !fullscreen);
+	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(hdr->header_bar), !fullscreen);
 }
 
 void
