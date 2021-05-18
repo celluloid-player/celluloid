@@ -12,15 +12,16 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2021-01-29 06:44-0500\n"
-"Last-Translator: Pavel Zahradník <pavel.zahradnik@centrum.cz>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2021-05-11 19:43+0000\n"
+"Last-Translator: Tomáš Marný <tomik.marny@gmail.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/celluloid/"
+"celluloid/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
-"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -67,7 +68,7 @@ msgstr "Použít tlačítka pro přeskakování pro ovládání seznamu přehrá
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Make file chooser remember last file's location"
-msgstr "Pamatovat si poslední umístění v dialogu pro výběr souborů "
+msgstr "Pamatovat si poslední umístění v dialogu pro výběr souborů"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -215,7 +216,7 @@ msgid ""
 " its value changes."
 msgstr ""
 "Oprava neustálých změn velikosti přehrávacího pruhu kvůli změnám velikosti "
-"ukazatele času. "
+"ukazatele času."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:45
 msgid ""
@@ -296,7 +297,10 @@ msgid ""
 "Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set"
 " mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
-msgstr "xtra"
+msgstr ""
+"Zastaralá volba „--mpv-options“. K nastavení možností mpv lze místo toho "
+"použít volby začínající na „--mpv-“. Například předání „--mpv-vf=vflip“ "
+"Celluloidu je ekvivalentní předání „--vf=vflip“ mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
 msgid ""
@@ -623,19 +627,19 @@ msgstr "_Soubor"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
 msgid "_Open…"
-msgstr "_Otevřít..."
+msgstr "_Otevřít…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr "Otevřít _složku..."
+msgstr "Otevřít _složku…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
-msgstr "Otevřít _umístění..."
+msgstr "Otevřít _umístění…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr "Otevřít _disk..."
+msgstr "Otevřít _disk…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
@@ -737,7 +741,7 @@ msgstr "_Přidat…"
 
 #: src/celluloid-playlist-widget.c:790
 msgid "Add _Folder…"
-msgstr "Přidat _složku..."
+msgstr "Přidat _složku…"
 
 #: src/celluloid-playlist-widget.c:791
 msgid "Add _Location…"
@@ -1100,7 +1104,7 @@ msgstr "Načíst zvukovou stopu…"
 
 #: src/celluloid-view.c:732
 msgid "Load Video Track…"
-msgstr "Nahrát stopu videa..."
+msgstr "Nahrát stopu videa…"
 
 #: src/celluloid-view.c:736
 msgid "Load Subtitle Track…"
@@ -1111,8 +1115,8 @@ msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
-"Aby se projevilo povolení nebo zakázání dekorací na straně klienta, je nutný"
-" restart aplikace"
+"Aby se projevilo povolení nebo zakázání dekorací na straně klienta, je nutný "
+"restart aplikace."
 
 #: src/celluloid-view.c:1444
 msgid "Add Folder to Playlist"

@@ -12,15 +12,16 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2021-01-12 04:19-0500\n"
-"Last-Translator: Yoshida Shouyou <charcoalburst29@outlook.fr>\n"
-"Language-Team: Français\n"
+"PO-Revision-Date: 2021-05-08 14:32+0000\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/celluloid/"
+"celluloid/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.7-dev\n"
 "X-Poedit-Basepath: ../src\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: mpv.c\n"
@@ -183,7 +184,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
-msgstr "Fonctionnalités"
+msgstr "Fonctionnalités :"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:25
 msgid "Drag and drop playlist"
@@ -268,8 +269,8 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
 msgid "This listing is incomplete. See git log for complete changelog."
 msgstr ""
-"Cette liste n'est pas complète.  Pour voir tous les changements utilisez git"
-" log."
+"Cette liste n'est pas complète. Pour voir tous les changements utilisez git "
+"log."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
 msgid ""
@@ -301,7 +302,7 @@ msgstr ""
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr ""
 "Gère correctement les guillemets et les séquences d'échappement dans les "
-"options supplémentaires de mpv"
+"options supplémentaires de mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Display time at cursor position when hovering the seek bar."
@@ -332,15 +333,15 @@ msgstr ""
 msgid "Make window sizing work correctly with HiDPI displays."
 msgstr ""
 "Permettre le redimensionnement correct des fenêtres avec les affichages "
-"HiDPI"
+"HiDPI."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:112
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr "Ajout de la traduction finnoise  par Kimmo Kujansuu"
+msgstr "Ajout de la traduction finnoise par Kimmo Kujansuu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:115
 msgid "Add Slovenian translation by @bertronika."
-msgstr "Ajout de la traduction slovène par @bertronika"
+msgstr "Ajout de la traduction slovène par @bertronika."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
 msgid "Add Persian translation by @danialbehzadi"
@@ -405,7 +406,7 @@ msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
 "Ajout d'une clef dconf pour contrôler la vitesse de pointeur à laquelle les "
-"commandes flottantes sont montrées."
+"commandes flottantes sont affichées"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid "Add option for suppressing playback errors"
@@ -423,7 +424,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:205
 msgid "Move app menu items to primary menu"
-msgstr "Éléments du menu d'application déplacés vers le menu principal "
+msgstr "Éléments du menu d'application déplacés vers le menu principal"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:208
 msgid "Use separate MPRIS DBus connection for each window"
@@ -474,7 +475,7 @@ msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
 "Ajout d'une option pour faire agir les boutons de saut sur les éléments de "
-"la liste de lecture plutôt que sur les chapîtres"
+"la liste de lecture plutôt que sur les chapitres"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
 msgid "Make the file chooser accept non-local locations"
@@ -522,7 +523,8 @@ msgstr "Lecture de films et vidéos"
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
-"Vidéo;Film;Clip;Séries;Lecteur;DVD;TV;Télé;Disque;Album;Musique;GNOME;mpv;"
+"Vidéo ;Film ;Clip ;Séries ;Lecteur ;DVD ;TV ;Télé ;Disque ;Album ;Musique ;"
+"GNOME ;mpv ;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
@@ -636,7 +638,7 @@ msgstr "Inconnu"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr "_Charger un fichier externe..."
+msgstr "_Charger un fichier externe…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
@@ -650,7 +652,7 @@ msgstr "_Fichier"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
 msgid "_Open…"
-msgstr "_Ouvrir..."
+msgstr "_Ouvrir…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
@@ -658,11 +660,11 @@ msgstr "Ouvrir _Dossier…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
-msgstr "Ouvrir un _emplacement..."
+msgstr "Ouvrir un _emplacement…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr "Ouvrir un _disque..."
+msgstr "Ouvrir un _disque…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
@@ -731,11 +733,11 @@ msgstr "Ouvrir un _disque"
 #: src/celluloid-mpv.c:240
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr "La lecture a été interrompue pour la raison suivante : %s"
+msgstr "La lecture a été interrompue pour la raison suivante : %s."
 
 #: src/celluloid-open-location-dialog.c:130
 msgid "Location:"
-msgstr "Emplacement:"
+msgstr "Emplacement :"
 
 #: src/celluloid-open-location-dialog.c:136
 #: src/celluloid-preferences-dialog.c:412
@@ -760,7 +762,7 @@ msgstr "_Supprimer"
 
 #: src/celluloid-playlist-widget.c:789
 msgid "_Add…"
-msgstr "_Ajouter"
+msgstr "_Ajouter…"
 
 #: src/celluloid-playlist-widget.c:790
 msgid "Add _Folder…"
@@ -768,7 +770,7 @@ msgstr "Ajouter _Dossier…"
 
 #: src/celluloid-playlist-widget.c:791
 msgid "Add _Location…"
-msgstr "Ajouter un _Emplacement"
+msgstr "Ajouter un _Emplacement…"
 
 #: src/celluloid-playlist-widget.c:792
 msgid "_Shuffle"
@@ -825,7 +827,8 @@ msgstr "Supprimer"
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
-"Êtes vous sur de vouloir supprimer ce script ? Cette action est irréversible"
+"Êtes vous sûr·e de vouloir supprimer ce script ? Cette action est "
+"irréversible."
 
 #: src/celluloid-plugins-manager-item.c:199
 #, c-format
@@ -834,15 +837,15 @@ msgstr "Impossible de supprimer le fichier '%s' pour la raison suivante : %s"
 
 #: src/celluloid-preferences-dialog.c:341
 msgid "mpv configuration file:"
-msgstr "Fichier de configuration mpv:"
+msgstr "Fichier de configuration mpv :"
 
 #: src/celluloid-preferences-dialog.c:347
 msgid "mpv input configuration file:"
-msgstr "Fichier de configuration des raccourcis mpv:"
+msgstr "Fichier de configuration des raccourcis mpv :"
 
 #: src/celluloid-preferences-dialog.c:367
 msgid "Extra mpv options:"
-msgstr "Options supplémentaires pour mpv:"
+msgstr "Options supplémentaires pour mpv :"
 
 #: src/celluloid-preferences-dialog.c:400
 msgid "Interface"
@@ -1126,15 +1129,15 @@ msgstr "Navigation"
 
 #: src/celluloid-view.c:728
 msgid "Load Audio Track…"
-msgstr "Chargement de la piste audio...."
+msgstr "Chargement de la piste audio…"
 
 #: src/celluloid-view.c:732
 msgid "Load Video Track…"
-msgstr "Chargement de la piste vidéo..."
+msgstr "Chargement de la piste vidéo…"
 
 #: src/celluloid-view.c:736
 msgid "Load Subtitle Track…"
-msgstr "Chargement des sous-titres...."
+msgstr "Chargement des sous-titres…"
 
 #: src/celluloid-view.c:901
 msgid ""
