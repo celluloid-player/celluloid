@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2020 gnome-mpv
+ * Copyright (c) 2014-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -27,7 +27,6 @@
 #include "celluloid-common.h"
 #include "celluloid-def.h"
 #include "celluloid-mpv.h"
-#include "celluloid-mpv-wrapper.h"
 #include "celluloid-main-window.h"
 #include "celluloid-control-box.h"
 
@@ -205,22 +204,6 @@ g_source_clear(guint *tag)
 	}
 
 	return TRUE;
-}
-
-void *
-gslist_to_array(GSList *slist)
-{
-	void **result = g_malloc(sizeof(void **)*(g_slist_length(slist)+1));
-	gint i = 0;
-
-	for(GSList *iter = slist; iter; iter = g_slist_next(iter))
-	{
-		result[i++] = iter->data;
-	}
-
-	result[i] = NULL;
-
-	return result;
 }
 
 gchar *

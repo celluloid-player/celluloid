@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -10,8 +10,7 @@
  *
  * Celluloid is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
@@ -25,8 +24,6 @@
 
 #include "celluloid-player-options.h"
 #include "celluloid-mpv.h"
-#include "celluloid-mpv-private.h"
-#include "celluloid-mpv-wrapper.h"
 #include "celluloid-def.h"
 
 static GdkRectangle
@@ -81,11 +78,12 @@ static GdkRectangle
 get_monitor_geometry(CelluloidMainWindow *window)
 {
 	GdkRectangle result;
-	GdkWindow *gdkwindow =	gtk_widget_get_window(GTK_WIDGET(window));
-	gint scale_factor = 	gdk_window_get_scale_factor(gdkwindow);
-	GdkDisplay *display =	gdk_window_get_display(gdkwindow);
-	GdkMonitor *monitor =	gdk_display_get_monitor_at_window
-				(display, gdkwindow);
+	GtkNative *native =	gtk_widget_get_native(GTK_WIDGET(window));
+	GdkSurface *surface =	gtk_native_get_surface(native);
+	gint scale_factor = 	gdk_surface_get_scale_factor(surface);
+	GdkDisplay *display =	gdk_surface_get_display(surface);
+	GdkMonitor *monitor =	gdk_display_get_monitor_at_surface
+				(display, surface);
 
 	gdk_monitor_get_geometry(monitor, &result);
 
@@ -251,11 +249,12 @@ parse_geom_string(	const gchar *geom_str,
 static gboolean
 get_video_dimensions(CelluloidMpv *mpv, gint64 dim[2])
 {
-	CelluloidMpvPrivate *priv = get_private(mpv);
 	gint rc = 0;
 
-	rc |= mpv_get_property(priv->mpv_ctx, "dwidth", MPV_FORMAT_INT64, &dim[0]);
-	rc |= mpv_get_property(priv->mpv_ctx, "dheight", MPV_FORMAT_INT64, &dim[1]);
+	rc |=	celluloid_mpv_get_property
+		(mpv, "dwidth", MPV_FORMAT_INT64, &dim[0]);
+	rc |=	celluloid_mpv_get_property
+		(mpv, "dheight", MPV_FORMAT_INT64, &dim[1]);
 
 	return (rc >= 0);
 }
@@ -301,8 +300,8 @@ handle_window_scale(CelluloidMpv *mpv, gint64 dim[2])
 	gchar *scale_str;
 	gboolean scale_set;
 
-	scale_str =	mpv_get_property_string
-			(get_private(mpv)->mpv_ctx, "options/window-scale");
+	scale_str =	celluloid_mpv_get_property_string
+			(mpv, "options/window-scale");
 	scale_set = scale_str && *scale_str;
 
 	if(scale_set)
@@ -327,7 +326,6 @@ handle_window_scale(CelluloidMpv *mpv, gint64 dim[2])
 static gboolean
 handle_autofit(CelluloidMpv *mpv, gint64 dim[2], GdkRectangle monitor_geom)
 {
-	CelluloidMpvPrivate *priv = get_private(mpv);
 	gint64 autofit_dim[2] = {0, 0};
 	gint64 larger_dim[2] = {G_MAXINT64, G_MAXINT64};
 	gint64 smaller_dim[2] = {0, 0};
@@ -339,12 +337,12 @@ handle_autofit(CelluloidMpv *mpv, gint64 dim[2], GdkRectangle monitor_geom)
 	gboolean smaller_set = FALSE;
 	gboolean updated = FALSE;
 
-	autofit_str =	mpv_get_property_string
-			(priv->mpv_ctx, "options/autofit");
-	larger_str =	mpv_get_property_string
-			(priv->mpv_ctx, "options/autofit-larger");
-	smaller_str =	mpv_get_property_string
-			(priv->mpv_ctx, "options/autofit-smaller");
+	autofit_str =	celluloid_mpv_get_property_string
+			(mpv, "options/autofit");
+	larger_str =	celluloid_mpv_get_property_string
+			(mpv, "options/autofit-larger");
+	smaller_str =	celluloid_mpv_get_property_string
+			(mpv, "options/autofit-smaller");
 
 	autofit_set = autofit_str && *autofit_str;
 	larger_set = larger_str && *larger_str;

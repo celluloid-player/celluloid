@@ -29,7 +29,7 @@
 
 #define CELLULOID_TYPE_VIDEO_AREA (celluloid_video_area_get_type ())
 
-G_DECLARE_FINAL_TYPE(CelluloidVideoArea, celluloid_video_area, CELLULOID, VIDEO_AREA, GtkOverlay)
+G_DECLARE_FINAL_TYPE(CelluloidVideoArea, celluloid_video_area, CELLULOID, VIDEO_AREA, GtkBox)
 
 GtkWidget *
 celluloid_video_area_new(void);

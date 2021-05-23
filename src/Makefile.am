@@ -47,16 +47,16 @@ celluloid_SOURCES =	celluloid-main.c celluloid-def.h \
 			celluloid-controller-input.c celluloid-controller-input.h \
 			celluloid-control-box.c celluloid-control-box.h \
 			celluloid-file-chooser.c celluloid-file-chooser.h \
+			celluloid-file-chooser-button.c celluloid-file-chooser-button.h \
 			celluloid-header-bar.c celluloid-header-bar.h \
-			celluloid-main-window.c celluloid-main-window.h celluloid-main-window-private.h \
+			celluloid-main-window.c celluloid-main-window.h \
 			celluloid-menu.c celluloid-menu.h \
 			celluloid-metadata-cache.c celluloid-metadata-cache.h \
 			celluloid-model.c celluloid-model.h \
 			celluloid-mpv.c celluloid-mpv.h \
-			celluloid-mpv-private.h \
 			celluloid-option-parser.c celluloid-option-parser.h \
 			celluloid-open-location-dialog.c celluloid-open-location-dialog.h \
-			celluloid-player.c celluloid-player.h celluloid-player-private.h \
+			celluloid-player.c celluloid-player.h \
 			celluloid-player-options.c celluloid-player-options.h \
 			celluloid-playlist-widget.c celluloid-playlist-widget.h \
 			celluloid-plugins-manager.c celluloid-plugins-manager.h \
@@ -67,7 +67,6 @@ celluloid_SOURCES =	celluloid-main.c celluloid-def.h \
 			celluloid-time-label.c celluloid-time-label.h \
 			celluloid-video-area.c celluloid-video-area.h \
 			celluloid-view.c celluloid-view.h \
-			celluloid-mpv-wrapper.c celluloid-mpv-wrapper.h \
 			$(mpris_files) $(marshal_files) $(media_key_files) \
 			$(authors_files)
 

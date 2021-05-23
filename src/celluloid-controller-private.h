@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -40,6 +40,9 @@ enum
 struct _CelluloidController
 {
 	GObject parent;
+
+	GtkEventController *key_controller;
+
 	CelluloidApplication *app;
 	CelluloidModel *model;
 	CelluloidView *view;

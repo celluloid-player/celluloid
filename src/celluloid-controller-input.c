@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -27,7 +27,6 @@
 #include "celluloid-controller.h"
 #include "celluloid-controller-input.h"
 #include "celluloid-mpv.h"
-#include "celluloid-mpv-wrapper.h"
 #include "celluloid-main-window.h"
 #include "celluloid-video-area.h"
 #include "celluloid-def.h"
@@ -39,22 +38,47 @@ static gchar *
 get_modstr(guint state);
 
 static gchar *
-get_full_keystr(GdkEventKey *event);
+get_full_keystr(guint keyval, GdkModifierType state);
 
 static gboolean
-key_press_handler(GtkWidget *widget, GdkEvent *event, gpointer data);
+key_pressed_handler(	GtkEventControllerKey *key_controller,
+			guint keyval,
+			guint keycode,
+			GdkModifierType state,
+			gpointer data );
+
+static void
+key_released_handler(	GtkEventControllerKey *key_controller,
+			guint keyval,
+			guint keycode,
+			GdkModifierType state,
+			gpointer data );
+
+static void
+button_pressed_handler(	GtkGestureSingle *gesture,
+			gint n_press,
+			gdouble x,
+			gdouble y,
+			gpointer data );
+
+static void
+button_released_handler(	GtkGestureSingle *gesture,
+				gint n_press,
+				double x,
+				gdouble y,
+				gpointer data );
 
 static gboolean
-key_release_handler(GtkWidget *widget, GdkEvent *event, gpointer data);
+mouse_move_handler(	GtkEventControllerMotion *motion_controller,
+			gdouble x,
+			gdouble y,
+			gpointer data );
 
 static gboolean
-mouse_button_handler(GtkWidget *widget, GdkEvent *event, gpointer data);
-
-static gboolean
-mouse_move_handler(GtkWidget *widget, GdkEvent *event, gpointer data);
-
-static gboolean
-scroll_handler(GtkWidget *widget, GdkEvent *event, gpointer data);
+scroll_handler(	GtkEventControllerScroll *scroll_controller,
+		gdouble dx,
+		gdouble dy,
+		gpointer data );
 
 static gchar *
 keyval_to_keystr(guint keyval)
@@ -93,11 +117,11 @@ get_modstr(guint state)
 	}
 	mod_map[] = {	{GDK_SHIFT_MASK, "Shift+"},
 			{GDK_CONTROL_MASK, "Ctrl+"},
-			{GDK_MOD1_MASK, "Alt+"},
+			{GDK_ALT_MASK, "Alt+"},
 			{GDK_SUPER_MASK, "Meta+"}, // Super is Meta in mpv
 			{0, NULL} };
 
-	const gsize max_len = 21; // strlen("Ctrl+Alt+Shift+Meta")+1
+	const gsize max_len = G_N_ELEMENTS("Ctrl+Alt+Shift+Meta+") + 1;
 	gchar *result = g_malloc0(max_len);
 
 	for(gint i = 0; mod_map[i].str; i++)
@@ -112,10 +136,10 @@ get_modstr(guint state)
 }
 
 static gchar *
-get_full_keystr(GdkEventKey *event)
+get_full_keystr(guint keyval, GdkModifierType state)
 {
-	gchar *modstr = get_modstr(event->state);
-	gchar *keystr = keyval_to_keystr(event->keyval);
+	gchar *modstr = get_modstr(state);
+	gchar *keystr = keyval_to_keystr(keyval);
 	char *result = keystr ? g_strconcat(modstr, keystr, NULL) : NULL;
 
 	g_free(keystr);
@@ -125,10 +149,15 @@ get_full_keystr(GdkEventKey *event)
 }
 
 static gboolean
-key_press_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
+key_pressed_handler(	GtkEventControllerKey *key_controller,
+			guint keyval,
+			guint keycode,
+			GdkModifierType state,
+			gpointer data )
+
 {
 	CelluloidController *controller = data;
-	gchar *keystr = get_full_keystr((GdkEventKey *)event);
+	gchar *keystr = get_full_keystr(keyval, state);
 	gboolean searching = FALSE;
 
 	g_object_get(controller->view, "searching", &searching, NULL);
@@ -142,11 +171,15 @@ key_press_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
 	return FALSE;
 }
 
-static gboolean
-key_release_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
+static void
+key_released_handler(	GtkEventControllerKey *key_controller,
+			guint keyval,
+			guint keycode,
+			GdkModifierType state,
+			gpointer data )
 {
 	CelluloidController *controller = data;
-	gchar *keystr = get_full_keystr((GdkEventKey *)event);
+	gchar *keystr = get_full_keystr(keyval, state);
 	gboolean searching = FALSE;
 
 	g_object_get(controller->view, "searching", &searching, NULL);
@@ -156,84 +189,90 @@ key_release_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
 		celluloid_model_key_up(controller->model, keystr);
 		g_free(keystr);
 	}
-
-	return FALSE;
 }
 
-static gboolean
-mouse_button_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-	GdkEventButton *btn_event = (GdkEventButton *)event;
-
-	if(btn_event->type == GDK_BUTTON_PRESS
-	|| btn_event->type == GDK_BUTTON_RELEASE
-	|| btn_event->type == GDK_SCROLL)
-	{
-		CelluloidController *controller = data;
-		gchar *btn_str =	g_strdup_printf
-					("MOUSE_BTN%u", btn_event->button-1);
-		void (*func)(CelluloidModel *, const gchar *)
-			=	(btn_event->type == GDK_SCROLL)?
-				celluloid_model_key_press:
-				(btn_event->type == GDK_BUTTON_PRESS)?
-				celluloid_model_key_down:celluloid_model_key_up;
-
-		func(controller->model, btn_str);
-
-		g_free(btn_str);
-	}
-
-	return TRUE;
-}
-
-static gboolean
-mouse_move_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
+static void
+button_pressed_handler(	GtkGestureSingle *gesture,
+			gint n_press,
+			gdouble x,
+			gdouble y,
+			gpointer data )
 {
 	CelluloidController *controller = data;
-	GdkEventMotion *motion_event = (GdkEventMotion *)event;
+	guint button_number = gtk_gesture_single_get_current_button(gesture);
+	gchar *button_name = g_strdup_printf("MOUSE_BTN%u", button_number - 1);
+
+	celluloid_model_key_down(controller->model, button_name);
+
+	g_free(button_name);
+}
+
+static void
+button_released_handler(	GtkGestureSingle *gesture,
+				gint n_press,
+				double x,
+				gdouble y,
+				gpointer data )
+{
+	CelluloidController *controller = data;
+	guint button_number = gtk_gesture_single_get_current_button(gesture);
+	gchar *button_name = g_strdup_printf("MOUSE_BTN%u", button_number - 1);
+
+	celluloid_model_key_up(controller->model, button_name);
+
+	g_free(button_name);
+}
+
+static gboolean
+mouse_move_handler(	GtkEventControllerMotion *motion_controller,
+			gdouble x,
+			gdouble y,
+			gpointer data )
+{
+	CelluloidController *controller = data;
 
 	if(controller->model)
 	{
-		celluloid_model_mouse(	controller->model,
-					(gint)motion_event->x,
-					(gint)motion_event->y );
+		celluloid_model_mouse(controller->model, (gint)x, (gint)y);
 	}
 
 	return FALSE;
 }
 
 static gboolean
-scroll_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
+scroll_handler(	GtkEventControllerScroll *scroll_controller,
+		gdouble dx,
+		gdouble dy,
+		gpointer data )
 {
-	GdkEventScroll *scroll_event = (GdkEventScroll *)event;
 	guint button = 0;
 	gint count = 0;
 
 	/* Only one axis will be used at a time to prevent accidental activation
 	 * of commands bound to buttons associated with the other axis.
 	 */
-	if(ABS(scroll_event->delta_x) > ABS(scroll_event->delta_y))
+	if(ABS(dx) > ABS(dy))
 	{
-		count = (gint)ABS(scroll_event->delta_x);
+		count = (gint)ABS(dx);
 
-		if(scroll_event->delta_x <= -1)
+		if(dx <= -1)
 		{
 			button = 6;
 		}
-		else if(scroll_event->delta_x >= 1)
+		else if(dx >= 1)
 		{
 			button = 7;
 		}
 	}
 	else
 	{
-		count = (gint)ABS(scroll_event->delta_y);
+		count = (gint)ABS(dy);
 
-		if(scroll_event->delta_y <= -1)
+		if(dy <= -1)
 		{
 			button = 4;
 		}
-		else if(scroll_event->delta_y >= 1)
+		else if(dy >= 1)
 		{
 			button = 5;
 		}
@@ -241,29 +280,15 @@ scroll_handler(GtkWidget *widget, GdkEvent *event, gpointer data)
 
 	if(button > 0)
 	{
-		GdkEventButton btn_event;
+		gchar *button_name = g_strdup_printf("MOUSE_BTN%u", button - 1);
+		CelluloidModel *model = CELLULOID_CONTROLLER(data)->model;
 
-		btn_event.type = scroll_event->type;
-		btn_event.window = scroll_event->window;
-		btn_event.send_event = scroll_event->send_event;
-		btn_event.time = scroll_event->time;
-		btn_event.x = scroll_event->x;
-		btn_event.y = scroll_event->y;
-		btn_event.axes = NULL;
-		btn_event.state = scroll_event->state;
-		btn_event.button = button;
-		btn_event.device = scroll_event->device;
-		btn_event.x_root = scroll_event->x_root;
-		btn_event.y_root = scroll_event->y_root;
-
-		for(gint i = 0; i < count; i++)
+		while(count-- > 0)
 		{
-			/* Not used */
-			gboolean rc;
-
-			g_signal_emit_by_name
-				(widget, "button-press-event", &btn_event, &rc);
+			celluloid_model_key_press(model, button_name);
 		}
+
+		g_free(button_name);
 	}
 
 	return TRUE;
@@ -277,28 +302,49 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 	CelluloidVideoArea *video_area =	celluloid_main_window_get_video_area
 						(wnd);
 
-	g_signal_connect(	controller->view,
-				"key-press-event",
-				G_CALLBACK(key_press_handler),
+	g_signal_connect(	controller->key_controller,
+				"key-pressed",
+				G_CALLBACK(key_pressed_handler),
 				controller );
-	g_signal_connect(	controller->view,
-				"key-release-event",
-				G_CALLBACK(key_release_handler),
+	g_signal_connect(	controller->key_controller,
+				"key-released",
+				G_CALLBACK(key_released_handler),
 				controller );
-	g_signal_connect(	video_area,
-				"button-press-event",
-				G_CALLBACK(mouse_button_handler),
+
+	GtkGesture *click_gesture =
+		gtk_gesture_click_new();
+	gtk_gesture_single_set_button
+		(GTK_GESTURE_SINGLE(click_gesture), 0);
+	gtk_widget_add_controller
+		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(click_gesture));
+
+	g_signal_connect(	click_gesture,
+				"pressed",
+				G_CALLBACK(button_pressed_handler),
 				controller );
-	g_signal_connect(	video_area,
-				"button-release-event",
-				G_CALLBACK(mouse_button_handler),
+	g_signal_connect(	click_gesture,
+				"released",
+				G_CALLBACK(button_released_handler),
 				controller );
-	g_signal_connect(	controller->view,
-				"motion-notify-event",
+
+	GtkEventController *motion_controller =
+		gtk_event_controller_motion_new();
+	gtk_widget_add_controller
+		(GTK_WIDGET(controller->view), GTK_EVENT_CONTROLLER(motion_controller));
+
+	g_signal_connect(	motion_controller,
+				"motion",
 				G_CALLBACK(mouse_move_handler),
 				controller );
-	g_signal_connect(	video_area,
-				"scroll-event",
+
+	GtkEventController *scroll_controller =
+		gtk_event_controller_scroll_new
+		(GTK_EVENT_CONTROLLER_SCROLL_VERTICAL);
+	gtk_widget_add_controller
+		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(scroll_controller));
+
+	g_signal_connect(	scroll_controller,
+				"scroll",
 				G_CALLBACK(scroll_handler),
 				controller );
 }

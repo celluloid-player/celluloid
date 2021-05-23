@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -68,6 +68,9 @@ celluloid_plugins_manager_item_get_property(	GObject *object,
 						GParamSpec *pspec );
 
 static void
+remove_response_handler(GtkDialog *dialog, gint response_id, gpointer data);
+
+static void
 remove_handler(GtkButton *button, gpointer data);
 
 static void
@@ -84,12 +87,14 @@ celluloid_plugins_manager_item_constructed(GObject *object)
 				self );
 
 	gtk_widget_set_halign(title_label, GTK_ALIGN_START);
+	gtk_widget_set_hexpand(title_label, TRUE);
+	gtk_widget_set_margin_start(title_label, 6);
 	gtk_label_set_ellipsize(GTK_LABEL(title_label), PANGO_ELLIPSIZE_END);
 	gtk_list_box_row_set_selectable(GTK_LIST_BOX_ROW(self), FALSE);
 
-	gtk_box_pack_start(GTK_BOX(box), title_label, TRUE, TRUE, 6);
-	gtk_box_pack_end(GTK_BOX(box), remove_button, FALSE, FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(self), box);
+	gtk_box_append(GTK_BOX(box), title_label);
+	gtk_box_append(GTK_BOX(box), remove_button);
+	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(self), box);
 
 	G_OBJECT_CLASS(celluloid_plugins_manager_item_parent_class)
 		->constructed(object);
@@ -164,27 +169,18 @@ celluloid_plugins_manager_item_get_property(	GObject *object,
 }
 
 static void
-remove_handler(GtkButton *button, gpointer data)
+remove_response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 {
 	CelluloidPluginsManagerItem *item = data;
 	GFile *file = g_file_new_for_path(item->path);
 	GError *error = NULL;
-	GtkWidget *confirm_dialog =	gtk_message_dialog_new
-					(	item->parent_window,
-						GTK_DIALOG_MODAL|
-						GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_QUESTION,
-						GTK_BUTTONS_YES_NO,
-						_("Are you sure you want to "
-						"remove this script? This "
-						"action cannot be undone."));
 
-	if(gtk_dialog_run(GTK_DIALOG(confirm_dialog)) == GTK_RESPONSE_YES)
+	if(response_id == GTK_RESPONSE_YES)
 	{
 		g_file_delete(file, NULL, &error);
 	}
 
-	gtk_widget_destroy(confirm_dialog);
+	gtk_window_destroy(GTK_WINDOW(dialog));
 
 	if(error)
 	{
@@ -205,11 +201,37 @@ remove_handler(GtkButton *button, gpointer data)
 				g_file_get_uri(file),
 				error->message );
 
-		gtk_dialog_run(GTK_DIALOG(error_dialog));
+		gtk_window_set_modal(GTK_WINDOW(error_dialog), TRUE);
+		gtk_widget_show(error_dialog);
 
-		gtk_widget_destroy(error_dialog);
+		gtk_window_destroy(GTK_WINDOW(error_dialog));
 		g_error_free(error);
 	}
+
+	g_object_unref(file);
+}
+
+static void
+remove_handler(GtkButton *button, gpointer data)
+{
+	CelluloidPluginsManagerItem *item = data;
+	GtkWidget *confirm_dialog =	gtk_message_dialog_new
+					(	item->parent_window,
+						GTK_DIALOG_MODAL|
+						GTK_DIALOG_DESTROY_WITH_PARENT,
+						GTK_MESSAGE_QUESTION,
+						GTK_BUTTONS_YES_NO,
+						_("Are you sure you want to "
+						"remove this script? This "
+						"action cannot be undone."));
+
+	g_signal_connect(	confirm_dialog,
+				"response",
+				G_CALLBACK(remove_response_handler),
+				item );
+
+	gtk_window_set_modal(GTK_WINDOW(confirm_dialog), TRUE);
+	gtk_widget_show(confirm_dialog);
 }
 
 static void

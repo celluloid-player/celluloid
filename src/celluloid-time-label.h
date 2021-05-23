@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 gnome-mpv
+ * Copyright (c) 2020-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -26,7 +26,7 @@ G_BEGIN_DECLS
 
 #define CELLULOID_TYPE_TIME_LABEL (celluloid_time_label_get_type())
 
-G_DECLARE_FINAL_TYPE(CelluloidTimeLabel, celluloid_time_label, CELLULOID, TIME_LABEL, GtkLabel)
+G_DECLARE_FINAL_TYPE(CelluloidTimeLabel, celluloid_time_label, CELLULOID, TIME_LABEL, GtkBox)
 
 GtkWidget *
 celluloid_time_label_new(void);

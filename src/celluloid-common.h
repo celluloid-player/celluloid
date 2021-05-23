@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2020 gnome-mpv
+ * Copyright (c) 2014-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -113,9 +113,6 @@ extension_matches(const gchar *filename, const gchar **extensions);
 
 gboolean
 g_source_clear(guint *tag);
-
-void *
-gslist_to_array(GSList *slist);
 
 gchar *
 strnjoinv(const gchar *separator, const gchar **str_array, gsize count);

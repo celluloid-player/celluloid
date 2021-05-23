@@ -19,28 +19,24 @@
 
 #include "celluloid-video-area.h"
 #include "celluloid-control-box.h"
+#include "celluloid-marshal.h"
 #include "celluloid-common.h"
 #include "celluloid-def.h"
 
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
+#include <gdk/x11/gdkx.h>
 #include <glib-object.h>
 #include <math.h>
 
 #ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
+#include <gdk/x11/gdkx.h>
 #endif
-
-enum
-{
-	PROP_0,
-	PROP_TITLE,
-	N_PROPERTIES
-};
 
 struct _CelluloidVideoArea
 {
-	GtkOverlay parent_instance;
+	GtkBox parent_instance;
+	GtkWidget *overlay;
 	GtkWidget *stack;
 	GtkWidget *draw_area;
 	GtkWidget *gl_area;
@@ -58,23 +54,11 @@ struct _CelluloidVideoArea
 
 struct _CelluloidVideoAreaClass
 {
-	GtkOverlayClass parent_class;
+	GtkBoxClass parent_class;
 };
 
-static void
-set_property(	GObject *object,
-		guint property_id,
-		const GValue *value,
-		GParamSpec *pspec );
-
-static void
-get_property(	GObject *object,
-		guint property_id,
-		GValue *value,
-		GParamSpec *pspec );
-
 static
-void destroy(GtkWidget *widget);
+void destroy_handler(GtkWidget *widget, gpointer data);
 
 static
 void set_cursor_visible(CelluloidVideoArea *area, gboolean visible);
@@ -83,86 +67,48 @@ static
 gboolean timeout_handler(gpointer data);
 
 static
-gboolean motion_notify_event(GtkWidget *widget, GdkEventMotion *event);
+void  motion_handler(	GtkEventControllerMotion *controller,
+			gdouble x,
+			gdouble y,
+			gpointer data );
 
-static gboolean
-fs_control_crossing_handler(	GtkWidget *widget,
-				GdkEventCrossing *event,
-				gpointer data );
+static
+void enter_handler(	GtkEventControllerMotion *controller,
+			gdouble x,
+			gdouble y,
+			gpointer data );
 
-G_DEFINE_TYPE(CelluloidVideoArea, celluloid_video_area, GTK_TYPE_OVERLAY)
+static
+void leave_handler(GtkEventControllerMotion *controller, gpointer data);
 
-static void
-set_property(	GObject *object,
-		guint property_id,
-		const GValue *value,
-		GParamSpec *pspec )
-{
-	CelluloidVideoArea *self = CELLULOID_VIDEO_AREA(object);
-
-	switch(property_id)
-	{
-		case PROP_TITLE:
-		g_object_set_property(	G_OBJECT(self->header_bar),
-					pspec->name,
-					value );
-		break;
-
-		default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
-		break;
-	}
-}
+G_DEFINE_TYPE(CelluloidVideoArea, celluloid_video_area, GTK_TYPE_BOX)
 
 static void
-get_property(	GObject *object,
-		guint property_id,
-		GValue *value,
-		GParamSpec *pspec )
-{
-	CelluloidVideoArea *self = CELLULOID_VIDEO_AREA(object);
-
-	switch(property_id)
-	{
-		case PROP_TITLE:
-		g_object_get_property(	G_OBJECT(self->header_bar),
-					pspec->name,
-					value );
-		break;
-
-		default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-destroy(GtkWidget *widget)
+destroy_handler(GtkWidget *widget, gpointer data)
 {
 	g_source_clear(&CELLULOID_VIDEO_AREA(widget)->timeout_tag);
-	GTK_WIDGET_CLASS(celluloid_video_area_parent_class)->destroy(widget);
 }
 
 static void
 set_cursor_visible(CelluloidVideoArea *area, gboolean visible)
 {
-	GdkWindow *window;
+	GtkNative *native;
+	GdkSurface *surface;
 	GdkCursor *cursor;
 
-	window = gtk_widget_get_window(GTK_WIDGET(area));
+	native = gtk_widget_get_native(GTK_WIDGET(area));
+	surface = gtk_native_get_surface(native);
 
 	if(visible)
 	{
-		cursor =	gdk_cursor_new_from_name
-				(gdk_display_get_default(), "default");
+		cursor = gdk_cursor_new_from_name("default", NULL);
 	}
 	else
 	{
-		cursor =	gdk_cursor_new_for_display
-				(gdk_display_get_default(), GDK_BLANK_CURSOR);
+		cursor = gdk_cursor_new_from_name("none", NULL);
 	}
 
-	gdk_window_set_cursor(window, cursor);
+	gdk_surface_set_cursor(surface, cursor);
 	g_object_unref(cursor);
 }
 
@@ -215,11 +161,15 @@ timeout_handler(gpointer data)
 	return (area->timeout_tag != 0);
 }
 
-static gboolean
-motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
+static void
+motion_handler(	GtkEventControllerMotion *controller,
+		gdouble x,
+		gdouble y,
+		gpointer data )
 {
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	CelluloidVideoArea *area = CELLULOID_VIDEO_AREA(widget);
+	GtkWidget *widget = GTK_WIDGET(data);
+	CelluloidVideoArea *area = CELLULOID_VIDEO_AREA(data);
 	const gint height = gtk_widget_get_allocated_height(widget);
 
 	const gdouble unhide_speed =
@@ -227,24 +177,26 @@ motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 	const gdouble dead_zone =
 		g_settings_get_double(settings, "controls-dead-zone-size");
 
-	const gdouble dist = sqrt(	pow(event->x - area->last_motion_x, 2) +
-					pow(event->y - area->last_motion_y, 2) );
-	const gdouble speed = dist / (event->time - area->last_motion_time);
+	const guint32 time =	gtk_event_controller_get_current_event_time
+				(GTK_EVENT_CONTROLLER(controller));
+	const gdouble dist = sqrt(	pow(x - area->last_motion_x, 2) +
+					pow(y - area->last_motion_y, 2) );
+	const gdouble speed = dist / (time - area->last_motion_time);
 
-	area->last_motion_time = event->time;
-	area->last_motion_x = event->x;
-	area->last_motion_y = event->y;
+	area->last_motion_time = time;
+	area->last_motion_x = x;
+	area->last_motion_y = y;
 
 	if(speed >= unhide_speed)
 	{
-		GdkCursor *cursor =	gdk_cursor_new_from_name
-					(	gdk_display_get_default(),
-						"default" );
+		GdkCursor *cursor = gdk_cursor_new_from_name("default", NULL);
+		GtkNative *native = gtk_widget_get_native(widget);
+		GdkSurface *surface = gtk_native_get_surface(native);
 
-		gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
+		gdk_surface_set_cursor(surface, cursor);
 
 		if(	area->control_box &&
-			ABS((2 * event->y - height) / height) > dead_zone )
+			ABS((2 * y - height) / height) > dead_zone )
 		{
 			gtk_revealer_set_reveal_child
 				(	GTK_REVEALER(area->control_box_revealer),
@@ -262,9 +214,6 @@ motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 	}
 
 	g_object_unref(settings);
-
-	return	GTK_WIDGET_CLASS(celluloid_video_area_parent_class)
-			->motion_notify_event(widget, event);
 }
 
 static gboolean
@@ -273,6 +222,12 @@ render_handler(GtkGLArea *gl_area, GdkGLContext *context, gpointer data)
 	g_signal_emit_by_name(data, "render");
 
 	return TRUE;
+}
+
+static void
+resize_handler(GtkWidget *widget, gint width, gint height, gpointer data)
+{
+	g_signal_emit_by_name(data, "resize", width, height);
 }
 
 static void
@@ -310,28 +265,25 @@ reveal_notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 				(reveal_child || child_revealed) );
 }
 
-static gboolean
-fs_control_crossing_handler(	GtkWidget *widget,
-				GdkEventCrossing *event,
-				gpointer data )
+static void
+enter_handler(	GtkEventControllerMotion *controller,
+		gdouble x,
+		gdouble y,
+		gpointer data )
 {
-	CELLULOID_VIDEO_AREA(data)->fs_control_hover =
-		(event->type == GDK_ENTER_NOTIFY);
+	CELLULOID_VIDEO_AREA(data)->fs_control_hover = TRUE;
+}
 
-	return FALSE;
+static void
+leave_handler(GtkEventControllerMotion *controller, gpointer data)
+{
+	CELLULOID_VIDEO_AREA(data)->fs_control_hover = FALSE;
 }
 
 static void
 celluloid_video_area_class_init(CelluloidVideoAreaClass *klass)
 {
-	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GtkWidgetClass *wgt_class = GTK_WIDGET_CLASS(klass);
-	GParamSpec *pspec = NULL;
-
-	obj_class->set_property = set_property;
-	obj_class->get_property = get_property;
-	wgt_class->destroy = destroy;
-	wgt_class->motion_notify_event = motion_notify_event;
 
 	gtk_widget_class_set_css_name(wgt_class, "celluloid-video-area");
 
@@ -344,30 +296,23 @@ celluloid_video_area_class_init(CelluloidVideoAreaClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-
-	pspec = g_param_spec_string
-		(	"title",
-			"Title",
-			"The title of the header bar",
+	g_signal_new(	"resize",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
 			NULL,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_TITLE, pspec);
+			NULL,
+			g_cclosure_gen_marshal_VOID__INT_INT,
+			G_TYPE_NONE,
+			2,
+			G_TYPE_INT,
+			G_TYPE_INT );
 }
 
 static void
 celluloid_video_area_init(CelluloidVideoArea *area)
 {
-	GtkTargetEntry targets[] = DND_TARGETS;
-
-	/* GDK_BUTTON_RELEASE_MASK is needed so that GtkMenuButtons can
-	 * hide their menus when vid_area is clicked.
-	 */
-	const gint extra_events =	GDK_BUTTON_PRESS_MASK|
-					GDK_BUTTON_RELEASE_MASK|
-					GDK_POINTER_MOTION_MASK|
-					GDK_SMOOTH_SCROLL_MASK|
-					GDK_SCROLL_MASK;
-
+	area->overlay = gtk_overlay_new();
 	area->stack = gtk_stack_new();
 	area->draw_area = gtk_drawing_area_new();
 	area->gl_area = gtk_gl_area_new();
@@ -382,15 +327,6 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->fullscreen = FALSE;
 	area->fs_control_hover = FALSE;
 
-	gtk_drag_dest_set(	GTK_WIDGET(area),
-				GTK_DEST_DEFAULT_ALL,
-				targets,
-				G_N_ELEMENTS(targets),
-				GDK_ACTION_COPY );
-
-	gtk_widget_add_events(area->draw_area, extra_events);
-	gtk_widget_add_events(area->gl_area, extra_events);
-
 	gtk_widget_set_valign(area->control_box_revealer, GTK_ALIGN_END);
 	gtk_revealer_set_transition_type
 		(GTK_REVEALER(area->control_box_revealer),
@@ -402,17 +338,65 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	gtk_revealer_set_reveal_child
 		(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
-	gtk_widget_show_all(area->control_box);
+	gtk_widget_show(area->control_box);
 	gtk_widget_hide(area->control_box_revealer);
-	gtk_widget_set_no_show_all(area->control_box_revealer, TRUE);
 
-	gtk_widget_show_all(area->header_bar);
+	gtk_widget_show(area->header_bar);
 	gtk_widget_hide(area->header_bar_revealer);
-	gtk_widget_set_no_show_all(area->header_bar_revealer, TRUE);
 
+	GtkEventController *area_motion_controller =
+		gtk_event_controller_motion_new();
+	gtk_widget_add_controller
+		(GTK_WIDGET(area), area_motion_controller);
+
+	g_signal_connect(	area_motion_controller,
+				"motion",
+				G_CALLBACK(motion_handler),
+				area );
+
+	GtkEventController *control_box_motion_controller =
+		gtk_event_controller_motion_new();
+	gtk_widget_add_controller
+		(GTK_WIDGET(area->control_box), control_box_motion_controller);
+
+	g_signal_connect(	control_box_motion_controller,
+				"enter",
+				G_CALLBACK(enter_handler),
+				area );
+	g_signal_connect(	control_box_motion_controller,
+				"leave",
+				G_CALLBACK(leave_handler),
+				area );
+
+	GtkEventController *header_bar_motion_controller =
+		gtk_event_controller_motion_new();
+	gtk_widget_add_controller
+		(GTK_WIDGET(area->header_bar), header_bar_motion_controller);
+
+	g_signal_connect(	header_bar_motion_controller,
+				"enter",
+				G_CALLBACK(enter_handler),
+				area );
+	g_signal_connect(	header_bar_motion_controller,
+				"leave",
+				G_CALLBACK(leave_handler),
+				area );
+
+	g_signal_connect(	area,
+				"destroy",
+				G_CALLBACK(destroy_handler),
+				area );
 	g_signal_connect(	area->gl_area,
 				"render",
 				G_CALLBACK(render_handler),
+				area );
+	g_signal_connect(	area->gl_area,
+				"resize",
+				G_CALLBACK(resize_handler),
+				area );
+	g_signal_connect(	area->draw_area,
+				"resize",
+				G_CALLBACK(resize_handler),
 				area );
 	g_signal_connect(	area->control_box,
 				"notify::volume-popup-visible",
@@ -434,27 +418,25 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 				"notify::child-revealed",
 				G_CALLBACK(reveal_notify_handler),
 				area );
-	g_signal_connect(	area,
-				"enter-notify-event",
-				G_CALLBACK(fs_control_crossing_handler),
-				area );
-	g_signal_connect(	area,
-				"leave-notify-event",
-				G_CALLBACK(fs_control_crossing_handler),
-				area );
 
 	gtk_stack_add_named(GTK_STACK(area->stack), area->draw_area, "draw");
 	gtk_stack_add_named(GTK_STACK(area->stack), area->gl_area, "gl");
 	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->draw_area);
 
-	gtk_container_add(	GTK_CONTAINER(area->header_bar_revealer),
+	gtk_widget_set_hexpand(area->stack, TRUE);
+
+	gtk_revealer_set_child(	GTK_REVEALER(area->header_bar_revealer),
 				area->header_bar );
-	gtk_container_add(	GTK_CONTAINER(area->control_box_revealer),
+	gtk_revealer_set_child(	GTK_REVEALER(area->control_box_revealer),
 				area->control_box );
 
-	gtk_overlay_add_overlay(GTK_OVERLAY(area), area->control_box_revealer);
-	gtk_overlay_add_overlay(GTK_OVERLAY(area), area->header_bar_revealer);
-	gtk_container_add(GTK_CONTAINER(area), area->stack);
+	gtk_overlay_add_overlay
+		(GTK_OVERLAY(area->overlay), area->control_box_revealer);
+	gtk_overlay_add_overlay
+		(GTK_OVERLAY(area->overlay), area->header_bar_revealer);
+
+	gtk_overlay_set_child(GTK_OVERLAY(area->overlay), area->stack);
+	gtk_box_append(GTK_BOX(area), area->overlay);
 }
 
 GtkWidget *
@@ -486,6 +468,7 @@ celluloid_video_area_set_fullscreen_state(	CelluloidVideoArea *area,
 	if(area->fullscreen != fullscreen)
 	{
 		area->fullscreen = fullscreen;
+		area->fs_control_hover = FALSE;
 
 		gtk_widget_hide(area->header_bar_revealer);
 		set_cursor_visible(area, !fullscreen);
@@ -559,21 +542,22 @@ celluloid_video_area_get_xid(CelluloidVideoArea *area)
 	if(GDK_IS_X11_DISPLAY(gdk_display_get_default()))
 	{
 		GtkWidget *parent = gtk_widget_get_parent(GTK_WIDGET(area));
-		GdkWindow *window = NULL;
+		GtkNative *native = gtk_widget_get_native(GTK_WIDGET(area));
+		GdkSurface *surface = NULL;
 
 		if(parent && !gtk_widget_get_realized(area->draw_area))
 		{
 			gtk_widget_realize(area->draw_area);
 		}
 
-		window = gtk_widget_get_window(area->draw_area);
+		surface = gtk_native_get_surface(native);
 
-		if(!window)
+		if(!surface)
 		{
 			g_critical("Failed to get XID of video area");
 		}
 
-		return window?(gint64)gdk_x11_window_get_xid(window):-1;
+		return surface?(gint64)gdk_x11_surface_get_xid(surface):-1;
 	}
 #endif
 

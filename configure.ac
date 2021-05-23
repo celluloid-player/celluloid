@@ -90,14 +90,14 @@ AS_IF([test "x$GLIB_GENMARSHAL" = "x"], [
 	AC_MSG_ERROR([Could not find glib-genmarshal])
 ])
 
-PKG_CHECK_MODULES(DEPS, [gtk+-3.0 >= 3.22.23 glib-2.0 >= 2.44 mpv >= 1.107 epoxy])
+PKG_CHECK_MODULES(DEPS, [gtk4 glib-2.0 >= 2.66 mpv >= 1.107 epoxy])
 AC_SEARCH_LIBS([sqrt], [m])
 
-AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_44], [Dont warn using older APIs])
-AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_44], [Prevents using newer APIs])
+AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_66], [Dont warn using older APIs])
+AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_66], [Prevents using newer APIs])
 
-AC_DEFINE([GDK_VERSION_MIN_REQUIRED], [GDK_VERSION_3_22], [Dont warn using older APIs])
-AC_DEFINE([GDK_VERSION_MAX_ALLOWED], [GDK_VERSION_3_22], [Prevents using newer APIs])
+AC_DEFINE([GDK_VERSION_MIN_REQUIRED], [GDK_VERSION_4_0], [Dont warn using older APIs])
+AC_DEFINE([GDK_VERSION_MAX_ALLOWED], [GDK_VERSION_4_0], [Prevents using newer APIs])
 
 AC_DEFINE_UNQUOTED([G_LOG_DOMAIN], "$PACKAGE_NAME", [Default logging facility])
 

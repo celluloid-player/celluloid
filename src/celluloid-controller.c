@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 gnome-mpv
+ * Copyright (c) 2017-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -89,15 +89,15 @@ subtitle_track_load_handler(	CelluloidView *view,
 
 static void
 file_open_handler(	CelluloidView *view,
-			const gchar **uri_list,
+			GListModel *files,
 			gboolean append,
 			gpointer data );
 
 static void
-grab_handler(CelluloidView *view, gboolean was_grabbed, gpointer data);
+is_active_handler(GObject *gobject, GParamSpec *pspec, gpointer data);
 
 static gboolean
-delete_handler(CelluloidView *view, GdkEvent *event, gpointer data);
+close_request_handler(CelluloidView *view, gpointer data);
 
 static void
 playlist_item_activated_handler(CelluloidView *view, gint pos, gpointer data);
@@ -246,7 +246,8 @@ constructed(GObject *object)
 	celluloid_controller_input_connect_signals(controller);
 	update_extra_mpv_options(controller);
 
-	gtk_widget_show_all(GTK_WIDGET(window));
+	gtk_widget_add_controller(GTK_WIDGET(window), controller->key_controller);
+	gtk_widget_show(GTK_WIDGET(window));
 
 	g_signal_connect(	controller->settings,
 				"changed::mpris-enable",
@@ -352,7 +353,7 @@ dispose(GObject *object)
 	{
 		celluloid_view_make_gl_context_current(controller->view);
 		g_clear_object(&controller->model);
-		gtk_widget_destroy(GTK_WIDGET(controller->view));
+		g_object_unref(controller->view);
 		controller->view = NULL;
 	}
 
@@ -479,30 +480,43 @@ subtitle_track_load_handler(	CelluloidView *view,
 
 static void
 file_open_handler(	CelluloidView *view,
-			const gchar **uri_list,
+			GListModel *files,
 			gboolean append,
 			gpointer data )
 {
-	for(const gchar **iter = uri_list; iter && *iter; iter++)
+	CelluloidModel *model = CELLULOID_CONTROLLER(data)->model;
+	guint files_count = g_list_model_get_n_items(files);
+
+	for(guint i = 0; i < files_count; i++)
 	{
-		celluloid_model_load_file
-			(	CELLULOID_CONTROLLER(data)->model,
-				*iter,
-				append || iter != uri_list );
+		GFile *file = g_list_model_get_item(files, i);
+		gchar *uri = g_file_get_uri(file);
+
+		printf("MODEL OPEN: %s %d\n", uri, append || i > 0);
+
+		celluloid_model_load_file(model, uri, append || i > 0);
+
+		g_free(uri);
 	}
 }
 
 static void
-grab_handler(CelluloidView *view, gboolean was_grabbed, gpointer data)
+is_active_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 {
-	if(!was_grabbed)
+	CelluloidController *controller = CELLULOID_CONTROLLER(data);
+	CelluloidView *view = CELLULOID_VIEW(gobject);
+	gboolean is_active = TRUE;
+
+	g_object_get(view, "is-active", &is_active, NULL);
+
+	if(!is_active)
 	{
-		celluloid_model_reset_keys(CELLULOID_CONTROLLER(data)->model);
+		celluloid_model_reset_keys(controller->model);
 	}
 }
 
 static gboolean
-delete_handler(CelluloidView *view, GdkEvent *event, gpointer data)
+close_request_handler(CelluloidView *view, gpointer data)
 {
 	g_signal_emit_by_name(data, "shutdown");
 
@@ -744,12 +758,12 @@ connect_signals(CelluloidController *controller)
 				G_CALLBACK(file_open_handler),
 				controller );
 	g_signal_connect(	controller->view,
-				"grab-notify",
-				G_CALLBACK(grab_handler),
+				"notify::is-active",
+				G_CALLBACK(is_active_handler),
 				controller );
 	g_signal_connect(	controller->view,
-				"delete-event",
-				G_CALLBACK(delete_handler),
+				"close-request",
+				G_CALLBACK(close_request_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"playlist-item-activated",
@@ -1230,6 +1244,8 @@ celluloid_controller_class_init(CelluloidControllerClass *klass)
 static void
 celluloid_controller_init(CelluloidController *controller)
 {
+	controller->key_controller = gtk_event_controller_key_new();
+
 	controller->app = NULL;
 	controller->model = NULL;
 	controller->view = NULL;

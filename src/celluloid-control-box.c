@@ -44,6 +44,9 @@ enum
 struct _CelluloidControlBox
 {
 	GtkBox parent_instance;
+
+	GtkGesture *click_gesture;
+
 	GtkWidget *play_button;
 	GtkWidget *stop_button;
 	GtkWidget *forward_button;
@@ -102,6 +105,13 @@ seek_handler(CelluloidSeekBar *seek_bar, gdouble value, gpointer data);
 
 static void
 volume_changed_handler(GtkVolumeButton *button, gdouble value, gpointer data);
+
+static gboolean
+button_pressed_handler(	GtkEventControllerKey *controller,
+			guint keyval,
+			guint keycode,
+			GdkModifierType state,
+			gpointer data );
 
 static void
 simple_signal_handler(GtkWidget *widget, gpointer data);
@@ -298,6 +308,16 @@ volume_changed_handler(GtkVolumeButton *button, gdouble value, gpointer data)
 	g_signal_emit_by_name(data, "volume-changed", value*100.0);
 }
 
+static gboolean
+button_pressed_handler(	GtkEventControllerKey *controller,
+			guint keyval,
+			guint keycode,
+			GdkModifierType state,
+			gpointer data )
+{
+	return TRUE;
+}
+
 static void
 simple_signal_handler(GtkWidget *widget, gpointer data)
 {
@@ -345,8 +365,8 @@ set_skip_enabled(CelluloidControlBox *box, gboolean enabled)
 {
 	if(enabled)
 	{
-		gtk_widget_show_all(box->previous_button);
-		gtk_widget_show_all(box->next_button);
+		gtk_widget_show(box->previous_button);
+		gtk_widget_show(box->next_button);
 	}
 	else
 	{
@@ -358,16 +378,14 @@ set_skip_enabled(CelluloidControlBox *box, gboolean enabled)
 static void
 set_playing_state(CelluloidControlBox *box, gboolean playing)
 {
-	GtkWidget *image = gtk_button_get_image(GTK_BUTTON(box->play_button));
-	const gchar *tooltip = playing?_("Pause"):_("Play");
-
-	gtk_image_set_from_icon_name( 	GTK_IMAGE(image),
-					playing?
-					"media-playback-pause-symbolic":
-					"media-playback-start-symbolic",
-					GTK_ICON_SIZE_BUTTON );
+	const gchar *tooltip = playing ? _("Pause") : _("Play");
+	const gchar *icon_name =
+		playing ?
+		"media-playback-pause-symbolic" :
+		"media-playback-start-symbolic";
 
 	gtk_widget_set_tooltip_text(box->play_button, tooltip);
+	gtk_button_set_icon_name(GTK_BUTTON(box->play_button), icon_name);
 }
 
 static void
@@ -375,13 +393,11 @@ init_button(	GtkWidget *button,
 		const gchar *icon_name,
 		const gchar *tooltip_text )
 {
-	GtkWidget *icon =	gtk_image_new_from_icon_name
-				(icon_name, GTK_ICON_SIZE_BUTTON);
+	gtk_button_set_icon_name(GTK_BUTTON(button), icon_name);
 
+	g_object_set(button, "has-frame", FALSE, NULL);
 	gtk_widget_set_tooltip_text(button, tooltip_text);
-	g_object_set(button, "relief", GTK_RELIEF_NONE, NULL);
 	gtk_widget_set_can_focus(button, FALSE);
-	gtk_button_set_image(GTK_BUTTON(button), icon);
 }
 
 static void
@@ -538,6 +554,8 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	GtkWidget *popup = NULL;
 	GtkAdjustment *adjustment = NULL;
 
+	box->click_gesture = gtk_gesture_click_new();
+
 	box->play_button = gtk_button_new();
 	box->stop_button = gtk_button_new();
 	box->forward_button = gtk_button_new();
@@ -588,31 +606,37 @@ celluloid_control_box_init(CelluloidControlBox *box)
 			"view-fullscreen-symbolic",
 			_("Toggle Fullscreen") );
 
+	gtk_widget_add_controller
+		(GTK_WIDGET(box), GTK_EVENT_CONTROLLER(box->click_gesture));
+
 	gtk_style_context_add_class
-		(	gtk_widget_get_style_context(GTK_WIDGET(box)),
-			GTK_STYLE_CLASS_BACKGROUND );
+		(gtk_widget_get_style_context(GTK_WIDGET(box)), "background");
 
 	gtk_widget_set_margin_end(box->seek_bar, 6);
 
 	gtk_widget_set_can_focus(box->volume_button, FALSE);
 	gtk_widget_set_can_focus(box->seek_bar, FALSE);
 
-	gtk_container_add(GTK_CONTAINER(box), box->previous_button);
-	gtk_container_add(GTK_CONTAINER(box), box->rewind_button);
-	gtk_container_add(GTK_CONTAINER(box), box->play_button);
-	gtk_container_add(GTK_CONTAINER(box), box->stop_button);
-	gtk_container_add(GTK_CONTAINER(box), box->forward_button);
-	gtk_container_add(GTK_CONTAINER(box), box->next_button);
-	gtk_box_pack_start(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
-	gtk_container_add(GTK_CONTAINER(box), box->loop_button);
-	gtk_container_add(GTK_CONTAINER(box), box->shuffle_button);
-	gtk_container_add(GTK_CONTAINER(box), box->volume_button);
-	gtk_container_add(GTK_CONTAINER(box), box->fullscreen_button);
+	gtk_widget_set_hexpand(box->seek_bar, TRUE);
+
+	gtk_box_append(GTK_BOX(box), box->previous_button);
+	gtk_box_append(GTK_BOX(box), box->rewind_button);
+	gtk_box_append(GTK_BOX(box), box->play_button);
+	gtk_box_append(GTK_BOX(box), box->stop_button);
+	gtk_box_append(GTK_BOX(box), box->forward_button);
+	gtk_box_append(GTK_BOX(box), box->next_button);
+	gtk_box_append(GTK_BOX(box), box->seek_bar);
+	gtk_box_append(GTK_BOX(box), box->loop_button);
+	gtk_box_append(GTK_BOX(box), box->shuffle_button);
+	gtk_box_append(GTK_BOX(box), box->volume_button);
+	gtk_box_append(GTK_BOX(box), box->fullscreen_button);
 
 	popup =	gtk_scale_button_get_popup
 		(GTK_SCALE_BUTTON(box->volume_button));
 	adjustment =	gtk_scale_button_get_adjustment
 			(GTK_SCALE_BUTTON(box->volume_button));
+
+	gtk_popover_set_position(GTK_POPOVER(popup), GTK_POS_TOP);
 
 	g_object_bind_property(	popup, "visible",
 				box, "volume-popup-visible",
@@ -638,10 +662,11 @@ celluloid_control_box_init(CelluloidControlBox *box)
 					NULL,
 					NULL );
 
-	g_signal_connect(	box,
-				"button-press-event",
-				G_CALLBACK(gtk_true),
+	g_signal_connect(	box->click_gesture,
+				"pressed",
+				G_CALLBACK(button_pressed_handler),
 				NULL );
+
 	g_signal_connect(	box->play_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
@@ -726,14 +751,11 @@ void
 celluloid_control_box_set_fullscreen_state(	CelluloidControlBox *box,
 						gboolean fullscreen )
 {
-	GtkWidget *image =
-		gtk_button_get_image(GTK_BUTTON(box->fullscreen_button));
+	const gchar *icon_name = fullscreen ?
+				"view-restore-symbolic" :
+				"view-fullscreen-symbolic";
 
-	gtk_image_set_from_icon_name(	GTK_IMAGE(image),
-					fullscreen?
-					"view-restore-symbolic":
-					"view-fullscreen-symbolic",
-					GTK_ICON_SIZE_BUTTON );
+	gtk_button_set_icon_name(GTK_BUTTON(box->fullscreen_button), icon_name);
 
 	gtk_widget_set_visible(	box->fullscreen_button,
 				box->show_fullscreen_button );

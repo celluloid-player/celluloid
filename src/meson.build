@@ -8,6 +8,7 @@ sources = [
   'celluloid-controller-actions.c',
   'celluloid-controller-input.c',
   'celluloid-file-chooser.c',
+  'celluloid-file-chooser-button.c',
   'celluloid-header-bar.c',
   'celluloid-main.c',
   'celluloid-main-window.c',
@@ -15,7 +16,6 @@ sources = [
   'celluloid-metadata-cache.c',
   'celluloid-model.c',
   'celluloid-mpv.c',
-  'celluloid-mpv-wrapper.c',
   'celluloid-open-location-dialog.c',
   'celluloid-option-parser.c',
   'celluloid-player.c',
@@ -48,7 +48,7 @@ sources += custom_target('authors',
   ]
 )
 
-libgtk = dependency('gtk+-3.0', version: '>= 3.22.23')
+libgtk = dependency('gtk4')
 localedir = join_paths(get_option('prefix'), get_option('localedir'))
 cflags = [
   '-DG_SETTINGS_ENABLE_BACKEND',
@@ -56,10 +56,10 @@ cflags = [
   '-DVERSION="@0@"'.format(meson.project_version()),
   '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
   '-DG_LOG_DOMAIN="@0@"'.format(meson.project_name()),
-  '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_44',
-  '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_44',
-  '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_22',
-  '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22'
+  '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66',
+  '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_66',
+  '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_0',
+  '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_0'
 ]
 
 if get_option('buildtype') == 'release'

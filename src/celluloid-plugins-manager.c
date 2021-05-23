@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -67,17 +67,17 @@ celluloid_plugins_manager_get_property(	GObject *object,
 					GParamSpec *pspec );
 
 static void
-add_handler(GtkButton *button, gpointer data);
+response_handler(GtkNativeDialog *self, gint response_id, gpointer data);
 
 static void
-drag_data_handler(	GtkWidget *widget,
-			GdkDragContext *context,
-			gint x,
-			gint y,
-			GtkSelectionData *sel_data,
-			guint info,
-			guint time,
-			gpointer data);
+add_handler(GtkButton *button, gpointer data);
+
+static gboolean
+drop_handler(	GtkDropTarget *self,
+		GValue *value,
+		gdouble x,
+		gdouble y,
+		gpointer data );
 
 static void
 changed_handler(	GFileMonitor *monitor,
@@ -152,13 +152,27 @@ celluloid_plugins_manager_get_property(	GObject *object,
 }
 
 static void
+response_handler(GtkNativeDialog *self, gint response_id, gpointer data)
+{
+	GFile *src = NULL;
+
+	if(response_id == GTK_RESPONSE_ACCEPT)
+	{
+		src = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(self));
+		copy_file_to_directory(CELLULOID_PLUGINS_MANAGER(data), src);
+	}
+
+	g_clear_object(&src);
+	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(self));
+}
+
+static void
 add_handler(GtkButton *button, gpointer data)
 {
 	CelluloidPluginsManager *pmgr = data;
 	CelluloidFileChooser *dialog = NULL;
 	GtkFileFilter *filter;
 	GtkFileChooser *chooser;
-	GFile *src = NULL;
 
 	dialog = celluloid_file_chooser_new(	_("Add Plugin"),
 						pmgr->parent_window,
@@ -187,42 +201,27 @@ add_handler(GtkButton *button, gpointer data)
 	gtk_file_filter_add_mime_type(filter, "application/x-sharedlib");
 	gtk_file_chooser_add_filter(chooser, filter);
 
-	if(celluloid_file_chooser_run(dialog) == GTK_RESPONSE_ACCEPT)
-	{
-		src = gtk_file_chooser_get_file(chooser);
-	}
+	g_signal_connect(	dialog,
+				"response",
+				G_CALLBACK(response_handler),
+				pmgr );
 
-	celluloid_file_chooser_destroy(dialog);
-
-	copy_file_to_directory(pmgr, src);
-
-	g_clear_object(&src);
+	gtk_native_dialog_show(GTK_NATIVE_DIALOG(dialog));
 }
 
-static void
-drag_data_handler(	GtkWidget *widget,
-			GdkDragContext *context,
-			gint x,
-			gint y,
-			GtkSelectionData *sel_data,
-			guint info,
-			guint time,
-			gpointer data)
+static gboolean
+drop_handler(	GtkDropTarget *self,
+		GValue *value,
+		gdouble x,
+		gdouble y,
+		gpointer data )
 {
-	gchar **uri_list = gtk_selection_data_get_uris(sel_data);
+	g_assert(G_VALUE_HOLDS(value, G_TYPE_FILE));
 
-	g_assert(uri_list);
+	GFile *file = g_value_get_object(value);
+	copy_file_to_directory(CELLULOID_PLUGINS_MANAGER(data), file);
 
-	for(gint i = 0; uri_list[i]; i++)
-	{
-		GFile *file = g_file_new_for_uri(uri_list[i]);
-
-		copy_file_to_directory(data, file);
-
-		g_clear_object(&file);
-	}
-
-	g_strfreev(uri_list);
+	return TRUE;
 }
 
 static void
@@ -249,19 +248,21 @@ changed_handler(	GFileMonitor *monitor,
 
 	if(dir)
 	{
-		GtkContainer *list_box;
-		GList *iter;
+		GtkListBox *list_box;
+		GtkWidget *first_child;
 
-		list_box = GTK_CONTAINER(pmgr->list_box);
-		iter = gtk_container_get_children(list_box);
+		list_box = GTK_LIST_BOX(pmgr->list_box);
+		first_child = gtk_widget_get_first_child(pmgr->list_box);
 
-		while(iter)
+		// Empty the list box
+		while(first_child)
 		{
-			gtk_widget_destroy(iter->data);
+			gtk_list_box_remove(list_box, first_child);
 
-			iter = g_list_next(iter);
+			first_child = gtk_widget_get_first_child(pmgr->list_box);
 		}
 
+		// Populate the list box with files in the plugins directory
 		do
 		{
 			gchar *full_path;
@@ -278,8 +279,7 @@ changed_handler(	GFileMonitor *monitor,
 					(	pmgr->parent_window,
 						filename,
 						full_path );
-				gtk_container_add
-					(GTK_CONTAINER(pmgr->list_box), item);
+				gtk_list_box_append(list_box, item);
 
 				empty = FALSE;
 			}
@@ -288,7 +288,6 @@ changed_handler(	GFileMonitor *monitor,
 		}
 		while(filename);
 
-		gtk_widget_show_all(pmgr->list_box);
 		gtk_widget_set_visible(pmgr->placeholder_label, empty);
 
 		g_dir_close(dir);
@@ -337,15 +336,19 @@ copy_file_to_directory(CelluloidPluginsManager *pmgr, GFile *src)
 					dest_path,
 					error->message );
 
+		g_signal_connect(	error_dialog,
+					"response",
+					G_CALLBACK(gtk_window_destroy),
+					NULL );
+
 		g_warning(	"Failed to copy file from '%s' to '%s'. "
 				"Reason: %s",
 				src_path,
 				dest_path,
 				error->message );
 
-		gtk_dialog_run(GTK_DIALOG(error_dialog));
+		gtk_widget_show(error_dialog);
 
-		gtk_widget_destroy(error_dialog);
 		g_error_free(error);
 		g_free(src_path);
 	}
@@ -377,7 +380,7 @@ celluloid_plugins_manager_class_init(CelluloidPluginsManagerClass *klass)
 static void
 celluloid_plugins_manager_init(CelluloidPluginsManager *pmgr)
 {
-	GtkWidget *scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+	GtkWidget *scrolled_window = gtk_scrolled_window_new();
 	GtkWidget *overlay = gtk_overlay_new();
 	GtkWidget *add_button = gtk_button_new_with_label("+");
 
@@ -391,31 +394,27 @@ celluloid_plugins_manager_init(CelluloidPluginsManager *pmgr)
 				"clicked",
 				G_CALLBACK(add_handler),
 				pmgr );
-	g_signal_connect(	pmgr->list_box,
-				"drag-data-received",
-				G_CALLBACK(drag_data_handler),
-				pmgr );
 
-	gtk_drag_dest_set(	pmgr->list_box,
-				GTK_DEST_DEFAULT_ALL,
-				NULL,
-				0,
-				GDK_ACTION_LINK );
-	gtk_drag_dest_add_uri_targets(pmgr->list_box);
+	GtkDropTarget *drop_target =
+		gtk_drop_target_new(G_TYPE_FILE, GDK_ACTION_COPY);
+
+	gtk_widget_add_controller
+		(pmgr->list_box, GTK_EVENT_CONTROLLER(drop_target));
+
+	g_signal_connect(	drop_target,
+				"drop",
+				G_CALLBACK(drop_handler),
+				pmgr );
 
 	gtk_widget_set_hexpand(GTK_WIDGET(scrolled_window), TRUE);
 	gtk_widget_set_vexpand(GTK_WIDGET(scrolled_window), TRUE);
 
 	gtk_widget_set_tooltip_text(add_button, _("Add Plugin"));
 	gtk_widget_set_sensitive(pmgr->placeholder_label, FALSE);
-	gtk_widget_set_no_show_all(pmgr->placeholder_label, TRUE);
 	gtk_widget_show(pmgr->placeholder_label);
 
-	gtk_container_add(GTK_CONTAINER(overlay), scrolled_window);
+	gtk_overlay_set_child(GTK_OVERLAY(overlay), scrolled_window);
 	gtk_overlay_add_overlay(GTK_OVERLAY(overlay), pmgr->placeholder_label);
-	gtk_overlay_set_overlay_pass_through(	GTK_OVERLAY(overlay),
-						pmgr->placeholder_label,
-						TRUE );
 
 	gtk_grid_attach(	GTK_GRID(pmgr),
 				overlay,
@@ -424,7 +423,8 @@ celluloid_plugins_manager_init(CelluloidPluginsManager *pmgr)
 				add_button,
 				0, 1, 1, 1 );
 
-	gtk_container_add(GTK_CONTAINER(scrolled_window), pmgr->list_box);
+	gtk_scrolled_window_set_child
+		(GTK_SCROLLED_WINDOW(scrolled_window), pmgr->list_box);
 }
 
 GtkWidget *

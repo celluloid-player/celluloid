@@ -23,12 +23,44 @@
 
 #include "celluloid-option-parser.h"
 #include "celluloid-player.h"
-#include "celluloid-player-private.h"
 #include "celluloid-player-options.h"
 #include "celluloid-marshal.h"
 #include "celluloid-metadata-cache.h"
-#include "celluloid-mpv-wrapper.h"
+#include "celluloid-mpv.h"
 #include "celluloid-def.h"
+
+#define get_private(player) \
+	((CelluloidPlayerPrivate *)celluloid_player_get_instance_private(CELLULOID_PLAYER(player)))
+
+typedef struct _CelluloidPlayerPrivate CelluloidPlayerPrivate;
+
+enum
+{
+	PROP_0,
+	PROP_PLAYLIST,
+	PROP_METADATA,
+	PROP_TRACK_LIST,
+	PROP_DISC_LIST,
+	PROP_EXTRA_OPTIONS,
+	N_PROPERTIES
+};
+
+struct _CelluloidPlayerPrivate
+{
+	CelluloidMpv parent;
+	CelluloidMetadataCache *cache;
+	GVolumeMonitor *monitor;
+	GPtrArray *playlist;
+	GPtrArray *metadata;
+	GPtrArray *track_list;
+	GPtrArray *disc_list;
+	GHashTable *log_levels;
+	gboolean loaded;
+	gboolean new_file;
+	gboolean init_vo_config;
+	gchar *tmp_input_config;
+	gchar *extra_options;
+};
 
 static void
 set_property(	GObject *object,

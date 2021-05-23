@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 gnome-mpv
+ * Copyright (c) 2015-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -63,10 +63,8 @@ get_property(	GObject *object,
 		GValue *value,
 		GParamSpec *pspec );
 
-static gboolean
-window_state_handler( GtkWidget *widget,
-		      GdkEventWindowState *event,
-		      gpointer data );
+static void
+notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data);
 
 static void
 g_signal_handler(	GDBusProxy *proxy,
@@ -93,8 +91,8 @@ constructed(GObject *object)
 
 	self->focus_sig_id =	g_signal_connect
 				(	celluloid_view_get_main_window(view),
-					"window-state-event",
-					G_CALLBACK(window_state_handler),
+					"notify::is-active",
+					G_CALLBACK(notify_handler),
 					self );
 
 	g_bus_get(G_BUS_TYPE_SESSION, NULL, session_ready_handler, self);
@@ -161,28 +159,29 @@ get_property(	GObject *object,
 	}
 }
 
-static gboolean
-window_state_handler( GtkWidget *widget,
-		      GdkEventWindowState *event,
-		      gpointer data )
+static void
+notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 {
-	CelluloidMediaKeys *self = data;
+	CelluloidMediaKeys *self = CELLULOID_MEDIA_KEYS(data);
 
-	if (event->changed_mask & GDK_WINDOW_STATE_FOCUSED
-	    && event->new_window_state & GDK_WINDOW_STATE_FOCUSED
-	    && self->proxy != NULL)
+	if(self->proxy && g_strcmp0(pspec->name, "is-active") == 0)
 	{
-		g_dbus_proxy_call(	self->proxy,
-					"GrabMediaPlayerKeys",
-					g_variant_new("(su)", APP_ID, 0),
-					G_DBUS_CALL_FLAGS_NONE,
-					-1,
-					NULL,
-					NULL,
-					self );
-	}
+		gboolean is_active = FALSE;
 
-	return FALSE;
+		g_object_get(gobject, "is-active", &is_active, NULL);
+
+		if(is_active)
+		{
+			g_dbus_proxy_call(	self->proxy,
+						"GrabMediaPlayerKeys",
+						g_variant_new("(su)", APP_ID, 0),
+						G_DBUS_CALL_FLAGS_NONE,
+						-1,
+						NULL,
+						NULL,
+						self );
+		}
+	}
 }
 
 static void

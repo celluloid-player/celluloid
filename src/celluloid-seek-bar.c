@@ -53,22 +53,22 @@ change_value_handler(	GtkWidget *widget,
 			gpointer data );
 
 static gboolean
-enter_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data);
+enter_handler(	GtkEventControllerMotion *controller,
+		gdouble x,
+		gdouble y,
+		gpointer data );
 
 static gboolean
-leave_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data);
+leave_handler(GtkEventControllerMotion *widget, gpointer data);
 
 static gboolean
-motion_handler(GtkWidget *widget, GdkEventMotion *event, gpointer data);
+motion_handler(	GtkEventControllerMotion *controller,
+		gdouble x,
+		gdouble y,
+		gpointer data );
 
 static gboolean
 update_popover_visibility(CelluloidSeekBar *bar);
-
-static gint
-get_slider_length(GtkRange *range);
-
-static gdouble
-coord_to_time(GtkRange *range, gdouble coord);
 
 G_DEFINE_TYPE(CelluloidSeekBar, celluloid_seek_bar, GTK_TYPE_BOX)
 
@@ -99,7 +99,10 @@ change_value_handler(	GtkWidget *widget,
 }
 
 static gboolean
-enter_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+enter_handler(	GtkEventControllerMotion *controller,
+		gdouble x,
+		gdouble y,
+		gpointer data )
 {
 	CelluloidSeekBar *bar = data;
 
@@ -122,7 +125,7 @@ enter_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 }
 
 static gboolean
-leave_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+leave_handler(GtkEventControllerMotion *widget, gpointer data)
 {
 	CelluloidSeekBar *bar = data;
 
@@ -139,20 +142,59 @@ leave_handler(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 }
 
 static gboolean
-motion_handler(GtkWidget *widget, GdkEventMotion *event, gpointer data)
+motion_handler(	GtkEventControllerMotion *controller,
+		gdouble x,
+		gdouble y,
+		gpointer data )
 {
 	CelluloidSeekBar *bar = data;
+	GtkRange *range = GTK_RANGE(bar->seek_bar);
+	GdkRectangle popover_rect = {0};
+	GdkRectangle range_rect = {0};
 
-	const gint slider_length =
-		get_slider_length(GTK_RANGE(bar->seek_bar));
+	gtk_range_get_range_rect(range, &range_rect);
+
+	// TODO: Figure out how to get the actual margin
+	const gint margin = 1;
+	const gint trough_start = range_rect.x + margin;
+	const gint trough_length = range_rect.width - 2 * margin;
+
+	x = CLAMP(x, trough_start, trough_start + trough_length);
+
+	graphene_point_t popover_offset =
+		{0};
+	const gboolean popover_offset_computed =
+		gtk_widget_compute_point
+		(	GTK_WIDGET(range),
+			GTK_WIDGET(bar),
+			&GRAPHENE_POINT_INIT((gfloat)x, 0),
+			&popover_offset );
+
+	if(popover_offset_computed)
+	{
+		popover_rect.x = (gint)popover_offset.x;
+	}
+	else
+	{
+		// This seems to work for Adwaita
+		popover_rect.x = (gint)x + 13;
+		g_warning("Failed to determine position for timestamp popover");
+	}
+
+	gtk_popover_set_pointing_to(GTK_POPOVER(bar->popover), &popover_rect);
+
+	GtkAdjustment *adjustment = gtk_range_get_adjustment(range);
+	const gdouble lower = gtk_adjustment_get_lower(adjustment);
+	const gdouble upper = gtk_adjustment_get_upper(adjustment);
+	const gdouble page_size = gtk_adjustment_get_page_size(adjustment);
+
+	const gdouble progress =
+		((gint)x - trough_start) / (gdouble)trough_length;
 	const gdouble time =
-		coord_to_time(GTK_RANGE(bar->seek_bar), event->x - slider_length);
+		lower + progress * (upper - lower - page_size);
+	gchar *text =
+		format_time((gint)time, bar->duration >= 3600);
 
-	GdkRectangle rect =
-		{.x = (gint)event->x, .y = 0, .width = 0, .height = 0};
-	gtk_popover_set_pointing_to(GTK_POPOVER(bar->popover), &rect);
-
-	gchar *text = format_time((gint)time, bar->duration >= 3600);
 	gtk_label_set_text(GTK_LABEL(bar->popover_label), text);
 	g_free(text);
 
@@ -174,40 +216,6 @@ update_popover_visibility(CelluloidSeekBar *bar)
 	bar->popover_timeout_id = 0;
 
 	return G_SOURCE_REMOVE;
-}
-
-static gint
-get_slider_length(GtkRange *range)
-{
-	gint slider_start = -1;
-	gint slider_end = -1;
-
-	gtk_range_get_slider_range(range, &slider_start, &slider_end);
-
-	return slider_end - slider_start;
-}
-
-static gdouble
-coord_to_time(GtkRange *range, gdouble coord)
-{
-	// TODO: Figure out how to get the actual margin
-	const gint margin = 1;
-
-	GtkAdjustment *adjustment = gtk_range_get_adjustment(range);
-	const gdouble lower = gtk_adjustment_get_lower(adjustment);
-	const gdouble upper = gtk_adjustment_get_upper(adjustment);
-	const gdouble page_size = gtk_adjustment_get_page_size(adjustment);
-
-	GdkRectangle range_rect;
-	gtk_range_get_range_rect(range, &range_rect);
-	const gint trough_start = range_rect.x + margin;
-	const gint trough_length = range_rect.width - 2 * margin;
-
-	const gdouble progress =
-		((gint)coord - trough_start) /
-		(gdouble)(trough_length - get_slider_length(range));
-
-	return lower + progress * (upper - lower - page_size);
 }
 
 static void
@@ -232,7 +240,7 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 {
 	bar->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
 	bar->label = celluloid_time_label_new();
-	bar->popover = g_object_ref_sink(gtk_popover_new(bar->seek_bar));
+	bar->popover = g_object_ref_sink(gtk_popover_new());
 	bar->popover_label = gtk_label_new(NULL);
 	bar->duration = 0;
 	bar->pos = 0;
@@ -243,36 +251,44 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 			"time", (gint)bar->pos,
 			"duration", (gint)bar->duration,
 			NULL );
-	gtk_popover_set_modal(GTK_POPOVER(bar->popover), FALSE);
+	gtk_popover_set_autohide(GTK_POPOVER(bar->popover), FALSE);
 
 	gtk_scale_set_draw_value(GTK_SCALE(bar->seek_bar), FALSE);
 	gtk_range_set_increments(GTK_RANGE(bar->seek_bar), 10, 10);
 	gtk_widget_set_can_focus(bar->seek_bar, FALSE);
-	gtk_widget_add_events(bar->seek_bar, GDK_POINTER_MOTION_MASK);
 
-	gtk_container_add(GTK_CONTAINER(bar->popover), bar->popover_label);
-	gtk_container_set_border_width(GTK_CONTAINER(bar->popover), 6);
+	gtk_popover_set_position(GTK_POPOVER(bar->popover), GTK_POS_TOP);
+	gtk_popover_set_child(GTK_POPOVER(bar->popover), bar->popover_label);
 	gtk_widget_show(bar->popover_label);
 
 	g_signal_connect(	bar->seek_bar,
 				"change-value",
 				G_CALLBACK(change_value_handler),
 				bar );
-	g_signal_connect(	bar->seek_bar,
-				"enter-notify-event",
+
+	GtkEventController *motion_controller =
+		gtk_event_controller_motion_new();
+
+	gtk_widget_add_controller(GTK_WIDGET(bar->seek_bar), motion_controller);
+
+	g_signal_connect(	motion_controller,
+				"enter",
 				G_CALLBACK(enter_handler),
 				bar );
-	g_signal_connect(	bar->seek_bar,
-				"leave-notify-event",
+	g_signal_connect(	motion_controller,
+				"leave",
 				G_CALLBACK(leave_handler),
 				bar );
-	g_signal_connect(	bar->seek_bar,
-				"motion-notify-event",
+	g_signal_connect(	motion_controller,
+				"motion",
 				G_CALLBACK(motion_handler),
 				bar );
 
-	gtk_box_pack_start(GTK_BOX(bar), bar->seek_bar, TRUE, TRUE, 0);
-	gtk_box_pack_end(GTK_BOX(bar), bar->label, FALSE, FALSE, 0);
+	gtk_widget_set_hexpand(bar->seek_bar, TRUE);
+
+	gtk_box_append(GTK_BOX(bar), bar->seek_bar);
+	gtk_box_append(GTK_BOX(bar), bar->label);
+	gtk_box_append(GTK_BOX(bar), bar->popover);
 }
 
 GtkWidget *

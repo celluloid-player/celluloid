@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2020 gnome-mpv
+ * Copyright (c) 2014-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 
 #include "celluloid-preferences-dialog.h"
+#include "celluloid-file-chooser-button.h"
 #include "celluloid-plugins-manager.h"
 #include "celluloid-main-window.h"
 #include "celluloid-def.h"
@@ -63,17 +64,18 @@ struct PreferencesDialogItem
 G_DEFINE_TYPE(CelluloidPreferencesDialog, celluloid_preferences_dialog, GTK_TYPE_DIALOG)
 
 static void
-file_set_handler(GtkFileChooserButton *widget, gpointer data)
+file_set_handler(CelluloidFileChooserButton *button, gpointer data)
 {
-	GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(widget));
-	CelluloidPreferencesDialog *dlg = CELLULOID_PREFERENCES_DIALOG(toplevel);
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(widget);
+	GtkRoot *root = gtk_widget_get_root(GTK_WIDGET(button));
+	CelluloidPreferencesDialog *self = CELLULOID_PREFERENCES_DIALOG(root);
 	const gchar *key = data;
-	gchar *filename = gtk_file_chooser_get_filename(chooser)?:g_strdup("");
+	GFile *file = celluloid_file_chooser_button_get_file(button);
+	gchar *uri = g_file_get_uri(file) ?: g_strdup("");
 
-	g_settings_set_string(dlg->settings, key, filename);
+	g_settings_set_string(self->settings, key, uri);
 
-	g_free(filename);
+	g_free(uri);
+	g_object_unref(file);
 }
 
 static void
@@ -94,26 +96,26 @@ response_handler(GtkDialog *dialog, gint response_id)
 }
 
 static gboolean
-key_press_handler(GtkWidget *widget, GdkEventKey *event)
+key_pressed_handler(	GtkEventControllerKey *controller,
+			guint keyval,
+			guint keycode,
+			GdkModifierType state,
+			gpointer data )
 {
-	guint keyval = event->keyval;
-	guint state = event->state;
-
 	const guint mod_mask =	GDK_MODIFIER_MASK
 				&~(GDK_SHIFT_MASK
 				|GDK_LOCK_MASK
-				|GDK_MOD2_MASK
-				|GDK_MOD3_MASK
-				|GDK_MOD4_MASK
-				|GDK_MOD5_MASK);
+				|GDK_ALT_MASK
+				|GDK_SUPER_MASK
+				|GDK_HYPER_MASK
+				|GDK_META_MASK);
 
 	if((state&mod_mask) == 0 && keyval == GDK_KEY_Return)
 	{
-		gtk_dialog_response(GTK_DIALOG(widget), GTK_RESPONSE_ACCEPT);
+		gtk_dialog_response(GTK_DIALOG(data), GTK_RESPONSE_ACCEPT);
 	}
 
-	return	GTK_WIDGET_CLASS(celluloid_preferences_dialog_parent_class)
-		->key_press_event(widget, event);
+	return FALSE;
 }
 
 static void
@@ -128,7 +130,10 @@ build_page(const PreferencesDialogItem *items, GSettings *settings)
 	GtkWidget *grid = gtk_grid_new();
 	GSettingsSchema *schema = NULL;
 
-	gtk_container_set_border_width(GTK_CONTAINER(grid), 12);
+	gtk_widget_set_margin_end(grid, 12);
+	gtk_widget_set_margin_top(grid, 12);
+	gtk_widget_set_margin_bottom(grid, 12);
+
 	gtk_grid_set_row_spacing(GTK_GRID(grid), 6);
 	gtk_grid_set_column_spacing(GTK_GRID(grid), 12);
 
@@ -174,24 +179,33 @@ build_page(const PreferencesDialogItem *items, GSettings *settings)
 		}
 		else if(type == ITEM_TYPE_FILE_CHOOSER)
 		{
-			GtkFileChooser *chooser;
+			CelluloidFileChooserButton *button;
 			GtkFileFilter *filter;
-			gchar *filename;
+			gchar *uri;
+			GFile *file;
 
-			widget = gtk_file_chooser_button_new
-					(label, GTK_FILE_CHOOSER_ACTION_OPEN);
-			chooser = GTK_FILE_CHOOSER(widget);
+			widget =	celluloid_file_chooser_button_new
+					(NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
+
+			button = CELLULOID_FILE_CHOOSER_BUTTON(widget);
 			filter = gtk_file_filter_new();
-			filename = g_settings_get_string(settings, key);
+			uri = g_settings_get_string(settings, key);
+			file = g_file_new_for_uri(uri);
+
 			separate_label = TRUE;
 			xpos = 1;
 
-			gtk_file_filter_add_mime_type(filter, "text/plain");
-			gtk_file_chooser_set_filter(chooser, filter);
-
 			gtk_widget_set_hexpand(widget, TRUE);
 			gtk_widget_set_size_request(widget, 100, -1);
-			gtk_file_chooser_set_filename(chooser, filename);
+
+			gtk_file_filter_add_mime_type(filter, "text/plain");
+			celluloid_file_chooser_button_set_filter(button, filter);
+
+			if(g_file_query_exists(file, NULL))
+			{
+				celluloid_file_chooser_button_set_file
+					(button, file, NULL);
+			}
 
 			/* For simplicity, changes made to the GSettings
 			 * database externally won't be reflected immediately
@@ -204,7 +218,7 @@ build_page(const PreferencesDialogItem *items, GSettings *settings)
 						free_signal_data,
 						0 );
 
-			g_free(filename);
+			g_free(uri);
 		}
 		else if(type == ITEM_TYPE_TEXT_BOX)
 		{
@@ -301,7 +315,6 @@ celluloid_preferences_dialog_class_init(CelluloidPreferencesDialogClass *klass)
 {
 	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
 
-	wid_class->key_press_event = key_press_handler;
 	GTK_DIALOG_CLASS(klass)->response = response_handler;
 	G_OBJECT_CLASS(klass)->constructed = preferences_dialog_constructed;
 
@@ -376,13 +389,6 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			{NULL, NULL, ITEM_TYPE_INVALID} };
 
 	GtkWidget *content_area;
-	GdkGeometry geom;
-
-	/* This 'locks' the height of the dialog while allowing the width to be
-	 * freely adjusted.
-	 */
-	geom.max_width = G_MAXINT;
-	geom.max_height = 0;
 
 	dlg->settings = g_settings_new(CONFIG_ROOT);
 	dlg->notebook = gtk_notebook_new();
@@ -390,13 +396,7 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 
 	g_settings_delay(dlg->settings);
 
-	gtk_window_set_geometry_hints(	GTK_WINDOW(dlg),
-					GTK_WIDGET(dlg),
-					&geom,
-					GDK_HINT_MAX_SIZE );
-
-	gtk_container_set_border_width(GTK_CONTAINER(content_area), 0);
-	gtk_container_add(GTK_CONTAINER(content_area), dlg->notebook);
+	gtk_box_append(GTK_BOX(content_area), dlg->notebook);
 
 	gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook),
 					build_page(interface_items, dlg->settings),
@@ -413,13 +413,21 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 
 	gtk_dialog_add_buttons(	GTK_DIALOG(dlg),
 				_("_Cancel"),
-				GTK_RESPONSE_REJECT,
+				GTK_RESPONSE_CANCEL,
 				_("_Save"),
 				GTK_RESPONSE_ACCEPT,
 				NULL );
 
 	gtk_dialog_set_default_response(GTK_DIALOG(dlg), GTK_RESPONSE_ACCEPT);
 
+	GtkEventController *key_controller = gtk_event_controller_key_new();
+
+	gtk_widget_add_controller(GTK_WIDGET(dlg), key_controller);
+
+	g_signal_connect(	key_controller,
+				"key-pressed",
+				G_CALLBACK(key_pressed_handler),
+				dlg );
 }
 
 GtkWidget *
@@ -442,23 +450,12 @@ celluloid_preferences_dialog_new(GtkWindow *parent)
 
 	if(header_bar)
 	{
-		/* The defaults use PACK_END which is ugly with multiple buttons
-		 */
-		GtkWidget *cancel_btn = gtk_dialog_get_widget_for_response
-					(GTK_DIALOG(dlg), GTK_RESPONSE_REJECT);
-
-		gtk_container_child_set(	GTK_CONTAINER(header_bar),
-						cancel_btn,
-						"pack-type",
-						GTK_PACK_START,
-						NULL );
-
-		gtk_header_bar_set_show_close_button
+		gtk_header_bar_set_show_title_buttons
 			(GTK_HEADER_BAR(header_bar), FALSE);
 	}
 
-	gtk_widget_hide_on_delete(dlg);
-	gtk_widget_show_all(dlg);
+	gtk_window_set_hide_on_close(GTK_WINDOW(dlg), TRUE);
+	gtk_widget_show(dlg);
 
 	return dlg;
 }

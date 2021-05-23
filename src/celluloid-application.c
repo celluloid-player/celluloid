@@ -22,10 +22,15 @@
 #include <glib/gprintf.h>
 #include <glib-unix.h>
 #include <gio/gio.h>
+#include <gdk/gdk.h>
+
+#ifdef GDK_WINDOWING_X11
+#include <gdk/x11/gdkx.h>
+#endif
 
 #include "celluloid-application.h"
 #include "celluloid-controller.h"
-#include "celluloid-mpv-wrapper.h"
+#include "celluloid-mpv.h"
 #include "celluloid-common.h"
 #include "celluloid-def.h"
 
@@ -160,10 +165,16 @@ initialize_gui(CelluloidApplication *app)
 	settings = g_settings_new(CONFIG_ROOT);
 	app->controllers = g_slist_prepend(app->controllers, controller);
 
-	if(app->role)
+	#ifdef GDK_WINDOWING_X11
+	GtkNative *native = gtk_widget_get_native(GTK_WIDGET(window));
+	GdkSurface *surface = gtk_native_get_surface(native);
+	GdkDisplay *display = gdk_surface_get_display(surface);
+
+	if(app->role && GDK_IS_X11_DISPLAY(display))
 	{
-		gtk_window_set_role(GTK_WINDOW(window), app->role);
+		gdk_x11_surface_set_utf8_property(surface, "WM_ROLE", app->role);
 	}
+	#endif
 
 	g_unix_signal_add(SIGHUP, shutdown_signal_handler, app);
 	g_unix_signal_add(SIGINT, shutdown_signal_handler, app);
@@ -452,8 +463,6 @@ command_line_handler(	GApplication *gapp,
 	{
 		g_object_unref(files[i]);
 	}
-
-	gdk_notify_startup_complete();
 
 	g_object_unref(settings);
 	g_strfreev(argv);

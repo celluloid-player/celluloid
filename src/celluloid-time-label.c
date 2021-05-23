@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 gnome-mpv
+ * Copyright (c) 2020-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -31,17 +31,18 @@ enum
 
 struct _CelluloidTimeLabel
 {
-	GtkLabel parent;
+	GtkBox parent;
+	GtkWidget *label;
 	gint duration;
 	gint time;
 };
 
 struct _CelluloidTimeLabelClass
 {
-	GtkLabelClass parent_class;
+	GtkBoxClass parent_class;
 };
 
-G_DEFINE_TYPE(CelluloidTimeLabel, celluloid_time_label, GTK_TYPE_LABEL)
+G_DEFINE_TYPE(CelluloidTimeLabel, celluloid_time_label, GTK_TYPE_BOX)
 
 static void
 set_property(	GObject *object,
@@ -213,12 +214,12 @@ update_size(CelluloidTimeLabel *label)
 {
 	gint width = 0;
 
-	get_max_pixel_size(	GTK_LABEL(label),
+	get_max_pixel_size(	GTK_LABEL(label->label),
 				label->duration,
 				&width,
 				NULL );
 	gtk_widget_set_size_request
-		(GTK_WIDGET(label), width, -1);
+		(GTK_WIDGET(label->label), width, -1);
 }
 
 static void
@@ -243,14 +244,17 @@ update_label(CelluloidTimeLabel *label)
 		text = g_strdup_printf("%02d:%02d", (sec%3600)/60, sec%60);
 	}
 
-	gtk_label_set_text(GTK_LABEL(label), text);
+	gtk_label_set_text(GTK_LABEL(label->label), text);
 }
 
 static void
 celluloid_time_label_init(CelluloidTimeLabel *label)
 {
+	label->label = gtk_label_new(NULL);
 	label->duration = 0;
 	label->time = 0;
+
+	gtk_box_append(GTK_BOX(label), label->label);
 
 	update_size(label);
 }

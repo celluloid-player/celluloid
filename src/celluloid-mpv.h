@@ -81,6 +81,73 @@ celluloid_mpv_load_file(CelluloidMpv *mpv, const gchar *uri, gboolean append);
 void
 celluloid_mpv_load(CelluloidMpv *mpv, const gchar *uri, gboolean append);
 
+gint
+celluloid_mpv_command(CelluloidMpv *mpv, const gchar **cmd);
+
+gint
+celluloid_mpv_command_async(CelluloidMpv *mpv, const gchar **cmd);
+
+gint
+celluloid_mpv_command_string(CelluloidMpv *mpv, const gchar *cmd);
+
+gint
+celluloid_mpv_set_option_string(	CelluloidMpv *mpv,
+					const gchar *name,
+					const gchar *value );
+
+gint
+celluloid_mpv_get_property(	CelluloidMpv *mpv,
+				const gchar *name,
+				mpv_format format,
+				void *data );
+
+gchar *
+celluloid_mpv_get_property_string(CelluloidMpv *mpv, const gchar *name);
+
+gboolean
+celluloid_mpv_get_property_flag(CelluloidMpv *mpv, const gchar *name);
+
+gint
+celluloid_mpv_set_property(	CelluloidMpv *mpv,
+				const gchar *name,
+				mpv_format format,
+				void *data );
+
+gint
+celluloid_mpv_set_property_flag(	CelluloidMpv *mpv,
+					const gchar *name,
+					gboolean value);
+
+gint
+celluloid_mpv_set_property_string(	CelluloidMpv *mpv,
+					const gchar *name,
+					const char *data );
+
+void
+celluloid_mpv_set_event_callback(	CelluloidMpv *mpv,
+					void (*func)(mpv_event *, void *),
+					void *data );
+
+void
+celluloid_mpv_set_render_update_callback(	CelluloidMpv *mpv,
+						mpv_render_update_fn func,
+						void *data );
+
+guint64
+celluloid_mpv_render_context_update(CelluloidMpv *mpv);
+
+gint
+celluloid_mpv_load_config_file(CelluloidMpv *mpv, const gchar *filename);
+
+gint
+celluloid_mpv_observe_property(	CelluloidMpv *mpv,
+				guint64 reply_userdata,
+				const gchar *name,
+				mpv_format format );
+
+gint
+celluloid_mpv_request_log_messages(CelluloidMpv *mpv, const gchar *min_level);
+
 G_END_DECLS
 
 #endif

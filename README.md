@@ -14,8 +14,8 @@ mpv's powerful playback capabilities.
 - automake >= 1.12<sup>[[1]](#note1)</sup> (build)
 - pkg-config (build)
 - gcc (build)
-- glib >= 2.44
-- gtk >= 3.22
+- glib >= 2.66
+- gtk >= 4.0
 - mpv >= 0.32
 - epoxy
 - lua (optional)

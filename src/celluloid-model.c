@@ -21,7 +21,7 @@
 
 #include "celluloid-model.h"
 #include "celluloid-marshal.h"
-#include "celluloid-mpv-wrapper.h"
+#include "celluloid-mpv.h"
 #include "celluloid-option-parser.h"
 #include "celluloid-def.h"
 

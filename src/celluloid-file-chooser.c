@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 gnome-mpv
+ * Copyright (c) 2017-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -40,7 +40,10 @@ load_last_folder(GtkFileChooser *chooser)
 
 	if(uri && *uri)
 	{
-		gtk_file_chooser_set_current_folder_uri(chooser, uri);
+		GFile *folder = g_file_new_for_uri(uri);
+
+		gtk_file_chooser_set_current_folder(chooser, folder, NULL);
+		g_object_unref(folder);
 	}
 
 	g_free(uri);
@@ -50,13 +53,15 @@ load_last_folder(GtkFileChooser *chooser)
 static void
 save_last_folder(GtkFileChooser *chooser)
 {
-	gchar *uri = gtk_file_chooser_get_current_folder_uri(chooser);
+	GFile *folder = gtk_file_chooser_get_current_folder(chooser);
+	gchar *uri = g_file_get_uri(folder);
 	GSettings *win_config = g_settings_new(CONFIG_WIN_STATE);
 
 	g_settings_set_string(win_config, "last-folder-uri", uri?:"");
 
-	g_free(uri);
 	g_object_unref(win_config);
+	g_free(uri);
+	g_object_unref(folder);
 }
 
 static void
@@ -101,15 +106,12 @@ celluloid_file_chooser_new(	const gchar *title,
 		load_last_folder(GTK_FILE_CHOOSER(chooser));
 	}
 
-	if(	action != GTK_FILE_CHOOSER_ACTION_SAVE &&
-		action != GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER )
+	if(action != GTK_FILE_CHOOSER_ACTION_SAVE)
 	{
 		gtk_file_chooser_set_select_multiple(gtk_chooser, TRUE);
 	}
 
 	celluloid_file_chooser_set_modal(chooser, TRUE);
-	gtk_file_chooser_set_local_only(gtk_chooser, FALSE);
-	gtk_file_chooser_set_do_overwrite_confirmation(gtk_chooser, TRUE);
 
 	g_signal_connect(chooser, "response", G_CALLBACK(response_handler), NULL);
 
@@ -126,11 +128,14 @@ celluloid_file_chooser_set_default_filters(	CelluloidFileChooser *chooser,
 						gboolean subtitle )
 {
 	GtkFileChooser *gtk_chooser = GTK_FILE_CHOOSER(chooser);
-	GSList *filters = gtk_file_chooser_list_filters(gtk_chooser);
+	GListModel *filters = gtk_file_chooser_get_filters(gtk_chooser);
+	const guint filters_count = g_list_model_get_n_items(filters);
 
-	for(GSList *iter = filters; iter; iter = g_slist_next(iter))
+	for(guint i = 0; i < filters_count; i++)
 	{
-		gtk_file_chooser_remove_filter(gtk_chooser, iter->data);
+		GtkFileFilter *filter = g_list_model_get_item(filters, i);
+
+		gtk_file_chooser_remove_filter(gtk_chooser, filter);
 	}
 
 	if(audio || video || image || subtitle)
@@ -199,5 +204,5 @@ celluloid_file_chooser_set_default_filters(	CelluloidFileChooser *chooser,
 		}
 	}
 
-	g_slist_free(filters);
+	g_object_unref(filters);
 }

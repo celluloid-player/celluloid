@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -23,16 +23,6 @@
 
 #include "celluloid-shortcuts-window.h"
 
-struct _CelluloidShortcutsWindow
-{
-	GtkShortcutsWindow parent;
-};
-
-struct _CelluloidShortcutsWindowClass
-{
-	GtkShortcutsWindowClass parent_class;
-};
-
 struct ShortcutEntry
 {
 	const gchar *accel;
@@ -47,8 +37,7 @@ struct ShortcutGroup
 
 typedef struct ShortcutEntry ShortcutEntry;
 typedef struct ShortcutGroup ShortcutGroup;
-
-G_DEFINE_TYPE(CelluloidShortcutsWindow, celluloid_shortcuts_window, GTK_TYPE_SHORTCUTS_WINDOW)
+typedef GtkShortcutsWindow CelluloidShortcutsWindow;
 
 static void
 celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
@@ -135,49 +124,62 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{_("Seeking"), seeking},
 			{_("Playlist"), playlist},
 			{NULL, NULL} };
-	GtkWidget *section =	g_object_new
-				(	gtk_shortcuts_section_get_type(),
-					"section-name", "shortcuts",
-					"visible", TRUE,
-					NULL );
+	GObject *section =
+		g_object_new
+		(	gtk_shortcuts_section_get_type(),
+			"section-name", "shortcuts",
+			"visible", TRUE,
+			NULL );
 
 	for(gint i  = 0; groups[i].title; i++)
 	{
-		const ShortcutEntry *entries = groups[i].entries;
-		GtkWidget *group =	g_object_new
-					(	gtk_shortcuts_group_get_type(),
-						"title", groups[i].title,
-						NULL );
+		const ShortcutEntry *entries =
+			groups[i].entries;
+		GObject *group =
+			g_object_new
+			(	gtk_shortcuts_group_get_type(),
+				"title", groups[i].title,
+				NULL );
 
 		for(gint j  = 0; entries[j].accel; j++)
 		{
-			GtkWidget *entry;
-
-			entry =	g_object_new
+			GObject *entry =
+				g_object_new
 				(	gtk_shortcuts_shortcut_get_type(),
 					"accelerator", entries[j].accel,
 					"title", entries[j].title,
 					NULL );
 
-			gtk_container_add(GTK_CONTAINER(group), entry);
+			GTK_BUILDABLE_GET_IFACE(group)->
+				add_child(	GTK_BUILDABLE(group),
+						NULL,
+						entry,
+						"GtkShortcutsEntry" );
 		}
 
-		gtk_container_add(GTK_CONTAINER(section), group);
+		GTK_BUILDABLE_GET_IFACE(section)->
+			add_child(	GTK_BUILDABLE(section),
+					NULL,
+					group,
+					"GtkShortcutsGroup" );
 	}
 
-	gtk_container_add(GTK_CONTAINER(wnd), section);
-}
-
-static void
-celluloid_shortcuts_window_class_init(CelluloidShortcutsWindowClass *klass)
-{
+	GTK_BUILDABLE_GET_IFACE(wnd)->
+		add_child(	GTK_BUILDABLE(wnd),
+				NULL,
+				section,
+				"GtkShortcutsSection" );
 }
 
 GtkWidget *
 celluloid_shortcuts_window_new(GtkWindow *parent)
 {
-	return GTK_WIDGET(g_object_new(	celluloid_shortcuts_window_get_type(),
-					"transient-for", parent,
-					"modal", TRUE,
-					NULL));
+	GtkWidget *result = GTK_WIDGET(g_object_new(	gtk_shortcuts_window_get_type(),
+							"transient-for", parent,
+							"modal", TRUE,
+							NULL));
+
+	celluloid_shortcuts_window_init(CELLULOID_SHORTCUTS_WINDOW(result));
+
+	return result;
 }
