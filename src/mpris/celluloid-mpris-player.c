@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 gnome-mpv
+ * Copyright (c) 2015-2019, 2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -405,27 +405,30 @@ method_handler(	GDBusConnection *connection,
 
 	if(g_strcmp0(method_name, "Next") == 0)
 	{
-		celluloid_model_key_press(model, "NEXT");
+		celluloid_model_next_playlist_entry(model);
 	}
 	else if(g_strcmp0(method_name, "Previous") == 0)
 	{
-		celluloid_model_key_press(model, "PREV");
+		celluloid_model_previous_playlist_entry(model);
 	}
 	else if(g_strcmp0(method_name, "Pause") == 0)
 	{
-		celluloid_model_key_press(model, "PAUSE");
+		celluloid_model_pause(model);
 	}
 	else if(g_strcmp0(method_name, "PlayPause") == 0)
 	{
-		celluloid_model_key_press(model, "PLAYPAUSE");
+		gboolean pause = FALSE;
+
+		g_object_get(model, "pause", &pause, NULL);
+		g_object_set(model, "pause", !pause, NULL);
 	}
 	else if(g_strcmp0(method_name, "Stop") == 0)
 	{
-		celluloid_model_key_press(model, "STOP");
+		celluloid_model_stop(model);
 	}
 	else if(g_strcmp0(method_name, "Play") == 0)
 	{
-		celluloid_model_key_press(model, "PLAY");
+		celluloid_model_play(model);
 	}
 	else if(g_strcmp0(method_name, "Seek") == 0)
 	{
