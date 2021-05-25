@@ -370,7 +370,6 @@ celluloid_metadata_cache_lookup(	CelluloidMetadataCache *cache,
 				= g_idle_add((GSourceFunc)fetch_metadata, cache);
 		}
 
-		printf("Adding %s to fetch queue\n", uri);
 		g_queue_push_head(cache->fetch_queue, g_strdup(uri));
 	}
 
