@@ -418,7 +418,7 @@ initialize(CelluloidMpv *mpv)
 		g_info("Forcing --vo=null");
 		mpv_set_option_string(priv->mpv_ctx, "vo", "null");
 	}
-	else if(priv->wid < 0)
+	else
 	{
 		g_info("Forcing --vo=libmpv");
 		mpv_set_option_string(priv->mpv_ctx, "vo", "libmpv");
