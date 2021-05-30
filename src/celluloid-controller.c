@@ -492,8 +492,6 @@ file_open_handler(	CelluloidView *view,
 		GFile *file = g_list_model_get_item(files, i);
 		gchar *uri = g_file_get_uri(file);
 
-		printf("MODEL OPEN: %s %d\n", uri, append || i > 0);
-
 		celluloid_model_load_file(model, uri, append || i > 0);
 
 		g_free(uri);
