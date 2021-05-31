@@ -246,6 +246,14 @@ constructed(GObject *object)
 	celluloid_controller_input_connect_signals(controller);
 	update_extra_mpv_options(controller);
 
+	// If the window is already realized at this point (happens on X11), the
+	// ready signal will never fire. Because of this, we need to manually
+	// call view_ready_handler() to ensure that the model gets initialized.
+	if(gtk_widget_get_realized(GTK_WIDGET(window)))
+	{
+		view_ready_handler(controller->view, controller);
+	}
+
 	gtk_widget_add_controller(GTK_WIDGET(window), controller->key_controller);
 	gtk_widget_show(GTK_WIDGET(window));
 
