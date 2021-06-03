@@ -1759,7 +1759,7 @@ celluloid_view_update_playlist(CelluloidView *view, GPtrArray *playlist)
 void
 celluloid_view_set_playlist_pos(CelluloidView *view, gint64 pos)
 {
-	g_object_set(view, "playlist-pos", pos, NULL);
+	g_object_set(view, "playlist-pos", (gint)pos, NULL);
 }
 
 void
