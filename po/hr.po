@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2021-05-08 14:32+0000\n"
+"PO-Revision-Date: 2021-06-05 15:32+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/hr/>\n"
@@ -25,7 +25,7 @@ msgstr "Jesu li postavke već migrirane iz prijašnje inačice"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
-msgstr "Automatski prilagodi prozor na video veličinu"
+msgstr "Automatski prilagodi veličinu prozora veličini videa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable dark theme"
@@ -33,11 +33,11 @@ msgstr "Omogući tamnu temu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
-msgstr "Omogući ukrase klijenta"
+msgstr "Omogući dizajn klijenta"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr "Koristi lebdeća upravljanja u prozorskom načinu prikaza"
+msgstr "Koristi lebdeće upravljačke gumbove u prozorskom načinu prikaza"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
@@ -46,8 +46,8 @@ msgstr "Automatski sakrij pokazivač miša u modusu prozora"
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr ""
-"Najmanja brzina pokazivača miša pri kojoj će lebdeće upravljanje biti "
-"prikazano."
+"Najmanja brzina pokazivača miša pri kojoj će lebdeći upravljački gumbovi "
+"biti vidljivi."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
@@ -106,7 +106,7 @@ msgstr "Zanemari greške reprodukcije"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Onemogući stanje mirovanja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -122,11 +122,11 @@ msgstr "Treba li uvećati prozor"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:161
 msgid "Volume of player"
-msgstr "Glasnoća zvuka reporduktora"
+msgstr "Glasnoća reproduktora"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Whether or not to loop when the end of playlist is reached"
-msgstr "Treba li ponovno pokrenuti popis izvođenja kada je dosegnut kraj"
+msgstr "Da li početi ispočetka kad se dosegne kraj popisa izvođenja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Width of the playlist"
@@ -134,11 +134,11 @@ msgstr "Širina popisa izvođenja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Show or not show the controls"
-msgstr "Treba li prikazati upravljanja"
+msgstr "Prikazati ili ne prikazati upravljačke gumbove"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:185
 msgid "Show or not show the playlist"
-msgstr "Prikazuj ili ne prikazuj popis izvođenja"
+msgstr "Prikazati ili ne prikazati popis izvođenja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:191
 msgid "URI of the last folder accessed"
@@ -152,7 +152,7 @@ msgstr "Celuloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
 msgid "GTK+ frontend for mpv"
-msgstr "GTK+ grafičko korisničko sučelje za mpv"
+msgstr "GTK+ sučelje za mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -162,11 +162,11 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celuloid je jednostavan medijski reproduktor koji može reproducirati "
-"virtualno sve video i zvučne formate. Podržava popise izvođenja i MPRIS2 "
-"medijsko upravljanje reprodukcijom. Dizajn Celuloida slijedi smjernice GNOME"
-" Human sučelja , ali isto tako može biti prilagođen za druge sustave koji ne"
-" koriste ukrase od strane klijenta (CSD). Temelji se na mpv biblioteci i "
+"Celuloid je jednostavan medijski reproduktor koji reproducira gotovo sve "
+"video i audio formate. Podržava popise izvođenja i upravljačke gumbove "
+"MPRIS2 playera medija. Dizajn Celuloida slijedi smjernice GNOME Human "
+"sučelja , ali isto tako može biti prilagođen za druge sustave koji ne "
+"koriste ukrase od strane klijenta (CSD). Temelji se na mpv biblioteci i "
 "GTK-u."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
@@ -187,7 +187,7 @@ msgstr "MPRIS2 D-Bus sučelje"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:30
 msgid "The Celluloid Developers"
-msgstr "Celuloid razvijatelji"
+msgstr "Celuloid programeri"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
@@ -201,7 +201,7 @@ msgstr "Ovo izdanje sadrži sljedeće promjene:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Make it possible to activate context menu when the playlist is empty."
-msgstr ""
+msgstr "Omogući aktiviranje konteksnog izbornika kad je popis izvođenja prazan."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid ""
@@ -217,7 +217,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
 msgid "Add menu item for opening folders."
-msgstr ""
+msgstr "Dodaj element izbornika za otvaranje mapa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid ""
@@ -231,11 +231,13 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:59
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Omogući uključivanje/isključivanje miješanja popisa izvođenja."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr ""
+"Tipke sa strelicama funkcioniraju s tipkama sa strelicama na brojčanoj "
+"tastaturi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
@@ -270,7 +272,7 @@ msgstr "Implemetirana je pretraga popisa izvođenja."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr "Nadopunjen je popis prečaca u dijalogu prečaca tipkovnice."
+msgstr "Nadopunjen je popis prečaca u dijalogu tipkovnih prečaca."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
@@ -299,8 +301,8 @@ msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
-"Dodana je mogućnost podešavanja mrtve zone, područje u kojemu pomicanje miša"
-" neće pokrenuti prikazivanje kontrola."
+"Dodana je mogućnost podešavanja mrtve zone, područje u kojemu pomicanje miša "
+"neće prouzročiti prikazivanje upravljačkih gumbova."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:109
 msgid "Make window sizing work correctly with HiDPI displays."
@@ -368,18 +370,18 @@ msgstr "Rukovanje brojčanim prečacima"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:175
 msgid "Handle unicode keybindings"
-msgstr "Rukovanje unikôdnim prečacima"
+msgstr "Rukovanje unikodnim prečacima"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:178
 msgid "Forward media key events to mpv"
-msgstr "Proslijeđivanje događaja medijske tipke u mpv"
+msgstr "Prosljeđivanje događaja medijske tipke u mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:181
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
-"Dodan je dconf izraz za upravljanje brzinom pokazivača miša kada se "
-"upravljanja prikažu"
+"Dodan je dconf ključ za upravljanje brzinom pokazivača miša pri kojoj su "
+"upravljački gumbovi vidljivi"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid "Add option for suppressing playback errors"
@@ -627,7 +629,7 @@ msgstr "_Otvori…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr ""
+msgstr "Otvori _mapu …"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -675,7 +677,7 @@ msgstr "_Pogled"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:287
 msgid "_Toggle Controls"
-msgstr "Uklj/Isklj _upravljanja"
+msgstr "Uklj/Isklj _upravljačke gumbove"
 
 #: src/celluloid-menu.c:250 src/celluloid-menu.c:289
 msgid "_Toggle Playlist"
@@ -737,7 +739,7 @@ msgstr "_Dodaj…"
 
 #: src/celluloid-playlist-widget.c:790
 msgid "Add _Folder…"
-msgstr ""
+msgstr "Dodaj _mapu …"
 
 #: src/celluloid-playlist-widget.c:791
 msgid "Add _Location…"
@@ -804,15 +806,15 @@ msgstr "Neuspjelo brisanje datoteke '%s'. Razlog: %s"
 
 #: src/celluloid-preferences-dialog.c:341
 msgid "mpv configuration file:"
-msgstr ""
+msgstr "Konfiguracijska datoteka mpv-a:"
 
 #: src/celluloid-preferences-dialog.c:347
 msgid "mpv input configuration file:"
-msgstr ""
+msgstr "Konfiguracijska datoteka mpv unosa:"
 
 #: src/celluloid-preferences-dialog.c:367
 msgid "Extra mpv options:"
-msgstr ""
+msgstr "Dodatne mpv opcije:"
 
 #: src/celluloid-preferences-dialog.c:400
 msgid "Interface"
@@ -860,7 +862,7 @@ msgstr "Prikaži dijalog osobitosti"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Toggle controls"
-msgstr "Uklj/Isklj upravljanja"
+msgstr "Uklj/Isklj upravljačke gumbove"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Toggle playlist"
@@ -1117,11 +1119,11 @@ msgstr ""
 
 #: src/celluloid-view.c:1444
 msgid "Add Folder to Playlist"
-msgstr ""
+msgstr "Dodaj mapu u popis izvođenja"
 
 #: src/celluloid-view.c:1444
 msgid "Open Folder"
-msgstr ""
+msgstr "Otvori mapu"
 
 #: src/celluloid-view.c:1449
 msgid "Add File to Playlist"

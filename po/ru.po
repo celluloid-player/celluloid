@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-20 20:48+0700\n"
-"PO-Revision-Date: 2021-04-26 15:31+0000\n"
-"Last-Translator: Nikita Epifanov <nikgreens@protonmail.com>\n"
+"PO-Revision-Date: 2021-05-27 03:33+0000\n"
+"Last-Translator: Axus Wizix <axus.wizix@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ru/>\n"
 "Language: ru\n"
@@ -108,7 +108,7 @@ msgstr "Игнорировать ошибки воспроизведения"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Запретить холостой ход сессии"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:142
 msgid "Width of the window"
@@ -137,7 +137,7 @@ msgstr "Ширина списка воспроизведения"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Show or not show the controls"
-msgstr "Показать или не показывать элементы управления"
+msgstr "Показать или скрыть элементы управления"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:185
 msgid "Show or not show the playlist"
@@ -165,7 +165,7 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid - это простой медиа плеет, который способен воспроизводить "
+"Celluloid - это простой медиа плеер, который способен воспроизводить "
 "практически все видео и аудио форматы. Он поддерживает списки "
 "воспроизведения и управление плеером через MPRIS2. Дизайн Celluloid "
 "соответствует GNOME HIG, но также может быть адаптирован для других систем, "
@@ -361,7 +361,7 @@ msgstr "Добавлен турецкий перевод от @TeknoMobil"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Add Esperanto translation by @F3nd0"
-msgstr "Добавлен перевод на эсперанто от @F3nd0."
+msgstr "Добавлен перевод на эсперанто от @F3nd0"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Migrate from opengl-cb to the new render API"
@@ -377,16 +377,18 @@ msgstr "Обработка сочетаний клавиш в кодировке
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:178
 msgid "Forward media key events to mpv"
-msgstr "Проброска событий от медиа клавиш в mpv"
+msgstr "Передача событий от медиа клавиш в mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:181
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
+"Добавлен ключ dconf для управления скоростью курсора, при которой элементы "
+"управления не скрываются"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid "Add option for suppressing playback errors"
-msgstr "Добавлена возможность игнорировать ошибки воспроизведения"
+msgstr "Добавлена возможность игнорирования ошибок при воспроизведении"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:199
 msgid "Split up the General tab in the preferences dialog"
@@ -415,6 +417,8 @@ msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Добавьте параметр --mpv-options для установки произвольных параметров mpv из "
+"командной строки"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:230
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
@@ -464,6 +468,7 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
+"Обработка событий изменения свойств для полноэкранного и оконного масштаба"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:271
 msgid "Add option to autohide mouse cursor in windowed mode"
@@ -1011,7 +1016,7 @@ msgstr "Переместить субтитры вверх/вниз"
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr ""
+msgstr "Переключить режим совместимости аспектов с VSFilter"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Cycle through video tracks"
