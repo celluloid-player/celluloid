@@ -59,6 +59,9 @@ get_property(	GObject *object,
 		GParamSpec *pspec );
 
 static void
+finalize(GObject *object);
+
+static void
 clicked(GtkButton *button);
 
 static void
@@ -119,6 +122,19 @@ get_property(	GObject *object,
 }
 
 static void
+finalize(GObject *object)
+{
+	CelluloidFileChooserButton *button = CELLULOID_FILE_CHOOSER_BUTTON(object);
+
+	gtk_window_destroy(GTK_WINDOW(button->dialog));
+	g_clear_object(&button->file);
+	g_clear_object(&button->title);
+
+	G_OBJECT_CLASS(celluloid_file_chooser_button_parent_class)
+		->finalize(object);
+}
+
+static void
 clicked(GtkButton *button)
 {
 	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(button);
@@ -172,6 +188,7 @@ celluloid_file_chooser_button_class_init(CelluloidFileChooserButtonClass *klass)
 
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
+	object_class->finalize = finalize;
 	button_class->clicked = clicked;
 
 	GParamSpec *pspec = NULL;
