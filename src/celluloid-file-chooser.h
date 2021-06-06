@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2019, 2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -29,7 +29,6 @@ G_BEGIN_DECLS
 #define celluloid_file_chooser_destroy(x) gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(x))
 #define celluloid_file_chooser_show(x) gtk_native_dialog_show(GTK_NATIVE_DIALOG(x))
 #define celluloid_file_chooser_set_modal(x, y) gtk_native_dialog_set_modal(GTK_NATIVE_DIALOG(x), y)
-#define celluloid_file_chooser_run(x) gtk_native_dialog_run(GTK_NATIVE_DIALOG(x))
 
 CelluloidFileChooser *
 celluloid_file_chooser_new(	const gchar *title,
