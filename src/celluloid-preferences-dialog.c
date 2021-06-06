@@ -450,7 +450,6 @@ celluloid_preferences_dialog_new(GtkWindow *parent)
 			(GTK_HEADER_BAR(header_bar), FALSE);
 	}
 
-	gtk_window_set_hide_on_close(GTK_WINDOW(dlg), TRUE);
 	gtk_widget_show(dlg);
 
 	return dlg;
