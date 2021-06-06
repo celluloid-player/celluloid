@@ -91,8 +91,6 @@ response_handler(GtkDialog *dialog, gint response_id)
 	{
 		g_settings_revert(dlg->settings);
 	}
-
-	g_object_unref(dlg->settings);
 }
 
 static gboolean
@@ -311,10 +309,22 @@ preferences_dialog_constructed(GObject *obj)
 }
 
 static void
+finalize(GObject *object)
+{
+	CelluloidPreferencesDialog *dialog = CELLULOID_PREFERENCES_DIALOG(object);
+
+	g_clear_object(&dialog->settings);
+
+	G_OBJECT_CLASS(celluloid_preferences_dialog_parent_class)
+		->finalize(object);
+}
+
+static void
 celluloid_preferences_dialog_class_init(CelluloidPreferencesDialogClass *klass)
 {
 	GTK_DIALOG_CLASS(klass)->response = response_handler;
 	G_OBJECT_CLASS(klass)->constructed = preferences_dialog_constructed;
+	G_OBJECT_CLASS(klass)->finalize = finalize;
 }
 
 static void
