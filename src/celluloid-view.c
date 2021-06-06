@@ -546,7 +546,8 @@ load_css(CelluloidView *view)
 {
 	const gchar *style =
 		"celluloid-video-area { background-color: black; }"
-		".dialog-action-box { margin-right: 12px; }";
+		".dialog-action-area { margin: -12px 12px 12px 0px; }"
+		".dialog-action-area > button { margin-left: 12px; }";
 	GtkCssProvider *style_provider =
 		gtk_css_provider_new();
 
