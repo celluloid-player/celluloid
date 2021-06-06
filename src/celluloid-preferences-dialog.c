@@ -313,12 +313,8 @@ preferences_dialog_constructed(GObject *obj)
 static void
 celluloid_preferences_dialog_class_init(CelluloidPreferencesDialogClass *klass)
 {
-	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
-
 	GTK_DIALOG_CLASS(klass)->response = response_handler;
 	G_OBJECT_CLASS(klass)->constructed = preferences_dialog_constructed;
-
-	gtk_widget_class_set_css_name(wid_class, "celluloid-preferences-dialog");
 }
 
 static void
