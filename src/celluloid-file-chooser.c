@@ -121,6 +121,13 @@ celluloid_file_chooser_new(	const gchar *title,
 }
 
 void
+celluloid_file_chooser_destroy(CelluloidFileChooser *chooser)
+{
+	gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(chooser));
+	g_object_unref(chooser);
+}
+
+void
 celluloid_file_chooser_set_default_filters(	CelluloidFileChooser *chooser,
 						gboolean audio,
 						gboolean video,

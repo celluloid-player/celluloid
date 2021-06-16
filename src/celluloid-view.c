@@ -820,7 +820,7 @@ open_dialog_response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 		}
 	}
 
-	celluloid_file_chooser_destroy(dialog);
+	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
 
 	g_free(append);
 	g_ptr_array_free(args, TRUE);

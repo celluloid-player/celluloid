@@ -26,7 +26,6 @@ G_BEGIN_DECLS
 
 #define CELLULOID_FILE_CHOOSER GTK_FILE_CHOOSER_NATIVE
 #define CelluloidFileChooser GtkFileChooserNative
-#define celluloid_file_chooser_destroy(x) gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(x))
 #define celluloid_file_chooser_show(x) gtk_native_dialog_show(GTK_NATIVE_DIALOG(x))
 #define celluloid_file_chooser_set_modal(x, y) gtk_native_dialog_set_modal(GTK_NATIVE_DIALOG(x), y)
 
@@ -34,6 +33,10 @@ CelluloidFileChooser *
 celluloid_file_chooser_new(	const gchar *title,
 				GtkWindow *parent,
 				GtkFileChooserAction action );
+
+void
+celluloid_file_chooser_destroy(CelluloidFileChooser *chooser);
+
 void
 celluloid_file_chooser_set_default_filters(	CelluloidFileChooser *chooser,
 						gboolean audio,
