@@ -242,6 +242,8 @@ celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 
 	gtk_window_set_modal
 		(GTK_WINDOW(self->dialog), TRUE);
+	gtk_window_set_hide_on_close
+		(GTK_WINDOW(self->dialog), TRUE);
 	gtk_dialog_set_default_response
 		(GTK_DIALOG(self->dialog), GTK_RESPONSE_ACCEPT);
 
