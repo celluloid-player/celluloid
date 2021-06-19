@@ -23,6 +23,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#define gtk_widget_get_surface(x) \
+	gtk_native_get_surface(gtk_widget_get_native(GTK_WIDGET(x)))
+
 G_BEGIN_DECLS
 
 typedef enum TrackType TrackType;
