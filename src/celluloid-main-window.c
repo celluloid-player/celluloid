@@ -209,8 +209,7 @@ resize_video_area_finalize(	GtkWidget *widget,
 {
 	CelluloidMainWindow *wnd = data;
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
-	GtkNative *native = gtk_widget_get_native(GTK_WIDGET(data));
-	GdkSurface *surface = gtk_native_get_surface(native);
+	GdkSurface *surface = gtk_widget_get_surface(data);
 	GdkDisplay *display = gdk_display_get_default();
 	GdkMonitor *monitor = gdk_display_get_monitor_at_surface(display, surface);
 	GdkRectangle monitor_geom = {0};
