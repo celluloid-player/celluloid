@@ -78,8 +78,7 @@ static GdkRectangle
 get_monitor_geometry(CelluloidMainWindow *window)
 {
 	GdkRectangle result;
-	GtkNative *native =	gtk_widget_get_native(GTK_WIDGET(window));
-	GdkSurface *surface =	gtk_native_get_surface(native);
+	GdkSurface *surface =	gtk_widget_get_surface(window);
 	gint scale_factor = 	gdk_surface_get_scale_factor(surface);
 	GdkDisplay *display =	gdk_surface_get_display(surface);
 	GdkMonitor *monitor =	gdk_display_get_monitor_at_surface
