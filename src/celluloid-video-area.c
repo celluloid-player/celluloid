@@ -493,6 +493,12 @@ celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 	gtk_widget_set_visible(area->control_box_revealer, visible);
 }
 
+gboolean
+celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area)
+{
+	return gtk_widget_get_visible(area->control_box_revealer);
+}
+
 void
 celluloid_video_area_set_use_opengl(	CelluloidVideoArea *area,
 					gboolean use_opengl )

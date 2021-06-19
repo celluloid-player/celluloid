@@ -1084,18 +1084,14 @@ fullscreen_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	CelluloidMainWindow *window = celluloid_view_get_main_window(view);
 	GActionMap *map = G_ACTION_MAP(window);
 	GAction *toggle_playlist = NULL;
-	GAction *toggle_controls = NULL;
 	gboolean fullscreen = FALSE;
 
 	toggle_playlist = g_action_map_lookup_action(map, "toggle-playlist");
-	toggle_controls = g_action_map_lookup_action(map, "toggle-controls");
 
 	g_object_get(view, "fullscreen", &fullscreen, NULL);
 
 	g_simple_action_set_enabled
 		(G_SIMPLE_ACTION(toggle_playlist), !fullscreen);
-	g_simple_action_set_enabled
-		(G_SIMPLE_ACTION(toggle_controls), !fullscreen);
 }
 
 static void

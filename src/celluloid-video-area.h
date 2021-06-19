@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 gnome-mpv
+ * Copyright (c) 2016-2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -49,6 +49,9 @@ celluloid_video_area_set_fullscreen_state(	CelluloidVideoArea *area,
 void
 celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 						gboolean visible );
+
+gboolean
+celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area);
 
 void
 celluloid_video_area_set_use_opengl(	CelluloidVideoArea *area,
