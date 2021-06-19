@@ -553,8 +553,7 @@ load_css(CelluloidView *view)
 
 	gtk_css_provider_load_from_data(style_provider, style, -1);
 
-	GtkNative *native = gtk_widget_get_native(GTK_WIDGET(view));
-	GdkSurface *surface = gtk_native_get_surface(native);
+	GdkSurface *surface = gtk_widget_get_surface(view);
 
 	if(surface)
 	{
@@ -735,8 +734,7 @@ static void
 update_display_fps(CelluloidView *view)
 {
 	GtkWidget *wnd = GTK_WIDGET(view);
-	GtkNative *native = gtk_widget_get_native(wnd);
-	GdkSurface *surface = gtk_native_get_surface(native);
+	GdkSurface *surface = gtk_widget_get_surface(wnd);
 	GdkFrameClock *frame_clock = gdk_surface_get_frame_clock(surface);
 
 	view->display_fps = gdk_frame_clock_get_fps(frame_clock);
@@ -984,8 +982,7 @@ save_playlist_response_handler(	GtkDialog *dialog,
 static void
 realize_handler(GtkWidget *widget, gpointer data)
 {
-	GtkNative *native = gtk_widget_get_native(widget);
-	GdkSurface *surface = gtk_native_get_surface(native);
+	GdkSurface *surface = gtk_widget_get_surface(widget);
 
 	load_css(CELLULOID_VIEW(widget));
 	update_display_fps(CELLULOID_VIEW(widget));
@@ -1682,8 +1679,7 @@ celluloid_view_set_use_opengl_cb(CelluloidView *view, gboolean use_opengl_cb)
 gint
 celluloid_view_get_scale_factor(CelluloidView *view)
 {
-	GtkNative *native = gtk_widget_get_native(GTK_WIDGET(view));
-	GdkSurface *surface = gtk_native_get_surface(native);
+	GdkSurface *surface = gtk_widget_get_surface(view);
 
 	return gdk_surface_get_scale_factor(surface);
 }
