@@ -166,8 +166,7 @@ initialize_gui(CelluloidApplication *app)
 	app->controllers = g_slist_prepend(app->controllers, controller);
 
 	#ifdef GDK_WINDOWING_X11
-	GtkNative *native = gtk_widget_get_native(GTK_WIDGET(window));
-	GdkSurface *surface = gtk_native_get_surface(native);
+	GdkSurface *surface = gtk_widget_get_surface(window);
 	GdkDisplay *display = gdk_surface_get_display(surface);
 
 	if(app->role && GDK_IS_X11_DISPLAY(display))
