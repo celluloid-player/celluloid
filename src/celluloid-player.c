@@ -764,9 +764,14 @@ load_config_file(CelluloidMpv *mpv)
 		gchar *mpv_conf =	g_settings_get_string
 					(settings, "mpv-config-file");
 
-		g_info("Loading config file: %s", mpv_conf);
-		celluloid_mpv_load_config_file(mpv, mpv_conf);
+		GFile *file = g_file_new_for_uri(mpv_conf);
+		gchar *path = g_file_get_path(file);
 
+		g_info("Loading config file: %s", path);
+		celluloid_mpv_load_config_file(mpv, path);
+
+		g_free(path);
+		g_object_unref(file);
 		g_free(mpv_conf);
 	}
 
