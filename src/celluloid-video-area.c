@@ -92,12 +92,10 @@ destroy_handler(GtkWidget *widget, gpointer data)
 static void
 set_cursor_visible(CelluloidVideoArea *area, gboolean visible)
 {
-	GtkNative *native;
 	GdkSurface *surface;
 	GdkCursor *cursor;
 
-	native = gtk_widget_get_native(GTK_WIDGET(area));
-	surface = gtk_native_get_surface(native);
+	surface = gtk_widget_get_surface(area);
 
 	if(visible)
 	{
@@ -190,8 +188,7 @@ motion_handler(	GtkEventControllerMotion *controller,
 	if(speed >= unhide_speed)
 	{
 		GdkCursor *cursor = gdk_cursor_new_from_name("default", NULL);
-		GtkNative *native = gtk_widget_get_native(widget);
-		GdkSurface *surface = gtk_native_get_surface(native);
+		GdkSurface *surface = gtk_widget_get_surface(widget);
 
 		gdk_surface_set_cursor(surface, cursor);
 
@@ -542,7 +539,6 @@ celluloid_video_area_get_xid(CelluloidVideoArea *area)
 	if(GDK_IS_X11_DISPLAY(gdk_display_get_default()))
 	{
 		GtkWidget *parent = gtk_widget_get_parent(GTK_WIDGET(area));
-		GtkNative *native = gtk_widget_get_native(GTK_WIDGET(area));
 		GdkSurface *surface = NULL;
 
 		if(parent && !gtk_widget_get_realized(area->draw_area))
@@ -550,7 +546,7 @@ celluloid_video_area_get_xid(CelluloidVideoArea *area)
 			gtk_widget_realize(area->draw_area);
 		}
 
-		surface = gtk_native_get_surface(native);
+		surface = gtk_widget_get_surface(area);
 
 		if(!surface)
 		{
