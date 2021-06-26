@@ -49,24 +49,24 @@ entry_activate_handler(GtkEntry *self, gpointer data)
 	gtk_dialog_response(GTK_DIALOG(data), GTK_RESPONSE_ACCEPT);
 }
 
-static GdkClipboard *
-get_clipboard(CelluloidOpenLocationDialog *dlg)
+static GPtrArray *
+get_clipboards(CelluloidOpenLocationDialog *dlg)
 {
 	GdkClipboard *clipboards[] =
 		{	gtk_widget_get_clipboard(GTK_WIDGET(dlg)),
 			gtk_widget_get_primary_clipboard(GTK_WIDGET(dlg)),
 			NULL };
 
-	GdkClipboard *result = NULL;
+	GPtrArray *result = g_ptr_array_new();
 
-	for(gint i = 0; !result && clipboards[i]; i++)
+	for(gint i = 0; clipboards[i]; i++)
 	{
 		GdkContentFormats *formats =
 			gdk_clipboard_get_formats(clipboards[i]);
 
 		if(gdk_content_formats_contain_mime_type(formats, "text/plain"))
 		{
-			result = clipboards[i];
+			g_ptr_array_add(result, clipboards[i]);
 		}
 	}
 
@@ -84,6 +84,7 @@ clipboard_text_received_handler(	GObject *object,
 
 	if(	text &&
 		*text &&
+		celluloid_open_location_dialog_get_string_length(dlg) == 0 &&
 		(g_path_is_absolute(text) || strstr(text, "://") != NULL) )
 	{
 		GtkEntryBuffer *buffer;
@@ -100,15 +101,19 @@ clipboard_text_received_handler(	GObject *object,
 static void
 load_text_from_clipboard(CelluloidOpenLocationDialog *dlg)
 {
-	GdkClipboard *clipboard = get_clipboard(dlg);
+	GPtrArray *clipboards = get_clipboards(dlg);
 
-	if(clipboard)
+	for(guint i = 0; i < clipboards->len; i++)
 	{
+		GdkClipboard *clipboard = g_ptr_array_index(clipboards, i);
+
 		g_object_ref(dlg);
 
 		gdk_clipboard_read_text_async
 			(clipboard, NULL, clipboard_text_received_handler, dlg);
 	}
+
+	g_ptr_array_free(clipboards, FALSE);
 }
 
 static void
