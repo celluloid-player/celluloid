@@ -125,9 +125,6 @@ show_message_dialog(	CelluloidView *view,
 			const gchar *msg );
 
 static void
-update_display_fps(CelluloidView *view);
-
-static void
 show_open_track_dialog(CelluloidView  *view, TrackType type);
 
 /* Dialog responses */
@@ -179,9 +176,6 @@ drop_handler(	GtkDropTargetAsync *self,
 
 static gboolean
 notify_fullscreened_handler(GObject *gobject, GParamSpec *pspec, gpointer data);
-
-static void
-enter_monitor_handler(GdkSurface *surface, GdkMonitor *monitor, gpointer data);
 
 static gboolean
 close_request_handler(GtkWidget *widget, gpointer data);
@@ -731,17 +725,6 @@ show_message_dialog(	CelluloidView *view,
 }
 
 static void
-update_display_fps(CelluloidView *view)
-{
-	GtkWidget *wnd = GTK_WIDGET(view);
-	GdkSurface *surface = gtk_widget_get_surface(wnd);
-	GdkFrameClock *frame_clock = gdk_surface_get_frame_clock(surface);
-
-	view->display_fps = gdk_frame_clock_get_fps(frame_clock);
-	g_object_notify(G_OBJECT(view), "display-fps");
-}
-
-static void
 show_open_track_dialog(CelluloidView  *view, TrackType type)
 {
 	const gchar *title = NULL;
@@ -982,15 +965,7 @@ save_playlist_response_handler(	GtkDialog *dialog,
 static void
 realize_handler(GtkWidget *widget, gpointer data)
 {
-	GdkSurface *surface = gtk_widget_get_surface(widget);
-
 	load_css(CELLULOID_VIEW(widget));
-	update_display_fps(CELLULOID_VIEW(widget));
-
-	g_signal_connect(	surface,
-				"enter-monitor",
-				G_CALLBACK(enter_monitor_handler),
-				widget );
 
 	g_signal_emit_by_name(CELLULOID_VIEW(widget), "ready");
 }
@@ -1058,12 +1033,6 @@ notify_fullscreened_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 	g_object_notify(data, "fullscreen");
 
 	return FALSE;
-}
-
-static void
-enter_monitor_handler(GdkSurface *surface, GdkMonitor *monitor, gpointer data)
-{
-	update_display_fps(data);
 }
 
 static gboolean
@@ -1245,16 +1214,6 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_MAXIMIZED, pspec);
-
-	pspec = g_param_spec_double
-		(	"display-fps",
-			"Display FPS",
-			"The display rate of the monitor the window is on",
-			0.0,
-			G_MAXDOUBLE,
-			0.0,
-			G_PARAM_READABLE );
-	g_object_class_install_property(object_class, PROP_DISPLAY_FPS, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"searching",

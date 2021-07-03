@@ -762,7 +762,6 @@ celluloid_model_class_init(CelluloidModelClass *klass)
 			{"volume-max", PROP_VOLUME_MAX, G_TYPE_DOUBLE},
 			{"window-maximized", PROP_WINDOW_MAXIMIZED, G_TYPE_BOOLEAN},
 			{"window-scale", PROP_WINDOW_SCALE, G_TYPE_DOUBLE},
-			{"display-fps", PROP_DISPLAY_FPS, G_TYPE_DOUBLE},
 			{NULL, PROP_INVALID, 0} };
 
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
