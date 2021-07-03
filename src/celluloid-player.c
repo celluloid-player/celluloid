@@ -513,7 +513,7 @@ apply_default_options(CelluloidMpv *mpv)
 			{"config-dir", config_dir},
 			{"watch-later-directory", watch_dir},
 			{"screenshot-directory", screenshot_dir},
-			{"screenshot-template", "celluloid-shot%n"},
+			{"screenshot-template", "%f-%P"},
 			{NULL, NULL} };
 
 	for(gint i = 0; options[i].name; i++)
