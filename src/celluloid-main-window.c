@@ -579,7 +579,7 @@ celluloid_main_window_save_state(CelluloidMainWindow *wnd)
 	{
 		g_settings_set_int(	settings,
 					"playlist-width",
-					width-handle_pos - 52 );
+					width-handle_pos );
 	}
 	else
 	{
