@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 15:29+0700\n"
+"POT-Creation-Date: 2021-07-09 19:35+0700\n"
 "PO-Revision-Date: 2021-04-08 12:26+0000\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Occidental <https://hosted.weblate.org/projects/celluloid/"
@@ -71,7 +71,7 @@ msgid "Always append opened files to playlist"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
-#: src/celluloid-application.c:591
+#: src/celluloid-application.c:599
 msgid "Options to pass to mpv"
 msgstr "Optiones passat a mpv"
 
@@ -149,7 +149,7 @@ msgstr "URI del ultim fólder accedet"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:467
+#: src/celluloid-application.c:475
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -505,109 +505,129 @@ msgstr "Nov fenestre"
 msgid "Add to Playlist"
 msgstr "Adjunter al playlist"
 
-#: src/celluloid-application.c:511
+#: src/celluloid-application.c:519
 msgid "Playing"
 msgstr "Reproductent"
 
-#: src/celluloid-application.c:567
+#: src/celluloid-application.c:575
 msgid "Show release version"
 msgstr "Monstrar li version de publication"
 
-#: src/celluloid-application.c:575
+#: src/celluloid-application.c:583
 msgid "Enqueue"
 msgstr "Metter in linea"
 
-#: src/celluloid-application.c:583
+#: src/celluloid-application.c:591
 msgid "Create a new window"
 msgstr "Crear un nov fenestre"
 
-#: src/celluloid-application.c:592
+#: src/celluloid-application.c:600
 msgid "OPTIONS"
 msgstr "PARAMETRES"
 
-#: src/celluloid-application.c:599
+#: src/celluloid-application.c:607
 msgid "Set the window role"
 msgstr "Assignar li rol del fenestre"
 
-#: src/celluloid-application.c:607
+#: src/celluloid-application.c:615
 msgid "Don't connect to an already-running instance"
 msgstr "Ne conexer a un lansat instantie"
 
-#: src/celluloid-application.c:618
+#: src/celluloid-application.c:626
 msgid "Set the mpv option MPVOPTION to VALUE"
 msgstr "Assignar VALORE al parametre de mpv MPVOPTION"
 
-#: src/celluloid-application.c:619
+#: src/celluloid-application.c:627
 msgid "VALUE"
 msgstr "VALORE"
 
-#: src/celluloid-control-box.c:362
+#: src/celluloid-control-box.c:381
 msgid "Pause"
 msgstr "Pausar"
 
-#: src/celluloid-control-box.c:362 src/celluloid-control-box.c:565
+#: src/celluloid-control-box.c:381 src/celluloid-control-box.c:583
 msgid "Play"
 msgstr "Reproducter"
 
-#: src/celluloid-control-box.c:568
+#: src/celluloid-control-box.c:586
 msgid "Stop"
 msgstr "Stoppar"
 
-#: src/celluloid-control-box.c:571
+#: src/celluloid-control-box.c:589
 msgid "Forward"
 msgstr "Avan"
 
-#: src/celluloid-control-box.c:574
+#: src/celluloid-control-box.c:592
 msgid "Rewind"
 msgstr "Rebobinar"
 
-#: src/celluloid-control-box.c:577
+#: src/celluloid-control-box.c:595
 msgid "Next Chapter"
 msgstr "Sequent capitul"
 
-#: src/celluloid-control-box.c:580
+#: src/celluloid-control-box.c:598
 msgid "Previous Chapter"
 msgstr "Precedent capitul"
 
-#: src/celluloid-control-box.c:583
+#: src/celluloid-control-box.c:601
 msgid "Loop Playlist"
 msgstr "Circular playlist"
 
-#: src/celluloid-control-box.c:586
+#: src/celluloid-control-box.c:604
 msgid "Shuffle Playlist"
 msgstr "Mixter li playlist"
 
-#: src/celluloid-control-box.c:589 src/celluloid-header-bar.c:179
+#: src/celluloid-control-box.c:607 src/celluloid-header-bar.c:189
 msgid "Toggle Fullscreen"
 msgstr "Mode plen-ecran"
 
-#: src/celluloid-controller.c:992 src/celluloid-view.c:1572
+#: src/celluloid-controller.c:1009 src/celluloid-view.c:957
 msgid "Error"
 msgstr "Errore"
 
-#: src/celluloid-file-chooser.c:139 src/celluloid-plugins-manager.c:170
+#: src/celluloid-file-chooser.c:151 src/celluloid-plugins-manager.c:184
 msgid "All Files"
 msgstr "Omni files"
 
-#: src/celluloid-file-chooser.c:147
+#: src/celluloid-file-chooser.c:159
 msgid "Media Files"
 msgstr "Files de medies"
 
-#: src/celluloid-file-chooser.c:158
+#: src/celluloid-file-chooser.c:170
 msgid "Audio Files"
 msgstr "Audio-files"
 
-#: src/celluloid-file-chooser.c:166
+#: src/celluloid-file-chooser.c:178
 msgid "Video Files"
 msgstr "Video-files"
 
-#: src/celluloid-file-chooser.c:174
+#: src/celluloid-file-chooser.c:186
 msgid "Image Files"
 msgstr "Files de images"
 
-#: src/celluloid-file-chooser.c:184
+#: src/celluloid-file-chooser.c:196
 msgid "Subtitle Files"
 msgstr "Files de subtitules"
+
+#: src/celluloid-file-chooser-button.c:229
+#, fuzzy
+msgid "Open File…"
+msgstr "Aperter un file"
+
+#: src/celluloid-file-chooser-button.c:232
+#, fuzzy
+msgid "Open"
+msgstr "_Aperter"
+
+#: src/celluloid-file-chooser-button.c:233
+#, fuzzy
+msgid "Cancel"
+msgstr "A_nullar"
+
+#: src/celluloid-file-chooser-button.c:235
+#, fuzzy
+msgid "(None)"
+msgstr "Null"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -715,449 +735,449 @@ msgstr "_Pri Celluloid"
 msgid "Open _Disc"
 msgstr "Aperter li _disco"
 
-#: src/celluloid-mpv.c:240
+#: src/celluloid-mpv.c:266
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Li reproduction esset terminat abnormalmen. Cause: %s."
 
-#: src/celluloid-open-location-dialog.c:130
+#: src/celluloid-open-location-dialog.c:131
 msgid "Location:"
 msgstr "Localisation:"
 
-#: src/celluloid-open-location-dialog.c:136
-#: src/celluloid-preferences-dialog.c:415
-msgid "_Cancel"
-msgstr "A_nullar"
-
-#: src/celluloid-open-location-dialog.c:138
+#: src/celluloid-open-location-dialog.c:137
 msgid "_Open"
 msgstr "_Aperter"
 
-#: src/celluloid-player.c:567
+#: src/celluloid-open-location-dialog.c:138
+#: src/celluloid-preferences-dialog.c:421
+msgid "_Cancel"
+msgstr "A_nullar"
+
+#: src/celluloid-player.c:599
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:786
+#: src/celluloid-playlist-widget.c:453
 msgid "_Copy Location"
 msgstr "_Copiar li localisation"
 
-#: src/celluloid-playlist-widget.c:787
+#: src/celluloid-playlist-widget.c:454
 msgid "_Remove"
 msgstr "_Remover"
 
-#: src/celluloid-playlist-widget.c:789
+#: src/celluloid-playlist-widget.c:456
 msgid "_Add…"
 msgstr "_Adjunter…"
 
-#: src/celluloid-playlist-widget.c:790
+#: src/celluloid-playlist-widget.c:457
 msgid "Add _Folder…"
 msgstr "Adjunter un _fólder…"
 
-#: src/celluloid-playlist-widget.c:791
+#: src/celluloid-playlist-widget.c:458
 msgid "Add _Location…"
 msgstr "Adjunter un _localisation…"
 
-#: src/celluloid-playlist-widget.c:792
+#: src/celluloid-playlist-widget.c:459
 msgid "_Shuffle"
 msgstr "Mi_xter"
 
-#: src/celluloid-playlist-widget.c:793
+#: src/celluloid-playlist-widget.c:460
 msgid "Loop _File"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:794
+#: src/celluloid-playlist-widget.c:461
 msgid "Loop _Playlist"
 msgstr "Circular _playlist"
 
-#: src/celluloid-playlist-widget.c:935 src/celluloid-shortcuts-window.c:136
+#: src/celluloid-playlist-widget.c:580 src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
 msgstr "Playlist"
 
-#: src/celluloid-playlist-widget.c:943
+#: src/celluloid-playlist-widget.c:588
 msgid "Playlist is empty"
 msgstr "Playlist es vacui"
 
-#: src/celluloid-plugins-manager.c:163 src/celluloid-plugins-manager.c:409
+#: src/celluloid-plugins-manager.c:177 src/celluloid-plugins-manager.c:412
 msgid "Add Plugin"
 msgstr "Adjuncter un plugin"
 
-#: src/celluloid-plugins-manager.c:175
+#: src/celluloid-plugins-manager.c:189
 msgid "Lua Plugins"
 msgstr "Plugines Lua"
 
-#: src/celluloid-plugins-manager.c:181
+#: src/celluloid-plugins-manager.c:195
 msgid "JavaScript Plugins"
 msgstr "Plugines JavaScript"
 
-#: src/celluloid-plugins-manager.c:186
+#: src/celluloid-plugins-manager.c:200
 msgid "C Plugins"
 msgstr "Plugines C"
 
-#: src/celluloid-plugins-manager.c:334
+#: src/celluloid-plugins-manager.c:333
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Ne successat copiar li file «%s» a «%s». Cause: %s"
 
-#: src/celluloid-plugins-manager.c:385
+#: src/celluloid-plugins-manager.c:388
 msgid "No plugins found"
 msgstr "Null plugines trovat"
 
-#: src/celluloid-plugins-manager-item.c:79
+#: src/celluloid-plugins-manager-item.c:82
 msgid "Remove"
 msgstr "Remover"
 
-#: src/celluloid-plugins-manager-item.c:178
-msgid ""
-"Are you sure you want to remove this script? This action cannot be undone."
-msgstr "Esque vu vole remover ti-ci scripte? To on ne posse defar."
-
-#: src/celluloid-plugins-manager-item.c:199
+#: src/celluloid-plugins-manager-item.c:195
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Ne successat remover li file «%s». Cause: %s"
 
-#: src/celluloid-preferences-dialog.c:341
+#: src/celluloid-plugins-manager-item.c:224
+msgid ""
+"Are you sure you want to remove this script? This action cannot be undone."
+msgstr "Esque vu vole remover ti-ci scripte? To on ne posse defar."
+
+#: src/celluloid-preferences-dialog.c:360
 msgid "mpv configuration file:"
 msgstr "File de configuration de mpv:"
 
-#: src/celluloid-preferences-dialog.c:347
+#: src/celluloid-preferences-dialog.c:366
 msgid "mpv input configuration file:"
 msgstr "File de configutation de intrada de mpv:"
 
-#: src/celluloid-preferences-dialog.c:370
+#: src/celluloid-preferences-dialog.c:389
 msgid "Extra mpv options:"
 msgstr "Extra optiones de mpv:"
 
-#: src/celluloid-preferences-dialog.c:403
+#: src/celluloid-preferences-dialog.c:409
 msgid "Interface"
 msgstr "Interfacie"
 
-#: src/celluloid-preferences-dialog.c:406
+#: src/celluloid-preferences-dialog.c:412
 msgid "Config Files"
 msgstr "Files de configuration"
 
-#: src/celluloid-preferences-dialog.c:409
+#: src/celluloid-preferences-dialog.c:415
 msgid "Miscellaneous"
 msgstr "Diversi"
 
-#: src/celluloid-preferences-dialog.c:412
+#: src/celluloid-preferences-dialog.c:418
 msgid "Plugins"
 msgstr "Plugines"
 
-#: src/celluloid-preferences-dialog.c:417
+#: src/celluloid-preferences-dialog.c:423
 msgid "_Save"
 msgstr "_Gardar"
 
-#: src/celluloid-preferences-dialog.c:435
+#: src/celluloid-preferences-dialog.c:449
 msgid "Preferences"
 msgstr "Preferenties"
 
-#: src/celluloid-shortcuts-window.c:57
+#: src/celluloid-shortcuts-window.c:46
 msgid "Open file"
 msgstr "Aperter un file"
 
-#: src/celluloid-shortcuts-window.c:58
+#: src/celluloid-shortcuts-window.c:47
 msgid "Open location"
 msgstr "Aperter un localisation"
 
-#: src/celluloid-shortcuts-window.c:59
+#: src/celluloid-shortcuts-window.c:48
 msgid "Add file to playlist"
 msgstr "Adjunter un file al playlist"
 
-#: src/celluloid-shortcuts-window.c:60
+#: src/celluloid-shortcuts-window.c:49
 msgid "Add location to playlist"
 msgstr "Adjunter un localisation al playlist"
 
-#: src/celluloid-shortcuts-window.c:61
+#: src/celluloid-shortcuts-window.c:50
 msgid "Show preferences dialog"
 msgstr "Monstrar li dialog de preferenties"
 
-#: src/celluloid-shortcuts-window.c:62
+#: src/celluloid-shortcuts-window.c:51
 msgid "Toggle controls"
 msgstr "Monstrar/celar li controles"
 
-#: src/celluloid-shortcuts-window.c:63
+#: src/celluloid-shortcuts-window.c:52
 msgid "Toggle playlist"
 msgstr "Monstrar/celar li playlist"
 
-#: src/celluloid-shortcuts-window.c:64
+#: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
 msgstr "(Des)activar li mode plen-ecran"
 
-#: src/celluloid-shortcuts-window.c:65
+#: src/celluloid-shortcuts-window.c:54
 msgid "Leave fullscreen mode"
 msgstr "Surtir li mode plen-ecran"
 
-#: src/celluloid-shortcuts-window.c:66
+#: src/celluloid-shortcuts-window.c:55
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:67
+#: src/celluloid-shortcuts-window.c:56
 msgid "Show filename on the OSD"
 msgstr "Monstrar li nómine de file in li OSD"
 
-#: src/celluloid-shortcuts-window.c:68
+#: src/celluloid-shortcuts-window.c:57
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "Monstrar position, témpore e duration in li OSD"
 
-#: src/celluloid-shortcuts-window.c:71
+#: src/celluloid-shortcuts-window.c:60
 msgid "Seek backward/forward 5 seconds"
 msgstr "Ear 5 sec avan/retro"
 
-#: src/celluloid-shortcuts-window.c:72
+#: src/celluloid-shortcuts-window.c:61
 msgid "Exact seek backward/forward 1 second"
 msgstr "Ear 1 seconde avan/retro"
 
-#: src/celluloid-shortcuts-window.c:73
+#: src/celluloid-shortcuts-window.c:62
 msgid "Seek backward/forward 1 minute"
 msgstr "Ear 1 minute avan/retro"
 
-#: src/celluloid-shortcuts-window.c:74
+#: src/celluloid-shortcuts-window.c:63
 msgid "Exact seek backward/forward 5 seconds"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:75
+#: src/celluloid-shortcuts-window.c:64
 msgid "Seek to previous/next subtitle"
 msgstr "Ear al precedent/sequent subtitul"
 
-#: src/celluloid-shortcuts-window.c:76
+#: src/celluloid-shortcuts-window.c:65
 msgid "Step backward/forward a single frame"
 msgstr "Ear al precedent/sequent cadre"
 
-#: src/celluloid-shortcuts-window.c:77
+#: src/celluloid-shortcuts-window.c:66
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr "Ear al precedent/sequent capitul"
 
-#: src/celluloid-shortcuts-window.c:80
+#: src/celluloid-shortcuts-window.c:69
 msgid "Decrease/increase playback speed by 10%"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:81
+#: src/celluloid-shortcuts-window.c:70
 msgid "Halve/double current playback speed"
 msgstr "Demiar/duplicar li velocitá de reproduction"
 
-#: src/celluloid-shortcuts-window.c:82
+#: src/celluloid-shortcuts-window.c:71
 msgid "Reset playback speed to normal"
 msgstr "Reverter li velocitá de reproduction"
 
-#: src/celluloid-shortcuts-window.c:83
+#: src/celluloid-shortcuts-window.c:72
 msgid "Go backward/forward in the playlist"
 msgstr "Ear avan/retro in li playlist"
 
-#: src/celluloid-shortcuts-window.c:84
+#: src/celluloid-shortcuts-window.c:73
 msgid "Remove selected playlist item"
 msgstr "Remover li selectet element del playlist"
 
-#: src/celluloid-shortcuts-window.c:85
+#: src/celluloid-shortcuts-window.c:74
 msgid "Save playlist"
 msgstr "Gardar li playlist"
 
-#: src/celluloid-shortcuts-window.c:86
+#: src/celluloid-shortcuts-window.c:75
 msgid "Set/clear A-B loop points"
 msgstr "Assignar o remover punctus A-B"
 
-#: src/celluloid-shortcuts-window.c:87
+#: src/celluloid-shortcuts-window.c:76
 msgid "Toggle infinite looping"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:88
+#: src/celluloid-shortcuts-window.c:77
 msgid "Pause or unpause"
 msgstr "Pausar o reprender"
 
-#: src/celluloid-shortcuts-window.c:89
+#: src/celluloid-shortcuts-window.c:78
 msgid "Quit"
 msgstr "Surtir"
 
-#: src/celluloid-shortcuts-window.c:90
+#: src/celluloid-shortcuts-window.c:79
 msgid "Save current playback position and quit"
 msgstr "Gardar li actual position del reproduction e surtir"
 
-#: src/celluloid-shortcuts-window.c:93
+#: src/celluloid-shortcuts-window.c:82
 msgid "Enter search mode"
 msgstr "Intrar li mode de sercha"
 
-#: src/celluloid-shortcuts-window.c:94
+#: src/celluloid-shortcuts-window.c:83
 msgid "Jump to next match"
 msgstr "Ear al sequent correspondentie"
 
-#: src/celluloid-shortcuts-window.c:95
+#: src/celluloid-shortcuts-window.c:84
 msgid "Jump to previous match"
 msgstr "Ear al precedent correspondentie"
 
-#: src/celluloid-shortcuts-window.c:96
+#: src/celluloid-shortcuts-window.c:85
 msgid "Exit search mode"
 msgstr "Surtir li mode de sercha"
 
-#: src/celluloid-shortcuts-window.c:99
+#: src/celluloid-shortcuts-window.c:88
 msgid "Cycle through audio tracks"
 msgstr "Alterar li audio-tracks"
 
-#: src/celluloid-shortcuts-window.c:100 src/celluloid-shortcuts-window.c:101
+#: src/celluloid-shortcuts-window.c:89 src/celluloid-shortcuts-window.c:90
 msgid "Decrease/increase volume"
 msgstr "Augmentar/diminuer li volúmine"
 
-#: src/celluloid-shortcuts-window.c:102
+#: src/celluloid-shortcuts-window.c:91
 msgid "Mute or unmute"
 msgstr "Assurdar"
 
-#: src/celluloid-shortcuts-window.c:103
+#: src/celluloid-shortcuts-window.c:92
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "Adjustar li retarde de audio por ±0,1 sec"
 
-#: src/celluloid-shortcuts-window.c:106
+#: src/celluloid-shortcuts-window.c:95
 msgid "Toggle subtitle visibility"
 msgstr "Monstrar e celar li subtitules"
 
-#: src/celluloid-shortcuts-window.c:107
+#: src/celluloid-shortcuts-window.c:96
 msgid "Cycle through available subtitles"
 msgstr "Alterar li subtitules"
 
-#: src/celluloid-shortcuts-window.c:108
+#: src/celluloid-shortcuts-window.c:97
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "Adjustar li retarde de subtitules por ±0,1 sec"
 
-#: src/celluloid-shortcuts-window.c:109
+#: src/celluloid-shortcuts-window.c:98
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:110
+#: src/celluloid-shortcuts-window.c:99
 msgid "Move subtitles up/down"
 msgstr "Mover li subtitules ad-up/-bass"
 
-#: src/celluloid-shortcuts-window.c:111
+#: src/celluloid-shortcuts-window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:114
+#: src/celluloid-shortcuts-window.c:103
 msgid "Cycle through video tracks"
 msgstr "Alterar li video-tracks"
 
-#: src/celluloid-shortcuts-window.c:115
+#: src/celluloid-shortcuts-window.c:104
 msgid "Decrease/increase pan-and-scan range"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:116
+#: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot"
 msgstr "Capter li ecran"
 
-#: src/celluloid-shortcuts-window.c:117
+#: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, without subtitles"
 msgstr "Capter li ecran sin subtitules"
 
-#: src/celluloid-shortcuts-window.c:118
+#: src/celluloid-shortcuts-window.c:107
 msgid "Take a screenshot, as the window shows it"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:108
 msgid "Resize video to half its original size"
 msgstr "Demiar li dimension del video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:109
 msgid "Resize video to its original size"
 msgstr "Monstrar li video in su original dimension"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:110
 msgid "Resize video to double its original size"
 msgstr "Duplicar li dimension del video"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:111
 msgid "Adjust contrast"
 msgstr "Adjustar li contraste"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:112
 msgid "Adjust brightness"
 msgstr "Adjustar li luciditá"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:113
 msgid "Adjust gamma"
 msgstr "Adjustar li gamme"
 
-#: src/celluloid-shortcuts-window.c:125
+#: src/celluloid-shortcuts-window.c:114
 msgid "Adjust saturation"
 msgstr "Adjustar li saturation"
 
-#: src/celluloid-shortcuts-window.c:126
+#: src/celluloid-shortcuts-window.c:115
 msgid "Activate or deactivate deinterlacer"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:127
+#: src/celluloid-shortcuts-window.c:116
 msgid "Cycle aspect ratio override"
 msgstr "Alterar li aspecte"
 
-#: src/celluloid-shortcuts-window.c:130
+#: src/celluloid-shortcuts-window.c:119
 msgid "User Interface"
 msgstr "Interfacie de usator"
 
-#: src/celluloid-shortcuts-window.c:131
+#: src/celluloid-shortcuts-window.c:120
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:132
+#: src/celluloid-shortcuts-window.c:121
 msgid "Audio"
 msgstr "Audio"
 
-#: src/celluloid-shortcuts-window.c:133
+#: src/celluloid-shortcuts-window.c:122
 msgid "Subtitle"
 msgstr "Subtitul"
 
-#: src/celluloid-shortcuts-window.c:134
+#: src/celluloid-shortcuts-window.c:123
 msgid "Playback"
 msgstr "Reproduction"
 
-#: src/celluloid-shortcuts-window.c:135
+#: src/celluloid-shortcuts-window.c:124
 msgid "Seeking"
 msgstr "Sercha"
 
-#: src/celluloid-view.c:738
+#: src/celluloid-view.c:735
 msgid "Load Audio Track…"
 msgstr "Cargar un track de audio…"
 
-#: src/celluloid-view.c:742
+#: src/celluloid-view.c:739
 msgid "Load Video Track…"
 msgstr "Cargar un track de video…"
 
-#: src/celluloid-view.c:746
+#: src/celluloid-view.c:743
 msgid "Load Subtitle Track…"
 msgstr "Cargar un track de subtitules…"
 
-#: src/celluloid-view.c:911
+#: src/celluloid-view.c:915
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
 
-#: src/celluloid-view.c:1458
+#: src/celluloid-view.c:1433
 msgid "Add Folder to Playlist"
 msgstr "Adjunter un fólder al playlist"
 
-#: src/celluloid-view.c:1458
+#: src/celluloid-view.c:1433
 msgid "Open Folder"
 msgstr "Aperter un fólder"
 
-#: src/celluloid-view.c:1463
+#: src/celluloid-view.c:1438
 msgid "Add File to Playlist"
 msgstr "Adjunter un file al playlist"
 
-#: src/celluloid-view.c:1463
+#: src/celluloid-view.c:1438
 msgid "Open File"
 msgstr "Aperter un file"
 
-#: src/celluloid-view.c:1499
+#: src/celluloid-view.c:1474
 msgid "Add Location to Playlist"
 msgstr "Adjunter un localisation al playlist"
 
-#: src/celluloid-view.c:1500
+#: src/celluloid-view.c:1475
 msgid "Open Location"
 msgstr "Aperter un localisation"
 
-#: src/celluloid-view.c:1546
+#: src/celluloid-view.c:1517
 msgid "Save Playlist"
 msgstr "Gardar li playlist"
 
-#: src/celluloid-view.c:1612
+#: src/celluloid-view.c:1564
 msgid "A GTK frontend for MPV"
 msgstr "Un interfacie GTK por MPV"
 
-#: src/celluloid-view.c:1622
+#: src/celluloid-view.c:1574
 msgid "translator-credits"
 msgstr "OIS <mistresssilvara@hotmail.com>, 2021"
