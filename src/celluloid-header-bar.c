@@ -254,14 +254,22 @@ void
 celluloid_header_bar_set_fullscreen_state(	CelluloidHeaderBar *hdr,
 						gboolean fullscreen )
 {
-	const gchar *icon_name = fullscreen?
-				"view-restore-symbolic":
-				"view-fullscreen-symbolic";
+	GSettings *settings =
+		g_settings_new(CONFIG_ROOT);
+	const gchar *icon_name =
+		fullscreen ?
+		"view-restore-symbolic" :
+		"view-fullscreen-symbolic";
+	const gboolean show_title_buttons =
+		!fullscreen ||
+		g_settings_get_boolean(settings, "always-show-title-buttons");
 
 	gtk_button_set_icon_name
 		(GTK_BUTTON(hdr->fullscreen_btn), icon_name);
 	gtk_header_bar_set_show_title_buttons
-		(GTK_HEADER_BAR(hdr->header_bar), !fullscreen);
+		(GTK_HEADER_BAR(hdr->header_bar), show_title_buttons);
+
+	g_object_unref(settings);
 }
 
 void
