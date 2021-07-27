@@ -464,7 +464,8 @@ observe_properties(CelluloidMpv *mpv)
 	celluloid_mpv_observe_property(mpv, 0, "border", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "fullscreen", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_FLAG);
-	celluloid_mpv_observe_property(mpv, 0, "loop", MPV_FORMAT_STRING);
+	celluloid_mpv_observe_property(mpv, 0, "loop-file", MPV_FORMAT_STRING);
+	celluloid_mpv_observe_property(mpv, 0, "loop-playlist", MPV_FORMAT_STRING);
 	celluloid_mpv_observe_property(mpv, 0, "duration", MPV_FORMAT_DOUBLE);
 	celluloid_mpv_observe_property(mpv, 0, "media-title", MPV_FORMAT_STRING);
 	celluloid_mpv_observe_property(mpv, 0, "metadata", MPV_FORMAT_NODE);
