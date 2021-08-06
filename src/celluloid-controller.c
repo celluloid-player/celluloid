@@ -143,6 +143,9 @@ static void
 model_ready_handler(GObject *object, GParamSpec *pspec, gpointer data);
 
 static void
+playlist_replaced_handler(CelluloidModel *model, gpointer data);
+
+static void
 frame_ready_handler(CelluloidModel *model, gpointer data);
 
 static void
@@ -659,6 +662,10 @@ connect_signals(CelluloidController *controller)
 				G_CALLBACK(window_scale_handler),
 				controller );
 	g_signal_connect(	controller->model,
+				"playlist-replaced",
+				G_CALLBACK(playlist_replaced_handler),
+				controller );
+	g_signal_connect(	controller->model,
 				"frame-ready",
 				G_CALLBACK(frame_ready_handler),
 				controller );
@@ -923,6 +930,19 @@ model_ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 
 	controller->ready = ready;
 	g_object_notify(data, "ready");
+}
+
+static void
+playlist_replaced_handler(CelluloidModel *model, gpointer data)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	if(g_settings_get_boolean(settings, "present-window-on-file-open"))
+	{
+		celluloid_view_present(CELLULOID_CONTROLLER(data)->view);
+	}
+
+	g_object_unref(settings);
 }
 
 static void

@@ -791,6 +791,15 @@ celluloid_model_class_init(CelluloidModelClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_SHUFFLE, pspec);
 
+	g_signal_new(	"playlist-replaced",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
 	g_signal_new(	"playback-restart",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -1158,6 +1167,7 @@ celluloid_model_load_file(	CelluloidModel *model,
 	 */
 	if(!append || model->playlist_count == 0)
 	{
+		g_signal_emit_by_name(model, "playlist-replaced");
 		celluloid_model_play(model);
 	}
 
