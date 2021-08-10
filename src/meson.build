@@ -21,6 +21,8 @@ sources = [
   'celluloid-player.c',
   'celluloid-player-options.c',
   'celluloid-playlist-widget.c',
+  'celluloid-playlist-item.c',
+  'celluloid-playlist-model.c',
   'celluloid-plugins-manager.c',
   'celluloid-plugins-manager-item.c',
   'celluloid-preferences-dialog.c',

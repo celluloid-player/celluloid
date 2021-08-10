@@ -59,6 +59,8 @@ celluloid_SOURCES =	celluloid-main.c celluloid-def.h \
 			celluloid-player.c celluloid-player.h \
 			celluloid-player-options.c celluloid-player-options.h \
 			celluloid-playlist-widget.c celluloid-playlist-widget.h \
+			celluloid-playlist-item.c celluloid-playlist-item.h \
+			celluloid-playlist-model.c celluloid-playlist-model.h \
 			celluloid-plugins-manager.c celluloid-plugins-manager.h \
 			celluloid-plugins-manager-item.c celluloid-plugins-manager-item.h \
 			celluloid-preferences-dialog.c celluloid-preferences-dialog.h \
