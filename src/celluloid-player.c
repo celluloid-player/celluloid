@@ -726,18 +726,22 @@ load_input_conf(CelluloidPlayer *player, const gchar *input_conf)
 	{
 		const gsize buf_size = 65536;
 		void *buf = g_malloc(buf_size);
-		FILE *src_file = g_fopen(input_conf, "r");
+		GFile *src_file = g_file_new_for_uri(input_conf);
+		GFileInputStream *src_stream = g_file_read(src_file, NULL, NULL);
 		gsize read_size = buf_size;
 
-		if(!src_file)
+		if(!src_stream)
 		{
 			g_warning(	"Cannot open input config file: %s",
 					input_conf );
 		}
 
-		while(src_file && read_size == buf_size)
+		while(src_stream && read_size == buf_size)
 		{
-			read_size = fread(buf, 1, buf_size, src_file);
+			read_size =
+				(gsize)
+				g_input_stream_read
+				(G_INPUT_STREAM(src_stream), buf, buf_size, NULL, NULL);
 
 			if(read_size != fwrite(buf, 1, read_size, tmp_file))
 			{
@@ -749,6 +753,8 @@ load_input_conf(CelluloidPlayer *player, const gchar *input_conf)
 
 		g_info("Loaded input config file: %s", input_conf);
 
+		g_clear_object(&src_stream);
+		g_object_unref(src_file);
 		g_free(buf);
 	}
 
