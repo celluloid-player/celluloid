@@ -64,6 +64,19 @@ celluloid_playlist_item_new_take(	gchar *title,
 	return self;
 }
 
+CelluloidPlaylistItem *
+celluloid_playlist_item_copy(CelluloidPlaylistItem *source)
+{
+	CelluloidPlaylistItem *self;
+
+	self = g_object_new(CELLULOID_TYPE_PLAYLIST_ITEM, NULL);
+	self->title = source->title;
+	self->uri = source->uri;
+	self->is_current = source->is_current;
+
+	return self;
+}
+
 const gchar *
 celluloid_playlist_item_get_title(CelluloidPlaylistItem *self)
 {
@@ -81,3 +94,11 @@ celluloid_playlist_item_get_is_current(CelluloidPlaylistItem *self)
 {
 	return self->is_current;
 }
+
+void
+celluloid_playlist_item_set_is_current(	CelluloidPlaylistItem *self,
+					gboolean value )
+{
+	self->is_current = value;
+}
+

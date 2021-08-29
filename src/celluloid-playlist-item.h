@@ -20,6 +20,8 @@
 #ifndef PLAYLIST_ITEM_H
 #define PLAYLIST_ITEM_H
 
+#include <gio/gio.h>
+
 #define CELLULOID_TYPE_PLAYLIST_ITEM (celluloid_playlist_item_get_type ())
 
 G_DECLARE_FINAL_TYPE(CelluloidPlaylistItem, celluloid_playlist_item, CELLULOID, PLAYLIST_ITEM, GObject)
@@ -29,6 +31,9 @@ celluloid_playlist_item_new_take(	gchar *title,
 					gchar *uri,
 					gboolean is_current );
 
+CelluloidPlaylistItem *
+celluloid_playlist_item_copy(CelluloidPlaylistItem *source);
+
 const gchar *
 celluloid_playlist_item_get_title(CelluloidPlaylistItem *self);
 
@@ -37,5 +42,9 @@ celluloid_playlist_item_get_uri(CelluloidPlaylistItem *self);
 
 gboolean
 celluloid_playlist_item_get_is_current(CelluloidPlaylistItem *self);
+
+void
+celluloid_playlist_item_set_is_current(	CelluloidPlaylistItem *self,
+					gboolean value );
 
 #endif

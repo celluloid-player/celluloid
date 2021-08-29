@@ -39,4 +39,11 @@ celluloid_playlist_model_remove(CelluloidPlaylistModel *self, guint position);
 void
 celluloid_playlist_model_clear(CelluloidPlaylistModel *self);
 
+gint
+celluloid_playlist_model_get_current(CelluloidPlaylistModel *self);
+
+void
+celluloid_playlist_model_set_current(	CelluloidPlaylistModel *self,
+					gint position);
+
 #endif
