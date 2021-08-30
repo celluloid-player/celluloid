@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-09 19:35+0700\n"
-"PO-Revision-Date: 2021-05-21 07:34+0000\n"
-"Last-Translator: julie lee <bono623@naver.com>\n"
+"POT-Creation-Date: 2021-08-30 20:38+0700\n"
+"PO-Revision-Date: 2021-08-24 23:35+0000\n"
+"Last-Translator: I'm Not Cry <contact@cryental.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ko/>\n"
 "Language: ko\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -71,79 +71,99 @@ msgid "Always append opened files to playlist"
 msgstr "열린 파일을 항상 재생 목록에 추가"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
+msgid "Always show title buttons"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:85
+msgid ""
+"If true, title buttons (close, maximize, minimize, etc.) are always shown. "
+"If false, the buttons will be hidden in fullscreen mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:93
+msgid "Present window when opening new files"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:94
+msgid ""
+"If true, Celluloid will attempt to present its window to the user when a new "
+"file is opened. If false, no attempt will be made."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
 msgid "Options to pass to mpv"
 msgstr "mpv로 전달할 옵션"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:109
 msgid "Path to mpv configuration file"
 msgstr "mpv 구성 파일 경로"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:115
 msgid "Load mpv configuration file"
 msgstr "mpv 구성 파일로드"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:102
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:121
 msgid "Path to mpv input configuration file"
 msgstr "mpv 입력 구성 파일 경로"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:108
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:127
 msgid "Load mpv input configuration file"
 msgstr "mpv 입력 구성 파일로드"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:114
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:133
 msgid "Enable MPRIS support"
 msgstr "MPRIS 지원 활성화"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:120
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:139
 msgid "Enable media keys support"
 msgstr "미디어 키 지원 활성화"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:126
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:145
 msgid "Prefetch metadata"
 msgstr "메타데이터 미리 가져오기"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:132
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:151
 msgid "Ignore playback errors"
 msgstr "재생 오류 무시"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:138
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:157
 msgid "Inhibit session idling"
 msgstr "세션 유휴 금지"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Width of the window"
 msgstr "창의 너비"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:154
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Height of the window"
 msgstr "창 높이"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:160
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Whether or not the window is maximized"
 msgstr "창이 최대화되었는지 여부"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:186
 msgid "Volume of player"
 msgstr "음량"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:192
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "재생 목록 끝에 도달했을 때 반복할지 여부"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:198
 msgid "Width of the playlist"
 msgstr "재생 목록의 너비"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:185
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:204
 msgid "Show or not show the controls"
 msgstr "컨트롤 표시 여부"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:191
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:210
 msgid "Show or not show the playlist"
 msgstr "재생 목록 표시 여부"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:216
 msgid "URI of the last folder accessed"
 msgstr "마지막으로 액세스 한 폴더의 URI"
 
@@ -597,7 +617,7 @@ msgstr "재생 목록 무작위 재생"
 msgid "Toggle Fullscreen"
 msgstr "전체 화면 전환"
 
-#: src/celluloid-controller.c:1009 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
 msgid "Error"
 msgstr "오류"
 
@@ -626,24 +646,20 @@ msgid "Subtitle Files"
 msgstr "자막 파일"
 
 #: src/celluloid-file-chooser-button.c:229
-#, fuzzy
 msgid "Open File…"
-msgstr "파일 열기"
+msgstr "파일 열기…"
 
 #: src/celluloid-file-chooser-button.c:232
-#, fuzzy
 msgid "Open"
-msgstr "열기(_O)"
+msgstr "열기"
 
 #: src/celluloid-file-chooser-button.c:233
-#, fuzzy
 msgid "Cancel"
-msgstr "취소(_C)"
+msgstr "취소"
 
 #: src/celluloid-file-chooser-button.c:235
-#, fuzzy
 msgid "(None)"
-msgstr "없음"
+msgstr "(없음)"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -658,7 +674,7 @@ msgstr "알 수 없는"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr "외부에서 불러오기… (_L)"
+msgstr "_외부에서 불러오기…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
@@ -673,19 +689,19 @@ msgstr "파일(_F)"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
 msgid "_Open…"
-msgstr "열기… (_O)"
+msgstr "열기…(_O)"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr "폴더 열기… (_F)"
+msgstr "폴더 열기…(_F)"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
-msgstr "위치 열기… (_L)"
+msgstr "위치 열기…(_L)"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr "디스크 열기… (_D)"
+msgstr "디스크 열기…(_D)"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
@@ -693,7 +709,7 @@ msgstr "재생 목록 저장(_S)"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:323
 msgid "_New Window"
-msgstr "새창(_N)"
+msgstr "새 창(_N)"
 
 #: src/celluloid-menu.c:242
 msgid "_Quit"
@@ -705,7 +721,7 @@ msgstr "편집(_E)"
 
 #: src/celluloid-menu.c:244 src/celluloid-menu.c:296
 msgid "_Preferences"
-msgstr "등록 정보(_P)"
+msgstr "설정(_P)"
 
 #: src/celluloid-menu.c:245 src/celluloid-menu.c:292
 msgid "_Video Track"
@@ -717,7 +733,7 @@ msgstr "오디오 트랙(_A)"
 
 #: src/celluloid-menu.c:247 src/celluloid-menu.c:294
 msgid "S_ubtitle Track"
-msgstr "자막 트랙(_u)"
+msgstr "자막 트랙(_U)"
 
 #: src/celluloid-menu.c:248
 msgid "_View"
@@ -725,7 +741,7 @@ msgstr "보기(_V)"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:287
 msgid "_Toggle Controls"
-msgstr "토글 컨트롤(_T)"
+msgstr "하단 바 전환(_T)"
 
 #: src/celluloid-menu.c:250 src/celluloid-menu.c:289
 msgid "_Toggle Playlist"
@@ -745,7 +761,7 @@ msgstr "키보드 단축키(_K)"
 
 #: src/celluloid-menu.c:254 src/celluloid-menu.c:298
 msgid "_About Celluloid"
-msgstr "프로그램 소개(_A)"
+msgstr "프로그램 정보(_A)"
 
 #: src/celluloid-menu.c:321
 msgid "Open _Disc"
@@ -765,51 +781,51 @@ msgid "_Open"
 msgstr "열기(_O)"
 
 #: src/celluloid-open-location-dialog.c:138
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:427
 msgid "_Cancel"
 msgstr "취소(_C)"
 
-#: src/celluloid-player.c:599
+#: src/celluloid-player.c:600
 msgid "Failed to apply one or more MPV options."
 msgstr "하나 이상의 MPV 옵션을 적용하지 못했습니다."
 
-#: src/celluloid-playlist-widget.c:453
+#: src/celluloid-playlist-widget.c:500
 msgid "_Copy Location"
 msgstr "위치 복사(_C)"
 
-#: src/celluloid-playlist-widget.c:454
+#: src/celluloid-playlist-widget.c:501
 msgid "_Remove"
 msgstr "제거(_R)"
 
-#: src/celluloid-playlist-widget.c:456
+#: src/celluloid-playlist-widget.c:503
 msgid "_Add…"
-msgstr "추가… (_A)"
+msgstr "추가…(_A)"
 
-#: src/celluloid-playlist-widget.c:457
+#: src/celluloid-playlist-widget.c:504
 msgid "Add _Folder…"
-msgstr "폴더 추가… (_F)"
+msgstr "폴더 추가…(_F)"
 
-#: src/celluloid-playlist-widget.c:458
+#: src/celluloid-playlist-widget.c:505
 msgid "Add _Location…"
-msgstr "위치 추가… (_L)"
+msgstr "위치 추가…(_L)"
 
-#: src/celluloid-playlist-widget.c:459
+#: src/celluloid-playlist-widget.c:506
 msgid "_Shuffle"
-msgstr "무작위 (_S)"
+msgstr "무작위(_S)"
 
-#: src/celluloid-playlist-widget.c:460
+#: src/celluloid-playlist-widget.c:507
 msgid "Loop _File"
-msgstr "파일 반복 (_F)"
+msgstr "파일 반복(_F)"
 
-#: src/celluloid-playlist-widget.c:461
+#: src/celluloid-playlist-widget.c:508
 msgid "Loop _Playlist"
-msgstr "재생 목록 반복 (_P)"
+msgstr "재생 목록 반복(_P)"
 
-#: src/celluloid-playlist-widget.c:580 src/celluloid-shortcuts-window.c:125
+#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
-msgstr "재생 목록"
+msgstr "재생"
 
-#: src/celluloid-playlist-widget.c:588
+#: src/celluloid-playlist-widget.c:635
 msgid "Playlist is empty"
 msgstr "재생 목록이 비어 있습니다"
 
@@ -852,39 +868,39 @@ msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "이 스크립트를 제거 하시겠습니까? 이 작업은 취소 할 수 없습니다."
 
-#: src/celluloid-preferences-dialog.c:360
+#: src/celluloid-preferences-dialog.c:366
 msgid "mpv configuration file:"
 msgstr "mpv 구성 파일 :"
 
-#: src/celluloid-preferences-dialog.c:366
+#: src/celluloid-preferences-dialog.c:372
 msgid "mpv input configuration file:"
 msgstr "mpv 입력 구성 파일 :"
 
-#: src/celluloid-preferences-dialog.c:389
+#: src/celluloid-preferences-dialog.c:395
 msgid "Extra mpv options:"
 msgstr "추가 mpv 옵션 :"
 
-#: src/celluloid-preferences-dialog.c:409
+#: src/celluloid-preferences-dialog.c:415
 msgid "Interface"
 msgstr "인터페이스"
 
-#: src/celluloid-preferences-dialog.c:412
+#: src/celluloid-preferences-dialog.c:418
 msgid "Config Files"
 msgstr "설정 파일"
 
-#: src/celluloid-preferences-dialog.c:415
+#: src/celluloid-preferences-dialog.c:421
 msgid "Miscellaneous"
 msgstr "기타 설정"
 
-#: src/celluloid-preferences-dialog.c:418
+#: src/celluloid-preferences-dialog.c:424
 msgid "Plugins"
 msgstr "플러그인"
 
-#: src/celluloid-preferences-dialog.c:423
+#: src/celluloid-preferences-dialog.c:429
 msgid "_Save"
 msgstr "저장(_S)"
 
-#: src/celluloid-preferences-dialog.c:449
+#: src/celluloid-preferences-dialog.c:455
 msgid "Preferences"
 msgstr "환경 설정"
 

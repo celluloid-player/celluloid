@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-09 19:35+0700\n"
+"POT-Creation-Date: 2021-08-30 20:38+0700\n"
 "PO-Revision-Date: 2021-04-02 02:55-0400\n"
 "Last-Translator: Hsiu-Ming Chang <cges30901@gmail.com>\n"
 "Language-Team: zh_Hant <chinese-l10n@googlegroups.com>\n"
@@ -77,79 +77,99 @@ msgid "Always append opened files to playlist"
 msgstr "將檔案加入至播放清單"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
+msgid "Always show title buttons"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:85
+msgid ""
+"If true, title buttons (close, maximize, minimize, etc.) are always shown. "
+"If false, the buttons will be hidden in fullscreen mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:93
+msgid "Present window when opening new files"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:94
+msgid ""
+"If true, Celluloid will attempt to present its window to the user when a new "
+"file is opened. If false, no attempt will be made."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
 msgid "Options to pass to mpv"
 msgstr "要傳遞給 mpv 的選項"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:109
 msgid "Path to mpv configuration file"
 msgstr "mpv 設定檔的路徑"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:115
 msgid "Load mpv configuration file"
 msgstr "載入 mpv 設定檔"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:102
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:121
 msgid "Path to mpv input configuration file"
 msgstr "mpv 輸入設定檔的路徑"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:108
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:127
 msgid "Load mpv input configuration file"
 msgstr "載入 mpv 輸入設定檔"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:114
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:133
 msgid "Enable MPRIS support"
 msgstr "啟用 MPRIS 支援"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:120
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:139
 msgid "Enable media keys support"
 msgstr "啟用播放快捷鍵支援"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:126
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:145
 msgid "Prefetch metadata"
 msgstr "預先讀取詮釋資料"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:132
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:151
 msgid "Ignore playback errors"
 msgstr "無視播放錯誤訊息"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:138
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:157
 msgid "Inhibit session idling"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Width of the window"
 msgstr "視窗寬度"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:154
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Height of the window"
 msgstr "視窗高度"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:160
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Whether or not the window is maximized"
 msgstr "視窗是否最大化"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:186
 msgid "Volume of player"
 msgstr "播放器音量"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:192
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "播放清單結束時是否循環播放"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:198
 msgid "Width of the playlist"
 msgstr "播放清單寬度"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:185
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:204
 msgid "Show or not show the controls"
 msgstr "是否顯示控制介面"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:191
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:210
 msgid "Show or not show the playlist"
 msgstr "是否顯示播放清單"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:216
 msgid "URI of the last folder accessed"
 msgstr "最近存取的資料夾 URI"
 
@@ -585,7 +605,7 @@ msgstr "隨機播放清單"
 msgid "Toggle Fullscreen"
 msgstr "開關全螢幕"
 
-#: src/celluloid-controller.c:1009 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
 msgid "Error"
 msgstr "錯誤"
 
@@ -753,51 +773,51 @@ msgid "_Open"
 msgstr "開啟(_O)"
 
 #: src/celluloid-open-location-dialog.c:138
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:427
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/celluloid-player.c:599
+#: src/celluloid-player.c:600
 msgid "Failed to apply one or more MPV options."
 msgstr "套用一個或多個 MPV 選項失敗。"
 
-#: src/celluloid-playlist-widget.c:453
+#: src/celluloid-playlist-widget.c:500
 msgid "_Copy Location"
 msgstr "複製位置(_C)"
 
-#: src/celluloid-playlist-widget.c:454
+#: src/celluloid-playlist-widget.c:501
 msgid "_Remove"
 msgstr "移除(_R)"
 
-#: src/celluloid-playlist-widget.c:456
+#: src/celluloid-playlist-widget.c:503
 msgid "_Add…"
 msgstr "新增(_A)…"
 
-#: src/celluloid-playlist-widget.c:457
+#: src/celluloid-playlist-widget.c:504
 msgid "Add _Folder…"
 msgstr "加入資料夾(_F)…"
 
-#: src/celluloid-playlist-widget.c:458
+#: src/celluloid-playlist-widget.c:505
 msgid "Add _Location…"
 msgstr "加入位置(_L)…"
 
-#: src/celluloid-playlist-widget.c:459
+#: src/celluloid-playlist-widget.c:506
 msgid "_Shuffle"
 msgstr "隨機播放(_S)"
 
-#: src/celluloid-playlist-widget.c:460
+#: src/celluloid-playlist-widget.c:507
 msgid "Loop _File"
 msgstr "循環播放檔案(_F)"
 
-#: src/celluloid-playlist-widget.c:461
+#: src/celluloid-playlist-widget.c:508
 msgid "Loop _Playlist"
 msgstr "循環播放清單(_P)"
 
-#: src/celluloid-playlist-widget.c:580 src/celluloid-shortcuts-window.c:125
+#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
 msgstr "播放清單"
 
-#: src/celluloid-playlist-widget.c:588
+#: src/celluloid-playlist-widget.c:635
 msgid "Playlist is empty"
 msgstr "播放清單是空的"
 
@@ -840,39 +860,39 @@ msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "確定要移除此外掛？這動作將無法復原。"
 
-#: src/celluloid-preferences-dialog.c:360
+#: src/celluloid-preferences-dialog.c:366
 msgid "mpv configuration file:"
 msgstr "mpv 設定檔："
 
-#: src/celluloid-preferences-dialog.c:366
+#: src/celluloid-preferences-dialog.c:372
 msgid "mpv input configuration file:"
 msgstr "mpv 輸入設定檔："
 
-#: src/celluloid-preferences-dialog.c:389
+#: src/celluloid-preferences-dialog.c:395
 msgid "Extra mpv options:"
 msgstr "額外的 mpv 選項："
 
-#: src/celluloid-preferences-dialog.c:409
+#: src/celluloid-preferences-dialog.c:415
 msgid "Interface"
 msgstr "界面"
 
-#: src/celluloid-preferences-dialog.c:412
+#: src/celluloid-preferences-dialog.c:418
 msgid "Config Files"
 msgstr "設定檔"
 
-#: src/celluloid-preferences-dialog.c:415
+#: src/celluloid-preferences-dialog.c:421
 msgid "Miscellaneous"
 msgstr "雜項"
 
-#: src/celluloid-preferences-dialog.c:418
+#: src/celluloid-preferences-dialog.c:424
 msgid "Plugins"
 msgstr "外掛"
 
-#: src/celluloid-preferences-dialog.c:423
+#: src/celluloid-preferences-dialog.c:429
 msgid "_Save"
 msgstr "儲存(_S)"
 
-#: src/celluloid-preferences-dialog.c:449
+#: src/celluloid-preferences-dialog.c:455
 msgid "Preferences"
 msgstr "偏好設定"
 

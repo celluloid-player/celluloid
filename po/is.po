@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-09 19:35+0700\n"
+"POT-Creation-Date: 2021-08-30 20:38+0700\n"
 "PO-Revision-Date: 2020-11-13 11:57-0500\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
@@ -67,79 +67,99 @@ msgid "Always append opened files to playlist"
 msgstr "Bæta skrá á spilunarlista"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
+msgid "Always show title buttons"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:85
+msgid ""
+"If true, title buttons (close, maximize, minimize, etc.) are always shown. "
+"If false, the buttons will be hidden in fullscreen mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:93
+msgid "Present window when opening new files"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:94
+msgid ""
+"If true, Celluloid will attempt to present its window to the user when a new "
+"file is opened. If false, no attempt will be made."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
 msgid "Options to pass to mpv"
 msgstr "Viðföng til að gefa til mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:109
 msgid "Path to mpv configuration file"
 msgstr "Slóð að mpv stillingaskrá"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:115
 msgid "Load mpv configuration file"
 msgstr "Hlaða inn stillingaskrá mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:102
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:121
 msgid "Path to mpv input configuration file"
 msgstr "Slóð að inntaksstillingaskrá mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:108
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:127
 msgid "Load mpv input configuration file"
 msgstr "Hlaða inn inntaksstillingaskrá mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:114
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:133
 msgid "Enable MPRIS support"
 msgstr "Virkja stuðning við MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:120
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:139
 msgid "Enable media keys support"
 msgstr "Virkja stuðning við margmiðlunarlykla"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:126
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:145
 msgid "Prefetch metadata"
 msgstr "Sækja lýsigögn fyrirfram"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:132
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:151
 msgid "Ignore playback errors"
 msgstr "Hunsa villur í afspilun"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:138
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:157
 msgid "Inhibit session idling"
 msgstr "Koma í veg fyrir að setan verði aðgerðalaus"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Width of the window"
 msgstr "Breidd gluggans"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:154
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Height of the window"
 msgstr "Hæð gluggans"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:160
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Whether or not the window is maximized"
 msgstr "Hvort glugginn er hámarkaður eða ekki"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:186
 msgid "Volume of player"
 msgstr "Hljóðstyrkur spilarans"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:192
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "Hvort eigi að endurtaka þegar enda spilunarlistans er náð"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:198
 msgid "Width of the playlist"
 msgstr "Breidd spilunarlistans"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:185
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:204
 msgid "Show or not show the controls"
 msgstr "Birta eða fela stjórntækin"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:191
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:210
 msgid "Show or not show the playlist"
 msgstr "Birta eða fela spilunarlistann"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:216
 msgid "URI of the last folder accessed"
 msgstr "Slóð á síðast notaða möppu"
 
@@ -574,7 +594,7 @@ msgstr "Stokka spilunarlista"
 msgid "Toggle Fullscreen"
 msgstr "Víxla skjáfylli af/á"
 
-#: src/celluloid-controller.c:1009 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
 msgid "Error"
 msgstr "Villa"
 
@@ -742,51 +762,51 @@ msgid "_Open"
 msgstr "_Opna"
 
 #: src/celluloid-open-location-dialog.c:138
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:427
 msgid "_Cancel"
 msgstr "_Hætta við"
 
-#: src/celluloid-player.c:599
+#: src/celluloid-player.c:600
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:453
+#: src/celluloid-playlist-widget.c:500
 msgid "_Copy Location"
 msgstr "_Afrita staðsetningu"
 
-#: src/celluloid-playlist-widget.c:454
+#: src/celluloid-playlist-widget.c:501
 msgid "_Remove"
 msgstr "Fja_rlægja"
 
-#: src/celluloid-playlist-widget.c:456
+#: src/celluloid-playlist-widget.c:503
 msgid "_Add…"
 msgstr "Bæt_a við…"
 
-#: src/celluloid-playlist-widget.c:457
+#: src/celluloid-playlist-widget.c:504
 msgid "Add _Folder…"
 msgstr "Bæta við _möppu…"
 
-#: src/celluloid-playlist-widget.c:458
+#: src/celluloid-playlist-widget.c:505
 msgid "Add _Location…"
 msgstr "Bæta við staðsetnin_gu…"
 
-#: src/celluloid-playlist-widget.c:459
+#: src/celluloid-playlist-widget.c:506
 msgid "_Shuffle"
 msgstr "_Stokka"
 
-#: src/celluloid-playlist-widget.c:460
+#: src/celluloid-playlist-widget.c:507
 msgid "Loop _File"
 msgstr "Endurtaka s_krá"
 
-#: src/celluloid-playlist-widget.c:461
+#: src/celluloid-playlist-widget.c:508
 msgid "Loop _Playlist"
 msgstr "Endurtaka s_pilunarlista"
 
-#: src/celluloid-playlist-widget.c:580 src/celluloid-shortcuts-window.c:125
+#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
 msgstr "Lagalisti"
 
-#: src/celluloid-playlist-widget.c:588
+#: src/celluloid-playlist-widget.c:635
 msgid "Playlist is empty"
 msgstr "Spilunarlisti er tómur"
 
@@ -831,39 +851,39 @@ msgstr ""
 "Ertu viss um að þú viljir fjarlægja þessa skriftu? Það er ekki hægt að taka "
 "þetta aftur."
 
-#: src/celluloid-preferences-dialog.c:360
+#: src/celluloid-preferences-dialog.c:366
 msgid "mpv configuration file:"
 msgstr "Stillingaskrá mpv:"
 
-#: src/celluloid-preferences-dialog.c:366
+#: src/celluloid-preferences-dialog.c:372
 msgid "mpv input configuration file:"
 msgstr "Inntaksstillingaskrá mpv:"
 
-#: src/celluloid-preferences-dialog.c:389
+#: src/celluloid-preferences-dialog.c:395
 msgid "Extra mpv options:"
 msgstr "Fleiri mpv-valkostir:"
 
-#: src/celluloid-preferences-dialog.c:409
+#: src/celluloid-preferences-dialog.c:415
 msgid "Interface"
 msgstr "Viðmót"
 
-#: src/celluloid-preferences-dialog.c:412
+#: src/celluloid-preferences-dialog.c:418
 msgid "Config Files"
 msgstr "Stillingaskrár"
 
-#: src/celluloid-preferences-dialog.c:415
+#: src/celluloid-preferences-dialog.c:421
 msgid "Miscellaneous"
 msgstr "Ýmislegt"
 
-#: src/celluloid-preferences-dialog.c:418
+#: src/celluloid-preferences-dialog.c:424
 msgid "Plugins"
 msgstr "Viðbætur"
 
-#: src/celluloid-preferences-dialog.c:423
+#: src/celluloid-preferences-dialog.c:429
 msgid "_Save"
 msgstr "Vi_sta"
 
-#: src/celluloid-preferences-dialog.c:449
+#: src/celluloid-preferences-dialog.c:455
 msgid "Preferences"
 msgstr "Kjörstillingar"
 

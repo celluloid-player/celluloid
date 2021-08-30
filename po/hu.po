@@ -4,16 +4,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-09 19:35+0700\n"
-"PO-Revision-Date: 2020-06-23 10:40-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Hungarian\n"
+"POT-Creation-Date: 2021-08-30 20:38+0700\n"
+"PO-Revision-Date: 2021-08-28 07:34+0000\n"
+"Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/celluloid/"
+"celluloid/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -22,7 +23,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
-msgstr ""
+msgstr "Ablak automatikus átméretezése, hogy illeszkedjen a vidóhoz"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable dark theme"
@@ -34,33 +35,34 @@ msgstr "Kliensoldali díszítések engedélyezése"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr ""
+msgstr "Lebegő vezérlők használata ablak módban"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Egérkurzor automatikus elrejtése ablak módban"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
-msgstr ""
+msgstr "A minimális kurzorsebesség, amitől a lebegő vezérlők megjelennek."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
+"A holtjáték mérete, amin belül a kurzormozgás nem jeleníti meg a vezérlőket."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons for controlling playlist"
-msgstr ""
+msgstr "Átugrás gomb használata a lejátszási lista vezérléséhez"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Make file chooser remember last file's location"
-msgstr ""
+msgstr "A fájlkiválasztó emlékezzen az utolsó fájl helyére"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
-msgstr ""
+msgstr "Mindig nyisson új ablakot"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
 #, fuzzy
@@ -68,79 +70,99 @@ msgid "Always append opened files to playlist"
 msgstr "Fájl hozzáadása a lejátszási listához"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
+msgid "Always show title buttons"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:85
+msgid ""
+"If true, title buttons (close, maximize, minimize, etc.) are always shown. "
+"If false, the buttons will be hidden in fullscreen mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:93
+msgid "Present window when opening new files"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:94
+msgid ""
+"If true, Celluloid will attempt to present its window to the user when a new "
+"file is opened. If false, no attempt will be made."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
 msgid "Options to pass to mpv"
 msgstr "Az mpv-nek átadandó opciók"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:109
 msgid "Path to mpv configuration file"
 msgstr "Az mpv konfigurációs fájl útvonala"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:115
 msgid "Load mpv configuration file"
-msgstr ""
+msgstr "Mpv konfigurációs fájl betöltése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:102
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:121
 msgid "Path to mpv input configuration file"
 msgstr "Az mpv bemeneti konfigurációs fájl útvonala"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:108
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:127
 msgid "Load mpv input configuration file"
-msgstr ""
+msgstr "Mpv bemeneti konfigurációs fájl betöltése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:114
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:133
 msgid "Enable MPRIS support"
-msgstr ""
+msgstr "MPRIS támogatás engedélyezése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:120
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:139
 msgid "Enable media keys support"
-msgstr ""
+msgstr "Médiabillentyűk támogatásának engedélyezése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:126
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:145
 msgid "Prefetch metadata"
-msgstr ""
+msgstr "Metaadatok előtöltése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:132
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:151
 msgid "Ignore playback errors"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:138
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:157
 msgid "Inhibit session idling"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Width of the window"
 msgstr "Az ablak szélessége"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:154
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Height of the window"
 msgstr "Az ablak magassága"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:160
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Whether or not the window is maximized"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:186
 msgid "Volume of player"
 msgstr "A lejátszó hangereje"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:192
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:198
 msgid "Width of the playlist"
 msgstr "A lejátszási lista szélessége"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:185
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:204
 msgid "Show or not show the controls"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:191
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:210
 msgid "Show or not show the playlist"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:216
 msgid "URI of the last folder accessed"
 msgstr ""
 
@@ -574,7 +596,7 @@ msgstr ""
 msgid "Toggle Fullscreen"
 msgstr "Átváltás teljes képernyőre"
 
-#: src/celluloid-controller.c:1009 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
 msgid "Error"
 msgstr "Hiba"
 
@@ -744,51 +766,51 @@ msgid "_Open"
 msgstr "_Megnyitás"
 
 #: src/celluloid-open-location-dialog.c:138
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:427
 msgid "_Cancel"
 msgstr "_Mégse"
 
-#: src/celluloid-player.c:599
+#: src/celluloid-player.c:600
 msgid "Failed to apply one or more MPV options."
 msgstr "Egy vagy több MPV beállítás alkalmazása nem sikerült"
 
-#: src/celluloid-playlist-widget.c:453
+#: src/celluloid-playlist-widget.c:500
 msgid "_Copy Location"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:454
+#: src/celluloid-playlist-widget.c:501
 msgid "_Remove"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:456
+#: src/celluloid-playlist-widget.c:503
 msgid "_Add…"
 msgstr "_Hozzáadás..."
 
-#: src/celluloid-playlist-widget.c:457
+#: src/celluloid-playlist-widget.c:504
 msgid "Add _Folder…"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:458
+#: src/celluloid-playlist-widget.c:505
 msgid "Add _Location…"
 msgstr "_Hely hozzáadása..."
 
-#: src/celluloid-playlist-widget.c:459
+#: src/celluloid-playlist-widget.c:506
 msgid "_Shuffle"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:460
+#: src/celluloid-playlist-widget.c:507
 msgid "Loop _File"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:461
+#: src/celluloid-playlist-widget.c:508
 msgid "Loop _Playlist"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:580 src/celluloid-shortcuts-window.c:125
+#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
 msgstr "Lejátszási lista"
 
-#: src/celluloid-playlist-widget.c:588
+#: src/celluloid-playlist-widget.c:635
 #, fuzzy
 msgid "Playlist is empty"
 msgstr "Lejátszási lista"
@@ -834,39 +856,39 @@ msgstr ""
 "Biztosan el akarja távolítani ezt a parancsfájlt? Ez a művelet nem vonható "
 "vissza."
 
-#: src/celluloid-preferences-dialog.c:360
+#: src/celluloid-preferences-dialog.c:366
 msgid "mpv configuration file:"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:366
+#: src/celluloid-preferences-dialog.c:372
 msgid "mpv input configuration file:"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:389
+#: src/celluloid-preferences-dialog.c:395
 msgid "Extra mpv options:"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:409
+#: src/celluloid-preferences-dialog.c:415
 msgid "Interface"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:412
+#: src/celluloid-preferences-dialog.c:418
 msgid "Config Files"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:415
+#: src/celluloid-preferences-dialog.c:421
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:418
+#: src/celluloid-preferences-dialog.c:424
 msgid "Plugins"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:423
+#: src/celluloid-preferences-dialog.c:429
 msgid "_Save"
 msgstr "_Mentés"
 
-#: src/celluloid-preferences-dialog.c:449
+#: src/celluloid-preferences-dialog.c:455
 msgid "Preferences"
 msgstr "Beállítások"
 

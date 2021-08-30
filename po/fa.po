@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-09 19:35+0700\n"
-"PO-Revision-Date: 2021-04-26 15:31+0000\n"
-"Last-Translator: Sina Carnelious <sinacarnelious@protonmail.com>\n"
+"POT-Creation-Date: 2021-08-30 20:38+0700\n"
+"PO-Revision-Date: 2021-07-25 14:32+0000\n"
+"Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/fa/>\n"
 "Language: fa\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.7.2-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -65,84 +65,103 @@ msgid "Always open new window"
 msgstr "باز کردن همیشگی پنجرهٔ تازه"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
-#, fuzzy
 msgid "Always append opened files to playlist"
-msgstr "افزودن پرونده به فهرست پخش"
+msgstr "پرونده‌های گشوده همواره به سیاههٔ پخش افزوده شوند"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
+msgid "Always show title buttons"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:85
+msgid ""
+"If true, title buttons (close, maximize, minimize, etc.) are always shown. "
+"If false, the buttons will be hidden in fullscreen mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:93
+msgid "Present window when opening new files"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:94
+msgid ""
+"If true, Celluloid will attempt to present its window to the user when a new "
+"file is opened. If false, no attempt will be made."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
 msgid "Options to pass to mpv"
 msgstr "انتخاب‌های داده شده به mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:109
 msgid "Path to mpv configuration file"
 msgstr "مسیر پروندهٔ پیکربندی mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:115
 msgid "Load mpv configuration file"
 msgstr "بارگذاری پروندهٔ پیکربندی mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:102
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:121
 msgid "Path to mpv input configuration file"
 msgstr "مسیر به پروندهٔ پیکربندی ورودی mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:108
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:127
 msgid "Load mpv input configuration file"
 msgstr "بارگذاری پروندهٔ پیکربندی ورودی mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:114
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:133
 msgid "Enable MPRIS support"
 msgstr "به کار انداختن پشتیبانی MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:120
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:139
 msgid "Enable media keys support"
 msgstr "به کار انداختن پشتبانی کلیدهای رسانه"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:126
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:145
 msgid "Prefetch metadata"
 msgstr "پیش‌واکشی فراداده"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:132
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:151
 msgid "Ignore playback errors"
 msgstr "چشم‌پوشی از خطاهای پخش"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:138
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:157
 msgid "Inhibit session idling"
 msgstr "بیکاری نشست را مهار کنید"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:148
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Width of the window"
 msgstr "پهنای پنجره"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:154
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
 msgid "Height of the window"
 msgstr "بلندای پنجره"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:160
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
 msgid "Whether or not the window is maximized"
 msgstr "چه پنجره در بزرگترین حالت است یا خیر"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:186
 msgid "Volume of player"
 msgstr "حجم صدای پخش‌کننده"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:192
 msgid "Whether or not to loop when the end of playlist is reached"
-msgstr ""
+msgstr "این که هنگام رسیدن به پایان سیاههٔ پخش، حلقه زده شود یا نه"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:198
 msgid "Width of the playlist"
 msgstr "پهنای فهرست پخش"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:185
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:204
 msgid "Show or not show the controls"
 msgstr "نمایش یا عدم نمایش واپایشگرها"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:191
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:210
 msgid "Show or not show the playlist"
 msgstr "نمایش یا عدم نمایش فهرست پخش"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:216
 msgid "URI of the last folder accessed"
 msgstr "نشانی آخرین پوشهٔ دسترسی داده شده"
 
@@ -202,9 +221,8 @@ msgid "This release contains the following changes:"
 msgstr "این نسخه شامل تغییرات زیر است:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
-#, fuzzy
 msgid "Add Basque translation by @aldatsa."
-msgstr "افزودن ترجمهٔ اسپرانتو به دست @F3nd0"
+msgstr "افزودن ترجمهٔ باسکی به دست @aldatsa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Make the shuffle and loop command line options work properly."
@@ -299,7 +317,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:122
 msgid "Implement playlist search."
-msgstr ""
+msgstr "جست‌وجوی سیاههٔ پخش پیاده‌شد."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:125
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
@@ -502,9 +520,8 @@ msgid "New Window"
 msgstr "پنجرهٔ جدید"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:27
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "افزودن پرونده به فهرست پخش"
+msgstr "افزودن به سیاههٔ پخش"
 
 #: src/celluloid-application.c:519
 msgid "Playing"
@@ -576,13 +593,13 @@ msgstr "فهرست پخش حلقه‌ای"
 
 #: src/celluloid-control-box.c:604
 msgid "Shuffle Playlist"
-msgstr ""
+msgstr "بر زدن سیاههٔ پخش"
 
 #: src/celluloid-control-box.c:607 src/celluloid-header-bar.c:189
 msgid "Toggle Fullscreen"
 msgstr "تغییر حالت تمام‌صفحه"
 
-#: src/celluloid-controller.c:1009 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
 msgid "Error"
 msgstr "خطا"
 
@@ -611,24 +628,20 @@ msgid "Subtitle Files"
 msgstr "پرونده‌های زیرنویس"
 
 #: src/celluloid-file-chooser-button.c:229
-#, fuzzy
 msgid "Open File…"
-msgstr "گشودن پرونده"
+msgstr "گشودن پرونده…"
 
 #: src/celluloid-file-chooser-button.c:232
-#, fuzzy
 msgid "Open"
-msgstr "_گشودن"
+msgstr "گشودن"
 
 #: src/celluloid-file-chooser-button.c:233
-#, fuzzy
 msgid "Cancel"
-msgstr "_لغو"
+msgstr "لغو"
 
 #: src/celluloid-file-chooser-button.c:235
-#, fuzzy
 msgid "(None)"
-msgstr "هیچ‌کدام"
+msgstr "(هیچ‌کدام)"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -662,7 +675,7 @@ msgstr "_گشودن…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr ""
+msgstr "گشودن _شاخه…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -750,54 +763,53 @@ msgid "_Open"
 msgstr "_گشودن"
 
 #: src/celluloid-open-location-dialog.c:138
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:427
 msgid "_Cancel"
 msgstr "_لغو"
 
-#: src/celluloid-player.c:599
+#: src/celluloid-player.c:600
 msgid "Failed to apply one or more MPV options."
 msgstr "شکست در اعمال برخی گزینه‌های mpv."
 
-#: src/celluloid-playlist-widget.c:453
+#: src/celluloid-playlist-widget.c:500
 msgid "_Copy Location"
 msgstr "_رونوشت از موقعیت"
 
-#: src/celluloid-playlist-widget.c:454
+#: src/celluloid-playlist-widget.c:501
 msgid "_Remove"
 msgstr "_برداشتن"
 
-#: src/celluloid-playlist-widget.c:456
+#: src/celluloid-playlist-widget.c:503
 msgid "_Add…"
 msgstr "_افزودن…"
 
-#: src/celluloid-playlist-widget.c:457
+#: src/celluloid-playlist-widget.c:504
 msgid "Add _Folder…"
-msgstr ""
+msgstr "افزودن _شاخه…"
 
-#: src/celluloid-playlist-widget.c:458
+#: src/celluloid-playlist-widget.c:505
 msgid "Add _Location…"
 msgstr "افزودن _موقعیت…"
 
-#: src/celluloid-playlist-widget.c:459
+#: src/celluloid-playlist-widget.c:506
 msgid "_Shuffle"
 msgstr "_بر زدن"
 
-#: src/celluloid-playlist-widget.c:460
+#: src/celluloid-playlist-widget.c:507
 msgid "Loop _File"
 msgstr "تکرار _پرونده"
 
-#: src/celluloid-playlist-widget.c:461
+#: src/celluloid-playlist-widget.c:508
 msgid "Loop _Playlist"
 msgstr "تکرار _فهرست پخش"
 
-#: src/celluloid-playlist-widget.c:580 src/celluloid-shortcuts-window.c:125
+#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
 msgstr "فهرست پخش"
 
-#: src/celluloid-playlist-widget.c:588
-#, fuzzy
+#: src/celluloid-playlist-widget.c:635
 msgid "Playlist is empty"
-msgstr "فهرست پخش"
+msgstr "سیاههٔ پخش خالیست"
 
 #: src/celluloid-plugins-manager.c:177 src/celluloid-plugins-manager.c:412
 msgid "Add Plugin"
@@ -838,39 +850,39 @@ msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:360
-msgid "mpv configuration file:"
-msgstr ""
-
 #: src/celluloid-preferences-dialog.c:366
+msgid "mpv configuration file:"
+msgstr "پروندهٔ پیکربندی mpv:"
+
+#: src/celluloid-preferences-dialog.c:372
 msgid "mpv input configuration file:"
-msgstr ""
+msgstr "پروندهٔ پیکربندی ورودی mpv:"
 
-#: src/celluloid-preferences-dialog.c:389
+#: src/celluloid-preferences-dialog.c:395
 msgid "Extra mpv options:"
-msgstr ""
+msgstr "گزینه‌های اضافی mpv:"
 
-#: src/celluloid-preferences-dialog.c:409
+#: src/celluloid-preferences-dialog.c:415
 msgid "Interface"
 msgstr "رابط"
 
-#: src/celluloid-preferences-dialog.c:412
+#: src/celluloid-preferences-dialog.c:418
 msgid "Config Files"
 msgstr "پرونده‌های پیکربندی"
 
-#: src/celluloid-preferences-dialog.c:415
+#: src/celluloid-preferences-dialog.c:421
 msgid "Miscellaneous"
 msgstr "متفرّقه"
 
-#: src/celluloid-preferences-dialog.c:418
+#: src/celluloid-preferences-dialog.c:424
 msgid "Plugins"
 msgstr "افزایه‌ها"
 
-#: src/celluloid-preferences-dialog.c:423
+#: src/celluloid-preferences-dialog.c:429
 msgid "_Save"
 msgstr "_ذخیره"
 
-#: src/celluloid-preferences-dialog.c:449
+#: src/celluloid-preferences-dialog.c:455
 msgid "Preferences"
 msgstr "ترجیحات"
 
@@ -972,7 +984,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Save playlist"
-msgstr ""
+msgstr "ذخیرهٔ سیاههٔ پخش"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Set/clear A-B loop points"
@@ -980,15 +992,15 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Toggle infinite looping"
-msgstr ""
+msgstr "تغییر حالت حلقهٔ بی‌پایان"
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Pause or unpause"
-msgstr ""
+msgstr "مکث یا از سر گیری"
 
 #: src/celluloid-shortcuts-window.c:78
 msgid "Quit"
-msgstr ""
+msgstr "خروج"
 
 #: src/celluloid-shortcuts-window.c:79
 msgid "Save current playback position and quit"
@@ -996,7 +1008,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Enter search mode"
-msgstr ""
+msgstr "ورود به حالت جست‌وجو"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Jump to next match"
@@ -1008,7 +1020,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:85
 msgid "Exit search mode"
-msgstr ""
+msgstr "خروج از حالت جست‌وجو"
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Cycle through audio tracks"
@@ -1016,11 +1028,11 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:89 src/celluloid-shortcuts-window.c:90
 msgid "Decrease/increase volume"
-msgstr ""
+msgstr "کاهش/افزایش حجم صدا"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Mute or unmute"
-msgstr ""
+msgstr "خموشی یا ناخموشی"
 
 #: src/celluloid-shortcuts-window.c:92
 msgid "Adjust audio delay by +/- 0.1 seconds"
@@ -1028,7 +1040,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Toggle subtitle visibility"
-msgstr ""
+msgstr "تغییر حالت نمایانی زیرنویس"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Cycle through available subtitles"
@@ -1044,7 +1056,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Move subtitles up/down"
-msgstr ""
+msgstr "جابه‌جایی زیرنویس به بالا/پایین"
 
 #: src/celluloid-shortcuts-window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
@@ -1084,19 +1096,19 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Adjust contrast"
-msgstr ""
+msgstr "تنظیم سایه‌روشن"
 
 #: src/celluloid-shortcuts-window.c:112
 msgid "Adjust brightness"
-msgstr ""
+msgstr "تنظیم روشنایی"
 
 #: src/celluloid-shortcuts-window.c:113
 msgid "Adjust gamma"
-msgstr ""
+msgstr "تنظیم گاما"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Adjust saturation"
-msgstr ""
+msgstr "تنظیم اشباع"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Activate or deactivate deinterlacer"
@@ -1136,7 +1148,7 @@ msgstr "بار کردن قطعهٔ صوتی…"
 
 #: src/celluloid-view.c:739
 msgid "Load Video Track…"
-msgstr ""
+msgstr "بار کردن قطعهٔ ویدیویی…"
 
 #: src/celluloid-view.c:743
 msgid "Load Subtitle Track…"
@@ -1147,14 +1159,16 @@ msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
+"برای اثر گذاری به یا از کار اندازی تزیینات سمت کارخواه، نیاز به آغاز دوباره "
+"است."
 
 #: src/celluloid-view.c:1433
 msgid "Add Folder to Playlist"
-msgstr ""
+msgstr "افزودن شاخه به سیاههٔ پخش"
 
 #: src/celluloid-view.c:1433
 msgid "Open Folder"
-msgstr ""
+msgstr "گشودن شاخه"
 
 #: src/celluloid-view.c:1438
 msgid "Add File to Playlist"
