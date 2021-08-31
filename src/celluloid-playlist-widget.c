@@ -749,6 +749,7 @@ celluloid_playlist_widget_update_contents(	CelluloidPlaylistWidget *wgt,
 	celluloid_playlist_model_set_current
 		(wgt->model, MIN(current, (gint)playlist->len - 1));
 
+	wgt->playlist_count = playlist->len;
 	g_object_notify(G_OBJECT(wgt), "playlist-count");
 
 	g_signal_handlers_unblock_by_func(wgt->model, contents_changed_handler, wgt);
