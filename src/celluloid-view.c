@@ -240,7 +240,7 @@ constructed(GObject *object)
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	playlist, "playlist-count",
 				view, "playlist-count",
-				G_BINDING_DEFAULT );
+				G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE );
 	g_object_bind_property(	playlist, "searching",
 				view, "searching",
 				G_BINDING_BIDIRECTIONAL );
