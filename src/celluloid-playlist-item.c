@@ -37,6 +37,15 @@ struct _CelluloidPlaylistItemClass
 G_DEFINE_TYPE(CelluloidPlaylistItem, celluloid_playlist_item, G_TYPE_OBJECT)
 
 static void
+finalize(GObject *gobject)
+{
+	CelluloidPlaylistItem *self = CELLULOID_PLAYLIST_ITEM(gobject);
+
+	g_free(self->title);
+	g_free(self->uri);
+}
+
+static void
 celluloid_playlist_item_init(CelluloidPlaylistItem *self)
 {
 	self->title = NULL;
@@ -47,6 +56,9 @@ celluloid_playlist_item_init(CelluloidPlaylistItem *self)
 static void
 celluloid_playlist_item_class_init(CelluloidPlaylistItemClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
+
+	gobject_class->finalize = finalize;
 }
 
 CelluloidPlaylistItem *
