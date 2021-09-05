@@ -77,6 +77,15 @@ celluloid_playlist_item_new_take(	gchar *title,
 }
 
 CelluloidPlaylistItem *
+celluloid_playlist_item_new(	gchar *title,
+				gchar *uri,
+				gboolean is_current )
+{
+	return	celluloid_playlist_item_new_take
+		(g_strdup(title), g_strdup(uri), is_current);
+}
+
+CelluloidPlaylistItem *
 celluloid_playlist_item_copy(CelluloidPlaylistItem *source)
 {
 	CelluloidPlaylistItem *self;

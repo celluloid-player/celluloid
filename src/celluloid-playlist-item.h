@@ -32,6 +32,11 @@ celluloid_playlist_item_new_take(	gchar *title,
 					gboolean is_current );
 
 CelluloidPlaylistItem *
+celluloid_playlist_item_new(	gchar *title,
+				gchar *uri,
+				gboolean is_current );
+
+CelluloidPlaylistItem *
 celluloid_playlist_item_copy(CelluloidPlaylistItem *source);
 
 const gchar *
