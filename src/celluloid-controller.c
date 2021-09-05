@@ -103,6 +103,9 @@ static void
 playlist_item_activated_handler(CelluloidView *view, gint pos, gpointer data);
 
 static void
+playlist_item_inserted_handler(CelluloidView *view, gint pos, gpointer data);
+
+static void
 playlist_item_deleted_handler(CelluloidView *view, gint pos, gpointer data);
 
 static void
@@ -552,6 +555,25 @@ playlist_item_activated_handler(CelluloidView *view, gint pos, gpointer data)
 }
 
 static void
+playlist_item_inserted_handler(CelluloidView *view, gint pos, gpointer data)
+{
+	CelluloidModel *model = CELLULOID_CONTROLLER(data)->model;
+	CelluloidMainWindow *window = CELLULOID_MAIN_WINDOW(view);
+	CelluloidPlaylistWidget *playlist = celluloid_main_window_get_playlist(window);
+	GPtrArray *contents = celluloid_playlist_widget_get_contents(playlist);
+
+	g_assert(contents->len > 0);
+	CelluloidPlaylistEntry *entry = g_ptr_array_index(contents, pos);
+
+	if((guint)pos != contents->len - 1)
+	{
+		g_warning("Playlist item inserted at non-last position. This is not yet supported. Appending to the playlist instead.");
+	}
+
+	celluloid_model_load_file(model, entry->filename, TRUE);
+}
+
+static void
 playlist_item_deleted_handler(CelluloidView *view, gint pos, gpointer data)
 {
 	celluloid_model_remove_playlist_entry
@@ -778,6 +800,10 @@ connect_signals(CelluloidController *controller)
 	g_signal_connect(	controller->view,
 				"playlist-item-activated",
 				G_CALLBACK(playlist_item_activated_handler),
+				controller );
+	g_signal_connect(	controller->view,
+				"playlist-item-inserted",
+				G_CALLBACK(playlist_item_inserted_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"playlist-item-deleted",

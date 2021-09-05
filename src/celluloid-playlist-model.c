@@ -17,8 +17,6 @@
  * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-
 #include <gio/gio.h>
 
 #include "celluloid-playlist-model.h"
@@ -137,6 +135,7 @@ celluloid_playlist_model_append(	CelluloidPlaylistModel *self,
 	g_object_ref_sink(item);
 	g_ptr_array_add(self->items, item);
 
+	g_assert(self->items->len > 0);
 	contents_changed(self, self->items->len - 1, 0, 1);
 }
 
@@ -191,7 +190,6 @@ celluloid_playlist_model_set_current(	CelluloidPlaylistModel *self,
 
 		item = get_item(G_LIST_MODEL(self), (guint)position);
 		celluloid_playlist_item_set_is_current(item, TRUE);
-
 
 		g_list_model_items_changed
 			(G_LIST_MODEL(self), (guint)position, 1, 1);

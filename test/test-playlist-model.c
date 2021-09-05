@@ -71,42 +71,6 @@ test_append(void)
 }
 
 static void
-test_remove(void)
-{
-	CelluloidPlaylistModel *model = celluloid_playlist_model_new();
-	CelluloidPlaylistItem *item = NULL;
-	const gchar *title = NULL;
-	const gchar *uri = NULL;
-	gboolean is_current = TRUE;
-	guint n_items = 0;
-
-	add_test_data(model);
-
-	celluloid_playlist_model_remove(model, 1);
-
-	n_items = g_list_model_get_n_items(G_LIST_MODEL(model));
-	g_assert_cmpuint(n_items, ==, 2);
-
-	item = g_list_model_get_item(G_LIST_MODEL(model), 0);
-	title = celluloid_playlist_item_get_title(item);
-	uri = celluloid_playlist_item_get_uri(item);
-	is_current = celluloid_playlist_item_get_is_current(item);
-	g_assert_cmpstr(title, ==, "Foo");
-	g_assert_cmpstr(uri, ==, "file:///foo.webm");
-	g_assert_cmpint(is_current, ==, FALSE);
-
-	item = g_list_model_get_item(G_LIST_MODEL(model), 1);
-	title = celluloid_playlist_item_get_title(item);
-	uri = celluloid_playlist_item_get_uri(item);
-	is_current = celluloid_playlist_item_get_is_current(item);
-	g_assert_cmpstr(title, ==, "Baz");
-	g_assert_cmpstr(uri, ==, "file:///baz.webm");
-	g_assert_cmpint(is_current, ==, FALSE);
-
-	g_object_unref(model);
-}
-
-static void
 test_clear(void)
 {
 	CelluloidPlaylistModel *model = celluloid_playlist_model_new();
@@ -217,7 +181,6 @@ main(gint argc, gchar **argv)
 	g_test_set_nonfatal_assertions();
 
 	g_test_add_func("/test-append", test_append);
-	g_test_add_func("/test-remove", test_remove);
 	g_test_add_func("/test-clear", test_clear);
 	g_test_add_func("/test-set-current", test_set_current);
 	g_test_add_func("/test-signals", test_signals);

@@ -60,6 +60,7 @@ struct _CelluloidPlaylistWidget
 	CelluloidPlaylistModel *model;
 	GtkWidget *list_box;
 	gint last_selected;
+	gchar *drag_uri;
 	GtkTreeViewColumn *title_column;
 	GtkCellRenderer *title_renderer;
 	GtkWidget *search_bar;
@@ -68,6 +69,7 @@ struct _CelluloidPlaylistWidget
 	gint last_x;
 	gint last_y;
 	gboolean dnd_delete;
+	GtkCssProvider *css_provider;
 };
 
 struct _CelluloidPlaylistWidgetClass
@@ -122,13 +124,6 @@ items_changed_handler(	CelluloidPlaylistModel *model,
 			gpointer data );
 
 static void
-contents_changed_handler(	CelluloidPlaylistModel *model,
-				guint position,
-				guint removed,
-				guint added,
-				gpointer data );
-
-static void
 next_match_handler(GtkSearchEntry *entry, gpointer data);
 
 static void
@@ -146,6 +141,37 @@ pressed_handler(	GtkGestureClick *gesture,
 			gdouble x,
 			gdouble y,
 			gpointer data );
+
+static GdkContentProvider *
+prepare_handler(	GtkDragSource *source,
+			gdouble x,
+			gdouble y,
+			gpointer data );
+
+static void
+drag_end_handler(	GtkDragSource *source,
+			GdkDrag *drag,
+			gboolean delete_data,
+			gpointer data );
+
+static GdkDragAction
+motion_handler(	GtkDropTarget *self,
+		gdouble x,
+		gdouble y,
+		gpointer data );
+
+static void
+leave_handler(GtkDropTarget *self, gpointer data);
+
+static gboolean
+drop_handler(	GtkDropTarget *self,
+		GValue *value,
+		gdouble x,
+		gdouble y,
+		gpointer data );
+
+static void
+realize_handler(GtkWidget *self, gpointer data);
 
 G_DEFINE_TYPE(CelluloidPlaylistWidget, celluloid_playlist_widget, GTK_TYPE_BOX)
 
@@ -253,6 +279,7 @@ constructed(GObject *object)
 	self->model = celluloid_playlist_model_new();
 	self->list_box = gtk_list_box_new();
 	self->last_selected = -1;
+	self->drag_uri = NULL;
 
 	gtk_list_box_set_selection_mode
 		(GTK_LIST_BOX(self->list_box), GTK_SELECTION_BROWSE);
@@ -269,17 +296,51 @@ constructed(GObject *object)
 			NULL );
 
 	GtkGesture *click_gesture = gtk_gesture_click_new();
-
 	gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(click_gesture), 0);
-
 	gtk_widget_add_controller(	GTK_WIDGET(self->list_box),
 					GTK_EVENT_CONTROLLER(click_gesture) );
-
 	g_signal_connect(	click_gesture,
 				"pressed",
 				G_CALLBACK(pressed_handler),
 				self );
 
+	GtkDragSource *drag_source = gtk_drag_source_new();
+	gtk_widget_add_controller(	GTK_WIDGET(self->list_box),
+					GTK_EVENT_CONTROLLER(drag_source) );
+	g_signal_connect(	drag_source,
+				"prepare",
+				G_CALLBACK(prepare_handler),
+				self );
+	g_signal_connect(	drag_source,
+				"drag-end",
+				G_CALLBACK(drag_end_handler),
+				self );
+
+	GtkDropTarget *drop_target = gtk_drop_target_new(G_TYPE_INVALID, GDK_ACTION_ALL);
+	GType types[] = {G_TYPE_INT, GDK_TYPE_FILE_LIST, G_TYPE_STRING};
+
+	gtk_drop_target_set_gtypes(	drop_target,
+					types,
+					G_N_ELEMENTS(types) );
+	gtk_widget_add_controller(	GTK_WIDGET(self->list_box),
+					GTK_EVENT_CONTROLLER(drop_target) );
+	g_signal_connect(	drop_target,
+				"motion",
+				G_CALLBACK(motion_handler),
+				self );
+	g_signal_connect(	drop_target,
+				"leave",
+				G_CALLBACK(leave_handler),
+				self );
+	g_signal_connect(	drop_target,
+				"drop",
+				G_CALLBACK(drop_handler),
+				self );
+
+	g_signal_connect(	self->list_box,
+				"realize",
+				G_CALLBACK(realize_handler),
+				self );
 	g_signal_connect(	self->list_box,
 				"row-activated",
 				G_CALLBACK(row_activated_handler),
@@ -292,10 +353,6 @@ constructed(GObject *object)
 	g_signal_connect(	self->model,
 				"items-changed",
 				G_CALLBACK(items_changed_handler),
-				self );
-	g_signal_connect(	self->model,
-				"contents-changed",
-				G_CALLBACK(contents_changed_handler),
 				self );
 
 	g_signal_connect(	self->search_entry,
@@ -432,27 +489,8 @@ items_changed_handler(	CelluloidPlaylistModel *model,
 	CelluloidPlaylistWidget *self = CELLULOID_PLAYLIST_WIDGET(data);
 
 	select_index(self, self->last_selected);
-}
 
-static void
-contents_changed_handler(	CelluloidPlaylistModel *model,
-				guint position,
-				guint removed,
-				guint added,
-				gpointer data )
-{
-	while(removed-- > 0)
-	{
-		CELLULOID_PLAYLIST_WIDGET(data)->playlist_count--;
-		g_signal_emit_by_name(data, "row-deleted", position);
-	}
-
-	while(added-- > 0)
-	{
-		CELLULOID_PLAYLIST_WIDGET(data)->playlist_count++;
-		g_signal_emit_by_name(data, "row-inserted", position);
-	}
-
+	self->playlist_count = g_list_model_get_n_items(G_LIST_MODEL(model));
 	g_object_notify(data, "playlist-count");
 }
 
@@ -515,9 +553,11 @@ pressed_handler(	GtkGestureClick *gesture,
 			gtk_list_box_get_row_at_y
 			(GTK_LIST_BOX(wgt->list_box), (gint)y);
 
-		gtk_list_box_select_row(GTK_LIST_BOX(wgt->list_box), row);
-
-		if(!row)
+		if(row)
+		{
+			gtk_list_box_select_row(GTK_LIST_BOX(wgt->list_box), row);
+		}
+		else
 		{
 			/* Skip the first section which only contains item-level
 			 * actions
@@ -541,6 +581,234 @@ pressed_handler(	GtkGestureClick *gesture,
 	}
 
 	return FALSE;
+}
+
+static GdkContentProvider *
+prepare_handler(	GtkDragSource *source,
+			gdouble x,
+			gdouble y,
+			gpointer data )
+{
+	CelluloidPlaylistWidget *wgt =
+		CELLULOID_PLAYLIST_WIDGET(data);
+	GtkWidget *list_box =
+		gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(source));
+	GtkListBoxRow *row =
+		gtk_list_box_get_row_at_y(GTK_LIST_BOX(list_box), (gint)y);
+	GdkContentProvider *provider =
+		NULL;
+
+	if(row)
+	{
+		GdkPaintable *paintable =
+			gtk_widget_paintable_new(GTK_WIDGET(row));
+		gint index =
+			gtk_list_box_row_get_index(row);
+		CelluloidPlaylistItem *item =
+			g_list_model_get_item
+			(G_LIST_MODEL(wgt->model), (guint)index);
+		const gchar *uri =
+			celluloid_playlist_item_get_uri(item);
+
+		wgt->drag_uri = g_strdup(uri);
+
+		GdkContentProvider *int_provider =
+			gdk_content_provider_new_typed
+			(G_TYPE_INT, index);
+		GdkContentProvider *string_provider =
+			gdk_content_provider_new_typed
+			(G_TYPE_STRING, wgt->drag_uri);
+		GdkContentProvider *subproviders[] =
+			{int_provider, string_provider};
+
+		provider = gdk_content_provider_new_union(subproviders, 2);
+		gtk_drag_source_set_icon(source, paintable, 100, 0);
+	}
+
+	return provider;
+}
+
+static void
+drag_end_handler(	GtkDragSource *source,
+			GdkDrag *drag,
+			gboolean delete_data,
+			gpointer data )
+{
+	CelluloidPlaylistWidget *wgt = CELLULOID_PLAYLIST_WIDGET(data);
+
+	g_clear_pointer(&wgt->drag_uri, g_free);
+}
+
+static GdkDragAction
+motion_handler(	GtkDropTarget *self,
+		gdouble x,
+		gdouble y,
+		gpointer data )
+{
+	CelluloidPlaylistWidget *wgt = CELLULOID_PLAYLIST_WIDGET(data);
+	GdkDrop *drop = gtk_drop_target_get_drop(self);
+	GdkContentFormats *formats = gdk_drop_get_formats(drop);
+	gchar *css_data = NULL;
+
+	GtkEventController *controller =
+		GTK_EVENT_CONTROLLER(self);
+	GtkWidget *list_box =
+		gtk_event_controller_get_widget(controller);
+	GtkListBoxRow *row =
+		gtk_list_box_get_row_at_y(GTK_LIST_BOX(list_box), (gint)y);
+
+	// External files are always appended, so we should always highlight the
+	// last row in that case.
+	if(row && gdk_content_formats_contain_gtype(formats, G_TYPE_INT))
+	{
+		GtkWidget *src = gtk_event_controller_get_widget(controller);
+		const gint row_h = gtk_widget_get_height(GTK_WIDGET(row));
+		gdouble row_x = 0;
+		gdouble row_y = 0;
+
+		gtk_widget_translate_coordinates
+			(src, GTK_WIDGET(row), x, y, &row_x, &row_y);
+
+		const gboolean top_half = row_y < (row_h / 2);
+		gint row_index = gtk_list_box_row_get_index(row);
+
+		css_data =
+			g_strdup_printf
+			(	"row:nth-child(%d)		"
+				"{				"
+				"	%s: 1px solid white;	"
+				"}				",
+				row_index + 1,
+				top_half ? "border-top" : "border-bottom" );
+	}
+	else
+	{
+		css_data =
+			g_strdup
+			(	"row:last-child				"
+				"{					"
+				"	border-bottom: 1px solid white;	"
+				"}					");
+	}
+
+	gtk_css_provider_load_from_data(wgt->css_provider, css_data, -1);
+	g_free(css_data);
+
+	return GDK_ACTION_MOVE;
+}
+
+static void
+leave_handler(GtkDropTarget *self, gpointer data)
+{
+	CelluloidPlaylistWidget *wgt = CELLULOID_PLAYLIST_WIDGET(data);
+
+	gtk_css_provider_load_from_data(wgt->css_provider, "", -1);
+}
+
+static gboolean
+drop_handler(	GtkDropTarget *self,
+		GValue *value,
+		gdouble x,
+		gdouble y,
+		gpointer data )
+{
+	CelluloidPlaylistWidget *wgt =
+		CELLULOID_PLAYLIST_WIDGET(data);
+	const guint n_items =
+		g_list_model_get_n_items(G_LIST_MODEL(wgt->model));
+
+	if(G_VALUE_HOLDS_INT(value))
+	{
+		const gint src_index =
+			g_value_get_int(value);
+		GtkWidget *src =
+			gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(self));
+		GtkListBoxRow *dst_row =
+			gtk_list_box_get_row_at_y(GTK_LIST_BOX(wgt->list_box), (gint)y);
+
+		// Set the destination index to the last position. This is used if
+		// the source row is dropped on the empty space following the playlist.
+		gint dst_index = (gint)n_items - 1;
+
+		if(dst_row)
+		{
+			gdouble row_x = 0;
+			gdouble row_y = 0;
+
+			gtk_widget_translate_coordinates
+				(src, GTK_WIDGET(dst_row), x, y, &row_x, &row_y);
+
+			const gint row_h =
+				gtk_widget_get_height(GTK_WIDGET(dst_row));
+			const gboolean top_half =
+				row_y < (row_h / 2);
+			const gint dst_row_index =
+				gtk_list_box_row_get_index(dst_row);
+			const gint offset =
+				(top_half ? -1 : 0) +
+				(src_index - 1 < dst_row_index ? 0 : 1);
+
+			dst_index = CLAMP(dst_row_index + offset, 0, (gint)n_items - 1);
+		}
+
+		GtkListBoxRow *new_dst_row =
+			gtk_list_box_get_row_at_index
+			(GTK_LIST_BOX(wgt->list_box), dst_index);
+
+		gtk_list_box_select_row(GTK_LIST_BOX(wgt->list_box), new_dst_row);
+		gtk_css_provider_load_from_data(wgt->css_provider, "", -1);
+
+		g_signal_emit_by_name
+			(	wgt,
+				"rows-reordered",
+				src_index + (src_index > dst_index ? 1 : 0),
+				dst_index + (src_index < dst_index ? 1 : 0) );
+	}
+	else if(G_VALUE_HOLDS(value, GDK_TYPE_FILE_LIST))
+	{
+		guint position = n_items;
+
+		for(	GSList *slist = g_value_get_boxed(value);
+			slist;
+			slist = slist->next )
+		{
+			gchar *uri = g_file_get_uri(slist->data);
+			gchar *title = g_strdup(uri);
+
+			CelluloidPlaylistItem *item =
+				celluloid_playlist_item_new_take
+				(title, uri, FALSE);
+
+			celluloid_playlist_model_append(wgt->model, item);
+			g_signal_emit_by_name(wgt, "row-inserted", position++);
+		}
+	}
+	else if(G_VALUE_HOLDS_STRING(value))
+	{
+		const gchar *string =
+			g_value_get_string(value);
+		CelluloidPlaylistItem *item =
+			celluloid_playlist_item_new(string, string, FALSE);
+
+		celluloid_playlist_model_append(wgt->model, item);
+		g_signal_emit_by_name(wgt, "row-inserted", n_items);
+	}
+
+	return FALSE;
+}
+
+static void
+realize_handler(GtkWidget *self, gpointer data)
+{
+	CelluloidPlaylistWidget *wgt = CELLULOID_PLAYLIST_WIDGET(data);
+	GtkNative *native = gtk_widget_get_native(self);
+	GdkSurface *surface = gtk_native_get_surface(native);
+	GdkDisplay *display = gdk_surface_get_display(surface);
+
+	gtk_style_context_add_provider_for_display
+		(	display,
+			GTK_STYLE_PROVIDER(wgt->css_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION );
 }
 
 static void
@@ -634,6 +902,7 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	wgt->search_entry = gtk_search_entry_new();
 	wgt->placeholder = gtk_label_new(_("Playlist is empty"));
 	wgt->dnd_delete = TRUE;
+	wgt->css_provider = gtk_css_provider_new();
 
 	gtk_widget_set_vexpand(wgt->scrolled_window, TRUE);
 
@@ -713,7 +982,7 @@ celluloid_playlist_widget_remove_selected(CelluloidPlaylistWidget *wgt)
 
 	if(index >= 0)
 	{
-		celluloid_playlist_model_remove(wgt->model, (guint)index);
+		g_signal_emit_by_name(wgt, "row-deleted", index);
 	}
 }
 
@@ -727,8 +996,6 @@ void
 celluloid_playlist_widget_update_contents(	CelluloidPlaylistWidget *wgt,
 						GPtrArray* playlist )
 {
-	g_signal_handlers_block_by_func(wgt->model, contents_changed_handler, wgt);
-
 	const gint current = celluloid_playlist_model_get_current(wgt->model);
 
 	celluloid_playlist_model_clear(wgt->model);
@@ -751,35 +1018,27 @@ celluloid_playlist_widget_update_contents(	CelluloidPlaylistWidget *wgt,
 
 	wgt->playlist_count = playlist->len;
 	g_object_notify(G_OBJECT(wgt), "playlist-count");
-
-	g_signal_handlers_unblock_by_func(wgt->model, contents_changed_handler, wgt);
 }
 
 GPtrArray *
 celluloid_playlist_widget_get_contents(CelluloidPlaylistWidget *wgt)
 {
-	gboolean rc = TRUE;
-	GtkTreeModel *model = GTK_TREE_MODEL(wgt->store);
-	GtkTreeIter iter;
-	GPtrArray *result = NULL;
-	rc = gtk_tree_model_get_iter_first(model, &iter);
-	result = g_ptr_array_new_full(	1,
+	const guint n_items = g_list_model_get_n_items(G_LIST_MODEL(wgt->model));
+	GPtrArray *result =	g_ptr_array_new_full
+				(	n_items,
 					(GDestroyNotify)
 					celluloid_playlist_entry_free );
 
-	while(rc)
+	for(guint i = 0; i < n_items; i++)
 	{
-		gchar *uri = NULL;
-		gchar *name = NULL;
+		CelluloidPlaylistItem *item =
+			g_list_model_get_item(G_LIST_MODEL(wgt->model), i);
+		const gchar *uri =
+			celluloid_playlist_item_get_uri(item);
+		CelluloidPlaylistEntry *entry =
+			celluloid_playlist_entry_new(uri, uri);
 
-		gtk_tree_model_get(	model, &iter,
-					PLAYLIST_URI_COLUMN, &uri,
-					PLAYLIST_NAME_COLUMN, &name,
-					-1 );
-
-		g_ptr_array_add(result, celluloid_playlist_entry_new(uri, name));
-
-		rc = gtk_tree_model_iter_next(model, &iter);
+		g_ptr_array_add(result, entry);
 	}
 
 	return result;
