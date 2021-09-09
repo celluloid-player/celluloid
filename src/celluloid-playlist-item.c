@@ -77,8 +77,8 @@ celluloid_playlist_item_new_take(	gchar *title,
 }
 
 CelluloidPlaylistItem *
-celluloid_playlist_item_new(	gchar *title,
-				gchar *uri,
+celluloid_playlist_item_new(	const gchar *title,
+				const gchar *uri,
 				gboolean is_current )
 {
 	return	celluloid_playlist_item_new_take
