@@ -56,13 +56,10 @@ struct _CelluloidPlaylistWidget
 	gboolean searching;
 	GtkListStore *store;
 	GtkWidget *scrolled_window;
-	GtkWidget *tree_view;
 	CelluloidPlaylistModel *model;
 	GtkWidget *list_box;
 	gint last_selected;
 	gchar *drag_uri;
-	GtkTreeViewColumn *title_column;
-	GtkCellRenderer *title_renderer;
 	GtkWidget *search_bar;
 	GtkWidget *search_entry;
 	GtkWidget *placeholder;
@@ -274,8 +271,6 @@ constructed(GObject *object)
 						G_TYPE_STRING,
 						G_TYPE_STRING,
 						G_TYPE_INT );
-	self->tree_view =	gtk_tree_view_new_with_model
-				(GTK_TREE_MODEL(self->store));
 	self->model = celluloid_playlist_model_new();
 	self->list_box = gtk_list_box_new();
 	self->last_selected = -1;
