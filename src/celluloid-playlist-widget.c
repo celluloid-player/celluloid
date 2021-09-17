@@ -65,7 +65,6 @@ struct _CelluloidPlaylistWidget
 	GtkWidget *placeholder;
 	gint last_x;
 	gint last_y;
-	gboolean dnd_delete;
 	GtkCssProvider *css_provider;
 };
 
@@ -881,7 +880,6 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	wgt->search_bar = gtk_search_bar_new();
 	wgt->search_entry = gtk_search_entry_new();
 	wgt->placeholder = gtk_label_new(_("Playlist is empty"));
-	wgt->dnd_delete = TRUE;
 	wgt->css_provider = gtk_css_provider_new();
 
 	gtk_widget_set_vexpand(wgt->scrolled_window, TRUE);
