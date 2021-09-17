@@ -904,9 +904,7 @@ celluloid_playlist_widget_new()
 gboolean
 celluloid_playlist_widget_empty(CelluloidPlaylistWidget *wgt)
 {
-	GtkTreeIter iter;
-
-	return !gtk_tree_model_get_iter_first(GTK_TREE_MODEL(wgt->store), &iter);
+	return g_list_model_get_n_items(G_LIST_MODEL(wgt->model)) == 0;
 }
 
 void
