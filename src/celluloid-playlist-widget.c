@@ -383,13 +383,6 @@ constructed(GObject *object)
 					NULL,
 					NULL );
 
-	gtk_widget_set_can_focus(self->tree_view, FALSE);
-	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(self->tree_view), FALSE);
-	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(self->tree_view), FALSE);
-
-	gtk_tree_view_append_column
-		(GTK_TREE_VIEW(self->tree_view), self->title_column);
-
 	gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(self->scrolled_window), self->list_box);
 	gtk_box_append(GTK_BOX(self), self->scrolled_window);
 
@@ -889,14 +882,6 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 
 	wgt->playlist_count = 0;
 	wgt->searching = FALSE;
-	wgt->title_renderer = gtk_cell_renderer_text_new();
-	wgt->title_column
-		= gtk_tree_view_column_new_with_attributes
-			(	_("Playlist"),
-				wgt->title_renderer,
-				"text", PLAYLIST_NAME_COLUMN,
-				"weight", PLAYLIST_WEIGHT_COLUMN,
-				NULL );
 	wgt->scrolled_window = gtk_scrolled_window_new();
 	wgt->search_bar = gtk_search_bar_new();
 	wgt->search_entry = gtk_search_entry_new();
@@ -913,8 +898,6 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 		(GTK_ORIENTABLE(wgt), GTK_ORIENTATION_VERTICAL);
 	gtk_widget_set_size_request
 		(GTK_WIDGET(wgt), PLAYLIST_MIN_WIDTH, -1);
-	gtk_tree_view_column_set_sizing
-		(wgt->title_column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 }
 
 GtkWidget *
@@ -941,37 +924,21 @@ celluloid_playlist_widget_set_indicator_pos(	CelluloidPlaylistWidget *wgt,
 void
 celluloid_playlist_widget_copy_selected(CelluloidPlaylistWidget *wgt)
 {
-	GtkTreePath *path = NULL;
+	GtkListBoxRow *row =
+		gtk_list_box_get_selected_row(GTK_LIST_BOX(wgt->list_box));
 
-	gtk_tree_view_get_cursor
-		(	GTK_TREE_VIEW(wgt->tree_view),
-			&path,
-			NULL );
-
-	if(path)
+	if(row)
 	{
-		GtkTreeIter iter;
-		GtkTreeModel *model = GTK_TREE_MODEL(wgt->store);
-		GValue value = G_VALUE_INIT;
+		const guint index =
+			(guint)gtk_list_box_row_get_index(row);
+		CelluloidPlaylistItem *item =
+			g_list_model_get_item(G_LIST_MODEL(wgt->model), index);
+		const gchar *uri =
+			celluloid_playlist_item_get_uri(item);
+		GdkClipboard *clipboard
+			= gtk_widget_get_clipboard(GTK_WIDGET(wgt));
 
-		if(gtk_tree_model_get_iter(model, &iter, path))
-		{
-			const gchar *uri;
-
-			gtk_tree_model_get_value
-				(model, &iter, PLAYLIST_URI_COLUMN, &value);
-
-			uri = g_value_get_string(&value);
-
-			if(uri)
-			{
-				GdkClipboard *clipboard;
-
-				clipboard = gtk_widget_get_clipboard(GTK_WIDGET(wgt));
-
-				gdk_clipboard_set_text(clipboard, uri);
-			}
-		}
+		gdk_clipboard_set_text(clipboard, uri);
 	}
 }
 
