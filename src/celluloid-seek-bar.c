@@ -29,6 +29,7 @@ enum
 {
 	PROP_0,
 	PROP_DURATION,
+	PROP_PAUSE,
 	N_PROPERTIES
 };
 
@@ -41,6 +42,7 @@ struct _CelluloidSeekBar
 	GtkWidget *popover_label;
 	gdouble pos;
 	gdouble duration;
+	gboolean pause;
 	gboolean popover_visible;
 	guint popover_timeout_id;
 };
@@ -86,6 +88,9 @@ motion_handler(	GtkEventControllerMotion *controller,
 		gdouble y,
 		gpointer data );
 
+static void
+update_label(CelluloidSeekBar *bar);
+
 static gboolean
 update_popover_visibility(CelluloidSeekBar *bar);
 
@@ -111,11 +116,12 @@ set_property(	GObject *object,
 	{
 		case PROP_DURATION:
 		self->duration = g_value_get_double(value);
+		update_label(self);
+		break;
 
-		g_object_set
-			(self->label, "duration", (gint)self->duration, NULL);
-		gtk_range_set_range
-			(GTK_RANGE(self->seek_bar), 0, self->duration);
+		case PROP_PAUSE:
+		self->pause = g_value_get_boolean(value);
+		update_label(self);
 		break;
 
 		default:
@@ -136,6 +142,10 @@ get_property(	GObject *object,
 	{
 		case PROP_DURATION:
 		g_value_set_double(value, self->duration);
+		break;
+
+		case PROP_PAUSE:
+		g_value_set_boolean(value, self->pause);
 		break;
 
 		default:
@@ -265,6 +275,17 @@ motion_handler(	GtkEventControllerMotion *controller,
 	return FALSE;
 }
 
+static void
+update_label(CelluloidSeekBar *bar)
+{
+	// When paused, the effective duration is zero regardless of what the
+	// value of the duration property is.
+	const gdouble duration = bar->pause ? 0 : bar->duration;
+
+	g_object_set(bar->label, "duration", (gint)duration, NULL);
+	gtk_range_set_range(GTK_RANGE(bar->seek_bar), 0, duration);
+}
+
 static gboolean
 update_popover_visibility(CelluloidSeekBar *bar)
 {
@@ -301,6 +322,14 @@ celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 			0.0,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_DURATION, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"pause",
+			"Pause",
+			"Whether there is a file playing",
+			TRUE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_PAUSE, pspec);
 
 	g_signal_new(	"seek",
 			G_TYPE_FROM_CLASS(klass),
