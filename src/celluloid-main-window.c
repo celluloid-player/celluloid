@@ -116,6 +116,8 @@ constructed(GObject *object)
 
 	priv->playlist = celluloid_playlist_widget_new();
 
+	gtk_widget_set_can_focus(priv->playlist, FALSE);
+
 	gtk_widget_hide(priv->playlist);
 	gtk_widget_hide(priv->control_box);
 
