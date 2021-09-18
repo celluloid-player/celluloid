@@ -149,9 +149,6 @@ set_property(	GObject *object,
 
 		case PROP_DURATION:
 		self->duration = g_value_get_double(value);
-
-		celluloid_seek_bar_set_duration
-			(CELLULOID_SEEK_BAR(self->seek_bar), self->duration);
 		break;
 
 		case PROP_ENABLED:
@@ -640,6 +637,9 @@ celluloid_control_box_init(CelluloidControlBox *box)
 
 	g_object_bind_property(	popup, "visible",
 				box, "volume-popup-visible",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "duration",
+				box->seek_bar, "duration",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "loop",
 				box->loop_button, "active",
