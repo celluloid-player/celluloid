@@ -25,6 +25,13 @@
 #include "celluloid-time-label.h"
 #include "celluloid-common.h"
 
+enum
+{
+	PROP_0,
+	PROP_DURATION,
+	N_PROPERTIES
+};
+
 struct _CelluloidSeekBar
 {
 	GtkBox parent_instance;
@@ -45,6 +52,18 @@ struct _CelluloidSeekBarClass
 
 static void
 dispose(GObject *object);
+
+static void
+set_property(	GObject *object,
+		guint property_id,
+		const GValue *value,
+		GParamSpec *pspec );
+
+static void
+get_property(	GObject *object,
+		guint property_id,
+		GValue *value,
+		GParamSpec *pspec );
 
 static void
 change_value_handler(	GtkWidget *widget,
@@ -78,6 +97,51 @@ dispose(GObject *object)
 	g_clear_object(&CELLULOID_SEEK_BAR(object)->popover);
 
 	G_OBJECT_CLASS(celluloid_seek_bar_parent_class)->dispose(object);
+}
+
+static void
+set_property(	GObject *object,
+		guint property_id,
+		const GValue *value,
+		GParamSpec *pspec )
+{
+	CelluloidSeekBar *self = CELLULOID_SEEK_BAR(object);
+
+	switch(property_id)
+	{
+		case PROP_DURATION:
+		self->duration = g_value_get_double(value);
+
+		g_object_set
+			(self->label, "duration", (gint)self->duration, NULL);
+		gtk_range_set_range
+			(GTK_RANGE(self->seek_bar), 0, self->duration);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+get_property(	GObject *object,
+		guint property_id,
+		GValue *value,
+		GParamSpec *pspec )
+{
+	CelluloidSeekBar *self = CELLULOID_SEEK_BAR(object);
+
+	switch(property_id)
+	{
+		case PROP_DURATION:
+		g_value_set_double(value, self->duration);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
 }
 
 static void
@@ -221,7 +285,22 @@ update_popover_visibility(CelluloidSeekBar *bar)
 static void
 celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 {
-	G_OBJECT_CLASS(klass)->dispose = dispose;
+	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+	GParamSpec *pspec = NULL;
+
+	object_class->dispose = dispose;
+	object_class->set_property = set_property;
+	object_class->get_property = get_property;
+
+	pspec = g_param_spec_double
+		(	"duration",
+			"Duration",
+			"The duration the seek bar is using",
+			0.0,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_DURATION, pspec);
 
 	g_signal_new(	"seek",
 			G_TYPE_FROM_CLASS(klass),
@@ -300,10 +379,7 @@ celluloid_seek_bar_new()
 void
 celluloid_seek_bar_set_duration(CelluloidSeekBar *bar, gdouble duration)
 {
-	bar->duration = duration;
-
-	g_object_set(bar->label, "duration", (gint)duration, NULL);
-	gtk_range_set_range(GTK_RANGE(bar->seek_bar), 0, duration);
+	g_object_set(bar, "duration", duration, NULL);
 }
 
 void
