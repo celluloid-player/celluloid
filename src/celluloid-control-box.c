@@ -641,6 +641,9 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	g_object_bind_property(	box, "duration",
 				box->seek_bar, "duration",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "pause",
+				box->seek_bar, "pause",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "loop",
 				box->loop_button, "active",
 				G_BINDING_BIDIRECTIONAL );
