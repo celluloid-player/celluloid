@@ -74,11 +74,6 @@ get_property(	GObject *object,
 		GParamSpec *pspec );
 
 static void
-name_acquired_handler(	GDBusConnection *connection,
-			const gchar *name,
-			gpointer data );
-
-static void
 name_lost_handler(	GDBusConnection *connection,
 			const gchar *name,
 			gpointer data );
@@ -119,12 +114,23 @@ constructed(GObject *object)
 		gchar *name =	g_strdup_printf
 				(MPRIS_BUS_NAME ".instance-%u", window_id);
 
+		self->session_bus_conn = conn;
+		self->base =		celluloid_mpris_base_new
+			(self->controller, conn);
+		self->player =		celluloid_mpris_player_new
+			(self->controller, conn);
+		self->track_list =	celluloid_mpris_track_list_new
+			(self->controller, conn);
+
+		celluloid_mpris_module_register(self->base);
+		celluloid_mpris_module_register(self->player);
+		celluloid_mpris_module_register(self->track_list);
+
 		self->name_id =	g_bus_own_name_on_connection
 				(	conn,
 					name,
 					G_BUS_NAME_OWNER_FLAGS_NONE,
-					(GBusNameAcquiredCallback)
-					name_acquired_handler,
+					NULL,
 					(GBusNameLostCallback)
 					name_lost_handler,
 					self,
@@ -195,26 +201,6 @@ get_property(	GObject *object,
 		break;
 	}
 
-}
-
-static void
-name_acquired_handler(	GDBusConnection *connection,
-			const gchar *name,
-			gpointer data )
-{
-	CelluloidMpris *self = data;
-
-	self->session_bus_conn = connection;
-	self->base =		celluloid_mpris_base_new
-				(self->controller, connection);
-	self->player =		celluloid_mpris_player_new
-				(self->controller, connection);
-	self->track_list =	celluloid_mpris_track_list_new
-				(self->controller, connection);
-
-	celluloid_mpris_module_register(self->base);
-	celluloid_mpris_module_register(self->player);
-	celluloid_mpris_module_register(self->track_list);
 }
 
 static void
