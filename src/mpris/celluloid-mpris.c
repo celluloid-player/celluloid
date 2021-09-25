@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 gnome-mpv
+ * Copyright (c) 2015-2019, 2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -54,6 +54,8 @@ struct _CelluloidMprisClass
 };
 
 G_DEFINE_TYPE(CelluloidMpris, celluloid_mpris, G_TYPE_OBJECT)
+
+G_DEFINE_QUARK(celluloid-mpris-error-quark, celluloid_mpris_error)
 
 static void
 constructed(GObject *object);
@@ -115,12 +117,12 @@ constructed(GObject *object)
 				(MPRIS_BUS_NAME ".instance-%u", window_id);
 
 		self->session_bus_conn = conn;
-		self->base =		celluloid_mpris_base_new
-			(self->controller, conn);
-		self->player =		celluloid_mpris_player_new
-			(self->controller, conn);
+		self->base =	celluloid_mpris_base_new
+				(self->controller, conn);
+		self->player =	celluloid_mpris_player_new
+				(self->controller, conn);
 		self->track_list =	celluloid_mpris_track_list_new
-			(self->controller, conn);
+					(self->controller, conn);
 
 		celluloid_mpris_module_register(self->base);
 		celluloid_mpris_module_register(self->player);
