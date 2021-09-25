@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 gnome-mpv
+ * Copyright (c) 2015-2019, 2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -42,6 +42,7 @@ struct _CelluloidMprisBase
 {
 	CelluloidMprisModule parent;
 	CelluloidController *controller;
+	GHashTable *readonly_table;
 	guint reg_id;
 };
 
@@ -254,9 +255,24 @@ get_prop_handler(	GDBusConnection *connection,
 			GError **error,
 			gpointer data )
 {
+	CelluloidMprisBase *base = CELLULOID_MPRIS_BASE(data);
+	CelluloidMprisModule *module = CELLULOID_MPRIS_MODULE(data);
 	GVariant *value = NULL;
 
-	celluloid_mpris_module_get_properties(data, property_name, &value, NULL);
+	if(!g_hash_table_contains(base->readonly_table, property_name))
+	{
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_PROPERTY,
+				"Failed to get value of unknown property \"%s\"",
+				property_name );
+	}
+	else
+	{
+		celluloid_mpris_module_get_properties
+			(module, property_name, &value, NULL);
+	}
 
 	return value?g_variant_ref(value):NULL;
 }
@@ -271,22 +287,39 @@ set_prop_handler(	GDBusConnection *connection,
 			GError **error,
 			gpointer data )
 {
-	CelluloidMprisBase *base = data;
+	CelluloidMprisBase *base = CELLULOID_MPRIS_BASE(data);
+	gboolean result = TRUE;
 
-	if(g_strcmp0(property_name, "Fullscreen") == 0)
+	if(!g_hash_table_contains(base->readonly_table, property_name))
+	{
+		result = FALSE;
+
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_PROPERTY,
+				"Failed to set value of unknown property \"%s\"",
+				property_name );
+	}
+	else if(GPOINTER_TO_INT(g_hash_table_lookup(base->readonly_table, property_name)))
+	{
+		result = FALSE;
+
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_SET_READONLY,
+				"Attempted to set value of readonly property \"%s\"",
+				property_name );
+	}
+	else if(g_strcmp0(property_name, "Fullscreen") == 0)
 	{
 		CelluloidView *view = celluloid_controller_get_view(base->controller);
 
 		celluloid_view_set_fullscreen(view, g_variant_get_boolean(value));
 	}
-	else
-	{
-		celluloid_mpris_module_set_properties(	data,
-							property_name, value,
-							NULL );
-	}
 
-	return TRUE; /* This function should always succeed */
+	return result;
 }
 
 static void
@@ -360,8 +393,39 @@ celluloid_mpris_base_class_init(CelluloidMprisBaseClass *klass)
 static void
 celluloid_mpris_base_init(CelluloidMprisBase *base)
 {
-	base->controller = NULL;
-	base->reg_id = 0;
+	const struct
+	{
+		const gchar *name;
+		gboolean readonly;
+	}
+	properties[] =
+	{
+		{"CanQuit", TRUE},
+		{"Fullscreen", FALSE},
+		{"CanSetFullscreen", TRUE},
+		{"CanRaise", TRUE},
+		{"HasTrackList", TRUE},
+		{"Identity", TRUE},
+		{"DesktopEntry", TRUE},
+		{"SupportedUriSchemes", TRUE},
+		{"SupportedMimeTypes", TRUE},
+		{NULL, FALSE}
+	};
+
+	base->controller =
+		NULL;
+	base->readonly_table =
+		g_hash_table_new_full(g_str_hash, g_int_equal, g_free, NULL);
+	base->reg_id =
+		0;
+
+	for(gint i = 0; properties[i].name; i++)
+	{
+		g_hash_table_replace
+			(	base->readonly_table,
+				g_strdup(properties[i].name),
+				GINT_TO_POINTER(properties[i].readonly) );
+	}
 }
 
 CelluloidMprisModule *

@@ -42,6 +42,7 @@ struct _CelluloidMprisPlayer
 {
 	CelluloidMprisModule parent;
 	CelluloidController *controller;
+	GHashTable *readonly_table;
 	guint reg_id;
 };
 
@@ -476,10 +477,20 @@ get_prop_handler(	GDBusConnection *connection,
 			GError **error,
 			gpointer data )
 {
-	CelluloidMprisPlayer *player = data;
-	GVariant *value;
+	CelluloidMprisPlayer *player = CELLULOID_MPRIS_PLAYER(data);
+	CelluloidMprisModule *module = CELLULOID_MPRIS_MODULE(data);
+	GVariant *value = NULL;
 
-	if(g_strcmp0(property_name, "Position") == 0)
+	if(!g_hash_table_contains(player->readonly_table, property_name))
+	{
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_PROPERTY,
+				"Failed to get value of unknown property \"%s\"",
+				property_name );
+	}
+	else if(g_strcmp0(property_name, "Position") == 0)
 	{
 		CelluloidModel *model;
 		gdouble position;
@@ -491,7 +502,7 @@ get_prop_handler(	GDBusConnection *connection,
 	else
 	{
 		celluloid_mpris_module_get_properties
-			(	CELLULOID_MPRIS_MODULE(data),
+			(	module,
 				property_name, &value,
 				NULL );
 	}
@@ -509,11 +520,32 @@ set_prop_handler(	GDBusConnection *connection,
 			GError **error,
 			gpointer data )
 {
-	CelluloidMprisPlayer *player = data;
+	CelluloidMprisPlayer *player = CELLULOID_MPRIS_PLAYER(data);
 	CelluloidModel *model =	celluloid_controller_get_model
 				(player->controller);
+	gboolean result = TRUE;
 
-	if(g_strcmp0(property_name, "LoopStatus") == 0)
+	if(!g_hash_table_contains(player->readonly_table, property_name))
+	{
+		result = FALSE;
+
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_PROPERTY,
+				"Failed to set value of unknown property \"%s\"",
+				property_name );
+	}
+	else if(GPOINTER_TO_INT(g_hash_table_lookup(player->readonly_table, property_name)))
+	{
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_SET_READONLY,
+				"Attempted to set value of readonly property \"%s\"",
+				property_name );
+	}
+	else if(g_strcmp0(property_name, "LoopStatus") == 0)
 	{
 		const gchar *loop = g_variant_get_string(value, NULL);
 		const gchar *loop_file =	g_strcmp0(loop, "Track") == 0 ?
@@ -539,11 +571,7 @@ set_prop_handler(	GDBusConnection *connection,
 				NULL );
 	}
 
-	celluloid_mpris_module_set_properties(	CELLULOID_MPRIS_MODULE(data),
-						property_name, value,
-						NULL );
-
-	return TRUE; /* This function should always succeed */
+	return result;
 }
 
 static void
@@ -843,8 +871,43 @@ celluloid_mpris_player_class_init(CelluloidMprisPlayerClass *klass)
 static void
 celluloid_mpris_player_init(CelluloidMprisPlayer *player)
 {
-	player->controller = NULL;
-	player->reg_id = 0;
+	const struct
+	{
+		const gchar *name;
+		gboolean readonly;
+	}
+	properties[] =
+	{
+		{"PlaybackStatus", TRUE},
+		{"LoopStatus", FALSE},
+		{"Rate", FALSE},
+		{"Metadata", TRUE},
+		{"Volume", FALSE},
+		{"MinimumRate", TRUE},
+		{"MaximumRate", TRUE},
+		{"CanGoNext", TRUE},
+		{"CanGoPrevious", TRUE},
+		{"CanPlay", TRUE},
+		{"CanPause", TRUE},
+		{"CanSeek", TRUE},
+		{"CanControl", TRUE},
+		{NULL, FALSE}
+	};
+
+	player->controller =
+		NULL;
+	player->readonly_table =
+		g_hash_table_new_full(g_str_hash, g_int_equal, g_free, NULL);
+	player->reg_id =
+		0;
+
+	for(gint i = 0; properties[i].name; i++)
+	{
+		g_hash_table_replace
+			(	player->readonly_table,
+				g_strdup(properties[i].name),
+				GINT_TO_POINTER(properties[i].readonly) );
+	}
 }
 
 CelluloidMprisModule *

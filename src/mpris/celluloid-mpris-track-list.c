@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 gnome-mpv
+ * Copyright (c) 2017-2019, 2021 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -19,6 +19,7 @@
 
 #include "celluloid-mpris-track-list.h"
 #include "celluloid-mpris-gdbus.h"
+#include "celluloid-mpris.h"
 #include "celluloid-common.h"
 #include "celluloid-def.h"
 
@@ -35,6 +36,7 @@ struct _CelluloidMprisTrackList
 {
 	CelluloidMprisModule parent;
 	CelluloidController *controller;
+	GHashTable *readonly_table;
 	guint reg_id;
 };
 
@@ -300,15 +302,25 @@ get_prop_handler(	GDBusConnection *connection,
 			GError **error,
 			gpointer data )
 {
+	CelluloidMprisTrackList *track_list = CELLULOID_MPRIS_TRACK_LIST(data);
+	CelluloidMprisModule *module = CELLULOID_MPRIS_MODULE(data);
 	GVariant *value = NULL;
 
-	celluloid_mpris_module_get_properties(	CELLULOID_MPRIS_MODULE(data),
-						property_name, &value,
-						NULL );
+	if(!g_hash_table_contains(track_list->readonly_table, property_name))
+	{
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_PROPERTY,
+				"Failed to get value of unknown property \"%s\"",
+				property_name );
+	}
+	else
+	{
+		celluloid_mpris_module_get_properties
+			(module, property_name, &value, NULL);
+	}
 
-	/* Call g_variant_ref() to prevent the value of the property in the
-	 * properties table from being freed.
-	 */
 	return value?g_variant_ref(value):NULL;
 }
 
@@ -322,10 +334,26 @@ set_prop_handler(	GDBusConnection *connection,
 			GError **error,
 			gpointer data )
 {
-	g_warning(	"Attempted to set property %s in "
-			"org.mpris.MediaPlayer2.TrackList, but the interface "
-			"only has read-only properties.",
-			property_name );
+	CelluloidMprisTrackList *track_list = CELLULOID_MPRIS_TRACK_LIST(data);
+
+	if(!g_hash_table_contains(track_list->readonly_table, property_name))
+	{
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_PROPERTY,
+				"Failed to set value of unknown property \"%s\"",
+				property_name );
+	}
+	else if(GPOINTER_TO_INT(g_hash_table_lookup(track_list->readonly_table, property_name)))
+	{
+		g_set_error
+			(	error,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_SET_READONLY,
+				"Attempted to set value of readonly property \"%s\"",
+				property_name );
+	}
 
 	/* Always fail since the interface only has read-only properties */
 	return FALSE;
@@ -576,8 +604,32 @@ celluloid_mpris_track_list_class_init(CelluloidMprisTrackListClass *klass)
 static void
 celluloid_mpris_track_list_init(CelluloidMprisTrackList *track_list)
 {
-	track_list->controller = NULL;
-	track_list->reg_id = 0;
+	const struct
+	{
+		const gchar *name;
+		gboolean readonly;
+	}
+	properties[] =
+	{
+		{"Tracks", TRUE},
+		{"Fullscreen", TRUE},
+		{NULL, FALSE}
+	};
+
+	track_list->controller =
+		NULL;
+	track_list->readonly_table =
+		g_hash_table_new_full(g_str_hash, g_int_equal, g_free, NULL);
+	track_list->reg_id =
+		0;
+
+	for(gint i = 0; properties[i].name; i++)
+	{
+		g_hash_table_replace
+			(	track_list->readonly_table,
+				g_strdup(properties[i].name),
+				GINT_TO_POINTER(properties[i].readonly) );
+	}
 }
 
 CelluloidMprisModule *
