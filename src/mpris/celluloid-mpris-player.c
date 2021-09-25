@@ -403,6 +403,7 @@ method_handler(	GDBusConnection *connection,
 	CelluloidMprisPlayer *player = data;
 	CelluloidModel *model =	celluloid_controller_get_model
 				(player->controller);
+	gboolean unknown_method = FALSE;
 
 	if(g_strcmp0(method_name, "Next") == 0)
 	{
@@ -463,9 +464,25 @@ method_handler(	GDBusConnection *connection,
 		g_variant_get(parameters, "(&s)", &uri);
 		celluloid_model_load_file(model, uri, FALSE);
 	}
+	else
+	{
+		unknown_method = TRUE;
+	}
 
-	g_dbus_method_invocation_return_value
-		(invocation, g_variant_new("()", NULL));
+	if(unknown_method)
+	{
+		g_dbus_method_invocation_return_error
+			(	invocation,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_METHOD,
+				"Attempted to call unknown method \"%s\"",
+				method_name );
+	}
+	else
+	{
+		g_dbus_method_invocation_return_value
+			(invocation, g_variant_new("()", NULL));
+	}
 }
 
 static GVariant *

@@ -228,6 +228,7 @@ method_handler(	GDBusConnection *connection,
 	CelluloidMprisTrackList *track_list = data;
 	CelluloidModel *model =	celluloid_controller_get_model
 				(track_list->controller);
+	gboolean unknown_method = FALSE;
 	GVariant *return_value = NULL;
 
 	if(g_strcmp0(method_name, "GetTracksMetadata") == 0)
@@ -285,12 +286,22 @@ method_handler(	GDBusConnection *connection,
 	}
 	else
 	{
-		g_critical("Attempted to call unknown method: %s", method_name);
-
-		return_value = g_variant_new("()", NULL);
+		unknown_method = TRUE;
 	}
 
-	g_dbus_method_invocation_return_value(invocation, return_value);
+	if(unknown_method)
+	{
+		g_dbus_method_invocation_return_error
+			(	invocation,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_METHOD,
+				"Attempted to call unknown method \"%s\"",
+				method_name );
+	}
+	else
+	{
+		g_dbus_method_invocation_return_value(invocation, return_value);
+	}
 }
 
 static GVariant *

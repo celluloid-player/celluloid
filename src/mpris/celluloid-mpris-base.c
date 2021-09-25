@@ -231,6 +231,7 @@ method_handler(	GDBusConnection *connection,
 		gpointer data )
 {
 	CelluloidMprisBase *base = data;
+	gboolean unknown_method = FALSE;
 
 	if(g_strcmp0(method_name, "Raise") == 0)
 	{
@@ -241,9 +242,25 @@ method_handler(	GDBusConnection *connection,
 	{
 		celluloid_controller_quit(base->controller);
 	}
+	else
+	{
+		unknown_method = TRUE;
+	}
 
-	g_dbus_method_invocation_return_value
-		(invocation, g_variant_new("()", NULL));
+	if(unknown_method)
+	{
+		g_dbus_method_invocation_return_error
+			(	invocation,
+				CELLULOID_MPRIS_ERROR,
+				CELLULOID_MPRIS_ERROR_UNKNOWN_METHOD,
+				"Attempted to call unknown method \"%s\"",
+				method_name );
+	}
+	else
+	{
+		g_dbus_method_invocation_return_value
+			(invocation, g_variant_new("()", NULL));
+	}
 }
 
 static GVariant *
