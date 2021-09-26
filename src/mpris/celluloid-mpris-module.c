@@ -245,6 +245,8 @@ celluloid_mpris_module_get_properties(CelluloidMprisModule *module, ...)
 	{
 		*value_ptr = g_hash_table_lookup(priv->prop_table, name);
 	}
+
+	va_end(arg);
 }
 
 void
@@ -283,6 +285,8 @@ celluloid_mpris_module_set_properties_full(	CelluloidMprisModule *module,
 		g_debug("Adding property \"%s\"", name);
 		g_variant_builder_add(&builder, elem_type_string, name, value);
 	}
+
+	va_end(arg);
 
 	sig_args = g_variant_new(	"(sa{sv}as)",
 					priv->iface->name,
