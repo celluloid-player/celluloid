@@ -131,6 +131,7 @@ executable('celluloid', sources,
     libgio,
     meson.get_compiler('c').find_library('m', required: false),
     dependency('mpv', version: '>= 1.107'),
+    dependency('libadwaita-1', version: '>= 1.0.0'),
     dependency('epoxy')
   ],
   link_with: extra_libs,
