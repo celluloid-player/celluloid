@@ -30,6 +30,7 @@ enum
 	PROP_0,
 	PROP_DURATION,
 	PROP_PAUSE,
+	PROP_ENABLED,
 	N_PROPERTIES
 };
 
@@ -43,6 +44,7 @@ struct _CelluloidSeekBar
 	gdouble pos;
 	gdouble duration;
 	gboolean pause;
+	gboolean enabled;
 	gboolean popover_visible;
 	guint popover_timeout_id;
 };
@@ -124,6 +126,11 @@ set_property(	GObject *object,
 		update_label(self);
 		break;
 
+		case PROP_ENABLED:
+		self->enabled = g_value_get_boolean(value);
+		update_label(self);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -146,6 +153,10 @@ get_property(	GObject *object,
 
 		case PROP_PAUSE:
 		g_value_set_boolean(value, self->pause);
+		break;
+
+		case PROP_ENABLED:
+		g_value_set_boolean(value, self->enabled);
 		break;
 
 		default:
@@ -331,6 +342,14 @@ celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_PAUSE, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"enabled",
+			"Enabled",
+			"Whether or not the widget is enabled",
+			TRUE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_ENABLED, pspec);
+
 	g_signal_new(	"seek",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -351,6 +370,7 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 	bar->popover = g_object_ref_sink(gtk_popover_new());
 	bar->popover_label = gtk_label_new(NULL);
 	bar->duration = 0;
+	bar->enabled = TRUE;
 	bar->pos = 0;
 	bar->popover_visible = FALSE;
 	bar->popover_timeout_id = 0;
