@@ -771,7 +771,6 @@ void
 celluloid_control_box_reset(CelluloidControlBox *box)
 {
 	celluloid_control_box_set_seek_bar_pos(box, 0);
-	set_playing_state(box, FALSE);
 	set_skip_enabled(box, FALSE);
 	celluloid_control_box_set_fullscreen_state(box, FALSE);
 }
