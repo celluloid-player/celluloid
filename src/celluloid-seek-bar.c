@@ -289,9 +289,9 @@ motion_handler(	GtkEventControllerMotion *controller,
 static void
 update_label(CelluloidSeekBar *bar)
 {
-	// When paused, the effective duration is zero regardless of what the
+	// When disabled, the effective duration is zero regardless of what the
 	// value of the duration property is.
-	const gdouble duration = bar->pause ? 0 : bar->duration;
+	const gdouble duration = bar->enabled ? bar->duration : 0;
 
 	g_object_set(bar->label, "duration", (gint)duration, NULL);
 	gtk_range_set_range(GTK_RANGE(bar->seek_bar), 0, duration);
