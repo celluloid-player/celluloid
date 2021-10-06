@@ -631,7 +631,7 @@ connect_signals(CelluloidController *controller)
 				controller->view, "pause",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->model, "media-title",
-				controller->view, "title",
+				controller->view, "media-title",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->model, "volume",
 				controller->view, "volume",
