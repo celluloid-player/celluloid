@@ -52,6 +52,7 @@ enum
 	PROP_BORDER,
 	PROP_FULLSCREEN,
 	PROP_MAXIMIZED,
+	PROP_MEDIA_TITLE,
 	PROP_DISPLAY_FPS,
 	PROP_SEARCHING,
 	N_PROPERTIES
@@ -79,6 +80,7 @@ struct _CelluloidView
 	gboolean border;
 	gboolean fullscreen;
 	gboolean maximized;
+	gchar *media_title;
 	gdouble display_fps;
 	gboolean searching;
 };
@@ -431,6 +433,11 @@ set_property(	GObject *object,
 		}
 		break;
 
+		case PROP_MEDIA_TITLE:
+		g_free(self->media_title);
+		self->media_title = g_value_dup_string(value);
+		break;
+
 		case PROP_DISPLAY_FPS:
 		self->display_fps = g_value_get_double(value);
 		break;
@@ -519,6 +526,10 @@ get_property(	GObject *object,
 
 		case PROP_MAXIMIZED:
 		g_value_set_boolean(value, self->maximized);
+		break;
+
+		case PROP_MEDIA_TITLE:
+		g_value_set_static_string(value, self->media_title);
 		break;
 
 		case PROP_DISPLAY_FPS:
@@ -1215,6 +1226,14 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_MAXIMIZED, pspec);
 
+	pspec = g_param_spec_string
+		(	"media-title",
+			"Media Title",
+			"The title of the media being played",
+			NULL,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_MEDIA_TITLE, pspec);
+
 	pspec = g_param_spec_boolean
 		(	"searching",
 			"Searching",
@@ -1375,6 +1394,7 @@ celluloid_view_init(CelluloidView *view)
 	view->border = FALSE;
 	view->fullscreen = FALSE;
 	view->maximized = FALSE;
+	view->media_title = NULL;
 	view->display_fps = 0;
 	view->searching = FALSE;
 
