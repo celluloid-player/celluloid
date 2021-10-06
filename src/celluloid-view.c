@@ -120,6 +120,9 @@ static void
 save_playlist(CelluloidView *view, GFile *file, GError **error);
 
 static void
+update_title(CelluloidView *view);
+
+static void
 show_message_dialog(	CelluloidView *view,
 			GtkMessageType type,
 			const gchar *title,
@@ -341,6 +344,8 @@ set_property(	GObject *object,
 		case PROP_PLAYLIST_COUNT:
 		self->playlist_count = g_value_get_int(value);
 
+		update_title(self);
+
 		g_object_set(	control_box,
 				"enabled",
 				self->playlist_count > 0,
@@ -436,6 +441,7 @@ set_property(	GObject *object,
 		case PROP_MEDIA_TITLE:
 		g_free(self->media_title);
 		self->media_title = g_value_dup_string(value);
+		update_title(self);
 		break;
 
 		case PROP_DISPLAY_FPS:
@@ -648,6 +654,17 @@ save_playlist(CelluloidView *view, GFile *file, GError **error)
 	}
 
 	g_ptr_array_free(playlist, TRUE);
+}
+
+static void
+update_title(CelluloidView *view)
+{
+	const gchar *title =
+		view->media_title && view->playlist_count > 0 ?
+		view->media_title :
+		g_get_application_name();
+
+	gtk_window_set_title(GTK_WINDOW(view), title);
 }
 
 void
