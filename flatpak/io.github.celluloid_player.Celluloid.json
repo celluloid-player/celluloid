@@ -81,7 +81,7 @@
                 }
             ]
         },
-        {
+	{
             "name": "libass",
             "cleanup": [ "/include", "/lib/*.la", "/lib/pkgconfig" ],
             "config-opts": [ "--disable-static" ],
@@ -92,7 +92,7 @@
                     "sha256": "881f2382af48aead75b7a0e02e65d88c5ebd369fe46bc77d9270a94aa8fd38a2"
                 }
             ]
-        },
+        },    
         {
             "name": "uchardet",
             "buildsystem": "cmake-ninja",

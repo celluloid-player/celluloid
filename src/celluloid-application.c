@@ -23,7 +23,7 @@
 #include <glib-unix.h>
 #include <gio/gio.h>
 #include <gdk/gdk.h>
-
+#include <adwaita.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/x11/gdkx.h>
 #endif
@@ -205,6 +205,7 @@ initialize_gui(CelluloidApplication *app)
 				G_SETTINGS_BIND_GET );
 
 	g_object_unref(settings);
+	adw_init();
 }
 
 static void
