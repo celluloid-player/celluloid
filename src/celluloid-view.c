@@ -40,6 +40,7 @@ enum
 	PROP_0,
 	PROP_PLAYLIST_COUNT,
 	PROP_PAUSE,
+	PROP_IDLE_ACTIVE,
 	PROP_VOLUME,
 	PROP_VOLUME_MAX,
 	PROP_DURATION,
@@ -67,6 +68,7 @@ struct _CelluloidView
 	/* Properties */
 	gint playlist_count;
 	gboolean pause;
+	gboolean idle_active;
 	gdouble volume;
 	gdouble volume_max;
 	gdouble duration;
@@ -361,6 +363,11 @@ set_property(	GObject *object,
 		self->pause = g_value_get_boolean(value);
 		break;
 
+		case PROP_IDLE_ACTIVE:
+		self->idle_active = g_value_get_boolean(value);
+		update_title(self);
+		break;
+
 		case PROP_VOLUME:
 		self->volume = g_value_get_double(value);
 		break;
@@ -484,6 +491,10 @@ get_property(	GObject *object,
 
 		case PROP_PAUSE:
 		g_value_set_boolean(value, self->pause);
+		break;
+
+		case PROP_IDLE_ACTIVE:
+		g_value_set_boolean(value, self->idle_active);
 		break;
 
 		case PROP_VOLUME:
@@ -659,8 +670,12 @@ save_playlist(CelluloidView *view, GFile *file, GError **error)
 static void
 update_title(CelluloidView *view)
 {
+	const gboolean use_media_title =
+		view->media_title &&
+		!view->idle_active &&
+		view->playlist_count > 0;
 	const gchar *title =
-		view->media_title && view->playlist_count > 0 ?
+		use_media_title ?
 		view->media_title :
 		g_get_application_name();
 
@@ -1141,6 +1156,14 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_PAUSE, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"idle-active",
+			"Idle active",
+			"Whether or not the player is idle",
+			TRUE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_IDLE_ACTIVE, pspec);
+
 	pspec = g_param_spec_double
 		(	"volume",
 			"Volume",
@@ -1400,6 +1423,7 @@ celluloid_view_init(CelluloidView *view)
 	view->has_dialog = FALSE;
 	view->playlist_count = 0;
 	view->pause = FALSE;
+	view->idle_active = FALSE;
 	view->volume = 0.0;
 	view->volume_max = 100.0;
 	view->duration = 0.0;

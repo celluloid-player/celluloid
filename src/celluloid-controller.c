@@ -630,6 +630,9 @@ connect_signals(CelluloidController *controller)
 	g_object_bind_property(	controller->model, "pause",
 				controller->view, "pause",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	controller->model, "idle-active",
+				controller->view, "idle-active",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->model, "media-title",
 				controller->view, "media-title",
 				G_BINDING_DEFAULT );
