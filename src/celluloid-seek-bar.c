@@ -370,6 +370,7 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 	bar->popover = g_object_ref_sink(gtk_popover_new());
 	bar->popover_label = gtk_label_new(NULL);
 	bar->duration = 0;
+	bar->pause = TRUE;
 	bar->enabled = TRUE;
 	bar->pos = 0;
 	bar->popover_visible = FALSE;
