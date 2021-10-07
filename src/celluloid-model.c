@@ -533,13 +533,6 @@ set_mpv_property(	GObject *object,
 						&self->loop_playlist );
 		break;
 
-		case PROP_MEDIA_TITLE:
-		celluloid_mpv_set_property(	mpv,
-						"media-title",
-						MPV_FORMAT_INT64,
-						&self->media_title );
-		break;
-
 		case PROP_PLAYLIST_POS:
 		celluloid_mpv_set_property(	mpv,
 						"playlist-pos",
