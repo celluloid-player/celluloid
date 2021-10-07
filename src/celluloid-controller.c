@@ -23,7 +23,7 @@
 #include <gtk/gtk.h>
 #include <glib-unix.h>
 #include <locale.h>
-
+#include <adwaita.h>
 #include "celluloid-controller-private.h"
 #include "celluloid-controller.h"
 #include "celluloid-controller-actions.h"
@@ -116,6 +116,10 @@ playlist_reordered_handler(	CelluloidView *view,
 
 static void
 set_use_skip_button_for_playlist(	CelluloidController *controller,
+					gboolean value);
+
+static void
+set_dark_theme_enable(	CelluloidController *controller,
 					gboolean value);
 
 static void
@@ -313,6 +317,12 @@ set_property(	GObject *object,
 			(self, self->use_skip_buttons_for_playlist);
 		break;
 
+		case PROP_DARK_THEME_ENABLE:
+		self->dark_theme_enable = g_value_get_boolean(value);
+		set_dark_theme_enable
+			(self, self->dark_theme_enable);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -343,6 +353,10 @@ get_property(	GObject *object,
 
 		case PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST:
 		g_value_set_boolean(value, self->use_skip_buttons_for_playlist);
+		break;
+
+    case PROP_DARK_THEME_ENABLE:
+    g_value_set_boolean(value, self->dark_theme_enable);
 		break;
 
 		default:
@@ -611,7 +625,21 @@ set_use_skip_button_for_playlist(	CelluloidController *controller,
 				NULL,
 				NULL );
 }
+static void
+set_dark_theme_enable(	CelluloidController *controller,
+					gboolean value )
+{
+  if(controller->dark_theme_enable) {
+    adw_style_manager_set_color_scheme (adw_style_manager_get_default (),
+                                    ADW_COLOR_SCHEME_PREFER_DARK);
 
+  }
+  else {
+    adw_style_manager_set_color_scheme (adw_style_manager_get_default (),
+                                    ADW_COLOR_SCHEME_DEFAULT);
+  }
+
+}
 static void
 connect_signals(CelluloidController *controller)
 {
@@ -1274,6 +1302,14 @@ celluloid_controller_class_init(CelluloidControllerClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST, pspec);
+
+  pspec = g_param_spec_boolean
+		(	"dark-theme-enable",
+			"Enable dark theme",
+			"Whether or not to enable dark theme",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_DARK_THEME_ENABLE, pspec);
 
 	g_signal_new(	"shutdown",
 			G_TYPE_FROM_CLASS(klass),

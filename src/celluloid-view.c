@@ -587,9 +587,6 @@ load_settings(CelluloidView *view)
 			"show-fullscreen-button", !csd_enable,
 			"skip-enabled", FALSE,
 			NULL );
-	g_object_set(	gtk_settings_get_default(),
-			"gtk-application-prefer-dark-theme", dark_theme_enable,
-			NULL );
 
 	g_object_unref(settings);
 }

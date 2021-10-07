@@ -200,8 +200,8 @@ initialize_gui(CelluloidApplication *app)
 				G_SETTINGS_BIND_GET );
 	g_settings_bind(	settings,
 				"dark-theme-enable",
-				gtk_settings_get_default(),
-				"gtk-application-prefer-dark-theme",
+				controller,
+				"dark-theme-enable",
 				G_SETTINGS_BIND_GET );
 
 	g_object_unref(settings);

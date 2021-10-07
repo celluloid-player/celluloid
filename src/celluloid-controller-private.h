@@ -34,6 +34,7 @@ enum
 	PROP_READY,
 	PROP_IDLE,
 	PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST,
+  PROP_DARK_THEME_ENABLE,
 	N_PROPERTIES
 };
 
@@ -49,6 +50,7 @@ struct _CelluloidController
 	gboolean ready;
 	gboolean idle;
 	gboolean use_skip_buttons_for_playlist;
+  gboolean dark_theme_enable;
 	gint64 target_playlist_pos;
 	guint update_seekbar_id;
 	guint resize_timeout_tag;
