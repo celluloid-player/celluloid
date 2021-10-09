@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-30 20:38+0700\n"
-"PO-Revision-Date: 2021-08-24 23:35+0000\n"
-"Last-Translator: I'm Not Cry <contact@cryental.com>\n"
+"POT-Creation-Date: 2021-10-10 00:48+0700\n"
+"PO-Revision-Date: 2021-08-30 14:07+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ko/>\n"
 "Language: ko\n"
@@ -577,47 +577,47 @@ msgstr "mpv 옵션 MPVOPTION을 VALUE로 설정합니다"
 msgid "VALUE"
 msgstr "값"
 
-#: src/celluloid-control-box.c:381
+#: src/celluloid-control-box.c:378
 msgid "Pause"
 msgstr "중지"
 
-#: src/celluloid-control-box.c:381 src/celluloid-control-box.c:583
+#: src/celluloid-control-box.c:378 src/celluloid-control-box.c:580
 msgid "Play"
 msgstr "플레이"
 
-#: src/celluloid-control-box.c:586
+#: src/celluloid-control-box.c:583
 msgid "Stop"
 msgstr "중지"
 
-#: src/celluloid-control-box.c:589
+#: src/celluloid-control-box.c:586
 msgid "Forward"
 msgstr "앞으로"
 
-#: src/celluloid-control-box.c:592
+#: src/celluloid-control-box.c:589
 msgid "Rewind"
 msgstr "되감기"
 
-#: src/celluloid-control-box.c:595
+#: src/celluloid-control-box.c:592
 msgid "Next Chapter"
 msgstr "다음 장"
 
-#: src/celluloid-control-box.c:598
+#: src/celluloid-control-box.c:595
 msgid "Previous Chapter"
 msgstr "이전 장"
 
-#: src/celluloid-control-box.c:601
+#: src/celluloid-control-box.c:598
 msgid "Loop Playlist"
 msgstr "재생 목록 반복"
 
-#: src/celluloid-control-box.c:604
+#: src/celluloid-control-box.c:601
 msgid "Shuffle Playlist"
 msgstr "재생 목록 무작위 재생"
 
-#: src/celluloid-control-box.c:607 src/celluloid-header-bar.c:189
+#: src/celluloid-control-box.c:604 src/celluloid-header-bar.c:189
 msgid "Toggle Fullscreen"
 msgstr "전체 화면 전환"
 
-#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1058 src/celluloid-view.c:1000
 msgid "Error"
 msgstr "오류"
 
@@ -789,43 +789,39 @@ msgstr "취소(_C)"
 msgid "Failed to apply one or more MPV options."
 msgstr "하나 이상의 MPV 옵션을 적용하지 못했습니다."
 
-#: src/celluloid-playlist-widget.c:500
+#: src/celluloid-playlist-widget.c:525
 msgid "_Copy Location"
 msgstr "위치 복사(_C)"
 
-#: src/celluloid-playlist-widget.c:501
+#: src/celluloid-playlist-widget.c:526
 msgid "_Remove"
 msgstr "제거(_R)"
 
-#: src/celluloid-playlist-widget.c:503
+#: src/celluloid-playlist-widget.c:528
 msgid "_Add…"
 msgstr "추가…(_A)"
 
-#: src/celluloid-playlist-widget.c:504
+#: src/celluloid-playlist-widget.c:529
 msgid "Add _Folder…"
 msgstr "폴더 추가…(_F)"
 
-#: src/celluloid-playlist-widget.c:505
+#: src/celluloid-playlist-widget.c:530
 msgid "Add _Location…"
 msgstr "위치 추가…(_L)"
 
-#: src/celluloid-playlist-widget.c:506
+#: src/celluloid-playlist-widget.c:531
 msgid "_Shuffle"
 msgstr "무작위(_S)"
 
-#: src/celluloid-playlist-widget.c:507
+#: src/celluloid-playlist-widget.c:532
 msgid "Loop _File"
 msgstr "파일 반복(_F)"
 
-#: src/celluloid-playlist-widget.c:508
+#: src/celluloid-playlist-widget.c:533
 msgid "Loop _Playlist"
 msgstr "재생 목록 반복(_P)"
 
-#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
-msgid "Playlist"
-msgstr "재생"
-
-#: src/celluloid-playlist-widget.c:635
+#: src/celluloid-playlist-widget.c:882
 msgid "Playlist is empty"
 msgstr "재생 목록이 비어 있습니다"
 
@@ -1160,56 +1156,60 @@ msgstr "재생"
 msgid "Seeking"
 msgstr "탐색"
 
-#: src/celluloid-view.c:735
+#: src/celluloid-shortcuts-window.c:125
+msgid "Playlist"
+msgstr "재생"
+
+#: src/celluloid-view.c:778
 msgid "Load Audio Track…"
 msgstr "오디오 트랙로드…"
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:782
 msgid "Load Video Track…"
 msgstr "비디오 트랙로드…"
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:786
 msgid "Load Subtitle Track…"
 msgstr "자막 트랙로드…"
 
-#: src/celluloid-view.c:915
+#: src/celluloid-view.c:958
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr "클라이언트 효과를 활성화 또는 비활성화하려면 다시 시작해야 적용됩니다."
 
-#: src/celluloid-view.c:1433
+#: src/celluloid-view.c:1494
 msgid "Add Folder to Playlist"
 msgstr "재생 목록에 폴더 추가"
 
-#: src/celluloid-view.c:1433
+#: src/celluloid-view.c:1494
 msgid "Open Folder"
 msgstr "폴더 열기"
 
-#: src/celluloid-view.c:1438
+#: src/celluloid-view.c:1499
 msgid "Add File to Playlist"
 msgstr "재생 목록에 파일 추가"
 
-#: src/celluloid-view.c:1438
+#: src/celluloid-view.c:1499
 msgid "Open File"
 msgstr "파일 열기"
 
-#: src/celluloid-view.c:1474
+#: src/celluloid-view.c:1535
 msgid "Add Location to Playlist"
 msgstr "재생 목록에 위치 추가"
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1536
 msgid "Open Location"
 msgstr "열린 위치"
 
-#: src/celluloid-view.c:1517
+#: src/celluloid-view.c:1578
 msgid "Save Playlist"
 msgstr "재생 목록 저장"
 
-#: src/celluloid-view.c:1564
+#: src/celluloid-view.c:1625
 msgid "A GTK frontend for MPV"
 msgstr "MPV 용 GTK 프론트 엔드"
 
-#: src/celluloid-view.c:1574
+#: src/celluloid-view.c:1635
 msgid "translator-credits"
 msgstr "번역자 크레딧"

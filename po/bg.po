@@ -6,17 +6,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-30 20:38+0700\n"
-"PO-Revision-Date: 2020-10-09 12:48-0400\n"
-"Last-Translator: cybercop <cybercop_montana@abv.bg>\n"
-"Language-Team: Bulgarian\n"
+"POT-Creation-Date: 2021-10-10 00:48+0700\n"
+"PO-Revision-Date: 2021-08-30 14:05+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Bulgarian <https://hosted.weblate.org/projects/celluloid/"
+"celluloid/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 4.6.2\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -611,47 +612,47 @@ msgstr ""
 msgid "VALUE"
 msgstr ""
 
-#: src/celluloid-control-box.c:381
+#: src/celluloid-control-box.c:378
 msgid "Pause"
 msgstr "Пауза"
 
-#: src/celluloid-control-box.c:381 src/celluloid-control-box.c:583
+#: src/celluloid-control-box.c:378 src/celluloid-control-box.c:580
 msgid "Play"
 msgstr "Изпълнение"
 
-#: src/celluloid-control-box.c:586
+#: src/celluloid-control-box.c:583
 msgid "Stop"
 msgstr "Спиране"
 
-#: src/celluloid-control-box.c:589
+#: src/celluloid-control-box.c:586
 msgid "Forward"
 msgstr "Напред"
 
-#: src/celluloid-control-box.c:592
+#: src/celluloid-control-box.c:589
 msgid "Rewind"
 msgstr "Назад"
 
-#: src/celluloid-control-box.c:595
+#: src/celluloid-control-box.c:592
 msgid "Next Chapter"
 msgstr "Следващо заглавие"
 
-#: src/celluloid-control-box.c:598
+#: src/celluloid-control-box.c:595
 msgid "Previous Chapter"
 msgstr "Предишно заглавие"
 
-#: src/celluloid-control-box.c:601
+#: src/celluloid-control-box.c:598
 msgid "Loop Playlist"
 msgstr "Превъртане на списъка"
 
-#: src/celluloid-control-box.c:604
+#: src/celluloid-control-box.c:601
 msgid "Shuffle Playlist"
 msgstr "Разбъркване на списъка"
 
-#: src/celluloid-control-box.c:607 src/celluloid-header-bar.c:189
+#: src/celluloid-control-box.c:604 src/celluloid-header-bar.c:189
 msgid "Toggle Fullscreen"
 msgstr "Включване/изключване режима на цял екран"
 
-#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1058 src/celluloid-view.c:1000
 msgid "Error"
 msgstr "Грешка"
 
@@ -827,43 +828,39 @@ msgstr "_Отказ"
 msgid "Failed to apply one or more MPV options."
 msgstr "Не могат да бъдат приложени една или повече опции за MPV."
 
-#: src/celluloid-playlist-widget.c:500
+#: src/celluloid-playlist-widget.c:525
 msgid "_Copy Location"
 msgstr "_Копиране на местоположението"
 
-#: src/celluloid-playlist-widget.c:501
+#: src/celluloid-playlist-widget.c:526
 msgid "_Remove"
 msgstr "_Премахване"
 
-#: src/celluloid-playlist-widget.c:503
+#: src/celluloid-playlist-widget.c:528
 msgid "_Add…"
 msgstr "_Добавяне…"
 
-#: src/celluloid-playlist-widget.c:504
+#: src/celluloid-playlist-widget.c:529
 msgid "Add _Folder…"
 msgstr "Добавяне на _папка..."
 
-#: src/celluloid-playlist-widget.c:505
+#: src/celluloid-playlist-widget.c:530
 msgid "Add _Location…"
 msgstr "Добавяне на _местоположение…"
 
-#: src/celluloid-playlist-widget.c:506
+#: src/celluloid-playlist-widget.c:531
 msgid "_Shuffle"
 msgstr "_Разбъркано"
 
-#: src/celluloid-playlist-widget.c:507
+#: src/celluloid-playlist-widget.c:532
 msgid "Loop _File"
 msgstr "Превъртане на _файл"
 
-#: src/celluloid-playlist-widget.c:508
+#: src/celluloid-playlist-widget.c:533
 msgid "Loop _Playlist"
 msgstr "Превъртане на _списък"
 
-#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
-msgid "Playlist"
-msgstr "Списък за изпълнение"
-
-#: src/celluloid-playlist-widget.c:635
+#: src/celluloid-playlist-widget.c:882
 msgid "Playlist is empty"
 msgstr "Списъкът е празен"
 
@@ -1202,19 +1199,23 @@ msgstr "Възпроизвеждане"
 msgid "Seeking"
 msgstr "Търсене"
 
-#: src/celluloid-view.c:735
+#: src/celluloid-shortcuts-window.c:125
+msgid "Playlist"
+msgstr "Списък за изпълнение"
+
+#: src/celluloid-view.c:778
 msgid "Load Audio Track…"
 msgstr "Зареди аудио запис…"
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:782
 msgid "Load Video Track…"
 msgstr "Зареждане на видео запис..."
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:786
 msgid "Load Subtitle Track…"
 msgstr "Зареди файл със субтитри…"
 
-#: src/celluloid-view.c:915
+#: src/celluloid-view.c:958
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1222,38 +1223,38 @@ msgstr ""
 "Включването или изключването на вградената (Gnome 3) декорация изисква "
 "рестартиране за да влязат промените в сила."
 
-#: src/celluloid-view.c:1433
+#: src/celluloid-view.c:1494
 msgid "Add Folder to Playlist"
 msgstr "Добавяне на папка в списъка"
 
-#: src/celluloid-view.c:1433
+#: src/celluloid-view.c:1494
 msgid "Open Folder"
 msgstr "Отваряне на папка"
 
-#: src/celluloid-view.c:1438
+#: src/celluloid-view.c:1499
 msgid "Add File to Playlist"
 msgstr "Добавяне на файл в списъка"
 
-#: src/celluloid-view.c:1438
+#: src/celluloid-view.c:1499
 msgid "Open File"
 msgstr "Отваряне на файл"
 
-#: src/celluloid-view.c:1474
+#: src/celluloid-view.c:1535
 msgid "Add Location to Playlist"
 msgstr "Добавяне местоположение до списък"
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1536
 msgid "Open Location"
 msgstr "Отвори местоположение"
 
-#: src/celluloid-view.c:1517
+#: src/celluloid-view.c:1578
 msgid "Save Playlist"
 msgstr "Запазване на списъка"
 
-#: src/celluloid-view.c:1564
+#: src/celluloid-view.c:1625
 msgid "A GTK frontend for MPV"
 msgstr "GTK интерфейс за MPV"
 
-#: src/celluloid-view.c:1574
+#: src/celluloid-view.c:1635
 msgid "translator-credits"
 msgstr "Kiril Kirilov <cybercop_montana@abv.bg>"

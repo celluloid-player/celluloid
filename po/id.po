@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-30 20:38+0700\n"
-"PO-Revision-Date: 2021-07-25 14:32+0000\n"
-"Last-Translator: Fadiil Fikrillah <fadil.fikrillah@gmail.com>\n"
+"POT-Creation-Date: 2021-10-10 00:48+0700\n"
+"PO-Revision-Date: 2021-08-30 14:07+0000\n"
+"Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/id/>\n"
 "Language: id\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7.2-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -575,47 +575,47 @@ msgstr ""
 msgid "VALUE"
 msgstr ""
 
-#: src/celluloid-control-box.c:381
+#: src/celluloid-control-box.c:378
 msgid "Pause"
 msgstr "Jeda"
 
-#: src/celluloid-control-box.c:381 src/celluloid-control-box.c:583
+#: src/celluloid-control-box.c:378 src/celluloid-control-box.c:580
 msgid "Play"
 msgstr "Putar"
 
-#: src/celluloid-control-box.c:586
+#: src/celluloid-control-box.c:583
 msgid "Stop"
 msgstr "Berhenti"
 
-#: src/celluloid-control-box.c:589
+#: src/celluloid-control-box.c:586
 msgid "Forward"
 msgstr "Maju"
 
-#: src/celluloid-control-box.c:592
+#: src/celluloid-control-box.c:589
 msgid "Rewind"
 msgstr "Mundur"
 
-#: src/celluloid-control-box.c:595
+#: src/celluloid-control-box.c:592
 msgid "Next Chapter"
 msgstr ""
 
-#: src/celluloid-control-box.c:598
+#: src/celluloid-control-box.c:595
 msgid "Previous Chapter"
 msgstr ""
 
-#: src/celluloid-control-box.c:601
+#: src/celluloid-control-box.c:598
 msgid "Loop Playlist"
 msgstr ""
 
-#: src/celluloid-control-box.c:604
+#: src/celluloid-control-box.c:601
 msgid "Shuffle Playlist"
 msgstr "Acak Daftar Putar"
 
-#: src/celluloid-control-box.c:607 src/celluloid-header-bar.c:189
+#: src/celluloid-control-box.c:604 src/celluloid-header-bar.c:189
 msgid "Toggle Fullscreen"
 msgstr "Alihkan Layar Penuh"
 
-#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1058 src/celluloid-view.c:1000
 msgid "Error"
 msgstr "Kesalahan"
 
@@ -791,43 +791,39 @@ msgstr "_Batal"
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:500
+#: src/celluloid-playlist-widget.c:525
 msgid "_Copy Location"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:501
+#: src/celluloid-playlist-widget.c:526
 msgid "_Remove"
 msgstr "_Hapus"
 
-#: src/celluloid-playlist-widget.c:503
+#: src/celluloid-playlist-widget.c:528
 msgid "_Add…"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:504
+#: src/celluloid-playlist-widget.c:529
 msgid "Add _Folder…"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:505
+#: src/celluloid-playlist-widget.c:530
 msgid "Add _Location…"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:506
+#: src/celluloid-playlist-widget.c:531
 msgid "_Shuffle"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:507
+#: src/celluloid-playlist-widget.c:532
 msgid "Loop _File"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:508
+#: src/celluloid-playlist-widget.c:533
 msgid "Loop _Playlist"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
-msgid "Playlist"
-msgstr "Daftar Putar"
-
-#: src/celluloid-playlist-widget.c:635
+#: src/celluloid-playlist-widget.c:882
 msgid "Playlist is empty"
 msgstr "Daftar Putar kosong"
 
@@ -1164,56 +1160,60 @@ msgstr "Pemutaran"
 msgid "Seeking"
 msgstr "Mencari"
 
-#: src/celluloid-view.c:735
+#: src/celluloid-shortcuts-window.c:125
+msgid "Playlist"
+msgstr "Daftar Putar"
+
+#: src/celluloid-view.c:778
 msgid "Load Audio Track…"
 msgstr "Muat Trek Audio…"
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:782
 msgid "Load Video Track…"
 msgstr "Muat Trek Video…"
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:786
 msgid "Load Subtitle Track…"
 msgstr "Muat Trek Subtitel…"
 
-#: src/celluloid-view.c:915
+#: src/celluloid-view.c:958
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
 
-#: src/celluloid-view.c:1433
+#: src/celluloid-view.c:1494
 msgid "Add Folder to Playlist"
 msgstr "Tambahkan Folder ke Daftar Putar"
 
-#: src/celluloid-view.c:1433
+#: src/celluloid-view.c:1494
 msgid "Open Folder"
 msgstr "Buka Folder"
 
-#: src/celluloid-view.c:1438
+#: src/celluloid-view.c:1499
 msgid "Add File to Playlist"
 msgstr "Tambahkan Berkas ke Daftar Putar"
 
-#: src/celluloid-view.c:1438
+#: src/celluloid-view.c:1499
 msgid "Open File"
 msgstr "Buka Berkas"
 
-#: src/celluloid-view.c:1474
+#: src/celluloid-view.c:1535
 msgid "Add Location to Playlist"
 msgstr ""
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1536
 msgid "Open Location"
 msgstr "Buka Lokasi"
 
-#: src/celluloid-view.c:1517
+#: src/celluloid-view.c:1578
 msgid "Save Playlist"
 msgstr "Simpan Daftar Putar"
 
-#: src/celluloid-view.c:1564
+#: src/celluloid-view.c:1625
 msgid "A GTK frontend for MPV"
 msgstr "Frontend GTK untuk MPV"
 
-#: src/celluloid-view.c:1574
+#: src/celluloid-view.c:1635
 msgid "translator-credits"
 msgstr ""

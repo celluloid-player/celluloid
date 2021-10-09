@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-30 20:38+0700\n"
-"PO-Revision-Date: 2021-06-14 20:33+0000\n"
+"POT-Creation-Date: 2021-10-10 00:48+0700\n"
+"PO-Revision-Date: 2021-08-30 14:05+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ca/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -619,47 +619,47 @@ msgstr ""
 msgid "VALUE"
 msgstr ""
 
-#: src/celluloid-control-box.c:381
+#: src/celluloid-control-box.c:378
 msgid "Pause"
 msgstr "Posa en pausa"
 
-#: src/celluloid-control-box.c:381 src/celluloid-control-box.c:583
+#: src/celluloid-control-box.c:378 src/celluloid-control-box.c:580
 msgid "Play"
 msgstr "Reprodueix"
 
-#: src/celluloid-control-box.c:586
+#: src/celluloid-control-box.c:583
 msgid "Stop"
 msgstr "Atura"
 
-#: src/celluloid-control-box.c:589
+#: src/celluloid-control-box.c:586
 msgid "Forward"
 msgstr "Avança"
 
-#: src/celluloid-control-box.c:592
+#: src/celluloid-control-box.c:589
 msgid "Rewind"
 msgstr "Rebobina"
 
-#: src/celluloid-control-box.c:595
+#: src/celluloid-control-box.c:592
 msgid "Next Chapter"
 msgstr "Capítol següent"
 
-#: src/celluloid-control-box.c:598
+#: src/celluloid-control-box.c:595
 msgid "Previous Chapter"
 msgstr "Capítol anterior"
 
-#: src/celluloid-control-box.c:601
+#: src/celluloid-control-box.c:598
 msgid "Loop Playlist"
 msgstr "Llista de reproducció en bucle"
 
-#: src/celluloid-control-box.c:604
+#: src/celluloid-control-box.c:601
 msgid "Shuffle Playlist"
 msgstr "Mescla la llista de reproducció"
 
-#: src/celluloid-control-box.c:607 src/celluloid-header-bar.c:189
+#: src/celluloid-control-box.c:604 src/celluloid-header-bar.c:189
 msgid "Toggle Fullscreen"
 msgstr "Commuta la pantalla completa"
 
-#: src/celluloid-controller.c:1029 src/celluloid-view.c:957
+#: src/celluloid-controller.c:1058 src/celluloid-view.c:1000
 msgid "Error"
 msgstr "Error"
 
@@ -835,43 +835,39 @@ msgstr "_Cancel·la"
 msgid "Failed to apply one or more MPV options."
 msgstr "No s'han pogut aplicar una o més opcions de l'mpv."
 
-#: src/celluloid-playlist-widget.c:500
+#: src/celluloid-playlist-widget.c:525
 msgid "_Copy Location"
 msgstr "_Copia la ubicació"
 
-#: src/celluloid-playlist-widget.c:501
+#: src/celluloid-playlist-widget.c:526
 msgid "_Remove"
 msgstr "_Suprimeix"
 
-#: src/celluloid-playlist-widget.c:503
+#: src/celluloid-playlist-widget.c:528
 msgid "_Add…"
 msgstr "_Afegeix…"
 
-#: src/celluloid-playlist-widget.c:504
+#: src/celluloid-playlist-widget.c:529
 msgid "Add _Folder…"
 msgstr "Afegeix una _carpeta..."
 
-#: src/celluloid-playlist-widget.c:505
+#: src/celluloid-playlist-widget.c:530
 msgid "Add _Location…"
 msgstr "Afegeix una _ubicació..."
 
-#: src/celluloid-playlist-widget.c:506
+#: src/celluloid-playlist-widget.c:531
 msgid "_Shuffle"
 msgstr "_Mescla"
 
-#: src/celluloid-playlist-widget.c:507
+#: src/celluloid-playlist-widget.c:532
 msgid "Loop _File"
 msgstr "_Fitxer en bucle"
 
-#: src/celluloid-playlist-widget.c:508
+#: src/celluloid-playlist-widget.c:533
 msgid "Loop _Playlist"
 msgstr "_Llista de reproducció en bucle"
 
-#: src/celluloid-playlist-widget.c:627 src/celluloid-shortcuts-window.c:125
-msgid "Playlist"
-msgstr "Llista de reproducció"
-
-#: src/celluloid-playlist-widget.c:635
+#: src/celluloid-playlist-widget.c:882
 msgid "Playlist is empty"
 msgstr "La llista de reproducció és buida"
 
@@ -1207,19 +1203,23 @@ msgstr "Reproducció"
 msgid "Seeking"
 msgstr "Cerca"
 
-#: src/celluloid-view.c:735
+#: src/celluloid-shortcuts-window.c:125
+msgid "Playlist"
+msgstr "Llista de reproducció"
+
+#: src/celluloid-view.c:778
 msgid "Load Audio Track…"
 msgstr "Carrega una pista d'àudio..."
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:782
 msgid "Load Video Track…"
 msgstr "Carrega una pista de vídeo..."
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:786
 msgid "Load Subtitle Track…"
 msgstr "Carrega una pista de subtítols..."
 
-#: src/celluloid-view.c:915
+#: src/celluloid-view.c:958
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1227,39 +1227,39 @@ msgstr ""
 "Per activar o desactivar les decoracions del client cal reiniciar "
 "l'aplicació."
 
-#: src/celluloid-view.c:1433
+#: src/celluloid-view.c:1494
 msgid "Add Folder to Playlist"
 msgstr "Afegeix una carpeta a la llista de reproducció"
 
-#: src/celluloid-view.c:1433
+#: src/celluloid-view.c:1494
 msgid "Open Folder"
 msgstr "Obre una carpeta"
 
-#: src/celluloid-view.c:1438
+#: src/celluloid-view.c:1499
 msgid "Add File to Playlist"
 msgstr "Afegeix un fitxer a la llista de reproducció"
 
-#: src/celluloid-view.c:1438
+#: src/celluloid-view.c:1499
 msgid "Open File"
 msgstr "Obre un fitxer"
 
-#: src/celluloid-view.c:1474
+#: src/celluloid-view.c:1535
 msgid "Add Location to Playlist"
 msgstr "Afegeix una ubicació a la llista de reproducció"
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1536
 msgid "Open Location"
 msgstr "Obre una ubicació"
 
-#: src/celluloid-view.c:1517
+#: src/celluloid-view.c:1578
 msgid "Save Playlist"
 msgstr "Desa la llista de reproducció"
 
-#: src/celluloid-view.c:1564
+#: src/celluloid-view.c:1625
 msgid "A GTK frontend for MPV"
 msgstr "Una interfície GTK per al reproductor mpv"
 
-#: src/celluloid-view.c:1574
+#: src/celluloid-view.c:1635
 msgid "translator-credits"
 msgstr ""
 "Toni Estevez, toni.estevez@gmail.com\n"
