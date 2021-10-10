@@ -57,11 +57,11 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{"o <Shift>p", _("Show progress, elapsed time, and duration on the OSD")},
 			{NULL, NULL} };
 	const ShortcutEntry seeking[]
-		= {	{"leftarrow rightarrow", _("Seek backward/forward 5 seconds")},
-			{"<Shift>leftarrow <Shift>rightarrow", _("Exact seek backward/forward 1 second")},
+		= {	{"Left Right", _("Seek backward/forward 5 seconds")},
+			{"<Shift>Left <Shift>Right", _("Exact seek backward/forward 1 second")},
 			{"downarrow uparrow", _("Seek backward/forward 1 minute")},
 			{"<Shift>downarrow <Shift>uparrow", _("Exact seek backward/forward 5 seconds")},
-			{"<Ctrl>leftarrow <Ctrl>rightarrow", _("Seek to previous/next subtitle")},
+			{"<Ctrl>Left <Ctrl>Right", _("Seek to previous/next subtitle")},
 			{"comma period", _("Step backward/forward a single frame")},
 			{"Page_Up Page_Down", _("Seek to the beginning of the previous/next chapter")},
 			{NULL, NULL} };
