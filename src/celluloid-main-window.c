@@ -126,6 +126,9 @@ constructed(GObject *object)
 	gtk_paned_set_end_child
 		(GTK_PANED(priv->video_area_paned), priv->playlist);
 
+	gtk_application_window_set_show_menubar
+		(GTK_APPLICATION_WINDOW(object), !priv->csd);
+
 	G_OBJECT_CLASS(celluloid_main_window_parent_class)->constructed(object);
 }
 
