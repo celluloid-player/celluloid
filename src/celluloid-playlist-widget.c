@@ -236,8 +236,9 @@ make_row(GObject *object, gpointer data)
 {
 	GtkWidget *row = gtk_list_box_row_new();
 	CelluloidPlaylistItem *item = CELLULOID_PLAYLIST_ITEM(object);
-	const gchar *text = celluloid_playlist_item_get_title(item);
-	GtkWidget *label = gtk_label_new(text);
+	const gchar *title = celluloid_playlist_item_get_title(item);
+	const gchar *uri = celluloid_playlist_item_get_uri(item);
+	GtkWidget *label = gtk_label_new(title ?: uri);
 
 	if(celluloid_playlist_item_get_is_current(item))
 	{
