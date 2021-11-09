@@ -167,9 +167,10 @@ static void
 realize_handler(GtkWidget *widget, gpointer data);
 
 static void
-notify_size_handler(	GObject *widget,
-			GParamSpec *pspec,
-			gpointer data );
+resize_handler(	CelluloidVideoArea *video_area,
+		gint width,
+		gint height,
+		gpointer data );
 
 static void
 render_handler(CelluloidVideoArea *area, gpointer data);
@@ -256,12 +257,8 @@ constructed(GObject *object)
 	load_settings(view);
 
 	g_signal_connect(	video_area,
-				"notify::width-request",
-				G_CALLBACK(notify_size_handler),
-				view );
-	g_signal_connect(	video_area,
-				"notify::height-request",
-				G_CALLBACK(notify_size_handler),
+				"resize",
+				G_CALLBACK(resize_handler),
 				view );
 	g_signal_connect(	video_area,
 				"render",
@@ -1014,15 +1011,11 @@ realize_handler(GtkWidget *widget, gpointer data)
 }
 
 static void
-notify_size_handler(	GObject *widget,
-			GParamSpec *pspec,
-			gpointer data )
+resize_handler(	CelluloidVideoArea *video_area,
+		gint width,
+		gint height,
+		gpointer data )
 {
-	CelluloidView *view = CELLULOID_VIEW(data);
-	gint width = -1;
-	gint height = -1;
-
-	g_object_get(view, "width", &width, "height", &height, NULL);
 	g_signal_emit_by_name(data, "video-area-resize", width, height);
 }
 
