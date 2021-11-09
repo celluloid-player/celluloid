@@ -89,7 +89,10 @@
 				.info = 0} }
 
 #define DEFAULT_KEYBINDS \
-	{	"Ctrl+o script-message celluloid-action win.show-open-dialog((false, false))",\
+	{	"Alt+0 set window-scale 0.5",\
+		"Alt+1 set window-scale 1.0",\
+		"Alt+2 set window-scale 2.0",\
+		"Ctrl+o script-message celluloid-action win.show-open-dialog((false, false))",\
 		"Ctrl+l script-message celluloid-action win.show-open-location-dialog(false)",\
 		"Ctrl+Shift+o script-message celluloid-action win.show-open-dialog((false, true))",\
 		"Ctrl+Shift+l script-message celluloid-action win.show-open-location-dialog(true)",\
