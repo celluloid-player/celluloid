@@ -238,7 +238,22 @@ make_row(GObject *object, gpointer data)
 	CelluloidPlaylistItem *item = CELLULOID_PLAYLIST_ITEM(object);
 	const gchar *title = celluloid_playlist_item_get_title(item);
 	const gchar *uri = celluloid_playlist_item_get_uri(item);
-	GtkWidget *label = gtk_label_new(title ?: uri);
+	GtkWidget *label = NULL;
+
+	if(title)
+	{
+		label = gtk_label_new(title);
+	}
+	else
+	{
+		gchar *basename = g_path_get_basename(uri);
+
+		label = gtk_label_new(basename);
+
+		g_free(basename);
+	}
+
+	g_assert(label);
 
 	if(celluloid_playlist_item_get_is_current(item))
 	{
