@@ -355,8 +355,8 @@ get_property(	GObject *object,
 		g_value_set_boolean(value, self->use_skip_buttons_for_playlist);
 		break;
 
-    case PROP_DARK_THEME_ENABLE:
-    g_value_set_boolean(value, self->dark_theme_enable);
+		case PROP_DARK_THEME_ENABLE:
+		g_value_set_boolean(value, self->dark_theme_enable);
 		break;
 
 		default:
@@ -629,15 +629,16 @@ static void
 set_dark_theme_enable(	CelluloidController *controller,
 					gboolean value )
 {
-  if(controller->dark_theme_enable) {
-    adw_style_manager_set_color_scheme (adw_style_manager_get_default (),
-                                    ADW_COLOR_SCHEME_PREFER_DARK);
-
-  }
-  else {
-    adw_style_manager_set_color_scheme (adw_style_manager_get_default (),
-                                    ADW_COLOR_SCHEME_DEFAULT);
-  }
+	if(controller->dark_theme_enable)
+	{
+	adw_style_manager_set_color_scheme (adw_style_manager_get_default (),
+																		ADW_COLOR_SCHEME_PREFER_DARK);
+	}
+	else
+	{
+		adw_style_manager_set_color_scheme (adw_style_manager_get_default (),
+																		ADW_COLOR_SCHEME_DEFAULT);
+	}
 
 }
 static void

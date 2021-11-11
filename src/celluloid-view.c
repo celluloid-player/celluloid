@@ -577,11 +577,8 @@ load_settings(CelluloidView *view)
 		celluloid_main_window_get_control_box(wnd);
 
 	gboolean csd_enable;
-	gboolean dark_theme_enable;
 
 	csd_enable =	g_settings_get_boolean (settings, "csd-enable");
-	dark_theme_enable =	g_settings_get_boolean
-				(settings, "dark-theme-enable");
 
 	g_object_set(	control_box,
 			"show-fullscreen-button", !csd_enable,
