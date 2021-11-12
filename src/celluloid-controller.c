@@ -920,7 +920,7 @@ window_scale_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	window_scale = MIN(	width/(gdouble)video_width,
 				height/(gdouble)video_height );
 
-	if(ABS(window_scale-new_window_scale) > 0.0001)
+	if(window_scale > 0.0 && ABS(window_scale-new_window_scale) > 0.0001)
 	{
 		celluloid_controller_autofit(data, new_window_scale);
 	}
