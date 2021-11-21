@@ -576,8 +576,8 @@ celluloid_main_window_save_state(CelluloidMainWindow *wnd)
 
 	if(!maximized)
 	{
-		g_settings_set_int(settings, "width", width - 52);
-		g_settings_set_int(settings, "height", height - 52);
+		g_settings_set_int(settings, "width", width);
+		g_settings_set_int(settings, "height", height);
 	}
 
 	if(celluloid_main_window_get_playlist_visible(wnd))
