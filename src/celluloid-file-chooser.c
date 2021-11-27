@@ -91,12 +91,10 @@ celluloid_file_chooser_new(	const gchar *title,
 				GtkFileChooserAction action )
 {
 	CelluloidFileChooser *chooser;
-	GtkFileChooser *gtk_chooser;
 	GSettings *main_config;
 	gboolean last_folder_enable;
 
 	chooser = gtk_file_chooser_native_new(title, parent, action, NULL, NULL);
-	gtk_chooser = GTK_FILE_CHOOSER(chooser);
 	main_config = g_settings_new(CONFIG_ROOT);
 	last_folder_enable =	g_settings_get_boolean
 				(main_config, "last-folder-enable");
@@ -104,11 +102,6 @@ celluloid_file_chooser_new(	const gchar *title,
 	if(last_folder_enable)
 	{
 		load_last_folder(GTK_FILE_CHOOSER(chooser));
-	}
-
-	if(action != GTK_FILE_CHOOSER_ACTION_SAVE)
-	{
-		gtk_file_chooser_set_select_multiple(gtk_chooser, TRUE);
 	}
 
 	celluloid_file_chooser_set_modal(chooser, TRUE);
