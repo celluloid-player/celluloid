@@ -222,6 +222,34 @@ strnjoinv(const gchar *separator, const gchar **str_array, gsize count)
 	return result;
 }
 
+gchar *
+sanitize_utf8(const gchar *str, const gboolean label)
+{
+	gchar *result = NULL;
+	const gchar *end = NULL;
+	const gboolean valid = g_utf8_validate(str, -1, &end);
+
+	g_assert(end >= str && (end - str) <= G_MAXINT);
+
+	if(label && !valid)
+	{
+		result =	g_strdup_printf
+				(	"%.*s (%s)",
+					(gint)(end - str),
+					str,
+					_("invalid encoding") );
+	}
+	else
+	{
+		result =	g_strdup_printf
+				(	"%.*s",
+					(gint)(end - str),
+					str );
+	}
+
+	return result;
+}
+
 char *
 format_time(gint seconds, gboolean show_hour)
 {

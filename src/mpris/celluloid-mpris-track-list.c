@@ -518,6 +518,7 @@ playlist_entry_to_variant(CelluloidPlaylistEntry *entry, gint64 index)
 	GVariantBuilder builder;
 	gchar *track_id = NULL;
 	gchar *title = NULL;
+	gchar *sanitized_title = NULL;
 	gchar *uri = NULL;
 	GVariant *elem_value = NULL;
 
@@ -535,10 +536,11 @@ playlist_entry_to_variant(CelluloidPlaylistEntry *entry, gint64 index)
 	title =	entry->title?
 		g_strdup(entry->title):
 		get_name_from_path(entry->filename);
+	sanitized_title = sanitize_utf8(title, TRUE);
 	elem_value =	g_variant_new
 			(	"{sv}",
 				"xesam:title",
-				g_variant_new_string(title) );
+				g_variant_new_string(sanitized_title) );
 	g_variant_builder_add_value(&builder, elem_value);
 
 	uri =	g_filename_to_uri(entry->filename, NULL, NULL)?:
@@ -551,6 +553,7 @@ playlist_entry_to_variant(CelluloidPlaylistEntry *entry, gint64 index)
 
 	g_free(track_id);
 	g_free(title);
+	g_free(sanitized_title);
 	g_free(uri);
 
 	return g_variant_new("a{sv}", &builder);

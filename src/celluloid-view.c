@@ -671,12 +671,15 @@ update_title(CelluloidView *view)
 		view->media_title &&
 		!view->idle_active &&
 		view->playlist_count > 0;
-	const gchar *title =
+	const gchar *title_source =
 		use_media_title ?
 		view->media_title :
 		g_get_application_name();
+	gchar *title =
+		sanitize_utf8(title_source, TRUE);
 
 	gtk_window_set_title(GTK_WINDOW(view), title);
+	g_free(title);
 }
 
 void

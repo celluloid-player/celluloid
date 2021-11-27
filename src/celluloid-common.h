@@ -120,6 +120,9 @@ g_source_clear(guint *tag);
 gchar *
 strnjoinv(const gchar *separator, const gchar **str_array, gsize count);
 
+gchar *
+sanitize_utf8(const gchar *str, const gboolean label);
+
 char *
 format_time(gint seconds, gboolean show_hour);
 

@@ -239,19 +239,22 @@ make_row(GObject *object, gpointer data)
 	const gchar *title = celluloid_playlist_item_get_title(item);
 	const gchar *uri = celluloid_playlist_item_get_uri(item);
 	GtkWidget *label = NULL;
+	gchar *text = NULL;
 
 	if(title)
 	{
-		label = gtk_label_new(title);
+		text = sanitize_utf8(title, TRUE);
 	}
 	else
 	{
 		gchar *basename = g_path_get_basename(uri);
 
-		label = gtk_label_new(basename);
-
+		text = sanitize_utf8(basename, TRUE);
 		g_free(basename);
 	}
+
+	label = gtk_label_new(text);
+	g_free(text);
 
 	g_assert(label);
 
