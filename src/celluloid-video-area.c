@@ -44,6 +44,7 @@ struct _CelluloidVideoArea
 	GtkWidget *header_bar;
 	GtkWidget *control_box_revealer;
 	GtkWidget *header_bar_revealer;
+	GtkEventController *area_motion_controller;
 	guint32 last_motion_time;
 	gdouble last_motion_x;
 	gdouble last_motion_y;
@@ -92,12 +93,14 @@ destroy_handler(GtkWidget *widget, gpointer data)
 static void
 set_cursor_visible(CelluloidVideoArea *area, gboolean visible)
 {
-	GdkSurface *surface;
-	GdkCursor *cursor;
+	GdkSurface *surface = gtk_widget_get_surface(area);
+	GdkCursor *cursor = NULL;
 
-	surface = gtk_widget_get_surface(area);
+	const gboolean hovering =
+		gtk_event_controller_motion_contains_pointer
+		(GTK_EVENT_CONTROLLER_MOTION(area->area_motion_controller));
 
-	if(visible)
+	if(visible || !hovering)
 	{
 		cursor = gdk_cursor_new_from_name("default", NULL);
 	}
@@ -317,6 +320,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->header_bar = celluloid_header_bar_new();
 	area->control_box_revealer = gtk_revealer_new();
 	area->header_bar_revealer = gtk_revealer_new();
+	area->area_motion_controller = gtk_event_controller_motion_new();
 	area->last_motion_time = 0;
 	area->last_motion_x = -1;
 	area->last_motion_y = -1;
@@ -342,7 +346,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	gtk_widget_hide(area->header_bar_revealer);
 
 	GtkEventController *area_motion_controller =
-		gtk_event_controller_motion_new();
+		area->area_motion_controller;
 	gtk_widget_add_controller
 		(GTK_WIDGET(area), area_motion_controller);
 
