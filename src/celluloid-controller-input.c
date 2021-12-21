@@ -330,7 +330,7 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 	GtkEventController *motion_controller =
 		gtk_event_controller_motion_new();
 	gtk_widget_add_controller
-		(GTK_WIDGET(controller->view), GTK_EVENT_CONTROLLER(motion_controller));
+		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(motion_controller));
 
 	g_signal_connect(	motion_controller,
 				"motion",
