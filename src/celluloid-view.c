@@ -265,8 +265,13 @@ constructed(GObject *object)
 				G_CALLBACK(render_handler),
 				view );
 
+	GType types[] = {G_TYPE_STRING, GDK_TYPE_FILE_LIST};
+
 	GtkDropTarget *video_area_drop_target =
-		gtk_drop_target_new(G_TYPE_STRING, GDK_ACTION_COPY);
+		gtk_drop_target_new(G_TYPE_INVALID, GDK_ACTION_COPY);
+
+	gtk_drop_target_set_gtypes
+		(video_area_drop_target, types, G_N_ELEMENTS(types));
 	gtk_widget_add_controller
 		(	GTK_WIDGET(video_area),
 			GTK_EVENT_CONTROLLER(video_area_drop_target) );
@@ -276,7 +281,9 @@ constructed(GObject *object)
 				view );
 
 	GtkDropTarget *playlist_drop_target =
-		gtk_drop_target_new(G_TYPE_STRING, GDK_ACTION_COPY);
+		gtk_drop_target_new(G_TYPE_INVALID, GDK_ACTION_COPY);
+	gtk_drop_target_set_gtypes
+		(playlist_drop_target, types, G_N_ELEMENTS(types));
 	gtk_widget_add_controller
 		(	GTK_WIDGET(playlist),
 			GTK_EVENT_CONTROLLER(playlist_drop_target) );
@@ -1039,25 +1046,44 @@ drop_handler(	GtkDropTargetAsync *self,
 	GtkEventController *controller = GTK_EVENT_CONTROLLER(self);
 	GtkWidget *source = gtk_event_controller_get_widget(controller);
 	const gboolean append = CELLULOID_IS_PLAYLIST_WIDGET(source);
+	GListStore *files = NULL;
 
-	const gchar *string = g_value_get_string(value);
-	gchar **uris = g_uri_list_extract_uris(string);
-
-	if(uris)
+	if(G_VALUE_HOLDS_STRING(value))
 	{
-		GListStore *files = g_list_store_new(G_TYPE_FILE);
+		const gchar *string = g_value_get_string(value);
+		gchar **uris = g_uri_list_extract_uris(string);
 
-		for(gint i = 0; uris[i]; i++)
+		if(uris)
 		{
-			GFile *file = g_file_new_for_uri(uris[i]);
+			files = g_list_store_new(G_TYPE_FILE);
 
-			g_list_store_append(files, file);
-			g_object_unref(file);
+			for(gint i = 0; uris[i]; i++)
+			{
+				GFile *file = g_file_new_for_uri(uris[i]);
+
+				g_list_store_append(files, file);
+				g_object_unref(file);
+			}
+
+			g_strfreev(uris);
 		}
+	}
+	else if(G_VALUE_HOLDS(value, GDK_TYPE_FILE_LIST))
+	{
+		const GSList *slist = g_value_get_boxed(value);
 
+		files = g_list_store_new(G_TYPE_FILE);
+
+		for(const GSList *cur = slist; cur; cur = cur->next)
+		{
+			g_list_store_append(files, G_FILE(cur->data));
+		}
+	}
+
+	if(files)
+	{
 		g_signal_emit_by_name(view, "file-open", files, append);
 		g_object_unref(files);
-		g_strfreev(uris);
 	}
 
 	return TRUE;
