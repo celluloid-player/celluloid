@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021 gnome-mpv
+ * Copyright (c) 2014-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -115,8 +115,6 @@ constructed(GObject *object)
 	CelluloidMainWindowPrivate *priv = get_private(object);
 
 	priv->playlist = celluloid_playlist_widget_new();
-
-	gtk_widget_set_can_focus(priv->playlist, FALSE);
 
 	gtk_widget_hide(priv->playlist);
 	gtk_widget_hide(priv->control_box);
