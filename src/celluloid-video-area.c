@@ -25,7 +25,6 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
-#include <gdk/x11/gdkx.h>
 #include <glib-object.h>
 #include <math.h>
 
