@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021 gnome-mpv
+ * Copyright (c) 2014-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -36,7 +36,6 @@
 #define MPRIS_OBJ_ROOT_PATH "/org/mpris/MediaPlayer2"
 #define MPV_OPTION_PREFIX "--mpv-"
 #define PLAYLIST_DEFAULT_WIDTH 200
-#define PLAYLIST_MIN_WIDTH 20
 #define CSD_WIDTH_OFFSET 52
 #define CSD_HEIGHT_OFFSET 99
 #define WAYLAND_NOCSD_HEIGHT_OFFSET 60

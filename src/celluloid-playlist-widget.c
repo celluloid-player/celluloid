@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021 gnome-mpv
+ * Copyright (c) 2014-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -908,8 +908,6 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 
 	gtk_orientable_set_orientation
 		(GTK_ORIENTABLE(wgt), GTK_ORIENTATION_VERTICAL);
-	gtk_widget_set_size_request
-		(GTK_WIDGET(wgt), PLAYLIST_MIN_WIDTH, -1);
 }
 
 GtkWidget *
