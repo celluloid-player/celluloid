@@ -123,6 +123,8 @@ constructed(GObject *object)
 		(GTK_PANED(priv->video_area_paned), priv->video_area);
 	gtk_paned_set_end_child
 		(GTK_PANED(priv->video_area_paned), priv->playlist);
+	gtk_paned_set_shrink_end_child
+		(GTK_PANED(priv->video_area_paned), FALSE);
 
 	gtk_application_window_set_show_menubar
 		(GTK_APPLICATION_WINDOW(object), !priv->csd);
