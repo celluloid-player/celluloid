@@ -97,7 +97,7 @@
 		"Ctrl+Shift+l script-message celluloid-action win.show-open-location-dialog(true)",\
 		"Ctrl+Shift+s script-message celluloid-action win.save-playlist",\
 		"Ctrl+f script-message celluloid-action win.search-playlist",\
-		"Ctrl+q script-message celluloid-action win.quit",\
+		"Ctrl+q quit",\
 		"Ctrl+? script-message celluloid-action win.show-shortcuts-dialog",\
 		"Ctrl+p script-message celluloid-action win.show-preferences-dialog",\
 		"Ctrl+h script-message celluloid-action win.toggle-controls",\
