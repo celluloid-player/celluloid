@@ -901,11 +901,13 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	wgt->placeholder = gtk_label_new(_("Playlist is empty"));
 	wgt->css_provider = gtk_css_provider_new();
 
-	gtk_widget_set_vexpand(wgt->scrolled_window, TRUE);
-
 	style = gtk_widget_get_style_context(wgt->placeholder);
 	gtk_style_context_add_class(style, "dim-label");
 
+	gtk_widget_set_vexpand
+		(wgt->scrolled_window, TRUE);
+	gtk_label_set_ellipsize
+		(GTK_LABEL(wgt->placeholder), PANGO_ELLIPSIZE_END);
 	gtk_orientable_set_orientation
 		(GTK_ORIENTABLE(wgt), GTK_ORIENTATION_VERTICAL);
 }
