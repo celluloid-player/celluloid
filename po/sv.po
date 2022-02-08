@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-10 00:48+0700\n"
-"PO-Revision-Date: 2021-10-05 11:01+0000\n"
-"Last-Translator: Luna Jernberg <droidbittin@gmail.com>\n"
+"PO-Revision-Date: 2022-01-02 17:55+0000\n"
+"Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/sv/>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -69,9 +69,8 @@ msgid "Always open new window"
 msgstr "Öppna alltid nytt fönster"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
-#, fuzzy
 msgid "Always append opened files to playlist"
-msgstr "Lägg till fil i spelningslista"
+msgstr "Lägg alltid till öppna filer till spellistan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Always show title buttons"
@@ -82,16 +81,20 @@ msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
+"Om sant så visas titel-knapparna (stäng, maximera, minimera, osv.) alltid. "
+"Om falsk så döljs knapparna i fullskärmsläge."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
 msgid "Present window when opening new files"
-msgstr ""
+msgstr "Presentera fönstret när nya filer öppnas"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
 msgid ""
 "If true, Celluloid will attempt to present its window to the user when a new "
 "file is opened. If false, no attempt will be made."
 msgstr ""
+"Om sant så kommer Celluloid att försöka att presentera sitt fönster till "
+"användaren när en ny fil öppnas. Om falsk så görs det inget försök."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
@@ -235,27 +238,33 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Make the main menu button toggleable by pressing F10."
-msgstr ""
+msgstr "Gör den huvudsakliga meny-knappen växlingsbar genom att trycka på F10."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Add a setting for always appending opened files to the playlist."
 msgstr ""
+"Lägg till en inställning för att alltid lägga till öppna filer till "
+"spellistan."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
 msgstr ""
+"Tillåt att lägga till filer i spellistan genom att hålla ner shift medans du "
+"släpper filer på video-området."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
-msgstr ""
+msgstr "Gör CSD-huvudfältet växlingsbart via mpv-egenskapen \"kant\"."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
 msgstr ""
+"Inkludera Flatpak-manifestet i filförrådet. Det här tillåter Celluloid att "
+"byggas på ett klick i appar såsom GNOME Builder."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
@@ -297,6 +306,8 @@ msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
+"Justera positionen för UI-element i modala dialoger i icke CSD-läge för att "
+"bli mer konsekvent med CSD-läge."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:91
 msgid "Add support for loading external video tracks."
@@ -304,25 +315,29 @@ msgstr "Lägg till stöd för externa videospår"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Gör det möjligt att växla mellan spellistor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr ""
+"Få piltangentens bindningar att fungera med piltangenterna på numerisk "
+"tangentbord."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:112
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr ""
+"Justera intervallet för volymknappen baserat på värdet på egenskapen volym-"
+"max."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:116
 msgid "Retain window maximization state across sessions."
-msgstr ""
+msgstr "Behåll fönstrets maximeringstillstånd över sessioner."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
 msgid "Retain loop state across sessions."
-msgstr ""
+msgstr "Behåll fönstrets maximeringstillstånd över sessioner."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:122
 msgid "Implement playlist search."

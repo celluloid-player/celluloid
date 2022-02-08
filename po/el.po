@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-30 20:38+0700\n"
-"PO-Revision-Date: 2021-10-17 12:35+0000\n"
+"PO-Revision-Date: 2021-12-20 13:51+0000\n"
 "Last-Translator: lepa22 <lepa.22@hotmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/el/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.10\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -387,9 +387,9 @@ msgid ""
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
 "Κατάργηση '--mpv-options'. Οι επιλογές που ξεκινούν με '--mpv' μπορούν να "
-"χρησιμοποιηθούν για την εφαρμογή επιλογών του mpv αντί αυτού. Για "
-"παράδειγμα, περνώντας '--mpv-vf=vflip' στον Celluloid είναι ισοδύναμο με το "
-"να περνάς '--vf=vflip' στον mpv."
+"χρησιμοποιηθούν για τον ορισμό επιλογών του mpv αντί αυτού. Για παράδειγμα, "
+"περνώντας '--mpv-vf=vflip' στον Celluloid είναι ισοδύναμο με το να περνάς '--"
+"vf=vflip' στον mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:140
 msgid ""
@@ -458,85 +458,99 @@ msgstr "Προσθήκη Εσπεράντο μετάφρασης από @F3nd0"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:204
 msgid "Migrate from opengl-cb to the new render API"
-msgstr ""
+msgstr "Μετανάστευση από opengl-cb στο νέο render API"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:207
 msgid "Handle numpad keybindings"
-msgstr ""
+msgstr "Χειρισμός συντομεύσεων αριθμητικού πληκτρολογίου"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:210
 msgid "Handle unicode keybindings"
-msgstr ""
+msgstr "Χειρισμός συντομεύσεων πληκτρολογίου unicode"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:213
 msgid "Forward media key events to mpv"
-msgstr ""
+msgstr "Προώθηση γεγονότων πλήκτρων πολυμέσων στον mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:216
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
+"Προσθήκη κλειδιού dconf για τον έλεγχο της ταχύτητας του δρομέα για την "
+"οποία τα εργαλεία ελέγχου επανεμφανίζονται"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
 msgid "Add option for suppressing playback errors"
-msgstr ""
+msgstr "Προσθήκη επιλογής για καταστολή των σφαλμάτων αναπαραγωγής"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:234
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Διαχωρισμός της καρτέλας Γενικά στο παράθυρο διαλόγου προτιμήσεων"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
+"Βελτίωση συμπεριφοράς κατά την εναλλαγή της λίστας αναπαραγωγής όταν "
+"χρησιμοποιούνται tiling window managers"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:240
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Μετακίνηση αντικειμένων του μενού εφαρμογών στο κυρίως μενού"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:243
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Χρήση ξεχωριστής σύνδεσης MPRIS DBus για κάθε παράθυρο"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "Προσθήκη υποστήριξης για την MPRIS ιδιότητα LoopStatus"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:249
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Προσθήκη επιλογής --mpv-options για τον ορισμό αυθαίρετων επιλογών του mpv "
+"από τη γραμμή εντολων"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr ""
+msgstr "Ορισμός προεπιλεγμένου φακέλου στιγμιοτύπων οθόνης στο XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
 msgstr ""
+"Βελτίωση χειρισμού των --window-scale, --autofit, --autofit-larger, and "
+"--autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "Προσθήκη επιλογής γραμμής εντολών για τον ορισμό WM_ROLE"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
 msgid "Add context menu item for removing playlist items"
 msgstr ""
+"Προσθήκη αντικειμένου context menu για την αφαίρεση αντικειμένων λίστας "
+"αναπαραγωγής"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:278
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
+"Προσθήκη αντικειμένου context menu για την αντιγραφή της τοποθεσίας "
+"αντικειμένων της λίστας αναπαραγωγής"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:293
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Προσθήκη επιλογής ώστε τα κουμπιά υπερπήδησης (skip) να αλλάζουν "
+"καταχωρήσεις της λίστας αναπαραγωγής αντί για κεφάλαια"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:297
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "Κάνε τον επιλογέα αρχείων να δέχεται μη-τοπικές (non-local) τοποθεσίες"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:300
 msgid "Add right-click menu entry for looping a single file"

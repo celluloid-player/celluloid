@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-10 00:48+0700\n"
-"PO-Revision-Date: 2021-08-30 14:06+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-12-29 16:54+0000\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/pl/>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -70,29 +70,34 @@ msgid "Always open new window"
 msgstr "Otwieranie zawsze w nowym oknie"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
-#, fuzzy
 msgid "Always append opened files to playlist"
-msgstr "Dodanie pliku do listy odtwarzania"
+msgstr "Zawsze dołączaj otwarte pliki do listy odtwarzania"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Always show title buttons"
-msgstr ""
+msgstr "Zawsze pokazuj przyciski paska tytułu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:85
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
+"Jeśli wartość true, przyciski paska tytułu (zamknij, zmaksymalizuj, "
+"zminimalizuj itp.) są zawsze wyświetlane. Jeśli wartość false, przyciski "
+"zostaną ukryte w trybie pełnoekranowym."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
 msgid "Present window when opening new files"
-msgstr ""
+msgstr "Okazuj okno podczas otwierania nowych plików"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
 msgid ""
 "If true, Celluloid will attempt to present its window to the user when a new "
 "file is opened. If false, no attempt will be made."
 msgstr ""
+"Jeśli wartość true, Celluloid będzie próbował okazać swoje okno "
+"użytkownikowi, gdy nowy plik zostanie otwarty. Jeśli wartość false, żadna "
+"próba nie zostanie podjęta."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
@@ -210,7 +215,7 @@ msgstr "wczytywanie zewnętrznych plików konfiguracji programu mpv,"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:27
 msgid "MPRIS2 D-Bus interface"
-msgstr "obsługa interfejsu D-Bus MPRIS2."
+msgstr "obsługa interfejsu D-Bus MPRIS2"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:30
 msgid "The Celluloid Developers"
@@ -228,37 +233,47 @@ msgid "This release contains the following changes:"
 msgstr "To wydanie zawiera następujące zmiany:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
-#, fuzzy
 msgid "Add Basque translation by @aldatsa."
-msgstr "Nowe tłumaczenie na język esperanto od @F3nd0"
+msgstr "Nowe tłumaczenie na język baskijski od @aldatsa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Make the shuffle and loop command line options work properly."
 msgstr ""
+"Umożliwienie poprawnego działania opcjom wiersza poleceń: losowe odtwarzanie "
+"i powtarzanie."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Make the main menu button toggleable by pressing F10."
 msgstr ""
+"Umożliwienie przełączania przycisku menu głównego poprzez wciśnięcie "
+"klawisza F10."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Add a setting for always appending opened files to the playlist."
 msgstr ""
+"Dodanie ustawienia, aby zawsze dołączać otwarte pliki do listy odtwarzania."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
 msgstr ""
+"Umożliwienie dołączania plików do listy odtwarzania poprzez przytrzymanie "
+"klawisza Shift podczas upuszczania plików na obszar wideo."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
 msgstr ""
+"Sprawienie, aby pasek nagłówka CSD był przełączalny za pomocą właściwości "
+"mpv \"border\"."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
 msgstr ""
+"Dołączenie manifestu Flatpak do repozytorium. Pozwala to na kompilowanie "
+"programu Celluloid jednym kliknięciem w aplikacjach takich jak GNOME Builder."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
@@ -568,9 +583,8 @@ msgid "New Window"
 msgstr "Nowe okno"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:27
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "Dodawanie pliku do listy odtwarzania"
+msgstr "Dodaj do listy odtwarzania"
 
 #: src/celluloid-application.c:519
 msgid "Playing"
@@ -602,11 +616,11 @@ msgstr "Nie łączy z już uruchomionym wystąpieniem programu"
 
 #: src/celluloid-application.c:626
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr ""
+msgstr "Ustaw opcję mpv OPCJAMPV na WARTOŚĆ"
 
 #: src/celluloid-application.c:627
 msgid "VALUE"
-msgstr ""
+msgstr "WARTOŚĆ"
 
 #: src/celluloid-control-box.c:378
 msgid "Pause"
@@ -677,24 +691,20 @@ msgid "Subtitle Files"
 msgstr "Pliki napisów"
 
 #: src/celluloid-file-chooser-button.c:229
-#, fuzzy
 msgid "Open File…"
-msgstr "Otwieranie pliku"
+msgstr "Otwórz plik…"
 
 #: src/celluloid-file-chooser-button.c:232
-#, fuzzy
 msgid "Open"
-msgstr "_Otwórz"
+msgstr "Otwórz"
 
 #: src/celluloid-file-chooser-button.c:233
-#, fuzzy
 msgid "Cancel"
-msgstr "_Anuluj"
+msgstr "Anuluj"
 
 #: src/celluloid-file-chooser-button.c:235
-#, fuzzy
 msgid "(None)"
-msgstr "Brak"
+msgstr "(Brak)"
 
 #: src/celluloid-menu.c:106
 msgid "None"

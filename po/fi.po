@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-10 00:48+0700\n"
-"PO-Revision-Date: 2021-08-30 14:06+0000\n"
+"PO-Revision-Date: 2022-02-02 21:52+0000\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/fi/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -24,7 +24,7 @@ msgstr "Onko asetukset jo siirretty edellisestä versiosta"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
-msgstr "Ikkunan koon muuttaminen automaattisesti videon mukaan"
+msgstr "Aseta ikkunan koko automaattisesti videon mukaan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Enable dark theme"
@@ -71,28 +71,33 @@ msgstr "Lisää aina avatut tiedostot soittolistaan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Always show title buttons"
-msgstr ""
+msgstr "Näytä aina otsikkopalkin painikkeet"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:85
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
+"Jos asetettu, otsikkopalkin painikkeet (sulje, suurenna, pienennä, jne.) "
+"ovat aina näkyvillä. Jos ei ole asetettu, painikkeet piilotetaan koko näytön "
+"tilassa."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
 msgid "Present window when opening new files"
-msgstr ""
+msgstr "Nosta ikkuna avattaessa uusia tiedostoja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
 msgid ""
 "If true, Celluloid will attempt to present its window to the user when a new "
 "file is opened. If false, no attempt will be made."
 msgstr ""
+"Jos asetettu, Celluloid yrittää näyttää ikkunansa käyttäjälle kun uusi "
+"tiedosto avataan. Jos ei ole asetettu, ikkunaa ei yritetä näyttää."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
 msgid "Options to pass to mpv"
-msgstr "Vaihtoehdot siirtyä MPV:hen"
+msgstr "MPV:lle annettavat vaihtoehdot"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:109
 msgid "Path to mpv configuration file"
@@ -247,13 +252,15 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
-msgstr ""
+msgstr "Tee CSD-otsikkopalkista vaihdettava mpv:n \"border\" avulla."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
 msgstr ""
+"Sisällytä Flatpak-manifesti repoon. Näin Celluloid voidaan rakentaa yhdellä "
+"napsautuksella GNOME Builderin kaltaisissa sovelluksissa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
@@ -364,7 +371,7 @@ msgstr "Tee ikkunoiden mitoitus oikein HiDPI-näytöillä."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:147
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr "Lisätty Suomi kielipaketti lähettäjä Kimmo Kujansuu"
+msgstr "Lisää suomenkielinen käännös, tekiä Kimmo Kujansuu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:150
 msgid "Add Slovenian translation by @bertronika."
@@ -580,11 +587,11 @@ msgstr "Määritä ikkunan rooli"
 
 #: src/celluloid-application.c:615
 msgid "Don't connect to an already-running instance"
-msgstr "Älä muodosta yhteyttä jo käynnissä olevaan tapaukseen"
+msgstr "Älä muodosta yhteyttä jo käynnissä olevaan ilmentymään"
 
 #: src/celluloid-application.c:626
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr ""
+msgstr "Aseta mpv-valinta MPVOPTION arvoksi VALUE"
 
 #: src/celluloid-application.c:627
 msgid "VALUE"
@@ -648,11 +655,11 @@ msgstr "Äänitiedostot"
 
 #: src/celluloid-file-chooser.c:178
 msgid "Video Files"
-msgstr "Videotiedostot "
+msgstr "Videotiedostot"
 
 #: src/celluloid-file-chooser.c:186
 msgid "Image Files"
-msgstr "Kuvatiedostot "
+msgstr "Kuvatiedostot"
 
 #: src/celluloid-file-chooser.c:196
 msgid "Subtitle Files"
@@ -702,7 +709,7 @@ msgstr "_Tiedosto"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
 msgid "_Open…"
-msgstr "_Avaa..."
+msgstr "_Avaa…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
@@ -710,11 +717,11 @@ msgstr "Avaa _kansio…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
-msgstr "Avaa _sijainti..."
+msgstr "Avaa _sijainti…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr "Avaa _levy..."
+msgstr "Avaa _levy…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
@@ -783,7 +790,7 @@ msgstr "Avaa _levy"
 #: src/celluloid-mpv.c:266
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr "Toisto lopetettiin odottamattomasti. Syy: %s"
+msgstr "Toisto lopetettiin odottamattomasti. Syy: %s."
 
 #: src/celluloid-open-location-dialog.c:131
 msgid "Location:"
@@ -812,15 +819,15 @@ msgstr "_Poista"
 
 #: src/celluloid-playlist-widget.c:528
 msgid "_Add…"
-msgstr "_Lisää..."
+msgstr "_Lisää…"
 
 #: src/celluloid-playlist-widget.c:529
 msgid "Add _Folder…"
-msgstr "Lisää _kansio..."
+msgstr "Lisää _kansio…"
 
 #: src/celluloid-playlist-widget.c:530
 msgid "Add _Location…"
-msgstr "Lisää _sijainti..."
+msgstr "Lisää _sijainti…"
 
 #: src/celluloid-playlist-widget.c:531
 msgid "_Shuffle"
@@ -969,7 +976,7 @@ msgstr "Siirry eteen-/taaksepäin 5 sekuntia"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Exact seek backward/forward 1 second"
-msgstr "Siirry tarkasti eteen-/taaksepäin 1 sekunti "
+msgstr "Siirry taaksepäin / eteenpäin 1 sekunti"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Seek backward/forward 1 minute"
@@ -977,7 +984,7 @@ msgstr "Siirry eteen-/taaksepäin 1 minuutti"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Exact seek backward/forward 5 seconds"
-msgstr "Siirry tarkasti eteen-/taaksepäin 5 sekuntia "
+msgstr "Siirry taaksepäin / eteenpäin 5 sekuntia"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Seek to previous/next subtitle"
@@ -1185,7 +1192,7 @@ msgstr "Lataa video…"
 
 #: src/celluloid-view.c:786
 msgid "Load Subtitle Track…"
-msgstr "Lataa tekstitys..."
+msgstr "Lataa tekstitys…"
 
 #: src/celluloid-view.c:958
 msgid ""
@@ -1229,6 +1236,4 @@ msgstr "MPV:n GTK+ -käyttöliittymä"
 
 #: src/celluloid-view.c:1635
 msgid "translator-credits"
-msgstr ""
-"Kääntänyt:\n"
-"Kimmo Kujansuu"
+msgstr "Kimmo Kujansuu"
