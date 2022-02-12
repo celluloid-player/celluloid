@@ -652,7 +652,7 @@ motion_handler(	GtkDropTarget *self,
 		gpointer data )
 {
 	CelluloidPlaylistWidget *wgt = CELLULOID_PLAYLIST_WIDGET(data);
-	GdkDrop *drop = gtk_drop_target_get_drop(self);
+	GdkDrop *drop = gtk_drop_target_get_current_drop(self);
 	GdkContentFormats *formats = gdk_drop_get_formats(drop);
 	gchar *css_data = NULL;
 
