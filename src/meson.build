@@ -50,7 +50,7 @@ sources += custom_target('authors',
   ]
 )
 
-libgtk = dependency('gtk4')
+libgtk = dependency('gtk4', version: '>=4.6.1')
 localedir = join_paths(get_option('prefix'), get_option('localedir'))
 cflags = [
   '-DG_SETTINGS_ENABLE_BACKEND',
@@ -60,8 +60,8 @@ cflags = [
   '-DG_LOG_DOMAIN="@0@"'.format(meson.project_name()),
   '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66',
   '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_66',
-  '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_0',
-  '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_0'
+  '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_6',
+  '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_6'
 ]
 
 if get_option('buildtype') == 'release'

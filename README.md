@@ -15,7 +15,7 @@ mpv's powerful playback capabilities.
 - pkg-config (build)
 - gcc (build)
 - glib >= 2.66
-- gtk >= 4.0
+- gtk >= 4.6.1
 - mpv >= 0.32
 - epoxy
 - lua (optional)
