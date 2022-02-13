@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 gnome-mpv
+ * Copyright (c) 2017-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -437,12 +437,18 @@ view_ready_handler(CelluloidView *view, gpointer data)
 {
 	CelluloidController *controller = CELLULOID_CONTROLLER(data);
 	CelluloidModel *model = controller->model;
+	gboolean maximized = FALSE;
 
 	celluloid_player_options_init
 		(	CELLULOID_PLAYER(controller->model),
 			CELLULOID_MAIN_WINDOW(controller->view) );
+	celluloid_model_initialize
+		(model);
 
-	celluloid_model_initialize(model);
+	g_object_get
+		(view, "maximized", &maximized, NULL);
+	celluloid_mpv_set_property_flag
+		(CELLULOID_MPV(model), "window-maximized", maximized);
 }
 
 static void
