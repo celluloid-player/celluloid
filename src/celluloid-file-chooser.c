@@ -152,7 +152,7 @@ celluloid_file_chooser_set_default_filters(	CelluloidFileChooser *chooser,
 		gtk_file_filter_set_name(filter, _("Media Files"));
 		gtk_file_filter_add_mime_type(filter, "audio/*");
 		gtk_file_filter_add_mime_type(filter, "video/*");
-		gtk_file_filter_add_mime_type(filter, "images/*");
+		gtk_file_filter_add_mime_type(filter, "image/*");
 		gtk_file_chooser_add_filter(gtk_chooser, filter);
 		gtk_file_chooser_set_filter(gtk_chooser, filter);
 	}
@@ -177,7 +177,7 @@ celluloid_file_chooser_set_default_filters(	CelluloidFileChooser *chooser,
 	{
 		GtkFileFilter *filter = gtk_file_filter_new();
 		gtk_file_filter_set_name(filter, _("Image Files"));
-		gtk_file_filter_add_mime_type(filter, "images/*");
+		gtk_file_filter_add_mime_type(filter, "image/*");
 		gtk_file_chooser_add_filter(gtk_chooser, filter);
 	}
 
