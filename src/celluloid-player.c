@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 gnome-mpv
+ * Copyright (c) 2017-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -1343,30 +1343,6 @@ celluloid_player_remove_playlist_entry(CelluloidPlayer *player, gint64 position)
 	CelluloidMpv *mpv = CELLULOID_MPV(player);
 	gboolean idle_active =	celluloid_mpv_get_property_flag
 				(mpv, "idle-active");
-	gint64 playlist_count = 0;
-
-	celluloid_mpv_get_property
-		(mpv, "playlist-count", MPV_FORMAT_INT64, &playlist_count);
-
-	/* mpv goes idle when the last playlist item is removed regardless of
-	 * whether or not there are other items left after removal. We need move
-	 * the playlist position back by one so that this doesn't happen.
-	 */
-	if(position > 0 && position == playlist_count - 1)
-	{
-		celluloid_player_set_playlist_position(player, position - 1);
-	}
-
-	/* mpv doesn't send playlist change signal before going idle when the
-	 * last playlist entry is removed, so the internal playlist needs to be
-	 * directly updated.
-	 */
-	if(idle_active || playlist_count == 1)
-	{
-		g_ptr_array_remove_index(	get_private(player)->playlist,
-						(guint)position );
-		g_object_notify(G_OBJECT(player), "playlist");
-	}
 
 	if(!idle_active)
 	{
