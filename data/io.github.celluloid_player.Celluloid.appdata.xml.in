@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2015-2021 gnome-mpv -->
+<!-- Copyright 2015-2022 gnome-mpv -->
 <component type="desktop">
  <id>io.github.celluloid_player.Celluloid</id>
  <metadata_license>CC-BY-SA-4.0</metadata_license>
@@ -29,6 +29,33 @@
  </description>
  <developer_name>The Celluloid Developers</developer_name>
  <releases>
+  <release date="2022-03-07" version="0.23">
+   <description>
+    <p>
+     This is mostly a bugfix release. It contains the following changes:
+    </p>
+    <ul>
+     <li>
+      Fix autofit triggering regardless of settings.
+     </li>
+     <li>
+      Fix window size shrinking across sessions.
+     </li>
+     <li>
+      Fix crash when playing files with names containing invalid encoding.
+     </li>
+     <li>
+      Fix drag-and-drop not working with some file managers.
+     </li>
+     <li>
+      Fix playback starting when the last playlist item is removed.
+     </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2021-11-05" version="0.22">
    <description>
     <p>
