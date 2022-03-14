@@ -233,8 +233,8 @@ celluloid_menu_build_full(	GMenu *menu,
 
 	const CelluloidMenuEntry entries[]
 		= {	CELLULOID_MENU_SUBMENU(_("_File"), NULL),
-			CELLULOID_MENU_ITEM(_("_Open…"), "win.show-open-dialog((false, false))"),
-			CELLULOID_MENU_ITEM(_("Open _Folder…"), "win.show-open-dialog((true, false))"),
+			CELLULOID_MENU_ITEM(_("_Open File…"), "win.show-open-dialog((false, false))"),
+			CELLULOID_MENU_ITEM(_("Open Directory…"), "win.show-open-dialog((true, false))"),
 			CELLULOID_MENU_ITEM(_("Open _Location…"), "win.show-open-location-dialog(false)"),
 			CELLULOID_MENU_SUBMENU(_("Open _Disc…"), disc_menu),
 			CELLULOID_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
