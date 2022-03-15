@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021 gnome-mpv
+ * Copyright (c) 2014-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -771,6 +771,5 @@ void
 celluloid_control_box_reset(CelluloidControlBox *box)
 {
 	celluloid_control_box_set_seek_bar_pos(box, 0);
-	set_skip_enabled(box, FALSE);
 	celluloid_control_box_set_fullscreen_state(box, FALSE);
 }
