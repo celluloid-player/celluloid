@@ -114,6 +114,10 @@ AC_CONFIG_FILES([Makefile src/Makefile data/Makefile docs/Makefile po/Makefile.i
 AC_OUTPUT
 
 echo "
+################################################################################
+#         THE AUTOMAKE BUILD SCRIPT IS DEPRECATED. USE MESON INSTEAD.          #
+################################################################################
+
 	$PACKAGE $VERSION
 
 	prefix ........: $prefix
