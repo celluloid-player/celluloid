@@ -57,29 +57,29 @@ struct _CelluloidVideoAreaClass
 	GtkBoxClass parent_class;
 };
 
-static
-void destroy_handler(GtkWidget *widget, gpointer data);
+static void
+set_cursor_visible(CelluloidVideoArea *area, gboolean visible);
 
-static
-void set_cursor_visible(CelluloidVideoArea *area, gboolean visible);
+static void
+destroy_handler(GtkWidget *widget, gpointer data);
 
-static
-gboolean timeout_handler(gpointer data);
+static gboolean
+timeout_handler(gpointer data);
 
-static
-void  motion_handler(	GtkEventControllerMotion *controller,
-			gdouble x,
-			gdouble y,
-			gpointer data );
+static void
+motion_handler(	GtkEventControllerMotion *controller,
+		gdouble x,
+		gdouble y,
+		gpointer data );
 
-static
-void enter_handler(	GtkEventControllerMotion *controller,
-			gdouble x,
-			gdouble y,
-			gpointer data );
+static void
+enter_handler(	GtkEventControllerMotion *controller,
+		gdouble x,
+		gdouble y,
+		gpointer data );
 
-static
-void leave_handler(GtkEventControllerMotion *controller, gpointer data);
+static void
+leave_handler(GtkEventControllerMotion *controller, gpointer data);
 
 G_DEFINE_TYPE(CelluloidVideoArea, celluloid_video_area, GTK_TYPE_BOX)
 
