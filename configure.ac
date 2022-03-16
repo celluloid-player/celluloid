@@ -90,7 +90,7 @@ AS_IF([test "x$GLIB_GENMARSHAL" = "x"], [
 	AC_MSG_ERROR([Could not find glib-genmarshal])
 ])
 
-PKG_CHECK_MODULES(DEPS, [gtk4 >= 4.6.1 glib-2.0 >= 2.66 mpv >= 1.107 epoxy])
+PKG_CHECK_MODULES(DEPS, [gtk4 >= 4.6.1 glib-2.0 >= 2.66 libadwaita-1 >= 1.0.0 mpv >= 1.107 epoxy])
 AC_SEARCH_LIBS([sqrt], [m])
 
 AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_66], [Dont warn using older APIs])
