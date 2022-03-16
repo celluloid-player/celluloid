@@ -8,10 +8,7 @@ mpv's powerful playback capabilities.
 
 ## Dependencies
 
-- appstream-glib<sup>[[1]](#note1)</sup> (build)
-- autoconf >= 2.69<sup>[[1]](#note1)</sup> (build)
-- autoconf-archive<sup>[[1]](#note1)</sup> (build)
-- automake >= 1.12<sup>[[1]](#note1)</sup> (build)
+- appstream-glib (build)
 - pkg-config (build)
 - gcc (build)
 - glib >= 2.66
@@ -21,8 +18,6 @@ mpv's powerful playback capabilities.
 - epoxy
 - lua (optional)
 - youtube-dl (optional)
-
-<a name="note1">[1]</a>: Not required when building from release tarballs
 
 ## Installation
 
@@ -61,18 +56,6 @@ Run the following command in the source code directory to build and install:
 
 ```sh
 meson build && cd build && ninja && sudo ninja install
-```
-
-Alternatively, you can use Autotools:
-
-```sh
-./autogen.sh && make && sudo make install
-```
-
-When building from release tarballs, replace `./autogen.sh` with `./configure`:
-
-```sh
-./configure && make && sudo make install
 ```
 
 ## Usage
