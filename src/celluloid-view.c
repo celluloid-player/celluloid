@@ -174,7 +174,7 @@ static void
 render_handler(CelluloidVideoArea *area, gpointer data);
 
 static gboolean
-drop_handler(	GtkDropTargetAsync *self,
+drop_handler(	GtkDropTarget *self,
 		GValue *value,
 		gdouble x,
 		gdouble y,
@@ -1011,7 +1011,7 @@ render_handler(CelluloidVideoArea *area, gpointer data)
 }
 
 static gboolean
-drop_handler(	GtkDropTargetAsync *self,
+drop_handler(	GtkDropTarget *self,
 		GValue *value,
 		gdouble x,
 		gdouble y,
