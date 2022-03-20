@@ -56,6 +56,21 @@ struct _CelluloidHeaderBarClass
 G_DEFINE_TYPE(CelluloidHeaderBar, celluloid_header_bar, GTK_TYPE_BOX)
 
 static void
+set_property(	GObject *object,
+		guint property_id,
+		const GValue *value,
+		GParamSpec *pspec );
+
+static void
+get_property(	GObject *object,
+		guint property_id,
+		GValue *value,
+		GParamSpec *pspec );
+
+static void
+create_popup(GtkMenuButton *menu_button, gpointer data);
+
+static void
 set_fullscreen_state(CelluloidHeaderBar *hdr, gboolean fullscreen);
 
 static void
