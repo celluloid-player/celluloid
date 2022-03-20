@@ -53,7 +53,6 @@ struct _CelluloidMainWindowPrivate
 	gboolean csd;
 	gboolean always_floating;
 	gboolean use_floating_controls;
-	gboolean fullscreen;
 	gboolean playlist_visible;
 	gboolean playlist_first_toggle;
 	gboolean pre_fs_playlist_visible;
@@ -86,6 +85,9 @@ get_property(	GObject *object,
 		guint property_id,
 		GValue *value,
 		GParamSpec *pspec );
+
+static void
+notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data);
 
 static void
 seek_handler(GtkWidget *widget, gdouble value, gpointer data);
@@ -177,6 +179,56 @@ get_property(	GObject *object,
 }
 
 static void
+notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data)
+{
+	CelluloidMainWindow *wnd =
+		CELLULOID_MAIN_WINDOW(object);
+	CelluloidMainWindowPrivate *priv =
+		get_private(wnd);
+	CelluloidVideoArea *video_area =
+		CELLULOID_VIDEO_AREA(priv->video_area);
+	GSettings *settings =
+		g_settings_new(CONFIG_WIN_STATE);
+	const gboolean fullscreen =
+		gtk_window_is_fullscreen(GTK_WINDOW(object));
+	const gboolean floating =
+		priv->always_floating || fullscreen;
+	const gboolean playlist_visible =
+		!fullscreen && priv->pre_fs_playlist_visible;
+	const gboolean show_controls = g_settings_get_boolean
+		(settings, "show-controls");
+
+	if(fullscreen)
+	{
+		gtk_window_fullscreen(GTK_WINDOW(wnd));
+		gtk_window_present(GTK_WINDOW(wnd));
+
+		priv->pre_fs_playlist_visible = priv->playlist_visible;
+	}
+	else
+	{
+		gtk_window_unfullscreen(GTK_WINDOW(wnd));
+
+		priv->playlist_visible = priv->pre_fs_playlist_visible;
+	}
+
+	if(!celluloid_main_window_get_csd_enabled(wnd))
+	{
+		gtk_application_window_set_show_menubar
+			(GTK_APPLICATION_WINDOW(wnd), !fullscreen);
+	}
+
+	celluloid_video_area_set_fullscreen_state
+		(video_area, fullscreen);
+	celluloid_main_window_set_use_floating_controls
+		(wnd, floating && show_controls);
+	gtk_widget_set_visible
+		(priv->playlist, playlist_visible);
+
+	g_object_unref(settings);
+}
+
+static void
 seek_handler(GtkWidget *widget, gdouble value, gpointer data)
 {
 	g_signal_emit_by_name(data, "seek", value);
@@ -200,7 +252,9 @@ notify(GObject *object, GParamSpec *pspec)
 	{
 		CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(object);
 		CelluloidMainWindowPrivate *priv = get_private(wnd);
-		gboolean floating = priv->always_floating || priv->fullscreen;
+		gboolean floating =
+			priv->always_floating ||
+			gtk_window_is_fullscreen(GTK_WINDOW(object));
 
 		celluloid_main_window_set_use_floating_controls(wnd, floating);
 	}
@@ -231,7 +285,7 @@ resize_video_area_finalize(	GtkWidget *widget,
 	&& (	target_width < monitor_geom.width &&
 		target_height < monitor_geom.height )
 	&& !gtk_window_is_maximized(GTK_WINDOW(wnd))
-	&& !priv->fullscreen)
+	&& !gtk_window_is_fullscreen(GTK_WINDOW(wnd)))
 	{
 		priv->width_offset += target_width-width;
 		priv->height_offset += target_height-height;
@@ -320,7 +374,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	priv->csd = FALSE;
 	priv->always_floating = FALSE;
 	priv->use_floating_controls = FALSE;
-	priv->fullscreen = FALSE;
 	priv->playlist_visible = FALSE;
 	priv->pre_fs_playlist_visible = FALSE;
 	priv->playlist_width = PLAYLIST_DEFAULT_WIDTH;
@@ -380,6 +433,10 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 				video_area_control_box, "volume-popup-visible",
 				G_BINDING_BIDIRECTIONAL );
 
+	g_signal_connect(	wnd,
+				"notify::fullscreened",
+				G_CALLBACK(notify_fullscreened_handler),
+				wnd );
 	g_signal_connect(	priv->control_box,
 				"seek",
 				G_CALLBACK(seek_handler),
@@ -476,67 +533,18 @@ celluloid_main_window_get_use_floating_controls(CelluloidMainWindow *wnd)
 	return get_private(wnd)->use_floating_controls;
 }
 
-void
-celluloid_main_window_set_fullscreen(CelluloidMainWindow *wnd, gboolean fullscreen)
-{
-	CelluloidMainWindowPrivate *priv = get_private(wnd);
-
-	if(fullscreen != priv->fullscreen)
-	{
-		CelluloidVideoArea *video_area =
-			CELLULOID_VIDEO_AREA(priv->video_area);
-		GSettings *settings =
-			g_settings_new(CONFIG_WIN_STATE);
-		gboolean floating =
-			priv->always_floating || fullscreen;
-		gboolean playlist_visible =
-			!fullscreen && priv->pre_fs_playlist_visible;
-		gboolean show_controls = g_settings_get_boolean
-			(settings, "show-controls");
-
-		if(fullscreen)
-		{
-			gtk_window_fullscreen(GTK_WINDOW(wnd));
-			gtk_window_present(GTK_WINDOW(wnd));
-
-			priv->pre_fs_playlist_visible = priv->playlist_visible;
-		}
-		else
-		{
-			gtk_window_unfullscreen(GTK_WINDOW(wnd));
-
-			priv->playlist_visible = priv->pre_fs_playlist_visible;
-		}
-
-		if(!celluloid_main_window_get_csd_enabled(wnd))
-		{
-			gtk_application_window_set_show_menubar
-				(GTK_APPLICATION_WINDOW(wnd), !fullscreen);
-		}
-
-		celluloid_video_area_set_fullscreen_state
-			(video_area, fullscreen);
-		celluloid_main_window_set_use_floating_controls
-			(wnd, floating && show_controls);
-		gtk_widget_set_visible
-			(priv->playlist, playlist_visible);
-
-		priv->fullscreen = fullscreen;
-
-		g_object_unref(settings);
-	}
-}
-
 gboolean
 celluloid_main_window_get_fullscreen(CelluloidMainWindow *wnd)
 {
-	return get_private(wnd)->fullscreen;
+	return gtk_window_is_fullscreen(GTK_WINDOW(wnd));
 }
 
 void
 celluloid_main_window_toggle_fullscreen(CelluloidMainWindow *wnd)
 {
-	celluloid_main_window_set_fullscreen(wnd, !get_private(wnd)->fullscreen);
+	const gboolean fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(wnd));
+
+	g_object_set(wnd, "fullscreened", !fullscreen, NULL);
 }
 
 void
@@ -719,7 +727,7 @@ celluloid_main_window_resize_video_area(	CelluloidMainWindow *wnd,
 	 * fullscreen is unaffected, but it doesn't make sense to resize there
 	 * either.
 	 */
-	if(	!get_private(wnd)->fullscreen &&
+	if(	!gtk_window_is_fullscreen(GTK_WINDOW(wnd)) &&
 		!gtk_window_is_maximized(GTK_WINDOW(wnd)) )
 	{
 		CelluloidMainWindowPrivate *priv = get_private(wnd);
@@ -764,7 +772,8 @@ celluloid_main_window_set_playlist_visible(	CelluloidMainWindow *wnd,
 {
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 
-	if(visible != priv->playlist_visible && !priv->fullscreen)
+	if(	visible != priv->playlist_visible &&
+		!gtk_window_is_fullscreen(GTK_WINDOW(wnd)))
 	{
 		gboolean resize;
 		gint handle_pos;
@@ -821,7 +830,7 @@ celluloid_main_window_set_controls_visible(	CelluloidMainWindow *wnd,
 	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 	const gboolean floating = priv->use_floating_controls;
-	const gboolean fullscreen = priv->fullscreen;
+	const gboolean fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(wnd));
 
 	gtk_widget_set_visible
 		(GTK_WIDGET(priv->control_box), visible && !fullscreen && !floating);
@@ -839,7 +848,7 @@ celluloid_main_window_get_controls_visible(CelluloidMainWindow *wnd)
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 	CelluloidVideoArea *video_area = CELLULOID_VIDEO_AREA(priv->video_area);
 
-	return	priv->fullscreen ?
+	return	gtk_window_is_fullscreen(GTK_WINDOW(wnd)) ?
 		celluloid_video_area_get_control_box_visible(video_area) :
 		gtk_widget_get_visible(GTK_WIDGET(priv->control_box));
 }

@@ -51,7 +51,6 @@ enum
 	PROP_LOOP,
 	PROP_SHUFFLE,
 	PROP_BORDER,
-	PROP_FULLSCREEN,
 	PROP_MEDIA_TITLE,
 	PROP_DISPLAY_FPS,
 	PROP_SEARCHING,
@@ -79,7 +78,6 @@ struct _CelluloidView
 	gboolean loop;
 	gboolean shuffle;
 	gboolean border;
-	gboolean fullscreen;
 	gchar *media_title;
 	gdouble display_fps;
 	gboolean searching;
@@ -179,9 +177,6 @@ drop_handler(	GtkDropTarget *self,
 		gdouble x,
 		gdouble y,
 		gpointer data );
-
-static gboolean
-notify_fullscreened_handler(GObject *gobject, GParamSpec *pspec, gpointer data);
 
 static gboolean
 close_request_handler(GtkWidget *widget, gpointer data);
@@ -290,10 +285,6 @@ constructed(GObject *object)
 				G_CALLBACK(drop_handler),
 				view );
 
-	g_signal_connect(	wnd,
-				"notify::fullscreened",
-				G_CALLBACK(notify_fullscreened_handler),
-				view );
 	g_signal_connect(	wnd,
 				"close-request",
 				G_CALLBACK(close_request_handler),
@@ -429,11 +420,6 @@ set_property(	GObject *object,
 		}
 		break;
 
-		case PROP_FULLSCREEN:
-		self->fullscreen = g_value_get_boolean(value);
-		celluloid_main_window_set_fullscreen(wnd, self->fullscreen);
-		break;
-
 		case PROP_MEDIA_TITLE:
 		g_free(self->media_title);
 		self->media_title = g_value_dup_string(value);
@@ -447,8 +433,9 @@ set_property(	GObject *object,
 		case PROP_SEARCHING:
 		// We do not display playlist in fullscreen mode so refuse to
 		// enter search mode here if we're in fullscreen mode.
-		self->searching =	!self->fullscreen &&
-					g_value_get_boolean(value);
+		self->searching =
+			!gtk_window_is_fullscreen(GTK_WINDOW(self)) &&
+			g_value_get_boolean(value);
 
 		// Show playlist if we're about to enter search mode and it
 		// isn't already visible.
@@ -524,10 +511,6 @@ get_property(	GObject *object,
 
 		case PROP_BORDER:
 		g_value_set_boolean(value, self->border);
-		break;
-
-		case PROP_FULLSCREEN:
-		g_value_set_boolean(value, self->fullscreen);
 		break;
 
 		case PROP_MEDIA_TITLE:
@@ -1065,17 +1048,6 @@ drop_handler(	GtkDropTarget *self,
 }
 
 static gboolean
-notify_fullscreened_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
-{
-	CelluloidView *view = CELLULOID_VIEW(data);
-
-	view->fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(view));
-	g_object_notify(data, "fullscreen");
-
-	return FALSE;
-}
-
-static gboolean
 close_request_handler(GtkWidget *widget, gpointer data)
 {
 	if(!celluloid_main_window_get_fullscreen(CELLULOID_MAIN_WINDOW(widget)))
@@ -1247,14 +1219,6 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_BORDER, pspec);
 
-	pspec = g_param_spec_boolean
-		(	"fullscreen",
-			"Fullscreen",
-			"Whether or not the player is current in fullscreen mode",
-			FALSE,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_FULLSCREEN, pspec);
-
 	pspec = g_param_spec_string
 		(	"media-title",
 			"Media Title",
@@ -1422,7 +1386,6 @@ celluloid_view_init(CelluloidView *view)
 	view->loop = FALSE;
 	view->shuffle = FALSE;
 	view->border = FALSE;
-	view->fullscreen = FALSE;
 	view->media_title = NULL;
 	view->display_fps = 0;
 	view->searching = FALSE;
@@ -1737,9 +1700,7 @@ celluloid_view_resize_video_area(CelluloidView *view, gint width, gint height)
 void
 celluloid_view_set_fullscreen(CelluloidView *view, gboolean fullscreen)
 {
-	g_object_set(view, "fullscreen", fullscreen, NULL);
-	celluloid_main_window_set_fullscreen
-		(CELLULOID_MAIN_WINDOW(view), fullscreen);
+	g_object_set(view, "fullscreened", fullscreen, NULL);
 }
 
 void

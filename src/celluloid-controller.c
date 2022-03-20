@@ -658,7 +658,7 @@ connect_signals(CelluloidController *controller)
 				controller->view, "border",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->model, "fullscreen",
-				controller->view, "fullscreen",
+				controller->view, "fullscreened",
 				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	controller->model, "window-maximized",
 				controller->view, "maximized",
@@ -1166,12 +1166,10 @@ fullscreen_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	CelluloidMainWindow *window = celluloid_view_get_main_window(view);
 	GActionMap *map = G_ACTION_MAP(window);
 	GAction *toggle_playlist = NULL;
-	gboolean fullscreen = FALSE;
+	const gboolean fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(view));
 
-	toggle_playlist = g_action_map_lookup_action(map, "toggle-playlist");
-
-	g_object_get(view, "fullscreen", &fullscreen, NULL);
-
+	toggle_playlist =
+		g_action_map_lookup_action(map, "toggle-playlist");
 	g_simple_action_set_enabled
 		(G_SIMPLE_ACTION(toggle_playlist), !fullscreen);
 }
@@ -1260,10 +1258,9 @@ static void
 fullscreen_button_handler(GtkButton *button, gpointer data)
 {
 	CelluloidView *view = CELLULOID_CONTROLLER(data)->view;
-	gboolean fullscreen = FALSE;
+	const gboolean fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(view));
 
-	g_object_get(view, "fullscreen", &fullscreen, NULL);
-	g_object_set(view, "fullscreen", !fullscreen, NULL);
+	g_object_set(view, "fullscreened", !fullscreen, NULL);
 }
 
 static void
