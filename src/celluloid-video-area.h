@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -41,10 +41,6 @@ celluloid_video_area_update_track_list(	CelluloidVideoArea *hdr,
 void
 celluloid_video_area_update_disc_list(	CelluloidVideoArea *hdr,
 					const GPtrArray *disc_list );
-
-void
-celluloid_video_area_set_fullscreen_state(	CelluloidVideoArea *area,
-						gboolean fullscreen );
 
 void
 celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,

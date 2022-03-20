@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -32,6 +32,13 @@
 #include <gdk/x11/gdkx.h>
 #endif
 
+enum
+{
+	PROP_0,
+	PROP_FULLSCREENED,
+	N_PROPERTIES
+};
+
 struct _CelluloidVideoArea
 {
 	GtkBox parent_instance;
@@ -48,7 +55,7 @@ struct _CelluloidVideoArea
 	gdouble last_motion_x;
 	gdouble last_motion_y;
 	guint timeout_tag;
-	gboolean fullscreen;
+	gboolean fullscreened;
 	gboolean fs_control_hover;
 };
 
@@ -56,6 +63,21 @@ struct _CelluloidVideoAreaClass
 {
 	GtkBoxClass parent_class;
 };
+
+static void
+set_property(	GObject *object,
+		guint property_id,
+		const GValue *value,
+		GParamSpec *pspec );
+
+static void
+get_property(	GObject *object,
+		guint property_id,
+		GValue *value,
+		GParamSpec *pspec );
+
+static void
+set_fullscreen_state(CelluloidVideoArea *area, gboolean fullscreen);
 
 static void
 set_cursor_visible(CelluloidVideoArea *area, gboolean visible);
@@ -82,6 +104,70 @@ static void
 leave_handler(GtkEventControllerMotion *controller, gpointer data);
 
 G_DEFINE_TYPE(CelluloidVideoArea, celluloid_video_area, GTK_TYPE_BOX)
+
+static void
+set_property(	GObject *object,
+		guint property_id,
+		const GValue *value,
+		GParamSpec *pspec )
+{
+	CelluloidVideoArea *self = CELLULOID_VIDEO_AREA(object);
+
+	switch(property_id)
+	{
+		case PROP_FULLSCREENED:
+		self->fullscreened = g_value_get_boolean(value);
+		set_fullscreen_state(self, self->fullscreened);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+get_property(	GObject *object,
+		guint property_id,
+		GValue *value,
+		GParamSpec *pspec )
+{
+	CelluloidVideoArea *self = CELLULOID_VIDEO_AREA(object);
+
+	switch(property_id)
+	{
+		case PROP_FULLSCREENED:
+		g_value_set_boolean(value, self->fullscreened);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+set_fullscreen_state(CelluloidVideoArea *area, gboolean fullscreen)
+{
+	area->fs_control_hover = FALSE;
+
+	gtk_widget_hide(area->header_bar_revealer);
+	set_cursor_visible(area, !fullscreen);
+
+	gtk_revealer_set_reveal_child
+		(GTK_REVEALER(area->control_box_revealer), FALSE);
+	gtk_revealer_set_reveal_child
+		(GTK_REVEALER(area->header_bar_revealer), FALSE);
+
+	celluloid_header_bar_set_fullscreen_state
+		(CELLULOID_HEADER_BAR(area->header_bar), fullscreen);
+
+	if(area->control_box)
+	{
+		celluloid_control_box_set_fullscreen_state
+			(CELLULOID_CONTROL_BOX(area->control_box), fullscreen);
+	}
+}
 
 static void
 destroy_handler(GtkWidget *widget, gpointer data)
@@ -144,7 +230,7 @@ timeout_handler(gpointer data)
 		gtk_revealer_set_reveal_child
 			(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
-		set_cursor_visible(area, !(always_autohide || area->fullscreen));
+		set_cursor_visible(area, !(always_autohide || area->fullscreened));
 		area->timeout_tag = 0;
 
 		g_object_unref(settings);
@@ -202,7 +288,7 @@ motion_handler(	GtkEventControllerMotion *controller,
 					TRUE );
 			gtk_revealer_set_reveal_child
 				(	GTK_REVEALER(area->header_bar_revealer),
-					area->fullscreen );
+					area->fullscreened );
 		}
 
 		g_source_clear(&area->timeout_tag);
@@ -260,7 +346,7 @@ reveal_notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 			NULL );
 
 	gtk_widget_set_visible(	GTK_WIDGET(area->header_bar_revealer),
-				area->fullscreen &&
+				area->fullscreened &&
 				(reveal_child || child_revealed) );
 }
 
@@ -282,9 +368,22 @@ leave_handler(GtkEventControllerMotion *controller, gpointer data)
 static void
 celluloid_video_area_class_init(CelluloidVideoAreaClass *klass)
 {
+	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
 	GtkWidgetClass *wgt_class = GTK_WIDGET_CLASS(klass);
+	GParamSpec *pspec = NULL;
+
+	obj_class->set_property = set_property;
+	obj_class->get_property = get_property;
 
 	gtk_widget_class_set_css_name(wgt_class, "celluloid-video-area");
+
+	pspec = g_param_spec_boolean
+		(	"fullscreened",
+			"Fullscreened",
+			"Whether the video area is in fullscreen configuration",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_FULLSCREENED, pspec);
 
 	g_signal_new(	"render",
 			G_TYPE_FROM_CLASS(klass),
@@ -324,7 +423,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->last_motion_x = -1;
 	area->last_motion_y = -1;
 	area->timeout_tag = 0;
-	area->fullscreen = FALSE;
+	area->fullscreened = FALSE;
 	area->fs_control_hover = FALSE;
 
 	gtk_widget_set_valign(area->control_box_revealer, GTK_ALIGN_END);
@@ -459,34 +558,6 @@ celluloid_video_area_update_disc_list(	CelluloidVideoArea *area,
 {
 	celluloid_header_bar_update_disc_list
 		(CELLULOID_HEADER_BAR(area->header_bar), disc_list);
-}
-
-void
-celluloid_video_area_set_fullscreen_state(	CelluloidVideoArea *area,
-						gboolean fullscreen )
-{
-	if(area->fullscreen != fullscreen)
-	{
-		area->fullscreen = fullscreen;
-		area->fs_control_hover = FALSE;
-
-		gtk_widget_hide(area->header_bar_revealer);
-		set_cursor_visible(area, !fullscreen);
-
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->control_box_revealer), FALSE);
-		gtk_revealer_set_reveal_child
-			(GTK_REVEALER(area->header_bar_revealer), FALSE);
-
-		celluloid_header_bar_set_fullscreen_state
-			(CELLULOID_HEADER_BAR(area->header_bar), fullscreen);
-
-		if(area->control_box)
-		{
-			celluloid_control_box_set_fullscreen_state
-				(CELLULOID_CONTROL_BOX(area->control_box), fullscreen);
-		}
-	}
 }
 
 void

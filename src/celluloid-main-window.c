@@ -185,8 +185,6 @@ notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data)
 		CELLULOID_MAIN_WINDOW(object);
 	CelluloidMainWindowPrivate *priv =
 		get_private(wnd);
-	CelluloidVideoArea *video_area =
-		CELLULOID_VIDEO_AREA(priv->video_area);
 	GSettings *settings =
 		g_settings_new(CONFIG_WIN_STATE);
 	const gboolean fullscreen =
@@ -218,8 +216,6 @@ notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data)
 			(GTK_APPLICATION_WINDOW(wnd), !fullscreen);
 	}
 
-	celluloid_video_area_set_fullscreen_state
-		(video_area, fullscreen);
 	celluloid_main_window_set_use_floating_controls
 		(wnd, floating && show_controls);
 	gtk_widget_set_visible
@@ -400,6 +396,10 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	g_settings_bind(	settings, "loop-playlist",
 				priv->control_box, "loop",
 				G_SETTINGS_BIND_DEFAULT );
+
+	g_object_bind_property(	wnd, "fullscreened",
+				priv->video_area, "fullscreened",
+				G_BINDING_DEFAULT );
 
 	g_object_bind_property(	priv->header_bar, "open-button-active",
 				video_area_header_bar, "open-button-active",
