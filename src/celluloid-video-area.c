@@ -161,12 +161,6 @@ set_fullscreen_state(CelluloidVideoArea *area, gboolean fullscreen)
 
 	celluloid_header_bar_set_fullscreen_state
 		(CELLULOID_HEADER_BAR(area->header_bar), fullscreen);
-
-	if(area->control_box)
-	{
-		celluloid_control_box_set_fullscreen_state
-			(CELLULOID_CONTROL_BOX(area->control_box), fullscreen);
-	}
 }
 
 static void
@@ -442,6 +436,10 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 
 	gtk_widget_show(area->header_bar);
 	gtk_widget_hide(area->header_bar_revealer);
+
+	g_object_bind_property(	area, "fullscreened",
+				area->control_box, "fullscreened",
+				G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE );
 
 	GtkEventController *area_motion_controller =
 		area->area_motion_controller;

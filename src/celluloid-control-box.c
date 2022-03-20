@@ -30,6 +30,7 @@ enum
 	PROP_SKIP_ENABLED,
 	PROP_DURATION,
 	PROP_ENABLED,
+	PROP_FULLSCREENED,
 	PROP_PAUSE,
 	PROP_SHOW_FULLSCREEN_BUTTON,
 	PROP_TIME_POSITION,
@@ -61,6 +62,7 @@ struct _CelluloidControlBox
 	gboolean skip_enabled;
 	gdouble duration;
 	gboolean enabled;
+	gboolean fullscreened;
 	gboolean pause;
 	gboolean show_fullscreen_button;
 	gdouble time_position;
@@ -126,6 +128,9 @@ static void
 set_playing_state(CelluloidControlBox *box, gboolean playing);
 
 static void
+set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen);
+
+static void
 init_button(	GtkWidget *button,
 		const gchar *icon_name,
 		const gchar *tooltip_text );
@@ -156,6 +161,11 @@ set_property(	GObject *object,
 		set_enabled(self, self->enabled);
 		break;
 
+		case PROP_FULLSCREENED:
+		self->fullscreened = g_value_get_boolean(value);
+		set_fullscreen_state(self, self->fullscreened);
+		break;
+
 		case PROP_PAUSE:
 		self->pause = g_value_get_boolean(value);
 		set_playing_state(self, !self->pause);
@@ -163,6 +173,9 @@ set_property(	GObject *object,
 
 		case PROP_SHOW_FULLSCREEN_BUTTON:
 		self->show_fullscreen_button = g_value_get_boolean(value);
+		gtk_widget_set_visible
+			(	self->fullscreen_button,
+				self->show_fullscreen_button );
 		break;
 
 		case PROP_TIME_POSITION:
@@ -229,6 +242,10 @@ get_property(	GObject *object,
 
 		case PROP_ENABLED:
 		g_value_set_boolean(value, self->enabled);
+		break;
+
+		case PROP_FULLSCREENED:
+		g_value_set_boolean(value, self->fullscreened);
 		break;
 
 		case PROP_PAUSE:
@@ -386,6 +403,18 @@ set_playing_state(CelluloidControlBox *box, gboolean playing)
 }
 
 static void
+set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen)
+{
+	const gchar *icon_name =
+		fullscreen ?
+		"view-restore-symbolic" :
+		"view-fullscreen-symbolic";
+
+	gtk_button_set_icon_name
+		(GTK_BUTTON(box->fullscreen_button), icon_name);
+}
+
+static void
 init_button(	GtkWidget *button,
 		const gchar *icon_name,
 		const gchar *tooltip_text )
@@ -434,6 +463,14 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property
 		(object_class, PROP_ENABLED, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"fullscreened",
+			"Fullscreened",
+			"Whether the control box is in fullscreen configuration",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_FULLSCREENED, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"pause",
@@ -567,6 +604,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->skip_enabled = FALSE;
 	box->duration = 0.0;
 	box->enabled = TRUE;
+	box->fullscreened = FALSE;
 	box->pause = TRUE;
 	box->show_fullscreen_button = FALSE;
 	box->time_position = 0.0;
@@ -754,22 +792,8 @@ celluloid_control_box_get_volume_popup_visible(CelluloidControlBox *box)
 }
 
 void
-celluloid_control_box_set_fullscreen_state(	CelluloidControlBox *box,
-						gboolean fullscreen )
-{
-	const gchar *icon_name = fullscreen ?
-				"view-restore-symbolic" :
-				"view-fullscreen-symbolic";
-
-	gtk_button_set_icon_name(GTK_BUTTON(box->fullscreen_button), icon_name);
-
-	gtk_widget_set_visible(	box->fullscreen_button,
-				box->show_fullscreen_button );
-}
-
-void
 celluloid_control_box_reset(CelluloidControlBox *box)
 {
 	celluloid_control_box_set_seek_bar_pos(box, 0);
-	celluloid_control_box_set_fullscreen_state(box, FALSE);
+	set_fullscreen_state(box, FALSE);
 }
