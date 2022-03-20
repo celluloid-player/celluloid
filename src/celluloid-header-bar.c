@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -28,6 +28,7 @@
 enum
 {
 	PROP_0,
+	PROP_FULLSCREENED,
 	PROP_TITLE,
 	PROP_OPEN_BUTTON_ACTIVE,
 	PROP_MENU_BUTTON_ACTIVE,
@@ -42,6 +43,7 @@ struct _CelluloidHeaderBar
 	GtkWidget *fullscreen_btn;
 	GtkWidget *menu_btn;
 
+	gboolean fullscreened;
 	gboolean open_popover_visible;
 	gboolean menu_popover_visible;
 };
@@ -54,6 +56,9 @@ struct _CelluloidHeaderBarClass
 G_DEFINE_TYPE(CelluloidHeaderBar, celluloid_header_bar, GTK_TYPE_BOX)
 
 static void
+set_fullscreen_state(CelluloidHeaderBar *hdr, gboolean fullscreen);
+
+static void
 set_property(	GObject *object,
 		guint property_id,
 		const GValue *value,
@@ -63,6 +68,11 @@ set_property(	GObject *object,
 
 	switch(property_id)
 	{
+		case PROP_FULLSCREENED:
+		self->fullscreened = g_value_get_boolean(value);
+		set_fullscreen_state(self, self->fullscreened);
+		break;
+
 		case PROP_OPEN_BUTTON_ACTIVE:
 		self->open_popover_visible = g_value_get_boolean(value);
 		break;
@@ -87,6 +97,10 @@ get_property(	GObject *object,
 
 	switch(property_id)
 	{
+		case PROP_FULLSCREENED:
+		g_value_set_boolean(value, self->fullscreened);
+		break;
+
 		case PROP_OPEN_BUTTON_ACTIVE:
 		g_value_set_boolean(value, self->open_popover_visible);
 		break;
@@ -119,6 +133,27 @@ create_popup(GtkMenuButton *menu_button, gpointer data)
 }
 
 static void
+set_fullscreen_state(CelluloidHeaderBar *hdr, gboolean fullscreen)
+{
+	GSettings *settings =
+		g_settings_new(CONFIG_ROOT);
+	const gchar *icon_name =
+		fullscreen ?
+		"view-restore-symbolic" :
+		"view-fullscreen-symbolic";
+	const gboolean show_title_buttons =
+		!fullscreen ||
+		g_settings_get_boolean(settings, "always-show-title-buttons");
+
+	gtk_button_set_icon_name
+		(GTK_BUTTON(hdr->fullscreen_btn), icon_name);
+	gtk_header_bar_set_show_title_buttons
+		(GTK_HEADER_BAR(hdr->header_bar), show_title_buttons);
+
+	g_object_unref(settings);
+}
+
+static void
 celluloid_header_bar_class_init(CelluloidHeaderBarClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
@@ -126,6 +161,15 @@ celluloid_header_bar_class_init(CelluloidHeaderBarClass *klass)
 
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
+
+	pspec = g_param_spec_boolean
+		(	"fullscreened",
+			"Fullscreened",
+			"Whether the header bar is in fullscreen configuration",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_FULLSCREENED, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"open-button-active",
@@ -165,6 +209,7 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	hdr->fullscreen_btn =
 		gtk_button_new_from_icon_name("view-fullscreen-symbolic");
 	hdr->menu_btn = gtk_menu_button_new();
+	hdr->fullscreened = FALSE;
 	hdr->open_popover_visible = FALSE;
 	hdr->menu_popover_visible = FALSE;
 
@@ -248,28 +293,6 @@ celluloid_header_bar_set_menu_button_popup_visible(	CelluloidHeaderBar *hdr,
 							gboolean visible )
 {
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hdr->menu_btn), visible);
-}
-
-void
-celluloid_header_bar_set_fullscreen_state(	CelluloidHeaderBar *hdr,
-						gboolean fullscreen )
-{
-	GSettings *settings =
-		g_settings_new(CONFIG_ROOT);
-	const gchar *icon_name =
-		fullscreen ?
-		"view-restore-symbolic" :
-		"view-fullscreen-symbolic";
-	const gboolean show_title_buttons =
-		!fullscreen ||
-		g_settings_get_boolean(settings, "always-show-title-buttons");
-
-	gtk_button_set_icon_name
-		(GTK_BUTTON(hdr->fullscreen_btn), icon_name);
-	gtk_header_bar_set_show_title_buttons
-		(GTK_HEADER_BAR(hdr->header_bar), show_title_buttons);
-
-	g_object_unref(settings);
 }
 
 void
