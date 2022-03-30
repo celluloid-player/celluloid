@@ -645,7 +645,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 		(GTK_WIDGET(box), GTK_EVENT_CONTROLLER(box->click_gesture));
 
 	gtk_style_context_add_class
-		(gtk_widget_get_style_context(GTK_WIDGET(box)), "background");
+		(gtk_widget_get_style_context(GTK_WIDGET(box)), "toolbar");
 
 	gtk_widget_set_margin_end(box->seek_bar, 6);
 
@@ -789,6 +789,29 @@ gboolean
 celluloid_control_box_get_volume_popup_visible(CelluloidControlBox *box)
 {
 	return box->volume_popup_visible;
+}
+
+void
+celluloid_control_box_set_floating(CelluloidControlBox *box, gboolean floating)
+{
+	if(floating) {
+		gtk_style_context_add_class
+		(gtk_widget_get_style_context(GTK_WIDGET(box)), "osd");
+
+		gtk_widget_set_margin_start(GTK_WIDGET(box), 12);
+		gtk_widget_set_margin_end(GTK_WIDGET(box), 12);
+		gtk_widget_set_margin_top(GTK_WIDGET(box), 12);
+		gtk_widget_set_margin_bottom(GTK_WIDGET(box), 12);
+	}
+	else {
+		gtk_style_context_remove_class
+		(gtk_widget_get_style_context(GTK_WIDGET(box)), "osd");
+
+		gtk_widget_set_margin_start(GTK_WIDGET(box), 0);
+		gtk_widget_set_margin_end(GTK_WIDGET(box), 0);
+		gtk_widget_set_margin_top(GTK_WIDGET(box), 0);
+		gtk_widget_set_margin_bottom(GTK_WIDGET(box), 0);
+	}
 }
 
 void

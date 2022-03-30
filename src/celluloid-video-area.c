@@ -420,11 +420,14 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	gtk_widget_set_valign(area->control_box_revealer, GTK_ALIGN_END);
 	gtk_revealer_set_transition_type
 		(GTK_REVEALER(area->control_box_revealer),
-		GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP);
+		GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
 	gtk_revealer_set_reveal_child
 		(GTK_REVEALER(area->control_box_revealer), FALSE);
 
 	gtk_widget_set_valign(area->header_bar_revealer, GTK_ALIGN_START);
+	gtk_revealer_set_transition_type
+		(GTK_REVEALER(area->control_box_revealer),
+		GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
 	gtk_revealer_set_reveal_child
 		(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
@@ -534,6 +537,8 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 
 	gtk_overlay_set_child(GTK_OVERLAY(area->overlay), area->stack);
 	gtk_box_append(GTK_BOX(area), area->overlay);
+
+	celluloid_control_box_set_floating (CELLULOID_CONTROL_BOX (area->control_box), TRUE);
 }
 
 GtkWidget *

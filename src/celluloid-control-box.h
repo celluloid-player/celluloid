@@ -53,6 +53,10 @@ gboolean
 celluloid_control_box_get_volume_popup_visible(CelluloidControlBox *box);
 
 void
+celluloid_control_box_set_floating(	CelluloidControlBox *box,
+						gboolean floating );
+
+void
 celluloid_control_box_reset(CelluloidControlBox *box);
 
 G_END_DECLS
