@@ -268,6 +268,8 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	gtk_menu_button_set_create_popup_func
 		(GTK_MENU_BUTTON(hdr->menu_btn), create_popup, hdr, NULL);
 
+	gtk_menu_button_set_primary(GTK_MENU_BUTTON(hdr->menu_btn), TRUE);
+
 	g_object_unref(settings);
 }
 

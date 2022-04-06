@@ -455,6 +455,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 				wnd );
 
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
+	gtk_window_set_handle_menubar_accel(GTK_WINDOW(wnd), TRUE);
 
 	gtk_paned_set_position(	GTK_PANED(priv->video_area_paned),
 				MAIN_WINDOW_DEFAULT_WIDTH

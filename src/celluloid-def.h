@@ -102,7 +102,6 @@
 		"Ctrl+p script-message celluloid-action win.show-preferences-dialog",\
 		"Ctrl+h script-message celluloid-action win.toggle-controls",\
 		"F9 script-message celluloid-action win.toggle-playlist",\
-		"F10 script-message celluloid-action win.toggle-main-menu",\
 		"DEL script-message celluloid-action win.remove-selected-playlist-item",\
 		"U stop",\
 		"STOP stop",\
