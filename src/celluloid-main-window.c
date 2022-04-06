@@ -366,6 +366,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	CelluloidControlBox *video_area_control_box = NULL;
 	CelluloidHeaderBar *video_area_header_bar = NULL;
 	GSettings *state = g_settings_new(CONFIG_WIN_STATE);
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
 
 	priv->csd = FALSE;
 	priv->always_floating = FALSE;
@@ -395,6 +396,9 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 
 	g_settings_bind(	state, "loop-playlist",
 				priv->control_box, "loop",
+				G_SETTINGS_BIND_DEFAULT );
+	g_settings_bind(	settings, "menubar-accel-enable",
+				wnd, "handle-menubar-accel",
 				G_SETTINGS_BIND_DEFAULT );
 
 	g_object_bind_property(	wnd, "fullscreened",
@@ -455,7 +459,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 				wnd );
 
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
-	gtk_window_set_handle_menubar_accel(GTK_WINDOW(wnd), TRUE);
 
 	gtk_paned_set_position(	GTK_PANED(priv->video_area_paned),
 				MAIN_WINDOW_DEFAULT_WIDTH
