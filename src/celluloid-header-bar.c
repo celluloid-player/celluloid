@@ -306,7 +306,14 @@ void
 celluloid_header_bar_set_menu_button_popup_visible(	CelluloidHeaderBar *hdr,
 							gboolean visible )
 {
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hdr->menu_btn), visible);
+	if(visible)
+	{
+		gtk_menu_button_popup(GTK_MENU_BUTTON(hdr->menu_btn));
+	}
+	else
+	{
+		gtk_menu_button_popdown(GTK_MENU_BUTTON(hdr->menu_btn));
+	}
 }
 
 void
