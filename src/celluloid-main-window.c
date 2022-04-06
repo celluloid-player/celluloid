@@ -365,7 +365,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 	CelluloidControlBox *video_area_control_box = NULL;
 	CelluloidHeaderBar *video_area_header_bar = NULL;
-	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
+	GSettings *state = g_settings_new(CONFIG_WIN_STATE);
 
 	priv->csd = FALSE;
 	priv->always_floating = FALSE;
@@ -393,7 +393,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 		celluloid_video_area_get_header_bar
 		(CELLULOID_VIDEO_AREA(priv->video_area));
 
-	g_settings_bind(	settings, "loop-playlist",
+	g_settings_bind(	state, "loop-playlist",
 				priv->control_box, "loop",
 				G_SETTINGS_BIND_DEFAULT );
 
