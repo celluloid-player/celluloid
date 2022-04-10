@@ -235,7 +235,16 @@ set_cursor_visible(CelluloidVideoArea *area, gboolean visible)
 	}
 	else
 	{
-		cursor = gdk_cursor_new_from_name("none", NULL);
+               GdkPixbuf *pixbuf =
+                       gdk_pixbuf_new
+                       (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+               gdk_pixbuf_fill(pixbuf, 0x00000000);
+
+               GdkTexture *texture = gdk_texture_new_for_pixbuf(pixbuf);
+               cursor = gdk_cursor_new_from_texture(texture, 0, 0, NULL);
+
+               g_object_unref(texture);
+               g_object_unref(pixbuf);
 	}
 
 	gdk_surface_set_cursor(surface, cursor);
