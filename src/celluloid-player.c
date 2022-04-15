@@ -443,7 +443,6 @@ mpv_property_changed(CelluloidMpv *mpv, const gchar *name, gpointer value)
 		if(priv->init_vo_config)
 		{
 			priv->init_vo_config = FALSE;
-			load_scripts(player);
 			load_from_playlist(player);
 		}
 	}
@@ -543,6 +542,8 @@ initialize(CelluloidMpv *mpv)
 	observe_properties(mpv);
 
 	CELLULOID_MPV_CLASS(celluloid_player_parent_class)->initialize(mpv);
+
+	load_scripts(player);
 }
 
 static gint
