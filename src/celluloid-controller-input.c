@@ -339,7 +339,7 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 
 	GtkEventController *scroll_controller =
 		gtk_event_controller_scroll_new
-		(GTK_EVENT_CONTROLLER_SCROLL_VERTICAL);
+		(GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES);
 	gtk_widget_add_controller
 		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(scroll_controller));
 
