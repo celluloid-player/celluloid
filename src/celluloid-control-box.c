@@ -90,6 +90,9 @@ get_property(	GObject *object,
 		GValue *value,
 		GParamSpec *pspec );
 
+static void
+css_changed(GtkWidget *self, GtkCssStyleChange *change);
+
 static gboolean
 gtk_to_mpv_volume(	GBinding *binding,
 			const GValue *from_value,
@@ -286,6 +289,20 @@ get_property(	GObject *object,
 	}
 }
 
+static void
+css_changed(GtkWidget *self, GtkCssStyleChange *change)
+{
+	GTK_WIDGET_CLASS(celluloid_control_box_parent_class)
+		->css_changed(self, change);
+
+	CelluloidControlBox *box = CELLULOID_CONTROL_BOX(self);
+	GtkStyleContext *ctx = gtk_widget_get_style_context(self);
+	GtkBorder padding = {0};
+
+	gtk_style_context_get_padding(ctx, &padding);
+	g_object_set(box->seek_bar, "popover-y-offset", -padding.top, NULL);
+}
+
 static gboolean
 gtk_to_mpv_volume(	GBinding *binding,
 			const GValue *from_value,
@@ -430,10 +447,12 @@ static void
 celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
+	widget_class->css_changed = css_changed;
 
 	pspec = g_param_spec_boolean
 		(	"skip-enabled",
