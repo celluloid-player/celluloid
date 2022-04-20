@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -31,6 +31,7 @@ enum
 	PROP_DURATION,
 	PROP_PAUSE,
 	PROP_ENABLED,
+	PROP_POPOVER_Y_OFFSET,
 	N_PROPERTIES
 };
 
@@ -45,6 +46,7 @@ struct _CelluloidSeekBar
 	gdouble duration;
 	gboolean pause;
 	gboolean enabled;
+	gint popover_y_offset;
 	gboolean popover_visible;
 	guint popover_timeout_id;
 };
@@ -131,6 +133,10 @@ set_property(	GObject *object,
 		update_label(self);
 		break;
 
+		case PROP_POPOVER_Y_OFFSET:
+		self->popover_y_offset = g_value_get_int(value);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -157,6 +163,10 @@ get_property(	GObject *object,
 
 		case PROP_ENABLED:
 		g_value_set_boolean(value, self->enabled);
+		break;
+
+		case PROP_POPOVER_Y_OFFSET:
+		g_value_set_int(value, self->popover_y_offset);
 		break;
 
 		default:
@@ -266,6 +276,8 @@ motion_handler(	GtkEventControllerMotion *controller,
 		g_warning("Failed to determine position for timestamp popover");
 	}
 
+	popover_rect.y += bar->popover_y_offset;
+
 	gtk_popover_set_pointing_to(GTK_POPOVER(bar->popover), &popover_rect);
 
 	GtkAdjustment *adjustment = gtk_range_get_adjustment(range);
@@ -350,6 +362,16 @@ celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_ENABLED, pspec);
 
+	pspec = g_param_spec_int
+		(	"popover-y-offset",
+			"Popover y-offset",
+			"The offset to add to the y-position of the popover",
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_POPOVER_Y_OFFSET, pspec);
+
 	g_signal_new(	"seek",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -372,6 +394,7 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 	bar->duration = 0;
 	bar->pause = TRUE;
 	bar->enabled = TRUE;
+	bar->popover_y_offset = 0;
 	bar->pos = 0;
 	bar->popover_visible = FALSE;
 	bar->popover_timeout_id = 0;
