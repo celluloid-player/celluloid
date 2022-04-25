@@ -557,18 +557,27 @@ static void
 playlist_item_activated_handler(CelluloidView *view, gint pos, gpointer data)
 {
 	CelluloidController *controller = CELLULOID_CONTROLLER(data);
+	CelluloidModel *model = controller->model;
 	gboolean idle_active = FALSE;
+	gint64 playlist_pos = -1;
 
-	g_object_get(controller->model, "idle-active", &idle_active, NULL);
-	celluloid_model_play(controller->model);
+	g_object_get(	model,
+			"idle-active", &idle_active,
+			"playlist-pos", &playlist_pos,
+			NULL );
+	celluloid_model_play(model);
 
 	if(idle_active)
 	{
 		controller->target_playlist_pos = pos;
 	}
+	else if(pos == playlist_pos)
+	{
+		celluloid_model_seek(model, 0.0);
+	}
 	else
 	{
-		celluloid_model_set_playlist_position(controller->model, pos);
+		celluloid_model_set_playlist_position(model, pos);
 	}
 }
 
