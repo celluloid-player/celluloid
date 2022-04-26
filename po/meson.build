@@ -4,7 +4,8 @@ i18n.gettext(meson.project_name(),
 
 msgfmt = find_program('msgfmt', required: false)
 if msgfmt.found()
-  linguas = run_command('cat', files('LINGUAS')).stdout().strip().split('\n')
+  cat_linguas = run_command('cat', files('LINGUAS'), check: false)
+  linguas = cat_linguas.stdout().strip().split('\n')
   foreach lingua : linguas
     po_file = '.'.join([lingua, 'po'])
     test('Validate @0@'.format(po_file), msgfmt,
