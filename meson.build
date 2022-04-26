@@ -46,7 +46,7 @@ test_ldflags = [
 ]
 global_ldflags = []
 foreach ldflag : test_ldflags
-  if cc.has_argument(ldflag)
+  if cc.has_link_argument(ldflag)
     global_ldflags += ldflag
   endif
 endforeach
