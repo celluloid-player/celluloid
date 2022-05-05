@@ -396,7 +396,11 @@ constructed(GObject *object)
 					NULL,
 					NULL );
 
-	gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(self->scrolled_window), self->list_box);
+	GtkViewport *viewport = GTK_VIEWPORT(gtk_viewport_new(NULL, NULL));
+	gtk_viewport_set_child(viewport, self->list_box);
+	gtk_viewport_set_scroll_to_focus(viewport, FALSE);
+
+	gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW(self->scrolled_window), GTK_WIDGET(viewport));
 	gtk_box_append(GTK_BOX(self), self->scrolled_window);
 
 	gtk_search_bar_set_child(GTK_SEARCH_BAR(self->search_bar), self->search_entry);
