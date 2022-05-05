@@ -400,13 +400,19 @@ constructed(GObject *object)
 	gtk_viewport_set_child(viewport, self->list_box);
 	gtk_viewport_set_scroll_to_focus(viewport, FALSE);
 
-	gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW(self->scrolled_window), GTK_WIDGET(viewport));
-	gtk_box_append(GTK_BOX(self), self->scrolled_window);
+	gtk_scrolled_window_set_child
+		(	GTK_SCROLLED_WINDOW(self->scrolled_window),
+			 GTK_WIDGET(viewport) );
+	gtk_box_append
+		(GTK_BOX(self), self->scrolled_window);
 
-	gtk_search_bar_set_child(GTK_SEARCH_BAR(self->search_bar), self->search_entry);
-	gtk_box_append(GTK_BOX(self), self->search_bar);
+	gtk_search_bar_set_child(GTK_SEARCH_BAR
+		(self->search_bar), self->search_entry);
+	gtk_box_append
+		(GTK_BOX(self), self->search_bar);
 
-	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)->constructed(object);
+	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)
+		->constructed(object);
 }
 
 static void
