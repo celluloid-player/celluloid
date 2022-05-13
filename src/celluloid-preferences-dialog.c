@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021 gnome-mpv
+ * Copyright (c) 2014-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -342,6 +342,9 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			ITEM_TYPE_CHECK_BOX},
 			{NULL,
 			"always-use-floating-controls",
+			ITEM_TYPE_CHECK_BOX},
+			{NULL,
+			"draggable-video-area-enable",
 			ITEM_TYPE_CHECK_BOX},
 			{NULL,
 			"always-show-title-buttons",

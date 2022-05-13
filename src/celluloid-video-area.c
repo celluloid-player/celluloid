@@ -95,6 +95,13 @@ motion_handler(	GtkEventControllerMotion *controller,
 		gpointer data );
 
 static void
+pressed_handler(	GtkGestureClick *self,
+			gint n_press,
+			gdouble x,
+			gdouble y,
+			gpointer data );
+
+static void
 enter_handler(	GtkEventControllerMotion *controller,
 		gdouble x,
 		gdouble y,
@@ -292,6 +299,28 @@ motion_handler(	GtkEventControllerMotion *controller,
 	g_object_unref(settings);
 }
 
+static void
+pressed_handler(	GtkGestureClick *self,
+			gint n_press,
+			gdouble x,
+			gdouble y,
+			gpointer data )
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	if(g_settings_get_boolean(settings, "draggable-video-area-enable"))
+	{
+		GdkSurface *surface = gtk_widget_get_surface(GTK_WIDGET(data));
+		GdkToplevel *toplevel = GDK_TOPLEVEL(surface);
+		GdkDevice *device = gtk_gesture_get_device(GTK_GESTURE(self));
+		GtkGestureSingle *single = GTK_GESTURE_SINGLE(self);
+		gint button = (gint)gtk_gesture_single_get_button(single);
+
+		gdk_toplevel_begin_move
+			(toplevel, device, button, x, y, GDK_CURRENT_TIME);
+	}
+}
+
 static gboolean
 render_handler(GtkGLArea *gl_area, GdkGLContext *context, gpointer data)
 {
@@ -452,6 +481,16 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	g_signal_connect(	area_motion_controller,
 				"motion",
 				G_CALLBACK(motion_handler),
+				area );
+
+	GtkEventController *area_click_gesture =
+		GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+	gtk_widget_add_controller
+		(GTK_WIDGET(area), area_click_gesture);
+
+	g_signal_connect(	area_click_gesture,
+				"pressed",
+				G_CALLBACK(pressed_handler),
 				area );
 
 	GtkEventController *control_box_motion_controller =
