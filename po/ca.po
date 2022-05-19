@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-10 00:48+0700\n"
-"PO-Revision-Date: 2021-08-30 14:05+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2022-05-19 08:29+0000\n"
+"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ca/>\n"
 "Language: ca\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -68,29 +68,33 @@ msgid "Always open new window"
 msgstr "Obre sempre una finestra nova"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
-#, fuzzy
 msgid "Always append opened files to playlist"
-msgstr "Afegeix un fitxer a la llista de reproducció"
+msgstr "Afegeix sempre els fitxers oberts a la llista de reproducció"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Always show title buttons"
-msgstr ""
+msgstr "Mostra sempre els botons de títol"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:85
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
+"Si és cert, sempre es mostren els botons de títol (tancar, maximitzar, "
+"minimitzar, etc.). Si és fals, els botons s'ocultaran en mode de pantalla "
+"completa."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
 msgid "Present window when opening new files"
-msgstr ""
+msgstr "Presenta la finestra en obrir fitxers nous"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
 msgid ""
 "If true, Celluloid will attempt to present its window to the user when a new "
 "file is opened. If false, no attempt will be made."
 msgstr ""
+"Si és cert, Celluloid intentarà presentar la seva finestra a l'usuari quan "
+"s'obri un fitxer nou. Si és fals, no s'intentarà fer cap intent."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:103
 #: src/celluloid-application.c:599
@@ -227,37 +231,46 @@ msgid "This release contains the following changes:"
 msgstr "Aquesta versió conté els canvis següents:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
-#, fuzzy
 msgid "Add Basque translation by @aldatsa."
-msgstr "Afegeix la traducció a l'esperanto feta per F3nd0"
+msgstr "Afegeix la traducció al basc per @aldatsa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Make the shuffle and loop command line options work properly."
 msgstr ""
+"Fes que les opcions de la línia d'ordres de la barreja i el bucle funcionin "
+"correctament."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Make the main menu button toggleable by pressing F10."
-msgstr ""
+msgstr "Fes que el botó del menú principal es pot commutar prement F10."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Add a setting for always appending opened files to the playlist."
 msgstr ""
+"Afegeix una opció de configuració per a afegir sempre els fitxers oberts a "
+"la llista de reproducció."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
 msgstr ""
+"Permet que els fitxers adjunts es quedin a la llista de reproducció "
+"mantenint el desplaçament mentre deixeu anar fitxers a l'àrea de vídeo."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
 msgstr ""
+"Fa que la barra de capçalera CSD es pot commutar mitjançant la propietat mpv "
+"«border»."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
 msgstr ""
+"Inclou el manifest Flatpak al repo. Això permet que Celluloid es construeixi "
+"en un sol clic en aplicacions com gnome builder."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
@@ -337,7 +350,7 @@ msgstr "Recorda l'estat de la reproducció en bucle."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:122
 msgid "Implement playlist search."
-msgstr "Implementa la cerca a la llista de reproducció"
+msgstr "Implementa la cerca a la llista de reproducció."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:125
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
@@ -579,9 +592,8 @@ msgid "New Window"
 msgstr "Finestra nova"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:27
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "Afegeix un fitxer a la llista de reproducció"
+msgstr "Afegir a la llista de reproducció"
 
 #: src/celluloid-application.c:519
 msgid "Playing"
@@ -613,11 +625,11 @@ msgstr "No connectis a una instància que ja s'estigui executant"
 
 #: src/celluloid-application.c:626
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr ""
+msgstr "Estableix l'opció mpv MPVOPTION a VALOR"
 
 #: src/celluloid-application.c:627
 msgid "VALUE"
-msgstr ""
+msgstr "VALOR"
 
 #: src/celluloid-control-box.c:378
 msgid "Pause"
@@ -688,24 +700,20 @@ msgid "Subtitle Files"
 msgstr "Fitxers de subtítols"
 
 #: src/celluloid-file-chooser-button.c:229
-#, fuzzy
 msgid "Open File…"
-msgstr "Obre un fitxer"
+msgstr "Obre un fitxer…"
 
 #: src/celluloid-file-chooser-button.c:232
-#, fuzzy
 msgid "Open"
-msgstr "_Obre"
+msgstr "Obrir"
 
 #: src/celluloid-file-chooser-button.c:233
-#, fuzzy
 msgid "Cancel"
-msgstr "_Cancel·la"
+msgstr "Cancel · lar"
 
 #: src/celluloid-file-chooser-button.c:235
-#, fuzzy
 msgid "(None)"
-msgstr "Cap"
+msgstr "(Cap)"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -720,7 +728,7 @@ msgstr "Desconeguda"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr "_Obre..."
+msgstr "_Carrega extern…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
@@ -735,23 +743,23 @@ msgstr "_Fitxer"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
 msgid "_Open…"
-msgstr "_Obre..."
+msgstr "_Obrir…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr "Obre una _carpeta..."
+msgstr "Obre una _carpeta…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
-msgstr "Obre una _ubicació..."
+msgstr "Obre una _ubicació…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr "Obre un _disc"
+msgstr "Obre un _disc…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
-msgstr "_Desa la llista de reproducció..."
+msgstr "_Desa la llista de reproducció"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:323
 msgid "_New Window"
@@ -816,7 +824,7 @@ msgstr "Obre un _disc"
 #: src/celluloid-mpv.c:266
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr "La reproducció ha acabat de forma anòmala. Motiu: %s"
+msgstr "La reproducció ha acabat de forma anòmala. Motiu: %s."
 
 #: src/celluloid-open-location-dialog.c:131
 msgid "Location:"
@@ -849,11 +857,11 @@ msgstr "_Afegeix…"
 
 #: src/celluloid-playlist-widget.c:529
 msgid "Add _Folder…"
-msgstr "Afegeix una _carpeta..."
+msgstr "Afegeix una _carpeta…"
 
 #: src/celluloid-playlist-widget.c:530
 msgid "Add _Location…"
-msgstr "Afegeix una _ubicació..."
+msgstr "Afegeix una _ubicació…"
 
 #: src/celluloid-playlist-widget.c:531
 msgid "_Shuffle"
@@ -1209,15 +1217,15 @@ msgstr "Llista de reproducció"
 
 #: src/celluloid-view.c:778
 msgid "Load Audio Track…"
-msgstr "Carrega una pista d'àudio..."
+msgstr "Carrega una pista d'àudio…"
 
 #: src/celluloid-view.c:782
 msgid "Load Video Track…"
-msgstr "Carrega una pista de vídeo..."
+msgstr "Carrega una pista de vídeo…"
 
 #: src/celluloid-view.c:786
 msgid "Load Subtitle Track…"
-msgstr "Carrega una pista de subtítols..."
+msgstr "Carrega una pista de subtítols…"
 
 #: src/celluloid-view.c:958
 msgid ""

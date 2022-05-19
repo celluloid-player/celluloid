@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-10 00:48+0700\n"
-"PO-Revision-Date: 2022-03-14 00:54+0000\n"
+"PO-Revision-Date: 2022-03-21 22:56+0000\n"
 "Last-Translator: menom <menom1@protonmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/sk/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "Či už boli nastavenia prevziate z predchádzajúcej verzie"
+msgstr "Či už boli nastavenia prevzaté z predchádzajúcej verzie"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
@@ -74,7 +74,7 @@ msgstr "Vždy pridať otvorené súbory do zoznamu prehrávaných"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Always show title buttons"
-msgstr "Vždy zobrazovať tlačidlá okna (min, max, zavrieť)"
+msgstr "Vždy ukazovať tlačidlá okna"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:85
 msgid ""
@@ -135,7 +135,7 @@ msgstr "Ignorovať chyby prehrávania"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:157
 msgid "Inhibit session idling"
-msgstr "Zakázať nečinnosť relácie"
+msgstr "Zakázať nečinnosť sedenia"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Width of the window"
@@ -251,8 +251,8 @@ msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
 msgstr ""
-"Povoliť pridanie súborov na playlist klávesou shift, pri potiahnutí súborov "
-"do okna videa."
+"Povoliť pridanie súborov do zoznamu prehrávania klávesou shift, pri "
+"potiahnutí súborov do okna videa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
@@ -280,7 +280,8 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
 msgid "Make it possible to activate context menu when the playlist is empty."
-msgstr "Umožňuje aktivovať kontextovú ponuku, keď je playlist prázdny."
+msgstr ""
+"Umožňuje aktivovať kontextovú ponuku, keď je zoznam prehrávania prázdny."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
 msgid ""
@@ -300,7 +301,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Add menu item for opening folders."
-msgstr "Pridať položku do menu pre otváranie zložiek."
+msgstr "Pridať položku do menu pre otváranie priečinkov."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid ""
@@ -334,7 +335,7 @@ msgstr "Zachovať stav maximalizácie okna naprieč sedeniami."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
 msgid "Retain loop state across sessions."
-msgstr "Zachovať stav sľučky naprieč sedeniami."
+msgstr "Zachovať stav slučky naprieč sedeniami."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:122
 msgid "Implement playlist search."
@@ -482,69 +483,78 @@ msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Pridať možnosť --mpv-options pre nastavenie ľubovoľných možností mpv cez "
+"príkazový riadok"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr ""
+msgstr "Nastaviť východiskový adresár snímok obrazovky na XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
 msgstr ""
+"Vylepšiť zaobchádzanie s voľbami --window-scale, --autofit, --autofit-larger "
+"a --autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "Pridať možnosť nastavenia WM_ROLE cez príkazový riadok"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
 msgid "Add context menu item for removing playlist items"
 msgstr ""
+"Pridať položku kontextového menu pre odstránenie položiek zoznamu prehrávania"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:278
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
+"Pridať položku kontextového menu pre kopírovanie položiek zoznamu prehrávania"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:293
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Pridať možnosť, aby tlačidlá pre preskočenie menili položky namiesto kapitol"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:297
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "Akceptovať vzdialené umiestnenia pri výbere súborov"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:300
 msgid "Add right-click menu entry for looping a single file"
-msgstr ""
+msgstr "Pridať položku kontextového menu pre prehrávanie súboru v slučke"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:303
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
+"Ovládať udalosti zmien vlastností pre režim na celú obrazovku a pre rozmery "
+"okna"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:306
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Pridať možnosť pre automatické skrytie kurzoru v režime okna"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:320
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Hlavné okno ukazuje akciu aplikácie"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:324
 msgid "The main window with CSD disabled"
-msgstr ""
+msgstr "Hlavné okno s vypnutými dekoráciami na strane klienta"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:328
 msgid "The main window with playlist open"
-msgstr ""
+msgstr "Hlavné okno s otvoreným zoznamom prehrávania"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Multimedia Player"
-msgstr ""
+msgstr "Multimediálny prehrávač"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:6
 msgid "Play movies and videos"
-msgstr ""
+msgstr "Prehrať filmy a videá"
 
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
@@ -569,7 +579,7 @@ msgstr "Zobraziť verziu"
 
 #: src/celluloid-application.c:583
 msgid "Enqueue"
-msgstr ""
+msgstr "Zaradiť"
 
 #: src/celluloid-application.c:591
 msgid "Create a new window"
@@ -577,23 +587,23 @@ msgstr "Vytvoriť nové okno"
 
 #: src/celluloid-application.c:600
 msgid "OPTIONS"
-msgstr ""
+msgstr "MOŽNOSTI"
 
 #: src/celluloid-application.c:607
 msgid "Set the window role"
-msgstr ""
+msgstr "Nastaviť úlohu okna"
 
 #: src/celluloid-application.c:615
 msgid "Don't connect to an already-running instance"
-msgstr ""
+msgstr "Nepripájať k už bežiacej inštancii"
 
 #: src/celluloid-application.c:626
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr ""
+msgstr "Nastaviť mpv možnosť MPVOPTION na HODNOTA"
 
 #: src/celluloid-application.c:627
 msgid "VALUE"
-msgstr ""
+msgstr "HODNOTA"
 
 #: src/celluloid-control-box.c:378
 msgid "Pause"
@@ -625,11 +635,11 @@ msgstr "Predchádzajúca kapitola"
 
 #: src/celluloid-control-box.c:598
 msgid "Loop Playlist"
-msgstr ""
+msgstr "Opakovať zoznam prehrávania v slučke"
 
 #: src/celluloid-control-box.c:601
 msgid "Shuffle Playlist"
-msgstr ""
+msgstr "Zamiešať zoznam prehrávania"
 
 #: src/celluloid-control-box.c:604 src/celluloid-header-bar.c:189
 msgid "Toggle Fullscreen"
@@ -653,7 +663,7 @@ msgstr "Zvukové súbory"
 
 #: src/celluloid-file-chooser.c:178
 msgid "Video Files"
-msgstr "Videosúbory"
+msgstr "Video súbory"
 
 #: src/celluloid-file-chooser.c:186
 msgid "Image Files"
@@ -673,7 +683,7 @@ msgstr "Otvoriť"
 
 #: src/celluloid-file-chooser-button.c:233
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: src/celluloid-file-chooser-button.c:235
 msgid "(None)"
@@ -692,7 +702,7 @@ msgstr "Neznáma"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr ""
+msgstr "_Načítať externý…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
@@ -703,43 +713,43 @@ msgstr "Nenašiel sa žiadny disk"
 
 #: src/celluloid-menu.c:235
 msgid "_File"
-msgstr ""
+msgstr "_Súbor"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
 msgid "_Open…"
-msgstr ""
+msgstr "_Otvoriť…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr ""
+msgstr "Otvoriť _priečinok…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
-msgstr ""
+msgstr "Otvoriť _umiestnenie…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr ""
+msgstr "Otvoriť _disk…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:290
 msgid "_Save Playlist"
-msgstr ""
+msgstr "_Uložiť zoznam prehrávania"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:323
 msgid "_New Window"
-msgstr ""
+msgstr "_Nové okno"
 
 #: src/celluloid-menu.c:242
 msgid "_Quit"
-msgstr ""
+msgstr "_Ukončiť"
 
 #: src/celluloid-menu.c:243
 msgid "_Edit"
-msgstr ""
+msgstr "_Upraviť"
 
 #: src/celluloid-menu.c:244 src/celluloid-menu.c:296
 msgid "_Preferences"
-msgstr "_Nastavenia"
+msgstr "_Predvoľby"
 
 #: src/celluloid-menu.c:245 src/celluloid-menu.c:292
 msgid "_Video Track"
@@ -751,44 +761,44 @@ msgstr "_Audio stopa"
 
 #: src/celluloid-menu.c:247 src/celluloid-menu.c:294
 msgid "S_ubtitle Track"
-msgstr ""
+msgstr "_Titulky"
 
 #: src/celluloid-menu.c:248
 msgid "_View"
-msgstr ""
+msgstr "_Náhľad"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:287
 msgid "_Toggle Controls"
-msgstr ""
+msgstr "_Prepnúť ovládanie"
 
 #: src/celluloid-menu.c:250 src/celluloid-menu.c:289
 msgid "_Toggle Playlist"
-msgstr ""
+msgstr "_Prepnúť zoznam prehrávania"
 
 #: src/celluloid-menu.c:251
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_Celá obrazovka"
 
 #: src/celluloid-menu.c:252
 msgid "_Help"
-msgstr ""
+msgstr "_Pomoc"
 
 #: src/celluloid-menu.c:253 src/celluloid-menu.c:297
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Klávesové skratky"
 
 #: src/celluloid-menu.c:254 src/celluloid-menu.c:298
 msgid "_About Celluloid"
-msgstr ""
+msgstr "_O Celluloide"
 
 #: src/celluloid-menu.c:321
 msgid "Open _Disc"
-msgstr ""
+msgstr "Otvoriť _disk"
 
 #: src/celluloid-mpv.c:266
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr ""
+msgstr "Prehrávanie bolo nezvyčajne ukončené. Dôvod: %s."
 
 #: src/celluloid-open-location-dialog.c:131
 msgid "Location:"
@@ -796,52 +806,52 @@ msgstr "Umiestnenie:"
 
 #: src/celluloid-open-location-dialog.c:137
 msgid "_Open"
-msgstr ""
+msgstr "_Otvoriť"
 
 #: src/celluloid-open-location-dialog.c:138
 #: src/celluloid-preferences-dialog.c:427
 msgid "_Cancel"
-msgstr ""
+msgstr "_Zrušiť"
 
 #: src/celluloid-player.c:600
 msgid "Failed to apply one or more MPV options."
-msgstr ""
+msgstr "Nebolo možné použiť jednu alebo viac predvolieb MPV."
 
 #: src/celluloid-playlist-widget.c:525
 msgid "_Copy Location"
-msgstr ""
+msgstr "_Kopírovať umiestnenie"
 
 #: src/celluloid-playlist-widget.c:526
 msgid "_Remove"
-msgstr ""
+msgstr "_Odstrániť"
 
 #: src/celluloid-playlist-widget.c:528
 msgid "_Add…"
-msgstr ""
+msgstr "_Pridať…"
 
 #: src/celluloid-playlist-widget.c:529
 msgid "Add _Folder…"
-msgstr ""
+msgstr "Pridať _priečinok…"
 
 #: src/celluloid-playlist-widget.c:530
 msgid "Add _Location…"
-msgstr ""
+msgstr "Pridať _umiestnenie…"
 
 #: src/celluloid-playlist-widget.c:531
 msgid "_Shuffle"
-msgstr ""
+msgstr "_Zamiešať"
 
 #: src/celluloid-playlist-widget.c:532
 msgid "Loop _File"
-msgstr ""
+msgstr "Opakovať _súbor"
 
 #: src/celluloid-playlist-widget.c:533
 msgid "Loop _Playlist"
-msgstr ""
+msgstr "Opakovať _zoznam prehrávania"
 
 #: src/celluloid-playlist-widget.c:882
 msgid "Playlist is empty"
-msgstr ""
+msgstr "Zoznam prehrávania je prázdny"
 
 #: src/celluloid-plugins-manager.c:177 src/celluloid-plugins-manager.c:412
 msgid "Add Plugin"
@@ -893,7 +903,7 @@ msgstr "vstupný konfiguračný súbor mpv:"
 
 #: src/celluloid-preferences-dialog.c:395
 msgid "Extra mpv options:"
-msgstr ""
+msgstr "Ďalšie možnosti mpv:"
 
 #: src/celluloid-preferences-dialog.c:415
 msgid "Interface"
@@ -917,7 +927,7 @@ msgstr "_Uložiť"
 
 #: src/celluloid-preferences-dialog.c:455
 msgid "Preferences"
-msgstr "Nastavenia"
+msgstr "Predvoľby"
 
 #: src/celluloid-shortcuts-window.c:46
 msgid "Open file"
@@ -929,23 +939,23 @@ msgstr "Otvoriť umiestnenie"
 
 #: src/celluloid-shortcuts-window.c:48
 msgid "Add file to playlist"
-msgstr "Pridať súbor do playlistu"
+msgstr "Pridať súbor do zoznamu prehrávania"
 
 #: src/celluloid-shortcuts-window.c:49
 msgid "Add location to playlist"
-msgstr "Pridať umiestnenie do playlistu"
+msgstr "Pridať umiestnenie do zoznamu prehrávania"
 
 #: src/celluloid-shortcuts-window.c:50
 msgid "Show preferences dialog"
-msgstr "Zobraziť nastavenia"
+msgstr "Zobraziť predvoľby"
 
 #: src/celluloid-shortcuts-window.c:51
 msgid "Toggle controls"
-msgstr "Zobraziť ovládacie prvky"
+msgstr "Prepnúť ovládacie prvky"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Toggle playlist"
-msgstr "Zobraziť playlist"
+msgstr "Prepnúť zoznam prehrávania"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
@@ -957,43 +967,43 @@ msgstr "Vypnutie režimu celej obrazovky"
 
 #: src/celluloid-shortcuts-window.c:55
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
+msgstr "Prepnúť oznámenia OSD medzi normálne alebo čas prehrávania"
 
 #: src/celluloid-shortcuts-window.c:56
 msgid "Show filename on the OSD"
-msgstr ""
+msgstr "Ukazovať názov súboru cez OSD"
 
 #: src/celluloid-shortcuts-window.c:57
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr ""
+msgstr "Ukazovať postup, uplynutý a celkový čas cez OSD"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Skok dozadu/dopredu 5 sekúnd"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Exact seek backward/forward 1 second"
-msgstr ""
+msgstr "Presný skok dozadu/dopredu 1 sekundu"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Seek backward/forward 1 minute"
-msgstr ""
+msgstr "Skok dozadu/dopredu 1 minútu"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Exact seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Presný skok dozadu/dopredu 5 sekúnd"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Seek to previous/next subtitle"
-msgstr ""
+msgstr "Skok k minulým/ďalším titulkom"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Step backward/forward a single frame"
-msgstr ""
+msgstr "Krok dozadu/dopredu po jedenom snímku"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr ""
+msgstr "Skok na začiatok minulej/ďalšej kapitoly"
 
 #: src/celluloid-shortcuts-window.c:69
 msgid "Decrease/increase playback speed by 10%"
@@ -1009,35 +1019,35 @@ msgstr "Obnovenie normálnej rýchlosti prehrávania"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Go backward/forward in the playlist"
-msgstr ""
+msgstr "Ísť dozadu/dopredu v zozname prehrávania"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Remove selected playlist item"
-msgstr "Odstránenie vybranej položky z playlistu"
+msgstr "Odstrániť vybranú položku zo zoznamu prehrávania"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Save playlist"
-msgstr "Uložiť playlist"
+msgstr "Uložiť zoznam prehrávania"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Set/clear A-B loop points"
-msgstr ""
+msgstr "Nastaviť/vymazať bod A-B slučky"
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Toggle infinite looping"
-msgstr "Nekonečné opakovanie"
+msgstr "Prepnúť nekonečné opakovanie"
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Pause or unpause"
-msgstr "Pozastavenie alebo pokračovanie"
+msgstr "Pozastaviť alebo pokračovať"
 
 #: src/celluloid-shortcuts-window.c:78
 msgid "Quit"
-msgstr "Ukončenie"
+msgstr "Ukončiť"
 
 #: src/celluloid-shortcuts-window.c:79
 msgid "Save current playback position and quit"
-msgstr "Uloženie aktuálnej polohy prehrávania a ukončenie"
+msgstr "Uložiť aktuálnu polohu prehrávania a ukončiť"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Enter search mode"
@@ -1045,19 +1055,19 @@ msgstr "Prejsť do režimu vyhľadávania"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Jump to next match"
-msgstr "Prejsť na ďalšiu zhodu"
+msgstr "Preskočiť na ďalšiu zhodu"
 
 #: src/celluloid-shortcuts-window.c:84
 msgid "Jump to previous match"
-msgstr "Prejsť na predchádzajúcu zhodu"
+msgstr "Preskočiť na predchádzajúcu zhodu"
 
 #: src/celluloid-shortcuts-window.c:85
 msgid "Exit search mode"
-msgstr "Ukončenie režimu vyhľadávania"
+msgstr "Ukončiť režim vyhľadávania"
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Cycle through audio tracks"
-msgstr "Prepnúť zvukovú stopu"
+msgstr "Prechádzať zvukové stopy"
 
 #: src/celluloid-shortcuts-window.c:89 src/celluloid-shortcuts-window.c:90
 msgid "Decrease/increase volume"
@@ -1073,11 +1083,11 @@ msgstr "Nastavenie oneskorenia zvuku o +/- 0,1 sekundy"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Toggle subtitle visibility"
-msgstr "Viditeľnost titulkov"
+msgstr "Prepnúť viditeľnosť titulkov"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Cycle through available subtitles"
-msgstr "Prepnúť titulky"
+msgstr "Prechádzať dostupné titulky"
 
 #: src/celluloid-shortcuts-window.c:97
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
@@ -1093,15 +1103,15 @@ msgstr "Posunúť titulky nahor/nadol"
 
 #: src/celluloid-shortcuts-window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr ""
+msgstr "Prepnúť mód kompatibility pomeru strán VSFilter"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Cycle through video tracks"
-msgstr "Prepnúť video stopu"
+msgstr "Prechádzať video stopy"
 
 #: src/celluloid-shortcuts-window.c:104
 msgid "Decrease/increase pan-and-scan range"
-msgstr ""
+msgstr "Znížiť/zvýšiť rozsah prechádzania a skenovania"
 
 #: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot"
@@ -1109,7 +1119,7 @@ msgstr "Vytvorenie snímky obrazovky"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, without subtitles"
-msgstr "bez titulkov"
+msgstr "Vytvorenie snímky obrazovky, bez titulkov"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Take a screenshot, as the window shows it"
@@ -1177,7 +1187,7 @@ msgstr "Prehľadávanie"
 
 #: src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
-msgstr ""
+msgstr "Zoznam prehrávania"
 
 #: src/celluloid-view.c:778
 msgid "Load Audio Track…"
@@ -1199,7 +1209,7 @@ msgstr "Zapnutie alebo vypnutie dekorácií na strane klienta vyžaduje reštart
 
 #: src/celluloid-view.c:1494
 msgid "Add Folder to Playlist"
-msgstr "Pridať priečinok do playlistu"
+msgstr "Pridať priečinok do zoznamu prehrávaných"
 
 #: src/celluloid-view.c:1494
 msgid "Open Folder"
@@ -1207,7 +1217,7 @@ msgstr "Otvoriť priečinok"
 
 #: src/celluloid-view.c:1499
 msgid "Add File to Playlist"
-msgstr "Pridať súbor do playlistu"
+msgstr "Pridať súbor do zoznamu prehrávaných"
 
 #: src/celluloid-view.c:1499
 msgid "Open File"
@@ -1215,7 +1225,7 @@ msgstr "Otvoriť súbor"
 
 #: src/celluloid-view.c:1535
 msgid "Add Location to Playlist"
-msgstr "Pridať umiestnenie do playlistu"
+msgstr "Pridať umiestnenie do zoznamu prehrávaných"
 
 #: src/celluloid-view.c:1536
 msgid "Open Location"
@@ -1231,4 +1241,4 @@ msgstr "GTK frontend pre MPV"
 
 #: src/celluloid-view.c:1635
 msgid "translator-credits"
-msgstr ""
+msgstr "Prekladatelia: anton.somora, menom"
