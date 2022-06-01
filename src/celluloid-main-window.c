@@ -304,9 +304,10 @@ resize_to_target(gpointer data)
 
 	g_source_clear(&priv->resize_tag);
 
-	gtk_window_set_default_size(	GTK_WINDOW(wnd),
-					target_width + priv->width_offset,
-					target_height + priv->height_offset );
+	gtk_window_set_default_size
+		(	GTK_WINDOW(wnd),
+			MAX(0, target_width + priv->width_offset),
+			MAX(0, target_height + priv->height_offset) );
 
 	/* Prevent graphical glitches that appear when calling
 	 * celluloid_main_window_resize_video_area() with the current size as
