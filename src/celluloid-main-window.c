@@ -270,6 +270,7 @@ resize_video_area_finalize(	GtkWidget *widget,
 	GdkRectangle monitor_geom = {0};
 	gint target_width = priv->resize_target[0];
 	gint target_height = priv->resize_target[1];
+	const gint scale = gdk_surface_get_scale_factor(surface);
 
 	g_signal_handlers_disconnect_by_func
 		(widget, resize_video_area_finalize, data);
@@ -277,14 +278,14 @@ resize_video_area_finalize(	GtkWidget *widget,
 	gdk_monitor_get_geometry(monitor, &monitor_geom);
 
 	/* Adjust resize offset */
-	if((width != target_width || height != target_height)
+	if((width / scale != target_width || height / scale != target_height)
 	&& (	target_width < monitor_geom.width &&
 		target_height < monitor_geom.height )
 	&& !gtk_window_is_maximized(GTK_WINDOW(wnd))
 	&& !gtk_window_is_fullscreen(GTK_WINDOW(wnd)))
 	{
-		priv->width_offset += target_width-width;
-		priv->height_offset += target_height-height;
+		priv->width_offset += target_width - width / scale;
+		priv->height_offset += target_height - height / scale;
 
 		g_source_clear(&priv->resize_tag);
 		priv->resize_tag = g_idle_add_full(	G_PRIORITY_HIGH_IDLE,
