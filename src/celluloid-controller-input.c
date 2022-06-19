@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -199,12 +199,14 @@ button_pressed_handler(	GtkGestureSingle *gesture,
 			gpointer data )
 {
 	CelluloidController *controller = data;
+
 	guint button_number = gtk_gesture_single_get_current_button(gesture);
 	gchar *button_name = g_strdup_printf("MOUSE_BTN%u", button_number - 1);
-
 	celluloid_model_key_down(controller->model, button_name);
-
 	g_free(button_name);
+
+	CelluloidView *view = celluloid_controller_get_view(controller);
+	gtk_window_set_focus(GTK_WINDOW(view), NULL);
 }
 
 static void
