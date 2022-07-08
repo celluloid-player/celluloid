@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-10 00:48+0700\n"
+"POT-Creation-Date: 2022-05-19 15:33+0700\n"
 "PO-Revision-Date: 2022-04-10 09:43+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/celluloid/"
@@ -27,7 +27,9 @@ msgid "Automatically resize window to fit video"
 msgstr "Aseta ikkunan koko automaattisesti videon mukaan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
-msgid "Enable dark theme"
+#, fuzzy
+#| msgid "Enable dark theme"
+msgid "Prefer dark theme"
 msgstr "Käytä tummaa teemaa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
@@ -54,12 +56,14 @@ msgstr ""
 "Vyöhykkeen koko, jossa hiiren liike ei nosta ohjauksen kuvakkeita näkyviin."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-msgid "Use skip buttons for controlling playlist"
+#, fuzzy
+#| msgid "Use skip buttons for controlling playlist"
+msgid "Use skip buttons to control the playlist"
 msgstr "Käytä ohituspainikkeita soittolistan ohjaamiseen"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
-msgid "Make file chooser remember last file's location"
-msgstr "Tee valitsin muistamaan viimeisten tiedostojen sijainti"
+msgid "Remember last location in file chooser"
+msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -83,97 +87,115 @@ msgstr ""
 "tilassa."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
-msgid "Present window when opening new files"
+#, fuzzy
+#| msgid "Present window when opening new files"
+msgid "Give focus to the window when opening new files"
 msgstr "Nosta ikkuna avattaessa uusia tiedostoja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
+#, fuzzy
+#| msgid ""
+#| "If true, Celluloid will attempt to present its window to the user when a "
+#| "new file is opened. If false, no attempt will be made."
 msgid ""
-"If true, Celluloid will attempt to present its window to the user when a new "
-"file is opened. If false, no attempt will be made."
+"If true, Celluloid will give focus to the window when a new file is opened. "
+"If false, no attempt will be made."
 msgstr ""
 "Jos asetettu, Celluloid yrittää näyttää ikkunansa käyttäjälle kun uusi "
 "tiedosto avataan. Jos ei ole asetettu, ikkunaa ei yritetä näyttää."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:103
-#: src/celluloid-application.c:599
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:102
+#: src/celluloid-application.c:600
 msgid "Options to pass to mpv"
 msgstr "MPV:lle annettavat vaihtoehdot"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:109
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Path to mpv configuration file"
 msgstr "Polku MPV-asetustiedostoon"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:115
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:114
 msgid "Load mpv configuration file"
 msgstr "Lataa MPV-asetustiedosto"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:121
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:120
 msgid "Path to mpv input configuration file"
 msgstr "Polku MPV-sisääntulon asetustiedostoon"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:127
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid "Load mpv input configuration file"
 msgstr "Lataa MPV-sisääntulon asetustiedosto"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:133
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Enable MPRIS support"
 msgstr "Ota MPRIS-tuki käyttöön"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:139
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:138
 msgid "Enable media keys support"
 msgstr "Ota medianäppäintuki käyttöön"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:145
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:144
+msgid "Enable menubar accelerator key handling"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
 msgstr "Hae metatiedot etukäteen"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:151
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:156
 msgid "Ignore playback errors"
 msgstr "Ohita toiston virheet"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:157
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:162
 msgid "Inhibit session idling"
 msgstr "Estä istunnon joutokäynti"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:168
+msgid "Make video area draggable"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
 msgstr "Ikkunan leveys"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:173
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:184
 msgid "Height of the window"
 msgstr "Ikkunan korkeus"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:179
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:190
 msgid "Whether or not the window is maximized"
 msgstr "Onko ikkuna suurennettu vai ei"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:186
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
 msgid "Volume of player"
 msgstr "Soittimen äänenvoimakkuus"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:192
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:203
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "Käytetäänkö looppitoimintoa soittolistan lopun saavuttua"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:198
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:209
 msgid "Width of the playlist"
 msgstr "Soittolistan leveys"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:204
-msgid "Show or not show the controls"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:215
+#, fuzzy
+#| msgid "Show or not show the controls"
+msgid "Show/hide the controls"
 msgstr "Näytetäänkö säätimet"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:210
-msgid "Show or not show the playlist"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:221
+#, fuzzy
+#| msgid "Show or not show the playlist"
+msgid "Show/hide the playlist"
 msgstr "Näytetäänkö soittolista"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:216
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
 msgstr "Viimeksi käytettyjen kansioiden sijainti"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:475
+#: src/celluloid-application.c:476
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -216,33 +238,132 @@ msgid "The Celluloid Developers"
 msgstr "Celluloid-kehittäjät"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:69
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:108
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:161
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:191
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:230
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:261
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:289
-msgid "This release contains the following changes:"
+#, fuzzy
+#| msgid "This release contains the following changes:"
+msgid "This is mostly a bugfix release. It contains the following changes:"
 msgstr "Tämä julkaisu sisältää seuraavat muutokset:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
+msgid "Fix autofit triggering regardless of settings."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
+#, fuzzy
+#| msgid "Retain window maximization state across sessions."
+msgid "Fix window size shrinking across sessions."
+msgstr "Säilytä ikkunan maksimitila istuntojen välillä."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
+msgid "Fix crash when playing files with names containing invalid encoding."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
+msgid "Fix drag-and-drop not working with some file managers."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
+msgid "Fix playback starting when the last playlist item is removed."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:134
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:173
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:295
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:326
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:354
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:382
+msgid "This listing is incomplete. See git log for complete changelog."
+msgstr "Tämä luettelo on puutteellinen. Katso täydellinen git-muutosloki."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:61
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:141
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:233
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:263
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:302
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:333
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:361
+msgid "This release contains the following changes:"
+msgstr "Tämä julkaisu sisältää seuraavat muutokset:"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
+msgid "Migrate to GTK4."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
+#, fuzzy
+#| msgid "Add Basque translation by @aldatsa."
+msgid "Add Greek translation by @lepa22."
+msgstr "Lisätty baskikäännös käyttäjältä @aldatsa."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
+#, fuzzy
+#| msgid "Add Ukranian translation by @vl-nix"
+msgid "Add Korean translation by @jullee96."
+msgstr "Lisätty Ukrainan kielipaketti lähettäjä @vl-nix"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
+msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
+#, fuzzy
+#| msgid "Add Esperanto translation by @F3nd0"
+msgid "Add Occidental translation by OIS."
+msgstr "Lisätty Esperanto kielipaketti lähettäjä @F3nd0"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
+#, fuzzy
+#| msgid "Add Turkish translation by @TeknoMobil"
+msgid "Add Arabic translation by Mohamed Benkouider."
+msgstr "Lisätty Turkkilainen kielipaketti lähettäjä @TeknoMobil"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
+#, fuzzy
+#| msgid "Add Basque translation by @aldatsa."
+msgid "Add Urdu translation by Ahmed Iqbal."
+msgstr "Lisätty baskikäännös käyttäjältä @aldatsa."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
+msgid "Add option to show title buttons in fullscreen mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
+#, fuzzy
+#| msgid "Present window when opening new files"
+msgid "Add option to present the window when opening files."
+msgstr "Nosta ikkuna avattaessa uusia tiedostoja"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
+msgid ""
+"Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
+msgid "Fix inaccurate timestamp preview."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid "Add Basque translation by @aldatsa."
 msgstr "Lisätty baskikäännös käyttäjältä @aldatsa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "Make the shuffle and loop command line options work properly."
 msgstr "Tee sekoitus- ja silmukka-asetukset toimimaan komentorivillä oikein."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:116
 msgid "Make the main menu button toggleable by pressing F10."
 msgstr "Tee päävalikon painikkeesta vaihdettava painamalla F10."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
 msgid "Add a setting for always appending opened files to the playlist."
 msgstr "Lisää asetus avattujen tiedostojen lisäämiseksi aina soittolistaan."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:122
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
@@ -250,11 +371,11 @@ msgstr ""
 "Salli tiedostojen lisääminen soittolistaan pitämällä shift-näppäintä "
 "painettuna, kun pudotat tiedostoja videoalueelle."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:126
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
 msgstr "Tee CSD-otsikkopalkista vaihdettava mpv:n \"border\" avulla."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:129
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
@@ -262,22 +383,11 @@ msgstr ""
 "Sisällytä Flatpak-manifesti repoon. Näin Celluloid voidaan rakentaa yhdellä "
 "napsautuksella GNOME Builderin kaltaisissa sovelluksissa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:154
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:254
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:282
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:310
-msgid "This listing is incomplete. See git log for complete changelog."
-msgstr "Tämä luettelo on puutteellinen. Katso täydellinen git-muutosloki."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr "Voit aktivoida pikavalikon, kun soittolista on tyhjä."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
 msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as "
 "its value changes."
@@ -285,7 +395,7 @@ msgstr ""
 "Estä palkin jatkuva koon muuttaminen aikaleiman otsikon koon muuttuessa tai "
 "sen arvon muuttuessa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:152
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
@@ -293,11 +403,11 @@ msgstr ""
 "Näytä vain yksi virheikkuna, kun suuri määrä virheitä tapahtuu nopeasti "
 "peräkkäin."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
 msgid "Add menu item for opening folders."
 msgstr "Lisää valikkoon kohde kansioiden avaamista varten."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:159
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
@@ -305,49 +415,49 @@ msgstr ""
 "Säädä valintaikkunoiden sijaintia muussa kuin CSD-tilassa, joka olisi "
 "johdonmukaisempi CSD-tilan kanssa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:91
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Add support for loading external video tracks."
 msgstr "Lisää tuki ulkoisten videoiden lataamiseen."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Make playlist shuffle toggleable."
 msgstr "Tee soittolistasta satunnainen."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr "Nuolinäppäinten käyttäminen numeronäppäimistön nuolinäppäimillä."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:112
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr "Säädä painikkeen aluetta äänenvoimakkuuden enimmäisarvon mukaan."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:116
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:188
 msgid "Retain window maximization state across sessions."
 msgstr "Säilytä ikkunan maksimitila istuntojen välillä."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:191
 msgid "Retain loop state across sessions."
 msgstr "Säilytä toisto tauotta koko istunnon ajan."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:122
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid "Implement playlist search."
 msgstr "Ota soittolistan haku käyttöön."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:125
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:197
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
 msgstr "Päivitä pikanäppäinten luettelo pikanäppäimet-valintaikkunassa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:128
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr "Käsitelle oikein lainaumerkkejä ja erikoismerkkejä MPV-valinnoissa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:131
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:203
 msgid "Display time at cursor position when hovering the seek bar."
 msgstr "Näytä aika kohdistimessa kun siirrät hakupalkkia."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:134
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:206
 msgid ""
 "Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
@@ -357,7 +467,7 @@ msgstr ""
 "asettaa mpv-asetusten sen sijaan. Esimerkiksi, '--mpv-vf=vflip' on "
 "Celluloidin vastaava ohitus '--vf=vflip' mpv:n tilalle."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:140
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:212
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
@@ -365,27 +475,27 @@ msgstr ""
 "Lisää tuki kuolleiden alueiden määrittämiselle. Alue, jolla hiiren "
 "liikkuminen ei aiheuta ohjauksen kuvakkeita näkyviin."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:144
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:216
 msgid "Make window sizing work correctly with HiDPI displays."
 msgstr "Tee ikkunoiden mitoitus oikein HiDPI-näytöillä."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:147
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
 msgid "Add Finnish translation by Kimmo Kujansuu."
 msgstr "Lisää suomenkielinen käännös, tekiä Kimmo Kujansuu."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:150
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:222
 msgid "Add Slovenian translation by @bertronika."
 msgstr "Lisätty Slovenian kielipaketti lähettäjä @bertronika."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:165
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
 msgid "Add Persian translation by @danialbehzadi"
 msgstr "Lisätty Persian kielipaketti lähettäjä @danialbehzadi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:168
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:240
 msgid "Add Ukranian translation by @vl-nix"
 msgstr "Lisätty Ukrainan kielipaketti lähettäjä @vl-nix"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:171
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:243
 msgid ""
 "Add support for showing/hiding window decorations using the mpv option --"
 "border"
@@ -393,93 +503,93 @@ msgstr ""
 "Lisätty tuki ikkunatehosteiden näyttämistä/piilottamista varten MPV-"
 "asetuksella --border"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:174
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
 msgid "Add menu item for opening discs"
 msgstr "Lisätty valikkoon kohta levyjen avaamista varten"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:177
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:249
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
 "Estetty kohdistimen automaattinen piilottaminen, kun äänenvoimakkuuden "
 "ponnahdusikkuna on avattu"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:252
 msgid "Fix crash with mpv 0.30"
 msgstr "Kaatuminen korjattu versiossa MPV 0.30"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:195
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:267
 msgid "Rename project to Celluloid"
 msgstr "Projekti nimetty Celluloid:ksi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:270
 msgid "Add Turkish translation by @TeknoMobil"
 msgstr "Lisätty Turkkilainen kielipaketti lähettäjä @TeknoMobil"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:201
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:273
 msgid "Add Esperanto translation by @F3nd0"
 msgstr "Lisätty Esperanto kielipaketti lähettäjä @F3nd0"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:204
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:276
 msgid "Migrate from opengl-cb to the new render API"
 msgstr "Siirrytty OpenGL-CB -muodosta uuteen renderöinti API-liittymään"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:207
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:279
 msgid "Handle numpad keybindings"
 msgstr "Osaa numeronäppäimistön painikkeet"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:210
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:282
 msgid "Handle unicode keybindings"
 msgstr "Osaa unicode -painikkeet"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:213
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
 msgid "Forward media key events to mpv"
 msgstr "Välittää medianäppäinten avaintoiminnot MPV:hen"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:216
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:288
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
 "Lisää dconf -avaimen kohdistimen nopeuden hallintaan, kun säätimet ovat "
 "piilossa"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
 msgid "Add option for suppressing playback errors"
 msgstr "Lisää vaihtoehdon toistovirheiden estämiseksi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:234
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:306
 msgid "Split up the General tab in the preferences dialog"
 msgstr "Jakaa välilehden Yleinen asetukset-valintaikkunassa"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
 "Parantaa käyttäytymistä, kun soittolistat voidaan kytkeä vierekkäin "
 "ikkunanhallinan alla"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:240
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
 msgid "Move app menu items to primary menu"
 msgstr "Siirrä sovelluksen valikkokohteet päävalikkoon"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:243
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
 msgid "Use separate MPRIS DBus connection for each window"
 msgstr "Käytä erillistä MPRIS DBus -yhteyttä jokaiseen ikkunaan"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:318
 msgid "Add support for MPRIS property LoopStatus"
 msgstr "Lisää tuki MPRIS -ominaisuus Loop -silmukan tilaksi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:249
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:321
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
 "Lisää optio --mpv -optio asettaa satunnaiset mpv-asetukset komentoriviltä"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
 msgstr "Aseta oletus kuvakaappauksen hakemistoon XDG_PICTURES_DIR"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
@@ -487,54 +597,54 @@ msgstr ""
 "Paranna käsittelyä --window-scale, --autofit, --autofit-larger, ja --autofit-"
 "smaller"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:344
 msgid "Add command line option for setting WM_ROLE"
 msgstr "Lisää komentorivivalinta WM_ROLE -asetukseksi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:347
 msgid "Add context menu item for removing playlist items"
 msgstr "Lisää pikavalikko soittolistan kohteiden poistamista varten"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:278
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:350
 msgid "Add context menu item for copying location of playlist items"
 msgstr "Lisää pikavalikko kopioidaksesi soittolistan kohteiden sijainnin"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:293
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
 "Lisää vaihtoehto, jotta ohituspainikkeet muuttavat soittolistan merkintöjä "
 "lukujen sijasta"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:297
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:369
 msgid "Make the file chooser accept non-local locations"
 msgstr ""
 "Varmista, että tiedoston valitsin hyväksyy muut kuin paikalliset sijainnit"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:300
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:372
 msgid "Add right-click menu entry for looping a single file"
 msgstr ""
 "Lisää hiiren kakkospainikkeella merkintä yksittäisen kappaleen silmukointi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:303
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:375
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr "Muuttaa koko näytön ja ikkunan mittakaavan tapahtumia"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:306
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:378
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr ""
 "Lisää vaihtoehto hiiren kohdistimen automaattiseen piilottamiseen "
 "ikkunatilassa"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:320
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
 msgid "The main window showing the application in action"
 msgstr "Pääikkuna, joka näyttää sovelluksen olevan toiminnassa"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:324
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:396
 msgid "The main window with CSD disabled"
 msgstr "Pääikkuna, jossa CSD on poistettu käytöstä"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:328
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:400
 msgid "The main window with playlist open"
 msgstr "Pääikkuna, jossa soittolista on auki"
 
@@ -561,107 +671,111 @@ msgstr "Uusi ikkuna"
 msgid "Add to Playlist"
 msgstr "Lisää soittolistaan"
 
-#: src/celluloid-application.c:519
+#: src/celluloid-application.c:520
 msgid "Playing"
 msgstr "Soitetaan"
 
-#: src/celluloid-application.c:575
+#: src/celluloid-application.c:576
 msgid "Show release version"
 msgstr "Näytä julkaisuversio"
 
-#: src/celluloid-application.c:583
+#: src/celluloid-application.c:584
 msgid "Enqueue"
 msgstr "Jonoon"
 
-#: src/celluloid-application.c:591
+#: src/celluloid-application.c:592
 msgid "Create a new window"
 msgstr "Luo uusi ikkuna"
 
-#: src/celluloid-application.c:600
+#: src/celluloid-application.c:601
 msgid "OPTIONS"
 msgstr "VAIHTOEHDOT"
 
-#: src/celluloid-application.c:607
+#: src/celluloid-application.c:608
 msgid "Set the window role"
 msgstr "Määritä ikkunan rooli"
 
-#: src/celluloid-application.c:615
+#: src/celluloid-application.c:616
 msgid "Don't connect to an already-running instance"
 msgstr "Älä muodosta yhteyttä jo käynnissä olevaan ilmentymään"
 
-#: src/celluloid-application.c:626
+#: src/celluloid-application.c:627
 msgid "Set the mpv option MPVOPTION to VALUE"
 msgstr "Aseta mpv-valinta MPVOPTION arvoksi VALUE"
 
-#: src/celluloid-application.c:627
+#: src/celluloid-application.c:628
 msgid "VALUE"
 msgstr "ARVO"
 
-#: src/celluloid-control-box.c:378
+#: src/celluloid-common.c:240
+msgid "invalid encoding"
+msgstr ""
+
+#: src/celluloid-control-box.c:412
 msgid "Pause"
 msgstr "Tauko"
 
-#: src/celluloid-control-box.c:378 src/celluloid-control-box.c:580
+#: src/celluloid-control-box.c:412 src/celluloid-control-box.c:637
 msgid "Play"
 msgstr "Toista"
 
-#: src/celluloid-control-box.c:583
+#: src/celluloid-control-box.c:640
 msgid "Stop"
 msgstr "Pysäytä"
 
-#: src/celluloid-control-box.c:586
+#: src/celluloid-control-box.c:643
 msgid "Forward"
 msgstr "Eteenpäin"
 
-#: src/celluloid-control-box.c:589
+#: src/celluloid-control-box.c:646
 msgid "Rewind"
 msgstr "Taaksepäin"
 
-#: src/celluloid-control-box.c:592
+#: src/celluloid-control-box.c:649
 msgid "Next Chapter"
 msgstr "Seuraava kappale"
 
-#: src/celluloid-control-box.c:595
+#: src/celluloid-control-box.c:652
 msgid "Previous Chapter"
 msgstr "Edellinen kappale"
 
-#: src/celluloid-control-box.c:598
+#: src/celluloid-control-box.c:655
 msgid "Loop Playlist"
 msgstr "Toista soittolistaa tauotta"
 
-#: src/celluloid-control-box.c:601
+#: src/celluloid-control-box.c:658
 msgid "Shuffle Playlist"
 msgstr "Sekoita soittolista"
 
-#: src/celluloid-control-box.c:604 src/celluloid-header-bar.c:189
+#: src/celluloid-control-box.c:661 src/celluloid-header-bar.c:248
 msgid "Toggle Fullscreen"
 msgstr "Koko näytön tila päällä/pois"
 
-#: src/celluloid-controller.c:1058 src/celluloid-view.c:1000
+#: src/celluloid-controller.c:1103 src/celluloid-view.c:965
 msgid "Error"
 msgstr "Virhe"
 
-#: src/celluloid-file-chooser.c:151 src/celluloid-plugins-manager.c:184
+#: src/celluloid-file-chooser.c:144 src/celluloid-plugins-manager.c:184
 msgid "All Files"
 msgstr "Kaikki tiedostot"
 
-#: src/celluloid-file-chooser.c:159
+#: src/celluloid-file-chooser.c:152
 msgid "Media Files"
 msgstr "Mediatiedostot"
 
-#: src/celluloid-file-chooser.c:170
+#: src/celluloid-file-chooser.c:163
 msgid "Audio Files"
 msgstr "Äänitiedostot"
 
-#: src/celluloid-file-chooser.c:178
+#: src/celluloid-file-chooser.c:171
 msgid "Video Files"
 msgstr "Videotiedostot"
 
-#: src/celluloid-file-chooser.c:186
+#: src/celluloid-file-chooser.c:179
 msgid "Image Files"
 msgstr "Kuvatiedostot"
 
-#: src/celluloid-file-chooser.c:196
+#: src/celluloid-file-chooser.c:189
 msgid "Subtitle Files"
 msgstr "Tekstitystiedostot"
 
@@ -708,8 +822,10 @@ msgid "_File"
 msgstr "_Tiedosto"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-msgid "_Open…"
-msgstr "_Avaa…"
+#, fuzzy
+#| msgid "Open File…"
+msgid "_Open File…"
+msgstr "Avaa tiedosto…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
@@ -801,47 +917,47 @@ msgid "_Open"
 msgstr "_Avaa"
 
 #: src/celluloid-open-location-dialog.c:138
-#: src/celluloid-preferences-dialog.c:427
+#: src/celluloid-preferences-dialog.c:430
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: src/celluloid-player.c:600
+#: src/celluloid-player.c:601
 msgid "Failed to apply one or more MPV options."
 msgstr "Yhtä tai useampaa MPV-valintaa ei voitu käyttää."
 
-#: src/celluloid-playlist-widget.c:525
+#: src/celluloid-playlist-widget.c:554
 msgid "_Copy Location"
 msgstr "_Kopioi sijainti"
 
-#: src/celluloid-playlist-widget.c:526
+#: src/celluloid-playlist-widget.c:555
 msgid "_Remove"
 msgstr "_Poista"
 
-#: src/celluloid-playlist-widget.c:528
+#: src/celluloid-playlist-widget.c:557
 msgid "_Add…"
 msgstr "_Lisää…"
 
-#: src/celluloid-playlist-widget.c:529
+#: src/celluloid-playlist-widget.c:558
 msgid "Add _Folder…"
 msgstr "Lisää _kansio…"
 
-#: src/celluloid-playlist-widget.c:530
+#: src/celluloid-playlist-widget.c:559
 msgid "Add _Location…"
 msgstr "Lisää _sijainti…"
 
-#: src/celluloid-playlist-widget.c:531
+#: src/celluloid-playlist-widget.c:560
 msgid "_Shuffle"
 msgstr "_Sekoittaa"
 
-#: src/celluloid-playlist-widget.c:532
+#: src/celluloid-playlist-widget.c:561
 msgid "Loop _File"
 msgstr "Silmukkaan _tiedosto"
 
-#: src/celluloid-playlist-widget.c:533
+#: src/celluloid-playlist-widget.c:562
 msgid "Loop _Playlist"
 msgstr "Silmukkaan _soittolista"
 
-#: src/celluloid-playlist-widget.c:882
+#: src/celluloid-playlist-widget.c:911
 msgid "Playlist is empty"
 msgstr "Soittolista on tyhjä"
 
@@ -886,39 +1002,39 @@ msgstr ""
 "Haluatko varmasti poistaa tämän komentosarjan? Tätä toimintoa ei voi "
 "peruuttaa."
 
-#: src/celluloid-preferences-dialog.c:366
+#: src/celluloid-preferences-dialog.c:369
 msgid "mpv configuration file:"
 msgstr "mpv-asetustiedosto:"
 
-#: src/celluloid-preferences-dialog.c:372
+#: src/celluloid-preferences-dialog.c:375
 msgid "mpv input configuration file:"
 msgstr "mpv-sisääntulon asetustiedosto:"
 
-#: src/celluloid-preferences-dialog.c:395
+#: src/celluloid-preferences-dialog.c:398
 msgid "Extra mpv options:"
 msgstr "Ylimääräiset mpv-asetukset:"
 
-#: src/celluloid-preferences-dialog.c:415
+#: src/celluloid-preferences-dialog.c:418
 msgid "Interface"
 msgstr "Käyttöliittymä"
 
-#: src/celluloid-preferences-dialog.c:418
+#: src/celluloid-preferences-dialog.c:421
 msgid "Config Files"
 msgstr "Asetustiedostot"
 
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:424
 msgid "Miscellaneous"
 msgstr "Sekalaiset"
 
-#: src/celluloid-preferences-dialog.c:424
+#: src/celluloid-preferences-dialog.c:427
 msgid "Plugins"
 msgstr "Laajennukset"
 
-#: src/celluloid-preferences-dialog.c:429
+#: src/celluloid-preferences-dialog.c:432
 msgid "_Save"
 msgstr "_Tallenna"
 
-#: src/celluloid-preferences-dialog.c:455
+#: src/celluloid-preferences-dialog.c:458
 msgid "Preferences"
 msgstr "Asetukset"
 
@@ -1182,19 +1298,19 @@ msgstr "Siirtyminen"
 msgid "Playlist"
 msgstr "Soittolista"
 
-#: src/celluloid-view.c:778
+#: src/celluloid-view.c:743
 msgid "Load Audio Track…"
 msgstr "Lataa ääniraita…"
 
-#: src/celluloid-view.c:782
+#: src/celluloid-view.c:747
 msgid "Load Video Track…"
 msgstr "Lataa video…"
 
-#: src/celluloid-view.c:786
+#: src/celluloid-view.c:751
 msgid "Load Subtitle Track…"
 msgstr "Lataa tekstitys…"
 
-#: src/celluloid-view.c:958
+#: src/celluloid-view.c:923
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1202,38 +1318,44 @@ msgstr ""
 "Asiakkaan ikkunatehosteiden ottaminen käyttöön tai poistaminen käytöstä "
 "edellyttää uudelleenkäynnistystä."
 
-#: src/celluloid-view.c:1494
+#: src/celluloid-view.c:1445
 msgid "Add Folder to Playlist"
 msgstr "Lisää kansio soittolistaan"
 
-#: src/celluloid-view.c:1494
+#: src/celluloid-view.c:1445
 msgid "Open Folder"
 msgstr "Avaa kansio"
 
-#: src/celluloid-view.c:1499
+#: src/celluloid-view.c:1450
 msgid "Add File to Playlist"
 msgstr "Lisää tiedosto soittolistaan"
 
-#: src/celluloid-view.c:1499
+#: src/celluloid-view.c:1450
 msgid "Open File"
 msgstr "Avaa tiedosto"
 
-#: src/celluloid-view.c:1535
+#: src/celluloid-view.c:1486
 msgid "Add Location to Playlist"
 msgstr "Lisää sijainti soittolistaan"
 
-#: src/celluloid-view.c:1536
+#: src/celluloid-view.c:1487
 msgid "Open Location"
 msgstr "Avaa sijainti"
 
-#: src/celluloid-view.c:1578
+#: src/celluloid-view.c:1529
 msgid "Save Playlist"
 msgstr "Tallenna soittolista"
 
-#: src/celluloid-view.c:1625
+#: src/celluloid-view.c:1576
 msgid "A GTK frontend for MPV"
 msgstr "MPV:n GTK+ -käyttöliittymä"
 
-#: src/celluloid-view.c:1635
+#: src/celluloid-view.c:1586
 msgid "translator-credits"
 msgstr "Kimmo Kujansuu"
+
+#~ msgid "Make file chooser remember last file's location"
+#~ msgstr "Tee valitsin muistamaan viimeisten tiedostojen sijainti"
+
+#~ msgid "_Open…"
+#~ msgstr "_Avaa…"
