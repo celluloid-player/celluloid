@@ -1000,7 +1000,7 @@ update_metadata(CelluloidPlayer *player)
 
 	org_list = metadata.u.list;
 
-	if(metadata.format == MPV_FORMAT_NODE_MAP && org_list->num > 0)
+	if(metadata.format == MPV_FORMAT_NODE_MAP)
 	{
 		for(gint i = 0; i < org_list->num; i++)
 		{
