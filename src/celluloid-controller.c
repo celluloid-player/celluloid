@@ -155,7 +155,7 @@ static void
 frame_ready_handler(CelluloidModel *model, gpointer data);
 
 static void
-metadata_update_handler(CelluloidModel *model, gint64 pos, gpointer data);
+metadata_cache_update_handler(CelluloidModel *model, gint64 pos, gpointer data);
 
 static void
 window_resize_handler(	CelluloidModel *model,
@@ -740,8 +740,8 @@ connect_signals(CelluloidController *controller)
 				G_CALLBACK(frame_ready_handler),
 				controller );
 	g_signal_connect(	controller->model,
-				"metadata-update",
-				G_CALLBACK(metadata_update_handler),
+				"metadata-cache-update",
+				G_CALLBACK(metadata_cache_update_handler),
 				controller );
 	g_signal_connect(	controller->model,
 				"window-resize",
@@ -1026,7 +1026,7 @@ frame_ready_handler(CelluloidModel *model, gpointer data)
 }
 
 static void
-metadata_update_handler(CelluloidModel *model, gint64 pos, gpointer data)
+metadata_cache_update_handler(CelluloidModel *model, gint64 pos, gpointer data)
 {
 	CelluloidView *view = CELLULOID_CONTROLLER(data)->view;
 	GPtrArray *playlist = NULL;

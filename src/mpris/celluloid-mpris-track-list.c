@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019, 2021 gnome-mpv
+ * Copyright (c) 2017-2019, 2021-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -98,7 +98,7 @@ playlist_handler(	GObject *object,
 			gpointer data );
 
 static void
-metadata_update_handler(CelluloidModel *model, gint64 pos, gpointer data);
+metadata_cache_update_handler(CelluloidModel *model, gint64 pos, gpointer data);
 
 static void
 update_playlist(CelluloidMprisTrackList *track_list);
@@ -139,8 +139,8 @@ register_interface(CelluloidMprisModule *module)
 						module );
 	celluloid_mpris_module_connect_signal(	module,
 						model,
-						"metadata-update",
-						G_CALLBACK(metadata_update_handler),
+						"metadata-cache-update",
+						G_CALLBACK(metadata_cache_update_handler),
 						module );
 
 	celluloid_mpris_module_set_properties
@@ -379,7 +379,7 @@ playlist_handler(	GObject *object,
 }
 
 static void
-metadata_update_handler(CelluloidModel *model, gint64 pos, gpointer data)
+metadata_cache_update_handler(CelluloidModel *model, gint64 pos, gpointer data)
 {
 	GDBusConnection *conn = NULL;
 	GDBusInterfaceInfo *iface = NULL;

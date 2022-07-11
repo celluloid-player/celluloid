@@ -1084,7 +1084,7 @@ cache_update_handler(	CelluloidMetadataCache *cache,
 			entry->title = g_strdup(cache_entry->title);
 
 			g_signal_emit_by_name
-				(data, "metadata-update", (gint64)i);
+				(data, "metadata-cache-update", (gint64)i);
 		}
 	}
 }
@@ -1248,7 +1248,7 @@ celluloid_player_class_init(CelluloidPlayerClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-	g_signal_new(	"metadata-update",
+	g_signal_new(	"metadata-cache-update",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,
