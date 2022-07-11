@@ -30,6 +30,7 @@ enum
 	PROP_SKIP_ENABLED,
 	PROP_DURATION,
 	PROP_ENABLED,
+	PROP_COMPACT,
 	PROP_FULLSCREENED,
 	PROP_PAUSE,
 	PROP_SHOW_FULLSCREEN_BUTTON,
@@ -48,6 +49,7 @@ struct _CelluloidControlBox
 
 	GtkGesture *click_gesture;
 
+	GtkWidget *inner_box;
 	GtkWidget *play_button;
 	GtkWidget *stop_button;
 	GtkWidget *forward_button;
@@ -59,9 +61,11 @@ struct _CelluloidControlBox
 	GtkWidget *volume_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
+	GtkWidget *secondary_seek_bar;
 	gboolean skip_enabled;
 	gdouble duration;
 	gboolean enabled;
+	gboolean compact;
 	gboolean fullscreened;
 	gboolean pause;
 	gboolean show_fullscreen_button;
@@ -131,6 +135,9 @@ static void
 set_playing_state(CelluloidControlBox *box, gboolean playing);
 
 static void
+set_compact(CelluloidControlBox *box, gboolean compact);
+
+static void
 set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen);
 
 static void
@@ -164,6 +171,11 @@ set_property(	GObject *object,
 		set_enabled(self, self->enabled);
 		break;
 
+		case PROP_COMPACT:
+		self->compact = g_value_get_boolean(value);
+		set_compact(self, self->compact);
+		break;
+
 		case PROP_FULLSCREENED:
 		self->fullscreened = g_value_get_boolean(value);
 		set_fullscreen_state(self, self->fullscreened);
@@ -186,6 +198,9 @@ set_property(	GObject *object,
 
 		celluloid_seek_bar_set_pos
 			(	CELLULOID_SEEK_BAR(self->seek_bar),
+				self->time_position );
+		celluloid_seek_bar_set_pos
+			(	CELLULOID_SEEK_BAR(self->secondary_seek_bar),
 				self->time_position );
 		break;
 
@@ -247,6 +262,10 @@ get_property(	GObject *object,
 		g_value_set_boolean(value, self->enabled);
 		break;
 
+		case PROP_COMPACT:
+		g_value_set_boolean(value, self->compact);
+		break;
+
 		case PROP_FULLSCREENED:
 		g_value_set_boolean(value, self->fullscreened);
 		break;
@@ -301,6 +320,7 @@ css_changed(GtkWidget *self, GtkCssStyleChange *change)
 
 	gtk_style_context_get_padding(ctx, &padding);
 	g_object_set(box->seek_bar, "popover-y-offset", -padding.top, NULL);
+	g_object_set(box->secondary_seek_bar, "popover-y-offset", -padding.top, NULL);
 }
 
 static gboolean
@@ -420,6 +440,25 @@ set_playing_state(CelluloidControlBox *box, gboolean playing)
 }
 
 static void
+set_compact(CelluloidControlBox *box, gboolean compact)
+{
+	if(box->compact)
+	{
+		gtk_widget_set_halign(box->inner_box, GTK_ALIGN_CENTER);
+		gtk_widget_set_margin_start(box->loop_button, 12);
+		gtk_widget_hide(box->seek_bar);
+		gtk_widget_show(box->secondary_seek_bar);
+	}
+	else
+	{
+		gtk_widget_set_halign(box->inner_box, GTK_ALIGN_FILL);
+		gtk_widget_set_margin_start(box->loop_button, 0);
+		gtk_widget_show(box->seek_bar);
+		gtk_widget_hide(box->secondary_seek_bar);
+	}
+}
+
+static void
 set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen)
 {
 	const gchar *icon_name =
@@ -482,6 +521,14 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property
 		(object_class, PROP_ENABLED, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"compact",
+			"Compact",
+			"Whether or not compact mode is enabled",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_COMPACT, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"fullscreened",
@@ -609,6 +656,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 
 	box->click_gesture = gtk_gesture_click_new();
 
+	box->inner_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	box->play_button = gtk_button_new();
 	box->stop_button = gtk_button_new();
 	box->forward_button = gtk_button_new();
@@ -620,9 +668,11 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->shuffle_button = gtk_toggle_button_new();
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = celluloid_seek_bar_new();
+	box->secondary_seek_bar = celluloid_seek_bar_new();
 	box->skip_enabled = FALSE;
 	box->duration = 0.0;
 	box->enabled = TRUE;
+	box->compact = FALSE;
 	box->fullscreened = FALSE;
 	box->pause = TRUE;
 	box->show_fullscreen_button = FALSE;
@@ -667,23 +717,46 @@ celluloid_control_box_init(CelluloidControlBox *box)
 		(gtk_widget_get_style_context(GTK_WIDGET(box)), "toolbar");
 
 	gtk_widget_set_margin_end(box->seek_bar, 6);
+	gtk_widget_set_margin_end(box->secondary_seek_bar, 6);
 
 	gtk_widget_set_can_focus(box->volume_button, FALSE);
 	gtk_widget_set_can_focus(box->seek_bar, FALSE);
+	gtk_widget_set_can_focus(box->secondary_seek_bar, FALSE);
 
 	gtk_widget_set_hexpand(box->seek_bar, TRUE);
+	gtk_widget_set_hexpand(box->secondary_seek_bar, TRUE);
 
-	gtk_box_append(GTK_BOX(box), box->previous_button);
-	gtk_box_append(GTK_BOX(box), box->rewind_button);
-	gtk_box_append(GTK_BOX(box), box->play_button);
-	gtk_box_append(GTK_BOX(box), box->stop_button);
-	gtk_box_append(GTK_BOX(box), box->forward_button);
-	gtk_box_append(GTK_BOX(box), box->next_button);
-	gtk_box_append(GTK_BOX(box), box->seek_bar);
-	gtk_box_append(GTK_BOX(box), box->loop_button);
-	gtk_box_append(GTK_BOX(box), box->shuffle_button);
-	gtk_box_append(GTK_BOX(box), box->volume_button);
-	gtk_box_append(GTK_BOX(box), box->fullscreen_button);
+	set_compact(box, box->compact);
+
+	g_object_set(box, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+
+	gchar css_data[] = "box {border-spacing: 0px;}";
+	GtkCssProvider *css = gtk_css_provider_new();
+	gtk_css_provider_load_from_data(css, css_data, -1);
+
+	GtkStyleContext *style = gtk_widget_get_style_context(GTK_WIDGET(box));
+
+	gtk_style_context_add_provider
+		(	style,
+			GTK_STYLE_PROVIDER(css),
+			GTK_STYLE_PROVIDER_PRIORITY_USER );
+
+	box->inner_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+
+	gtk_box_append(GTK_BOX(box), box->secondary_seek_bar);
+	gtk_box_append(GTK_BOX(box), box->inner_box);
+
+	gtk_box_append(GTK_BOX(box->inner_box), box->previous_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->rewind_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->play_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->stop_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->forward_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->next_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->seek_bar);
+	gtk_box_append(GTK_BOX(box->inner_box), box->loop_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->shuffle_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->volume_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->fullscreen_button);
 
 	popup =	gtk_scale_button_get_popup
 		(GTK_SCALE_BUTTON(box->volume_button));
@@ -703,6 +776,15 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "enabled",
 				box->seek_bar, "enabled",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "duration",
+				box->secondary_seek_bar, "duration",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "pause",
+				box->secondary_seek_bar, "pause",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "enabled",
+				box->secondary_seek_bar, "enabled",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "loop",
 				box->loop_button, "active",
@@ -742,6 +824,10 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				"seek",
 				G_CALLBACK(seek_handler),
 				box );
+	g_signal_connect(	box->secondary_seek_bar,
+				"seek",
+				G_CALLBACK(seek_handler),
+				box );
 	g_signal_connect(	box->forward_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
@@ -778,6 +864,7 @@ void
 celluloid_control_box_set_seek_bar_pos(CelluloidControlBox *box, gdouble pos)
 {
 	celluloid_seek_bar_set_pos(CELLULOID_SEEK_BAR(box->seek_bar), pos);
+	celluloid_seek_bar_set_pos(CELLULOID_SEEK_BAR(box->secondary_seek_bar), pos);
 }
 
 void
@@ -785,6 +872,7 @@ celluloid_control_box_set_seek_bar_duration(	CelluloidControlBox *box,
 						gint duration )
 {
 	celluloid_seek_bar_set_duration(CELLULOID_SEEK_BAR(box->seek_bar), duration);
+	celluloid_seek_bar_set_duration(CELLULOID_SEEK_BAR(box->secondary_seek_bar), duration);
 }
 
 void
