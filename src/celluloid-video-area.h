@@ -43,6 +43,10 @@ celluloid_video_area_update_disc_list(	CelluloidVideoArea *hdr,
 					const GPtrArray *disc_list );
 
 void
+celluloid_video_area_set_reveal_control_box(	CelluloidVideoArea *area,
+						gboolean reveal );
+
+void
 celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 						gboolean visible );
 

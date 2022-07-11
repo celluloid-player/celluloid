@@ -617,6 +617,25 @@ celluloid_video_area_update_disc_list(	CelluloidVideoArea *area,
 }
 
 void
+celluloid_video_area_set_reveal_control_box(	CelluloidVideoArea *area,
+						gboolean reveal )
+{
+	gtk_revealer_set_reveal_child
+		(GTK_REVEALER(area->control_box_revealer), reveal);
+	g_source_clear
+		(&area->timeout_tag);
+
+	if(reveal)
+	{
+		area->timeout_tag =
+			g_timeout_add_seconds
+			(	FS_CONTROL_HIDE_DELAY,
+				timeout_handler,
+				area );
+	}
+}
+
+void
 celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 						gboolean visible )
 {
