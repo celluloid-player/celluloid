@@ -569,16 +569,6 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	gtk_revealer_set_child(	GTK_REVEALER(area->control_box_revealer),
 				area->control_box );
 
-	// Explicitly set size request for the control box revealer using the
-	// underlying control box's size. This is needed because the revealer's
-	// size request will be zero otherwise.
-	GtkRequisition minimum = {};
-
-	gtk_widget_get_preferred_size
-		(area->control_box, &minimum, NULL);
-	gtk_widget_set_size_request
-		(area->control_box_revealer, minimum.width, minimum.height);
-
 	gtk_overlay_add_overlay
 		(GTK_OVERLAY(area->overlay), area->control_box_revealer);
 	gtk_overlay_add_overlay
