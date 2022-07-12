@@ -50,6 +50,7 @@ struct _CelluloidMainWindowPrivate
 	gint width_offset;
 	gint height_offset;
 	gint resize_target[2];
+	gint compact_threshold;
 	gboolean csd;
 	gboolean always_floating;
 	gboolean use_floating_controls;
@@ -101,6 +102,9 @@ static void
 notify(GObject *object, GParamSpec *pspec);
 
 static void
+size_allocate(GtkWidget *widget, gint width, gint height, gint baseline);
+
+static void
 resize_video_area_finalize(	GtkWidget *widget,
 				gint width,
 				gint height,
@@ -108,6 +112,9 @@ resize_video_area_finalize(	GtkWidget *widget,
 
 static gboolean
 resize_to_target(gpointer data);
+
+gboolean
+update_compact_mode(GtkWidget *widget);
 
 G_DEFINE_TYPE_WITH_PRIVATE(CelluloidMainWindow, celluloid_main_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -259,6 +266,15 @@ notify(GObject *object, GParamSpec *pspec)
 }
 
 static void
+size_allocate(GtkWidget *widget, gint width, gint height, gint baseline)
+{
+	GTK_WIDGET_CLASS(celluloid_main_window_parent_class)
+		->size_allocate(widget, width, height, baseline);
+
+	g_idle_add((GSourceFunc)update_compact_mode, widget);
+}
+
+static void
 resize_video_area_finalize(	GtkWidget *widget,
 				gint width,
 				gint height,
@@ -322,10 +338,39 @@ resize_to_target(gpointer data)
 	return FALSE;
 }
 
+gboolean
+update_compact_mode(GtkWidget *widget)
+{
+	CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(widget);
+	CelluloidMainWindowPrivate *priv = get_private(wnd);
+
+	if(priv->compact_threshold < 0)
+	{
+		gtk_widget_measure
+			(	widget,
+				GTK_ORIENTATION_HORIZONTAL,
+				-1,
+				&priv->compact_threshold,
+				NULL,
+				NULL,
+				NULL );
+
+		g_assert(priv->compact_threshold > -1);
+		priv->compact_threshold += COMPACT_THRESHOLD_OFFSET;
+	}
+
+	const gint width = gtk_widget_get_allocated_width(widget);
+	const gboolean compact = width <= priv->compact_threshold;
+	g_object_set(priv->control_box, "compact", compact, NULL);
+
+	return G_SOURCE_REMOVE;
+}
+
 static void
 celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
+	GtkWidgetClass *wgt_class = GTK_WIDGET_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
 	obj_class->constructed = constructed;
@@ -333,6 +378,8 @@ celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 	obj_class->notify = notify;
+	wgt_class->size_allocate = size_allocate;
+
 
 	pspec = g_param_spec_boolean
 		(	"always-use-floating-controls",
@@ -390,6 +437,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	priv->playlist_first_toggle = TRUE;
 	priv->width_offset = 0;
 	priv->height_offset = 0;
+	priv->compact_threshold = -1;
 
 	video_area_control_box =
 		celluloid_video_area_get_control_box

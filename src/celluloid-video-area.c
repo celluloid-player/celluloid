@@ -51,6 +51,7 @@ struct _CelluloidVideoArea
 	GtkWidget *control_box_revealer;
 	GtkWidget *header_bar_revealer;
 	GtkEventController *area_motion_controller;
+	gint compact_threshold;
 	guint32 last_motion_time;
 	gdouble last_motion_x;
 	gdouble last_motion_y;
@@ -75,6 +76,9 @@ get_property(	GObject *object,
 		guint property_id,
 		GValue *value,
 		GParamSpec *pspec );
+
+static gboolean
+update_compact_mode(GtkWidget *widget);
 
 static void
 set_fullscreen_state(CelluloidVideoArea *area, gboolean fullscreen);
@@ -151,6 +155,45 @@ get_property(	GObject *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
 	}
+}
+
+static gboolean
+update_compact_mode(GtkWidget *widget)
+{
+	CelluloidVideoArea *area = CELLULOID_VIDEO_AREA(widget);
+
+	if(area->compact_threshold < 0)
+	{
+		// We need to temporarily show the control box while measuring
+		// for it to be taken into account.
+		gtk_widget_show(area->control_box_revealer);
+		gtk_widget_measure
+			(	widget,
+				GTK_ORIENTATION_HORIZONTAL,
+				-1,
+				&area->compact_threshold,
+				NULL,
+				NULL,
+				NULL );
+		gtk_widget_hide(area->control_box_revealer);
+
+		g_assert(area->compact_threshold > -1);
+		area->compact_threshold += COMPACT_THRESHOLD_OFFSET;
+	}
+
+	const gint width = gtk_widget_get_allocated_width(widget);
+	const gboolean compact = width <= area->compact_threshold;
+	gboolean was_compact = FALSE;
+
+	g_object_get(area->control_box, "compact", &was_compact, NULL);
+
+	if(compact != was_compact)
+	{
+		celluloid_video_area_set_reveal_control_box(area, TRUE);
+		g_object_set(area->control_box, "compact", compact, NULL);
+	}
+
+	return G_SOURCE_REMOVE;
 }
 
 static void
@@ -332,6 +375,7 @@ render_handler(GtkGLArea *gl_area, GdkGLContext *context, gpointer data)
 static void
 resize_handler(GtkWidget *widget, gint width, gint height, gpointer data)
 {
+	g_idle_add((GSourceFunc)update_compact_mode, data);
 	g_signal_emit_by_name(data, "resize", width, height);
 }
 
@@ -439,6 +483,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->control_box_revealer = gtk_revealer_new();
 	area->header_bar_revealer = gtk_revealer_new();
 	area->area_motion_controller = gtk_event_controller_motion_new();
+	area->compact_threshold = -1;
 	area->last_motion_time = 0;
 	area->last_motion_x = -1;
 	area->last_motion_y = -1;
