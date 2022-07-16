@@ -165,8 +165,11 @@ update_compact_mode(GtkWidget *widget)
 	if(area->compact_threshold < 0)
 	{
 		// We need to temporarily show the control box while measuring
-		// for it to be taken into account.
-		gtk_widget_show(area->control_box_revealer);
+		// so that it's taken into account.
+		GtkWidget *revealer = area->control_box_revealer;
+		const gboolean was_visible = gtk_widget_get_visible(revealer);
+
+		gtk_widget_show(revealer);
 		gtk_widget_measure
 			(	widget,
 				GTK_ORIENTATION_HORIZONTAL,
@@ -175,7 +178,7 @@ update_compact_mode(GtkWidget *widget)
 				NULL,
 				NULL,
 				NULL );
-		gtk_widget_hide(area->control_box_revealer);
+		gtk_widget_set_visible(revealer, was_visible);
 
 		g_assert(area->compact_threshold > -1);
 		area->compact_threshold += COMPACT_THRESHOLD_OFFSET;

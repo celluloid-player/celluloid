@@ -726,6 +726,8 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_widget_set_hexpand(box->seek_bar, TRUE);
 	gtk_widget_set_hexpand(box->secondary_seek_bar, TRUE);
 
+	g_object_set(box->secondary_seek_bar, "show-label", FALSE, NULL);
+
 	set_compact(box, box->compact);
 
 	g_object_set(box, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
