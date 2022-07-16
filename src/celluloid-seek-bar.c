@@ -31,6 +31,7 @@ enum
 	PROP_DURATION,
 	PROP_PAUSE,
 	PROP_ENABLED,
+	PROP_SHOW_LABEL,
 	PROP_POPOVER_Y_OFFSET,
 	N_PROPERTIES
 };
@@ -46,6 +47,7 @@ struct _CelluloidSeekBar
 	gdouble duration;
 	gboolean pause;
 	gboolean enabled;
+	gboolean show_label;
 	gint popover_y_offset;
 	gboolean popover_visible;
 	guint popover_timeout_id;
@@ -133,6 +135,11 @@ set_property(	GObject *object,
 		update_label(self);
 		break;
 
+		case PROP_SHOW_LABEL:
+		self->show_label = g_value_get_boolean(value);
+		gtk_widget_set_visible(self->label, self->show_label);
+		break;
+
 		case PROP_POPOVER_Y_OFFSET:
 		self->popover_y_offset = g_value_get_int(value);
 		break;
@@ -163,6 +170,10 @@ get_property(	GObject *object,
 
 		case PROP_ENABLED:
 		g_value_set_boolean(value, self->enabled);
+		break;
+
+		case PROP_SHOW_LABEL:
+		g_value_set_boolean(value, self->show_label);
 		break;
 
 		case PROP_POPOVER_Y_OFFSET:
@@ -362,6 +373,14 @@ celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_ENABLED, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"show-label",
+			"Shoe label",
+			"Whether or not the timestamp/duration label is shown",
+			TRUE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_SHOW_LABEL, pspec);
+
 	pspec = g_param_spec_int
 		(	"popover-y-offset",
 			"Popover y-offset",
@@ -394,6 +413,7 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 	bar->duration = 0;
 	bar->pause = TRUE;
 	bar->enabled = TRUE;
+	bar->show_label = TRUE;
 	bar->popover_y_offset = 0;
 	bar->pos = 0;
 	bar->popover_visible = FALSE;
