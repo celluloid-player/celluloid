@@ -714,8 +714,6 @@ update_metadata(CelluloidMprisPlayer *player)
 	GVariantBuilder builder;
 	gchar *path;
 	gchar *uri;
-	gchar *playlist_pos_str;
-	gchar *trackid;
 	gdouble duration = 0;
 	gint64 playlist_pos = 0;
 
@@ -744,14 +742,22 @@ update_metadata(CelluloidMprisPlayer *player)
 				g_variant_new_int64
 				((gint64)(duration*1e6)) );
 
-	playlist_pos_str = g_strdup_printf("%" G_GINT64_FORMAT, playlist_pos);
-	trackid = g_strconcat(	MPRIS_TRACK_ID_PREFIX,
-				playlist_pos_str,
-				NULL );
-	g_variant_builder_add(	&builder,
-				"{sv}",
-				"mpris:trackid",
-				g_variant_new_object_path(trackid) );
+	if(playlist_pos >= 0)
+	{
+		gchar *playlist_pos_str =
+			g_strdup_printf("%" G_GINT64_FORMAT, playlist_pos);
+		gchar *trackid =
+			g_strconcat
+			(MPRIS_TRACK_ID_PREFIX, playlist_pos_str, NULL);
+		GVariant *object_path =
+			g_variant_new_object_path(trackid);
+
+		g_variant_builder_add
+			(&builder, "{sv}", "mpris:trackid", object_path);
+
+		g_free(trackid);
+		g_free(playlist_pos_str);
+	}
 
 	append_metadata_tags(&builder, metadata);
 
@@ -762,8 +768,6 @@ update_metadata(CelluloidMprisPlayer *player)
 
 	g_free(path);
 	g_free(uri);
-	g_free(playlist_pos_str);
-	g_free(trackid);
 }
 
 static void
