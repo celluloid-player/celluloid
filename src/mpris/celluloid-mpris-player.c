@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, 2021 gnome-mpv
+ * Copyright (c) 2015-2019, 2021-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -228,6 +228,12 @@ register_interface(CelluloidMprisModule *module)
 		(	module,
 			model,
 			"notify::metadata",
+			G_CALLBACK(metadata_handler),
+			player );
+	celluloid_mpris_module_connect_signal
+		(	module,
+			model,
+			"notify::playlist-pos",
 			G_CALLBACK(metadata_handler),
 			player );
 	celluloid_mpris_module_connect_signal
