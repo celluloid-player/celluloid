@@ -23,12 +23,13 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
+#include <adwaita.h>
 
 G_BEGIN_DECLS
 
 #define CELLULOID_TYPE_PREFERENCES_DIALOG (celluloid_preferences_dialog_get_type ())
 
-G_DECLARE_FINAL_TYPE(CelluloidPreferencesDialog, celluloid_preferences_dialog, CELLULOID, PREFERENCES_DIALOG, GtkDialog)
+G_DECLARE_FINAL_TYPE(CelluloidPreferencesDialog, celluloid_preferences_dialog, CELLULOID, PREFERENCES_DIALOG, AdwPreferencesWindow)
 
 GtkWidget *
 celluloid_preferences_dialog_new(GtkWindow *parent);
