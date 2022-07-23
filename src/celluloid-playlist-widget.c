@@ -201,29 +201,33 @@ find_match(	CelluloidPlaylistWidget *wgt,
 	guint i = initial_index;
 	gboolean found = FALSE;
 
-	do
+	if(len > 0)
 	{
-		if(!match_current)
+		do
 		{
-			if(reverse)
+			if(!match_current)
 			{
-				i = (i == 0 ? len : i) - 1;
+				if(reverse)
+				{
+					i = (i == 0 ? len : i) - 1;
+				}
+				else
+				{
+					i = i >= len - 1 ? 0 : i + 1;
+				}
 			}
-			else
-			{
-				i = i >= len - 1 ? 0 : i + 1;
-			}
+
+			CelluloidPlaylistItem *item =
+				g_list_model_get_item
+				(G_LIST_MODEL(wgt->model), i);
+			const gchar *title =
+				celluloid_playlist_item_get_title(item);
+
+			found = g_str_match_string(term, title, TRUE);
+			match_current = FALSE;
 		}
-
-		CelluloidPlaylistItem *item =
-			g_list_model_get_item(G_LIST_MODEL(wgt->model), i);
-		const gchar *title =
-			celluloid_playlist_item_get_title(item);
-
-		found = g_str_match_string(term, title, TRUE);
-		match_current = FALSE;
+		while(!found && i != initial_index);
 	}
-	while(!found && i != initial_index);
 
 	if(found)
 	{
