@@ -23,12 +23,13 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
+#include <adwaita.h>
 
 G_BEGIN_DECLS
 
 #define CELLULOID_TYPE_PLUGINS_MANAGER_ITEM (celluloid_plugins_manager_item_get_type ())
 
-G_DECLARE_FINAL_TYPE(CelluloidPluginsManagerItem, celluloid_plugins_manager_item, CELLULOID, PLUGINS_MANAGER_ITEM, GtkListBoxRow)
+G_DECLARE_FINAL_TYPE(CelluloidPluginsManagerItem, celluloid_plugins_manager_item, CELLULOID, PLUGINS_MANAGER_ITEM, AdwActionRow )
 
 GtkWidget *
 celluloid_plugins_manager_item_new(	GtkWindow *parent,
@@ -38,3 +39,4 @@ celluloid_plugins_manager_item_new(	GtkWindow *parent,
 G_END_DECLS
 
 #endif
+

@@ -349,6 +349,10 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
 					ADW_PREFERENCES_PAGE(page));
 
+	page = GTK_WIDGET(celluloid_plugins_manager_new(GTK_WINDOW(dlg)));
+	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
+					ADW_PREFERENCES_PAGE(page) );
+
 	g_signal_connect(	dlg,
 				"close-request",
 				G_CALLBACK(save_settings),
