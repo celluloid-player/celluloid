@@ -203,6 +203,8 @@ find_match(	CelluloidPlaylistWidget *wgt,
 
 	if(len > 0)
 	{
+		gboolean done = FALSE;
+
 		do
 		{
 			if(!match_current)
@@ -224,9 +226,10 @@ find_match(	CelluloidPlaylistWidget *wgt,
 				celluloid_playlist_item_get_title(item);
 
 			found = g_str_match_string(term, title, TRUE);
+			done = found || (!match_current && i == initial_index);
 			match_current = FALSE;
 		}
-		while(!found && i != initial_index);
+		while(!done);
 	}
 
 	if(found)
