@@ -23,6 +23,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
+#include <adwaita.h>
 
 G_BEGIN_DECLS
 
@@ -30,7 +31,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE(CelluloidPluginsManager, celluloid_plugins_manager, CELLULOID, PLUGINS_MANAGER, GtkGrid)
 
-GtkWidget *
+AdwPreferencesPage *
 celluloid_plugins_manager_new(GtkWindow *parent);
 
 void

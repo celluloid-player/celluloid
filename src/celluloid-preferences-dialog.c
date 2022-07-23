@@ -81,7 +81,7 @@ save_settings(AdwPreferencesWindow *dialog)
 {
 	CelluloidPreferencesDialog *dlg = CELLULOID_PREFERENCES_DIALOG(dialog);
 	g_settings_apply(dlg->settings);
-  gtk_window_close(dlg);
+	gtk_window_close(dlg);
 }
 
 static void
@@ -304,10 +304,8 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 					build_page(config_items, dlg->settings, "Config Files", "document-properties-symbolic"));
 	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
 					build_page(misc_items, dlg->settings, "Miscellaneous", "preferences-other-symbolic"));
+	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg), ADW_PREFERENCES_PAGE(celluloid_plugins_manager_new(GTK_WINDOW(dlg))) );
 
-	/* gtk_notebook_append_page(	GTK_NOTEBOOK(dlg->notebook), */
-	/* 				celluloid_plugins_manager_new(GTK_WINDOW(dlg)), */
-	/* 				gtk_label_new(_("Plugins")) ); */
 	g_signal_connect(	dlg,
 				"close_request",
 				G_CALLBACK(save_settings),
