@@ -1381,6 +1381,7 @@ celluloid_view_init(CelluloidView *view)
 	view->volume_max = 100.0;
 	view->duration = 0.0;
 	view->playlist_pos = 0;
+	view->track_list = NULL;
 	view->disc_list = NULL;
 	view->skip_enabled = FALSE;
 	view->loop = FALSE;
