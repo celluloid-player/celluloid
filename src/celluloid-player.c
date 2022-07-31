@@ -39,6 +39,7 @@ enum
 	PROP_0,
 	PROP_PLAYLIST,
 	PROP_METADATA,
+	PROP_CHAPTER_LIST,
 	PROP_TRACK_LIST,
 	PROP_DISC_LIST,
 	PROP_EXTRA_OPTIONS,
@@ -52,6 +53,7 @@ struct _CelluloidPlayerPrivate
 	GVolumeMonitor *monitor;
 	GPtrArray *playlist;
 	GPtrArray *metadata;
+	GPtrArray *chapter_list;
 	GPtrArray *track_list;
 	GPtrArray *disc_list;
 	GHashTable *log_levels;
@@ -131,6 +133,9 @@ load_input_config_file(CelluloidPlayer *player);
 static void
 load_scripts(CelluloidPlayer *player);
 
+static CelluloidChapter *
+convert_mpv_chapter(mpv_node_list *node);
+
 static CelluloidTrack *
 parse_track_entry(mpv_node_list *node);
 
@@ -148,6 +153,9 @@ update_playlist(CelluloidPlayer *player);
 
 static void
 update_metadata(CelluloidPlayer *player);
+
+static void
+update_chapter_list(CelluloidPlayer *player);
 
 static void
 update_track_list(CelluloidPlayer *player);
@@ -180,6 +188,7 @@ set_property(	GObject *object,
 	{
 		case PROP_PLAYLIST:
 		case PROP_METADATA:
+		case PROP_CHAPTER_LIST:
 		case PROP_TRACK_LIST:
 		case PROP_DISC_LIST:
 		g_critical("Attempted to set read-only property");
@@ -212,6 +221,10 @@ get_property(	GObject *object,
 
 		case PROP_METADATA:
 		g_value_set_pointer(value, priv->metadata);
+		break;
+
+		case PROP_CHAPTER_LIST:
+		g_value_set_pointer(value, priv->chapter_list);
 		break;
 
 		case PROP_TRACK_LIST:
@@ -257,6 +270,7 @@ finalize(GObject *object)
 	g_free(priv->extra_options);
 	g_ptr_array_free(priv->playlist, TRUE);
 	g_ptr_array_free(priv->metadata, TRUE);
+	g_ptr_array_free(priv->chapter_list, TRUE);
 	g_ptr_array_free(priv->track_list, TRUE);
 	g_ptr_array_free(priv->disc_list, TRUE);
 
@@ -433,6 +447,10 @@ mpv_property_changed(CelluloidMpv *mpv, const gchar *name, gpointer value)
 	else if(g_strcmp0(name, "metadata") == 0)
 	{
 		update_metadata(player);
+	}
+	else if(g_strcmp0(name, "chapter-list") == 0)
+	{
+		update_chapter_list(player);
 	}
 	else if(g_strcmp0(name, "track-list") == 0)
 	{
@@ -847,6 +865,26 @@ load_scripts(CelluloidPlayer *player)
 	g_free(path);
 }
 
+static CelluloidChapter *
+convert_mpv_chapter(mpv_node_list *node)
+{
+	CelluloidChapter *chapter = celluloid_chapter_new();
+
+	for(gint i = 0; i < node->num; i++)
+	{
+		if(g_strcmp0(node->keys[i], "title") == 0)
+		{
+			chapter->title = g_strdup(node->values[i].u.string);
+		}
+		else if(g_strcmp0(node->keys[i], "time") == 0)
+		{
+			chapter->time = node->values[i].u.double_;
+		}
+	}
+
+	return chapter;
+}
+
 static CelluloidTrack *
 parse_track_entry(mpv_node_list *node)
 {
@@ -1030,6 +1068,37 @@ update_metadata(CelluloidPlayer *player)
 
 		mpv_free_node_contents(&metadata);
 		g_object_notify(G_OBJECT(player), "metadata");
+	}
+}
+
+static void
+update_chapter_list(CelluloidPlayer *player)
+{
+	CelluloidPlayerPrivate *priv = get_private(player);
+	mpv_node_list *org_list = NULL;
+	mpv_node chapter_list;
+
+	g_ptr_array_set_size(priv->track_list, 0);
+	celluloid_mpv_get_property(	CELLULOID_MPV(player),
+					"chapter-list",
+					MPV_FORMAT_NODE,
+					&chapter_list );
+
+	org_list = chapter_list.u.list;
+
+	if(chapter_list.format == MPV_FORMAT_NODE_ARRAY)
+	{
+		for(gint i = 0; i < org_list->num; i++)
+		{
+			CelluloidChapter *chapter =
+				convert_mpv_chapter
+				(org_list->values[i].u.list);
+
+			g_ptr_array_add(priv->chapter_list, chapter);
+		}
+
+		mpv_free_node_contents(&chapter_list);
+		g_object_notify(G_OBJECT(player), "chapter-list");
 	}
 }
 
@@ -1218,6 +1287,13 @@ celluloid_player_class_init(CelluloidPlayerClass *klass)
 	g_object_class_install_property(obj_class, PROP_METADATA, pspec);
 
 	pspec = g_param_spec_pointer
+		(	"chapter-list",
+			"Chapter list",
+			"List of chapters of the current file",
+			G_PARAM_READABLE );
+	g_object_class_install_property(obj_class, PROP_CHAPTER_LIST, pspec);
+
+	pspec = g_param_spec_pointer
 		(	"track-list",
 			"Track list",
 			"Audio, video, and subtitle tracks of the current file",
@@ -1271,6 +1347,8 @@ celluloid_player_init(CelluloidPlayer *player)
 				((GDestroyNotify)celluloid_playlist_entry_free);
 	priv->metadata =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)celluloid_metadata_entry_free);
+	priv->chapter_list =	g_ptr_array_new_with_free_func
+				((GDestroyNotify)celluloid_chapter_free);
 	priv->track_list =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)celluloid_track_free);
 	priv->disc_list =	g_ptr_array_new_with_free_func
