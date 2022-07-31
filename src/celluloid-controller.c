@@ -693,6 +693,9 @@ connect_signals(CelluloidController *controller)
 	g_object_bind_property(	controller->model, "playlist-pos",
 				controller->view, "playlist-pos",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	controller->model, "chapter-list",
+				controller->view, "chapter-list",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	controller->model, "track-list",
 				controller->view, "track-list",
 				G_BINDING_DEFAULT );

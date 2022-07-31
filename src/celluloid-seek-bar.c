@@ -28,6 +28,7 @@
 enum
 {
 	PROP_0,
+	PROP_CHAPTER_LIST,
 	PROP_DURATION,
 	PROP_PAUSE,
 	PROP_ENABLED,
@@ -43,6 +44,7 @@ struct _CelluloidSeekBar
 	GtkWidget *label;
 	GtkWidget *popover;
 	GtkWidget *popover_label;
+	GPtrArray *chapter_list;
 	gdouble pos;
 	gdouble duration;
 	gboolean pause;
@@ -95,6 +97,9 @@ motion_handler(	GtkEventControllerMotion *controller,
 		gpointer data );
 
 static void
+update_chapter_list(CelluloidSeekBar *bar);
+
+static void
 update_label(CelluloidSeekBar *bar);
 
 static gboolean
@@ -120,6 +125,11 @@ set_property(	GObject *object,
 
 	switch(property_id)
 	{
+		case PROP_CHAPTER_LIST:
+		self->chapter_list = g_value_get_pointer(value);
+		update_chapter_list(self);
+		break;
+
 		case PROP_DURATION:
 		self->duration = g_value_get_double(value);
 		update_label(self);
@@ -160,6 +170,10 @@ get_property(	GObject *object,
 
 	switch(property_id)
 	{
+		case PROP_CHAPTER_LIST:
+		g_value_set_pointer(value, self->chapter_list);
+		break;
+
 		case PROP_DURATION:
 		g_value_set_double(value, self->duration);
 		break;
@@ -310,6 +324,22 @@ motion_handler(	GtkEventControllerMotion *controller,
 }
 
 static void
+update_chapter_list(CelluloidSeekBar *bar)
+{
+	GtkScale *seek_bar = GTK_SCALE(bar->seek_bar);
+	GPtrArray *chapter_list = bar->chapter_list;
+
+	gtk_scale_clear_marks(seek_bar);
+
+	for(guint i = 0; i < chapter_list->len; i++)
+	{
+		CelluloidChapter *chapter = g_ptr_array_index(chapter_list, i);
+
+		gtk_scale_add_mark(seek_bar, chapter->time, GTK_POS_TOP, NULL);
+	}
+}
+
+static void
 update_label(CelluloidSeekBar *bar)
 {
 	// When disabled, the effective duration is zero regardless of what the
@@ -346,6 +376,13 @@ celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 	object_class->dispose = dispose;
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
+
+	pspec = g_param_spec_pointer
+		(	"chapter-list",
+			"Chapter list",
+			"The list of chapters in the current file",
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_CHAPTER_LIST, pspec);
 
 	pspec = g_param_spec_double
 		(	"duration",
@@ -410,6 +447,7 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 	bar->label = celluloid_time_label_new();
 	bar->popover = g_object_ref_sink(gtk_popover_new());
 	bar->popover_label = gtk_label_new(NULL);
+	bar->chapter_list = NULL;
 	bar->duration = 0;
 	bar->pause = TRUE;
 	bar->enabled = TRUE;

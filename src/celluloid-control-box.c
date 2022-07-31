@@ -40,6 +40,7 @@ enum
 	PROP_VOLUME,
 	PROP_VOLUME_MAX,
 	PROP_VOLUME_POPUP_VISIBLE,
+	PROP_CHAPTER_LIST,
 	N_PROPERTIES
 };
 
@@ -75,6 +76,7 @@ struct _CelluloidControlBox
 	gdouble volume;
 	gdouble volume_max;
 	gboolean volume_popup_visible;
+	GPtrArray *chapter_list;
 };
 
 struct _CelluloidControlBoxClass
@@ -234,6 +236,10 @@ set_property(	GObject *object,
 		}
 		break;
 
+		case PROP_CHAPTER_LIST:
+		self->chapter_list = g_value_get_pointer(value);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -300,6 +306,10 @@ get_property(	GObject *object,
 
 		case PROP_VOLUME_POPUP_VISIBLE:
 		g_value_set_boolean(value, self->volume_popup_visible);
+		break;
+
+		case PROP_CHAPTER_LIST:
+		g_value_set_pointer(value, self->chapter_list);
 		break;
 
 		default:
@@ -607,6 +617,14 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 	g_object_class_install_property
 		(object_class, PROP_VOLUME_MAX, pspec);
 
+	pspec = g_param_spec_pointer
+		(	"chapter-list",
+			"Chapter list",
+			"The list of chapters for the current file",
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_CHAPTER_LIST, pspec);
+
 	pspec = g_param_spec_boolean
 		(	"volume-popup-visible",
 			"Volume popup visible",
@@ -682,6 +700,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->volume = 0.0;
 	box->volume_max = 100.0;
 	box->volume_popup_visible = FALSE;
+	box->chapter_list = NULL;
 
 	init_button(	box->play_button,
 			"media-playback-start-symbolic",
@@ -774,11 +793,17 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	g_object_bind_property(	box, "duration",
 				box->seek_bar, "duration",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "chapter-list",
+				box->seek_bar, "chapter-list",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "pause",
 				box->seek_bar, "pause",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "enabled",
 				box->seek_bar, "enabled",
+				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "chapter-list",
+				box->secondary_seek_bar, "chapter-list",
 				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "duration",
 				box->secondary_seek_bar, "duration",

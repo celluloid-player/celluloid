@@ -45,6 +45,7 @@ enum
 	PROP_VOLUME_MAX,
 	PROP_DURATION,
 	PROP_PLAYLIST_POS,
+	PROP_CHAPTER_LIST,
 	PROP_TRACK_LIST,
 	PROP_DISC_LIST,
 	PROP_SKIP_ENABLED,
@@ -71,6 +72,7 @@ struct _CelluloidView
 	gdouble volume_max;
 	gdouble duration;
 	gint playlist_pos;
+	GPtrArray *chapter_list;
 	GPtrArray *track_list;
 	GPtrArray *disc_list;
 	gboolean skip_enabled;
@@ -218,6 +220,9 @@ constructed(GObject *object)
 	CelluloidControlBox *control_box =
 		celluloid_main_window_get_control_box(wnd);
 
+	g_object_bind_property(	view, "chapter-list",
+				control_box, "chapter-list",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	view, "duration",
 				control_box, "duration",
 				G_BINDING_DEFAULT );
@@ -383,6 +388,11 @@ set_property(	GObject *object,
 			(playlist, self->playlist_pos);
 		break;
 
+		case PROP_CHAPTER_LIST:
+		self->chapter_list = g_value_get_pointer(value);
+		// TODO: run updates
+		break;
+
 		case PROP_TRACK_LIST:
 		self->track_list = g_value_get_pointer(value);
 		celluloid_main_window_update_track_list(wnd, self->track_list);
@@ -487,6 +497,10 @@ get_property(	GObject *object,
 
 		case PROP_PLAYLIST_POS:
 		g_value_set_int(value, self->playlist_pos);
+		break;
+
+		case PROP_CHAPTER_LIST:
+		g_value_set_pointer(value, self->chapter_list);
 		break;
 
 		case PROP_TRACK_LIST:
@@ -1174,6 +1188,13 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 	g_object_class_install_property(object_class, PROP_PLAYLIST_POS, pspec);
 
 	pspec = g_param_spec_pointer
+		(	"chapter-list",
+			"Chapter list",
+			"The list of chapters in the playing file",
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_CHAPTER_LIST, pspec);
+
+	pspec = g_param_spec_pointer
 		(	"track-list",
 			"Track list",
 			"The list of tracks in the playing file",
@@ -1381,6 +1402,7 @@ celluloid_view_init(CelluloidView *view)
 	view->volume_max = 100.0;
 	view->duration = 0.0;
 	view->playlist_pos = 0;
+	view->chapter_list = NULL;
 	view->track_list = NULL;
 	view->disc_list = NULL;
 	view->skip_enabled = FALSE;

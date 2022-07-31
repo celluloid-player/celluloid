@@ -41,6 +41,7 @@ enum
 {
 	PROP_0,
 	PROP_ALWAYS_FLOATING,
+	PROP_CHAPTER_LIST,
 	N_PROPERTIES
 };
 
@@ -59,6 +60,7 @@ struct _CelluloidMainWindowPrivate
 	gboolean pre_fs_playlist_visible;
 	gint playlist_width;
 	guint resize_tag;
+	GPtrArray *chapter_list;
 	const GPtrArray *track_list;
 	const GPtrArray *disc_list;
 	GtkWidget *header_bar;
@@ -163,6 +165,10 @@ set_property(	GObject *object,
 	{
 		priv->always_floating = g_value_get_boolean(value);
 	}
+	else if(property_id == PROP_CHAPTER_LIST)
+	{
+		priv->chapter_list = g_value_get_pointer(value);
+	}
 	else
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -180,6 +186,10 @@ get_property(	GObject *object,
 	if(property_id == PROP_ALWAYS_FLOATING)
 	{
 		g_value_set_boolean(value, priv->always_floating);
+	}
+	else if(property_id == PROP_ALWAYS_FLOATING)
+	{
+		g_value_set_pointer(value, priv->chapter_list);
 	}
 	else
 	{
@@ -380,7 +390,6 @@ celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
 	obj_class->notify = notify;
 	wgt_class->size_allocate = size_allocate;
 
-
 	pspec = g_param_spec_boolean
 		(	"always-use-floating-controls",
 			"Always use floating controls",
@@ -388,6 +397,13 @@ celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING, pspec);
+
+	pspec = g_param_spec_pointer
+		(	"chapter-list",
+			"Chapter list",
+			"The list of chapters for the current file",
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_CHAPTER_LIST, pspec);
 
 	g_signal_new(	"button-clicked",
 			G_TYPE_FROM_CLASS(klass),
@@ -426,6 +442,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	priv->pre_fs_playlist_visible = FALSE;
 	priv->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	priv->resize_tag = 0;
+	priv->chapter_list = NULL;
 	priv->track_list = NULL;
 	priv->disc_list = NULL;
 	priv->header_bar = celluloid_header_bar_new();
@@ -464,6 +481,9 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 				video_area_header_bar, "menu-button-active",
 				G_BINDING_DEFAULT );
 
+	g_object_bind_property(	priv->control_box, "chapter-list",
+				video_area_control_box, "chapter-list",
+				G_BINDING_DEFAULT );
 	g_object_bind_property(	priv->control_box, "duration",
 				video_area_control_box, "duration",
 				G_BINDING_DEFAULT );

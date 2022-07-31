@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 gnome-mpv
+ * Copyright (c) 2017-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -700,6 +700,7 @@ mpv_prop_change_handler(	CelluloidMpv *mpv,
 {
 	if(	g_strcmp0(name, "playlist") != 0 &&
 		g_strcmp0(name, "metadata") != 0 &&
+		g_strcmp0(name, "chapter-list") != 0 &&
 		g_strcmp0(name, "track-list") != 0 )
 	{
 		GObjectClass *klass;

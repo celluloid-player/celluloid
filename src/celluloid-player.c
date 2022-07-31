@@ -475,6 +475,7 @@ observe_properties(CelluloidMpv *mpv)
 	celluloid_mpv_observe_property(mpv, 0, "aid", MPV_FORMAT_STRING);
 	celluloid_mpv_observe_property(mpv, 0, "vid", MPV_FORMAT_STRING);
 	celluloid_mpv_observe_property(mpv, 0, "sid", MPV_FORMAT_STRING);
+	celluloid_mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
 	celluloid_mpv_observe_property(mpv, 0, "chapters", MPV_FORMAT_INT64);
 	celluloid_mpv_observe_property(mpv, 0, "core-idle", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "idle-active", MPV_FORMAT_FLAG);
@@ -1078,7 +1079,7 @@ update_chapter_list(CelluloidPlayer *player)
 	mpv_node_list *org_list = NULL;
 	mpv_node chapter_list;
 
-	g_ptr_array_set_size(priv->track_list, 0);
+	g_ptr_array_set_size(priv->chapter_list, 0);
 	celluloid_mpv_get_property(	CELLULOID_MPV(player),
 					"chapter-list",
 					MPV_FORMAT_NODE,
@@ -1098,6 +1099,7 @@ update_chapter_list(CelluloidPlayer *player)
 		}
 
 		mpv_free_node_contents(&chapter_list);
+
 		g_object_notify(G_OBJECT(player), "chapter-list");
 	}
 }
