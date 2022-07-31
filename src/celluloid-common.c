@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021 gnome-mpv
+ * Copyright (c) 2014-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -74,6 +74,27 @@ celluloid_metadata_entry_free(CelluloidMetadataEntry *entry)
 		g_free(entry->key);
 		g_free(entry->value);
 		g_free(entry);
+	}
+}
+
+CelluloidChapter *
+celluloid_chapter_new(void)
+{
+	CelluloidChapter *chapter = g_malloc(sizeof(CelluloidChapter));
+
+	chapter->title = NULL;
+	chapter->time = 0.0;
+
+	return chapter;
+}
+
+void
+celluloid_chapter_free(CelluloidChapter *chapter)
+{
+	if(chapter)
+	{
+		g_free(chapter->title);
+		g_free(chapter);
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021 gnome-mpv
+ * Copyright (c) 2014-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -32,6 +32,7 @@ typedef enum TrackType TrackType;
 
 typedef struct _CelluloidPlaylistEntry CelluloidPlaylistEntry;
 typedef struct _CelluloidMetadataEntry CelluloidMetadataEntry;
+typedef struct CelluloidChapter CelluloidChapter;
 typedef struct CelluloidTrack CelluloidTrack;
 typedef struct CelluloidDisc CelluloidDisc;
 
@@ -56,6 +57,12 @@ struct _CelluloidMetadataEntry
 {
 	gchar *key;
 	gchar *value;
+};
+
+struct CelluloidChapter
+{
+	gchar *title;
+	gdouble time;
 };
 
 struct CelluloidTrack
@@ -83,6 +90,12 @@ celluloid_metadata_entry_new(const gchar *key, const gchar *value);
 
 void
 celluloid_metadata_entry_free(CelluloidMetadataEntry *entry);
+
+CelluloidChapter *
+celluloid_chapter_new(void);
+
+void
+celluloid_chapter_free(CelluloidChapter *entry);
 
 CelluloidTrack *
 celluloid_track_new(void);
