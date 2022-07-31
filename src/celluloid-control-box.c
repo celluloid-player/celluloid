@@ -681,6 +681,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->shuffle = FALSE;
 	box->volume = 0.0;
 	box->volume_max = 100.0;
+	box->volume_popup_visible = FALSE;
 
 	init_button(	box->play_button,
 			"media-playback-start-symbolic",
