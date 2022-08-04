@@ -1425,7 +1425,14 @@ celluloid_player_remove_playlist_entry(CelluloidPlayer *player, gint64 position)
 	gboolean idle_active =	celluloid_mpv_get_property_flag
 				(mpv, "idle-active");
 
-	if(!idle_active)
+	if(idle_active)
+	{
+		CelluloidPlayerPrivate *priv = get_private(player);
+
+		g_ptr_array_remove_index(priv->playlist, (guint)position);
+		g_object_notify(G_OBJECT(player), "playlist");
+	}
+	else
 	{
 		const gchar *cmd[] = {"playlist_remove", NULL, NULL};
 		gchar *index_str =	g_strdup_printf
