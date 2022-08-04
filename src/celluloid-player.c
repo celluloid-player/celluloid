@@ -1468,6 +1468,8 @@ celluloid_player_move_playlist_entry(	CelluloidPlayer *player,
 		/* Prevent the entry from being freed */
 		*entry = NULL;
 		g_ptr_array_remove_index(playlist, (guint)((src > dst)?--src:src));
+
+		g_object_notify(G_OBJECT(player), "playlist");
 	}
 	else
 	{
