@@ -371,11 +371,14 @@ static void
 celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
 	object_class->dispose = dispose;
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
+
+	gtk_widget_class_set_css_name(widget_class, "celluloid-seek-bar");
 
 	pspec = g_param_spec_pointer
 		(	"chapter-list",
