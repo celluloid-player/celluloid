@@ -228,11 +228,7 @@ set_property(	GObject *object,
 
 		case PROP_IDLE_ACTIVE:
 		self->idle_active = g_value_get_boolean(value);
-
-		if(self->idle_active)
-		{
-			g_object_notify(object, "playlist-pos");
-		}
+		g_object_notify(object, "playlist-pos");
 		break;
 
 		case PROP_BORDER:
@@ -402,7 +398,12 @@ get_property(	GObject *object,
 		break;
 
 		case PROP_PLAYLIST_POS:
-		g_value_set_int64(value, self->idle_active?0:self->playlist_pos);
+		{
+			const gint64 playlist_pos =
+				self->idle_active ? -1 : self->playlist_pos;
+
+			g_value_set_int64(value, playlist_pos);
+		}
 		break;
 
 		case PROP_SPEED:
