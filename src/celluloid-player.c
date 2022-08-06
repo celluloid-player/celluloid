@@ -1456,18 +1456,15 @@ celluloid_player_move_playlist_entry(	CelluloidPlayer *player,
 
 	if(idle_active)
 	{
-		GPtrArray *playlist;
-		CelluloidPlaylistEntry **entry;
+		GPtrArray *playlist =
+			get_private(player)->playlist;
+		const gint64 entry_index =
+			(src > dst) ? src - 1 : src;
+		CelluloidPlaylistEntry *entry =
+			g_ptr_array_index(playlist, entry_index);
 
-		playlist = get_private(player)->playlist;
-		entry = (CelluloidPlaylistEntry **)
-			&g_ptr_array_index(playlist, src);
-
-		g_ptr_array_insert(playlist, (gint)dst, *entry);
-
-		/* Prevent the entry from being freed */
-		*entry = NULL;
-		g_ptr_array_remove_index(playlist, (guint)((src > dst)?--src:src));
+		g_ptr_array_insert(playlist, (gint)dst, entry);
+		g_ptr_array_steal_index(playlist, (guint)src);
 
 		g_object_notify(G_OBJECT(player), "playlist");
 	}
