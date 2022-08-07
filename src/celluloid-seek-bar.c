@@ -314,11 +314,56 @@ motion_handler(	GtkEventControllerMotion *controller,
 		((gint)x - trough_start) / (gdouble)trough_length;
 	const gdouble time =
 		lower + progress * (upper - lower - page_size);
-	gchar *text =
+	gchar *time_text =
 		format_time((gint)time, bar->duration >= 3600);
 
-	gtk_label_set_text(GTK_LABEL(bar->popover_label), text);
-	g_free(text);
+	GPtrArray *chapter_list = bar->chapter_list;
+	const gchar *title_text = NULL;
+
+	for(guint i = 0; !title_text && i < chapter_list->len; i++)
+	{
+		CelluloidChapter *chapter = g_ptr_array_index(chapter_list, i);
+
+		if(chapter->time > time)
+		{
+			// At this point, we should be looking at the chapter
+			// after the one we need. To get to the right chapter,
+			// subtract the index by one. If we're already at the
+			// first chapter, just pick that one.
+			chapter = g_ptr_array_index(chapter_list, MAX(1, i) - 1);
+			title_text = chapter->title;
+		}
+		else if(i == chapter_list->len - 1)
+		{
+			// The time should be beyond the last chapter's in this
+			// case, meaning the last chapter (the current index)
+			// is the one we need.
+			chapter = g_ptr_array_index(chapter_list, i);
+			title_text = chapter->title;
+		}
+	}
+
+	GtkLabel *label = GTK_LABEL(bar->popover_label);
+
+	if(title_text)
+	{
+		gchar *markup =
+			g_markup_printf_escaped
+			(	"<b>%s</b>\r<span>%s</span>",
+				title_text,
+				time_text );
+
+		gtk_label_set_markup(label, markup);
+		gtk_label_set_justify(label, GTK_JUSTIFY_CENTER);
+
+		g_free(markup);
+	}
+	else
+	{
+		gtk_label_set_text(label, time_text);
+	}
+
+	g_free(time_text);
 
 	return FALSE;
 }
