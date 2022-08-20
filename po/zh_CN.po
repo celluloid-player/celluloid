@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-03-18 10:34+0000\n"
-"Last-Translator: zhmars <1403122061@qq.com>\n"
+"PO-Revision-Date: 2022-07-21 09:16+0000\n"
+"Last-Translator: kak mi <wavelake@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "celluloid/celluloid/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -35,10 +35,8 @@ msgid "Automatically resize window to fit video"
 msgstr "自动调整窗口大小以适合视频"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
-#, fuzzy
-#| msgid "Enable dark theme"
 msgid "Prefer dark theme"
-msgstr "启用暗色主题"
+msgstr "使用暗色主题"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
@@ -63,14 +61,12 @@ msgid ""
 msgstr "光标移动不会导致显示控件的死区大小。"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-#, fuzzy
-#| msgid "Use skip buttons for controlling playlist"
 msgid "Use skip buttons to control the playlist"
 msgstr "使用跳转按钮控制播放列表"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr ""
+msgstr "记住文件选择器中的最后一个位置"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -93,21 +89,14 @@ msgstr ""
 "钮将在全屏模式下隐藏。"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Give focus to the window when opening new files"
-msgstr "打开新文件时显示窗口"
+msgstr "打开新文件时聚焦窗口"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
-#, fuzzy
-#| msgid ""
-#| "If true, Celluloid will attempt to present its window to the user when a "
-#| "new file is opened. If false, no attempt will be made."
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
-msgstr ""
-"如果为 true，则 Celluloid 将尝试在打开新文件时向用户显示其窗口。如果为 "
+msgstr "如果为 true，则 Celluloid 将尝试在打开新文件时聚焦到其窗口。如果为 "
 "false，则不会进行任何尝试。"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
@@ -141,7 +130,7 @@ msgstr "启用媒体键支持"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "启用菜单栏加速键处理"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
@@ -157,7 +146,7 @@ msgstr "禁止会话空闲"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:168
 msgid "Make video area draggable"
-msgstr ""
+msgstr "使视频区域可拖动"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
@@ -184,16 +173,12 @@ msgid "Width of the playlist"
 msgstr "播放列表宽度"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
-#, fuzzy
-#| msgid "Show or not show the controls"
 msgid "Show/hide the controls"
-msgstr "是否显示控制栏"
+msgstr "显示/隐藏控制栏"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
-#| msgid "Show or not show the playlist"
 msgid "Show/hide the playlist"
-msgstr "是否显示播放列表"
+msgstr "显示/隐藏播放列表"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -242,32 +227,28 @@ msgid "The Celluloid Developers"
 msgstr "Celluloid 开发者"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "该发布版本包含了以下变更："
+msgstr "这基本是一个错误修复发布版本，包含了以下变更："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "无论设置如何，修复自动调整触发。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-#, fuzzy
-#| msgid "Retain window maximization state across sessions."
 msgid "Fix window size shrinking across sessions."
-msgstr "跨会话保留窗口最大化状态。"
+msgstr "修复跨会话窗口尺寸缩小。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
-msgstr ""
+msgstr "修复播放名称包含无效编码的文件时崩溃。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
-msgstr ""
+msgstr "修复拖放无法与某些文件管理器一起使用的问题。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
-msgstr ""
+msgstr "修复了在删除最后一个播放列表项时开始播放的问题。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
@@ -296,60 +277,48 @@ msgstr "该发布版本包含了以下变更："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "迁移到 GTK4。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Greek translation by @lepa22."
-msgstr "添加 @aldatsa 贡献的巴斯克语翻译。"
+msgstr "添加 @lepa22 贡献的希腊语翻译。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "添加 @vl-nix 贡献的乌克兰语翻译"
+msgstr "添加 @jullee96 贡献的韩语翻译。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr ""
+msgstr "添加 Allan Nordhøy 的挪威 Bokmål 翻译。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "添加 @F3nd0 贡献的世界语翻译"
+msgstr "添加 OIS 贡献的西方语翻译。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "添加 @TeknoMobil 贡献的土耳其语翻译"
+msgstr "添加 Mohamed Benkouider. 贡献的阿拉伯语翻译。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "添加 @aldatsa 贡献的巴斯克语翻译。"
+msgstr "添加 Ahmed Iqbal 贡献的乌尔都语翻译。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
+msgstr "添加选项以在全屏模式下显示标题按钮。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Add option to present the window when opening files."
-msgstr "打开新文件时显示窗口"
+msgstr "添加选项以在打开文件时显示窗口。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
-msgstr ""
+msgstr "将默认屏幕截图文件名模板更改为 FILENAME-TIMESTAMP (%f-%P)。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
-msgstr ""
+msgstr "修复不准确的时间戳预览。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid "Add Basque translation by @aldatsa."
@@ -686,7 +655,7 @@ msgstr "VALUE"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
-msgstr ""
+msgstr "无效编码"
 
 #: src/celluloid-control-box.c:412
 msgid "Pause"
@@ -799,10 +768,8 @@ msgid "_File"
 msgstr "文件(_F)"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-#, fuzzy
-#| msgid "Open File…"
 msgid "_Open File…"
-msgstr "打开文件…"
+msgstr "_打开文件…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
