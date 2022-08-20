@@ -115,7 +115,7 @@ AC_OUTPUT
 
 echo "
 ################################################################################
-#         THE AUTOMAKE BUILD SCRIPT IS DEPRECATED. USE MESON INSTEAD.          #
+#    THE AUTOMAKE BUILD SCRIPT IS DEPRECATED. CONSIDER USING MESON INSTEAD.    #
 ################################################################################
 
 	$PACKAGE $VERSION
