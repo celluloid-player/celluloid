@@ -1,7 +1,7 @@
 AC_PREREQ([2.69])
 
 AC_INIT(	[celluloid],
-		[0.23],
+		[0.24],
 		[http://github.com/celluloid-player/celluloid/issues],
 		[celluloid],
 		[http://github.com/celluloid/celluloid] )
