@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-06-01 22:16+0000\n"
+"PO-Revision-Date: 2022-07-30 19:25+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "celluloid/celluloid/pt_PT/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -90,23 +90,16 @@ msgstr ""
 "inteiro."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Give focus to the window when opening new files"
-msgstr "Janela presente ao abrir novos ficheiros"
+msgstr "Dar enfoque à janela ao abrir novos ficheiros"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
-#, fuzzy
-#| msgid ""
-#| "If true, Celluloid will attempt to present its window to the user when a "
-#| "new file is opened. If false, no attempt will be made."
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
-"Se verdadeiro, o Celluloid tentará apresentar a sua janela ao utilizador "
-"quando um novo ficheiro for aberto. Se falso, não será feita qualquer "
-"tentativa."
+"Se verdadeiro, o Celluloid dará enfoque à janela quando um novo ficheiro for "
+"aberto. Se falso, não será feita qualquer tentativa."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 #: src/celluloid-application.c:600
@@ -139,7 +132,7 @@ msgstr "Ativar teclas multimédia"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "Ativar gestão de teclas do acelerador da barra de menus"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
@@ -155,7 +148,7 @@ msgstr "Inibir a sessão inativa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:168
 msgid "Make video area draggable"
-msgstr ""
+msgstr "Tornar a área de vídeo arrastável"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
@@ -183,16 +176,12 @@ msgid "Width of the playlist"
 msgstr "Largura da lista de reprodução"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
-#, fuzzy
-#| msgid "Show or not show the controls"
 msgid "Show/hide the controls"
-msgstr "Mostrar ou não mostrar os controlos"
+msgstr "Mostrar/ocultar os controlos"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
-#| msgid "Show or not show the playlist"
 msgid "Show/hide the playlist"
-msgstr "Mostrar ou não a lista de reprodução"
+msgstr "Mostrar/ocultar a lista de reprodução"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -244,32 +233,37 @@ msgid "The Celluloid Developers"
 msgstr "Os programadores do Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "Esta versão contém as seguintes alterações:"
+msgstr ""
+"Esta é sobretudo uma versão de correção de bugs. Contém as seguintes "
+"alterações:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
 msgstr ""
+"Corrige o acionamento de ajuste automático, independentemente das definições."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-#, fuzzy
-#| msgid "Retain window maximization state across sessions."
 msgid "Fix window size shrinking across sessions."
-msgstr "Manter o estado de maximização da janela ao longo das sessões."
+msgstr "Corrige a redução do tamanho da janela entre as sessões."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
+"Corrige a falha ao reproduzir ficheiros com nomes que contenham codificação "
+"inválida."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
 msgstr ""
+"Corrige o arrastar e largar de não funcionar com alguns gestores de "
+"ficheiros."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
+"Corrige o início da reprodução quando o último item da lista de reprodução é "
+"removido."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
@@ -300,60 +294,51 @@ msgstr "Esta versão contém as seguintes alterações:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "Migração para GTK4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Greek translation by @lepa22."
-msgstr "Tradução Basca adicionada por @aldatsa."
+msgstr "Tradução Grega adicionada por @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "Tradução ucraniana por @vl-nix"
+msgstr "Tradução Coreana adicionada por @jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr ""
+msgstr "Tradução Norueguesa de Bokmål adicicionada por Allan Nordhøy."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "Tradução para esperanto por @F3nd0"
+msgstr "Tradução Ocidental adicionada por OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Tradução para turco por @TeknoMobil"
+msgstr "Tradução Árabe adicionada por Mohamed Benkouider."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Tradução Basca adicionada por @aldatsa."
+msgstr "Tradução Urdu adicionada por Ahmed Iqbal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
 msgstr ""
+"Adicionada a opção para mostrar botões de título em modo de ecrã inteiro."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Add option to present the window when opening files."
-msgstr "Janela presente ao abrir novos ficheiros"
+msgstr "Adicionada a opção para apresentar a janela ao abrir ficheiros."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"Alterado o modelo de ficheiro de captura de ecrã predefinido para FILENAME-"
+"TIMESTAMP (%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
-msgstr ""
+msgstr "Corrige a visualização de carimbo de data/hora imprecisa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid "Add Basque translation by @aldatsa."
@@ -736,7 +721,7 @@ msgstr "VALOR"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
-msgstr ""
+msgstr "codificação inválida"
 
 #: src/celluloid-control-box.c:412
 msgid "Pause"
@@ -849,10 +834,8 @@ msgid "_File"
 msgstr "_Ficheiro"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-#, fuzzy
-#| msgid "Open File…"
 msgid "_Open File…"
-msgstr "Abrir ficheiro…"
+msgstr "_Abrir ficheiro…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"

@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-03-21 22:56+0000\n"
-"Last-Translator: menom <menom1@protonmail.com>\n"
+"PO-Revision-Date: 2022-08-05 08:18+0000\n"
+"Last-Translator: Jan Škrle <j.skrle@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/cs/>\n"
 "Language: cs\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -33,10 +33,8 @@ msgid "Automatically resize window to fit video"
 msgstr "Automaticky přizpůsobit velikost okna podle videa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
-#, fuzzy
-#| msgid "Enable dark theme"
 msgid "Prefer dark theme"
-msgstr "Povolit tmavý motiv"
+msgstr "Preferovat tmavý motiv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
@@ -65,14 +63,12 @@ msgstr ""
 "prvků."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-#, fuzzy
-#| msgid "Use skip buttons for controlling playlist"
 msgid "Use skip buttons to control the playlist"
 msgstr "Použít tlačítka pro přeskakování pro ovládání seznamu přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr ""
+msgstr "Zapamatovat poslední otevřenou složku"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -96,10 +92,8 @@ msgstr ""
 "obrazovku."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Give focus to the window when opening new files"
-msgstr "Při otevírání nových souborů zobrazit okno"
+msgstr "Při otevírání nových souborů přejít na okno"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
 #, fuzzy
@@ -144,7 +138,7 @@ msgstr "Zapnout podporu multimediálních kláves"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "Povolit klávesové zkratky v menu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
@@ -160,7 +154,7 @@ msgstr "Zakázat přerušení relace"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:168
 msgid "Make video area draggable"
-msgstr ""
+msgstr "Umožnit přetahování plochou přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
@@ -187,16 +181,12 @@ msgid "Width of the playlist"
 msgstr "Šířka seznamu přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
-#, fuzzy
-#| msgid "Show or not show the controls"
 msgid "Show/hide the controls"
-msgstr "Zobrazit nebo nezobrazit ovládací tlačítka"
+msgstr "Zobrazit/schovat ovládací tlačítka"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
-#| msgid "Show or not show the playlist"
 msgid "Show/hide the playlist"
-msgstr "Zobrazit nebo nezobrazit seznam přehrávání"
+msgstr "Zobrazit/schovat seznam přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -247,24 +237,21 @@ msgid "The Celluloid Developers"
 msgstr "Vývojáři aplikace Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "Tato verze obsahuje následující změny:"
+msgstr "Tato verze převážně opravuje chyby. Obsahuje následující změny:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-#, fuzzy
-#| msgid "Retain window maximization state across sessions."
 msgid "Fix window size shrinking across sessions."
-msgstr "Zachovat stav maximalizace okna napříč relacemi."
+msgstr "Oprava zmenšováni okna mezi sezeními."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
+"Oprava pádu aplikace při přehrávání souborů s nevalidním kódováním v názvu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
@@ -301,13 +288,11 @@ msgstr "Tato verze obsahuje následující změny:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "Přechod na GTK4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Greek translation by @lepa22."
-msgstr "Přidán baskický překlad od @aldatsa."
+msgstr "Přidán řecký překlad od @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
 #, fuzzy
