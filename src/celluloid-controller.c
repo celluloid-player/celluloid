@@ -379,7 +379,12 @@ dispose(GObject *object)
 	{
 		celluloid_view_make_gl_context_current(controller->view);
 		g_clear_object(&controller->model);
-		g_object_unref(controller->view);
+
+		// As of GTK 4.6.7, if the view is freed by calling
+		// g_object_unref(), it will never be removed from the list of
+		// toplevels. gtk_window_destroy() is used here instead to
+		// ensure that it's removed.
+		gtk_window_destroy(GTK_WINDOW(controller->view));
 		controller->view = NULL;
 	}
 
