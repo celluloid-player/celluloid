@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -47,7 +47,7 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{"<Ctrl>l", _("Open location")},
 			{"<Ctrl><Shift>o", _("Add file to playlist")},
 			{"<Ctrl><Shift>l", _("Add location to playlist")},
-			{"<Ctrl>p", _("Show preferences dialog")},
+			{"<Ctrl>comma", _("Show preferences dialog")},
 			{"<Ctrl>h", _("Toggle controls")},
 			{"F9", _("Toggle playlist")},
 			{"F11 f", _("Toggle fullscreen mode")},
