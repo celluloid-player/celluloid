@@ -29,7 +29,7 @@ mpv's powerful playback capabilities.
 - OpenSUSE: https://software.opensuse.org/package/celluloid
 - Gentoo: https://packages.gentoo.org/packages/media-video/celluloid
 - Guix: https://guix.gnu.org/en/packages/celluloid-0.20
-- Solus: https://packages.getsol.us/shannon/g/gnome-mpv/
+- Solus: https://packages.getsol.us/shannon/c/celluloid/
 - Ubuntu: https://launchpad.net/~xuzhen666/+archive/ubuntu/gnome-mpv
 
 ### Flatpak
