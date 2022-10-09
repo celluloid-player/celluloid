@@ -23,7 +23,6 @@
 #include "celluloid-model.h"
 #include "celluloid-view.h"
 #include "mpris/celluloid-mpris.h"
-#include "media-keys/celluloid-media-keys.h"
 
 G_BEGIN_DECLS
 
@@ -56,7 +55,6 @@ struct _CelluloidController
 	guint resize_timeout_tag;
 	GBinding *skip_buttons_binding;
 	GSettings *settings;
-	CelluloidMediaKeys *media_keys;
 	CelluloidMpris *mpris;
 };
 

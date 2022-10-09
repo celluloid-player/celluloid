@@ -32,8 +32,6 @@ sources = [
   'celluloid-video-area.c',
   'celluloid-view.c',
 
-  'media-keys/celluloid-media-keys.c',
-
   'mpris/celluloid-mpris.c',
   'mpris/celluloid-mpris-module.c',
   'mpris/celluloid-mpris-base.c',

@@ -67,9 +67,6 @@ static void
 mpris_enable_handler(GSettings *settings, gchar *key, gpointer data);
 
 static void
-media_keys_enable_handler(GSettings *settings, gchar *key, gpointer data);
-
-static void
 view_ready_handler(CelluloidView *view, gpointer data);
 
 static void
@@ -272,19 +269,10 @@ constructed(GObject *object)
 				"changed::mpris-enable",
 				G_CALLBACK(mpris_enable_handler),
 				controller );
-	g_signal_connect(	controller->settings,
-				"changed::media-keys-enable",
-				G_CALLBACK(media_keys_enable_handler),
-				controller );
 
 	if(g_settings_get_boolean(controller->settings, "mpris-enable"))
 	{
 		controller->mpris = celluloid_mpris_new(controller);
-	}
-
-	if(g_settings_get_boolean(controller->settings, "media-keys-enable"))
-	{
-		controller->media_keys = celluloid_media_keys_new(controller);
 	}
 
 	G_OBJECT_CLASS(celluloid_controller_parent_class)->constructed(object);
@@ -372,7 +360,6 @@ dispose(GObject *object)
 
 	g_clear_object(&controller->settings);
 	g_clear_object(&controller->mpris);
-	g_clear_object(&controller->media_keys);
 
 	g_source_clear(&controller->update_seekbar_id);
 	g_source_clear(&controller->resize_timeout_tag);
@@ -433,21 +420,6 @@ mpris_enable_handler(GSettings *settings, gchar *key, gpointer data)
 	else if(controller->mpris)
 	{
 		g_clear_object(&controller->mpris);
-	}
-}
-
-static void
-media_keys_enable_handler(GSettings *settings, gchar *key, gpointer data)
-{
-	CelluloidController *controller = data;
-
-	if(!controller->media_keys && g_settings_get_boolean(settings, key))
-	{
-		controller->media_keys = celluloid_media_keys_new(controller);
-	}
-	else if(controller->media_keys)
-	{
-		g_clear_object(&controller->media_keys);
 	}
 }
 
@@ -1357,7 +1329,6 @@ celluloid_controller_init(CelluloidController *controller)
 	controller->resize_timeout_tag = 0;
 	controller->skip_buttons_binding = NULL;
 	controller->settings = g_settings_new(CONFIG_ROOT);
-	controller->media_keys = NULL;
 	controller->mpris = NULL;
 }
 

@@ -34,8 +34,6 @@ celluloid-authors.h: $(top_srcdir)/AUTHORS
 		/^[^#].+/{print "\"" $$0 "\",\\"} \
 		END{print "NULL}\n\n#endif"}' $< > $@
 
-media_key_files = media-keys/celluloid-media-keys.c media-keys/celluloid-media-keys.h
-
 BUILT_SOURCES = $(mpris_generated) $(marshal_generated) $(authors_generated)
 
 celluloid_SOURCES =	celluloid-main.c celluloid-def.h \
@@ -69,8 +67,7 @@ celluloid_SOURCES =	celluloid-main.c celluloid-def.h \
 			celluloid-time-label.c celluloid-time-label.h \
 			celluloid-video-area.c celluloid-video-area.h \
 			celluloid-view.c celluloid-view.h \
-			$(mpris_files) $(marshal_files) $(media_key_files) \
-			$(authors_files)
+			$(mpris_files) $(marshal_files) $(authors_files)
 
 celluloid_CFLAGS =	$(DEPS_CFLAGS) \
 			-DG_SETTINGS_ENABLE_BACKEND \

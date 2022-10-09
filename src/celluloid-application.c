@@ -121,7 +121,6 @@ migrate_config()
 				"mpv-input-config-file",
 				"mpv-input-config-enable",
 				"mpris-enable",
-				"media-keys-enable",
 				"prefetch-metadata",
 				NULL };
 
