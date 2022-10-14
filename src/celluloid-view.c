@@ -19,6 +19,7 @@
 
 #include <glib/gi18n.h>
 #include <gdk/gdk.h>
+#include <adwaita.h>
 
 #ifdef GDK_WINDOWING_WAYLAND
 #include <gdk/wayland/gdkwayland.h>
@@ -1587,24 +1588,28 @@ celluloid_view_show_shortcuts_dialog(CelluloidView *view)
 }
 
 void
-celluloid_view_show_about_dialog(CelluloidView *view)
+celluloid_view_show_about_window (CelluloidView *view)
 {
 	const gchar *const authors[] = AUTHORS;
 
-	gtk_show_about_dialog(	GTK_WINDOW(view),
-				"logo-icon-name",
+	adw_show_about_window(	GTK_WINDOW(view),
+				"application-icon",
 				ICON_NAME,
+				"application-name",
+				g_get_application_name(),
+				"developer-name",
+				"The Celluloid Developers",
 				"version",
 				VERSION,
-				"comments",
-				_("A GTK frontend for MPV"),
 				"website",
-				"https://github.com/celluloid-player/celluloid",
+				"https://celluloid-player.github.io/",
+				"issue-url",
+				"https://celluloid-player.github.io/bug-reports.html",
 				"license-type",
 				GTK_LICENSE_GPL_3_0,
 				"copyright",
 				"\u00A9 2014-2022 The Celluloid authors",
-				"authors",
+				"developers",
 				authors,
 				"translator-credits",
 				_("translator-credits"),

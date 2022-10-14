@@ -63,7 +63,7 @@ void
 celluloid_view_show_shortcuts_dialog(CelluloidView *view);
 
 void
-celluloid_view_show_about_dialog(CelluloidView *view);
+celluloid_view_show_about_window(CelluloidView *view);
 
 void
 celluloid_view_show_message_dialog(	CelluloidView *view,
