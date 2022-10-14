@@ -553,7 +553,7 @@ set_video_size_handler(GSimpleAction *action, GVariant *param, gpointer data)
 static void
 show_about_dialog_handler(GSimpleAction *action, GVariant *param, gpointer data)
 {
-	celluloid_view_show_about_dialog(celluloid_controller_get_view(data));
+	celluloid_view_show_about_window(celluloid_controller_get_view(data));
 }
 
 void
