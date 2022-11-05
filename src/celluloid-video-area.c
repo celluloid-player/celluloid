@@ -361,9 +361,15 @@ pressed_handler(	GtkGestureClick *self,
 			gdouble y,
 			gpointer data )
 {
+	CelluloidVideoArea *area = CELLULOID_VIDEO_AREA(data);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 
-	if(g_settings_get_boolean(settings, "draggable-video-area-enable"))
+	const gboolean hovering =
+		area->fs_control_hover;
+	const gboolean draggable =
+		g_settings_get_boolean(settings, "draggable-video-area-enable");
+
+	if(draggable && !hovering)
 	{
 		GdkSurface *surface = gtk_widget_get_surface(GTK_WIDGET(data));
 		GdkToplevel *toplevel = GDK_TOPLEVEL(surface);
