@@ -909,12 +909,13 @@ celluloid_main_window_set_controls_visible(	CelluloidMainWindow *wnd,
 	const gboolean fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(wnd));
 
 	gtk_widget_set_visible
-		(GTK_WIDGET(priv->control_box), visible && !fullscreen && !floating);
+		(	GTK_WIDGET(priv->control_box),
+			visible && !fullscreen && !floating );
 	celluloid_video_area_set_control_box_visible
-		(CELLULOID_VIDEO_AREA(priv->video_area), visible && fullscreen);
-	g_settings_set_boolean
-		(settings, "show-controls", visible);
+		(	CELLULOID_VIDEO_AREA(priv->video_area),
+			visible && (fullscreen || floating) );
 
+	g_settings_set_boolean (settings, "show-controls", visible);
 	g_clear_object(&settings);
 }
 
@@ -923,8 +924,9 @@ celluloid_main_window_get_controls_visible(CelluloidMainWindow *wnd)
 {
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 	CelluloidVideoArea *video_area = CELLULOID_VIDEO_AREA(priv->video_area);
+	const gboolean floating = priv->use_floating_controls;
 
-	return	gtk_window_is_fullscreen(GTK_WINDOW(wnd)) ?
+	return	(floating || gtk_window_is_fullscreen(GTK_WINDOW(wnd))) ?
 		celluloid_video_area_get_control_box_visible(video_area) :
 		gtk_widget_get_visible(GTK_WIDGET(priv->control_box));
 }
