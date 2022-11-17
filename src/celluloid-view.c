@@ -264,7 +264,7 @@ constructed(GObject *object)
 				G_CALLBACK(render_handler),
 				view );
 
-	GType types[] = {G_TYPE_STRING, GDK_TYPE_FILE_LIST};
+	GType types[] = {GDK_TYPE_FILE_LIST, G_TYPE_STRING};
 
 	GtkDropTarget *video_area_drop_target =
 		gtk_drop_target_new(G_TYPE_INVALID, GDK_ACTION_COPY);
