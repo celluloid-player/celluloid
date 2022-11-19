@@ -527,7 +527,7 @@ file_open_handler(	CelluloidView *view,
 	for(guint i = 0; i < files_count; i++)
 	{
 		GFile *file = g_list_model_get_item(files, i);
-		gchar *uri = g_file_get_uri(file);
+		gchar *uri = g_file_get_path(file) ?: g_file_get_uri(file);
 
 		celluloid_model_load_file(model, uri, append || i > 0);
 
