@@ -48,7 +48,6 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{"<Ctrl><Shift>o", _("Add file to playlist")},
 			{"<Ctrl><Shift>l", _("Add location to playlist")},
 			{"<Ctrl>comma", _("Show preferences dialog")},
-			{"<Ctrl>h", _("Toggle controls")},
 			{"F9", _("Toggle playlist")},
 			{"F11 f", _("Toggle fullscreen mode")},
 			{"Escape", _("Leave fullscreen mode")},

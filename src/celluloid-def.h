@@ -101,7 +101,6 @@
 		"Ctrl+q quit",\
 		"Ctrl+? script-message celluloid-action win.show-shortcuts-dialog",\
 		"Ctrl+, script-message celluloid-action win.show-preferences-dialog",\
-		"Ctrl+h script-message celluloid-action win.toggle-controls",\
 		"F9 script-message celluloid-action win.toggle-playlist",\
 		"DEL script-message celluloid-action win.remove-selected-playlist-item",\
 		"U stop",\
