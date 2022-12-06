@@ -657,15 +657,10 @@ load_file(CelluloidMpv *mpv, const gchar *uri, gboolean append)
 			->load_file(mpv, uri, append);
 	}
 
-	/* Playlist items added when mpv is idle doesn't get added directly to
-	 * its internal playlist, so the property change signal won't be fired.
-	 * We need to emit notify signal here manually to ensure that the
-	 * playlist widget gets updated.
-	 */
-	if(idle_active)
-	{
-		g_object_notify(G_OBJECT(player), "playlist");
-	}
+    /* The playlist will be notified when idle due to
+     * update_playlist(), when mpv_property_changed signals.
+     * The playlist view should not be regenerated for every loaded file.
+     */
 }
 
 static void
