@@ -328,6 +328,10 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 				"released",
 				G_CALLBACK(button_released_handler),
 				controller );
+	g_signal_connect(	click_gesture,
+				"stopped",
+				G_CALLBACK(button_released_handler),
+				controller );
 
 	GtkEventController *motion_controller =
 		gtk_event_controller_motion_new();
