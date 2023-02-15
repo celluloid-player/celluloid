@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "celluloid-file-chooser.h"
 #include "celluloid-file-chooser-button.h"
 
 enum
@@ -33,7 +34,7 @@ enum
 struct _CelluloidFileChooserButton
 {
 	GtkButton parent;
-	GtkWidget *dialog;
+	CelluloidFileChooser *file_chooser;
 	GtkWidget *label;
 	GFile *file;
 
@@ -68,7 +69,7 @@ static void
 set_file(CelluloidFileChooserButton *self, GFile *file);
 
 static void
-handle_response(GtkDialog *dialog, gint response_id, gpointer data);
+handle_response(GtkNativeDialog *file_chooser, gint response_id, gpointer data);
 
 G_DEFINE_TYPE(CelluloidFileChooserButton, celluloid_file_chooser_button, GTK_TYPE_BUTTON)
 
@@ -126,7 +127,7 @@ finalize(GObject *object)
 {
 	CelluloidFileChooserButton *button = CELLULOID_FILE_CHOOSER_BUTTON(object);
 
-	gtk_window_destroy(GTK_WINDOW(button->dialog));
+	gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(button->file_chooser));
 	g_clear_object(&button->file);
 	g_clear_object(&button->title);
 
@@ -140,8 +141,10 @@ clicked(GtkButton *button)
 	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(button);
 	GtkWindow *window = GTK_WINDOW(gtk_widget_get_root(GTK_WIDGET(self)));
 
-	gtk_window_set_transient_for(GTK_WINDOW(self->dialog), window);
-	gtk_widget_show(self->dialog);
+	gtk_native_dialog_set_transient_for
+		(GTK_NATIVE_DIALOG(self->file_chooser), window);
+	gtk_native_dialog_show
+		(GTK_NATIVE_DIALOG(self->file_chooser));
 }
 
 static void
@@ -166,10 +169,10 @@ set_file(CelluloidFileChooserButton *self, GFile *file)
 }
 
 static void
-handle_response(GtkDialog *dialog, gint response_id, gpointer data)
+handle_response(GtkNativeDialog *file_chooser, gint response_id, gpointer data)
 {
 	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(data);
-	GFile *file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(dialog));
+	GFile *file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(file_chooser));
 
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
@@ -177,7 +180,7 @@ handle_response(GtkDialog *dialog, gint response_id, gpointer data)
 		g_object_unref(file);
 	}
 
-	gtk_window_close(GTK_WINDOW(dialog));
+	gtk_native_dialog_hide(file_chooser);
 }
 
 static void
@@ -224,14 +227,11 @@ celluloid_file_chooser_button_class_init(CelluloidFileChooserButtonClass *klass)
 static void
 celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 {
-	self->dialog =
-		gtk_file_chooser_dialog_new
+	self->file_chooser =
+		celluloid_file_chooser_new
 		(	_("Open File…"),
 			NULL,
-			GTK_FILE_CHOOSER_ACTION_OPEN,
-			_("Open"), GTK_RESPONSE_ACCEPT,
-			_("Cancel"), GTK_RESPONSE_CANCEL,
-			NULL );
+			GTK_FILE_CHOOSER_ACTION_OPEN );
 	self->label = gtk_label_new(_("(None)"));
 	self->file = NULL;
 	self->title = NULL;
@@ -240,12 +240,8 @@ celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	GtkWidget *icon = gtk_image_new_from_icon_name("document-open-symbolic");
 
-	gtk_window_set_modal
-		(GTK_WINDOW(self->dialog), TRUE);
-	gtk_window_set_hide_on_close
-		(GTK_WINDOW(self->dialog), TRUE);
-	gtk_dialog_set_default_response
-		(GTK_DIALOG(self->dialog), GTK_RESPONSE_ACCEPT);
+	gtk_native_dialog_set_modal
+		(GTK_NATIVE_DIALOG(self->file_chooser), TRUE);
 
 	gtk_widget_set_halign(self->label, GTK_ALIGN_START);
 	gtk_widget_set_halign(icon, GTK_ALIGN_END);
@@ -256,13 +252,13 @@ celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 	gtk_button_set_child(GTK_BUTTON(self), box);
 
 	g_object_bind_property(	self, "title",
-				self->dialog, "title",
+				self->file_chooser, "title",
 				G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE );
 	g_object_bind_property(	self, "action",
-				self->dialog, "action",
+				self->file_chooser, "action",
 				G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE );
 
-	g_signal_connect(	self->dialog,
+	g_signal_connect(	self->file_chooser,
 				"response",
 				G_CALLBACK(handle_response),
 				self );
@@ -284,7 +280,7 @@ celluloid_file_chooser_button_set_file(	CelluloidFileChooserButton *self,
 					GError **error )
 {
 
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->dialog);
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->file_chooser);
 
 	set_file(self, file);
 	gtk_file_chooser_set_file(chooser, file, error);
@@ -293,7 +289,7 @@ celluloid_file_chooser_button_set_file(	CelluloidFileChooserButton *self,
 GFile *
 celluloid_file_chooser_button_get_file(CelluloidFileChooserButton *self)
 {
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->dialog);
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->file_chooser);
 
 	return gtk_file_chooser_get_file(chooser);
 }
@@ -302,7 +298,7 @@ void
 celluloid_file_chooser_button_set_filter(	CelluloidFileChooserButton *self,
 						GtkFileFilter *filter )
 {
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->dialog);
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->file_chooser);
 
 	gtk_file_chooser_set_filter(chooser, filter);
 }
