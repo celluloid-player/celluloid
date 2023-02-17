@@ -198,15 +198,22 @@ button_pressed_handler(	GtkGestureSingle *gesture,
 			gdouble y,
 			gpointer data )
 {
-	CelluloidController *controller = data;
+	CelluloidController *controller =
+		data;
+	const guint button_number =
+		gtk_gesture_single_get_current_button(gesture);
 
-	guint button_number = gtk_gesture_single_get_current_button(gesture);
-	gchar *button_name = g_strdup_printf("MOUSE_BTN%u", button_number - 1);
-	celluloid_model_key_down(controller->model, button_name);
-	g_free(button_name);
+	if(button_number > 0)
+	{
+		gchar *button_name =
+			g_strdup_printf("MOUSE_BTN%u", button_number - 1);
 
-	CelluloidView *view = celluloid_controller_get_view(controller);
-	gtk_window_set_focus(GTK_WINDOW(view), NULL);
+		celluloid_model_key_down(controller->model, button_name);
+		g_free(button_name);
+
+		CelluloidView *view = celluloid_controller_get_view(controller);
+		gtk_window_set_focus(GTK_WINDOW(view), NULL);
+	}
 }
 
 static void
@@ -216,13 +223,19 @@ button_released_handler(	GtkGestureSingle *gesture,
 				gdouble y,
 				gpointer data )
 {
-	CelluloidController *controller = data;
-	guint button_number = gtk_gesture_single_get_current_button(gesture);
-	gchar *button_name = g_strdup_printf("MOUSE_BTN%u", button_number - 1);
+	CelluloidController *controller =
+		data;
+	const guint button_number =
+		gtk_gesture_single_get_current_button(gesture);
 
-	celluloid_model_key_up(controller->model, button_name);
+	if(button_number > 0)
+	{
+		gchar *button_name =
+			g_strdup_printf("MOUSE_BTN%u", button_number - 1);
 
-	g_free(button_name);
+		celluloid_model_key_up(controller->model, button_name);
+		g_free(button_name);
+	}
 }
 
 static gboolean
