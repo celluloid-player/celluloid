@@ -21,7 +21,7 @@ mpv's powerful playback capabilities.
 
 ## Installation
 
-### GNU/Linux packages
+### Packages
 
 <a href="https://repology.org/project/celluloid/versions">
     <img src="https://repology.org/badge/vertical-allrepos/celluloid.svg?columns=4" alt="Packaging status">
