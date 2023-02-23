@@ -43,13 +43,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install flathub io.github.celluloid_player.Celluloid
 ```
 
-Development versions are also packaged:
-
-```sh
-flatpak install https://dl.tingping.se/flatpak/gnome-mpv.flatpakref
-```
-
-
 ### Source code
 Run the following command in the source code directory to build and install:
 
