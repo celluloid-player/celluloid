@@ -21,7 +21,9 @@
 #include <glib.h>
 #include <glib/gprintf.h>
 #include <gtk/gtk.h>
+#ifdef G_OS_UNIX
 #include <glib-unix.h>
+#endif
 #include <locale.h>
 #include <adwaita.h>
 #include "celluloid-controller-private.h"
