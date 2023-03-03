@@ -38,7 +38,7 @@
 #include <epoxy/egl.h>
 #endif
 #ifdef GDK_WINDOWING_WIN32
-#include <gdk/gdkwin32.h>
+#include <gdk/win32/gdkwin32.h>
 #include <epoxy/wgl.h>
 #endif
 
