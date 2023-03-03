@@ -20,7 +20,9 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
+#ifdef G_OS_UNIX
 #include <glib-unix.h>
+#endif
 #include <gio/gio.h>
 #include <gdk/gdk.h>
 #include <adwaita.h>
@@ -174,10 +176,11 @@ initialize_gui(CelluloidApplication *app)
 		gdk_x11_surface_set_utf8_property(surface, "WM_ROLE", app->role);
 	}
 	#endif
-
+#ifdef G_OS_UNIX
 	g_unix_signal_add(SIGHUP, shutdown_signal_handler, app);
 	g_unix_signal_add(SIGINT, shutdown_signal_handler, app);
 	g_unix_signal_add(SIGTERM, shutdown_signal_handler, app);
+#endif
 
 	g_signal_connect(	controller,
 				"notify::idle",
