@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 gnome-mpv
+ * Copyright (c) 2017-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -1608,7 +1608,7 @@ celluloid_view_show_about_window (CelluloidView *view)
 				"license-type",
 				GTK_LICENSE_GPL_3_0,
 				"copyright",
-				"\u00A9 2014-2022 The Celluloid authors",
+				"\u00A9 2014-2023 The Celluloid authors",
 				"developers",
 				authors,
 				"translator-credits",
