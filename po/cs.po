@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-08-05 08:18+0000\n"
-"Last-Translator: Jan Škrle <j.skrle@gmail.com>\n"
+"PO-Revision-Date: 2022-09-27 13:15+0000\n"
+"Last-Translator: Tomáš Marný <tomik.marny@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/cs/>\n"
 "Language: cs\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -80,32 +80,28 @@ msgstr "Otevřené soubory vždy připojit do seznamu přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Always show title buttons"
-msgstr "Vždy ukazovat tlačítka okna"
+msgstr "Vždy zobrazovat tlačítka v záhlaví okna"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:85
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
-"Jestli je true, tlačítka okna (zavřít, maximalizovat, minimalizovat) jsou "
-"vždy viditelné. Jestli je false, tlačítka budou skryta v režimu na celou "
-"obrazovku."
+"Pokud je povoleno, tlačítka v záhlaví okna (zavřít, maximalizovat, "
+"minimalizovat atd.) budou vždy zobrazena. Pokud je zakázáno, tlačítka budou "
+"v režimu celé obrazovky skryta."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
 msgid "Give focus to the window when opening new files"
 msgstr "Při otevírání nových souborů přejít na okno"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
-#, fuzzy
-#| msgid ""
-#| "If true, Celluloid will attempt to present its window to the user when a "
-#| "new file is opened. If false, no attempt will be made."
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
-"Jestli true, Celluloid udělá pokus zobrazit okno uživateli, při otevření "
-"nového souboru. Jestli false, tak to nezkusí."
+"Pokud je povoleno, Celluloid se pokusí zobrazit okno uživateli, při otevření "
+"nového souboru. Při zakázání volby nebude proveden žádný pokus."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 #: src/celluloid-application.c:600
@@ -182,11 +178,11 @@ msgstr "Šířka seznamu přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
 msgid "Show/hide the controls"
-msgstr "Zobrazit/schovat ovládací tlačítka"
+msgstr "Zobrazit/skrýt ovládací tlačítka"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
 msgid "Show/hide the playlist"
-msgstr "Zobrazit/schovat seznam přehrávání"
+msgstr "Zobrazit/skrýt seznam přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -242,7 +238,7 @@ msgstr "Tato verze převážně opravuje chyby. Obsahuje následující změny:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "Opraveno automatické přizpůsobení spouštění bez ohledu na nastavení."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Fix window size shrinking across sessions."
@@ -255,11 +251,13 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
-msgstr ""
+msgstr "Opraveny nefunkčnosti přetahování u některých správců souborů."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
+"Opraveno spouštění přehrávání po odstranění poslední položky seznamu k "
+"přehrávání."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
@@ -295,51 +293,42 @@ msgid "Add Greek translation by @lepa22."
 msgstr "Přidán řecký překlad od @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "Přidán překlad do ukrajinštiny od @vl-nix"
+msgstr "Přidán korejský překlad od @jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr ""
+msgstr "Přidán překlad norského Bokmålu od Allana Nordhøye."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "Přidán překlad do esperanta od @F3nd0"
+msgstr "Přidán překlad do jazyka Occidental od OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Přidán překlad do turečtiny od @TeknoMobil"
+msgstr "Přidán arabský překlad od Mohameda Benkouidera."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Přidán baskický překlad od @aldatsa."
+msgstr "Přidán překlad do urdštiny od Ahmeda Iqbala."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
+msgstr "Přidána možnost pro zobrazení popisků tlačítek v režimu celé obrazovky."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Add option to present the window when opening files."
-msgstr "Při otevírání nových souborů zobrazit okno"
+msgstr "Přidána možnost pro zobrazení okna při otevírání souborů."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"Změna výchozí šablony názvu snímku obrazovky na FILENAME-TIMESTAMP (%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
-msgstr ""
+msgstr "Opraven chybný náhled časového razítka."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid "Add Basque translation by @aldatsa."
@@ -711,7 +700,7 @@ msgstr "HODNOTA"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
-msgstr ""
+msgstr "neplatné kódování"
 
 #: src/celluloid-control-box.c:412
 msgid "Pause"
@@ -824,10 +813,8 @@ msgid "_File"
 msgstr "_Soubor"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-#, fuzzy
-#| msgid "Open File…"
 msgid "_Open File…"
-msgstr "Otevřít soubor…"
+msgstr "_Otevřít soubor…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"

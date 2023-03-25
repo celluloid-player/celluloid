@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-07-21 09:16+0000\n"
-"Last-Translator: Deleted User <noreply+46810@weblate.org>\n"
+"PO-Revision-Date: 2022-11-05 19:42+0000\n"
+"Last-Translator: tizio04 <dp2104@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/it/>\n"
 "Language: it\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.2\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -59,10 +59,8 @@ msgstr ""
 "la visualizzazione dei controlli."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-#, fuzzy
-#| msgid "Use skip buttons for controlling playlist"
 msgid "Use skip buttons to control the playlist"
-msgstr "Usa i pulsanti di salto per controllare la playlist"
+msgstr "Usa i pulsanti di salto per controllare la playlist:"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
@@ -98,6 +96,8 @@ msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
+"Se vero, Celluloid metterà a fuoco la finestra quando viene aperto un nuovo "
+"file. Se falso, non verrà effettuato alcun tentativo."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 #: src/celluloid-application.c:600
@@ -142,11 +142,11 @@ msgstr "Ignora gli errori di riproduzione"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:162
 msgid "Inhibit session idling"
-msgstr "Inibisci l'inativazione della sessione"
+msgstr "Inibisci l'inattività della sessione"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:168
 msgid "Make video area draggable"
-msgstr ""
+msgstr "Rendi l'area del video trascinabile"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
@@ -175,16 +175,12 @@ msgid "Width of the playlist"
 msgstr "Larghezza della playlist"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
-#, fuzzy
-#| msgid "Show or not show the controls"
 msgid "Show/hide the controls"
-msgstr "Determina se mostrare i controlli"
+msgstr "Mostra/nascondi i controlli"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
-#| msgid "Show or not show the playlist"
 msgid "Show/hide the playlist"
-msgstr "Determina se mostrare la playlist"
+msgstr "Mostra/nascondi la playlist"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -194,7 +190,7 @@ msgstr "Percorso dell'ultima cartella visualizzata"
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
 #: src/celluloid-application.c:476
 msgid "Celluloid"
-msgstr "Celluloid"
+msgstr "Celluloide"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
 msgid "GTK+ frontend for mpv"
@@ -235,10 +231,9 @@ msgid "The Celluloid Developers"
 msgstr "Gli sviluppatori di Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "Questa versione contiene le seguenti modifiche:"
+msgstr ""
+"Questo è per lo più un rilascio per bugfix. Contiene le seguenti modifiche:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
@@ -258,7 +253,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
-msgstr ""
+msgstr "Sistemato drag-and-drop che non funzionava con alcuni file managers."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
@@ -292,34 +287,27 @@ msgstr "Questa versione contiene le seguenti modifiche:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "Migrazione a GTK4"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
 msgid "Add Greek translation by @lepa22."
-msgstr "Aggiunta traduzione esperanto di @F3nd0"
+msgstr "Aggiunta traduzione greca di @lepa22"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "Aggiunta traduzione ucraina di @vl-nix"
+msgstr "Aggiunta traduzione coreana di @jullee96"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "Aggiunta traduzione esperanto di @F3nd0"
+msgstr "Aggiunta traduzione occidentale di OIS"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Aggiunta traduzione turca di @TeknoMobil"
+msgstr "Aggiunta traduzione araba di Mohamed Benkouider."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
 #, fuzzy
@@ -329,6 +317,8 @@ msgstr "Aggiunta traduzione esperanto di @F3nd0"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
 msgstr ""
+"Aggiunta un'opzione per mostrare i pulsanti del titolo nella modalità a "
+"schermo intero."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
 msgid "Add option to present the window when opening files."
@@ -344,9 +334,8 @@ msgid "Fix inaccurate timestamp preview."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
-#, fuzzy
 msgid "Add Basque translation by @aldatsa."
-msgstr "Aggiunta traduzione esperanto di @F3nd0"
+msgstr "Aggiunta traduzione basca di @aldatsa"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "Make the shuffle and loop command line options work properly."
@@ -708,7 +697,7 @@ msgstr ""
 
 #: src/celluloid-application.c:628
 msgid "VALUE"
-msgstr ""
+msgstr "VALORE"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
@@ -783,24 +772,20 @@ msgid "Subtitle Files"
 msgstr "File sottotitoli"
 
 #: src/celluloid-file-chooser-button.c:229
-#, fuzzy
 msgid "Open File…"
-msgstr "Apri file"
+msgstr "Apri file…"
 
 #: src/celluloid-file-chooser-button.c:232
-#, fuzzy
 msgid "Open"
-msgstr "_Apri"
+msgstr "Apri"
 
 #: src/celluloid-file-chooser-button.c:233
-#, fuzzy
 msgid "Cancel"
-msgstr "_Annulla"
+msgstr "Annulla"
 
 #: src/celluloid-file-chooser-button.c:235
-#, fuzzy
 msgid "(None)"
-msgstr "Nessuna"
+msgstr "(Nessuna)"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -835,7 +820,7 @@ msgstr "Apri file"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
-msgstr "Apri _cartella..."
+msgstr "Apri _Cartella…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:320
 msgid "Open _Location…"
@@ -1162,7 +1147,7 @@ msgstr "Esci"
 
 #: src/celluloid-shortcuts-window.c:79
 msgid "Save current playback position and quit"
-msgstr "Salva la posizione di riproduzione corrente ed esci "
+msgstr "Salva la posizione di riproduzione corrente ed esci"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Enter search mode"

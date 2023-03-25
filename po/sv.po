@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-06-22 18:14+0000\n"
+"PO-Revision-Date: 2023-03-10 01:51+0000\n"
 "Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/sv/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -127,7 +127,7 @@ msgstr "Aktivera stöd för media knappar"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "Aktivera knapphantering för menyfältsaccelererare"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
@@ -240,6 +240,7 @@ msgstr "Fixa att fönsterstorleken krymper mellan olika sessioner."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
+"Fixa krasch vid uppspelning av filer med namn som innehåller ogiltig kodning."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
@@ -248,6 +249,8 @@ msgstr "Fixa att dra-och-släpp inte fungerar med en del filhanterare."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
+"Fixa att uppspelningen startar när det sista objektet i spelllistan har "
+"tagits bort."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
@@ -280,48 +283,36 @@ msgid "Migrate to GTK4."
 msgstr "Migrera till GTK4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Greek translation by @lepa22."
-msgstr "Lägg till Baskiska-översättning av @aldatsa."
+msgstr "Lägg till översättning för Grekiska av @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "Lägg till Ukrainsk översättning av @vl-nix"
+msgstr "Lägg till översättning för Ukrainska av @jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
 msgstr "Lägg till Norsk Bokmålsöversättning av Allan Nordhøy."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "Lägg till Esperanto-översättning av @F3nd0"
+msgstr "Lägg till översättning för Esperanto av OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Lägg till Turkisk översättning av @TeknoMobil"
+msgstr "Lägg till översättning för Turkiska av Mohamed Benkouider."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Lägg till Baskiska-översättning av @aldatsa."
+msgstr "Lägg till översättning för Urdu av Ahmed Iqbal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
 msgstr "Lägg till alternativ för att visa titelknappar i fullskärmsläge."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Add option to present the window when opening files."
-msgstr "Presentera fönstret när nya filer öppnas"
+msgstr "Lägg till alternativ för att presentera fönstret när filer öppnas."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
@@ -440,8 +431,9 @@ msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
+#, fuzzy
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
-msgstr ""
+msgstr "Hantera citat och rymningssekvenser korrekt i extra mkv-alternativ."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:203
 msgid "Display time at cursor position when hovering the seek bar."

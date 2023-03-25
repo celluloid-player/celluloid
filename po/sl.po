@@ -4,17 +4,17 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2021-09-15 22:19+0000\n"
-"Last-Translator: Nejc Bertoncelj <nejc@bertoncelj.eu.org>\n"
+"PO-Revision-Date: 2023-02-13 08:40+0000\n"
+"Last-Translator: HudobniVolk <hudobni.volk@tuta.io>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
-"X-Generator: Weblate 4.9-dev\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -26,10 +26,8 @@ msgid "Automatically resize window to fit video"
 msgstr "Samodejno preoblikuj okno, da se prilega sliki"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
-#, fuzzy
-#| msgid "Enable dark theme"
 msgid "Prefer dark theme"
-msgstr "Omogoči temno temo"
+msgstr "Uporabite temno temo"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
@@ -56,14 +54,12 @@ msgstr ""
 "predvajanja."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-#, fuzzy
-#| msgid "Use skip buttons for controlling playlist"
 msgid "Use skip buttons to control the playlist"
-msgstr "Uporabi gumbe za preskok za nadzor seznama predvajanja"
+msgstr "Za upravljanje seznama predvajanja uporabite gumbe za preskok"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr ""
+msgstr "Zapomni si zadnjo lokacijo v izbirniku datotek"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -86,22 +82,16 @@ msgstr ""
 "prikazani, sicer bodo v celozaslonskem načinu skriti."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Give focus to the window when opening new files"
-msgstr "Uporabi že odprto okno pri odpiranju novih datotek"
+msgstr "Pri odpiranju novih datotek poudarite okno"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
-#, fuzzy
-#| msgid ""
-#| "If true, Celluloid will attempt to present its window to the user when a "
-#| "new file is opened. If false, no attempt will be made."
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
-"Če označeno, bo Celluloid skušal prikazati že odprto okno uporabniku, sicer "
-"ne."
+"Če je označeno, bo Celluloid poskušal izostriti okno, ko odpre datoteko. V "
+"nasprotnem primeru ne bo poskušal."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 #: src/celluloid-application.c:600
@@ -134,7 +124,7 @@ msgstr "Omogoči podporo večpredstavnostnih tipk"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "Omogoči upravljanje bližnjičnih tipk menijske vrstice"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
@@ -150,7 +140,7 @@ msgstr "Zaznaj mirujočo sejo"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:168
 msgid "Make video area draggable"
-msgstr ""
+msgstr "Naredi podokno za video premično"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
@@ -177,16 +167,12 @@ msgid "Width of the playlist"
 msgstr "Širina seznama predvajanja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
-#, fuzzy
-#| msgid "Show or not show the controls"
 msgid "Show/hide the controls"
-msgstr "Prikaži gumbe za predvajanje"
+msgstr "Prikaži/skrij gumbe za upravljanje"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
-#| msgid "Show or not show the playlist"
 msgid "Show/hide the playlist"
-msgstr "Prikaži seznam predvajanja"
+msgstr "Prikaži/skrij seznam predvajanja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -237,32 +223,34 @@ msgid "The Celluloid Developers"
 msgstr "The Celluloid Developers"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "This release contains the following changes:"
+msgstr "To je večinoma izdaja s popravki napak. Vsebuje naslednje spremembe:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "Popravi proženje samodejnega prilagajanja ne glede na nastavitve."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-#, fuzzy
-#| msgid "Retain window maximization state across sessions."
 msgid "Fix window size shrinking across sessions."
-msgstr "Retain window maximization state across sessions."
+msgstr "Popravite krčenje velikosti okna med sejami."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
+"Odpravite zrušitev pri predvajanju datotek z imeni, ki vsebujejo neveljavno "
+"kodiranje."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
 msgstr ""
+"Odprava napake funkcija povleci in spusti, ki ne deluje z nekaterimi "
+"upravitelji datotek."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
+"Popravek začetka predvajanja, ko je bil odstranjen zadnji element iz seznama "
+"predvajanja."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
@@ -291,60 +279,50 @@ msgstr "This release contains the following changes:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "Celluloid je bil prenesen v GTK 4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Greek translation by @lepa22."
-msgstr "Add Basque translation by @aldatsa."
+msgstr "Dodan grški prevod @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "Add Ukranian translation by @vl-nix"
+msgstr "Dodan korejski prevod @jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr ""
+msgstr "Norveški (Bokmål) prevod je dodal Allan Nordhøy."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "Add Esperanto translation by @F3nd0"
+msgstr "Okcitanski prevod je dodal OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Add Turkish translation by @TeknoMobil"
+msgstr "Arabski prevod je dodal Mohamed Benkouider."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Add Basque translation by @aldatsa."
+msgstr "Urdujski prevod je dodal Ahmed Iqbal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
+msgstr "Nova možnost za prikaz gumbov naslovne vrstice v celozaslonskem načinu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Add option to present the window when opening files."
-msgstr "Uporabi že odprto okno pri odpiranju novih datotek"
+msgstr "Nova možnost za prikaz okna pri odpiranju novih datotek."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"Privzeta podloga imena datotek za posnetke zaslona je sedaj sestavljena kot "
+"FILENAME-TIMESTAMP (%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
-msgstr ""
+msgstr "Popravek predogleda netočnega časovnega žiga."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid "Add Basque translation by @aldatsa."
@@ -411,52 +389,57 @@ msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
-"Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
-"consistent with CSD mode."
+"Prilagodite položaj elementov uporabniškega vmesnika modalnih pogovornih "
+"oken v načinu, ki ni CSD, da bodo bolj skladni z načinom CSD."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Add support for loading external video tracks."
-msgstr "Add support for loading external video tracks."
+msgstr "Dodana podpora za nalaganje zunanjih video posnetkov."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Make playlist shuffle toggleable."
-msgstr "Make playlist shuffle toggleable."
+msgstr "Naključno predvajanje je mogoče hitro preklopiti."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Make arrow key bindings work with arrow keys on numpad."
-msgstr "Make arrow key bindings work with arrow keys on numpad."
+msgstr "Bližnjice na tipkovnici delujejo tudi s tipkami na številčnici."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr ""
-"Adjust the range of volume button based on the value of the volume-max "
-"property."
+"Prilagodite razpon gumba za glasnost glede na vrednost lastnosti največje "
+"glasnosti."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:188
 msgid "Retain window maximization state across sessions."
-msgstr "Retain window maximization state across sessions."
+msgstr "Stanje maksimiranja okna se ohrani med sejami."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:191
 msgid "Retain loop state across sessions."
-msgstr "Retain loop state across sessions."
+msgstr "Ohranjanje stanja ponavljanja med sejami."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid "Implement playlist search."
-msgstr "Implement playlist search."
+msgstr "Implementacija iskanja po seznamu predvajanja."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:197
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr "Update the list of shortcuts in Keyboard Shortcuts dialog."
+msgstr ""
+"Posodobite seznam bližnjic v pogovornem oknu \"Bližnjice na tipkovnici\"."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
-msgstr "Correctly handle quotes and escape sequences in extra mpv options."
+msgstr ""
+"Pravilna interpretacija ubežnih zaporedij in narekovajev v dodatnih "
+"možnostih mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:203
 msgid "Display time at cursor position when hovering the seek bar."
-msgstr "Display time at cursor position when hovering the seek bar."
+msgstr ""
+"Prikazuje čas na poziciji kazalca miške premaknjen nad vrstico prikaza "
+"napredka."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:206
 msgid ""
@@ -478,23 +461,23 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:216
 msgid "Make window sizing work correctly with HiDPI displays."
-msgstr "Make window sizing work correctly with HiDPI displays."
+msgstr "Pravilno delovanje velikosti oken z zasloni HiDPI."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr "Add Finnish translation by Kimmo Kujansuu."
+msgstr "Finski prevod dodal Kimmo Kujansuu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:222
 msgid "Add Slovenian translation by @bertronika."
-msgstr "Add Slovenian translation by @bertronika."
+msgstr "Slovenski prevod dodala @bertronika."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
 msgid "Add Persian translation by @danialbehzadi"
-msgstr "Add Persian translation by @danialbehzadi"
+msgstr "Perzijski prevod dodal @danialbehzadi"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:240
 msgid "Add Ukranian translation by @vl-nix"
-msgstr "Add Ukranian translation by @vl-nix"
+msgstr "Ukrainski prevod dodal @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:243
 msgid ""
@@ -506,7 +489,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
 msgid "Add menu item for opening discs"
-msgstr "Add menu item for opening discs"
+msgstr "Dodan element menija za odpiranje diskov"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:249
 msgid "Block cursor autohide when volume popup is open in windowed mode"
@@ -701,7 +684,7 @@ msgstr "VREDNOST"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
-msgstr ""
+msgstr "Neveljavno kodiranje"
 
 #: src/celluloid-control-box.c:412
 msgid "Pause"
@@ -814,10 +797,8 @@ msgid "_File"
 msgstr "_Datoteka"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-#, fuzzy
-#| msgid "Open File…"
 msgid "_Open File…"
-msgstr "Odpri datoteko…"
+msgstr "_Odpri datoteko…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"

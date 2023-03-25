@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-06-21 13:21+0000\n"
-"Last-Translator: fawaz006 <fawaz27000@hotmail.com>\n"
+"PO-Revision-Date: 2022-10-14 11:20+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ar/>\n"
 "Language: ar\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -57,10 +57,8 @@ msgstr ""
 "حجم المنطقة الميتة التي لن تتسبب فيها حركة المؤشر في إظهار عناصر التحكم."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-#, fuzzy
-#| msgid "Use skip buttons for controlling playlist"
 msgid "Use skip buttons to control the playlist"
-msgstr "استخدم أزرار التخطي للتحكم في قائمة التشغيل"
+msgstr "استخدام أزرار التخطي للتحكم في قائمة التشغيل"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
@@ -87,22 +85,16 @@ msgstr ""
 "إلخ). في حالة الخطأ ، سيتم إخفاء الأزرار في وضع ملء الشاشة."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Give focus to the window when opening new files"
-msgstr "عرض النافذة عند فتح ملفات جديدة"
+msgstr "ركز على النافذة عند فتح ملفات جديدة"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
-#, fuzzy
-#| msgid ""
-#| "If true, Celluloid will attempt to present its window to the user when a "
-#| "new file is opened. If false, no attempt will be made."
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
-"إذا كان هذا صحيحًا ، سيحاول Celluloid عرض نافذته على المستخدم عند فتح ملف "
-"جديد. إذا كانت خاطئة ، فلن يتم إجراء أي محاولة."
+"إذا كان هذا صحيحًا ، فسيركز السيلولويد على النافذة عند فتح ملف جديد. إذا "
+"كانت خاطئة ، فلن يتم إجراء أي محاولة."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 #: src/celluloid-application.c:600
@@ -135,7 +127,7 @@ msgstr "تفعيل دعم مفاتيح الوسائط"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "تفعيل معالجة مفتاح تسريع شريط القوائم"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
@@ -151,7 +143,7 @@ msgstr "منع تباطؤ الجلسة"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:168
 msgid "Make video area draggable"
-msgstr ""
+msgstr "اجعل منطقة الفيديو قابلة للسحب"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
@@ -179,16 +171,12 @@ msgid "Width of the playlist"
 msgstr "عرض قائمة التشغيل"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
-#, fuzzy
-#| msgid "Show or not show the controls"
 msgid "Show/hide the controls"
-msgstr "إظهار أو عدم إظهار عناصر التحكم"
+msgstr "إظهار / إخفاء الضوابط"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
-#| msgid "Show or not show the playlist"
 msgid "Show/hide the playlist"
-msgstr "إظهار أو عدم إظهار قائمة التشغيل"
+msgstr "إظهار / إخفاء قائمة التشغيل"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -198,7 +186,7 @@ msgstr "URI للمجلد الأخير الذي تم الوصول إليه"
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
 #: src/celluloid-application.c:476
 msgid "Celluloid"
-msgstr "سليوليد"
+msgstr "السيليلويد"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
 msgid "GTK+ frontend for mpv"
@@ -239,32 +227,28 @@ msgid "The Celluloid Developers"
 msgstr "مطورو السيليلويد"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "يحتوي هذا الإصدار على التغييرات التالية:"
+msgstr "هذا في الغالب إصدار bugfix. يحتوي على التغييرات التالية:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "إصلاح التشغيل التلقائي بغض النظر عن الإعدادات."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-#, fuzzy
-#| msgid "Retain window maximization state across sessions."
 msgid "Fix window size shrinking across sessions."
-msgstr "الاحتفاظ بحالة تكبير النافذة عبر الجلسات."
+msgstr "إصلاح تقلص حجم النافذة عبر الجلسات."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
-msgstr ""
+msgstr "إصلاح التعطل عند تشغيل ملفات بأسماء تحتوي على ترميز غير صالح."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
-msgstr ""
+msgstr "إصلاح السحب والإفلات لا يعمل مع بعض مديري الملفات."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
-msgstr ""
+msgstr "إصلاح بدء التشغيل عند إزالة آخر عنصر من قائمة التشغيل."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
@@ -293,60 +277,49 @@ msgstr "يحتوي هذا الإصدار على التغييرات التالي�
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "الانتقال إلى GTK4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Greek translation by @lepa22."
-msgstr "أضف الترجمة الباسكية بواسطة @aldatsa."
+msgstr "أضف الترجمة اليونانية بواسطة @ lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "أضف الترجمة الأوكرانية بواسطة @vl-nix"
+msgstr "أضف الترجمة الكورية بواسطة @ jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr ""
+msgstr "أضف ترجمة البوكمالية النرويجية التي كتبها ألان نوردهوي."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "إضافة ترجمة الاسبرانتو بواسطة @F3nd0"
+msgstr "إضافة ترجمة أوكسيدنتال OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "إضافة الترجمة التركية من قبل @TeknoMobil"
+msgstr "أضف الترجمة العربية لمحمد بن قويدر."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "أضف الترجمة الباسكية بواسطة @aldatsa."
+msgstr "إضافة الترجمة الأردية أحمد إقبال."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
+msgstr "إضافة خيار لإظهار أزرار العنوان في وضع ملء الشاشة."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Add option to present the window when opening files."
-msgstr "عرض النافذة عند فتح ملفات جديدة"
+msgstr "إضافة خيار لعرض النافذة عند فتح الملفات."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"تغيير قالب اسم ملف لقطة الشاشة الافتراضي إلى FILENAME-TIMESTAMP (٪ f-٪ P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
-msgstr ""
+msgstr "إصلاح معاينة الطابع الزمني غير الدقيقة."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid "Add Basque translation by @aldatsa."
@@ -464,9 +437,9 @@ msgid ""
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
-"اهمال \"--mpv-options\". يمكن استخدام الخيارات التي تبدأ ب \"--mpv-\" لتعيين "
-"خيارات mpv بدلاً من ذلك. على سبيل المثال ، تمرير \"--mpv-vf = vflip\" إلى "
-"Celluloid يعادل تمرير \"--vf = vflip\" إلى mpv."
+"استنكر \"--mpv-options\". يمكن استخدام الخيارات التي تبدأ بـ \"--mpv-\" "
+"لتعيين خيارات mpv بدلاً من ذلك. على سبيل المثال ، تمرير \"--mpv-vf = vflip\" "
+"إلى Celluloid يعادل تمرير \"--vf = vflip\" إلى mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:212
 msgid ""
@@ -696,7 +669,7 @@ msgstr "القيمة"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
-msgstr ""
+msgstr "ترميز غير صالح"
 
 #: src/celluloid-control-box.c:412
 msgid "Pause"
@@ -809,10 +782,8 @@ msgid "_File"
 msgstr "_ملف"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-#, fuzzy
-#| msgid "Open File…"
 msgid "_Open File…"
-msgstr "فتح ملف …"
+msgstr "_ملف مفتوح …"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"

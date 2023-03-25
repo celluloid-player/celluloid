@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2021-12-23 13:54+0000\n"
-"Last-Translator: neko <smurfkandy@tutanota.com>\n"
+"PO-Revision-Date: 2022-10-17 00:17+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/id/>\n"
 "Language: id\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -29,10 +29,8 @@ msgid "Automatically resize window to fit video"
 msgstr "Ubah ukuran jendela secara otomatis agar sesuai dengan video"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
-#, fuzzy
-#| msgid "Enable dark theme"
 msgid "Prefer dark theme"
-msgstr "Aktifkan mode gelap"
+msgstr "Lebih suka tema gelap"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
@@ -60,14 +58,12 @@ msgstr ""
 "ditampilkan."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-#, fuzzy
-#| msgid "Use skip buttons for controlling playlist"
 msgid "Use skip buttons to control the playlist"
-msgstr "Gunakan tombol lewati untuk mengendalikan daftar putar"
+msgstr "Gunakan tombol lewati untuk mengontrol daftar putar"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr ""
+msgstr "Ingat lokasi terakhir di pemilih file"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -90,22 +86,16 @@ msgstr ""
 "ditampilkan. Jika salah, tombol akan disembunyikan dalam mode layar penuh."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Give focus to the window when opening new files"
-msgstr "Tampilkan jendela ketika membuka file baru"
+msgstr "Berikan fokus ke jendela saat membuka file baru"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
-#, fuzzy
-#| msgid ""
-#| "If true, Celluloid will attempt to present its window to the user when a "
-#| "new file is opened. If false, no attempt will be made."
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
-"Kalau benar, Celluloid akan menampilkan jendela ke pengguna ketika file baru "
-"dibuka. Jika salah, Celluloid tidak akan menampilkan apapun."
+"Jika benar, Celluloid akan memberikan fokus ke jendela ketika file baru "
+"dibuka. Jika salah, tidak ada upaya yang akan dilakukan."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 #: src/celluloid-application.c:600
@@ -138,7 +128,7 @@ msgstr "Aktifkan penggunaan tombol media"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "Aktifkan penanganan tombol akselerator bilah menu"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
@@ -154,7 +144,7 @@ msgstr "Cegah sesi tidak aktif"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:168
 msgid "Make video area draggable"
-msgstr ""
+msgstr "Jadikan area video dapat diseret"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
@@ -181,16 +171,12 @@ msgid "Width of the playlist"
 msgstr "Lebar daftar putar"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
-#, fuzzy
-#| msgid "Show or not show the controls"
 msgid "Show/hide the controls"
-msgstr "Tampilkan atau tidak tampilkan kontrol"
+msgstr "Memperlihatkan/menyembunyikan kontrol"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
-#| msgid "Show or not show the playlist"
 msgid "Show/hide the playlist"
-msgstr "Tampilkan atau tidak tampilkan daftar putar"
+msgstr "Tampilkan/sembunyikan daftar putar"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -241,32 +227,33 @@ msgid "The Celluloid Developers"
 msgstr "Pengembang Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "Rilis ini berisi perubahan berikut:"
+msgstr ""
+"Ini sebagian besar merupakan rilis perbaikan bug. Ini berisi perubahan "
+"berikut:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "Perbaiki pemicu pas otomatis terlepas dari pengaturannya."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-#, fuzzy
-#| msgid "Retain window maximization state across sessions."
 msgid "Fix window size shrinking across sessions."
-msgstr "Pertahankan status maksimalisasi jendela di seluruh sesi."
+msgstr "Perbaiki ukuran jendela yang menyusut di seluruh sesi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
+"Perbaiki kerusakan saat memutar file dengan nama yang berisi penyandian "
+"tidak valid."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
-msgstr ""
+msgstr "Perbaiki drag-and-drop tidak berfungsi dengan beberapa pengelola file."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
+"Perbaiki pemutaran yang dimulai saat item daftar putar terakhir dihapus."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
@@ -297,60 +284,50 @@ msgstr "Rilis ini berisi perubahan berikut:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "Migrasi ke GTK4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Greek translation by @lepa22."
-msgstr "Tambahan translasi Bahasa Basque oleh @aldatsa."
+msgstr "Tambahkan terjemahan bahasa Yunani oleh @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "Menambahkan terjemahan Bahasa Ukraina oleh @vl-nix"
+msgstr "Tambahkan terjemahan bahasa Korea oleh @jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr ""
+msgstr "Tambahkan terjemahan Bokmål Norwegia oleh Allan Nordhøy."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "Tambahkan terjemahan Esperanto oleh @F3nd0"
+msgstr "Tambahkan terjemahan Occidental oleh OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Menambahkan terjemahan Bahasa Turki oleh @TeknoMobil"
+msgstr "Tambahkan terjemahan bahasa Arab oleh Mohamed Benkouider."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Tambahan translasi Bahasa Basque oleh @aldatsa."
+msgstr "Tambahkan terjemahan bahasa Urdu oleh Ahmed Iqbal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
+msgstr "Tambahkan opsi untuk menampilkan tombol judul dalam mode layar penuh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Add option to present the window when opening files."
-msgstr "Tampilkan jendela ketika membuka file baru"
+msgstr "Tambahkan opsi untuk menampilkan jendela saat membuka file."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"Ubah template nama file tangkapan layar default menjadi FILENAME-TIMESTAMP "
+"(%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
-msgstr ""
+msgstr "Perbaiki pratinjau stempel waktu yang tidak akurat."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid "Add Basque translation by @aldatsa."
@@ -671,8 +648,7 @@ msgstr "Putar film dan video"
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr ""
-"Video;Film;Film;Klip;Serial;Pemutar;DVD;TV;Kaset;Album;Musik;GNOME;mpv;"
+msgstr "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
@@ -692,7 +668,7 @@ msgstr "Tampilkan versi rilis"
 
 #: src/celluloid-application.c:584
 msgid "Enqueue"
-msgstr "Enqueue"
+msgstr "Mengantri"
 
 #: src/celluloid-application.c:592
 msgid "Create a new window"
@@ -720,7 +696,7 @@ msgstr "NILAI"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
-msgstr ""
+msgstr "pengkodean tidak valid"
 
 #: src/celluloid-control-box.c:412
 msgid "Pause"
@@ -833,10 +809,8 @@ msgid "_File"
 msgstr "Be_rkas"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-#, fuzzy
-#| msgid "Open File…"
 msgid "_Open File…"
-msgstr "Buka Berkas…"
+msgstr "_Membuka file…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
@@ -1295,7 +1269,7 @@ msgstr "Audio"
 
 #: src/celluloid-shortcuts-window.c:122
 msgid "Subtitle"
-msgstr "Subtitle"
+msgstr "Subjudul"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "Playback"
