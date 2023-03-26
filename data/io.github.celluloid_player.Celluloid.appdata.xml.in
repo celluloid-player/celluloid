@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2015-2022 gnome-mpv -->
+<!-- Copyright 2015-2023 gnome-mpv -->
 <component type="desktop">
  <id>io.github.celluloid_player.Celluloid</id>
  <metadata_license>CC-BY-SA-4.0</metadata_license>
@@ -29,6 +29,49 @@
  </description>
  <developer_name>The Celluloid Developers</developer_name>
  <releases>
+  <release date="2023-03-26" version="0.25">
+   <description>
+    <p>
+     This release contains the following changes:
+    </p>
+    <ul>
+      <li>
+        Fix crash when using multiple windows.
+      </li>
+      <li>
+        Port the about dialog to libadwaita.
+      </li>
+      <li>
+        Fix cursor not autohiding on KDE.
+      </li>
+      <li>
+        Fix mouse presses/releases becoming unreliable during playback.
+      </li>
+      <li>
+        Make it possible to build on Windows. Celluloid still crashes on mouse
+        clicks, but it runs and can play videos.
+      </li>
+      <li>
+        Add Estonian translation by vaba.
+      </li>
+      <li>
+        Add Georgian translation by temuri doghonadze.
+      </li>
+      <li>
+        Add Lithuanian translation by Jonas Smol.
+      </li>
+      <li>
+        Add Occitan translation by Quentin PAGÈS.
+      </li>
+      <li>
+        Add Tamil translation by K.B.Dharun Krishna.
+      </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2022-08-20" version="0.24">
    <description>
     <p>
