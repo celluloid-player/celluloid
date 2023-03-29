@@ -13,7 +13,7 @@ mpv's powerful playback capabilities.
 - gcc (build)
 - glib >= 2.66
 - gtk >= 4.6.1
-- libadwaita >= 1.0.0
+- libadwaita >= 1.2.0
 - mpv >= 0.32
 - epoxy
 - lua (optional)
