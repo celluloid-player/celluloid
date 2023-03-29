@@ -43,6 +43,14 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install flathub io.github.celluloid_player.Celluloid
 ```
 
+### Snap
+
+Stable releases are hosted on [Snapcraft](https://snapcraft.io).
+
+```sh
+sudo snap install celluloid-snap
+```
+
 ### Source code
 Run the following command in the source code directory to build and install:
 
