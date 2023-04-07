@@ -87,9 +87,6 @@ celluloid_view_queue_render(CelluloidView *view);
 void
 celluloid_view_make_gl_context_current(CelluloidView *view);
 
-void
-celluloid_view_set_use_opengl_cb(CelluloidView *view, gboolean use_opengl_cb);
-
 gint
 celluloid_view_get_scale_factor(CelluloidView *view);
 

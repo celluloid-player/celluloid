@@ -996,9 +996,6 @@ model_ready_handler(GObject *object, GParamSpec *pspec, gpointer data)
 		use_opengl_cb =	celluloid_model_get_use_opengl_cb
 				(controller->model);
 
-		celluloid_view_set_use_opengl_cb
-			(controller->view, use_opengl_cb);
-
 		if(use_opengl_cb)
 		{
 			celluloid_view_make_gl_context_current(controller->view);

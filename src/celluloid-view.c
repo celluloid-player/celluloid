@@ -1667,15 +1667,6 @@ celluloid_view_make_gl_context_current(CelluloidView *view)
 	gtk_gl_area_make_current(gl_area);
 }
 
-void
-celluloid_view_set_use_opengl_cb(CelluloidView *view, gboolean use_opengl_cb)
-{
-	CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(view);
-	CelluloidVideoArea *area = celluloid_main_window_get_video_area(wnd);
-
-	celluloid_video_area_set_use_opengl(area, use_opengl_cb);
-}
-
 gint
 celluloid_view_get_scale_factor(CelluloidView *view)
 {

@@ -44,7 +44,6 @@ struct _CelluloidVideoArea
 	GtkBox parent_instance;
 	GtkWidget *overlay;
 	GtkWidget *stack;
-	GtkWidget *draw_area;
 	GtkWidget *gl_area;
 	GtkWidget *control_box;
 	GtkWidget *header_bar;
@@ -494,7 +493,6 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 {
 	area->overlay = gtk_overlay_new();
 	area->stack = gtk_stack_new();
-	area->draw_area = gtk_drawing_area_new();
 	area->gl_area = gtk_gl_area_new();
 	area->control_box = celluloid_control_box_new();
 	area->header_bar = celluloid_header_bar_new();
@@ -596,10 +594,6 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 				"resize",
 				G_CALLBACK(resize_handler),
 				area );
-	g_signal_connect(	area->draw_area,
-				"resize",
-				G_CALLBACK(resize_handler),
-				area );
 	g_signal_connect(	area->control_box,
 				"notify::volume-popup-visible",
 				G_CALLBACK(popover_notify_handler),
@@ -621,9 +615,8 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 				G_CALLBACK(reveal_notify_handler),
 				area );
 
-	gtk_stack_add_named(GTK_STACK(area->stack), area->draw_area, "draw");
 	gtk_stack_add_named(GTK_STACK(area->stack), area->gl_area, "gl");
-	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->draw_area);
+	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->gl_area);
 
 	gtk_widget_set_hexpand(area->stack, TRUE);
 
@@ -702,24 +695,9 @@ celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area)
 }
 
 void
-celluloid_video_area_set_use_opengl(	CelluloidVideoArea *area,
-					gboolean use_opengl )
-{
-	gtk_stack_set_visible_child
-		(	GTK_STACK(area->stack),
-			use_opengl?area->gl_area:area->draw_area );
-}
-
-void
 celluloid_video_area_queue_render(CelluloidVideoArea *area)
 {
 	gtk_gl_area_queue_render(GTK_GL_AREA(area->gl_area));
-}
-
-GtkDrawingArea *
-celluloid_video_area_get_draw_area(CelluloidVideoArea *area)
-{
-	return GTK_DRAWING_AREA(area->draw_area);
 }
 
 GtkGLArea *
@@ -749,9 +727,9 @@ celluloid_video_area_get_xid(CelluloidVideoArea *area)
 		GtkWidget *parent = gtk_widget_get_parent(GTK_WIDGET(area));
 		GdkSurface *surface = NULL;
 
-		if(parent && !gtk_widget_get_realized(area->draw_area))
+		if(parent && !gtk_widget_get_realized(area->gl_area))
 		{
-			gtk_widget_realize(area->draw_area);
+			gtk_widget_realize(area->gl_area);
 		}
 
 		surface = gtk_widget_get_surface(area);

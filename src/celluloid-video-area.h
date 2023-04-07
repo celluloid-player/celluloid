@@ -54,14 +54,7 @@ gboolean
 celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area);
 
 void
-celluloid_video_area_set_use_opengl(	CelluloidVideoArea *area,
-					gboolean use_opengl );
-
-void
 celluloid_video_area_queue_render(CelluloidVideoArea *area);
-
-GtkDrawingArea *
-celluloid_video_area_get_draw_area(CelluloidVideoArea *area);
 
 GtkGLArea *
 celluloid_video_area_get_gl_area(CelluloidVideoArea *area);
