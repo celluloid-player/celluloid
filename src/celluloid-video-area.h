@@ -50,6 +50,10 @@ void
 celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 						gboolean visible );
 
+void
+celluloid_video_area_set_initial_page_visible(	CelluloidVideoArea *area,
+						gboolean visible );
+
 gboolean
 celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area);
 

@@ -23,8 +23,10 @@
 #include "celluloid-common.h"
 #include "celluloid-def.h"
 
+#include <adwaita.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
+#include <glib/gi18n.h>
 #include <glib-object.h>
 #include <math.h>
 
@@ -45,6 +47,7 @@ struct _CelluloidVideoArea
 	GtkWidget *overlay;
 	GtkWidget *stack;
 	GtkWidget *gl_area;
+	GtkWidget *initial_page;
 	GtkWidget *control_box;
 	GtkWidget *header_bar;
 	GtkWidget *control_box_revealer;
@@ -494,6 +497,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->overlay = gtk_overlay_new();
 	area->stack = gtk_stack_new();
 	area->gl_area = gtk_gl_area_new();
+	area->initial_page = adw_status_page_new();
 	area->control_box = celluloid_control_box_new();
 	area->header_bar = celluloid_header_bar_new();
 	area->control_box_revealer = gtk_revealer_new();
@@ -615,8 +619,19 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 				G_CALLBACK(reveal_notify_handler),
 				area );
 
-	gtk_stack_add_named(GTK_STACK(area->stack), area->gl_area, "gl");
-	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->gl_area);
+	adw_status_page_set_icon_name
+		(	ADW_STATUS_PAGE(area->initial_page),
+			"io.github.celluloid_player.Celluloid" );
+	adw_status_page_set_title
+		(	ADW_STATUS_PAGE(area->initial_page),
+			_("Welcome") );
+	adw_status_page_set_description
+		(	ADW_STATUS_PAGE(area->initial_page),
+			_("Press ＋ or drag your video file here.") );
+
+	gtk_stack_add_child(GTK_STACK(area->stack), area->gl_area);
+	gtk_stack_add_child(GTK_STACK(area->stack), area->initial_page);
+	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->initial_page);
 
 	gtk_widget_set_hexpand(area->stack, TRUE);
 
@@ -686,6 +701,15 @@ celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 						gboolean visible )
 {
 	gtk_widget_set_visible(area->control_box_revealer, visible);
+}
+
+void
+celluloid_video_area_set_initial_page_visible(	CelluloidVideoArea *area,
+						gboolean visible )
+{
+	GtkWidget *child = visible ? area->initial_page : area->gl_area;
+
+	gtk_stack_set_visible_child(GTK_STACK(area->stack), child);
 }
 
 gboolean
