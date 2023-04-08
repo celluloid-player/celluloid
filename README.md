@@ -55,7 +55,7 @@ sudo snap install celluloid-snap
 Run the following command in the source code directory to build and install:
 
 ```sh
-meson build && cd build && ninja && sudo ninja install
+meson setup build && cd build && ninja && sudo ninja install
 ```
 
 ## Usage
