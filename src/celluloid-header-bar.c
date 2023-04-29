@@ -325,8 +325,11 @@ celluloid_header_bar_update_track_list(	CelluloidHeaderBar *hdr,
 	GMenu *menu = g_menu_new();
 
 	celluloid_menu_build_menu_btn(menu, track_list);
+
 	gtk_menu_button_set_menu_model
 		(GTK_MENU_BUTTON(hdr->menu_btn), G_MENU_MODEL(menu));
+	gtk_menu_button_set_create_popup_func
+		(GTK_MENU_BUTTON(hdr->menu_btn), create_popup, hdr, NULL);
 }
 
 void
@@ -339,4 +342,6 @@ celluloid_header_bar_update_disc_list(	CelluloidHeaderBar *hdr,
 
 	gtk_menu_button_set_menu_model
 		(GTK_MENU_BUTTON(hdr->open_btn), G_MENU_MODEL(menu));
+	gtk_menu_button_set_create_popup_func
+		(GTK_MENU_BUTTON(hdr->open_btn), create_popup, hdr, NULL);
 }
