@@ -1635,16 +1635,6 @@ celluloid_view_show_message_toast(CelluloidView *view, const gchar *msg)
 }
 
 void
-celluloid_view_show_message_dialog(	CelluloidView *view,
-					GtkMessageType type,
-					const gchar *title,
-					const gchar *prefix,
-					const gchar *msg )
-{
-	show_message_dialog(view, type, title, prefix, msg);
-}
-
-void
 celluloid_view_present(CelluloidView *view)
 {
 	gtk_window_present(GTK_WINDOW(view));
