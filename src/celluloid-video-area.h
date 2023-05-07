@@ -43,6 +43,10 @@ celluloid_video_area_update_disc_list(	CelluloidVideoArea *hdr,
 					const GPtrArray *disc_list );
 
 void
+celluloid_video_area_show_toast_message(	CelluloidVideoArea *area,
+						const gchar *msg);
+
+void
 celluloid_video_area_set_reveal_control_box(	CelluloidVideoArea *area,
 						gboolean reveal );
 

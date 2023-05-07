@@ -1624,6 +1624,17 @@ celluloid_view_show_about_window (CelluloidView *view)
 }
 
 void
+celluloid_view_show_message_toast(CelluloidView *view, const gchar *msg)
+{
+	CelluloidMainWindow *wnd =
+		CELLULOID_MAIN_WINDOW(view);
+	CelluloidVideoArea *video_area =
+		celluloid_main_window_get_video_area(wnd);
+
+	celluloid_video_area_show_toast_message(video_area, msg);
+}
+
+void
 celluloid_view_show_message_dialog(	CelluloidView *view,
 					GtkMessageType type,
 					const gchar *title,

@@ -66,6 +66,9 @@ void
 celluloid_view_show_about_window(CelluloidView *view);
 
 void
+celluloid_view_show_message_toast(CelluloidView *view, const gchar *msg);
+
+void
 celluloid_view_show_message_dialog(	CelluloidView *view,
 					GtkMessageType type,
 					const gchar *title,

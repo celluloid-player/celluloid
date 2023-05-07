@@ -1104,12 +1104,8 @@ message_handler(CelluloidMpv *mpv, const gchar *message, gpointer data)
 static void
 error_handler(CelluloidMpv *mpv, const gchar *message, gpointer data)
 {
-	celluloid_view_show_message_dialog
-		(	CELLULOID_CONTROLLER(data)->view,
-			GTK_MESSAGE_ERROR,
-			_("Error"),
-			NULL,
-			message );
+	celluloid_view_show_message_toast
+		(CELLULOID_CONTROLLER(data)->view, message);
 }
 
 static void

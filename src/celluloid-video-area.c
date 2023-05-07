@@ -44,6 +44,7 @@ enum
 struct _CelluloidVideoArea
 {
 	GtkBox parent_instance;
+	GtkWidget *toast_overlay;
 	GtkWidget *overlay;
 	GtkWidget *stack;
 	GtkWidget *gl_area;
@@ -494,6 +495,7 @@ celluloid_video_area_class_init(CelluloidVideoAreaClass *klass)
 static void
 celluloid_video_area_init(CelluloidVideoArea *area)
 {
+	area->toast_overlay = adw_toast_overlay_new();
 	area->overlay = gtk_overlay_new();
 	area->stack = gtk_stack_new();
 	area->gl_area = gtk_gl_area_new();
@@ -649,7 +651,10 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	gtk_overlay_set_child
 		(GTK_OVERLAY(area->overlay), area->stack);
 
-	gtk_box_append(GTK_BOX(area), area->overlay);
+	adw_toast_overlay_set_child
+		(ADW_TOAST_OVERLAY(area->toast_overlay), area->overlay);
+	gtk_box_append
+		(GTK_BOX(area), area->toast_overlay);
 
 	celluloid_control_box_set_floating
 		(CELLULOID_CONTROL_BOX (area->control_box), TRUE);
@@ -675,6 +680,16 @@ celluloid_video_area_update_disc_list(	CelluloidVideoArea *area,
 {
 	celluloid_header_bar_update_disc_list
 		(CELLULOID_HEADER_BAR(area->header_bar), disc_list);
+}
+
+void
+celluloid_video_area_show_toast_message(	CelluloidVideoArea *area,
+						const gchar *msg)
+{
+	AdwToast *toast = adw_toast_new(msg);
+	AdwToastOverlay *toast_overlay = ADW_TOAST_OVERLAY(area->toast_overlay);
+
+	adw_toast_overlay_add_toast(toast_overlay, toast);
 }
 
 void
