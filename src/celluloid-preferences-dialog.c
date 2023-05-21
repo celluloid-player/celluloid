@@ -312,7 +312,7 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			{NULL,
 			"mpris-enable",
 			ITEM_TYPE_SWITCH},
-			{"Extra mpv Options",
+			{_("Extra mpv options"),
 			"mpv-options",
 			ITEM_TYPE_TEXT_BOX},
 			{NULL, NULL, ITEM_TYPE_INVALID} };
