@@ -48,7 +48,7 @@ flatpak install flathub io.github.celluloid_player.Celluloid
 Stable releases are hosted on [Snapcraft](https://snapcraft.io):
 
 ```sh
-sudo snap install celluloid-snap
+sudo snap install celluloid
 ```
 
 ### Source code
