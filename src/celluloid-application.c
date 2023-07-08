@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2021, 2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -336,12 +336,7 @@ local_command_line(GApplication *gapp, gchar ***arguments, gint *exit_status)
 
 	while(argv[i])
 	{
-		// Ignore --mpv-options
-		const gboolean excluded =
-			g_str_has_prefix(argv[i], "--mpv-options") &&
-			argv[i][sizeof("--mpv-options")] != '=';
-
-		if(!excluded && g_str_has_prefix(argv[i], MPV_OPTION_PREFIX))
+		if(g_str_has_prefix(argv[i], MPV_OPTION_PREFIX))
 		{
 			const gchar *suffix =
 				argv[i] + sizeof(MPV_OPTION_PREFIX) - 1;
@@ -402,7 +397,6 @@ command_line_handler(	GApplication *gapp,
 	GVariantDict *options = g_application_command_line_get_options_dict(cli);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	gboolean always_open_new_window = FALSE;
-	gchar *mpv_options = NULL;
 	const gint n_files = argc-1;
 	GFile *files[n_files];
 
@@ -415,24 +409,7 @@ command_line_handler(	GApplication *gapp,
 
 	g_variant_dict_lookup(options, "enqueue", "b", &app->enqueue);
 	g_variant_dict_lookup(options, "new-window", "b", &app->new_window);
-	g_variant_dict_lookup(options, "mpv-options", "s", &mpv_options);
 	g_variant_dict_lookup(options, "role", "s", &app->role);
-
-	/* Combine mpv options from --mpv-options and options matching
-	 * MPV_OPTION_PREFIX
-	 */
-	if(mpv_options)
-	{
-		gchar *old_mpv_options = app->mpv_options;
-
-		g_warning("--mpv-options is deprecated and will be removed in future versions. Use '--mpv-' prefix options instead.");
-
-		app->mpv_options =
-			g_strjoin(" ", mpv_options, app->mpv_options, NULL);
-
-		g_free(old_mpv_options);
-		g_free(mpv_options);
-	}
 
 	for(gint i = 0; i < n_files; i++)
 	{
