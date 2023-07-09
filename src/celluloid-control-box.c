@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2022 gnome-mpv
+ * Copyright (c) 2014-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -60,6 +60,7 @@ struct _CelluloidControlBox
 	GtkWidget *loop_button;
 	GtkWidget *shuffle_button;
 	GtkWidget *volume_button;
+	GtkWidget *playlist_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
 	GtkWidget *secondary_seek_bar;
@@ -398,6 +399,7 @@ simple_signal_handler(GtkWidget *widget, gpointer data)
 			{box->rewind_button, "button-clicked", "rewind"},
 			{box->previous_button, "button-clicked", "previous"},
 			{box->next_button, "button-clicked", "next"},
+			{box->playlist_button, "button-clicked", "playlist"},
 			{box->fullscreen_button, "button-clicked", "fullscreen"},
 			{NULL, NULL, NULL} };
 
@@ -681,6 +683,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->rewind_button = gtk_button_new();
 	box->next_button = gtk_button_new();
 	box->previous_button = gtk_button_new();
+	box->playlist_button = gtk_button_new();
 	box->fullscreen_button = gtk_button_new();
 	box->loop_button = gtk_toggle_button_new();
 	box->shuffle_button = gtk_toggle_button_new();
@@ -726,6 +729,9 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	init_button(	box->shuffle_button,
 			"media-playlist-shuffle-symbolic",
 			_("Shuffle Playlist") );
+	init_button(	box->playlist_button,
+			"sidebar-show-right-symbolic",
+			_("Toggle Fullscreen") );
 	init_button(	box->fullscreen_button,
 			"view-fullscreen-symbolic",
 			_("Toggle Fullscreen") );
@@ -778,6 +784,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_box_append(GTK_BOX(box->inner_box), box->loop_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->shuffle_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->volume_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->playlist_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->fullscreen_button);
 
 	popup =	gtk_scale_button_get_popup
@@ -869,6 +876,10 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				G_CALLBACK(simple_signal_handler),
 				box );
 	g_signal_connect(	box->next_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
+	g_signal_connect(	box->playlist_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
 				box );

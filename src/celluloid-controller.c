@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 gnome-mpv
+ * Copyright (c) 2017-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -211,6 +211,9 @@ next_button_handler(GtkButton *button, gpointer data);
 
 static void
 previous_button_handler(GtkButton *button, gpointer data);
+
+static void
+playlist_button_handler(GtkButton *button, gpointer data);
 
 static void
 fullscreen_button_handler(GtkButton *button, gpointer data);
@@ -783,6 +786,10 @@ connect_signals(CelluloidController *controller)
 				G_CALLBACK(previous_button_handler),
 				controller );
 	g_signal_connect(	controller->view,
+				"button-clicked::playlist",
+				G_CALLBACK(playlist_button_handler),
+				controller );
+	g_signal_connect(	controller->view,
 				"button-clicked::fullscreen",
 				G_CALLBACK(fullscreen_button_handler),
 				controller );
@@ -1236,6 +1243,17 @@ previous_button_handler(GtkButton *button, gpointer data)
 		celluloid_model_previous_chapter
 			(CELLULOID_CONTROLLER(data)->model);
 	}
+}
+
+static void
+playlist_button_handler(GtkButton *button, gpointer data)
+{
+	CelluloidView *view =
+		CELLULOID_CONTROLLER(data)->view;
+	const gboolean playlist_visible =
+		celluloid_view_get_playlist_visible(view);
+
+	celluloid_view_set_playlist_visible(view, !playlist_visible);
 }
 
 static void
