@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2022 gnome-mpv
+ * Copyright (c) 2016-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -40,6 +40,9 @@ get_modstr(guint state);
 static gchar *
 get_full_keystr(guint keyval, GdkModifierType state);
 
+static void
+mouse_up(CelluloidController *controller, const guint button);
+
 static gboolean
 key_pressed_handler(	GtkEventControllerKey *key_controller,
 			guint keyval,
@@ -67,6 +70,9 @@ button_released_handler(	GtkGestureSingle *gesture,
 				double x,
 				gdouble y,
 				gpointer data );
+
+static void
+button_stopped_handler(GtkGestureSingle *gesture, gpointer data);
 
 static gboolean
 mouse_move_handler(	GtkEventControllerMotion *motion_controller,
@@ -148,6 +154,15 @@ get_full_keystr(guint keyval, GdkModifierType state)
 	return result;
 }
 
+static void
+mouse_up(CelluloidController *controller, const guint button)
+{
+	gchar *name = g_strdup_printf("MOUSE_BTN%u", button - 1);
+
+	celluloid_model_key_up(controller->model, name);
+	g_free(name);
+}
+
 static gboolean
 key_pressed_handler(	GtkEventControllerKey *key_controller,
 			guint keyval,
@@ -217,24 +232,28 @@ button_pressed_handler(	GtkGestureSingle *gesture,
 }
 
 static void
+button_stopped_handler(GtkGestureSingle *gesture, gpointer data)
+{
+	const guint button = gtk_gesture_single_get_current_button(gesture);
+
+	if(button > 0)
+	{
+		mouse_up(CELLULOID_CONTROLLER(data), button);
+	}
+}
+
+static void
 button_released_handler(	GtkGestureSingle *gesture,
 				gint n_press,
 				double x,
 				gdouble y,
 				gpointer data )
 {
-	CelluloidController *controller =
-		data;
-	const guint button_number =
-		gtk_gesture_single_get_current_button(gesture);
+	const guint button = gtk_gesture_single_get_current_button(gesture);
 
-	if(button_number > 0)
+	if(button > 0)
 	{
-		gchar *button_name =
-			g_strdup_printf("MOUSE_BTN%u", button_number - 1);
-
-		celluloid_model_key_up(controller->model, button_name);
-		g_free(button_name);
+		mouse_up(CELLULOID_CONTROLLER(data), button);
 	}
 }
 
@@ -343,7 +362,7 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 				controller );
 	g_signal_connect(	click_gesture,
 				"stopped",
-				G_CALLBACK(button_released_handler),
+				G_CALLBACK(button_stopped_handler),
 				controller );
 
 	GtkEventController *motion_controller =
