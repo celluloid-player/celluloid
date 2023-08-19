@@ -1,7 +1,6 @@
 
 schemadir = join_paths(get_option('datadir'), 'glib-2.0/schemas')
 install_data([
-  'io.github.GnomeMpv.gschema.xml',
   'io.github.celluloid_player.Celluloid.gschema.xml',
 ], install_dir: schemadir)
 

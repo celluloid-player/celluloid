@@ -1,4 +1,4 @@
-gsettings_SCHEMAS = io.github.celluloid_player.Celluloid.gschema.xml io.github.GnomeMpv.gschema.xml
+gsettings_SCHEMAS = io.github.celluloid_player.Celluloid.gschema.xml
 
 @GSETTINGS_RULES@
 
@@ -35,7 +35,6 @@ EXTRA_DIST =	$(appstream_in_files) \
 		$(dbusservice_in_files) \
 		io.github.celluloid_player.Celluloid.svg \
 		io.github.celluloid_player.Celluloid-symbolic.svg \
-		io.github.GnomeMpv.gschema.xml \
 		io.github.celluloid_player.Celluloid.gschema.xml \
 		celluloid-mpris-gdbus.xml \
 		celluloid-marshal.lst \
