@@ -788,16 +788,26 @@ load_config_file(CelluloidMpv *mpv)
 
 	if(g_settings_get_boolean(settings, "mpv-config-enable"))
 	{
-		gchar *mpv_conf =	g_settings_get_string
-					(settings, "mpv-config-file");
+		gchar *mpv_conf =
+			g_settings_get_string(settings, "mpv-config-file");
 
 		GFile *file = g_file_new_for_uri(mpv_conf);
 		gchar *path = g_file_get_path(file);
 
-		g_info("Loading config file: %s", path);
-		celluloid_mpv_load_config_file(mpv, path);
+		g_info("Loading mpv config file: %s", mpv_conf);
 
-		g_free(path);
+		if(path)
+		{
+			g_debug("mpv config file path: %s", path);
+			celluloid_mpv_load_config_file(mpv, path);
+
+			g_free(path);
+		}
+		else
+		{
+			g_warning("Failed to load mpv config file");
+		}
+
 		g_object_unref(file);
 		g_free(mpv_conf);
 	}
