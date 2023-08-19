@@ -108,46 +108,44 @@ G_DEFINE_TYPE(CelluloidApplication, celluloid_application, GTK_TYPE_APPLICATION)
 static void
 migrate_config()
 {
-	const gchar *keys[] = {	"dark-theme-enable",
-				"csd-enable",
-				"always-use-floating-controls",
-				"always-autohide-cursor",
-				"use-skip-buttons-for-playlist",
-				"last-folder-enable",
-				"always-open-new-window",
-				"mpv-options",
-				"mpv-config-file",
-				"mpv-config-enable",
-				"mpv-input-config-file",
-				"mpv-input-config-enable",
-				"mpris-enable",
-				"prefetch-metadata",
-				NULL };
+	GSettings *settings =
+		g_settings_new(CONFIG_ROOT);
+	const gboolean mpv_config_enable =
+		g_settings_get_boolean(settings, "mpv-config-enable");
 
-	GSettings *old_settings = g_settings_new("io.github.GnomeMpv");
-	GSettings *new_settings = g_settings_new(CONFIG_ROOT);
-
-	if(!g_settings_get_boolean(new_settings, "settings-migrated"))
+	if(mpv_config_enable)
 	{
-		g_settings_set_boolean(new_settings, "settings-migrated", TRUE);
+		gchar *mpv_config_file =
+			g_settings_get_string(settings, "mpv-config-file");
+		const gboolean is_uri =
+			g_uri_is_valid(mpv_config_file, G_URI_FLAGS_NONE, NULL);
+		const gboolean is_absolute_path =
+			g_path_is_absolute(mpv_config_file);
 
-		for(gint i = 0; keys[i]; i++)
+		if(!is_uri && is_absolute_path)
 		{
-			GVariant *buf = g_settings_get_user_value
-						(old_settings, keys[i]);
+			gchar *new_mpv_config_file =
+				g_filename_to_uri(mpv_config_file, NULL, NULL);
 
-			if(buf)
-			{
-				g_settings_set_value
-					(new_settings, keys[i], buf);
+			g_settings_set_string
+				(	settings,
+					"mpv-config-file",
+					new_mpv_config_file );
 
-				g_variant_unref(buf);
-			}
+			g_info(	"Updated mpv-config-file to %s",
+				new_mpv_config_file );
+
+			g_free(new_mpv_config_file);
 		}
+		else if(!is_uri)
+		{
+			g_warning("Failed to update mpv-config-file");
+		}
+
+		g_free(mpv_config_file);
 	}
 
-	g_object_unref(old_settings);
-	g_object_unref(new_settings);
+	g_object_unref(settings);
 }
 
 static void
