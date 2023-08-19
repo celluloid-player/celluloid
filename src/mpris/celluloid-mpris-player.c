@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, 2021-2022 gnome-mpv
+ * Copyright (c) 2015-2019, 2021-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -910,6 +910,7 @@ celluloid_mpris_player_init(CelluloidMprisPlayer *player)
 		{"Rate", FALSE},
 		{"Metadata", TRUE},
 		{"Volume", FALSE},
+		{"Position", FALSE},
 		{"MinimumRate", TRUE},
 		{"MaximumRate", TRUE},
 		{"CanGoNext", TRUE},
