@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-19 15:33+0700\n"
+"POT-Creation-Date: 2023-08-21 04:15+0700\n"
 "PO-Revision-Date: 2023-01-24 04:51+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/celluloid/"
@@ -78,7 +78,8 @@ msgstr "상단에 파일명 항상 보이기"
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
-msgstr "true이면 제목 버튼(닫기, 최대화, 최소화 등)이 항상 표시됩니다. false인 경우 "
+msgstr ""
+"true이면 제목 버튼(닫기, 최대화, 최소화 등)이 항상 표시됩니다. false인 경우 "
 "버튼은 전체 화면 모드에서 숨겨집니다."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
@@ -89,11 +90,12 @@ msgstr "새 파일을 열 때 창에 포커스 주기"
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
-msgstr "참일 경우, Celluloid는 새 파일을 열 때 창에 초점을 맞춥니다. 거짓일 경우, "
-"시도하지 않습니다."
+msgstr ""
+"참일 경우, Celluloid는 새 파일을 열 때 창에 초점을 맞춥니다. 거짓일 경우, 시"
+"도하지 않습니다."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
-#: src/celluloid-application.c:600
+#: src/celluloid-application.c:577
 msgid "Options to pass to mpv"
 msgstr "mpv로 전달할 옵션"
 
@@ -118,68 +120,64 @@ msgid "Enable MPRIS support"
 msgstr "MPRIS 지원 활성화"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:138
-msgid "Enable media keys support"
-msgstr "미디어 키 지원 활성화"
-
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
 msgstr "메뉴바 가속 키 활성화"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:150
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Prefetch metadata"
 msgstr "메타데이터 미리 가져오기"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:156
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Ignore playback errors"
 msgstr "재생 오류 무시"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:162
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:156
 msgid "Inhibit session idling"
 msgstr "세션 유휴 금지"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:168
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:162
 msgid "Make video area draggable"
 msgstr "비디오 영역 드래그 가능"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:178
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:172
 msgid "Width of the window"
 msgstr "창의 너비"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:184
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Height of the window"
 msgstr "창 높이"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:190
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:184
 msgid "Whether or not the window is maximized"
 msgstr "창이 최대화되었는지 여부"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:191
 msgid "Volume of player"
 msgstr "음량"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:203
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "재생목록 끝에 도달했을 때 반복할지 여부"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:209
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:203
 msgid "Width of the playlist"
 msgstr "재생목록의 너비"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:215
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:209
 msgid "Show/hide the controls"
 msgstr "컨트롤 표시 여부"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:221
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:215
 msgid "Show/hide the playlist"
 msgstr "재생목록 표시 여부"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:227
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:221
 msgid "URI of the last folder accessed"
 msgstr "마지막으로 액세스 한 폴더의 URI"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:476
+#: src/celluloid-application.c:453
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -195,8 +193,8 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid는 거의 모든 비디오 및 오디오 형식을 재생할 수있는 간단한 미디어 "
-"플레이어입니다. 재생목록 및 MPRIS2 미디어 플레이어 컨트롤을 지원합니다. "
+"Celluloid는 거의 모든 비디오 및 오디오 형식을 재생할 수있는 간단한 미디어 플"
+"레이어입니다. 재생목록 및 MPRIS2 미디어 플레이어 컨트롤을 지원합니다. "
 "Celluloid의 디자인은 그놈 휴먼 인터페이스 지침을 따르지만 클라이언트 측 장식 "
 "(CSD)을 사용하지 않는 다른 시스템에도 적용 할 수 있습니다. mpv 라이브러리와 "
 "GTK를 기반으로합니다."
@@ -222,127 +220,215 @@ msgid "The Celluloid Developers"
 msgstr "Celluloid 개발자"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "이 릴리스에는 다음 변경 사항이 포함됩니다:"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
-msgid "Fix autofit triggering regardless of settings."
-msgstr "설정에 관계없이 자동 맞춤 트리거 수정."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-msgid "Fix window size shrinking across sessions."
-msgstr "세션 전체에서 창 최대화 상태를 유지합니다."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
-msgid "Fix crash when playing files with names containing invalid encoding."
-msgstr "인코딩이 잘못된 파일이름 재생 시 오류 수정."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
-msgid "Fix drag-and-drop not working with some file managers."
-msgstr "일부 파일 관리자에서 드래그 앤 드롭이 작동하지 않는 문제를 수정."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
-msgid "Fix playback starting when the last playlist item is removed."
-msgstr "마지막 재생 목록 항목이 제거되면 재생이 시작되는 문제를 수정."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:134
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:173
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:295
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:326
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:354
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:382
-msgid "This listing is incomplete. See git log for complete changelog."
-msgstr "이 목록은 불완전합니다. 전체 변경 로그는 git 로그를 참조하십시오."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:61
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:141
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:233
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:263
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:302
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:333
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:361
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:140
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:185
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:220
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:342
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:381
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:412
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:440
 msgid "This release contains the following changes:"
 msgstr "이 릴리스에는 다음 변경 사항이 포함됩니다:"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
+msgid "Fix crash when using multiple windows."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
+msgid "Port the about dialog to libadwaita."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
+msgid "Fix cursor not autohiding on KDE."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
+msgid "Fix mouse presses/releases becoming unreliable during playback."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
+msgid ""
+"Make it possible to build on Windows. Celluloid still crashes on mouse "
+"clicks, but it runs and can play videos."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
+#, fuzzy
+msgid "Add Estonian translation by vaba."
+msgstr "@bertronika의 슬로베니아어 번역을 추가."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
+#, fuzzy
+msgid "Add Georgian translation by temuri doghonadze."
+msgstr "@bertronika의 슬로베니아어 번역을 추가."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
+#, fuzzy
+msgid "Add Lithuanian translation by Jonas Smol."
+msgstr "@vl-nix의 우크라이나어 번역 추가"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:63
+#, fuzzy
+msgid "Add Occitan translation by Quentin PAGÈS."
+msgstr "OIS Occidental 번역 추가."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
+#, fuzzy
+msgid "Add Tamil translation by K.B.Dharun Krishna."
+msgstr "@aldatsa 바스크어 번역 추가."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:178
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:213
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:252
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:305
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:335
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:374
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:405
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:433
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
+msgid "This listing is incomplete. See git log for complete changelog."
+msgstr "이 목록은 불완전합니다. 전체 변경 로그는 git 로그를 참조하십시오."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:81
+#, fuzzy
+msgid "Add Malay translation by @dinazmi."
+msgstr "@aldatsa 바스크어 번역 추가."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
+msgid "Use libadwaita."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
+msgid "Fix on_load hook in scripts not triggering."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
+#, fuzzy
+msgid "Add option to make the video area draggable."
+msgstr "비디오 영역 드래그 가능"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
+msgid "Fix autofit breaking when playing small videos."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
+msgid "Make controls layout adaptive."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
+#, fuzzy
+msgid "Display chapter marks in the seek bar."
+msgstr "탐색 막대를 가리키면 커서 위치에 시간이 표시됩니다."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:102
+#, fuzzy
+msgid "Display chapter titles in the seek bar popover."
+msgstr "탐색 막대를 가리키면 커서 위치에 시간이 표시됩니다."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
+msgid "This is mostly a bugfix release. It contains the following changes:"
+msgstr "이 릴리스에는 다음 변경 사항이 포함됩니다:"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
+msgid "Fix autofit triggering regardless of settings."
+msgstr "설정에 관계없이 자동 맞춤 트리거 수정."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:120
+msgid "Fix window size shrinking across sessions."
+msgstr "세션 전체에서 창 최대화 상태를 유지합니다."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:123
+msgid "Fix crash when playing files with names containing invalid encoding."
+msgstr "인코딩이 잘못된 파일이름 재생 시 오류 수정."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:126
+msgid "Fix drag-and-drop not working with some file managers."
+msgstr "일부 파일 관리자에서 드래그 앤 드롭이 작동하지 않는 문제를 수정."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:129
+msgid "Fix playback starting when the last playlist item is removed."
+msgstr "마지막 재생 목록 항목이 제거되면 재생이 시작되는 문제를 수정."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:144
 msgid "Migrate to GTK4."
 msgstr "GTK4 로 전환."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:147
 msgid "Add Greek translation by @lepa22."
 msgstr "@lepa22 그리스어 번역 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:150
 msgid "Add Korean translation by @jullee96."
 msgstr "@jullee96 한국어 번역 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:153
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
 msgstr "Allan Nordhøy 노르웨어 부크몰어 번역 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
 msgid "Add Occidental translation by OIS."
 msgstr "OIS Occidental 번역 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:159
 msgid "Add Arabic translation by Mohamed Benkouider."
 msgstr "Mohamed Benkouider 아랍어 번역 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:162
 msgid "Add Urdu translation by Ahmed Iqbal."
 msgstr "Ahmed Iqbal Urdu 번역 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:165
 msgid "Add option to show title buttons in fullscreen mode."
 msgstr "전체 화면 모드에서 제목 단추를 표시하는 옵션을 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:168
 msgid "Add option to present the window when opening files."
 msgstr "파일을 열 때 창을 표시하는 옵션을 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:171
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr "캡처 파일 기본 형식을 파일이름-타임스탬프 (%f-%P) 형식으로 변경."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:174
 msgid "Fix inaccurate timestamp preview."
 msgstr "미리보기의 타임스탬프 오류 수정."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:189
 msgid "Add Basque translation by @aldatsa."
 msgstr "@aldatsa 바스크어 번역 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:192
 msgid "Make the shuffle and loop command line options work properly."
 msgstr "순서섞기 및 루프 명령줄 옵션이 제대로 작동하도록 합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:116
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:195
 msgid "Make the main menu button toggleable by pressing F10."
 msgstr "F10을 눌러 기본 메뉴 버튼을 토글 가능하게 만드십시오."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:119
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
 msgid "Add a setting for always appending opened files to the playlist."
 msgstr "열려 있는 파일을 항상 재생목록에 덧붙이기 위한 설정을 추가합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:122
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:201
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
-msgstr "Shift 키를 누른 상태에서 비디오 영역에 파일을 놓으면 재생 목록에 파일을 "
-"덧붙일 수 있습니다."
+msgstr ""
+"Shift 키를 누른 상태에서 비디오 영역에 파일을 놓으면 재생 목록에 파일을 덧붙"
+"일 수 있습니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:126
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:205
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
 msgstr "mpv 속성 \"border\"를 통해 CSD 헤더 표시 줄을 전환 할 수 있도록합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:129
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:208
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
@@ -350,11 +436,11 @@ msgstr ""
 "저장소에 Flatpak 매니페스트를 포함합니다. 이를 통해 GNOME Builder와 같은 앱에"
 "서 한 번의 클릭으로 Celluloid를 만들 수 있습니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:224
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr "재생 목록이 비어있을 때 상황에 맞는 메뉴를 활성화 할 수 있습니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:227
 msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as "
 "its value changes."
@@ -362,7 +448,7 @@ msgstr ""
 "값이 변경 될 때 타임 스탬프 레이블 크기가 조정되어 탐색 막대의 지속적인 크기 "
 "조정을 방지합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:152
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:231
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
@@ -370,11 +456,11 @@ msgstr ""
 "많은 수의 오류가 연속적으로 빠르게 발생할 때 하나의 오류 대화 상자 만 표시합"
 "니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
 msgid "Add menu item for opening folders."
 msgstr "폴더를 열기 위한 메뉴 항목을 추가합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:159
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:238
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
@@ -382,49 +468,49 @@ msgstr ""
 "비 CSD 모드에서 모달 대화 상자의 UI 요소 위치를 조정하여 CSD 모드와 더 일관성"
 "을 유지합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:242
 msgid "Add support for loading external video tracks."
 msgstr "외부 비디오 트랙로드 지원을 추가합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:245
 msgid "Make playlist shuffle toggleable."
 msgstr "재생 목록 순서섞기를 전환할 수 있도록 합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:248
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr "숫자 키패드의 화살표 키로 화살표 키 바인딩이 작동하도록합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:263
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr "volume-max 속성의 값에 따라 볼륨 버튼의 범위를 조정합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:188
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:267
 msgid "Retain window maximization state across sessions."
 msgstr "세션 전체에서 창 최대화 상태를 유지합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:191
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:270
 msgid "Retain loop state across sessions."
 msgstr "세션 전체에서 루프 상태를 유지합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:273
 msgid "Implement playlist search."
 msgstr "재생 목록 검색을 구현합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:197
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:276
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
 msgstr "키보드 단축키 대화 상자에서 단축키 목록을 업데이트합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:279
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr "추가 mpv 옵션에서 따옴표와 이스케이프 시퀀스를 올바르게 처리합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:203
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:282
 msgid "Display time at cursor position when hovering the seek bar."
 msgstr "탐색 막대를 가리키면 커서 위치에 시간이 표시됩니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:206
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
 msgid ""
 "Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
@@ -434,7 +520,7 @@ msgstr ""
 "여 mpv 옵션을 설정할 수 있습니다. 예를 들어 '--mpv-vf = vflip'을 Celluloid에 "
 "전달하는 것은 '--vf = vflip'을 mpv에 전달하는 것과 같습니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:212
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
@@ -442,160 +528,160 @@ msgstr ""
 "마우스 움직임으로 인해 컨트롤이 표시되지 않는 영역 인 데드 존 구성 지원을 추"
 "가합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:216
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:295
 msgid "Make window sizing work correctly with HiDPI displays."
 msgstr "HiDPI 디스플레이에서 창 크기 조정이 올바르게 작동하도록합니다."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
 msgid "Add Finnish translation by Kimmo Kujansuu."
 msgstr "Kimmo Kujansuu의 핀란드어 번역을 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:222
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:301
 msgid "Add Slovenian translation by @bertronika."
 msgstr "@bertronika의 슬로베니아어 번역을 추가."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:237
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:316
 msgid "Add Persian translation by @danialbehzadi"
 msgstr "@danialbehzadi의 페르시아어 번역 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:240
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:319
 msgid "Add Ukranian translation by @vl-nix"
 msgstr "@vl-nix의 우크라이나어 번역 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:243
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:322
 msgid ""
 "Add support for showing/hiding window decorations using the mpv option --"
 "border"
 msgstr "mpv 옵션 --border를 사용하여 창 장식 표시 / 숨기기 지원 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:325
 msgid "Add menu item for opening discs"
 msgstr "디스크를 열기위한 메뉴 항목 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:249
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:328
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr "창 모드에서 볼륨 팝업 열릴 때 커서 자동 숨기기 차단"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:252
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:331
 msgid "Fix crash with mpv 0.30"
 msgstr "mpv 0.30으로 충돌 수정"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:267
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:346
 msgid "Rename project to Celluloid"
 msgstr "Celluloid로 프로젝트 이름 바꾸기"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:270
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
 msgid "Add Turkish translation by @TeknoMobil"
 msgstr "@TeknoMobil의 터키어 번역 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:273
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
 msgid "Add Esperanto translation by @F3nd0"
 msgstr "@F3nd0 에스페란토 번역 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:276
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:355
 msgid "Migrate from opengl-cb to the new render API"
 msgstr "opengl-cb에서 새로운 렌더링 API로 마이그레이션"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:279
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
 msgid "Handle numpad keybindings"
 msgstr "숫자 키패드 키 바인딩 처리"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:282
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:361
 msgid "Handle unicode keybindings"
 msgstr "유니 코드 키 바인딩 처리"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:364
 msgid "Forward media key events to mpv"
 msgstr "미디어 키 이벤트를 mpv로 전달"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:288
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:367
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr "컨트롤이 숨김 해제되는 커서 속도를 제어하기위한 dconf 키 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:370
 msgid "Add option for suppressing playback errors"
 msgstr "재생 오류 억제 옵션 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:306
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:385
 msgid "Split up the General tab in the preferences dialog"
 msgstr "환경 설정 대화 상자에서 일반 탭 분할"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:388
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr "타일링 창 관리자에서 재생 목록을 전환 할 때 동작 개선"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:391
 msgid "Move app menu items to primary menu"
 msgstr "앱 메뉴 항목을 기본 메뉴로 이동"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:394
 msgid "Use separate MPRIS DBus connection for each window"
 msgstr "각 창에 별도의 MPRIS DBus 연결 사용"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:318
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:397
 msgid "Add support for MPRIS property LoopStatus"
 msgstr "MPRIS 속성 LoopStatus에 대한 지원 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:321
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:400
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr "명령 줄에서 임의의 mpv 옵션을 설정하기위한 --mpv-options 옵션 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:416
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
 msgstr "기본 스크린 샷 디렉토리를 XDG_PICTURES_DIR로 설정합니다"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:419
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
 msgstr ""
 "--window-scale, --autofit, --autofit-larger 및 --autofit-smaller 처리 개선"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:344
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:423
 msgid "Add command line option for setting WM_ROLE"
 msgstr "WM_ROLE 설정을위한 명령 줄 옵션 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:347
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:426
 msgid "Add context menu item for removing playlist items"
 msgstr "재생 목록 항목 제거를위한 컨텍스트 메뉴 항목 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:350
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:429
 msgid "Add context menu item for copying location of playlist items"
 msgstr "재생 목록 항목의 위치를 복사하기위한 컨텍스트 메뉴 항목 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:444
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr "건너 뛰기 버튼으로 챕터 대신 재생 목록 항목을 변경하는 옵션 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:369
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:448
 msgid "Make the file chooser accept non-local locations"
 msgstr "파일 선택 시 로컬이 아닌 위치를 허용하도록 설정"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:372
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:451
 msgid "Add right-click menu entry for looping a single file"
 msgstr "단일 파일을 반복하기위한 오른쪽 클릭 메뉴 항목 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:375
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:454
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr "전체 화면 및 창 크기에 대한 속성 변경 이벤트 처리"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:378
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:457
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr "창 모드에서 마우스 커서 자동 숨기기 옵션 추가"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:471
 msgid "The main window showing the application in action"
 msgstr "작동중인 애플리케이션을 보여주는 기본 창"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:396
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:475
 msgid "The main window with CSD disabled"
 msgstr "CSD가 비활성화 된 기본 창"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:400
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:479
 msgid "The main window with playlist open"
 msgstr "재생 목록이 열려있는 기본 창"
 
@@ -622,91 +708,88 @@ msgstr "새창"
 msgid "Add to Playlist"
 msgstr "재생 목록에 추가"
 
-#: src/celluloid-application.c:520
+#: src/celluloid-application.c:497
 msgid "Playing"
 msgstr "재생"
 
-#: src/celluloid-application.c:576
+#: src/celluloid-application.c:553
 msgid "Show release version"
 msgstr "출시 버전 표시"
 
-#: src/celluloid-application.c:584
+#: src/celluloid-application.c:561
 msgid "Enqueue"
 msgstr "대기열에 넣기"
 
-#: src/celluloid-application.c:592
+#: src/celluloid-application.c:569
 msgid "Create a new window"
 msgstr "새 창 만들기"
 
-#: src/celluloid-application.c:601
+#: src/celluloid-application.c:578
 msgid "OPTIONS"
 msgstr "옵션"
 
-#: src/celluloid-application.c:608
+#: src/celluloid-application.c:585
 msgid "Set the window role"
 msgstr "창 역할 설정"
 
-#: src/celluloid-application.c:616
+#: src/celluloid-application.c:593
 msgid "Don't connect to an already-running instance"
 msgstr "이미 실행중인 인스턴스에 연결하지 마십시오"
 
-#: src/celluloid-application.c:627
+#: src/celluloid-application.c:604
 msgid "Set the mpv option MPVOPTION to VALUE"
 msgstr "mpv 옵션 MPVOPTION을 VALUE로 설정합니다"
 
-#: src/celluloid-application.c:628
+#: src/celluloid-application.c:605
 msgid "VALUE"
 msgstr "값"
 
-#: src/celluloid-common.c:240
+#: src/celluloid-common.c:261
 msgid "invalid encoding"
 msgstr "존재하지 않는 인코딩"
 
-#: src/celluloid-control-box.c:412
+#: src/celluloid-control-box.c:444
 msgid "Pause"
 msgstr "중지"
 
-#: src/celluloid-control-box.c:412 src/celluloid-control-box.c:637
+#: src/celluloid-control-box.c:444 src/celluloid-control-box.c:710
 msgid "Play"
 msgstr "플레이"
 
-#: src/celluloid-control-box.c:640
+#: src/celluloid-control-box.c:713
 msgid "Stop"
 msgstr "중지"
 
-#: src/celluloid-control-box.c:643
+#: src/celluloid-control-box.c:716
 msgid "Forward"
 msgstr "앞으로"
 
-#: src/celluloid-control-box.c:646
+#: src/celluloid-control-box.c:719
 msgid "Rewind"
 msgstr "되감기"
 
-#: src/celluloid-control-box.c:649
+#: src/celluloid-control-box.c:722
 msgid "Next Chapter"
 msgstr "다음 장"
 
-#: src/celluloid-control-box.c:652
+#: src/celluloid-control-box.c:725
 msgid "Previous Chapter"
 msgstr "이전 장"
 
-#: src/celluloid-control-box.c:655
+#: src/celluloid-control-box.c:728
 msgid "Loop Playlist"
 msgstr "재생 목록 반복"
 
-#: src/celluloid-control-box.c:658
+#: src/celluloid-control-box.c:731
 msgid "Shuffle Playlist"
 msgstr "재생 목록 무작위 재생"
 
-#: src/celluloid-control-box.c:661 src/celluloid-header-bar.c:248
+#: src/celluloid-control-box.c:734 src/celluloid-control-box.c:737
+#: src/celluloid-header-bar.c:248
 msgid "Toggle Fullscreen"
 msgstr "전체 화면 전환"
 
-#: src/celluloid-controller.c:1103 src/celluloid-view.c:965
-msgid "Error"
-msgstr "오류"
-
-#: src/celluloid-file-chooser.c:144 src/celluloid-plugins-manager.c:184
+#: src/celluloid-file-chooser.c:144 src/celluloid-plugins-manager.c:197
 msgid "All Files"
 msgstr "모든 파일"
 
@@ -730,17 +813,9 @@ msgstr "이미지 파일"
 msgid "Subtitle Files"
 msgstr "자막 파일"
 
-#: src/celluloid-file-chooser-button.c:229
+#: src/celluloid-file-chooser-button.c:232
 msgid "Open File…"
 msgstr "파일 열기…"
-
-#: src/celluloid-file-chooser-button.c:232
-msgid "Open"
-msgstr "열기"
-
-#: src/celluloid-file-chooser-button.c:233
-msgid "Cancel"
-msgstr "취소"
 
 #: src/celluloid-file-chooser-button.c:235
 msgid "(None)"
@@ -772,15 +847,15 @@ msgstr "디스크를 찾을 수 없습니다"
 msgid "_File"
 msgstr "파일(_F)"
 
-#: src/celluloid-menu.c:236 src/celluloid-menu.c:318
+#: src/celluloid-menu.c:236 src/celluloid-menu.c:316
 msgid "_Open File…"
 msgstr "파일 열기(_O)…"
 
-#: src/celluloid-menu.c:237 src/celluloid-menu.c:319
+#: src/celluloid-menu.c:237 src/celluloid-menu.c:317
 msgid "Open _Folder…"
 msgstr "폴더 열기(_F)…"
 
-#: src/celluloid-menu.c:238 src/celluloid-menu.c:320
+#: src/celluloid-menu.c:238 src/celluloid-menu.c:318
 msgid "Open _Location…"
 msgstr "위치 열기(_L)…"
 
@@ -788,11 +863,11 @@ msgstr "위치 열기(_L)…"
 msgid "Open _Disc…"
 msgstr "디스크 열기(_D)…"
 
-#: src/celluloid-menu.c:240 src/celluloid-menu.c:290
+#: src/celluloid-menu.c:240 src/celluloid-menu.c:288
 msgid "_Save Playlist"
 msgstr "재생 목록 저장(_S)"
 
-#: src/celluloid-menu.c:241 src/celluloid-menu.c:323
+#: src/celluloid-menu.c:241 src/celluloid-menu.c:321
 msgid "_New Window"
 msgstr "새 창(_N)"
 
@@ -804,19 +879,19 @@ msgstr "종료(_Q)"
 msgid "_Edit"
 msgstr "편집(_E)"
 
-#: src/celluloid-menu.c:244 src/celluloid-menu.c:296
+#: src/celluloid-menu.c:244 src/celluloid-menu.c:294
 msgid "_Preferences"
 msgstr "설정(_P)"
 
-#: src/celluloid-menu.c:245 src/celluloid-menu.c:292
+#: src/celluloid-menu.c:245 src/celluloid-menu.c:290
 msgid "_Video Track"
 msgstr "비디오 트랙(_V)"
 
-#: src/celluloid-menu.c:246 src/celluloid-menu.c:293
+#: src/celluloid-menu.c:246 src/celluloid-menu.c:291
 msgid "_Audio Track"
 msgstr "오디오 트랙(_A)"
 
-#: src/celluloid-menu.c:247 src/celluloid-menu.c:294
+#: src/celluloid-menu.c:247 src/celluloid-menu.c:292
 msgid "S_ubtitle Track"
 msgstr "자막 트랙(_U)"
 
@@ -824,31 +899,27 @@ msgstr "자막 트랙(_U)"
 msgid "_View"
 msgstr "보기(_V)"
 
-#: src/celluloid-menu.c:249 src/celluloid-menu.c:287
+#: src/celluloid-menu.c:249 src/celluloid-menu.c:286
 msgid "_Toggle Controls"
 msgstr "하단 바 전환(_T)"
 
-#: src/celluloid-menu.c:250 src/celluloid-menu.c:289
-msgid "_Toggle Playlist"
-msgstr "재생 목록 전환(_T)"
-
-#: src/celluloid-menu.c:251
+#: src/celluloid-menu.c:250
 msgid "_Fullscreen"
 msgstr "전체 화면(_F)"
 
-#: src/celluloid-menu.c:252
+#: src/celluloid-menu.c:251
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: src/celluloid-menu.c:253 src/celluloid-menu.c:297
+#: src/celluloid-menu.c:252 src/celluloid-menu.c:295
 msgid "_Keyboard Shortcuts"
 msgstr "키보드 단축키(_K)"
 
-#: src/celluloid-menu.c:254 src/celluloid-menu.c:298
+#: src/celluloid-menu.c:253 src/celluloid-menu.c:296
 msgid "_About Celluloid"
 msgstr "Celluloid 정보(_A)"
 
-#: src/celluloid-menu.c:321
+#: src/celluloid-menu.c:319
 msgid "Open _Disc"
 msgstr "디스크 열기(_D)"
 
@@ -866,122 +937,129 @@ msgid "_Open"
 msgstr "열기(_O)"
 
 #: src/celluloid-open-location-dialog.c:138
-#: src/celluloid-preferences-dialog.c:430
 msgid "_Cancel"
 msgstr "취소(_C)"
 
-#: src/celluloid-player.c:601
+#: src/celluloid-player.c:620
 msgid "Failed to apply one or more MPV options."
 msgstr "하나 이상의 MPV 옵션을 적용하지 못했습니다."
 
-#: src/celluloid-playlist-widget.c:554
+#: src/celluloid-playlist-widget.c:561
 msgid "_Copy Location"
 msgstr "위치 복사(_C)"
 
-#: src/celluloid-playlist-widget.c:555
+#: src/celluloid-playlist-widget.c:562 src/celluloid-plugins-manager-item.c:207
 msgid "_Remove"
 msgstr "제거(_R)"
 
-#: src/celluloid-playlist-widget.c:557
+#: src/celluloid-playlist-widget.c:564
 msgid "_Add…"
 msgstr "추가(_A)…"
 
-#: src/celluloid-playlist-widget.c:558
+#: src/celluloid-playlist-widget.c:565
 msgid "Add _Folder…"
 msgstr "폴더 추가(_F)…"
 
-#: src/celluloid-playlist-widget.c:559
+#: src/celluloid-playlist-widget.c:566
 msgid "Add _Location…"
 msgstr "위치 추가(_L)…"
 
-#: src/celluloid-playlist-widget.c:560
+#: src/celluloid-playlist-widget.c:567
 msgid "_Shuffle"
 msgstr "무작위(_S)"
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:568
 msgid "Loop _File"
 msgstr "파일 반복(_F)"
 
-#: src/celluloid-playlist-widget.c:562
+#: src/celluloid-playlist-widget.c:569
 msgid "Loop _Playlist"
 msgstr "재생 목록 반복(_P)"
 
-#: src/celluloid-playlist-widget.c:911
+#: src/celluloid-playlist-widget.c:918
 msgid "Playlist is empty"
 msgstr "재생 목록이 비어 있습니다"
 
-#: src/celluloid-plugins-manager.c:177 src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:190 src/celluloid-plugins-manager.c:445
 msgid "Add Plugin"
 msgstr "플러그인 추가"
 
-#: src/celluloid-plugins-manager.c:189
+#: src/celluloid-plugins-manager.c:202
 msgid "Lua Plugins"
 msgstr "Lua 플러그인"
 
-#: src/celluloid-plugins-manager.c:195
+#: src/celluloid-plugins-manager.c:208
 msgid "JavaScript Plugins"
 msgstr "자바 스크립트 플러그인"
 
-#: src/celluloid-plugins-manager.c:200
+#: src/celluloid-plugins-manager.c:213
 msgid "C Plugins"
 msgstr "C 플러그인"
 
-#: src/celluloid-plugins-manager.c:333
+#: src/celluloid-plugins-manager.c:354
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "'%s'에서 '%s'(으)로 파일을 복사하지 못했습니다. 원인 : %s"
 
-#: src/celluloid-plugins-manager.c:388
-msgid "No plugins found"
+#: src/celluloid-plugins-manager.c:408
+msgid "Plugins"
+msgstr "플러그인"
+
+#: src/celluloid-plugins-manager.c:415
+#, fuzzy
+msgid "Add…"
+msgstr "추가(_A)…"
+
+#: src/celluloid-plugins-manager.c:449
+#, fuzzy
+msgid "No Plugins Found"
 msgstr "플러그인이 없습니다"
 
 #: src/celluloid-plugins-manager-item.c:82
-msgid "Remove"
-msgstr "제거"
+#, fuzzy
+msgid "Remove Plugin"
+msgstr "C 플러그인"
 
-#: src/celluloid-plugins-manager-item.c:195
+#: src/celluloid-plugins-manager-item.c:177
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "'%s' 파일을 삭제하지 못했습니다. 원인 : %s"
 
-#: src/celluloid-plugins-manager-item.c:224
+#: src/celluloid-plugins-manager-item.c:201
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "이 스크립트를 제거 하시겠습니까? 이 작업은 취소 할 수 없습니다."
 
-#: src/celluloid-preferences-dialog.c:369
+#: src/celluloid-plugins-manager-item.c:208
+msgid "_Keep"
+msgstr ""
+
+#: src/celluloid-preferences-dialog.c:289
 msgid "mpv configuration file:"
 msgstr "mpv 구성 파일 :"
 
-#: src/celluloid-preferences-dialog.c:375
+#: src/celluloid-preferences-dialog.c:295
 msgid "mpv input configuration file:"
 msgstr "mpv 입력 구성 파일 :"
 
-#: src/celluloid-preferences-dialog.c:398
-msgid "Extra mpv options:"
+#: src/celluloid-preferences-dialog.c:315
+#, fuzzy
+msgid "Extra mpv options"
 msgstr "추가 mpv 옵션 :"
 
-#: src/celluloid-preferences-dialog.c:418
+#: src/celluloid-preferences-dialog.c:328
 msgid "Interface"
 msgstr "인터페이스"
 
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:336
 msgid "Config Files"
 msgstr "설정 파일"
 
-#: src/celluloid-preferences-dialog.c:424
+#: src/celluloid-preferences-dialog.c:344
 msgid "Miscellaneous"
 msgstr "기타 설정"
 
-#: src/celluloid-preferences-dialog.c:427
-msgid "Plugins"
-msgstr "플러그인"
-
-#: src/celluloid-preferences-dialog.c:432
-msgid "_Save"
-msgstr "저장(_S)"
-
-#: src/celluloid-preferences-dialog.c:458
+#: src/celluloid-preferences-dialog.c:366
 msgid "Preferences"
 msgstr "환경 설정"
 
@@ -1006,298 +1084,326 @@ msgid "Show preferences dialog"
 msgstr "기본 설정 대화 상자 표시"
 
 #: src/celluloid-shortcuts-window.c:51
-msgid "Toggle controls"
-msgstr "컨트롤 전환"
-
-#: src/celluloid-shortcuts-window.c:52
 msgid "Toggle playlist"
 msgstr "재생 목록 전환"
 
-#: src/celluloid-shortcuts-window.c:53
+#: src/celluloid-shortcuts-window.c:52
 msgid "Toggle fullscreen mode"
 msgstr "전체 화면 모드 전환"
 
-#: src/celluloid-shortcuts-window.c:54
+#: src/celluloid-shortcuts-window.c:53
 msgid "Leave fullscreen mode"
 msgstr "전체 화면 모드 종료"
 
-#: src/celluloid-shortcuts-window.c:55
+#: src/celluloid-shortcuts-window.c:54
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr "정상 및 재생 시간/구간 OSD 상태 전환"
 
-#: src/celluloid-shortcuts-window.c:56
+#: src/celluloid-shortcuts-window.c:55
 msgid "Show filename on the OSD"
 msgstr "OSD에 파일 이름 표시"
 
-#: src/celluloid-shortcuts-window.c:57
+#: src/celluloid-shortcuts-window.c:56
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "OSD에 진행률, 경과 시간 및 구간 표시"
 
-#: src/celluloid-shortcuts-window.c:60
+#: src/celluloid-shortcuts-window.c:59
 msgid "Seek backward/forward 5 seconds"
 msgstr "5 초 뒤로 / 앞으로 탐색"
 
-#: src/celluloid-shortcuts-window.c:61
+#: src/celluloid-shortcuts-window.c:60
 msgid "Exact seek backward/forward 1 second"
 msgstr "정확히 1 초 뒤로 / 앞으로 검색"
 
-#: src/celluloid-shortcuts-window.c:62
+#: src/celluloid-shortcuts-window.c:61
 msgid "Seek backward/forward 1 minute"
 msgstr "1 분 뒤로 / 앞으로 탐색"
 
-#: src/celluloid-shortcuts-window.c:63
+#: src/celluloid-shortcuts-window.c:62
 msgid "Exact seek backward/forward 5 seconds"
 msgstr "정확한 뒤로 / 앞으로 5 초 검색"
 
-#: src/celluloid-shortcuts-window.c:64
+#: src/celluloid-shortcuts-window.c:63
 msgid "Seek to previous/next subtitle"
 msgstr "이전 / 다음 자막으로 이동"
 
-#: src/celluloid-shortcuts-window.c:65
+#: src/celluloid-shortcuts-window.c:64
 msgid "Step backward/forward a single frame"
 msgstr "단일 프레임 뒤로 / 앞으로 이동"
 
-#: src/celluloid-shortcuts-window.c:66
+#: src/celluloid-shortcuts-window.c:65
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr "이전 / 다음 장의 시작 부분으로 이동"
 
-#: src/celluloid-shortcuts-window.c:69
+#: src/celluloid-shortcuts-window.c:68
 msgid "Decrease/increase playback speed by 10%"
 msgstr "재생 속도 10% 감소 / 증가"
 
-#: src/celluloid-shortcuts-window.c:70
+#: src/celluloid-shortcuts-window.c:69
 msgid "Halve/double current playback speed"
 msgstr "현재 재생 속도 절반 / 두 배"
 
-#: src/celluloid-shortcuts-window.c:71
+#: src/celluloid-shortcuts-window.c:70
 msgid "Reset playback speed to normal"
 msgstr "재생 속도를 정상으로 재설정"
 
-#: src/celluloid-shortcuts-window.c:72
+#: src/celluloid-shortcuts-window.c:71
 msgid "Go backward/forward in the playlist"
 msgstr "재생 목록에서 뒤로 / 앞으로 이동"
 
-#: src/celluloid-shortcuts-window.c:73
+#: src/celluloid-shortcuts-window.c:72
 msgid "Remove selected playlist item"
 msgstr "선택한 재생 목록 항목 제거"
 
-#: src/celluloid-shortcuts-window.c:74
+#: src/celluloid-shortcuts-window.c:73
 msgid "Save playlist"
 msgstr "재생 목록 저장"
 
-#: src/celluloid-shortcuts-window.c:75
+#: src/celluloid-shortcuts-window.c:74
 msgid "Set/clear A-B loop points"
 msgstr "A-B 루프 포인트 설정 / 지우기"
 
-#: src/celluloid-shortcuts-window.c:76
+#: src/celluloid-shortcuts-window.c:75
 msgid "Toggle infinite looping"
 msgstr "무한 반복 켬/끄기"
 
-#: src/celluloid-shortcuts-window.c:77
+#: src/celluloid-shortcuts-window.c:76
 msgid "Pause or unpause"
 msgstr "일시 중지 또는 일시 중지 해제"
 
-#: src/celluloid-shortcuts-window.c:78
+#: src/celluloid-shortcuts-window.c:77
 msgid "Quit"
 msgstr "종료"
 
-#: src/celluloid-shortcuts-window.c:79
+#: src/celluloid-shortcuts-window.c:78
 msgid "Save current playback position and quit"
 msgstr "현재 재생 위치를 저장하고 종료"
 
-#: src/celluloid-shortcuts-window.c:82
+#: src/celluloid-shortcuts-window.c:81
 msgid "Enter search mode"
 msgstr "검색 모드 시작"
 
-#: src/celluloid-shortcuts-window.c:83
+#: src/celluloid-shortcuts-window.c:82
 msgid "Jump to next match"
 msgstr "다음으로 이동"
 
-#: src/celluloid-shortcuts-window.c:84
+#: src/celluloid-shortcuts-window.c:83
 msgid "Jump to previous match"
 msgstr "이전으로 이동"
 
-#: src/celluloid-shortcuts-window.c:85
+#: src/celluloid-shortcuts-window.c:84
 msgid "Exit search mode"
 msgstr "검색 모드 종료"
 
-#: src/celluloid-shortcuts-window.c:88
+#: src/celluloid-shortcuts-window.c:87
 msgid "Cycle through audio tracks"
 msgstr "오디오 트랙 순환"
 
-#: src/celluloid-shortcuts-window.c:89 src/celluloid-shortcuts-window.c:90
+#: src/celluloid-shortcuts-window.c:88 src/celluloid-shortcuts-window.c:89
 msgid "Decrease/increase volume"
 msgstr "볼륨 감소 / 증가"
 
-#: src/celluloid-shortcuts-window.c:91
+#: src/celluloid-shortcuts-window.c:90
 msgid "Mute or unmute"
 msgstr "음소거 또는 음소거 해제"
 
-#: src/celluloid-shortcuts-window.c:92
+#: src/celluloid-shortcuts-window.c:91
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "+/- 0.1 초 단위로 오디오 지연 조정"
 
-#: src/celluloid-shortcuts-window.c:95
+#: src/celluloid-shortcuts-window.c:94
 msgid "Toggle subtitle visibility"
 msgstr "자막 표시 전환"
 
-#: src/celluloid-shortcuts-window.c:96
+#: src/celluloid-shortcuts-window.c:95
 msgid "Cycle through available subtitles"
 msgstr "사용 가능한 자막 순환"
 
-#: src/celluloid-shortcuts-window.c:97
+#: src/celluloid-shortcuts-window.c:96
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "+/- 0.1 초 단위로 자막 지연 조정"
 
-#: src/celluloid-shortcuts-window.c:98
+#: src/celluloid-shortcuts-window.c:97
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr "SSA / ASS 자막 스타일 재정의 전환"
 
-#: src/celluloid-shortcuts-window.c:99
+#: src/celluloid-shortcuts-window.c:98
 msgid "Move subtitles up/down"
 msgstr "자막을 위 / 아래로 이동"
 
-#: src/celluloid-shortcuts-window.c:100
+#: src/celluloid-shortcuts-window.c:99
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr "VSFilter 종횡비 호환성 모드 전환"
 
-#: src/celluloid-shortcuts-window.c:103
+#: src/celluloid-shortcuts-window.c:102
 msgid "Cycle through video tracks"
 msgstr "비디오 트랙 순환"
 
-#: src/celluloid-shortcuts-window.c:104
+#: src/celluloid-shortcuts-window.c:103
 msgid "Decrease/increase pan-and-scan range"
 msgstr "팬 및 스캔 범위 감소 / 증가"
 
-#: src/celluloid-shortcuts-window.c:105
+#: src/celluloid-shortcuts-window.c:104
 msgid "Take a screenshot"
 msgstr "스크린 샷 찍기"
 
-#: src/celluloid-shortcuts-window.c:106
+#: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot, without subtitles"
 msgstr "자막없이 스크린 샷 찍기"
 
-#: src/celluloid-shortcuts-window.c:107
+#: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, as the window shows it"
 msgstr "창에 표시된대로 스크린 샷을 찍습니다"
 
-#: src/celluloid-shortcuts-window.c:108
+#: src/celluloid-shortcuts-window.c:107
 msgid "Resize video to half its original size"
 msgstr "비디오 크기를 원래 크기의 절반으로 조정"
 
-#: src/celluloid-shortcuts-window.c:109
+#: src/celluloid-shortcuts-window.c:108
 msgid "Resize video to its original size"
 msgstr "비디오 크기를 원래 크기로 조정"
 
-#: src/celluloid-shortcuts-window.c:110
+#: src/celluloid-shortcuts-window.c:109
 msgid "Resize video to double its original size"
 msgstr "비디오 크기를 원래 크기의 두 배로 조정"
 
-#: src/celluloid-shortcuts-window.c:111
+#: src/celluloid-shortcuts-window.c:110
 msgid "Adjust contrast"
 msgstr "대비 조정"
 
-#: src/celluloid-shortcuts-window.c:112
+#: src/celluloid-shortcuts-window.c:111
 msgid "Adjust brightness"
 msgstr "밝기 조정"
 
-#: src/celluloid-shortcuts-window.c:113
+#: src/celluloid-shortcuts-window.c:112
 msgid "Adjust gamma"
 msgstr "감마 조정"
 
-#: src/celluloid-shortcuts-window.c:114
+#: src/celluloid-shortcuts-window.c:113
 msgid "Adjust saturation"
 msgstr "채도 조정"
 
-#: src/celluloid-shortcuts-window.c:115
+#: src/celluloid-shortcuts-window.c:114
 msgid "Activate or deactivate deinterlacer"
 msgstr "디인터레이서 활성화 또는 비활성화"
 
-#: src/celluloid-shortcuts-window.c:116
+#: src/celluloid-shortcuts-window.c:115
 msgid "Cycle aspect ratio override"
 msgstr "순환 종횡비 재정의"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:118
 msgid "User Interface"
 msgstr "사용자 인터페이스"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:119
 msgid "Video"
 msgstr "비디오"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:120
 msgid "Audio"
 msgstr "오디오"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:121
 msgid "Subtitle"
 msgstr "자막"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:122
 msgid "Playback"
 msgstr "재생"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:123
 msgid "Seeking"
 msgstr "탐색"
 
-#: src/celluloid-shortcuts-window.c:125
+#: src/celluloid-shortcuts-window.c:124
 msgid "Playlist"
 msgstr "재생"
 
-#: src/celluloid-view.c:743
+#: src/celluloid-video-area.c:629
+msgid "Welcome"
+msgstr ""
+
+#: src/celluloid-video-area.c:632
+msgid "Press ＋ or drag your video file here."
+msgstr ""
+
+#: src/celluloid-view.c:765
 msgid "Load Audio Track…"
 msgstr "오디오 트랙로드…"
 
-#: src/celluloid-view.c:747
+#: src/celluloid-view.c:769
 msgid "Load Video Track…"
 msgstr "비디오 트랙로드…"
 
-#: src/celluloid-view.c:751
+#: src/celluloid-view.c:773
 msgid "Load Subtitle Track…"
 msgstr "자막 트랙로드…"
 
-#: src/celluloid-view.c:923
+#: src/celluloid-view.c:942
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr "클라이언트 효과를 활성화 또는 비활성화하려면 다시 시작해야 적용됩니다."
 
-#: src/celluloid-view.c:1445
+#: src/celluloid-view.c:983
+msgid "Error"
+msgstr "오류"
+
+#: src/celluloid-view.c:1472
 msgid "Add Folder to Playlist"
 msgstr "재생 목록에 폴더 추가"
 
-#: src/celluloid-view.c:1445
+#: src/celluloid-view.c:1472
 msgid "Open Folder"
 msgstr "폴더 열기"
 
-#: src/celluloid-view.c:1450
+#: src/celluloid-view.c:1477
 msgid "Add File to Playlist"
 msgstr "재생 목록에 파일 추가"
 
-#: src/celluloid-view.c:1450
+#: src/celluloid-view.c:1477
 msgid "Open File"
 msgstr "파일 열기"
 
-#: src/celluloid-view.c:1486
+#: src/celluloid-view.c:1513
 msgid "Add Location to Playlist"
 msgstr "재생 목록에 위치 추가"
 
-#: src/celluloid-view.c:1487
+#: src/celluloid-view.c:1514
 msgid "Open Location"
 msgstr "위치 열기"
 
-#: src/celluloid-view.c:1529
+#: src/celluloid-view.c:1556
 msgid "Save Playlist"
 msgstr "재생 목록 저장"
 
-#: src/celluloid-view.c:1576
-msgid "A GTK frontend for MPV"
-msgstr "MPV 용 GTK 프론트 엔드"
-
-#: src/celluloid-view.c:1586
+#: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "이정희 <daemul72@gmail.com>"
+
+#~ msgid "Enable media keys support"
+#~ msgstr "미디어 키 지원 활성화"
+
+#~ msgid "Open"
+#~ msgstr "열기"
+
+#~ msgid "Cancel"
+#~ msgstr "취소"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "재생 목록 전환(_T)"
+
+#~ msgid "Remove"
+#~ msgstr "제거"
+
+#~ msgid "_Save"
+#~ msgstr "저장(_S)"
+
+#~ msgid "Toggle controls"
+#~ msgstr "컨트롤 전환"
+
+#~ msgid "A GTK frontend for MPV"
+#~ msgstr "MPV 용 GTK 프론트 엔드"
 
 #~ msgid "Make file chooser remember last file's location"
 #~ msgstr "파일 선택기가 마지막 파일의 위치를 기억하도록합니다"
