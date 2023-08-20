@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-04-10 09:43+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"PO-Revision-Date: 2023-03-27 17:42+0000\n"
+"Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/fi/>\n"
 "Language: fi\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -27,10 +27,8 @@ msgid "Automatically resize window to fit video"
 msgstr "Aseta ikkunan koko automaattisesti videon mukaan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
-#, fuzzy
-#| msgid "Enable dark theme"
 msgid "Prefer dark theme"
-msgstr "Käytä tummaa teemaa"
+msgstr "Suosi tummaa teemaa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
@@ -56,14 +54,12 @@ msgstr ""
 "Vyöhykkeen koko, jossa hiiren liike ei nosta ohjauksen kuvakkeita näkyviin."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-#, fuzzy
-#| msgid "Use skip buttons for controlling playlist"
 msgid "Use skip buttons to control the playlist"
 msgstr "Käytä ohituspainikkeita soittolistan ohjaamiseen"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr ""
+msgstr "Muista sijainti tiedostovalitsijassa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
@@ -87,22 +83,16 @@ msgstr ""
 "tilassa."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Give focus to the window when opening new files"
-msgstr "Nosta ikkuna avattaessa uusia tiedostoja"
+msgstr "Tarkenna ikkuna avattaessa uusia tiedostoja"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:94
-#, fuzzy
-#| msgid ""
-#| "If true, Celluloid will attempt to present its window to the user when a "
-#| "new file is opened. If false, no attempt will be made."
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
-"Jos asetettu, Celluloid yrittää näyttää ikkunansa käyttäjälle kun uusi "
-"tiedosto avataan. Jos ei ole asetettu, ikkunaa ei yritetä näyttää."
+"Jos asetettu, Celluloid tarkentaa ikkunaa käyttäjälle kun uusi tiedosto "
+"avataan. Jos ei ole asetettu, ikkunaa ei yritetä näyttää."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 #: src/celluloid-application.c:600
@@ -135,7 +125,7 @@ msgstr "Ota medianäppäintuki käyttöön"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "Ota valikkorivin kiihdytys käyttöön"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:150
 msgid "Prefetch metadata"
@@ -151,7 +141,7 @@ msgstr "Estä istunnon joutokäynti"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:168
 msgid "Make video area draggable"
-msgstr ""
+msgstr "Tee videon alue vedettäväksi"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
 msgid "Width of the window"
@@ -178,16 +168,12 @@ msgid "Width of the playlist"
 msgstr "Soittolistan leveys"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:215
-#, fuzzy
-#| msgid "Show or not show the controls"
 msgid "Show/hide the controls"
-msgstr "Näytetäänkö säätimet"
+msgstr "Näytä/piilota säätimet"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
-#| msgid "Show or not show the playlist"
 msgid "Show/hide the playlist"
-msgstr "Näytetäänkö soittolista"
+msgstr "Näytä/piilota soittolista"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -238,32 +224,33 @@ msgid "The Celluloid Developers"
 msgstr "Celluloid-kehittäjät"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "Tämä julkaisu sisältää seuraavat muutokset:"
+msgstr "Tämä on enimmäkseen bugfix-julkaisu. Se sisältää seuraavat muutokset:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "Korjattu automaattisen sovituksen tapahtuminen asetuksista riippumatta."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-#, fuzzy
-#| msgid "Retain window maximization state across sessions."
 msgid "Fix window size shrinking across sessions."
-msgstr "Säilytä ikkunan maksimitila istuntojen välillä."
+msgstr "Korjattu ikkunan koon pieneneminen istunnon aikana."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
+"Korjattu kaatuminen toistettaessa tiedostoja, joiden nimet sisältävät "
+"virheellisiä merkkejä."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
 msgstr ""
+"Korjattu toiminto vedä ja pudota, joka ei toiminut joidenkin "
+"tiedostonhallintojen kanssa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
+"Korjattu toisto, joka alkaa kun viimeinen soittolistakohde on poistettu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
@@ -292,60 +279,50 @@ msgstr "Tämä julkaisu sisältää seuraavat muutokset:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "Siirrytty GTK4:ään."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Greek translation by @lepa22."
-msgstr "Lisätty baskikäännös käyttäjältä @aldatsa."
+msgstr "Lisätty kreikankielinen käännös @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
-#, fuzzy
-#| msgid "Add Ukranian translation by @vl-nix"
 msgid "Add Korean translation by @jullee96."
-msgstr "Lisätty Ukrainan kielipaketti lähettäjä @vl-nix"
+msgstr "Lisätty koreankielinen käännös @jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr ""
+msgstr "Lisätty norjankielinen Bokmål-käännös, Allan Nordhøy."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#, fuzzy
-#| msgid "Add Esperanto translation by @F3nd0"
 msgid "Add Occidental translation by OIS."
-msgstr "Lisätty Esperanto kielipaketti lähettäjä @F3nd0"
+msgstr "Lisätty esperanttokäännös, OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:80
-#, fuzzy
-#| msgid "Add Turkish translation by @TeknoMobil"
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Lisätty Turkkilainen kielipaketti lähettäjä @TeknoMobil"
+msgstr "Lisätty arabiakäännös, Mohamed Benkouider."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
-#, fuzzy
-#| msgid "Add Basque translation by @aldatsa."
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Lisätty baskikäännös käyttäjältä @aldatsa."
+msgstr "Lisätty urudukäännös, Ahmed Iqbal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
+msgstr "Lisää valinta, jos haluat näyttää otsikkopainikkeet koko näytössä."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
-#, fuzzy
-#| msgid "Present window when opening new files"
 msgid "Add option to present the window when opening files."
-msgstr "Nosta ikkuna avattaessa uusia tiedostoja"
+msgstr "Lisää valinta ikkunan esittämiseksi tiedostoja avattaessa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"Vaihda oletus kaappatun kuvan tiedostonimen malli muotoon FILENAME-TIMESTAMP "
+"(%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
-msgstr ""
+msgstr "Korjattu virheellinen aikaleima esikatselussa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:110
 msgid "Add Basque translation by @aldatsa."
@@ -709,7 +686,7 @@ msgstr "ARVO"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
-msgstr ""
+msgstr "virheellinen koodaus"
 
 #: src/celluloid-control-box.c:412
 msgid "Pause"
@@ -822,10 +799,8 @@ msgid "_File"
 msgstr "_Tiedosto"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-#, fuzzy
-#| msgid "Open File…"
 msgid "_Open File…"
-msgstr "Avaa tiedosto…"
+msgstr "_Avaa tiedosto…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"

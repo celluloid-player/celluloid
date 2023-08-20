@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2023-03-24 10:41+0000\n"
+"PO-Revision-Date: 2023-03-27 14:42+0000\n"
 "Last-Translator: vaba <vaba@riseup.net>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/et/>\n"
@@ -309,16 +309,17 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
+msgstr "Lisage valik pealkirja nuppude kuvamiseks täisekraanirežiimis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
 msgid "Add option to present the window when opening files."
-msgstr ""
+msgstr "Lisage failide avamisel akna kuvamise võimalus."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:92
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"Muutke ekraanipildi failinime vaikemalli malliks FILENAME-TIMESTAMP (%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
@@ -330,7 +331,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "Make the shuffle and loop command line options work properly."
-msgstr ""
+msgstr "Laske käsurea suvandite juhuslikus ja kordus korralikult töötama."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:116
 msgid "Make the main menu button toggleable by pressing F10."
@@ -345,16 +346,20 @@ msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
 msgstr ""
+"Lubage failid esitusloendisse lisada, hoides all tõstuklahvi ja kukutades "
+"failid videoalale."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:126
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
-msgstr ""
+msgstr "Muuda CSD päiseriba mpv atribuudi \"border\" kaudu lülitatavaks."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:129
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
 msgstr ""
+"Kaasake reposse Flatpaki manifest. See võimaldab Celluloidi luua ühe "
+"klõpsuga sellistes rakendustes nagu GNOME Builder."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:145
 msgid "Make it possible to activate context menu when the playlist is empty."
@@ -365,6 +370,8 @@ msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as "
 "its value changes."
 msgstr ""
+"Vältige otsinguriba pidevat suuruse muutmist ajatempli sildi suuruse "
+"muutmise tõttu selle väärtuse muutumisel."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:152
 msgid ""
@@ -382,36 +389,40 @@ msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
+"Reguleerige modaalsete dialoogide kasutajaliidese elementide asukohta mitte-"
+"CSD-režiimis, et need oleksid CSD-režiimiga paremini kooskõlas."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Add support for loading external video tracks."
-msgstr ""
+msgstr "Lisage väliste videolugude laadimise tugi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Muutke esitusloendi juhuesitus lülitatavaks."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Make arrow key bindings work with arrow keys on numpad."
-msgstr ""
+msgstr "Pane nooleklahvide sidumine toimima numbriklahvistiku nooleklahvidega."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr ""
+"Reguleerige helitugevuse nupu vahemikku atribuudi helitugevuse maksimum "
+"väärtuse põhjal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:188
 msgid "Retain window maximization state across sessions."
-msgstr ""
+msgstr "Säilitage akna maksimeerimise olek seansside jooksul."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:191
 msgid "Retain loop state across sessions."
-msgstr ""
+msgstr "Säilitage tsükli olek seansside jooksul."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid "Implement playlist search."
-msgstr ""
+msgstr "Rakendage esitusloendi otsing."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:197
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
@@ -424,7 +435,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:203
 msgid "Display time at cursor position when hovering the seek bar."
-msgstr ""
+msgstr "Aja kuvamine kursori asukohas otsinguriba hõljutamisel."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:206
 msgid ""
@@ -432,6 +443,9 @@ msgid ""
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
+"Katkesta '--mpv-options' tugi. Mpv-valikute määramiseks saab kasutada "
+"suvandeid, mis algavad tähega '--mpv-'. Näiteks '--mpv-vf=vflip' edastamine "
+"Celluloidile võrdub '--vf=vflip' edastamisega mpv-le."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:212
 msgid ""
@@ -441,7 +455,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:216
 msgid "Make window sizing work correctly with HiDPI displays."
-msgstr ""
+msgstr "Akende suuruse muutmine HiDPI-kuvaritega õigesti toimima."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
 msgid "Add Finnish translation by Kimmo Kujansuu."
@@ -481,7 +495,7 @@ msgstr "Parandage krahh rakendusega mpv 0.30"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:267
 msgid "Rename project to Celluloid"
-msgstr ""
+msgstr "Nimeta projekt ümber Celluloidiks"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:270
 msgid "Add Turkish translation by @TeknoMobil"
@@ -493,28 +507,30 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:276
 msgid "Migrate from opengl-cb to the new render API"
-msgstr ""
+msgstr "Minge üle opengl-cb-lt uuele renderdamise API-le"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:279
 msgid "Handle numpad keybindings"
-msgstr ""
+msgstr "Käsitsege numbriklahvistiku klahvikombinatsioone"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:282
 msgid "Handle unicode keybindings"
-msgstr ""
+msgstr "Unicode'i klahvikombinatsioonide käsitlemine"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
 msgid "Forward media key events to mpv"
-msgstr ""
+msgstr "Edastage meedia võtmesündmused mpv-sse"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:288
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
+"Lisage dconf-klahv, et juhtida kursori kiirust, mille korral juhtelemendid "
+"paljastuvad"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
 msgid "Add option for suppressing playback errors"
-msgstr ""
+msgstr "Lisage taasesitusvigade summutamise võimalus"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:306
 msgid "Split up the General tab in the preferences dialog"
@@ -522,15 +538,15 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
 msgid "Improve behavior when toggling playlist under tiling window managers"
-msgstr ""
+msgstr "Parandage käitumist esitusloendi vahetamisel aknahaldurite all"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Teisaldage rakenduse menüüelemendid põhimenüüsse"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Kasutage iga akna jaoks eraldi MPRIS DBus ühendust"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:318
 msgid "Add support for MPRIS property LoopStatus"
@@ -541,61 +557,66 @@ msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Suvaliste mpv-suvandite määramiseks käsurealt lisage valik --mpv-options"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr ""
+msgstr "Määrake ekraanipiltide vaikekataloogiks XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
 msgstr ""
+"Täiustage parameetrite --window-scale, --autofit, --autofit-larger ja "
+"--autofit-smaller käsitlemist"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:344
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "Lisage WM_ROLE seadistamiseks käsurea valik"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:347
 msgid "Add context menu item for removing playlist items"
-msgstr ""
+msgstr "Lisage kontekstimenüü üksus esitusloendi üksuste eemaldamiseks"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:350
 msgid "Add context menu item for copying location of playlist items"
-msgstr ""
+msgstr "Lisage kontekstimenüü üksus esitusloendi üksuste asukoha kopeerimiseks"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Lisage valik, et vahelejätmise nupud muudaksid esitusloendi kirjeid, mitte "
+"peatükke"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:369
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "Pange failivalija aktsepteerima mittekohalikke asukohti"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:372
 msgid "Add right-click menu entry for looping a single file"
-msgstr ""
+msgstr "Lisage paremklõpsake menüükirje ühe faili korduse loomiseks"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:375
 msgid "Handle property change events for fullscreen and window-scale"
-msgstr ""
+msgstr "Käsitsege atribuutide muutmise sündmusi täisekraanil ja aknaskaalal"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:378
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr ""
+msgstr "Lisa võimalus hiirekursori automaatseks peitmiseks aknarežiimis"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Peaaken, mis näitab rakendust töös"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:396
 msgid "The main window with CSD disabled"
-msgstr ""
+msgstr "Peaaken, kus CSD on keelatud"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:400
 msgid "The main window with playlist open"
-msgstr ""
+msgstr "Avatud esitusloendiga peaaken"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Multimedia Player"
@@ -609,6 +630,8 @@ msgstr "Esita filme ja videoid"
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
+"Video;Film;Film;klipp;sari;pleier;DVD;televiisor;plaat;album;muusika;GNOME;mp"
+"v;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
@@ -640,7 +663,7 @@ msgstr "VALIKUD"
 
 #: src/celluloid-application.c:608
 msgid "Set the window role"
-msgstr ""
+msgstr "Akna rolli määramine"
 
 #: src/celluloid-application.c:616
 msgid "Don't connect to an already-running instance"
@@ -648,7 +671,7 @@ msgstr "Ärge looge ühendust juba töötava eksemplariga"
 
 #: src/celluloid-application.c:627
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr ""
+msgstr "Määrake mpv suvandi MPVOPTION väärtuseks VALUE"
 
 #: src/celluloid-application.c:628
 msgid "VALUE"
@@ -900,7 +923,7 @@ msgstr "Korduv _Fail"
 
 #: src/celluloid-playlist-widget.c:562
 msgid "Loop _Playlist"
-msgstr "_Korduv"
+msgstr "Korduv"
 
 #: src/celluloid-playlist-widget.c:911
 msgid "Playlist is empty"
@@ -938,24 +961,26 @@ msgstr "Eemalda"
 #: src/celluloid-plugins-manager-item.c:195
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr ""
+msgstr "Faili '%s' kustutamine ebaõnnestus. Põhjus: %s"
 
 #: src/celluloid-plugins-manager-item.c:224
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
+"Kas olete kindel, et soovite selle skripti eemaldada? Seda toimingut ei saa "
+"tagasi võtta."
 
 #: src/celluloid-preferences-dialog.c:369
 msgid "mpv configuration file:"
-msgstr ""
+msgstr "mpv konfiguratsioonifail:"
 
 #: src/celluloid-preferences-dialog.c:375
 msgid "mpv input configuration file:"
-msgstr ""
+msgstr "mpv sisendi konfiguratsioonifail:"
 
 #: src/celluloid-preferences-dialog.c:398
 msgid "Extra mpv options:"
-msgstr ""
+msgstr "Mpv lisavalikud:"
 
 #: src/celluloid-preferences-dialog.c:418
 msgid "Interface"
@@ -963,11 +988,11 @@ msgstr "Liides"
 
 #: src/celluloid-preferences-dialog.c:421
 msgid "Config Files"
-msgstr ""
+msgstr "Konfiguratsioonifailid"
 
 #: src/celluloid-preferences-dialog.c:424
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Mitmesugust"
 
 #: src/celluloid-preferences-dialog.c:427
 msgid "Plugins"
@@ -995,7 +1020,7 @@ msgstr "Lisage fail oma lemmikute hulka"
 
 #: src/celluloid-shortcuts-window.c:49
 msgid "Add location to playlist"
-msgstr ""
+msgstr "Lisa esitusloendisse asukoht"
 
 #: src/celluloid-shortcuts-window.c:50
 msgid "Show preferences dialog"
@@ -1011,71 +1036,71 @@ msgstr "Esitusloendi sees/väljas"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
-msgstr ""
+msgstr "Lülita täisekraanirežiim sisse"
 
 #: src/celluloid-shortcuts-window.c:54
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Täisekraanrežiimist lahkumine"
 
 #: src/celluloid-shortcuts-window.c:55
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
+msgstr "Lülitage OSD olekuid tavalise ja taasesituse aja/kestuse vahel"
 
 #: src/celluloid-shortcuts-window.c:56
 msgid "Show filename on the OSD"
-msgstr ""
+msgstr "Kuva failinimi OSD-l"
 
 #: src/celluloid-shortcuts-window.c:57
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr ""
+msgstr "Kuva edenemine, kulunud aeg ja kestus OSD-l"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Seek backward/forward 5 seconds"
-msgstr ""
+msgstr "5 sekundit tagasi/edasi"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Exact seek backward/forward 1 second"
-msgstr ""
+msgstr "Tagasi/edasi 1 sekund"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Seek backward/forward 1 minute"
-msgstr ""
+msgstr "1 minutit tagasi/edasi"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Exact seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Tagasi/edasi 5 sekundit"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Seek to previous/next subtitle"
-msgstr ""
+msgstr "Eelmise/järgmise alapealkirja juurde"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Step backward/forward a single frame"
-msgstr ""
+msgstr "Astuge ühe kaadri võrra tagasi/edasi"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr ""
+msgstr "Liikuge eelmise/järgmise peatüki algusesse"
 
 #: src/celluloid-shortcuts-window.c:69
 msgid "Decrease/increase playback speed by 10%"
-msgstr ""
+msgstr "Vähenda/suurenda esituskiirust 10%"
 
 #: src/celluloid-shortcuts-window.c:70
 msgid "Halve/double current playback speed"
-msgstr ""
+msgstr "Poole/kahekordne esituskiirus"
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Reset playback speed to normal"
-msgstr ""
+msgstr "Taasesituse kiirus normaalseks"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Go backward/forward in the playlist"
-msgstr ""
+msgstr "Liikuge esitusloendis tagasi/edasi"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Remove selected playlist item"
-msgstr ""
+msgstr "Eemalda valitud esitusloendi üksus"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Save playlist"
@@ -1087,11 +1112,11 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Toggle infinite looping"
-msgstr ""
+msgstr "Korduse sisse- ja väljalülitamine"
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Pause or unpause"
-msgstr ""
+msgstr "Peata või tühista paus"
 
 #: src/celluloid-shortcuts-window.c:78
 msgid "Quit"
@@ -1099,35 +1124,35 @@ msgstr "Välju"
 
 #: src/celluloid-shortcuts-window.c:79
 msgid "Save current playback position and quit"
-msgstr ""
+msgstr "Salvestage praegune taasesituse asukoht ja väljuge"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Enter search mode"
-msgstr ""
+msgstr "Sisenege otsingurežiimi"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Jump to next match"
-msgstr ""
+msgstr "Hüppa järgmise juurde"
 
 #: src/celluloid-shortcuts-window.c:84
 msgid "Jump to previous match"
-msgstr ""
+msgstr "Hüppa eelmise juurde"
 
 #: src/celluloid-shortcuts-window.c:85
 msgid "Exit search mode"
-msgstr ""
+msgstr "Välju otsingurežiimist"
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Cycle through audio tracks"
-msgstr ""
+msgstr "Liikuge läbi heliribade"
 
 #: src/celluloid-shortcuts-window.c:89 src/celluloid-shortcuts-window.c:90
 msgid "Decrease/increase volume"
-msgstr ""
+msgstr "Vähenda/suurenda helitugevust"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Mute or unmute"
-msgstr ""
+msgstr "Vaigista või tühista vaigistus"
 
 #: src/celluloid-shortcuts-window.c:92
 msgid "Adjust audio delay by +/- 0.1 seconds"
@@ -1135,11 +1160,11 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Toggle subtitle visibility"
-msgstr ""
+msgstr "Lülitage subtiitrite nähtavus sisse/välja"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Cycle through available subtitles"
-msgstr ""
+msgstr "Sirvige saadaolevaid subtiitreid"
 
 #: src/celluloid-shortcuts-window.c:97
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
@@ -1151,67 +1176,67 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Move subtitles up/down"
-msgstr ""
+msgstr "Liigutage subtiitreid üles/alla"
 
 #: src/celluloid-shortcuts-window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr ""
+msgstr "Lülitage VSFilteri aspektide ühilduvusrežiim sisse"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Cycle through video tracks"
-msgstr ""
+msgstr "Liikuge läbi videoradade"
 
 #: src/celluloid-shortcuts-window.c:104
 msgid "Decrease/increase pan-and-scan range"
-msgstr ""
+msgstr "Paneerimis- ja skannimisvahemiku vähendamine/suurendamine"
 
 #: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot"
-msgstr ""
+msgstr "Tehke ekraanipilt"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, without subtitles"
-msgstr ""
+msgstr "Tehke ekraanipilt ilma subtiitriteta"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Take a screenshot, as the window shows it"
-msgstr ""
+msgstr "Tehke ekraanipilt, nagu aken seda näitab"
 
 #: src/celluloid-shortcuts-window.c:108
 msgid "Resize video to half its original size"
-msgstr ""
+msgstr "Muutke video suurus pooleks selle algsest suurusest"
 
 #: src/celluloid-shortcuts-window.c:109
 msgid "Resize video to its original size"
-msgstr ""
+msgstr "Muutke video algsuuruseks"
 
 #: src/celluloid-shortcuts-window.c:110
 msgid "Resize video to double its original size"
-msgstr ""
+msgstr "Muutke video algsuurust kahekordistades"
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Adjust contrast"
-msgstr ""
+msgstr "Reguleeri kontrasti"
 
 #: src/celluloid-shortcuts-window.c:112
 msgid "Adjust brightness"
-msgstr ""
+msgstr "Reguleeri heledust"
 
 #: src/celluloid-shortcuts-window.c:113
 msgid "Adjust gamma"
-msgstr ""
+msgstr "Reguleerige gamma"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Adjust saturation"
-msgstr ""
+msgstr "Reguleerige küllastust"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Activate or deactivate deinterlacer"
-msgstr ""
+msgstr "Aktiveerige või desaktiveerige deinterlacer"
 
 #: src/celluloid-shortcuts-window.c:116
 msgid "Cycle aspect ratio override"
-msgstr ""
+msgstr "Tsükli kuvasuhte alistamine"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "User Interface"
@@ -1235,7 +1260,7 @@ msgstr "Taasesitus"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "Seeking"
-msgstr ""
+msgstr "Otsin"
 
 #: src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
@@ -1243,25 +1268,26 @@ msgstr "Esitusloend"
 
 #: src/celluloid-view.c:743
 msgid "Load Audio Track…"
-msgstr ""
+msgstr "Laadi helirada…"
 
 #: src/celluloid-view.c:747
 msgid "Load Video Track…"
-msgstr ""
+msgstr "Laadi videorada…"
 
 #: src/celluloid-view.c:751
 msgid "Load Subtitle Track…"
-msgstr ""
+msgstr "Laadi subtiitrirada…"
 
 #: src/celluloid-view.c:923
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
+"Kliendipoolsete kaunistuste lubamine või keelamine nõuab taaskäivitamist."
 
 #: src/celluloid-view.c:1445
 msgid "Add Folder to Playlist"
-msgstr ""
+msgstr "Lisage kaust esitusloendisse"
 
 #: src/celluloid-view.c:1445
 msgid "Open Folder"
@@ -1277,7 +1303,7 @@ msgstr "Ava fail"
 
 #: src/celluloid-view.c:1486
 msgid "Add Location to Playlist"
-msgstr ""
+msgstr "Lisage asukoht esitusloendisse"
 
 #: src/celluloid-view.c:1487
 msgid "Open Location"
@@ -1293,4 +1319,4 @@ msgstr "GTK lisand MPV jaoks"
 
 #: src/celluloid-view.c:1586
 msgid "translator-credits"
-msgstr "vaba, 2023"
+msgstr "vaba, 2023 😎️"

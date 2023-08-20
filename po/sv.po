@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2023-03-10 01:51+0000\n"
+"PO-Revision-Date: 2023-07-11 19:53+0000\n"
 "Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/sv/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -231,7 +231,7 @@ msgstr "Detta är mestadels en buggfixutgåva. Den innehåller följande ändrin
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "Åtgärda utlösande av autoanpassning oavsett inställningar."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Fix window size shrinking across sessions."
@@ -240,7 +240,7 @@ msgstr "Fixa att fönsterstorleken krymper mellan olika sessioner."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
-"Fixa krasch vid uppspelning av filer med namn som innehåller ogiltig kodning."
+"Fixa en krasch när filer med namn som innehåller ogiltig kodning spelas."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
@@ -318,6 +318,7 @@ msgstr "Lägg till alternativ för att presentera fönstret när filer öppnas."
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"Ändra standardmallen för skärmbildsfilnamn till FILNAMN-TIDSSTÄMPEL (%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:95
 msgid "Fix inaccurate timestamp preview."
@@ -330,6 +331,8 @@ msgstr "Lägg till Baskiska-översättning av @aldatsa."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "Make the shuffle and loop command line options work properly."
 msgstr ""
+"Gör så att kommandoradsalternativen för att blanda och att upprepning "
+"fungerar korrekt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:116
 msgid "Make the main menu button toggleable by pressing F10."
@@ -378,7 +381,7 @@ msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
 msgstr ""
-"Visa endast ett felmeddelande när ett stort antal fel uppstår i snabb följd"
+"Visa endast ett felmeddelande när ett stort antal fel uppstår i snabb följd."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
 msgid "Add menu item for opening folders."
@@ -394,7 +397,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Add support for loading external video tracks."
-msgstr "Lägg till stöd för externa videospår"
+msgstr "Lägg till stöd för externa videospår."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Make playlist shuffle toggleable."
@@ -428,16 +431,16 @@ msgstr "Implementera sökning i spellista."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:197
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr ""
+msgstr "Uppdatera listan över genvägar i dialogrutan för Tangentbordsgenvägar."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
-#, fuzzy
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
-msgstr "Hantera citat och rymningssekvenser korrekt i extra mkv-alternativ."
+msgstr "Hantera citat korrekt och flyktsekvenser i extra-alternativen för mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:203
 msgid "Display time at cursor position when hovering the seek bar."
 msgstr ""
+"Visa tid vid markörens position när du håller muspekaren över sökfältet."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:206
 msgid ""
@@ -445,12 +448,17 @@ msgid ""
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
+"Avskaffa '--mpv-options'-val. Val som börjar med '--mpv-' kan användas för "
+"att ställa in mpv-alternativ istället. Till exempel, att skicka '--mpv-"
+"vf=vflip' till Celluloid är samma som att skicka '--vf=vflip' till mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:212
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
+"Lägg till stöd för att ställa in död zon, ett område som mus-rörelser inte "
+"kommer att orsaka att kontrollerna visas."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:216
 msgid "Make window sizing work correctly with HiDPI displays."
@@ -477,14 +485,18 @@ msgid ""
 "Add support for showing/hiding window decorations using the mpv option --"
 "border"
 msgstr ""
+"Lägg till stöd för att visa/dölja fönster-dekorationer genom användning av "
+"mpv-alternativet --border"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
 msgid "Add menu item for opening discs"
-msgstr ""
+msgstr "Lägg till meny-objektet för öppning av skivor"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:249
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
+"Blockera att pekaren döljs automatiskt när popup-rutan för volym är öppnad i "
+"fönsterläge"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:252
 msgid "Fix crash with mpv 0.30"
@@ -504,54 +516,60 @@ msgstr "Lägg till Esperanto-översättning av @F3nd0"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:276
 msgid "Migrate from opengl-cb to the new render API"
-msgstr ""
+msgstr "Migrera från opengl-cb till den nya renderaren's API"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:279
 msgid "Handle numpad keybindings"
-msgstr ""
+msgstr "Hantera numeriska tangentkombinationer"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:282
 msgid "Handle unicode keybindings"
-msgstr ""
+msgstr "Hantera unicode tangentkombinationer"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
 msgid "Forward media key events to mpv"
-msgstr ""
+msgstr "Vidarebefordra viktiga mediahändelser till mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:288
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
+"Lägg till dconf nyckel för att styra markörhastigheten vid vilken "
+"kontrollerna är odolda"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
 msgid "Add option for suppressing playback errors"
-msgstr ""
+msgstr "Lägg till alternativ för att dämpa uppspelningsfel"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:306
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Dela upp fliken Allmänt i inställningsdialogrutan"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
+"Förbättra beteendet när du växlar till spellista under kaklade "
+"fönsterhanterare"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Flytta programmeny objekt till primär meny"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Använd separat MPRIS DBus-anslutning för varje fönster"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:318
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "Lägg till stöd för MPRIS egenskap LoopStatus"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:321
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Lägg till alternativet --mpv-options för att ställa in godtyckliga mpv-"
+"alternativ från kommandoraden"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
@@ -562,6 +580,8 @@ msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
 msgstr ""
+"Förbättrade hanteringen av --window-scale, --autofit, --autofit-larger och "
+"--autofit-smaller"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:344
 msgid "Add command line option for setting WM_ROLE"
@@ -569,28 +589,30 @@ msgstr "Lägg till kommandoalternativ för inställning av WM_ROLE"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:347
 msgid "Add context menu item for removing playlist items"
-msgstr ""
+msgstr "Lägg till snabbmenyobjekt för att ta bort spellistobjekt"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:350
 msgid "Add context menu item for copying location of playlist items"
-msgstr ""
+msgstr "Lägg till snabbmenyobjekt för att kopiera plats för spellistobjekt"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Lägg till alternativ för att få överhoppningsknappar att ändra "
+"spellistposter snarare än kapitel"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:369
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "Få filväljaren att acceptera icke lokala platser"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:372
 msgid "Add right-click menu entry for looping a single file"
-msgstr ""
+msgstr "Lägg till högerklicksmenypost för att loopa en enda fil"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:375
 msgid "Handle property change events for fullscreen and window-scale"
-msgstr ""
+msgstr "Hantera egenskapsändringshändelser för helskärms och fönsterskala"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:378
 msgid "Add option to autohide mouse cursor in windowed mode"
@@ -598,7 +620,7 @@ msgstr "Lägg till alternativet att dölja muspekaren automatiskt i fönsterläg
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Huvudfönstret som visar programmet körandes"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:396
 msgid "The main window with CSD disabled"
@@ -620,15 +642,15 @@ msgstr "Spela filmer och videor"
 #: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
+"Video;Film;Film;Klipp;Serier;Spelare;DVD;TV;Skiva;Album;Musik;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
 msgstr "Nytt fönster"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:27
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "Lägg till fil i spelningslista"
+msgstr "Lägg till i spellista"
 
 #: src/celluloid-application.c:520
 msgid "Playing"
@@ -652,7 +674,7 @@ msgstr "ALTERNATIV"
 
 #: src/celluloid-application.c:608
 msgid "Set the window role"
-msgstr ""
+msgstr "Ställ in fönsterroll"
 
 #: src/celluloid-application.c:616
 msgid "Don't connect to an already-running instance"
@@ -660,15 +682,15 @@ msgstr "Anslut inte till en instans som redan körs"
 
 #: src/celluloid-application.c:627
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr ""
+msgstr "Ställ in mpv alternativet MPVALTERNATIV på VÄRDE"
 
 #: src/celluloid-application.c:628
 msgid "VALUE"
-msgstr ""
+msgstr "VÄRDE"
 
 #: src/celluloid-common.c:240
 msgid "invalid encoding"
-msgstr ""
+msgstr "ogiltig kodning"
 
 #: src/celluloid-control-box.c:412
 msgid "Pause"
@@ -739,24 +761,20 @@ msgid "Subtitle Files"
 msgstr "Undertextfiler"
 
 #: src/celluloid-file-chooser-button.c:229
-#, fuzzy
 msgid "Open File…"
-msgstr "Öppna fil"
+msgstr "Öppna fil…"
 
 #: src/celluloid-file-chooser-button.c:232
-#, fuzzy
 msgid "Open"
-msgstr "_Öppna"
+msgstr "Öppna"
 
 #: src/celluloid-file-chooser-button.c:233
-#, fuzzy
 msgid "Cancel"
-msgstr "_Avbryt"
+msgstr "Avbryt"
 
 #: src/celluloid-file-chooser-button.c:235
-#, fuzzy
 msgid "(None)"
-msgstr "Inga"
+msgstr "(Ingen)"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -785,9 +803,8 @@ msgid "_File"
 msgstr "_Fil"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:318
-#, fuzzy
 msgid "_Open File…"
-msgstr "Öppna fil"
+msgstr "_Öppna fil…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:319
 msgid "Open _Folder…"
@@ -1192,7 +1209,7 @@ msgstr "Ta ett skärmklipp, utan undertexter"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Take a screenshot, as the window shows it"
-msgstr "Ta ett skärmklipp, som det visas i fönstret."
+msgstr "Ta ett skärmklipp, som det visas i fönstret"
 
 #: src/celluloid-shortcuts-window.c:108
 msgid "Resize video to half its original size"

@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-09-27 13:15+0000\n"
-"Last-Translator: Kaz Sibuya <sibuyakazokuu@gmail.com>\n"
+"PO-Revision-Date: 2023-06-22 19:42+0000\n"
+"Last-Translator: kancolle386 <td44.ringo.apple@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ja/>\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.18.1\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -32,7 +32,7 @@ msgstr "ウィンドウのサイズをビデオに合わせる"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Prefer dark theme"
-msgstr "暗いテーマを優先する"
+msgstr "ダークテーマを使用する"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
@@ -40,7 +40,7 @@ msgstr "CSDを有効にする"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr "ウィンドウモードでフローティングコントロールをつかう"
+msgstr "ウィンドウモードでフローティングコントロールを使用する"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
@@ -58,32 +58,30 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons to control the playlist"
-msgstr ""
+msgstr "プレイリストのコントロールにスキップボタンを使用する"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr "最後に選択ファイルを覚えておく"
+msgstr "最後に選択したファイルの場所を覚えておく"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Always open new window"
 msgstr "常に新しいウィンドウを開く"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:78
-#, fuzzy
 msgid "Always append opened files to playlist"
-msgstr "プレイリストにファイルを追加"
+msgstr "常に開いたファイルをプレイリストに追加する"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:84
 msgid "Always show title buttons"
-msgstr "タイトルボタンを常に表示する"
+msgstr "常にタイトルボタンを表示する"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:85
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
-msgstr ""
-"真ならば 、(閉じる、最大化、最小化などの) タイトルボタンは常に表示されます\n"
-"。偽ならば、フルスクリーンモードでボタンは隠されます。"
+msgstr "真ならば 、(閉じる、最大化、最小化などの) タイトルボタンは常に表示されます。"
+"偽ならば、フルスクリーンモードではタイトルボタンは隠されます。"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:93
 msgid "Give focus to the window when opening new files"
@@ -93,10 +91,8 @@ msgstr "新しいファイルを開くときにウィンドウにフォーカス
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
-msgstr ""
-"真の場合、Celluloidは新しいファイルが開かれたときにウィンドウにフォーカスを与"
-"えます。\n"
-"偽の場合、フォーカスを与えません。"
+msgstr "真の場合、Celluloidは新しいファイルが開かれた時にウィンドウにフォーカスを与え"
+"ます。偽の場合、フォーカスを与えません。"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:102
 #: src/celluloid-application.c:600
@@ -105,29 +101,28 @@ msgid "Options to pass to mpv"
 msgstr "mpvに渡すオプション"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
-#, fuzzy
 msgid "Path to mpv configuration file"
-msgstr "MPV設定ファイル"
+msgstr "mpv設定ファイル"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
 msgid "Load mpv configuration file"
-msgstr "MVP設定ファイルの読み込み"
+msgstr "mpv設定ファイルを読み込む"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
 msgid "Path to mpv input configuration file"
-msgstr "MPV入力設定ファイルのパス"
+msgstr "mpv入力設定ファイルのパス"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid "Load mpv input configuration file"
-msgstr "mpv入力設定ファイルを読み込みます"
+msgstr "mpv入力設定ファイルを読み込む"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Enable MPRIS support"
-msgstr "MPRISサポートを有効にします"
+msgstr "MPRISサポートを有効にする"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:138
 msgid "Enable media keys support"
-msgstr "メディアキーサポートを有効にします"
+msgstr "メディアキーサポートを有効にする"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:144
 msgid "Enable menubar accelerator key handling"
@@ -139,7 +134,7 @@ msgstr "メタデータをプリフェチする"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:156
 msgid "Ignore playback errors"
-msgstr "再生エラーを無視します"
+msgstr "再生エラーを無視する"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:162
 msgid "Inhibit session idling"
@@ -150,12 +145,10 @@ msgid "Make video area draggable"
 msgstr "ビデオエリアをドラッグ可能にする"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:178
-#, fuzzy
 msgid "Width of the window"
-msgstr "ウィンドウの横幅"
+msgstr "ウィンドウの幅"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:184
-#, fuzzy
 msgid "Height of the window"
 msgstr "ウィンドウの高さ"
 
@@ -164,7 +157,6 @@ msgid "Whether or not the window is maximized"
 msgstr "ウィンドウが最大化されるかどうか"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:197
-#, fuzzy
 msgid "Volume of player"
 msgstr "音量"
 
@@ -173,7 +165,6 @@ msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "プレイリストの終了時にループするかどうか"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:209
-#, fuzzy
 msgid "Width of the playlist"
 msgstr "プレイリストの幅"
 
@@ -182,9 +173,8 @@ msgid "Show/hide the controls"
 msgstr "コントロールの表示/非表示"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:221
-#, fuzzy
 msgid "Show/hide the playlist"
-msgstr "プレイリストの幅"
+msgstr "プレイリストの表示/非表示"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:227
 msgid "URI of the last folder accessed"
@@ -607,7 +597,7 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Multimedia Player"
-msgstr ""
+msgstr "マルチメディアプレイヤー"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:6
 msgid "Play movies and videos"
@@ -623,14 +613,12 @@ msgid "New Window"
 msgstr "新しいウィンドウ"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:27
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "プレイリストの表示・非表示"
+msgstr "プレイリストへ追加する"
 
 #: src/celluloid-application.c:520
-#, fuzzy
 msgid "Playing"
-msgstr "プレイ中"
+msgstr "再生中"
 
 #: src/celluloid-application.c:576
 msgid "Show release version"
@@ -638,7 +626,7 @@ msgstr ""
 
 #: src/celluloid-application.c:584
 msgid "Enqueue"
-msgstr ""
+msgstr "エンキュー"
 
 #: src/celluloid-application.c:592
 #, fuzzy
@@ -647,7 +635,7 @@ msgstr "新しいウィンドウを開きます"
 
 #: src/celluloid-application.c:601
 msgid "OPTIONS"
-msgstr ""
+msgstr "オプション"
 
 #: src/celluloid-application.c:608
 msgid "Set the window role"
@@ -670,51 +658,46 @@ msgid "invalid encoding"
 msgstr ""
 
 #: src/celluloid-control-box.c:412
-#, fuzzy
 msgid "Pause"
 msgstr "一時停止"
 
 #: src/celluloid-control-box.c:412 src/celluloid-control-box.c:637
-#, fuzzy
 msgid "Play"
-msgstr "プレー"
+msgstr "再生"
 
 #: src/celluloid-control-box.c:640
-#, fuzzy
 msgid "Stop"
 msgstr "停止"
 
 #: src/celluloid-control-box.c:643
 msgid "Forward"
-msgstr ""
+msgstr "進む"
 
 #: src/celluloid-control-box.c:646
 msgid "Rewind"
-msgstr ""
+msgstr "戻る"
 
 #: src/celluloid-control-box.c:649
 msgid "Next Chapter"
-msgstr ""
+msgstr "次のチャプター"
 
 #: src/celluloid-control-box.c:652
 msgid "Previous Chapter"
-msgstr ""
+msgstr "前のチャプター"
 
 #: src/celluloid-control-box.c:655
 msgid "Loop Playlist"
-msgstr ""
+msgstr "プレイリストをループする"
 
 #: src/celluloid-control-box.c:658
 msgid "Shuffle Playlist"
-msgstr ""
+msgstr "プレイリストをシャッフルする"
 
 #: src/celluloid-control-box.c:661 src/celluloid-header-bar.c:248
-#, fuzzy
 msgid "Toggle Fullscreen"
-msgstr "全面表示を切換える"
+msgstr "全面表示への切替"
 
 #: src/celluloid-controller.c:1103 src/celluloid-view.c:965
-#, fuzzy
 msgid "Error"
 msgstr "エラー"
 
@@ -764,7 +747,6 @@ msgid "(None)"
 msgstr "(なし)"
 
 #: src/celluloid-menu.c:106
-#, fuzzy
 msgid "None"
 msgstr "なし"
 
@@ -772,7 +754,6 @@ msgstr "なし"
 #. * track has no title.
 #.
 #: src/celluloid-menu.c:121
-#, fuzzy
 msgid "Unknown"
 msgstr "不明"
 
@@ -1006,7 +987,6 @@ msgid "Config Files"
 msgstr "設定ファイル"
 
 #: src/celluloid-preferences-dialog.c:424
-#, fuzzy
 msgid "Miscellaneous"
 msgstr "その他"
 
@@ -1039,7 +1019,7 @@ msgstr "プレイリストにファイルを追加"
 
 #: src/celluloid-shortcuts-window.c:49
 msgid "Add location to playlist"
-msgstr ""
+msgstr "プレイリストに場所を追加"
 
 #: src/celluloid-shortcuts-window.c:50
 #, fuzzy
@@ -1048,11 +1028,11 @@ msgstr "設定を表示する"
 
 #: src/celluloid-shortcuts-window.c:51
 msgid "Toggle controls"
-msgstr "コントロールの切り替え"
+msgstr "コントロールの表示・非表示"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Toggle playlist"
-msgstr "プレイリストの切り替え"
+msgstr "プレイリストの表示・非表示"
 
 #: src/celluloid-shortcuts-window.c:53
 #, fuzzy
@@ -1114,7 +1094,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Reset playback speed to normal"
-msgstr ""
+msgstr "再生速度を標準に戻す"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Go backward/forward in the playlist"
@@ -1122,10 +1102,9 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Remove selected playlist item"
-msgstr ""
+msgstr "選択中の項目をプレイリストから削除"
 
 #: src/celluloid-shortcuts-window.c:74
-#, fuzzy
 msgid "Save playlist"
 msgstr "プレイリストを保存"
 
@@ -1139,10 +1118,9 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Pause or unpause"
-msgstr ""
+msgstr "一時停止/解除"
 
 #: src/celluloid-shortcuts-window.c:78
-#, fuzzy
 msgid "Quit"
 msgstr "終了"
 
@@ -1152,7 +1130,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Enter search mode"
-msgstr ""
+msgstr "検索モードを開始"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Jump to next match"
@@ -1164,7 +1142,7 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:85
 msgid "Exit search mode"
-msgstr ""
+msgstr "検索モードを終了"
 
 #: src/celluloid-shortcuts-window.c:88
 msgid "Cycle through audio tracks"
@@ -1172,11 +1150,11 @@ msgstr ""
 
 #: src/celluloid-shortcuts-window.c:89 src/celluloid-shortcuts-window.c:90
 msgid "Decrease/increase volume"
-msgstr ""
+msgstr "音量の増減"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Mute or unmute"
-msgstr ""
+msgstr "ミュート/解除"
 
 #: src/celluloid-shortcuts-window.c:92
 msgid "Adjust audio delay by +/- 0.1 seconds"
@@ -1215,7 +1193,6 @@ msgid "Decrease/increase pan-and-scan range"
 msgstr ""
 
 #: src/celluloid-shortcuts-window.c:105
-#, fuzzy
 msgid "Take a screenshot"
 msgstr "スクリーンショットを撮る"
 

@@ -6,22 +6,22 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-07-10 08:20+0000\n"
-"Last-Translator: gogogogi <trebelnik2@gmail.com>\n"
+"PO-Revision-Date: 2023-08-12 13:51+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "Jesu li postavke već migrirane iz prijašnje inačice"
+msgstr "Jesu li postavke već migrirane iz prethodne inačice"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
@@ -382,7 +382,7 @@ msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as "
 "its value changes."
 msgstr ""
-"Veličina trake premotavanja ostaje ista, neovisno o promjenama vrijednosti "
+"Veličina trake prematanja ostaje ista, neovisno o promjenama vrijednosti "
 "vremenske oznake."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:152
@@ -454,7 +454,8 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:203
 msgid "Display time at cursor position when hovering the seek bar."
 msgstr ""
-"Prikaz vremena na položaju pokazivača pri prelasku preko trake pretrage."
+"Prikaz vremena na položaju pokazivača tiejkom prelaska preko trake "
+"prematanja."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:206
 msgid ""
@@ -742,7 +743,7 @@ msgstr "Sljedeće poglavlje"
 
 #: src/celluloid-control-box.c:652
 msgid "Previous Chapter"
-msgstr "Prijašnje poglavlje"
+msgstr "Prethodno poglavlje"
 
 #: src/celluloid-control-box.c:655
 msgid "Loop Playlist"
@@ -1049,11 +1050,11 @@ msgstr "Otvori lokaciju"
 
 #: src/celluloid-shortcuts-window.c:48
 msgid "Add file to playlist"
-msgstr "Dodaj datoteku na popis izvođenja"
+msgstr "Dodaj datoteku u popis izvođenja"
 
 #: src/celluloid-shortcuts-window.c:49
 msgid "Add location to playlist"
-msgstr "Dodaj lokaciju na popis izvođenja"
+msgstr "Dodaj lokaciju u popis izvođenja"
 
 #: src/celluloid-shortcuts-window.c:50
 msgid "Show preferences dialog"
@@ -1090,23 +1091,23 @@ msgstr "Prikaži napredak, proteklo vrijeme i trajanje na OSD-u"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Seek backward/forward 5 seconds"
-msgstr "Premotaj unatrag/unaprijed za 5 sekundi"
+msgstr "Premotaj 5 sekundi natrag/naprijed"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Exact seek backward/forward 1 second"
-msgstr "Premotaj unatrag/unaprijed za 1 sekundu"
+msgstr "Premotaj točno 1 sekundu natrag/naprijed"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Seek backward/forward 1 minute"
-msgstr "Premotaj unatrag/unaprijed za 1 minutu"
+msgstr "Premotaj 1 minutu natrag/naprijed"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Exact seek backward/forward 5 seconds"
-msgstr "Premotaj unatrag/unaprijed za 5 sekundi"
+msgstr "Premotaj točno 5 sekundi natrag/naprijed"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Seek to previous/next subtitle"
-msgstr "Prebaci na prijašnji/sljedeći podnaslov"
+msgstr "Premotaj na prethodni/sljedeći podnaslov"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Step backward/forward a single frame"
@@ -1114,7 +1115,7 @@ msgstr "Premotaj za sličicu unatrag/unaprijed"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr "Premotaj na početak prijašnjeg/sljedećeg poglavlja"
+msgstr "Premotaj na početak prethodnog/sljedećeg poglavlja"
 
 #: src/celluloid-shortcuts-window.c:69
 msgid "Decrease/increase playback speed by 10%"
@@ -1170,7 +1171,7 @@ msgstr "Idi na sljedeće podudaranje"
 
 #: src/celluloid-shortcuts-window.c:84
 msgid "Jump to previous match"
-msgstr "Idi na prijašnje podudaranje"
+msgstr "Idi na prethodno podudaranje"
 
 #: src/celluloid-shortcuts-window.c:85
 msgid "Exit search mode"
@@ -1294,7 +1295,7 @@ msgstr "Reprodukcija"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "Seeking"
-msgstr "Premotavanje"
+msgstr "Prematnje"
 
 #: src/celluloid-shortcuts-window.c:125
 msgid "Playlist"
@@ -1338,7 +1339,7 @@ msgstr "Otvori datoteku"
 
 #: src/celluloid-view.c:1486
 msgid "Add Location to Playlist"
-msgstr "Dodaj lokaciju na popis izvođenja"
+msgstr "Dodaj lokaciju u popis izvođenja"
 
 #: src/celluloid-view.c:1487
 msgid "Open Location"

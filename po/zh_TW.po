@@ -14,8 +14,9 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-19 15:33+0700\n"
-"PO-Revision-Date: 2022-09-01 05:23+0000\n"
-"Last-Translator: Sean Wang <s921840129@gmail.com>\n"
+"PO-Revision-Date: 2023-08-17 16:55+0000\n"
+"Last-Translator: \"Liu Chuan Sheng(劉權陞)(Patrick Liu)\" <01patrickliu@gmail"
+".com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "celluloid/celluloid/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -23,12 +24,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
+#, fuzzy
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "是否已從上一個版本遷移設定"
+msgstr "是否設定已從上一個版本遷移"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
@@ -227,14 +229,13 @@ msgid "The Celluloid Developers"
 msgstr "Celluloid 開發者"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#, fuzzy
-#| msgid "This release contains the following changes:"
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "此發行版本包含了以下變更："
+msgstr "這主要是一個錯誤修復的版本。 它包含以下更改："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
+#, fuzzy
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "修復忽略設定的視窗自動調整。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Fix window size shrinking across sessions."
@@ -242,11 +243,11 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix crash when playing files with names containing invalid encoding."
-msgstr ""
+msgstr "修復播放名稱包含無效編碼的文件時崩潰的問題。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix drag-and-drop not working with some file managers."
-msgstr ""
+msgstr "修復拖放功能於某些文件管理器無法使用的問題。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid "Fix playback starting when the last playlist item is removed."
@@ -279,15 +280,15 @@ msgstr "此發行版本包含了以下變更："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:65
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "遷移到 GTK4。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
 msgid "Add Greek translation by @lepa22."
-msgstr ""
+msgstr "由@lepa22添加希臘語翻譯。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:71
 msgid "Add Korean translation by @jullee96."
-msgstr ""
+msgstr "由@jullee96添加韓語翻譯。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:74
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
@@ -368,11 +369,12 @@ msgstr ""
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
-msgstr ""
+msgstr "僅顯示單個錯誤訊息當連續發生大量錯誤。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
+#, fuzzy
 msgid "Add menu item for opening folders."
-msgstr ""
+msgstr "添加打開文件夾的選單選項。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:159
 msgid ""
@@ -381,12 +383,13 @@ msgid ""
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
+#, fuzzy
 msgid "Add support for loading external video tracks."
-msgstr ""
+msgstr "添加對加載外部影片軌道的支援。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "讓播放清單隨機播放。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Make arrow key bindings work with arrow keys on numpad."
@@ -396,7 +399,7 @@ msgstr ""
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
-msgstr ""
+msgstr "根據設定的最大音量調整音量鍵的範圍。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:188
 msgid "Retain window maximization state across sessions."
@@ -408,19 +411,19 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:194
 msgid "Implement playlist search."
-msgstr ""
+msgstr "進行播放清單搜尋。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:197
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr ""
+msgstr "更新 鍵盤快捷鍵 對話框中的快捷鍵列表。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
-msgstr ""
+msgstr "正確處理額外 mpv 選項中的引號和跳脫字元。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:203
 msgid "Display time at cursor position when hovering the seek bar."
-msgstr ""
+msgstr "當鼠標停留在搜索欄上時，在鼠標的位置顯示時間。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:206
 msgid ""
@@ -1287,11 +1290,7 @@ msgstr "MPV 的 GTK 前端程式"
 
 #: src/celluloid-view.c:1586
 msgid "translator-credits"
-msgstr ""
-"Sean Wang\n"
-"Mingye Wang\n"
-"Sun\n"
-"張修銘 <cges30901@gmail.com>"
+msgstr "譯者積分"
 
 #~ msgid "Make file chooser remember last file's location"
 #~ msgstr "讓檔案選擇器記住上次的檔案位置"
