@@ -565,8 +565,8 @@ pressed_handler(	GtkGestureClick *gesture,
 				CELLULOID_MENU_ITEM(_("Add _Folder…"), "win.show-open-dialog((true, true))"),
 				CELLULOID_MENU_ITEM(_("Add _Location…"), "win.show-open-location-dialog(true)"),
 				CELLULOID_MENU_ITEM(_("_Shuffle"), "win.toggle-shuffle-playlist"),
-				CELLULOID_MENU_ITEM(_("Loop _File"), "win.toggle-loop-file"),
-				CELLULOID_MENU_ITEM(_("Loop _Playlist"), "win.toggle-loop-playlist"),
+				CELLULOID_MENU_ITEM(_("Loop File"), "win.toggle-loop-file"),
+				CELLULOID_MENU_ITEM(_("Loop Playlist"), "win.toggle-loop-playlist"),
 				CELLULOID_MENU_END };
 
 		gsize entries_offset = 0;
