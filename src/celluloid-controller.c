@@ -1337,6 +1337,9 @@ celluloid_controller_init(CelluloidController *controller)
 {
 	controller->key_controller = gtk_event_controller_key_new();
 
+	gtk_event_controller_set_propagation_phase
+		(controller->key_controller, GTK_PHASE_CAPTURE);
+
 	controller->app = NULL;
 	controller->model = NULL;
 	controller->view = NULL;
