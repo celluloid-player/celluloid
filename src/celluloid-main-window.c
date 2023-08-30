@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2022 gnome-mpv
+ * Copyright (c) 2014-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -127,8 +127,8 @@ constructed(GObject *object)
 
 	priv->playlist = celluloid_playlist_widget_new();
 
-	gtk_widget_hide(priv->playlist);
-	gtk_widget_hide(priv->control_box);
+	gtk_widget_set_visible(priv->playlist, FALSE);
+	gtk_widget_set_visible(priv->control_box, FALSE);
 
 	gtk_paned_set_start_child
 		(GTK_PANED(priv->video_area_paned), priv->video_area);

@@ -433,8 +433,8 @@ set_skip_enabled(CelluloidControlBox *box, gboolean enabled)
 	}
 	else
 	{
-		gtk_widget_hide(box->previous_button);
-		gtk_widget_hide(box->next_button);
+		gtk_widget_set_visible(box->previous_button, FALSE);
+		gtk_widget_set_visible(box->next_button, FALSE);
 	}
 }
 
@@ -458,7 +458,7 @@ set_compact(CelluloidControlBox *box, gboolean compact)
 	{
 		gtk_widget_set_halign(box->inner_box, GTK_ALIGN_CENTER);
 		gtk_widget_set_margin_start(box->loop_button, 12);
-		gtk_widget_hide(box->seek_bar);
+		gtk_widget_set_visible(box->seek_bar, FALSE);
 		gtk_widget_set_visible(box->secondary_seek_bar, TRUE);
 	}
 	else
@@ -466,7 +466,7 @@ set_compact(CelluloidControlBox *box, gboolean compact)
 		gtk_widget_set_halign(box->inner_box, GTK_ALIGN_FILL);
 		gtk_widget_set_margin_start(box->loop_button, 0);
 		gtk_widget_set_visible(box->seek_bar, TRUE);
-		gtk_widget_hide(box->secondary_seek_bar);
+		gtk_widget_set_visible(box->secondary_seek_bar, FALSE);
 	}
 }
 

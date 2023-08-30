@@ -207,7 +207,7 @@ set_fullscreen_state(CelluloidVideoArea *area, gboolean fullscreen)
 {
 	area->fs_control_hover = FALSE;
 
-	gtk_widget_hide(area->header_bar_revealer);
+	gtk_widget_set_visible(area->header_bar_revealer, FALSE);
 	set_cursor_visible(area, !fullscreen);
 
 	gtk_revealer_set_reveal_child
@@ -528,10 +528,10 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 		(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
 	gtk_widget_set_visible(area->control_box, TRUE);
-	gtk_widget_hide(area->control_box_revealer);
+	gtk_widget_set_visible(area->control_box_revealer, FALSE);
 
 	gtk_widget_set_visible(area->header_bar, TRUE);
-	gtk_widget_hide(area->header_bar_revealer);
+	gtk_widget_set_visible(area->header_bar_revealer, FALSE);
 
 	g_object_bind_property(	area, "fullscreened",
 				area->control_box, "fullscreened",
