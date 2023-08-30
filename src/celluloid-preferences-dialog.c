@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2022 gnome-mpv
+ * Copyright (c) 2014-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -368,7 +368,7 @@ celluloid_preferences_dialog_new(GtkWindow *parent)
 				"transient-for", parent,
 				NULL );
 
-	gtk_widget_show(dlg);
+	gtk_widget_set_visible(dlg, TRUE);
 
 	return dlg;
 }

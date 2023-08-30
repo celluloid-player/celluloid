@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2022 gnome-mpv
+ * Copyright (c) 2016-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -172,7 +172,7 @@ update_compact_mode(GtkWidget *widget)
 		GtkWidget *revealer = area->control_box_revealer;
 		const gboolean was_visible = gtk_widget_get_visible(revealer);
 
-		gtk_widget_show(revealer);
+		gtk_widget_set_visible(revealer, TRUE);
 		gtk_widget_measure
 			(	widget,
 				GTK_ORIENTATION_HORIZONTAL,
@@ -527,10 +527,10 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	gtk_revealer_set_reveal_child
 		(GTK_REVEALER(area->header_bar_revealer), FALSE);
 
-	gtk_widget_show(area->control_box);
+	gtk_widget_set_visible(area->control_box, TRUE);
 	gtk_widget_hide(area->control_box_revealer);
 
-	gtk_widget_show(area->header_bar);
+	gtk_widget_set_visible(area->header_bar, TRUE);
 	gtk_widget_hide(area->header_bar_revealer);
 
 	g_object_bind_property(	area, "fullscreened",

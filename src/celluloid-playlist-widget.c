@@ -600,7 +600,7 @@ pressed_handler(	GtkGestureClick *gesture,
 		gtk_popover_set_has_arrow(GTK_POPOVER(ctx_menu), FALSE);
 		gtk_popover_set_pointing_to(GTK_POPOVER(ctx_menu), &rect);
 		gtk_widget_set_halign(ctx_menu, GTK_ALIGN_START);
-		gtk_widget_show(ctx_menu);
+		gtk_widget_set_visible(ctx_menu, TRUE);
 	}
 
 	return FALSE;

@@ -750,7 +750,7 @@ show_message_dialog(	CelluloidView *view,
 
 		gtk_window_set_title(GTK_WINDOW(dialog), title);
 		gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-		gtk_widget_show(dialog);
+		gtk_widget_set_visible(dialog, TRUE);
 	}
 }
 
@@ -1540,7 +1540,7 @@ celluloid_view_show_open_location_dialog(CelluloidView *view, gboolean append)
 			G_CALLBACK(open_location_dialog_response_handler),
 			args );
 
-	gtk_widget_show(dlg);
+	gtk_widget_set_visible(dlg, TRUE);
 }
 
 void
@@ -1593,7 +1593,7 @@ celluloid_view_show_preferences_dialog(CelluloidView *view)
 				G_CALLBACK(preferences_dialog_response_handler),
 				view );
 
-	gtk_widget_show(dialog);
+	gtk_widget_set_visible(dialog, TRUE);
 }
 
 void
@@ -1601,7 +1601,7 @@ celluloid_view_show_shortcuts_dialog(CelluloidView *view)
 {
 	GtkWidget *wnd = celluloid_shortcuts_window_new(GTK_WINDOW(view));
 
-	gtk_widget_show(wnd);
+	gtk_widget_set_visible(wnd, TRUE);
 }
 
 void

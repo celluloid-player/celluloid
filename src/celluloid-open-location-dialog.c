@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2021 gnome-mpv
+ * Copyright (c) 2014-2021, 2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -193,7 +193,7 @@ celluloid_open_location_dialog_new(GtkWindow *parent, const gchar *title)
 	load_text_from_clipboard(CELLULOID_OPEN_LOCATION_DIALOG(dlg));
 
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), parent);
-	gtk_widget_show(dlg);
+	gtk_widget_set_visible(dlg, TRUE);
 
 	return dlg;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2021, 2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -368,7 +368,7 @@ copy_file_to_directory(CelluloidPluginsManager *pmgr, GFile *src)
 				dest_path,
 				error->message );
 
-		gtk_widget_show(error_dialog);
+		gtk_widget_set_visible(error_dialog, TRUE);
 
 		g_error_free(error);
 		g_free(src_path);

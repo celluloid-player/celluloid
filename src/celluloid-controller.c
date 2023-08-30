@@ -266,7 +266,7 @@ constructed(GObject *object)
 	}
 
 	gtk_widget_add_controller(GTK_WIDGET(window), controller->key_controller);
-	gtk_widget_show(GTK_WIDGET(window));
+	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
 	g_signal_connect(	controller->settings,
 				"changed::mpris-enable",

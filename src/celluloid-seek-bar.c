@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2022 gnome-mpv
+ * Copyright (c) 2016-2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -517,7 +517,7 @@ celluloid_seek_bar_init(CelluloidSeekBar *bar)
 
 	gtk_popover_set_position(GTK_POPOVER(bar->popover), GTK_POS_TOP);
 	gtk_popover_set_child(GTK_POPOVER(bar->popover), bar->popover_label);
-	gtk_widget_show(bar->popover_label);
+	gtk_widget_set_visible(bar->popover_label, TRUE);
 
 	g_signal_connect(	bar->seek_bar,
 				"change-value",
