@@ -187,7 +187,7 @@ get_property(	GObject *object,
 	{
 		g_value_set_boolean(value, priv->always_floating);
 	}
-	else if(property_id == PROP_ALWAYS_FLOATING)
+	else if(property_id == PROP_CHAPTER_LIST)
 	{
 		g_value_set_pointer(value, priv->chapter_list);
 	}
