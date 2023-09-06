@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 gnome-mpv
+ * Copyright (c) 2020-2021, 2023 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -254,6 +254,7 @@ celluloid_time_label_init(CelluloidTimeLabel *label)
 	label->duration = 0;
 	label->time = 0;
 
+	gtk_widget_add_css_class(label->label, "numeric");
 	gtk_box_append(GTK_BOX(label), label->label);
 
 	update_size(label);
