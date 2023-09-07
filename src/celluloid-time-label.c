@@ -176,8 +176,7 @@ get_max_pixel_size(GtkLabel *label, gint duration, gint *width, gint *height)
 		gchar *time_str =
 			duration < 3600 ?
 			g_strdup_printf("%02d:%02d", min_sec, min_sec) :
-			g_strdup_printf(	"%0*d:%02d:%02d",
-						hour_digits,
+			g_strdup_printf(	"%02d:%02d:%02d",
 						hour,
 						min_sec,
 						min_sec );
