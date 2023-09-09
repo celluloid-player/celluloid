@@ -57,12 +57,6 @@ get_property(	GObject *object,
 		GParamSpec *pspec );
 
 static void
-get_max_pixel_size(GtkLabel *label, gint length, gint *width, gint *height);
-
-static void
-update_size(CelluloidTimeLabel *label);
-
-static void
 update_label(CelluloidTimeLabel *label);
 
 static void
@@ -76,49 +70,13 @@ set_property(	GObject *object,
 	switch(property_id)
 	{
 		case PROP_DURATION:
-		{
-			gint old_duration = self->duration;
-
-			self->duration = g_value_get_int(value);
-
-			// Only update size if we are transitioning from having
-			// duration to not having one and vice versa, or if the
-			// number of digits in the hours part of the duration
-			// changed.
-			if(	(old_duration <= 0) !=
-				(self->duration <= 0) ||
-				(gint)log10(old_duration / 3600) !=
-				(gint)log10(self->duration / 3600) )
-			{
-				update_size(self);
-			}
-
-			update_label(self);
-		}
+		self->duration = g_value_get_int(value);
+		update_label(self);
 		break;
 
 		case PROP_TIME:
-		{
-			gint old_time = self->time;
-
-			self->time = g_value_get_int(value);
-
-			// Only update size if we don't have a duration, and the
-			// number of digits in the hour part of the time
-			// changed. We don't need to update the size if we have
-			// duration since the size would have been already
-			// updated when the duration was set, and the
-			// resulting size will have enough space to accomodate
-			// all possible time values.
-			if(	self->duration <= 0 &&
-				(gint)log10(old_time / 3600) !=
-				(gint)log10(self->time / 3600) )
-			{
-				update_size(self);
-			}
-
-			update_label(self);
-		}
+		self->time = g_value_get_int(value);
+		update_label(self);
 		break;
 
 		default:
@@ -149,77 +107,6 @@ get_property(	GObject *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
 	}
-}
-
-static void
-get_max_pixel_size(GtkLabel *label, gint duration, gint *width, gint *height)
-{
-	PangoLayout *layout = pango_layout_copy(gtk_label_get_layout(label));
-
-	// Find a number in which all digits are 1s, with the same number of
-	// digits as the hour part of the duration. This will be used to
-	// generate other numbers which will then be used to generate test
-	// strings.
-	const gint hour_digits = (gint)log10(duration/3600) + 1;
-	const gint ones = ((gint)pow(10, hour_digits) - 1) / 9;
-
-	for(gint i = 0; i < 10; i++)
-	{
-		gint test_width = 0;
-		gint test_height = 0;
-
-		// Numbers with repeated digits to be used to generate test
-		// strings.
-		const gint hour = ones * i;
-		const gint min_sec = 11 * i;
-
-		gchar *time_str =
-			duration < 3600 ?
-			g_strdup_printf("%02d:%02d", min_sec, min_sec) :
-			g_strdup_printf(	"%0*d:%02d:%02d",
-						hour_digits,
-						hour,
-						min_sec,
-						min_sec );
-		gchar *test_str =
-			duration <= 0 ?
-			g_strdup(time_str) :
-			g_strdup_printf("%s/%s", time_str, time_str);
-
-		pango_layout_set_text
-			(layout, test_str, -1);
-		pango_layout_get_pixel_size
-			(layout, &test_width, &test_height);
-
-		// Keep maximum width and height.
-		if(width)
-		{
-			*width = *width < test_width ? test_width : *width;
-		}
-
-		if(height)
-		{
-			*height = *height < test_height ? test_height : *height;
-		}
-
-		g_free(time_str);
-		g_free(test_str);
-	}
-
-	g_object_unref(layout);
-}
-
-static void
-update_size(CelluloidTimeLabel *label)
-{
-	gint width = 0;
-
-	get_max_pixel_size(	GTK_LABEL(label->label),
-				label->duration,
-				&width,
-				NULL );
-	gtk_widget_set_size_request
-		(GTK_WIDGET(label->label), width, -1);
 }
 
 static void
@@ -256,8 +143,6 @@ celluloid_time_label_init(CelluloidTimeLabel *label)
 
 	gtk_widget_add_css_class(label->label, "numeric");
 	gtk_box_append(GTK_BOX(label), label->label);
-
-	update_size(label);
 }
 
 static void
