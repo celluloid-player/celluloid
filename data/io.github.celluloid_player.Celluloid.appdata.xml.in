@@ -29,6 +29,38 @@
  </description>
  <developer_name>The Celluloid Developers</developer_name>
  <releases>
+  <release date="2023-09-16" version="0.26">
+   <description>
+    <p>
+     This release contains the following changes:
+    </p>
+    <ul>
+      <li>
+       Fix a bug where the header bar keeps hiding even when a menu is open.
+      </li>
+      <li>
+       Use toasts instead of dialog to report mpv errors.
+      </li>
+      <li>
+       Change default screenshot format to PNG.
+      </li>
+      <li>
+       Fix crash that happens when the mpv-config-file key in GSettings
+       contains a path rather than a URI.
+      </li>
+      <li>
+       Expose the Position MPRIS property.
+      </li>
+      <li>
+       Use the numeric style class for the time/duration label, which stops it
+       from jumping around as it changes.
+      </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2023-03-26" version="0.25">
    <description>
     <p>
