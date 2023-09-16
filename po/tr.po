@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2022-05-21 21:17+0000\n"
-"Last-Translator: Oğuz Ersen <oguz@ersen.moe>\n"
+"PO-Revision-Date: 2023-08-21 13:51+0000\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/tr/>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -236,50 +236,49 @@ msgstr "Bu sürüm aşağıdaki değişiklikleri içerir:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "Birden çok pencere kullanırken kilitlenme düzeltildi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "Hakkında iletişim kutusunu libadwaita'ya taşındı."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix cursor not autohiding on KDE."
-msgstr ""
+msgstr "İmlecin KDE'de otomatik olarak gizlenmemesi düzeltildi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix mouse presses/releases becoming unreliable during playback."
 msgstr ""
+"Oynatma sırasında fare basmalarının/bırakmalarının güvenilmez hale gelmesi "
+"düzeltildi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
+"Windows üzerinde derlemek artık mümkün. Celluloid, fare tıklamalarında halen "
+"çöküyor, ancak çalışıyor ve videoları oynatabiliyor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
-#, fuzzy
 msgid "Add Estonian translation by vaba."
-msgstr "Slovence çeviriyi hazırlayan @bertronika."
+msgstr "Estonyaca çeviri eklendi: teşekkürler vaba."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
-#, fuzzy
 msgid "Add Georgian translation by temuri doghonadze."
-msgstr "Slovence çeviriyi hazırlayan @bertronika."
+msgstr "Gürcüce çeviri eklendi: teşekkürler temuri doghonadze."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
-#, fuzzy
 msgid "Add Lithuanian translation by Jonas Smol."
-msgstr "Ukraynaca çeviriyi hazırlayan @vl-nix"
+msgstr "Litvanca çeviri eklendi: Jonas Smol."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:63
-#, fuzzy
 msgid "Add Occitan translation by Quentin PAGÈS."
-msgstr "Occidental çeviriyi hazırlayan OIS."
+msgstr "Oksitanca çeviri eklendi: teşekkürler Quentin PAGÈS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
-#, fuzzy
 msgid "Add Tamil translation by K.B.Dharun Krishna."
-msgstr "Baskça çeviriyi hazırlayan @aldatsa."
+msgstr "Tamilce çeviri eklendi: teşekkürler K.B.Dharun Krishna."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
@@ -297,40 +296,36 @@ msgid "This listing is incomplete. See git log for complete changelog."
 msgstr "Bu liste eksik. Değişikliklerin tamamı için git günlüğüne bakın."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:81
-#, fuzzy
 msgid "Add Malay translation by @dinazmi."
-msgstr "Baskça çeviriyi hazırlayan @aldatsa."
+msgstr "Malayca çevrii eklendi: teşekkürler @dinazmi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Use libadwaita."
-msgstr ""
+msgstr "libadwaita kullan."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Fix on_load hook in scripts not triggering."
-msgstr ""
+msgstr "Tetiklemeyen betiklerdeki on_load kancası düzeltildi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
-#, fuzzy
 msgid "Add option to make the video area draggable."
-msgstr "Video alanını sürüklenebilir hale getir"
+msgstr "Video alanını sürüklenebilir hale getirme seçeneği eklendi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Fix autofit breaking when playing small videos."
-msgstr ""
+msgstr "Küçük videolar oynatılırken otomatik sığdırma kırılmasını düzeltildi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Make controls layout adaptive."
-msgstr ""
+msgstr "Denetim yerleşimini uyumlanabilir yap."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
-#, fuzzy
 msgid "Display chapter marks in the seek bar."
-msgstr "Arama çubuğunun üzerine gelindiğinde imleç konumunda süreyi görüntüle."
+msgstr "Arama çubuğunda bölüm işaretlerini görüntüle."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:102
-#, fuzzy
 msgid "Display chapter titles in the seek bar popover."
-msgstr "Arama çubuğunun üzerine gelindiğinde imleç konumunda süreyi görüntüle."
+msgstr "Arama çubuğu açılır penceresinde bölüm başlıklarını görüntüle."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "This is mostly a bugfix release. It contains the following changes:"
@@ -1034,19 +1029,16 @@ msgid "Plugins"
 msgstr "Eklentiler"
 
 #: src/celluloid-plugins-manager.c:415
-#, fuzzy
 msgid "Add…"
-msgstr "_Ekle…"
+msgstr "Ekle…"
 
 #: src/celluloid-plugins-manager.c:449
-#, fuzzy
 msgid "No Plugins Found"
-msgstr "Eklenti bulunamadı"
+msgstr "Eklenti Bulunamadı"
 
 #: src/celluloid-plugins-manager-item.c:82
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "С Eklentileri"
+msgstr "Eklenti Kaldır"
 
 #: src/celluloid-plugins-manager-item.c:177
 #, c-format
@@ -1062,7 +1054,7 @@ msgstr ""
 
 #: src/celluloid-plugins-manager-item.c:208
 msgid "_Keep"
-msgstr ""
+msgstr "_Koru"
 
 #: src/celluloid-preferences-dialog.c:289
 msgid "mpv configuration file:"
@@ -1073,9 +1065,8 @@ msgid "mpv input configuration file:"
 msgstr "mpv giriş yapılandırma dosyası:"
 
 #: src/celluloid-preferences-dialog.c:315
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "Ek mpv seçenekleri:"
+msgstr "Ek mpv seçenekleri"
 
 #: src/celluloid-preferences-dialog.c:328
 msgid "Interface"
@@ -1339,7 +1330,7 @@ msgstr "Altyazı"
 
 #: src/celluloid-shortcuts-window.c:122
 msgid "Playback"
-msgstr "Oynat"
+msgstr "Oynatma"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "Seeking"
@@ -1351,11 +1342,11 @@ msgstr "Oynatma Listesi"
 
 #: src/celluloid-video-area.c:629
 msgid "Welcome"
-msgstr ""
+msgstr "Hoş Geldiniz"
 
 #: src/celluloid-video-area.c:632
 msgid "Press ＋ or drag your video file here."
-msgstr ""
+msgstr "＋ tuşuna basın ya da video dosyanızı buraya sürükleyin."
 
 #: src/celluloid-view.c:765
 msgid "Load Audio Track…"
@@ -1413,7 +1404,8 @@ msgstr "Oynatma Listesini Kaydet"
 msgid "translator-credits"
 msgstr ""
 "Serdar Sağlam <teknomobil@yandex.com>\n"
-"Oğuz Ersen <oguz@ersen.moe>"
+"Oğuz Ersen <oguz@ersen.moe>\n"
+"Sabri Ünal <libreajans@gmail.com>"
 
 #~ msgid "Enable media keys support"
 #~ msgstr "Medya tuşları desteğini etkinleştir"

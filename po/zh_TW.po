@@ -14,9 +14,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2023-08-17 16:55+0000\n"
-"Last-Translator: \"Liu Chuan Sheng(劉權陞)(Patrick Liu)\" "
-"<01patrickliu@gmail.com>\n"
+"PO-Revision-Date: 2023-08-28 09:50+0000\n"
+"Last-Translator: Jack77793 <jack77793@hotmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "celluloid/celluloid/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -24,13 +23,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
-#, fuzzy
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "是否設定已從上一個版本遷移"
+msgstr "設定是否已從上一個版本遷移"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
@@ -241,25 +239,25 @@ msgstr "此發行版本包含了以下變更："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "修復在使用多個視窗時的崩潰。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "遷移關於對話框至 libadwaita。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix cursor not autohiding on KDE."
-msgstr ""
+msgstr "修復在 KDE 中遊標不自動隱藏的問題。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix mouse presses/releases becoming unreliable during playback."
-msgstr ""
+msgstr "修復在播放時滑鼠按下與釋放不可靠的問題。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
-msgstr ""
+msgstr "使在視窗上構建成爲可能。Celluloid 仍在滑鼠點擊時崩潰，但可以執行並播放影片。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #, fuzzy

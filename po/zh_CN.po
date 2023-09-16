@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2022-07-21 09:16+0000\n"
-"Last-Translator: kak mi <wavelake@outlook.com>\n"
+"PO-Revision-Date: 2023-08-28 09:50+0000\n"
+"Last-Translator: Jack77793 <jack77793@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "celluloid/celluloid/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -239,25 +239,26 @@ msgstr "该发布版本包含了以下变更："
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "修复在使用多个窗口时的崩溃。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "将关于对话框移植到 libadwaita。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix cursor not autohiding on KDE."
-msgstr ""
+msgstr "修复 KDE 中光标不自动隐藏的问题。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix mouse presses/releases becoming unreliable during playback."
-msgstr ""
+msgstr "修复在回放时鼠标按下和释放不可靠的问题。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
-msgstr ""
+msgstr "使在视窗上构建成为可能。Celluloid "
+"仍旧在鼠标点击时崩溃，但可以运行并播放视频。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #, fuzzy
@@ -306,34 +307,32 @@ msgstr "添加 @aldatsa 贡献的巴斯克语翻译。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Use libadwaita."
-msgstr ""
+msgstr "使用 libadwaita。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Fix on_load hook in scripts not triggering."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
-#, fuzzy
 msgid "Add option to make the video area draggable."
-msgstr "使视频区域可拖动"
+msgstr "添加使视频区域可拖动的选项。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
+#, fuzzy
 msgid "Fix autofit breaking when playing small videos."
-msgstr ""
+msgstr "修复自适应在播放小的视频时的不可用。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Make controls layout adaptive."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
-#, fuzzy
 msgid "Display chapter marks in the seek bar."
-msgstr "当鼠标悬停在进度条时，在光标位置显示时间。"
+msgstr "当鼠标悬停在进度条时，在光标位置显示章节标记。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:102
-#, fuzzy
 msgid "Display chapter titles in the seek bar popover."
-msgstr "当鼠标悬停在进度条时，在光标位置显示时间。"
+msgstr "在进度条弹出时显示标题。"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "This is mostly a bugfix release. It contains the following changes:"
@@ -999,19 +998,16 @@ msgid "Plugins"
 msgstr "插件"
 
 #: src/celluloid-plugins-manager.c:415
-#, fuzzy
 msgid "Add…"
-msgstr "添加(_A)…"
+msgstr "添加…"
 
 #: src/celluloid-plugins-manager.c:449
-#, fuzzy
 msgid "No Plugins Found"
 msgstr "未找到插件"
 
 #: src/celluloid-plugins-manager-item.c:82
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "C 程序插件"
+msgstr "移除插件"
 
 #: src/celluloid-plugins-manager-item.c:177
 #, c-format
@@ -1036,9 +1032,8 @@ msgid "mpv input configuration file:"
 msgstr "输入配置文件路径："
 
 #: src/celluloid-preferences-dialog.c:315
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "额外的 MPV 选项："
+msgstr "额外的 MPV 选项"
 
 #: src/celluloid-preferences-dialog.c:328
 msgid "Interface"
@@ -1314,11 +1309,11 @@ msgstr "播放列表"
 
 #: src/celluloid-video-area.c:629
 msgid "Welcome"
-msgstr ""
+msgstr "欢迎"
 
 #: src/celluloid-video-area.c:632
 msgid "Press ＋ or drag your video file here."
-msgstr ""
+msgstr "点击 ＋ 或将视频文件拖到此处。"
 
 #: src/celluloid-view.c:765
 msgid "Load Audio Track…"

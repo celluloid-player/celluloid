@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2023-07-15 15:54+0000\n"
+"PO-Revision-Date: 2023-08-31 03:48+0000\n"
 "Last-Translator: Fernando Lopes <118869201+plasmus777@users.noreply.github."
 "com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -243,25 +243,29 @@ msgstr "Esta versão contém as seguintes alterações:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "Corrige uma falha ao usar várias janelas."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "Porta a caixa de diálogo sobre para libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix cursor not autohiding on KDE."
-msgstr ""
+msgstr "Corrige o cursor não se escondendo automaticamente no KDE."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix mouse presses/releases becoming unreliable during playback."
 msgstr ""
+"Corrige pressionamentos/lançamentos do mouse que se tornam não confiáveis "
+"durante a reprodução."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
+"Torna possível compilar no Windows. Celluloid ainda trava em cliques do "
+"mouse, mas ele é executado e pode reproduzir vídeos."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #, fuzzy
@@ -310,36 +314,31 @@ msgstr "Acrescentar tradução basca por @aldatsa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Use libadwaita."
-msgstr ""
+msgstr "Usar libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Fix on_load hook in scripts not triggering."
-msgstr ""
+msgstr "Corrige ganchos on_load em scripts que não são acionados."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
-#, fuzzy
 msgid "Add option to make the video area draggable."
-msgstr "Tornar a área de vídeo arrastável"
+msgstr "Adiciona opção para tornar a área de vídeo arrastável."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Fix autofit breaking when playing small videos."
-msgstr ""
+msgstr "Corrige a quebra de ajuste automático ao reproduzir vídeos pequenos."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Make controls layout adaptive."
-msgstr ""
+msgstr "Torna o layout dos controles adaptável."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
-#, fuzzy
 msgid "Display chapter marks in the seek bar."
-msgstr ""
-"Mostra o tempo na posição do cursor ao passar o mouse na barra de busca."
+msgstr "Exibe marcas de capítulo na barra de busca."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:102
-#, fuzzy
 msgid "Display chapter titles in the seek bar popover."
-msgstr ""
-"Mostra o tempo na posição do cursor ao passar o mouse na barra de busca."
+msgstr "Exibe os títulos dos capítulos no popover da barra de busca."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "This is mostly a bugfix release. It contains the following changes:"
@@ -1063,19 +1062,16 @@ msgid "Plugins"
 msgstr "Plugins"
 
 #: src/celluloid-plugins-manager.c:415
-#, fuzzy
 msgid "Add…"
-msgstr "_Adicionar…"
+msgstr "Adicionar…"
 
 #: src/celluloid-plugins-manager.c:449
-#, fuzzy
 msgid "No Plugins Found"
-msgstr "Nenhum plugin encontrado"
+msgstr "Nenhum Plugin Encontrado"
 
 #: src/celluloid-plugins-manager-item.c:82
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "Plugins C"
+msgstr "Remover Plugin"
 
 #: src/celluloid-plugins-manager-item.c:177
 #, c-format
@@ -1091,7 +1087,7 @@ msgstr ""
 
 #: src/celluloid-plugins-manager-item.c:208
 msgid "_Keep"
-msgstr ""
+msgstr "_Manter"
 
 #: src/celluloid-preferences-dialog.c:289
 msgid "mpv configuration file:"
@@ -1102,9 +1098,8 @@ msgid "mpv input configuration file:"
 msgstr "arquivo de configuração de entrada do mpv:"
 
 #: src/celluloid-preferences-dialog.c:315
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "Opções extras do mpv:"
+msgstr "Opções extras do mpv"
 
 #: src/celluloid-preferences-dialog.c:328
 msgid "Interface"
@@ -1381,11 +1376,11 @@ msgstr "Lista de Reprodução"
 
 #: src/celluloid-video-area.c:629
 msgid "Welcome"
-msgstr ""
+msgstr "Boas-vindas"
 
 #: src/celluloid-video-area.c:632
 msgid "Press ＋ or drag your video file here."
-msgstr ""
+msgstr "Pressione + ou arraste o arquivo de vídeo para cá."
 
 #: src/celluloid-view.c:765
 msgid "Load Audio Track…"

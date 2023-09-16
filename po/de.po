@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2023-05-28 10:54+0000\n"
-"Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
+"PO-Revision-Date: 2023-09-04 12:54+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/de/>\n"
 "Language: de\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -246,11 +246,11 @@ msgstr "Diese Veröffentlichungen umfasst die folgenden Änderungen:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "Behebung eines Absturzes bei Verwendung mehrerer Fenster."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "Portierung des Über-Dialogs nach libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix cursor not autohiding on KDE."
@@ -267,29 +267,24 @@ msgid ""
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
-#, fuzzy
 msgid "Add Estonian translation by vaba."
-msgstr "Slowenische Übersetzung beigesteuert von @bertonika."
+msgstr "Estnische Übersetzung von vaba hinzugefügt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
-#, fuzzy
 msgid "Add Georgian translation by temuri doghonadze."
-msgstr "Slowenische Übersetzung beigesteuert von @bertonika."
+msgstr "Georgische Übersetzung von temuri doghonadze hinzugefügt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
-#, fuzzy
 msgid "Add Lithuanian translation by Jonas Smol."
-msgstr "Ukrainische Übersetzung von@vl-nix"
+msgstr "Litauische Übersetzung von Jonas Smol hinzugefügt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:63
-#, fuzzy
 msgid "Add Occitan translation by Quentin PAGÈS."
-msgstr "Okzitanische Übersetzung von OIS hinzugefügt."
+msgstr "Okzitanische Übersetzung von Quentin PAGÈS hinzugefügt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
-#, fuzzy
 msgid "Add Tamil translation by K.B.Dharun Krishna."
-msgstr "Baskische Übersetzung hinzufügen von @aldatsa."
+msgstr "Tamilische Übersetzung von K.B.Dharun Krishna hinzugefügt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
@@ -309,22 +304,20 @@ msgstr ""
 "Changelog."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:81
-#, fuzzy
 msgid "Add Malay translation by @dinazmi."
-msgstr "Baskische Übersetzung hinzufügen von @aldatsa."
+msgstr "Malaiische Übersetzung von @dinazmi hinzugefügt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Use libadwaita."
-msgstr ""
+msgstr "libadwaita verwenden"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Fix on_load hook in scripts not triggering."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
-#, fuzzy
 msgid "Add option to make the video area draggable."
-msgstr "Videobereich verschiebbar machen"
+msgstr "Option hinzufügen, um den Videobereich verschiebbar zu machen."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Fix autofit breaking when playing small videos."
@@ -1053,9 +1046,8 @@ msgid "Plugins"
 msgstr "Plugins"
 
 #: src/celluloid-plugins-manager.c:415
-#, fuzzy
 msgid "Add…"
-msgstr "_Hinzufügen…"
+msgstr "Hinzufügen…"
 
 #: src/celluloid-plugins-manager.c:449
 #, fuzzy
@@ -1065,7 +1057,7 @@ msgstr "Keine Plugins gefunden"
 #: src/celluloid-plugins-manager-item.c:82
 #, fuzzy
 msgid "Remove Plugin"
-msgstr "C-Plugins"
+msgstr "Plugin entfernen"
 
 #: src/celluloid-plugins-manager-item.c:177
 #, c-format
@@ -1081,7 +1073,7 @@ msgstr ""
 
 #: src/celluloid-plugins-manager-item.c:208
 msgid "_Keep"
-msgstr ""
+msgstr "_Behalten"
 
 #: src/celluloid-preferences-dialog.c:289
 msgid "mpv configuration file:"
@@ -1092,9 +1084,8 @@ msgid "mpv input configuration file:"
 msgstr "mpv-Eingabekonfigurationsdatei:"
 
 #: src/celluloid-preferences-dialog.c:315
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "Eingabe zusätzlicher mpv-Optionen:"
+msgstr "Zusätzliche mpv-Optionen"
 
 #: src/celluloid-preferences-dialog.c:328
 msgid "Interface"
@@ -1370,11 +1361,11 @@ msgstr "Wiedergabeliste"
 
 #: src/celluloid-video-area.c:629
 msgid "Welcome"
-msgstr ""
+msgstr "Willkommen"
 
 #: src/celluloid-video-area.c:632
 msgid "Press ＋ or drag your video file here."
-msgstr ""
+msgstr "Drücken Sie ＋ oder ziehen Sie Ihre Videodatei hierher."
 
 #: src/celluloid-view.c:765
 msgid "Load Audio Track…"
