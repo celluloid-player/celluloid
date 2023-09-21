@@ -6,6 +6,8 @@ mpv's powerful playback capabilities.
 
 ![Screenshot](https://celluloid-player.github.io/images/screenshot-0.png)
 
+Repository Mirror: https://codeberg.org/celluloid-player/celluloid
+
 ## Dependencies
 
 - appstream-glib (build)
