@@ -731,7 +731,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 			_("Shuffle Playlist") );
 	init_button(	box->playlist_button,
 			"sidebar-show-right-symbolic",
-			_("Toggle Fullscreen") );
+			_("Toggle Playlist") );
 	init_button(	box->fullscreen_button,
 			"view-fullscreen-symbolic",
 			_("Toggle Fullscreen") );
