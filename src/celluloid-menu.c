@@ -265,7 +265,24 @@ celluloid_menu_build_full(	GMenu *menu,
 }
 
 void
-celluloid_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
+celluloid_menu_build_menu_btn(GMenu *menu)
+{
+	const CelluloidMenuEntry entries[]
+		= {	CELLULOID_MENU_SEPARATOR,
+			CELLULOID_MENU_ITEM(_("_Toggle Controls"), "win.toggle-controls"),
+			CELLULOID_MENU_SEPARATOR,
+			CELLULOID_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
+                        CELLULOID_MENU_SEPARATOR,
+			CELLULOID_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
+			CELLULOID_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
+			CELLULOID_MENU_ITEM(_("_About Celluloid"), "win.show-about-dialog"),
+			CELLULOID_MENU_END };
+
+	celluloid_menu_build_menu(menu, entries, TRUE);
+}
+
+void
+celluloid_menu_build_track_menu_btn(GMenu *menu, const GPtrArray *track_list)
 {
 	GPtrArray *audio_tracks = NULL;
 	GPtrArray *video_tracks = NULL;
@@ -283,17 +300,9 @@ celluloid_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 
 	const CelluloidMenuEntry entries[]
 		= {	CELLULOID_MENU_SEPARATOR,
-			CELLULOID_MENU_ITEM(_("_Toggle Controls"), "win.toggle-controls"),
-			CELLULOID_MENU_SEPARATOR,
-			CELLULOID_MENU_ITEM(_("_Save Playlist"), "win.save-playlist"),
-			CELLULOID_MENU_SEPARATOR,
-			CELLULOID_MENU_SUBMENU(_("_Video Track"), video_menu),
+                        CELLULOID_MENU_SUBMENU(_("_Video Track"), video_menu),
 			CELLULOID_MENU_SUBMENU(_("_Audio Track"), audio_menu),
 			CELLULOID_MENU_SUBMENU(_("S_ubtitle Track"), subtitle_menu),
-			CELLULOID_MENU_SEPARATOR,
-			CELLULOID_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
-			CELLULOID_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
-			CELLULOID_MENU_ITEM(_("_About Celluloid"), "win.show-about-dialog"),
 			CELLULOID_MENU_END };
 
 	celluloid_menu_build_menu(menu, entries, TRUE);

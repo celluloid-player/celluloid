@@ -230,7 +230,7 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	ghdr = GTK_HEADER_BAR(hdr->header_bar);
 
 	celluloid_menu_build_open_btn(open_btn_menu, NULL);
-	celluloid_menu_build_menu_btn(menu_btn_menu, NULL);
+	celluloid_menu_build_menu_btn(menu_btn_menu);
 
 	gtk_menu_button_set_icon_name
 		(GTK_MENU_BUTTON(hdr->open_btn), "list-add-symbolic");
@@ -362,7 +362,7 @@ celluloid_header_bar_update_track_list(	CelluloidHeaderBar *hdr,
 {
 	GMenu *menu = g_menu_new();
 
-	celluloid_menu_build_menu_btn(menu, track_list);
+	celluloid_menu_build_menu_btn(menu);
 
 	gtk_menu_button_set_menu_model
 		(GTK_MENU_BUTTON(hdr->menu_btn), G_MENU_MODEL(menu));

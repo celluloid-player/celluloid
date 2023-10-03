@@ -272,7 +272,7 @@ timeout_handler(gpointer data)
 
 	if(control_box
 	&& !area->fs_control_hover
-	&& !celluloid_control_box_get_volume_popup_visible(control_box)
+	&& !celluloid_control_box_get_popups_visible(control_box)
 	&& !open_button_active
 	&& !menu_button_active)
 	{
@@ -672,8 +672,8 @@ void
 celluloid_video_area_update_track_list(	CelluloidVideoArea *area,
 					const GPtrArray *track_list )
 {
-	celluloid_header_bar_update_track_list
-		(CELLULOID_HEADER_BAR(area->header_bar), track_list);
+	celluloid_control_box_update_track_list
+		(CELLULOID_CONTROL_BOX(area->control_box), track_list);
 }
 
 void

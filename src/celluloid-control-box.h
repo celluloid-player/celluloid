@@ -50,7 +50,11 @@ gdouble
 celluloid_control_box_get_volume(CelluloidControlBox *box);
 
 gboolean
-celluloid_control_box_get_volume_popup_visible(CelluloidControlBox *box);
+celluloid_control_box_get_popups_visible(CelluloidControlBox *box);
+
+void
+celluloid_control_box_update_track_list(CelluloidControlBox *box,
+					const GPtrArray *track_list);
 
 void
 celluloid_control_box_set_floating(CelluloidControlBox *box, gboolean floating);

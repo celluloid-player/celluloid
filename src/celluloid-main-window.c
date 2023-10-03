@@ -799,12 +799,12 @@ celluloid_main_window_update_track_list(	CelluloidMainWindow *wnd,
 	celluloid_video_area_update_track_list
 		(CELLULOID_VIDEO_AREA(priv->video_area), track_list);
 
-	if(celluloid_main_window_get_csd_enabled(wnd))
-	{
-		celluloid_header_bar_update_track_list
-			(CELLULOID_HEADER_BAR(priv->header_bar), track_list);
-	}
-	else
+        if(!celluloid_main_window_get_use_floating_controls(wnd)) {
+          celluloid_control_box_update_track_list
+                  (CELLULOID_CONTROL_BOX(priv->control_box), track_list);
+        }
+
+	if(!celluloid_main_window_get_csd_enabled(wnd))
 	{
 		GtkApplication *app;
 		GMenu *menu;

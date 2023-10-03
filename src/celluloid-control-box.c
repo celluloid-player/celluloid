@@ -23,6 +23,7 @@
 
 #include "celluloid-control-box.h"
 #include "celluloid-seek-bar.h"
+#include "celluloid-menu.h"
 
 enum
 {
@@ -40,6 +41,7 @@ enum
 	PROP_VOLUME,
 	PROP_VOLUME_MAX,
 	PROP_VOLUME_POPUP_VISIBLE,
+        PROP_MENU_BUTTON_ACTIVE,
 	PROP_CHAPTER_LIST,
 	N_PROPERTIES
 };
@@ -60,6 +62,7 @@ struct _CelluloidControlBox
 	GtkWidget *loop_button;
 	GtkWidget *shuffle_button;
 	GtkWidget *volume_button;
+        GtkWidget *menu_btn;
 	GtkWidget *playlist_button;
 	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
@@ -77,6 +80,7 @@ struct _CelluloidControlBox
 	gdouble volume;
 	gdouble volume_max;
 	gboolean volume_popup_visible;
+        gboolean menu_popover_visible;
 	GPtrArray *chapter_list;
 };
 
@@ -142,6 +146,9 @@ set_compact(CelluloidControlBox *box, gboolean compact);
 
 static void
 set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen);
+
+static void
+create_popup(GtkMenuButton *menu_button, gpointer data);
 
 static void
 init_button(	GtkWidget *button,
@@ -237,6 +244,10 @@ set_property(	GObject *object,
 		}
 		break;
 
+                case PROP_MENU_BUTTON_ACTIVE:
+		self->menu_popover_visible = g_value_get_boolean(value);
+                break;
+
 		case PROP_CHAPTER_LIST:
 		self->chapter_list = g_value_get_pointer(value);
 		break;
@@ -308,6 +319,10 @@ get_property(	GObject *object,
 		case PROP_VOLUME_POPUP_VISIBLE:
 		g_value_set_boolean(value, self->volume_popup_visible);
 		break;
+
+                case PROP_MENU_BUTTON_ACTIVE:
+                g_value_set_boolean(value, self->menu_popover_visible);
+                break;
 
 		case PROP_CHAPTER_LIST:
 		g_value_set_pointer(value, self->chapter_list);
@@ -491,6 +506,25 @@ set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen)
 }
 
 static void
+create_popup(GtkMenuButton *menu_button, gpointer data)
+{
+	// Bind the 'visible' property then unset the popup func. We can't do
+	// this in the init function because the popover will only be created
+	// when the button is activated for the first time.
+
+	GtkPopover *menu_popover = gtk_menu_button_get_popover(menu_button);
+
+        gtk_popover_set_position(menu_popover, GTK_POS_TOP);
+
+	g_object_bind_property
+		(	menu_popover, "visible",
+			data, "menu-button-active",
+			G_BINDING_DEFAULT );
+
+	gtk_menu_button_set_create_popup_func(menu_button, NULL, NULL, NULL);
+}
+
+static void
 init_button(	GtkWidget *button,
 		const gchar *icon_name,
 		const gchar *tooltip_text )
@@ -644,6 +678,15 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 	g_object_class_install_property
 		(object_class, PROP_VOLUME_POPUP_VISIBLE, pspec);
 
+        pspec = g_param_spec_boolean
+		(	"menu-button-active",
+			"Menu button active",
+			"Whether or not the menu button is active",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property
+		(object_class, PROP_MENU_BUTTON_ACTIVE, pspec);
+
 	g_signal_new(	"button-clicked",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -702,6 +745,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->loop_button = gtk_toggle_button_new();
 	box->shuffle_button = gtk_toggle_button_new();
 	box->volume_button = gtk_scale_button_new(0.0, 1.0, 0.02, volume_icons);
+        box->menu_btn = gtk_menu_button_new();
 	box->seek_bar = celluloid_seek_bar_new();
 	box->secondary_seek_bar = celluloid_seek_bar_new();
 	box->skip_enabled = FALSE;
@@ -750,6 +794,18 @@ celluloid_control_box_init(CelluloidControlBox *box)
 			"view-fullscreen-symbolic",
 			_("Toggle Fullscreen") );
 
+        GMenu *menu_btn_menu = g_menu_new();
+        celluloid_menu_build_track_menu_btn(menu_btn_menu, NULL);
+
+        gtk_menu_button_set_icon_name
+                (GTK_MENU_BUTTON(box->menu_btn), "view-more-symbolic");
+
+        gtk_menu_button_set_menu_model
+                (GTK_MENU_BUTTON(box->menu_btn), G_MENU_MODEL(menu_btn_menu));
+
+        gtk_menu_button_set_create_popup_func
+                (GTK_MENU_BUTTON(box->menu_btn), create_popup, box, NULL);
+
 	gtk_widget_add_controller
 		(GTK_WIDGET(box), GTK_EVENT_CONTROLLER(box->click_gesture));
 
@@ -759,6 +815,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_widget_set_margin_end(box->secondary_seek_bar, 6);
 
 	gtk_widget_set_can_focus(box->volume_button, FALSE);
+        gtk_widget_set_can_focus(box->menu_btn, FALSE);
 	gtk_widget_set_can_focus(box->seek_bar, FALSE);
 	gtk_widget_set_can_focus(box->secondary_seek_bar, FALSE);
 
@@ -795,6 +852,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_box_append(GTK_BOX(box->inner_box), box->loop_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->shuffle_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->volume_button);
+        gtk_box_append(GTK_BOX(box->inner_box), box->menu_btn);
 	gtk_box_append(GTK_BOX(box->inner_box), box->playlist_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->fullscreen_button);
 
@@ -943,9 +1001,24 @@ celluloid_control_box_get_volume(CelluloidControlBox *box)
 }
 
 gboolean
-celluloid_control_box_get_volume_popup_visible(CelluloidControlBox *box)
+celluloid_control_box_get_popups_visible(CelluloidControlBox *box)
 {
-	return box->volume_popup_visible;
+	return box->volume_popup_visible || box->menu_popover_visible;
+}
+
+void
+celluloid_control_box_update_track_list(CelluloidControlBox *box,
+					const GPtrArray *track_list)
+{
+	GMenu *menu = g_menu_new();
+
+	celluloid_menu_build_track_menu_btn(menu, track_list);
+
+	gtk_menu_button_set_menu_model
+		(GTK_MENU_BUTTON(box->menu_btn), G_MENU_MODEL(menu));
+
+        gtk_menu_button_set_create_popup_func
+                (GTK_MENU_BUTTON(box->menu_btn), create_popup, box, NULL);
 }
 
 void

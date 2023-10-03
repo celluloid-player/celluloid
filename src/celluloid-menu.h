@@ -45,7 +45,10 @@ celluloid_menu_build_full(	GMenu *celluloid_menu,
 				const GPtrArray *disc_list );
 
 void
-celluloid_menu_build_menu_btn(GMenu *celluloid_menu, const GPtrArray *track_list);
+celluloid_menu_build_menu_btn(GMenu *celluloid_menu);
+
+void
+celluloid_menu_build_track_menu_btn(GMenu *celluloid_menu, const GPtrArray *track_list);
 
 void
 celluloid_menu_build_open_btn(GMenu *celluloid_menu, const GPtrArray *disc_list);
