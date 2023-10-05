@@ -1024,6 +1024,8 @@ drop_handler(	GtkDropTarget *self,
 	const gboolean append = CELLULOID_IS_PLAYLIST_WIDGET(source);
 	GListStore *files = NULL;
 
+	g_debug("Received drop event with value type %s", g_type_name(G_VALUE_TYPE(value)) );
+
 	if(G_VALUE_HOLDS_STRING(value))
 	{
 		const gchar *string = g_value_get_string(value);
@@ -1043,6 +1045,10 @@ drop_handler(	GtkDropTarget *self,
 
 			g_strfreev(uris);
 		}
+		else
+		{
+			g_warning("Failed to extract any URIs from dropped string");
+		}
 	}
 	else if(G_VALUE_HOLDS(value, GDK_TYPE_FILE_LIST))
 	{
@@ -1055,11 +1061,20 @@ drop_handler(	GtkDropTarget *self,
 			g_list_store_append(files, G_FILE(cur->data));
 		}
 	}
+	else
+	{
+		g_error(	"Cannot handle drop event with value type %s",
+				g_type_name(G_VALUE_TYPE(value)) );
+	}
 
 	if(files)
 	{
 		g_signal_emit_by_name(view, "file-open", files, append);
 		g_object_unref(files);
+	}
+	else
+	{
+		g_warning("Failed to open anything from drop event");
 	}
 
 	return TRUE;
