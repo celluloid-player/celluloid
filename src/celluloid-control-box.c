@@ -673,6 +673,12 @@ celluloid_control_box_init(CelluloidControlBox *box)
 {
 	GtkWidget *popup = NULL;
 	GtkAdjustment *adjustment = NULL;
+	const gchar *volume_icons[] =
+		{	"audio-volume-muted",
+			"audio-volume-high",
+			"audio-volume-low",
+			"audio-volume-medium",
+			NULL };
 
 	box->click_gesture = gtk_gesture_click_new();
 
@@ -687,7 +693,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->fullscreen_button = gtk_button_new();
 	box->loop_button = gtk_toggle_button_new();
 	box->shuffle_button = gtk_toggle_button_new();
-	box->volume_button = gtk_volume_button_new();
+	box->volume_button = gtk_scale_button_new(0.0, 1.0, 0.02, volume_icons);
 	box->seek_bar = celluloid_seek_bar_new();
 	box->secondary_seek_bar = celluloid_seek_bar_new();
 	box->skip_enabled = FALSE;
