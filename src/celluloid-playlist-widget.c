@@ -54,7 +54,6 @@ struct _CelluloidPlaylistWidget
 	GtkBox parent_instance;
 	gint64 playlist_count;
 	gboolean searching;
-	GtkListStore *store;
 	GtkWidget *scrolled_window;
 	CelluloidPlaylistModel *model;
 	GtkWidget *list_box;
@@ -292,10 +291,6 @@ constructed(GObject *object)
 {
 	CelluloidPlaylistWidget *self = CELLULOID_PLAYLIST_WIDGET(object);
 
-	self->store = gtk_list_store_new(	3,
-						G_TYPE_STRING,
-						G_TYPE_STRING,
-						G_TYPE_INT );
 	self->model = celluloid_playlist_model_new();
 	self->list_box = gtk_list_box_new();
 	self->last_selected = -1;
