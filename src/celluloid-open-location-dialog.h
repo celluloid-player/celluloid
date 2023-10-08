@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 #define CELLULOID_TYPE_OPEN_LOC_DIALOG (celluloid_open_location_dialog_get_type ())
 
-G_DECLARE_FINAL_TYPE(CelluloidOpenLocationDialog, celluloid_open_location_dialog, CELLULOID, OPEN_LOCATION_DIALOG, GtkDialog)
+G_DECLARE_FINAL_TYPE(CelluloidOpenLocationDialog, celluloid_open_location_dialog, CELLULOID, OPEN_LOCATION_DIALOG, GtkWindow)
 
 GtkWidget *
 celluloid_open_location_dialog_new(GtkWindow *parent, const gchar *title);
