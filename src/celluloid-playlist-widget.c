@@ -903,8 +903,6 @@ celluloid_playlist_widget_class_init(CelluloidPlaylistWidgetClass *klass)
 static void
 celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 {
-	GtkStyleContext *style = NULL;
-
 	wgt->playlist_count = 0;
 	wgt->searching = FALSE;
 	wgt->scrolled_window = gtk_scrolled_window_new();
@@ -913,8 +911,7 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	wgt->placeholder = gtk_label_new(_("Playlist is empty"));
 	wgt->css_provider = gtk_css_provider_new();
 
-	style = gtk_widget_get_style_context(wgt->placeholder);
-	gtk_style_context_add_class(style, "dim-label");
+	gtk_widget_add_css_class(wgt->placeholder, "dim-label");
 
 	gtk_widget_set_vexpand
 		(wgt->scrolled_window, TRUE);
