@@ -745,8 +745,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_widget_add_controller
 		(GTK_WIDGET(box), GTK_EVENT_CONTROLLER(box->click_gesture));
 
-	gtk_style_context_add_class
-		(gtk_widget_get_style_context(GTK_WIDGET(box)), "toolbar");
+	gtk_widget_add_css_class(GTK_WIDGET(box), "toolbar");
 
 	gtk_widget_set_margin_end(box->seek_bar, 6);
 	gtk_widget_set_margin_end(box->secondary_seek_bar, 6);
@@ -948,8 +947,7 @@ celluloid_control_box_set_floating(CelluloidControlBox *box, gboolean floating)
 {
 	if(floating)
 	{
-		gtk_style_context_add_class
-			(gtk_widget_get_style_context(GTK_WIDGET(box)), "osd");
+		gtk_widget_add_css_class(GTK_WIDGET(box), "osd");
 
 		gtk_widget_set_margin_start(GTK_WIDGET(box), 12);
 		gtk_widget_set_margin_end(GTK_WIDGET(box), 12);
