@@ -954,8 +954,7 @@ celluloid_control_box_set_floating(CelluloidControlBox *box, gboolean floating)
 	}
 	else
 	{
-		gtk_style_context_remove_class
-			(gtk_widget_get_style_context(GTK_WIDGET(box)), "osd");
+		gtk_widget_remove_css_class(GTK_WIDGET(box), "osd");
 
 		gtk_widget_set_margin_start(GTK_WIDGET(box), 0);
 		gtk_widget_set_margin_end(GTK_WIDGET(box), 0);
