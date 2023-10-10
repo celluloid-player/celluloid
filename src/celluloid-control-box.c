@@ -326,12 +326,20 @@ css_changed(GtkWidget *self, GtkCssStyleChange *change)
 		->css_changed(self, change);
 
 	CelluloidControlBox *box = CELLULOID_CONTROL_BOX(self);
-	GtkStyleContext *ctx = gtk_widget_get_style_context(self);
-	GtkBorder padding = {0};
+	gint offset = -6;
+	graphene_rect_t bounds;
 
-	gtk_style_context_get_padding(ctx, &padding);
-	g_object_set(box->seek_bar, "popover-y-offset", -padding.top, NULL);
-	g_object_set(box->secondary_seek_bar, "popover-y-offset", -padding.top, NULL);
+	if(gtk_widget_compute_bounds(self, box->seek_bar, &bounds))
+	{
+		offset = (gint)bounds.origin.y;
+	}
+	else
+	{
+		g_warning("Failed to calculate offset for timestamp popover.");
+	}
+
+	g_object_set(box->seek_bar, "popover-y-offset", offset, NULL);
+	g_object_set(box->secondary_seek_bar, "popover-y-offset", offset, NULL);
 }
 
 static gboolean
