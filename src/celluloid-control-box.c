@@ -767,10 +767,8 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	GtkCssProvider *css = gtk_css_provider_new();
 	gtk_css_provider_load_from_data(css, css_data, -1);
 
-	GtkStyleContext *style = gtk_widget_get_style_context(GTK_WIDGET(box));
-
-	gtk_style_context_add_provider
-		(	style,
+	gtk_style_context_add_provider_for_display
+		(	gtk_widget_get_display(GTK_WIDGET(box)),
 			GTK_STYLE_PROVIDER(css),
 			GTK_STYLE_PROVIDER_PRIORITY_USER );
 
