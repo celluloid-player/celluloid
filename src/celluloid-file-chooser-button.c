@@ -232,7 +232,7 @@ celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 		(	_("Open File…"),
 			NULL,
 			GTK_FILE_CHOOSER_ACTION_OPEN,
-			TRUE );
+			FALSE );
 	self->label = gtk_label_new(_("(None)"));
 	self->file = NULL;
 	self->title = NULL;
