@@ -88,7 +88,8 @@ response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 CelluloidFileChooser *
 celluloid_file_chooser_new(	const gchar *title,
 				GtkWindow *parent,
-				GtkFileChooserAction action )
+				GtkFileChooserAction action,
+				gboolean restore_state )
 {
 	CelluloidFileChooser *chooser;
 	GSettings *main_config;
@@ -99,7 +100,7 @@ celluloid_file_chooser_new(	const gchar *title,
 	last_folder_enable =	g_settings_get_boolean
 				(main_config, "last-folder-enable");
 
-	if(last_folder_enable)
+	if(restore_state && last_folder_enable)
 	{
 		load_last_folder(GTK_FILE_CHOOSER(chooser));
 	}

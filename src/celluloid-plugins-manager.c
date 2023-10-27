@@ -187,9 +187,13 @@ add_handler(GtkButton *button, gpointer data)
 	GtkFileFilter *filter;
 	GtkFileChooser *chooser;
 
-	dialog = celluloid_file_chooser_new(	_("Add Plugin"),
-						pmgr->parent_window,
-						GTK_FILE_CHOOSER_ACTION_OPEN );
+	dialog =
+		celluloid_file_chooser_new
+		(	_("Add Plugin"),
+			pmgr->parent_window,
+			GTK_FILE_CHOOSER_ACTION_OPEN,
+			TRUE );
+
 	filter = NULL;
 	chooser = GTK_FILE_CHOOSER(dialog);
 

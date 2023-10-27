@@ -781,7 +781,8 @@ show_open_track_dialog(CelluloidView  *view, TrackType type)
 	CelluloidFileChooser *chooser =	celluloid_file_chooser_new
 					(	title,
 						GTK_WINDOW(view),
-						GTK_FILE_CHOOSER_ACTION_OPEN );
+						GTK_FILE_CHOOSER_ACTION_OPEN,
+						TRUE );
 
 	g_object_set_data(	G_OBJECT(chooser),
 				"track-type",
@@ -1493,7 +1494,10 @@ celluloid_view_show_open_dialog(	CelluloidView *view,
 		action = GTK_FILE_CHOOSER_ACTION_OPEN;
 	}
 
-	chooser = celluloid_file_chooser_new(title, GTK_WINDOW(view), action);
+	chooser =
+		celluloid_file_chooser_new
+		(title, GTK_WINDOW(view), action, TRUE);
+
 	args = g_ptr_array_new();
 	append_buf = g_malloc(sizeof(gboolean));
 	*append_buf = append;
@@ -1570,7 +1574,8 @@ celluloid_view_show_save_playlist_dialog(CelluloidView *view)
 	file_chooser =	celluloid_file_chooser_new
 			(	_("Save Playlist"),
 				GTK_WINDOW(view),
-				GTK_FILE_CHOOSER_ACTION_SAVE );
+				GTK_FILE_CHOOSER_ACTION_SAVE,
+				TRUE );
 	gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
 
 	gtk_file_chooser_set_current_name(gtk_chooser, "playlist.m3u");

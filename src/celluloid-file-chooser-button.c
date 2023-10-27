@@ -231,7 +231,8 @@ celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 		celluloid_file_chooser_new
 		(	_("Open File…"),
 			NULL,
-			GTK_FILE_CHOOSER_ACTION_OPEN );
+			GTK_FILE_CHOOSER_ACTION_OPEN,
+			TRUE );
 	self->label = gtk_label_new(_("(None)"));
 	self->file = NULL;
 	self->title = NULL;

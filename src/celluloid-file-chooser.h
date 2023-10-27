@@ -32,7 +32,8 @@ G_BEGIN_DECLS
 CelluloidFileChooser *
 celluloid_file_chooser_new(	const gchar *title,
 				GtkWindow *parent,
-				GtkFileChooserAction action );
+				GtkFileChooserAction action,
+				gboolean restore_state );
 
 void
 celluloid_file_chooser_destroy(CelluloidFileChooser *chooser);
