@@ -66,6 +66,9 @@ boolean_to_loop(	GBinding *binding,
 static void
 mpris_enable_handler(GSettings *settings, gchar *key, gpointer data);
 
+static gboolean
+initialize_model(gpointer data);
+
 static void
 view_ready_handler(CelluloidView *view, gpointer data);
 
@@ -426,23 +429,29 @@ mpris_enable_handler(GSettings *settings, gchar *key, gpointer data)
 	}
 }
 
-static void
-view_ready_handler(CelluloidView *view, gpointer data)
+static gboolean
+initialize_model(gpointer data)
 {
 	CelluloidController *controller = CELLULOID_CONTROLLER(data);
 	CelluloidModel *model = controller->model;
+	CelluloidView *view = controller->view;
+	CelluloidPlayer *player = CELLULOID_PLAYER(model);
+	CelluloidMpv *mpv = CELLULOID_MPV(model);
 	gboolean maximized = FALSE;
 
-	celluloid_player_options_init
-		(	CELLULOID_PLAYER(controller->model),
-			CELLULOID_MAIN_WINDOW(controller->view) );
-	celluloid_model_initialize
-		(model);
+	celluloid_player_options_init(player, CELLULOID_MAIN_WINDOW(view));
+	celluloid_model_initialize(model);
 
-	g_object_get
-		(view, "maximized", &maximized, NULL);
-	celluloid_mpv_set_property_flag
-		(CELLULOID_MPV(model), "window-maximized", maximized);
+	g_object_get(view, "maximized", &maximized, NULL);
+	celluloid_mpv_set_property_flag(mpv, "window-maximized", maximized);
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+view_ready_handler(CelluloidView *view, gpointer data)
+{
+	g_idle_add(initialize_model, data);
 }
 
 static void

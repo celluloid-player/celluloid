@@ -165,6 +165,9 @@ static void
 realize_handler(GtkWidget *widget, gpointer data);
 
 static void
+notify_mapped_handler(GdkSurface *surface, GParamSpec *pspec,  gpointer data);
+
+static void
 resize_handler(	CelluloidVideoArea *video_area,
 		gint width,
 		gint height,
@@ -992,9 +995,25 @@ save_playlist_response_handler(	GtkDialog *dialog,
 static void
 realize_handler(GtkWidget *widget, gpointer data)
 {
-	load_css(CELLULOID_VIEW(widget));
+	CelluloidView *view = CELLULOID_VIEW(widget);
+	GdkSurface *surface = gtk_widget_get_surface(view);
 
-	g_signal_emit_by_name(CELLULOID_VIEW(widget), "ready");
+	g_signal_connect(	surface,
+				"notify::mapped",
+				G_CALLBACK(notify_mapped_handler),
+				widget );
+
+	load_css(view);
+}
+
+static void
+notify_mapped_handler(GdkSurface *surface, GParamSpec *pspec, gpointer data)
+{
+	g_signal_emit_by_name(CELLULOID_VIEW(data), "ready");
+
+	g_signal_handlers_disconnect_by_func(	surface,
+						notify_mapped_handler,
+						data );
 }
 
 static void
