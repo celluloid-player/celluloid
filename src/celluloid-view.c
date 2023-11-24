@@ -341,8 +341,6 @@ set_property(	GObject *object,
 		CELLULOID_MAIN_WINDOW(self);
 	CelluloidControlBox* control_box =
 		celluloid_main_window_get_control_box(wnd);
-	CelluloidVideoArea *area =
-		celluloid_main_window_get_video_area(wnd);
 
 	switch(property_id)
 	{
@@ -369,11 +367,6 @@ set_property(	GObject *object,
 		case PROP_IDLE_ACTIVE:
 		self->idle_active = g_value_get_boolean(value);
 		update_title(self);
-		if(!self->idle_active)
-		{
-			celluloid_video_area_set_status
-				(area, CELLULOID_VIDEO_AREA_STATUS_PLAYING);
-		}
 		break;
 
 		case PROP_VOLUME:

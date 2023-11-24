@@ -63,6 +63,11 @@ boolean_to_loop(	GBinding *binding,
 			GValue *to_value,
 			gpointer data );
 
+
+static void
+set_video_area_status(	CelluloidController *controller,
+			CelluloidVideoAreaStatus status );
+
 static void
 mpris_enable_handler(GSettings *settings, gchar *key, gpointer data);
 
@@ -304,6 +309,12 @@ set_property(	GObject *object,
 
 		case PROP_IDLE:
 		self->idle = g_value_get_boolean(value);
+
+		if(!self->idle)
+		{
+			set_video_area_status
+				(self, CELLULOID_VIDEO_AREA_STATUS_PLAYING);
+		}
 		break;
 
 		case PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST:
@@ -415,6 +426,17 @@ boolean_to_loop(	GBinding *binding,
 }
 
 static void
+set_video_area_status(	CelluloidController *controller,
+			CelluloidVideoAreaStatus status )
+{
+	CelluloidView *view = controller->view;
+	CelluloidMainWindow *window = celluloid_view_get_main_window(view);
+	CelluloidVideoArea *area = celluloid_main_window_get_video_area(window);
+
+	celluloid_video_area_set_status(area, status);
+}
+
+static void
 mpris_enable_handler(GSettings *settings, gchar *key, gpointer data)
 {
 	CelluloidController *controller = data;
@@ -437,8 +459,6 @@ initialize_model(gpointer data)
 	CelluloidPlayer *player = CELLULOID_PLAYER(model);
 	CelluloidMpv *mpv = CELLULOID_MPV(model);
 	CelluloidView *view = controller->view;
-	CelluloidMainWindow *window = celluloid_view_get_main_window(view);
-	CelluloidVideoArea *area = celluloid_main_window_get_video_area(window);
 	gboolean maximized = FALSE;
 
 	celluloid_player_options_init(player, CELLULOID_MAIN_WINDOW(view));
@@ -446,8 +466,6 @@ initialize_model(gpointer data)
 
 	g_object_get(view, "maximized", &maximized, NULL);
 	celluloid_mpv_set_property_flag(mpv, "window-maximized", maximized);
-
-	celluloid_video_area_set_status(area, CELLULOID_VIDEO_AREA_STATUS_IDLE);
 
 	return G_SOURCE_REMOVE;
 }
@@ -511,8 +529,15 @@ file_open_handler(	CelluloidView *view,
 			gboolean append,
 			gpointer data )
 {
-	CelluloidModel *model = CELLULOID_CONTROLLER(data)->model;
+	CelluloidController *controller = CELLULOID_CONTROLLER(data);
+	CelluloidModel *model = controller->model;
 	guint files_count = g_list_model_get_n_items(files);
+
+	if(files_count > 0 && !append)
+	{
+		set_video_area_status
+			(controller, CELLULOID_VIDEO_AREA_STATUS_LOADING);
+	}
 
 	for(guint i = 0; i < files_count; i++)
 	{
@@ -892,19 +917,33 @@ is_more_than_one(	GBinding *binding,
 static void
 idle_active_handler(GObject *object, GParamSpec *pspec, gpointer data)
 {
-	CelluloidController *controller = data;
+	CelluloidController *controller = CELLULOID_CONTROLLER(data);
+	CelluloidModel *model = controller->model;
+	CelluloidView *view = controller->view;
 	gboolean idle_active = TRUE;
 
 	g_object_get(object, "idle-active", &idle_active, NULL);
 
 	if(idle_active)
 	{
-		celluloid_view_reset(CELLULOID_CONTROLLER(data)->view);
+		GPtrArray *playlist = NULL;
+
+		// The "playlist-count" property may not yet be updated at this
+		// point, so we need to use "playlist" directly.
+		g_object_get(model, "playlist", &playlist, NULL);
+
+		celluloid_view_reset(view);
+
+		if(playlist->len <= 0)
+		{
+			set_video_area_status
+				(controller, CELLULOID_VIDEO_AREA_STATUS_IDLE);
+		}
 	}
 	else if(controller->target_playlist_pos >= 0)
 	{
 		celluloid_model_set_playlist_position
-			(controller->model, controller->target_playlist_pos);
+			(model, controller->target_playlist_pos);
 	}
 }
 
@@ -1434,6 +1473,12 @@ celluloid_controller_open(	CelluloidController *controller,
 				const gchar *uri,
 				gboolean append )
 {
+	if(!append)
+	{
+		set_video_area_status
+			(controller, CELLULOID_VIDEO_AREA_STATUS_LOADING);
+	}
+
 	celluloid_model_load_file(controller->model, uri, append);
 }
 
