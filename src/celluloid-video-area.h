@@ -31,6 +31,15 @@
 
 G_DECLARE_FINAL_TYPE(CelluloidVideoArea, celluloid_video_area, CELLULOID, VIDEO_AREA, GtkBox)
 
+enum CelluloidVideoAreaStatus
+{
+	CELLULOID_VIDEO_AREA_STATUS_LOADING,
+	CELLULOID_VIDEO_AREA_STATUS_IDLE,
+	CELLULOID_VIDEO_AREA_STATUS_PLAYING
+};
+
+typedef enum CelluloidVideoAreaStatus CelluloidVideoAreaStatus;
+
 GtkWidget *
 celluloid_video_area_new(void);
 
@@ -55,8 +64,8 @@ celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 						gboolean visible );
 
 void
-celluloid_video_area_set_initial_page_visible(	CelluloidVideoArea *area,
-						gboolean visible );
+celluloid_video_area_set_status(	CelluloidVideoArea *area,
+					CelluloidVideoAreaStatus status );
 
 gboolean
 celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area);

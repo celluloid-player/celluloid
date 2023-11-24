@@ -54,6 +54,7 @@ struct _CelluloidVideoArea
 	GtkWidget *control_box_revealer;
 	GtkWidget *header_bar_revealer;
 	GtkEventController *area_motion_controller;
+	CelluloidVideoAreaStatus status;
 	gint compact_threshold;
 	guint32 last_motion_time;
 	gdouble last_motion_x;
@@ -505,6 +506,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->control_box_revealer = gtk_revealer_new();
 	area->header_bar_revealer = gtk_revealer_new();
 	area->area_motion_controller = gtk_event_controller_motion_new();
+	area->status = CELLULOID_VIDEO_AREA_STATUS_LOADING;
 	area->compact_threshold = -1;
 	area->last_motion_time = 0;
 	area->last_motion_x = -1;
@@ -624,16 +626,12 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	adw_status_page_set_icon_name
 		(	ADW_STATUS_PAGE(area->initial_page),
 			"io.github.celluloid_player.Celluloid" );
-	adw_status_page_set_title
-		(	ADW_STATUS_PAGE(area->initial_page),
-			_("Welcome") );
-	adw_status_page_set_description
-		(	ADW_STATUS_PAGE(area->initial_page),
-			_("Press ＋ or drag your video file here.") );
 
 	gtk_stack_add_child(GTK_STACK(area->stack), area->gl_area);
 	gtk_stack_add_child(GTK_STACK(area->stack), area->initial_page);
-	gtk_stack_set_visible_child(GTK_STACK(area->stack), area->initial_page);
+
+	celluloid_video_area_set_status
+		(area, CELLULOID_VIDEO_AREA_STATUS_LOADING);
 
 	gtk_widget_set_hexpand(area->stack, TRUE);
 
@@ -719,12 +717,42 @@ celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 }
 
 void
-celluloid_video_area_set_initial_page_visible(	CelluloidVideoArea *area,
-						gboolean visible )
+celluloid_video_area_set_status(	CelluloidVideoArea *area,
+					CelluloidVideoAreaStatus status )
 {
-	GtkWidget *child = visible ? area->initial_page : area->gl_area;
+	switch(status)
+	{
+		case CELLULOID_VIDEO_AREA_STATUS_LOADING:
+		adw_status_page_set_title
+			(	ADW_STATUS_PAGE(area->initial_page),
+				_("Loading…") );
+		adw_status_page_set_description
+			(	ADW_STATUS_PAGE(area->initial_page),
+				NULL );
+		gtk_stack_set_visible_child
+			(GTK_STACK(area->stack), area->initial_page);
+		break;
 
-	gtk_stack_set_visible_child(GTK_STACK(area->stack), child);
+		case CELLULOID_VIDEO_AREA_STATUS_IDLE:
+		adw_status_page_set_title
+			(	ADW_STATUS_PAGE(area->initial_page),
+				_("Welcome") );
+		adw_status_page_set_description
+			(	ADW_STATUS_PAGE(area->initial_page),
+				_("Press ＋ or drag your video file here.") );
+		gtk_stack_set_visible_child
+			(GTK_STACK(area->stack), area->initial_page);
+		break;
+
+		case CELLULOID_VIDEO_AREA_STATUS_PLAYING:
+		gtk_stack_set_visible_child
+			(GTK_STACK(area->stack), area->gl_area);
+		break;
+	}
+
+
+
+	area->status = status;
 }
 
 gboolean

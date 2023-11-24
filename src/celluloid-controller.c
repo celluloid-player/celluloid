@@ -434,9 +434,11 @@ initialize_model(gpointer data)
 {
 	CelluloidController *controller = CELLULOID_CONTROLLER(data);
 	CelluloidModel *model = controller->model;
-	CelluloidView *view = controller->view;
 	CelluloidPlayer *player = CELLULOID_PLAYER(model);
 	CelluloidMpv *mpv = CELLULOID_MPV(model);
+	CelluloidView *view = controller->view;
+	CelluloidMainWindow *window = celluloid_view_get_main_window(view);
+	CelluloidVideoArea *area = celluloid_main_window_get_video_area(window);
 	gboolean maximized = FALSE;
 
 	celluloid_player_options_init(player, CELLULOID_MAIN_WINDOW(view));
@@ -444,6 +446,8 @@ initialize_model(gpointer data)
 
 	g_object_get(view, "maximized", &maximized, NULL);
 	celluloid_mpv_set_property_flag(mpv, "window-maximized", maximized);
+
+	celluloid_video_area_set_status(area, CELLULOID_VIDEO_AREA_STATUS_IDLE);
 
 	return G_SOURCE_REMOVE;
 }

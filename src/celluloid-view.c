@@ -371,8 +371,8 @@ set_property(	GObject *object,
 		update_title(self);
 		if(!self->idle_active)
 		{
-			celluloid_video_area_set_initial_page_visible
-				(area, FALSE);
+			celluloid_video_area_set_status
+				(area, CELLULOID_VIDEO_AREA_STATUS_PLAYING);
 		}
 		break;
 
