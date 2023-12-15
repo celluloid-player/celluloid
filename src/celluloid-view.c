@@ -976,7 +976,7 @@ mpv_reset_request_handler(AdwPreferencesWindow *dialog, gpointer data)
 	}
 
 	gtk_widget_queue_draw(GTK_WIDGET(wnd));
-	g_signal_emit_by_name(data, "preferences-updated");
+	g_signal_emit_by_name(data, "mpv-reset-request");
 
 	g_object_unref(settings);
 
@@ -1327,7 +1327,7 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
-	g_signal_new(	"preferences-updated",
+	g_signal_new(	"mpv-reset-request",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
 			0,

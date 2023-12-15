@@ -81,7 +81,7 @@ static void
 render_handler(CelluloidView *view, gpointer data);
 
 static void
-preferences_updated_handler(CelluloidView *view, gpointer data);
+mpv_reset_request_handler(CelluloidView *view, gpointer data);
 
 static void
 audio_track_load_handler(CelluloidView *view, const gchar *uri, gpointer data);
@@ -493,7 +493,7 @@ render_handler(CelluloidView *view, gpointer data)
 }
 
 static void
-preferences_updated_handler(CelluloidView *view, gpointer data)
+mpv_reset_request_handler(CelluloidView *view, gpointer data)
 {
 	CelluloidController *controller = data;
 
@@ -845,8 +845,8 @@ connect_signals(CelluloidController *controller)
 				G_CALLBACK(render_handler),
 				controller );
 	g_signal_connect(	controller->view,
-				"preferences-updated",
-				G_CALLBACK(preferences_updated_handler),
+				"mpv-reset-request",
+				G_CALLBACK(mpv_reset_request_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"audio-track-load",
