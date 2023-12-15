@@ -1135,8 +1135,10 @@ message_handler(CelluloidMpv *mpv, const gchar *message, gpointer data)
 static void
 error_handler(CelluloidMpv *mpv, const gchar *message, gpointer data)
 {
-	celluloid_view_show_message_toast
-		(CELLULOID_CONTROLLER(data)->view, message);
+	CelluloidController *controller = CELLULOID_CONTROLLER(data);
+
+	celluloid_view_show_message_toast(controller->view, message);
+	set_video_area_status(controller, CELLULOID_VIDEO_AREA_STATUS_IDLE);
 }
 
 static void
