@@ -152,14 +152,13 @@ open_track_dialog_response_handler(	GtkDialog *dialog,
 					gint response_id,
 					gpointer data );
 
-static gboolean
-preferences_dialog_response_handler(	AdwPreferencesWindow *dialog,
-					gpointer data );
-
 static void
 save_playlist_response_handler(	GtkDialog *dialog,
 				gint response_id,
 				gpointer data );
+
+static gboolean
+mpv_reset_request_handler(AdwPreferencesWindow *dialog, gpointer data);
 
 static void
 realize_handler(GtkWidget *widget, gpointer data);
@@ -918,38 +917,6 @@ open_track_dialog_response_handler(	GtkDialog *dialog,
 	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
 }
 
-static gboolean
-preferences_dialog_response_handler(	AdwPreferencesWindow *dialog,
-					gpointer data )
-{
-	CelluloidMainWindow *wnd;
-	GSettings *settings;
-	gboolean csd_enable;
-
-	wnd = CELLULOID_MAIN_WINDOW(data);
-	settings = g_settings_new(CONFIG_ROOT);
-	csd_enable = g_settings_get_boolean(settings, "csd-enable");
-
-	if(celluloid_main_window_get_csd_enabled(wnd) != csd_enable)
-	{
-		show_message_dialog(	CELLULOID_VIEW(data),
-					GTK_MESSAGE_INFO,
-					g_get_application_name(),
-					NULL,
-					_("Enabling or disabling "
-					"client-side decorations "
-					"requires restarting to "
-					"take effect.") );
-	}
-
-	gtk_widget_queue_draw(GTK_WIDGET(wnd));
-	g_signal_emit_by_name(data, "preferences-updated");
-
-	g_object_unref(settings);
-
-	return FALSE;
-}
-
 static void
 save_playlist_response_handler(	GtkDialog *dialog,
 				gint response_id,
@@ -983,6 +950,37 @@ save_playlist_response_handler(	GtkDialog *dialog,
 
 		g_error_free(error);
 	}
+}
+
+static gboolean
+mpv_reset_request_handler(AdwPreferencesWindow *dialog, gpointer data)
+{
+	CelluloidMainWindow *wnd;
+	GSettings *settings;
+	gboolean csd_enable;
+
+	wnd = CELLULOID_MAIN_WINDOW(data);
+	settings = g_settings_new(CONFIG_ROOT);
+	csd_enable = g_settings_get_boolean(settings, "csd-enable");
+
+	if(celluloid_main_window_get_csd_enabled(wnd) != csd_enable)
+	{
+		show_message_dialog(	CELLULOID_VIEW(data),
+					GTK_MESSAGE_INFO,
+					g_get_application_name(),
+					NULL,
+					_("Enabling or disabling "
+					"client-side decorations "
+					"requires restarting to "
+					"take effect.") );
+	}
+
+	gtk_widget_queue_draw(GTK_WIDGET(wnd));
+	g_signal_emit_by_name(data, "preferences-updated");
+
+	g_object_unref(settings);
+
+	return FALSE;
 }
 
 static void
@@ -1606,8 +1604,8 @@ celluloid_view_show_preferences_dialog(CelluloidView *view)
 	GtkWidget *dialog = celluloid_preferences_dialog_new(GTK_WINDOW(view));
 
 	g_signal_connect_after(	dialog,
-				"close-request",
-				G_CALLBACK(preferences_dialog_response_handler),
+				"mpv-reset-request",
+				G_CALLBACK(mpv_reset_request_handler),
 				view );
 
 	gtk_widget_set_visible(dialog, TRUE);
