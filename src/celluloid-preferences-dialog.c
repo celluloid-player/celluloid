@@ -37,6 +37,7 @@ struct _CelluloidPreferencesDialog
 {
 	AdwPreferencesWindow parent_instance;
 	GSettings *settings;
+	gboolean needs_mpv_reset;
 };
 
 struct _CelluloidPreferencesDialogClass
@@ -76,11 +77,30 @@ file_set_handler(CelluloidFileChooserButton *button, gpointer data)
 	g_object_unref(file);
 }
 
+static void
+handle_changed(GSettings *settings, const gchar *key, gpointer data)
+{
+	CelluloidPreferencesDialog *dlg = CELLULOID_PREFERENCES_DIALOG(data);
+
+	dlg->needs_mpv_reset |= g_strcmp0(key, "mpv-config-enable") == 0;
+	dlg->needs_mpv_reset |= g_strcmp0(key, "mpv-config-file") == 0;
+	dlg->needs_mpv_reset |= g_strcmp0(key, "mpv-input-config-enable") == 0;
+	dlg->needs_mpv_reset |= g_strcmp0(key, "mpv-input-config-file") == 0;
+	dlg->needs_mpv_reset |= g_strcmp0(key, "mpv-options") == 0;
+}
+
 static gboolean
 save_settings(AdwPreferencesWindow *dialog)
 {
 	CelluloidPreferencesDialog *dlg = CELLULOID_PREFERENCES_DIALOG(dialog);
+
 	g_settings_apply(dlg->settings);
+
+	if(dlg->needs_mpv_reset)
+	{
+		g_signal_emit_by_name(dlg, "mpv-reset-request");
+		dlg->needs_mpv_reset = FALSE;
+	}
 
 	return FALSE;
 }
@@ -245,6 +265,16 @@ celluloid_preferences_dialog_class_init(CelluloidPreferencesDialogClass *klass)
 {
 	G_OBJECT_CLASS(klass)->constructed = preferences_dialog_constructed;
 	G_OBJECT_CLASS(klass)->finalize = finalize;
+
+	g_signal_new(	"mpv-reset-request",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE,
+			0 );
 }
 
 static void
@@ -318,6 +348,8 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			{NULL, NULL, ITEM_TYPE_INVALID} };
 
 	dlg->settings = g_settings_new(CONFIG_ROOT);
+	dlg->needs_mpv_reset = FALSE;
+
 	g_settings_delay(dlg->settings);
 
 	GtkWidget *page = NULL;
@@ -354,6 +386,10 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 				"close-request",
 				G_CALLBACK(save_settings),
 				NULL );
+	g_signal_connect(	dlg->settings,
+				"changed",
+				G_CALLBACK(handle_changed),
+				dlg );
 }
 
 GtkWidget *
