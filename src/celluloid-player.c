@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 gnome-mpv
+ * Copyright (c) 2017-2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -533,6 +533,7 @@ apply_default_options(CelluloidMpv *mpv)
 			{"screenshot-format", "png"},
 			{"screenshot-directory", screenshot_dir},
 			{"screenshot-template", "%f-%P"},
+			{"slang", "auto"},
 			{NULL, NULL} };
 
 	for(gint i = 0; options[i].name; i++)
