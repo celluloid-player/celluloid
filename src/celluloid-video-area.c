@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2023 gnome-mpv
+ * Copyright (c) 2016-2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -62,6 +62,7 @@ struct _CelluloidVideoArea
 	guint timeout_tag;
 	gboolean fullscreened;
 	gboolean fs_control_hover;
+	gboolean use_floating_header_bar;
 };
 
 struct _CelluloidVideoAreaClass
@@ -345,7 +346,7 @@ motion_handler(	GtkEventControllerMotion *controller,
 					TRUE );
 			gtk_revealer_set_reveal_child
 				(	GTK_REVEALER(area->header_bar_revealer),
-					area->fullscreened );
+					area->use_floating_header_bar );
 		}
 
 		g_source_clear(&area->timeout_tag);
@@ -432,7 +433,7 @@ reveal_notify_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 			NULL );
 
 	gtk_widget_set_visible(	GTK_WIDGET(area->header_bar_revealer),
-				area->fullscreened &&
+				area->use_floating_header_bar &&
 				(reveal_child || child_revealed) );
 }
 
@@ -514,6 +515,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->timeout_tag = 0;
 	area->fullscreened = FALSE;
 	area->fs_control_hover = FALSE;
+	area->use_floating_header_bar = FALSE;
 
 	gtk_widget_set_valign(area->control_box_revealer, GTK_ALIGN_END);
 	gtk_revealer_set_transition_type
@@ -656,6 +658,8 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 
 	celluloid_control_box_set_floating
 		(CELLULOID_CONTROL_BOX (area->control_box), TRUE);
+	celluloid_header_bar_set_floating
+		(CELLULOID_HEADER_BAR (area->header_bar), TRUE);
 }
 
 GtkWidget *
@@ -759,6 +763,17 @@ gboolean
 celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area)
 {
 	return gtk_widget_get_visible(area->control_box_revealer);
+}
+
+void
+celluloid_video_area_set_use_floating_header_bar(	CelluloidVideoArea *area,
+							gboolean floating )
+{
+	area->use_floating_header_bar = floating;
+
+	gtk_revealer_set_reveal_child
+		(	GTK_REVEALER(area->header_bar_revealer),
+			area->use_floating_header_bar );
 }
 
 void

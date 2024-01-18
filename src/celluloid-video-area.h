@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2022 gnome-mpv
+ * Copyright (c) 2016-2022, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -69,6 +69,10 @@ celluloid_video_area_set_status(	CelluloidVideoArea *area,
 
 gboolean
 celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area);
+
+void
+celluloid_video_area_set_use_floating_header_bar(	CelluloidVideoArea *area,
+							gboolean floating );
 
 void
 celluloid_video_area_queue_render(CelluloidVideoArea *area);
