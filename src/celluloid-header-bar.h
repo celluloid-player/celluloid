@@ -46,6 +46,10 @@ celluloid_header_bar_set_menu_button_popup_visible(	CelluloidHeaderBar *hdr,
 							gboolean visible );
 
 void
+celluloid_header_bar_set_floating(CelluloidHeaderBar *hdr,
+                                  gboolean            floating);
+
+void
 celluloid_header_bar_update_track_list(	CelluloidHeaderBar *hdr,
 					const GPtrArray *track_list );
 
