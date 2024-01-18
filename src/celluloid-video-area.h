@@ -71,6 +71,10 @@ gboolean
 celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area);
 
 void
+celluloid_video_area_set_use_floating_headerbar(CelluloidVideoArea *area,
+                                                gboolean floating);
+
+void
 celluloid_video_area_queue_render(CelluloidVideoArea *area);
 
 GtkGLArea *
