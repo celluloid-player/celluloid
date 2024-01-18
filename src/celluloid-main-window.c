@@ -40,7 +40,8 @@ typedef struct _CelluloidMainWindowPrivate CelluloidMainWindowPrivate;
 enum
 {
 	PROP_0,
-	PROP_ALWAYS_FLOATING,
+	PROP_ALWAYS_FLOATING_CONTROLS,
+        PROP_ALWAYS_FLOATING_HEADERBAR,
 	PROP_CHAPTER_LIST,
 	N_PROPERTIES
 };
@@ -53,8 +54,10 @@ struct _CelluloidMainWindowPrivate
 	gint resize_target[2];
 	gint compact_threshold;
 	gboolean csd;
-	gboolean always_floating;
+	gboolean always_floating_controls;
+        gboolean always_floating_headerbar;
 	gboolean use_floating_controls;
+        gboolean use_floating_headerbar;
 	gboolean playlist_visible;
 	gboolean playlist_first_toggle;
 	gboolean pre_fs_playlist_visible;
@@ -161,10 +164,14 @@ set_property(	GObject *object,
 {
 	CelluloidMainWindowPrivate *priv = get_private(object);
 
-	if(property_id == PROP_ALWAYS_FLOATING)
+	if(property_id == PROP_ALWAYS_FLOATING_CONTROLS)
 	{
-		priv->always_floating = g_value_get_boolean(value);
+		priv->always_floating_controls = g_value_get_boolean(value);
 	}
+        else if(property_id == PROP_ALWAYS_FLOATING_HEADERBAR)
+        {
+                priv->always_floating_headerbar = g_value_get_boolean(value);
+        }
 	else if(property_id == PROP_CHAPTER_LIST)
 	{
 		priv->chapter_list = g_value_get_pointer(value);
@@ -183,10 +190,14 @@ get_property(	GObject *object,
 {
 	CelluloidMainWindowPrivate *priv = get_private(object);
 
-	if(property_id == PROP_ALWAYS_FLOATING)
+	if(property_id == PROP_ALWAYS_FLOATING_CONTROLS)
 	{
-		g_value_set_boolean(value, priv->always_floating);
+		g_value_set_boolean(value, priv->always_floating_controls);
 	}
+        else if(property_id == PROP_ALWAYS_FLOATING_HEADERBAR)
+        {
+                g_value_set_boolean(value, priv->always_floating_headerbar);
+        }
 	else if(property_id == PROP_CHAPTER_LIST)
 	{
 		g_value_set_pointer(value, priv->chapter_list);
@@ -208,8 +219,11 @@ notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data)
 		g_settings_new(CONFIG_WIN_STATE);
 	const gboolean fullscreen =
 		gtk_window_is_fullscreen(GTK_WINDOW(object));
-	const gboolean floating =
-		priv->always_floating || fullscreen;
+	const gboolean floating_controls =
+		priv->always_floating_controls || fullscreen;
+        const gboolean floating_headerbar =
+                (priv->always_floating_headerbar && priv->csd) ||
+                fullscreen;
 	const gboolean playlist_visible =
 		!fullscreen && priv->pre_fs_playlist_visible;
 	const gboolean show_controls = g_settings_get_boolean
@@ -236,7 +250,9 @@ notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	}
 
 	celluloid_main_window_set_use_floating_controls
-		(wnd, floating && show_controls);
+		(wnd, floating_controls && show_controls);
+        celluloid_main_window_set_use_floating_headerbar
+                (wnd, floating_headerbar);
 	gtk_widget_set_visible
 		(priv->playlist, playlist_visible);
 
@@ -263,16 +279,22 @@ button_clicked_handler(	CelluloidControlBox *control_box,
 static void
 notify(GObject *object, GParamSpec *pspec)
 {
+        CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(object);
+        CelluloidMainWindowPrivate *priv = get_private(wnd);
+        gboolean fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(wnd));
+
 	if(g_strcmp0(pspec->name, "always-use-floating-controls") == 0)
 	{
-		CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(object);
-		CelluloidMainWindowPrivate *priv = get_private(wnd);
 		gboolean floating =
-			priv->always_floating ||
-			gtk_window_is_fullscreen(GTK_WINDOW(object));
+			priv->always_floating_controls || fullscreen;
 
 		celluloid_main_window_set_use_floating_controls(wnd, floating);
 	}
+        else if(g_strcmp0(pspec->name, "always-use-floating-headerbar") == 0)
+        {
+                celluloid_main_window_set_use_floating_headerbar
+                      (wnd, priv->always_floating_headerbar);
+        }
 }
 
 static void
@@ -396,7 +418,15 @@ celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
 			"Whether or not to use floating controls in windowed mode",
 			FALSE,
 			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING, pspec);
+	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING_CONTROLS, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"always-use-floating-headerbar",
+			"Always use a floating headerbar",
+			"Whether or not to use a floating headerbar in windowed mode",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING_HEADERBAR, pspec);
 
 	pspec = g_param_spec_pointer
 		(	"chapter-list",
@@ -436,8 +466,10 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 
 	priv->csd = FALSE;
-	priv->always_floating = FALSE;
+	priv->always_floating_controls = FALSE;
+	priv->always_floating_headerbar = FALSE;
 	priv->use_floating_controls = FALSE;
+        priv->use_floating_headerbar = FALSE;
 	priv->playlist_visible = FALSE;
 	priv->pre_fs_playlist_visible = FALSE;
 	priv->playlist_width = PLAYLIST_DEFAULT_WIDTH;
@@ -609,6 +641,33 @@ celluloid_main_window_get_use_floating_controls(CelluloidMainWindow *wnd)
 	return get_private(wnd)->use_floating_controls;
 }
 
+void
+celluloid_main_window_set_use_floating_headerbar(CelluloidMainWindow *wnd,
+                                                 gboolean             floating)
+{
+        CelluloidMainWindowPrivate *priv = get_private(wnd);
+
+        if(floating != priv->use_floating_headerbar)
+        {
+                priv->use_floating_headerbar =
+                      (floating && priv->csd) ||
+                      gtk_window_is_fullscreen(GTK_WINDOW(wnd));
+
+                gtk_widget_set_visible(priv->header_bar, !floating && priv->csd);
+
+                celluloid_video_area_set_use_floating_headerbar
+                      (CELLULOID_VIDEO_AREA(priv->video_area),
+                       priv->use_floating_headerbar);
+        }
+}
+
+gboolean
+celluloid_main_window_get_use_floating_headerbar(CelluloidMainWindow *wnd)
+{
+        CelluloidMainWindowPrivate *priv = get_private(wnd);
+        return priv->use_floating_headerbar;
+}
+
 gboolean
 celluloid_main_window_get_fullscreen(CelluloidMainWindow *wnd)
 {
@@ -770,7 +829,7 @@ celluloid_main_window_update_disc_list(	CelluloidMainWindow *wnd,
 
 	if(celluloid_main_window_get_csd_enabled(wnd))
 	{
-		celluloid_header_bar_update_disc_list
+                celluloid_header_bar_update_disc_list
 			(CELLULOID_HEADER_BAR(priv->header_bar), disc_list);
 		celluloid_video_area_update_disc_list
 			(CELLULOID_VIDEO_AREA(priv->video_area), disc_list);
@@ -832,7 +891,7 @@ celluloid_main_window_enable_csd(CelluloidMainWindow *wnd)
 
 	priv->csd = TRUE;
 
-	gtk_window_set_titlebar(GTK_WINDOW(wnd), priv->header_bar);
+        gtk_window_set_titlebar(GTK_WINDOW(wnd), priv->header_bar);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 }
 

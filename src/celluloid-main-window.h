@@ -58,6 +58,13 @@ celluloid_main_window_set_use_floating_controls(	CelluloidMainWindow *wnd,
 gboolean
 celluloid_main_window_get_use_floating_controls(CelluloidMainWindow *wnd);
 
+void
+celluloid_main_window_set_use_floating_headerbar(CelluloidMainWindow *wnd,
+                                                 gboolean             floating);
+
+gboolean
+celluloid_main_window_get_use_floating_headerbar(CelluloidMainWindow *wnd);
+
 gboolean
 celluloid_main_window_get_fullscreen(CelluloidMainWindow *wnd);
 
