@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2022 gnome-mpv
+ * Copyright (c) 2016-2022, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -270,6 +270,15 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 
 	gtk_menu_button_set_primary(GTK_MENU_BUTTON(hdr->menu_btn), TRUE);
 
+	gchar css_data[] = ".floating-header {background: rgba(0,0,0,0.7); border-radius: 12px; box-shadow: none;}";
+	GtkCssProvider *css = gtk_css_provider_new();
+	gtk_css_provider_load_from_data(css, css_data, -1);
+
+	gtk_style_context_add_provider_for_display
+		(	gtk_widget_get_display(GTK_WIDGET(hdr)),
+			GTK_STYLE_PROVIDER(css),
+			GTK_STYLE_PROVIDER_PRIORITY_USER );
+
 	g_object_unref(settings);
 }
 
@@ -315,6 +324,35 @@ celluloid_header_bar_set_menu_button_popup_visible(	CelluloidHeaderBar *hdr,
 	else
 	{
 		gtk_menu_button_popdown(GTK_MENU_BUTTON(hdr->menu_btn));
+	}
+}
+
+void
+celluloid_header_bar_set_floating(CelluloidHeaderBar *hdr, gboolean floating)
+{
+	if(floating)
+	{
+		gtk_widget_add_css_class
+			(GTK_WIDGET(hdr->header_bar), "osd");
+		gtk_widget_add_css_class
+			(GTK_WIDGET(hdr->header_bar), "floating-header");
+
+		gtk_widget_set_margin_start(GTK_WIDGET(hdr), 12);
+		gtk_widget_set_margin_end(GTK_WIDGET(hdr), 12);
+		gtk_widget_set_margin_top(GTK_WIDGET(hdr), 12);
+		gtk_widget_set_margin_bottom(GTK_WIDGET(hdr), 12);
+	}
+	else
+	{
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(hdr->header_bar), "osd");
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(hdr->header_bar), "floating-header");
+
+		gtk_widget_set_margin_start(GTK_WIDGET(hdr), 0);
+		gtk_widget_set_margin_end(GTK_WIDGET(hdr), 0);
+		gtk_widget_set_margin_top(GTK_WIDGET(hdr), 0);
+		gtk_widget_set_margin_bottom(GTK_WIDGET(hdr), 0);
 	}
 }
 

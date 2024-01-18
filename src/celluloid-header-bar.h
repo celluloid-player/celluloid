@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2022 gnome-mpv
+ * Copyright (c) 2016-2022, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -44,6 +44,9 @@ celluloid_header_bar_get_menu_button_popup_visible(CelluloidHeaderBar *hdr);
 void
 celluloid_header_bar_set_menu_button_popup_visible(	CelluloidHeaderBar *hdr,
 							gboolean visible );
+
+void
+celluloid_header_bar_set_floating(CelluloidHeaderBar *hdr, gboolean floating);
 
 void
 celluloid_header_bar_update_track_list(	CelluloidHeaderBar *hdr,
