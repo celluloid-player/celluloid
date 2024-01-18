@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2019, 2022 gnome-mpv
+ * Copyright (c) 2014-2019, 2022, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -57,6 +57,13 @@ celluloid_main_window_set_use_floating_controls(	CelluloidMainWindow *wnd,
 
 gboolean
 celluloid_main_window_get_use_floating_controls(CelluloidMainWindow *wnd);
+
+void
+celluloid_main_window_set_use_floating_header_bar(	CelluloidMainWindow *wnd,
+							gboolean floating );
+
+gboolean
+celluloid_main_window_get_use_floating_header_bar(CelluloidMainWindow *wnd);
 
 gboolean
 celluloid_main_window_get_fullscreen(CelluloidMainWindow *wnd);
