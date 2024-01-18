@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021, 2023 gnome-mpv
+ * Copyright (c) 2016-2021, 2023-2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -197,6 +197,11 @@ initialize_gui(CelluloidApplication *app)
 				"always-use-floating-controls",
 				celluloid_view_get_main_window(view),
 				"always-use-floating-controls",
+				G_SETTINGS_BIND_GET );
+	g_settings_bind(	settings,
+				"always-use-floating-headerbar",
+				celluloid_view_get_main_window(view),
+				"always-use-floating-headerbar",
 				G_SETTINGS_BIND_GET );
 	g_settings_bind(	settings,
 				"dark-theme-enable",
