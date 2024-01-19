@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2023 gnome-mpv
+ * Copyright (c) 2014-2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -292,6 +292,9 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			ITEM_TYPE_SWITCH},
 			{NULL,
 			"always-use-floating-controls",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"always-use-floating-header-bar",
 			ITEM_TYPE_SWITCH},
 			{NULL,
 			"draggable-video-area-enable",
