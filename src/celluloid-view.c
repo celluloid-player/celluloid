@@ -52,7 +52,6 @@ enum
 	PROP_SKIP_ENABLED,
 	PROP_LOOP,
 	PROP_SHUFFLE,
-	PROP_BORDER,
 	PROP_MEDIA_TITLE,
 	PROP_DISPLAY_FPS,
 	PROP_SEARCHING,
@@ -80,7 +79,6 @@ struct _CelluloidView
 	gboolean control_box_enabled;
 	gboolean loop;
 	gboolean shuffle;
-	gboolean border;
 	gchar *media_title;
 	gdouble display_fps;
 	gboolean searching;
@@ -417,21 +415,6 @@ set_property(	GObject *object,
 		self->shuffle = g_value_get_boolean(value);
 		break;
 
-		case PROP_BORDER:
-		self->border = g_value_get_boolean(value);
-		{
-			GtkWidget *titlebar =
-				gtk_window_get_titlebar(GTK_WINDOW(wnd));
-
-			if(titlebar)
-			{
-				gtk_widget_set_visible(titlebar, self->border);
-			}
-
-			gtk_window_set_decorated(GTK_WINDOW(wnd), self->border);
-		}
-		break;
-
 		case PROP_MEDIA_TITLE:
 		g_free(self->media_title);
 		self->media_title = g_value_dup_string(value);
@@ -523,10 +506,6 @@ get_property(	GObject *object,
 
 		case PROP_SHUFFLE:
 		g_value_set_boolean(value, self->shuffle);
-		break;
-
-		case PROP_BORDER:
-		g_value_set_boolean(value, self->border);
 		break;
 
 		case PROP_MEDIA_TITLE:
@@ -1262,14 +1241,6 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_SHUFFLE, pspec);
 
-	pspec = g_param_spec_boolean
-		(	"border",
-			"Border",
-			"Whether or not the main window should have decorations",
-			FALSE,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_BORDER, pspec);
-
 	pspec = g_param_spec_string
 		(	"media-title",
 			"Media Title",
@@ -1438,7 +1409,6 @@ celluloid_view_init(CelluloidView *view)
 	view->skip_enabled = FALSE;
 	view->loop = FALSE;
 	view->shuffle = FALSE;
-	view->border = FALSE;
 	view->media_title = NULL;
 	view->display_fps = 0;
 	view->searching = FALSE;
