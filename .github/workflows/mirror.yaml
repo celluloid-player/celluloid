@@ -3,8 +3,6 @@ on:
   push:
     branches: ["master"]
   workflow_dispatch: # Manual dispatch
-  schedule:
-    - cron: "0 0 * * *"
 jobs:
   codeberg:
     runs-on: ubuntu-latest
