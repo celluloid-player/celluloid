@@ -345,13 +345,20 @@ check_mpv_version(const gchar *version)
 	gchar **tokens = NULL;
 	gboolean done = FALSE;
 	gboolean result = TRUE;
+	guint version_offset = 0;
 
-	/* Skip to the version number */
-	if(strncmp(version, "mpv ", 4) == 0)
+	if(strncmp(version, "mpv v", 5) == 0)
 	{
-		tokens = g_strsplit(version+4, ".", (gint)min_version_length);
+		version_offset = 5;
+	}
+	else if(strncmp(version, "mpv ", 4) == 0)
+	{
+		version_offset = 4;
 	}
 
+	/* Skip to the version number */
+	const gchar *trimmed_version = version + version_offset;
+	tokens = g_strsplit(trimmed_version, ".", (gint)min_version_length);
 	done = !tokens || g_strv_length(tokens) != min_version_length;
 	result = !done;
 
