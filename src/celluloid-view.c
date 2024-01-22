@@ -979,11 +979,11 @@ realize_handler(GtkWidget *widget, gpointer data)
 static void
 notify_mapped_handler(GdkSurface *surface, GParamSpec *pspec, gpointer data)
 {
-	g_signal_emit_by_name(CELLULOID_VIEW(data), "ready");
-
 	g_signal_handlers_disconnect_by_func(	surface,
 						notify_mapped_handler,
 						data );
+
+	g_signal_emit_by_name(CELLULOID_VIEW(data), "ready");
 }
 
 static void
