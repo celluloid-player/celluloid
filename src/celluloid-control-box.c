@@ -488,6 +488,8 @@ set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen)
 
 	gtk_button_set_icon_name
 		(GTK_BUTTON(box->fullscreen_button), icon_name);
+	gtk_widget_set_visible
+		(box->playlist_button, !fullscreen);
 }
 
 static void
