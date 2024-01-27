@@ -526,7 +526,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 
 	gtk_widget_set_valign(area->header_bar_revealer, GTK_ALIGN_START);
 	gtk_revealer_set_transition_type
-		(GTK_REVEALER(area->control_box_revealer),
+		(GTK_REVEALER(area->header_bar_revealer),
 		GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
 	gtk_revealer_set_reveal_child
 		(GTK_REVEALER(area->header_bar_revealer), FALSE);
