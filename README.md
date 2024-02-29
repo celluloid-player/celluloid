@@ -14,8 +14,10 @@ Repository Mirror: https://codeberg.org/celluloid-player/celluloid
 - pkg-config (build)
 - gcc (build)
 - glib >= 2.66
+- glib-genmarshal
 - gtk >= 4.6.1
 - libadwaita >= 1.2.0
+- gdbus-codegen
 - mpv >= 0.32
 - epoxy
 - lua (optional)
