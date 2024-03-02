@@ -92,6 +92,9 @@ static void
 set_cursor_visible(CelluloidVideoArea *area, gboolean visible);
 
 static void
+reveal_controls(CelluloidVideoArea *area);
+
+static void
 destroy_handler(GtkWidget *widget, gpointer data);
 
 static gboolean
@@ -219,6 +222,28 @@ set_fullscreen_state(CelluloidVideoArea *area, gboolean fullscreen)
 }
 
 static void
+reveal_controls(CelluloidVideoArea *area)
+{
+	GdkCursor *cursor = gdk_cursor_new_from_name("default", NULL);
+	GdkSurface *surface = gtk_widget_get_surface(GTK_WIDGET(area));
+
+	gdk_surface_set_cursor(surface, cursor);
+
+	gtk_revealer_set_reveal_child
+		(	GTK_REVEALER(area->control_box_revealer),
+			TRUE );
+	gtk_revealer_set_reveal_child
+		(	GTK_REVEALER(area->header_bar_revealer),
+			area->use_floating_header_bar );
+
+	g_source_clear(&area->timeout_tag);
+	area->timeout_tag =	g_timeout_add_seconds
+				(	FS_CONTROL_HIDE_DELAY,
+					timeout_handler,
+					area );
+}
+
+static void
 destroy_handler(GtkWidget *widget, gpointer data)
 {
 	g_source_clear(&CELLULOID_VIDEO_AREA(widget)->timeout_tag);
@@ -331,29 +356,11 @@ motion_handler(	GtkEventControllerMotion *controller,
 	area->last_motion_x = x;
 	area->last_motion_y = y;
 
-	if(speed >= unhide_speed)
+	if(	speed >= unhide_speed &&
+		area->control_box &&
+		ABS((2 * y - height) / height) > dead_zone )
 	{
-		GdkCursor *cursor = gdk_cursor_new_from_name("default", NULL);
-		GdkSurface *surface = gtk_widget_get_surface(widget);
-
-		gdk_surface_set_cursor(surface, cursor);
-
-		if(	area->control_box &&
-			ABS((2 * y - height) / height) > dead_zone )
-		{
-			gtk_revealer_set_reveal_child
-				(	GTK_REVEALER(area->control_box_revealer),
-					TRUE );
-			gtk_revealer_set_reveal_child
-				(	GTK_REVEALER(area->header_bar_revealer),
-					area->use_floating_header_bar );
-		}
-
-		g_source_clear(&area->timeout_tag);
-		area->timeout_tag =	g_timeout_add_seconds
-					(	FS_CONTROL_HIDE_DELAY,
-						timeout_handler,
-						area );
+		reveal_controls(area);
 	}
 
 	g_object_unref(settings);
@@ -373,6 +380,8 @@ pressed_handler(	GtkGestureClick *self,
 		area->fs_control_hover;
 	const gboolean draggable =
 		g_settings_get_boolean(settings, "draggable-video-area-enable");
+
+	reveal_controls(area);
 
 	if(draggable && !hovering)
 	{
