@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: sudo sed -i 's/jammy/lunar/g' /etc/apt/sources.list
-      - run: sudo apt update
-      - run: sudo apt dist-upgrade
-      - run: sudo apt install -y appstream-util libadwaita-1-dev libepoxy-dev libgtk-4-dev libmpv-dev meson ninja-build pkg-config gettext
-      - run: meson setup build
-      - run: ninja -C build test
+      - uses: cachix/install-nix-action@v25
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - run: nix --extra-experimental-features 'nix-command flakes' develop nixpkgs#celluloid --command bash -c 'meson setup build && ninja -C build test'
