@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 04:15+0700\n"
+"POT-Creation-Date: 2024-04-01 00:26-0500\n"
 "PO-Revision-Date: 2023-04-07 20:53+0000\n"
 "Last-Translator: lepa22 <lepa.22@hotmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/celluloid/"
@@ -41,16 +41,21 @@ msgid "Use floating controls in windowed mode"
 msgstr "Χρήση επιπλέοντων εργαλείων ελέγχου σε λειτουργία παραθύρου"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
+#, fuzzy
+msgid "Use a floating header bar in windowed mode"
+msgstr "Χρήση επιπλέοντων εργαλείων ελέγχου σε λειτουργία παραθύρου"
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
 msgstr "Αυτόματη απόκρυψη του κέρσορα του ποντικιού σε λειτουργία παραθύρου"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:47
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:52
 msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr ""
 "Η ελάχιστη ταχύτητα του δρομέα στην οποία τα επιπλέοντα εργαλεία ελέγχου θα "
 "εμφανίζονται."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:54
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:59
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
@@ -58,28 +63,28 @@ msgstr ""
 "Μέγεθος της νεκρής ζώνης στην οποία η κίνηση του δρομέα δε θα προκαλεί την "
 "εμφάνιση των εργαλείων ελέγχου."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:60
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:65
 msgid "Use skip buttons to control the playlist"
 msgstr ""
 "Χρήση κουμπιών υπερπήδησης (skip) για τον έλεγχο της λίστας αναπαραγωγής"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:66
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:71
 msgid "Remember last location in file chooser"
 msgstr "Να θυμάσαι την τελευταία τοποθεσία στον επιλογέα αρχείων"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:72
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:77
 msgid "Always open new window"
 msgstr "Άνοιγμα νέου παραθύρου πάντοτε"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:78
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:83
 msgid "Always append opened files to playlist"
 msgstr "Προσάρτιση των ανοιχτών αρχείων στη λίστα αναπαραγωγής πάντοτε"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:84
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:89
 msgid "Always show title buttons"
 msgstr "Εμφάνιση κουμπιών τίτλου πάντοτε"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:85
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
@@ -88,11 +93,11 @@ msgstr ""
 "κλπ.) εμφανίζονται πάντα. Εάν ψευδές, τα κουμπιά θα είναι κρυμμένα σε "
 "λειτουργία πλήρους οθόνης."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:93
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:98
 msgid "Give focus to the window when opening new files"
 msgstr "Εστίαση του παραθύρου όταν ανοίγονται νέα αρχεία"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:94
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:99
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
@@ -100,91 +105,91 @@ msgstr ""
 "Εάν αληθές, ο Celluloid θα προσπαθήσει να εστιάσει το παράθυρο όταν "
 "ανοίγεται ένα νέο αρχείο. Εάν ψευδές, δε θα πραγματοποιηθεί καμία προσπάθεια."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:102
-#: src/celluloid-application.c:577
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:107
+#: src/celluloid-application.c:582
 msgid "Options to pass to mpv"
 msgstr "Επιλογές που θα διαβιβαστούν στον mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:108
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:113
 msgid "Path to mpv configuration file"
 msgstr "Διαδρομή προς το αρχείο διαμόρφωσης του mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:114
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:119
 msgid "Load mpv configuration file"
 msgstr "Φόρτωση αρχείου διαμόρφωσης του mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:120
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:125
 msgid "Path to mpv input configuration file"
 msgstr "Διαδρομή προς το αρχείο διαμόρφωσης εισαγωγής του mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:126
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:131
 msgid "Load mpv input configuration file"
 msgstr "Φόρτωση αρχείου διαμόρφωσης εισαγωγής του mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:132
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:137
 msgid "Enable MPRIS support"
 msgstr "Ενεργοποίηση υποστήριξης MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:138
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:143
 msgid "Enable menubar accelerator key handling"
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:144
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:149
 msgid "Prefetch metadata"
 msgstr "Προφόρτωση μεταδεδομένων"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:150
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
 msgid "Ignore playback errors"
 msgstr "Αγνόηση σφαλμάτων αναπαραγωγής"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:156
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
 msgid "Inhibit session idling"
 msgstr "Αναστολή αδράνειας συνεδρίας"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:162
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Make video area draggable"
 msgstr "Δυνατότητα συρσίματος του παραθύρου από την περιοχή του βίντεο"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:172
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Width of the window"
 msgstr "Πλάτος του παραθύρου"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:178
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:183
 msgid "Height of the window"
 msgstr "Ύψος του παραθύρου"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:184
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:189
 msgid "Whether or not the window is maximized"
 msgstr "Εάν το παράθυρο είναι μεγιστοποιημένο ή όχι"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:191
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:196
 msgid "Volume of player"
 msgstr "Ένταση ήχου του αναπαραγωγέα"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:197
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:202
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr ""
 "Αν θα γίνει επανάληψη όταν η λίστα αναπαραγωγής φτάσει στο τέλος της ή όχι"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:203
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:208
 msgid "Width of the playlist"
 msgstr "Πλάτος της λίστας αναπαραγωγής"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:209
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:214
 msgid "Show/hide the controls"
 msgstr "Εμφάνιση/απόκρυψη των εργαλείων ελέγχου"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:215
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:220
 msgid "Show/hide the playlist"
 msgstr "Εμφάνιση/απόκρυψη της λίστας αναπαραγωγής"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:221
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:226
 msgid "URI of the last folder accessed"
 msgstr "URI του τελευταίου αρχείου που προσπελάστηκε"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:453
+#: src/celluloid-application.c:458
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -228,535 +233,15 @@ msgstr "Διεπαφή MPRIS2 D-Bus"
 msgid "The Celluloid Developers"
 msgstr "Οι Developers του Celluloid"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:34
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:77
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:140
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:185
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:220
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:342
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:381
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:412
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:440
-msgid "This release contains the following changes:"
-msgstr "Αυτή η έκδοση περιλαμβάνει τις παρακάτω αλλαγές:"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
-msgid "Fix crash when using multiple windows."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
-msgid "Port the about dialog to libadwaita."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
-msgid "Fix cursor not autohiding on KDE."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
-msgid "Fix mouse presses/releases becoming unreliable during playback."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
-msgid ""
-"Make it possible to build on Windows. Celluloid still crashes on mouse "
-"clicks, but it runs and can play videos."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
-#, fuzzy
-msgid "Add Estonian translation by vaba."
-msgstr "Προσθήκη Σλοβενικής μετάφρασης από @bertronika."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
-#, fuzzy
-msgid "Add Georgian translation by temuri doghonadze."
-msgstr "Προσθήκη Σλοβενικής μετάφρασης από @bertronika."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
-#, fuzzy
-msgid "Add Lithuanian translation by Jonas Smol."
-msgstr "Προσθήκη Ουκρανικής μετάφρασης από @vl-nix"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:63
-#, fuzzy
-msgid "Add Occitan translation by Quentin PAGÈS."
-msgstr "Προσθήκη μετάφρασης Occidental από OIS."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
-#, fuzzy
-msgid "Add Tamil translation by K.B.Dharun Krishna."
-msgstr "Προσθήκη Βασκικής μετάφρασης από @aldatsa."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:178
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:213
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:252
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:305
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:335
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:374
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:405
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:433
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
-msgid "This listing is incomplete. See git log for complete changelog."
-msgstr ""
-"Αυτή η καταχώρηση είναι ατελής. Δες την καταγραφή (log) του git για την "
-"πλήρη καταγραφή των αλλαγών (changelog)."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:81
-#, fuzzy
-msgid "Add Malay translation by @dinazmi."
-msgstr "Προσθήκη Βασκικής μετάφρασης από @aldatsa."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
-msgid "Use libadwaita."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
-msgid "Fix on_load hook in scripts not triggering."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
-#, fuzzy
-msgid "Add option to make the video area draggable."
-msgstr "Δυνατότητα συρσίματος του παραθύρου από την περιοχή του βίντεο"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
-msgid "Fix autofit breaking when playing small videos."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
-msgid "Make controls layout adaptive."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
-#, fuzzy
-msgid "Display chapter marks in the seek bar."
-msgstr ""
-"Προβολή του χρόνου στη θέση του δρομέα κατά την αιώρηση πάνω από τη μπάρα "
-"αναζήτησης."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:102
-#, fuzzy
-msgid "Display chapter titles in the seek bar popover."
-msgstr ""
-"Προβολή του χρόνου στη θέση του δρομέα κατά την αιώρηση πάνω από τη μπάρα "
-"αναζήτησης."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
-msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr ""
-"Αυτή η έκδοση αφορά κυρίως διορθώσεις σφαλμάτων. Περιλαμβάνει τις παρακάτω "
-"αλλαγές:"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
-msgid "Fix autofit triggering regardless of settings."
-msgstr ""
-"Επιδιόρθωση της ενεργοποίησης αυτόματης προσαρμογής ανεξαρτήτως ρυθμίσεων."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:120
-msgid "Fix window size shrinking across sessions."
-msgstr "Επιδιόρθωση της σμίκρυνσης του παραθύρου σε όλες τις συνεδρίες."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:123
-msgid "Fix crash when playing files with names containing invalid encoding."
-msgstr ""
-"Επιδιόρθωση κρασαρίσματος κατά την αναπαραγωγή αρχείων με ονόματα που "
-"περιέχουν μη έγκυρη κωδικοποίηση."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:126
-msgid "Fix drag-and-drop not working with some file managers."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:129
-msgid "Fix playback starting when the last playlist item is removed."
-msgstr ""
-"Επιδιόρθωση εκκίνησης αναπαραγωγής όταν αφαιρείται το τελευταίο αντικείμενο "
-"της λίστας αναπαραγωγής."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:144
-msgid "Migrate to GTK4."
-msgstr "Μεταφορά σε GTK4."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:147
-msgid "Add Greek translation by @lepa22."
-msgstr "Προσθήκη Ελληνικής μετάφρασης από @lepa22."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:150
-msgid "Add Korean translation by @jullee96."
-msgstr "Προσθήκη Κορεάτικης μετάφρασης από @jullee96."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:153
-msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr "Προσθήκη Νορβηγικής Bokmål μετάφρασης από Allan Nordhøy."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
-msgid "Add Occidental translation by OIS."
-msgstr "Προσθήκη μετάφρασης Occidental από OIS."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:159
-msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Προσθήκη Αραβικής μετάφρασης από Mohamed Benkouider."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:162
-msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Προσθήκη μετάφρασης Urdu από Ahmed Iqbal."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:165
-msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
-"Προσθήκη επιλογής για εμφάνιση των κουμπιών τίτλου κατά τη λειτουργία "
-"πλήρους οθόνης."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:168
-msgid "Add option to present the window when opening files."
-msgstr ""
-"Προσθήκη επιλογής για παρουσίαση του παραθύρου κατά το άνοιγμα αρχείων."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:171
-msgid ""
-"Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
-msgstr ""
-"Αλλαγή του προεπιλεγμένου προτύπου ονόματος αρχείου για στιγμιότυπα οθόνης "
-"σε ΟΝΟΜΑ ΑΡΧΕΙΟΥ-ΧΡΟΝΙΚΗ ΣΗΜΑΝΣΗ (%f-%P)."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:174
-msgid "Fix inaccurate timestamp preview."
-msgstr "Επιδιόρθωση ανακριβούς προεπισκόπησης χρονικής σήμανσης."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:189
-msgid "Add Basque translation by @aldatsa."
-msgstr "Προσθήκη Βασκικής μετάφρασης από @aldatsa."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:192
-msgid "Make the shuffle and loop command line options work properly."
-msgstr ""
-"Κάνε τις επιλογές γραμμής εντολών shuffle και loop να λειτουργούν σωστά."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:195
-msgid "Make the main menu button toggleable by pressing F10."
-msgstr ""
-"Κάνε το κουμπί του κύριου μενού εναλλάξιμο (toggleable) πιέζοντας το F10."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:198
-msgid "Add a setting for always appending opened files to the playlist."
-msgstr ""
-"Προσθήκη ρύθμισης για την προσάρτηση των ανοιχτών αρχείων στη λίστα "
-"αναπαραγωγής."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:201
-msgid ""
-"Allow appending files to playlist by holding shift while dropping files onto "
-"the video area."
-msgstr ""
-"Να επιτρέπεται η προσάρτηση αρχείων στη λίστα αναπαραγωγής κρατώντας "
-"πατημένο το πλήκτρο shift κατά την απόθεση αρχείων στην περιοχή του βίντεο."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:205
-msgid "Make CSD header bar toggleable via the mpv property \"border\"."
-msgstr ""
-"Κάνε την κεφαλίδα CSD εναλλάξιμη (toggleable) μέσω της ιδιότητας \"border\" "
-"του mpv."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:208
-msgid ""
-"Include Flatpak manifest in the repo. This allows Celluloid to be built in "
-"one click in apps like GNOME Builder."
-msgstr ""
-"Συμπερίλαβε το manifest του Flatpak στο αποθετήριο. Αυτό επιτρέπει στον "
-"Celluloid να δομηθεί (build) σε εφαρμογές ενός κλικ όπως ο GNOME Builder."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:224
-msgid "Make it possible to activate context menu when the playlist is empty."
-msgstr ""
-"Κάνε εφικτή την ενεργοποίηση του context menu όταν η λίστα αναπαραγωγής "
-"είναι κενή."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:227
-msgid ""
-"Prevent constant resizing of the seek bar due to timestamp label resizing as "
-"its value changes."
-msgstr ""
-"Αποφυγή της συνεχούς αναπροσαρμογής του μεγέθους της μπάρας αναζήτησης λόγω "
-"της αναπροσαρμογής του μεγέθους της ετικέτας χρονικής σήμανσης καθώς αλλάζει "
-"η τιμή της."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:231
-msgid ""
-"Only show a single error dialog when a large number of errors occurs in "
-"rapid succession."
-msgstr ""
-"Εμφάνιση μόνο ενός παραθύρου διαλόγου σφάλματος όταν μεγάλος αριθμός "
-"σφαλμάτων λαμβάνει χώρα σε γρήγορη διαδοχή."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
-msgid "Add menu item for opening folders."
-msgstr "Προσθήκη αντικειμένου μενού για το άνοιγμα φακέλων."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:238
-msgid ""
-"Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
-"consistent with CSD mode."
-msgstr ""
-"Προσαρμογή της θέσης στοιχείων UI των λειτουργικών παραθύρων διαλόγου στη "
-"λειτουργία non-CSD ώστε να είναι πιο συνεπή με τη λειτουργία CSD."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:242
-msgid "Add support for loading external video tracks."
-msgstr "Προσθήκη υποστήριξης για τη φόρτωση εξωτερικών κομματιών βίντεο."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:245
-msgid "Make playlist shuffle toggleable."
-msgstr "Κάνε το ανακάτεμα της λίστας αναπαραγωγής εναλλάξιμο."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:248
-msgid "Make arrow key bindings work with arrow keys on numpad."
-msgstr ""
-"Κάνε τις συνδέσεις πλήκτρων (key bindings) από τα βελάκια να λειτουργούν με "
-"τα βελάκια στο αριθμητικό πληκτρολόγιο."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:263
-msgid ""
-"Adjust the range of volume button based on the value of the volume-max "
-"property."
-msgstr ""
-"Προσαρμογή της έκτασης του πλήκτρου έντασης ήχου βασισμένη στην τιμή της "
-"ιδιότητας volume-max."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:267
-msgid "Retain window maximization state across sessions."
-msgstr ""
-"Διατήρηση της κατάστασης μεγιστοποίησης του παραθύρου σε όλες τις συνεδρίες."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:270
-msgid "Retain loop state across sessions."
-msgstr "Διατήρηση της κατάστασης loop σε όλες τις συνεδρίες."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:273
-msgid "Implement playlist search."
-msgstr "Υλοποίηση αναζήτησης της λίστας αναπαραγωγής."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:276
-msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr ""
-"Ενημέρωση της λίστας συντομεύσεων στο παράθυρο διαλόγου Συντομεύσεις "
-"Πληκτρολογίου."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:279
-msgid "Correctly handle quotes and escape sequences in extra mpv options."
-msgstr ""
-"Σωστός χειρισμός εισαγωγικών και αλληλουχιών διαφυγής στις επιπλέον επιλογές "
-"του mpv."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:282
-msgid "Display time at cursor position when hovering the seek bar."
-msgstr ""
-"Προβολή του χρόνου στη θέση του δρομέα κατά την αιώρηση πάνω από τη μπάρα "
-"αναζήτησης."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:285
-msgid ""
-"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
-"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
-"equivalent to passing '--vf=vflip' to mpv."
-msgstr ""
-"Κατάργηση '--mpv-options'. Οι επιλογές που ξεκινούν με '--mpv' μπορούν να "
-"χρησιμοποιηθούν για τον ορισμό επιλογών του mpv αντί αυτού. Για παράδειγμα, "
-"περνώντας '--mpv-vf=vflip' στον Celluloid είναι ισοδύναμο με το να περνάς '--"
-"vf=vflip' στον mpv."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
-msgid ""
-"Add support for configuring dead zone, an area in which mouse movement will "
-"not cause controls to be shown."
-msgstr ""
-"Προσθήκη υποστήριξης για τη διαμόρφωση νεκρής ζώνης, μιας περιοχής στην "
-"οποία η κίνηση του ποντικιού δε θα προκαλεί την εμφάνιση των εργαλείων "
-"ελέγχου."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:295
-msgid "Make window sizing work correctly with HiDPI displays."
-msgstr ""
-"Κάνε την αλλαγή του μεγέθους του παραθύρου να λειτουργεί σωστά με HiDPI "
-"οθόνες."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
-msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr "Προσθήκη Φινλανδικής μετάφρασης από Kimmo Kujansuu."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:301
-msgid "Add Slovenian translation by @bertronika."
-msgstr "Προσθήκη Σλοβενικής μετάφρασης από @bertronika."
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:316
-msgid "Add Persian translation by @danialbehzadi"
-msgstr "Προσθήκη Περσικής μετάφρασης από @danialbehzadi"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:319
-msgid "Add Ukranian translation by @vl-nix"
-msgstr "Προσθήκη Ουκρανικής μετάφρασης από @vl-nix"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:322
-msgid ""
-"Add support for showing/hiding window decorations using the mpv option --"
-"border"
-msgstr ""
-"Προσθήκη υποστήριξης για την εμφάνιση/απόκρυψη των διακοσμήσεων παραθύρου "
-"χρησιμοποιώντας την επιλογή --border του mpv"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:325
-msgid "Add menu item for opening discs"
-msgstr "Προσθήκη αντικειμένου μενού για το άνοιγμα δίσκων"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:328
-msgid "Block cursor autohide when volume popup is open in windowed mode"
-msgstr ""
-"Εμπόδιση της αυτόματης απόκρυψης του δρομέα όταν το αναδυόμενο παράθυρο "
-"έντασης ήχου είναι ανοιχτό σε λειτουργία παραθύρου"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:331
-msgid "Fix crash with mpv 0.30"
-msgstr "Επιδιόρθωση κρασαρίσματος με τον mpv 0.30"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:346
-msgid "Rename project to Celluloid"
-msgstr "Μετονομασία του project σε Celluloid"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
-msgid "Add Turkish translation by @TeknoMobil"
-msgstr "Προσθήκη Τουρκικής μετάφρασης από @TeknoMobil"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
-msgid "Add Esperanto translation by @F3nd0"
-msgstr "Προσθήκη Εσπεράντο μετάφρασης από @F3nd0"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:355
-msgid "Migrate from opengl-cb to the new render API"
-msgstr "Μετανάστευση από opengl-cb στο νέο render API"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
-msgid "Handle numpad keybindings"
-msgstr "Χειρισμός συντομεύσεων αριθμητικού πληκτρολογίου"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:361
-msgid "Handle unicode keybindings"
-msgstr "Χειρισμός συντομεύσεων πληκτρολογίου unicode"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:364
-msgid "Forward media key events to mpv"
-msgstr "Προώθηση γεγονότων πλήκτρων πολυμέσων στον mpv"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:367
-msgid ""
-"Add dconf key for controlling cursor speed at which controls are unhidden"
-msgstr ""
-"Προσθήκη κλειδιού dconf για τον έλεγχο της ταχύτητας του δρομέα για την "
-"οποία τα εργαλεία ελέγχου επανεμφανίζονται"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:370
-msgid "Add option for suppressing playback errors"
-msgstr "Προσθήκη επιλογής για καταστολή των σφαλμάτων αναπαραγωγής"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:385
-msgid "Split up the General tab in the preferences dialog"
-msgstr "Διαχωρισμός της καρτέλας Γενικά στο παράθυρο διαλόγου προτιμήσεων"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:388
-msgid "Improve behavior when toggling playlist under tiling window managers"
-msgstr ""
-"Βελτίωση συμπεριφοράς κατά την εναλλαγή της λίστας αναπαραγωγής όταν "
-"χρησιμοποιούνται tiling window managers"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:391
-msgid "Move app menu items to primary menu"
-msgstr "Μετακίνηση αντικειμένων του μενού εφαρμογών στο κυρίως μενού"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:394
-msgid "Use separate MPRIS DBus connection for each window"
-msgstr "Χρήση ξεχωριστής σύνδεσης MPRIS DBus για κάθε παράθυρο"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:397
-msgid "Add support for MPRIS property LoopStatus"
-msgstr "Προσθήκη υποστήριξης για την MPRIS ιδιότητα LoopStatus"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:400
-msgid ""
-"Add option --mpv-options for setting arbitrary mpv options from the command-"
-"line"
-msgstr ""
-"Προσθήκη επιλογής --mpv-options για τον ορισμό αυθαίρετων επιλογών του mpv "
-"από τη γραμμή εντολων"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:416
-msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr ""
-"Ορισμός προεπιλεγμένου φακέλου στιγμιοτύπων οθόνης στο XDG_PICTURES_DIR"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:419
-msgid ""
-"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
-msgstr ""
-"Βελτίωση χειρισμού των --window-scale, --autofit, --autofit-larger, and --"
-"autofit-smaller"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:423
-msgid "Add command line option for setting WM_ROLE"
-msgstr "Προσθήκη επιλογής γραμμής εντολών για τον ορισμό WM_ROLE"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:426
-msgid "Add context menu item for removing playlist items"
-msgstr ""
-"Προσθήκη αντικειμένου context menu για την αφαίρεση αντικειμένων λίστας "
-"αναπαραγωγής"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:429
-msgid "Add context menu item for copying location of playlist items"
-msgstr ""
-"Προσθήκη αντικειμένου context menu για την αντιγραφή της τοποθεσίας "
-"αντικειμένων της λίστας αναπαραγωγής"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:444
-msgid ""
-"Add option to make skip buttons change playlist entries rather than chapters"
-msgstr ""
-"Προσθήκη επιλογής ώστε τα κουμπιά υπερπήδησης (skip) να αλλάζουν "
-"καταχωρήσεις της λίστας αναπαραγωγής αντί για κεφάλαια"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:448
-msgid "Make the file chooser accept non-local locations"
-msgstr "Κάνε τον επιλογέα αρχείων να δέχεται μη-τοπικές (non-local) τοποθεσίες"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:451
-msgid "Add right-click menu entry for looping a single file"
-msgstr ""
-"Προσθήκη καταχώρησης μενού δεξιού κλικ για την επανάληψη αναπαραγωγής ενός "
-"αρχείου"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:454
-msgid "Handle property change events for fullscreen and window-scale"
-msgstr ""
-"Διαχείριση γεγονότων αλλαγής ιδιοτήτων για πλήρη οθόνη και κλιμάκωση "
-"παραθύρου"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:457
-msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr ""
-"Προσθήκη επιλογής αυτόματης απόκρυψης του κέρσορα του ποντικιού σε "
-"λειτουργία παραθύρου"
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:471
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:503
 msgid "The main window showing the application in action"
 msgstr "Το κύριο παράθυρο στο οποίο φαίνεται η εφαρμογή εν δράσει"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:475
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:507
 msgid "The main window with CSD disabled"
 msgstr "Το κύριο παράθυρο με τα CSD απενεργοποιημένα"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:479
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
 msgid "The main window with playlist open"
 msgstr "Το κύριο παράθυρο με ανοιχτή τη λίστα αναπαραγωγής"
 
@@ -781,39 +266,39 @@ msgstr "Νέο παράθυρο"
 msgid "Add to Playlist"
 msgstr "Προσθήκη στη λίστα αναπαραγωγής"
 
-#: src/celluloid-application.c:497
+#: src/celluloid-application.c:502
 msgid "Playing"
 msgstr ""
 
-#: src/celluloid-application.c:553
+#: src/celluloid-application.c:558
 msgid "Show release version"
 msgstr "Εμφάνιση έκδοσης"
 
-#: src/celluloid-application.c:561
+#: src/celluloid-application.c:566
 msgid "Enqueue"
 msgstr "Προσθήκη στην ουρά"
 
-#: src/celluloid-application.c:569
+#: src/celluloid-application.c:574
 msgid "Create a new window"
 msgstr "Δημιουργία νέου παραθύρου"
 
-#: src/celluloid-application.c:578
+#: src/celluloid-application.c:583
 msgid "OPTIONS"
 msgstr "ΕΠΙΛΟΓΕΣ"
 
-#: src/celluloid-application.c:585
+#: src/celluloid-application.c:590
 msgid "Set the window role"
 msgstr "Ορισμός του ρόλου του παραθύρου"
 
-#: src/celluloid-application.c:593
+#: src/celluloid-application.c:598
 msgid "Don't connect to an already-running instance"
 msgstr ""
 
-#: src/celluloid-application.c:604
+#: src/celluloid-application.c:609
 msgid "Set the mpv option MPVOPTION to VALUE"
 msgstr "Ορισμός της επιλογής MPVOPTION του mpv σε VALUE"
 
-#: src/celluloid-application.c:605
+#: src/celluloid-application.c:610
 msgid "VALUE"
 msgstr ""
 
@@ -821,68 +306,72 @@ msgstr ""
 msgid "invalid encoding"
 msgstr "μη έγκυρη κωδικοποίηση"
 
-#: src/celluloid-control-box.c:444
+#: src/celluloid-control-box.c:452
 msgid "Pause"
 msgstr "Παύση"
 
-#: src/celluloid-control-box.c:444 src/celluloid-control-box.c:710
+#: src/celluloid-control-box.c:452 src/celluloid-control-box.c:726
 msgid "Play"
 msgstr "Αναπαραγωγή"
 
-#: src/celluloid-control-box.c:713
+#: src/celluloid-control-box.c:729
 msgid "Stop"
 msgstr "Διακοπή"
 
-#: src/celluloid-control-box.c:716
+#: src/celluloid-control-box.c:732
 msgid "Forward"
 msgstr "Εμπρός"
 
-#: src/celluloid-control-box.c:719
+#: src/celluloid-control-box.c:735
 msgid "Rewind"
 msgstr ""
 
-#: src/celluloid-control-box.c:722
+#: src/celluloid-control-box.c:738
 msgid "Next Chapter"
 msgstr "Επόμενο κεφάλαιο"
 
-#: src/celluloid-control-box.c:725
+#: src/celluloid-control-box.c:741
 msgid "Previous Chapter"
 msgstr "Προηγούμενο κεφάλαιο"
 
-#: src/celluloid-control-box.c:728
+#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:564
 msgid "Loop Playlist"
 msgstr "Επανάληψη της λίστας αναπαραγωγής"
 
-#: src/celluloid-control-box.c:731
+#: src/celluloid-control-box.c:747
 msgid "Shuffle Playlist"
 msgstr "Ανακάτεμα της λίστας αναπαραγωγής"
 
-#: src/celluloid-control-box.c:734 src/celluloid-control-box.c:737
-#: src/celluloid-header-bar.c:248
+#: src/celluloid-control-box.c:750
+#, fuzzy
+msgid "Toggle Playlist"
+msgstr "Εναλλαγή λίστας αναπαραγωγής"
+
+#: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
 msgid "Toggle Fullscreen"
 msgstr "Εναλλαγή πλήρους οθόνης"
 
-#: src/celluloid-file-chooser.c:144 src/celluloid-plugins-manager.c:197
+#: src/celluloid-file-chooser.c:145 src/celluloid-plugins-manager.c:201
 msgid "All Files"
 msgstr "Όλα τα αρχεία"
 
-#: src/celluloid-file-chooser.c:152
+#: src/celluloid-file-chooser.c:153
 msgid "Media Files"
 msgstr "Αρχεία πολυμέσων"
 
-#: src/celluloid-file-chooser.c:163
+#: src/celluloid-file-chooser.c:164
 msgid "Audio Files"
 msgstr "Αρχεία ήχου"
 
-#: src/celluloid-file-chooser.c:171
+#: src/celluloid-file-chooser.c:172
 msgid "Video Files"
 msgstr "Αρχεία βίντεο"
 
-#: src/celluloid-file-chooser.c:179
+#: src/celluloid-file-chooser.c:180
 msgid "Image Files"
 msgstr "Αρχεία εικόνας"
 
-#: src/celluloid-file-chooser.c:189
+#: src/celluloid-file-chooser.c:190
 msgid "Subtitle Files"
 msgstr "Αρχεία υποτίτλων"
 
@@ -890,7 +379,7 @@ msgstr "Αρχεία υποτίτλων"
 msgid "Open File…"
 msgstr "Άνοιγμα αρχείου…"
 
-#: src/celluloid-file-chooser-button.c:235
+#: src/celluloid-file-chooser-button.c:236
 msgid "(None)"
 msgstr ""
 
@@ -1001,89 +490,86 @@ msgstr "Άνοιγμα _δίσκου"
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Η αναπαραγωγή τερματίστηκε μη ομαλά. Αιτία: %s."
 
-#: src/celluloid-open-location-dialog.c:131
+#: src/celluloid-open-location-dialog.c:75
+msgid "Open"
+msgstr "Άνοιγμα"
+
+#: src/celluloid-open-location-dialog.c:77
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: src/celluloid-open-location-dialog.c:274
 msgid "Location:"
 msgstr "Τοποθεσία:"
 
-#: src/celluloid-open-location-dialog.c:137
-msgid "_Open"
-msgstr "_Άνοιγμα"
-
-#: src/celluloid-open-location-dialog.c:138
-msgid "_Cancel"
-msgstr "_Ακύρωση"
-
-#: src/celluloid-player.c:620
+#: src/celluloid-player.c:621
 msgid "Failed to apply one or more MPV options."
 msgstr "Αποτυχία εφαρμογής μίας ή περισσότερων επιλογών του MPV."
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:556
 msgid "_Copy Location"
 msgstr "_Αντιγραφή τοποθεσίας"
 
-#: src/celluloid-playlist-widget.c:562 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
 msgid "_Remove"
 msgstr "_Αφαίρεση"
 
-#: src/celluloid-playlist-widget.c:564
+#: src/celluloid-playlist-widget.c:559
 msgid "_Add…"
 msgstr "_Προσθήκη…"
 
-#: src/celluloid-playlist-widget.c:565
+#: src/celluloid-playlist-widget.c:560
 msgid "Add _Folder…"
 msgstr "Προσθήκη _φακέλου…"
 
-#: src/celluloid-playlist-widget.c:566
+#: src/celluloid-playlist-widget.c:561
 msgid "Add _Location…"
 msgstr "Προσθήκη _τοποθεσίας…"
 
-#: src/celluloid-playlist-widget.c:567
+#: src/celluloid-playlist-widget.c:562
 msgid "_Shuffle"
 msgstr "_Ανακάτεμα"
 
-#: src/celluloid-playlist-widget.c:568
-msgid "Loop _File"
+#: src/celluloid-playlist-widget.c:563
+#, fuzzy
+msgid "Loop File"
 msgstr "Επανάληψη _αναπαραγωγής αρχείου"
 
-#: src/celluloid-playlist-widget.c:569
-msgid "Loop _Playlist"
-msgstr "Επανάληψη αναπαραγωγής _λίστας αναπαραγωγής"
-
-#: src/celluloid-playlist-widget.c:918
+#: src/celluloid-playlist-widget.c:911
 msgid "Playlist is empty"
 msgstr "Η λίστα αναπαραγωγής είναι κενή"
 
-#: src/celluloid-plugins-manager.c:190 src/celluloid-plugins-manager.c:445
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
 msgid "Add Plugin"
 msgstr "Προσθήκη προσθέτου"
 
-#: src/celluloid-plugins-manager.c:202
+#: src/celluloid-plugins-manager.c:206
 msgid "Lua Plugins"
 msgstr "Πρόσθετα Lua"
 
-#: src/celluloid-plugins-manager.c:208
+#: src/celluloid-plugins-manager.c:212
 msgid "JavaScript Plugins"
 msgstr "Πρόσθετα JavaScript"
 
-#: src/celluloid-plugins-manager.c:213
+#: src/celluloid-plugins-manager.c:217
 msgid "C Plugins"
 msgstr "Πρόσθετα C"
 
-#: src/celluloid-plugins-manager.c:354
+#: src/celluloid-plugins-manager.c:358
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Αποτυχία αντιγραφής του αρχείου από '%s' σε '%s'. Αιτία: %s"
 
-#: src/celluloid-plugins-manager.c:408
+#: src/celluloid-plugins-manager.c:412
 msgid "Plugins"
 msgstr "Πρόσθετα"
 
-#: src/celluloid-plugins-manager.c:415
+#: src/celluloid-plugins-manager.c:419
 #, fuzzy
 msgid "Add…"
 msgstr "_Προσθήκη…"
 
-#: src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:453
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Δε βρέθηκαν πρόσθετα"
@@ -1109,32 +595,32 @@ msgstr ""
 msgid "_Keep"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:289
+#: src/celluloid-preferences-dialog.c:322
 msgid "mpv configuration file:"
 msgstr "αρχείο διαμόρφωσης του mpv:"
 
-#: src/celluloid-preferences-dialog.c:295
+#: src/celluloid-preferences-dialog.c:328
 msgid "mpv input configuration file:"
 msgstr "αρχείο διαμόρφωσης εισαγωγής του mpv:"
 
-#: src/celluloid-preferences-dialog.c:315
+#: src/celluloid-preferences-dialog.c:348
 #, fuzzy
 msgid "Extra mpv options"
 msgstr "Επιπλέον επιλογές του mpv:"
 
-#: src/celluloid-preferences-dialog.c:328
+#: src/celluloid-preferences-dialog.c:363
 msgid "Interface"
 msgstr "Διεπαφή"
 
-#: src/celluloid-preferences-dialog.c:336
+#: src/celluloid-preferences-dialog.c:371
 msgid "Config Files"
 msgstr "Αρχεία διαμόρφωσης"
 
-#: src/celluloid-preferences-dialog.c:344
+#: src/celluloid-preferences-dialog.c:379
 msgid "Miscellaneous"
 msgstr "Διάφορα"
 
-#: src/celluloid-preferences-dialog.c:366
+#: src/celluloid-preferences-dialog.c:405
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
@@ -1396,27 +882,35 @@ msgstr "Αναζήτηση"
 msgid "Playlist"
 msgstr "Λίστα αναπαραγωγής"
 
-#: src/celluloid-video-area.c:629
+#: src/celluloid-video-area.c:741
+msgid "Loading…"
+msgstr ""
+
+#: src/celluloid-video-area.c:752
 msgid "Welcome"
 msgstr ""
 
-#: src/celluloid-video-area.c:632
+#: src/celluloid-video-area.c:755
 msgid "Press ＋ or drag your video file here."
 msgstr ""
 
-#: src/celluloid-view.c:765
+#: src/celluloid-view.c:739
 msgid "Load Audio Track…"
 msgstr "Φόρτωση κομματιού ήχου…"
 
-#: src/celluloid-view.c:769
+#: src/celluloid-view.c:743
 msgid "Load Video Track…"
 msgstr "Φόρτωση κομματιού βίντεο…"
 
-#: src/celluloid-view.c:773
+#: src/celluloid-view.c:747
 msgid "Load Subtitle Track…"
 msgstr "Φόρτωση κομματιού υποτίτλων…"
 
-#: src/celluloid-view.c:942
+#: src/celluloid-view.c:926
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: src/celluloid-view.c:951
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1424,35 +918,31 @@ msgstr ""
 "Η ενεργοποίηση ή η απενεργοποίηση των client-side διακοσμήσεων απαιτεί "
 "επανεκκίνηση για να εφαρμοστεί."
 
-#: src/celluloid-view.c:983
-msgid "Error"
-msgstr "Σφάλμα"
-
-#: src/celluloid-view.c:1472
+#: src/celluloid-view.c:1468
 msgid "Add Folder to Playlist"
 msgstr "Προσθήκη φακέλου στη λίστα αναπαραγωγής"
 
-#: src/celluloid-view.c:1472
+#: src/celluloid-view.c:1468
 msgid "Open Folder"
 msgstr "Άνοιγμα φακέλου"
 
-#: src/celluloid-view.c:1477
+#: src/celluloid-view.c:1473
 msgid "Add File to Playlist"
 msgstr "Προσθήκη αρχείου στη λίστα αναπαραγωγής"
 
-#: src/celluloid-view.c:1477
+#: src/celluloid-view.c:1473
 msgid "Open File"
 msgstr "Άνοιγμα αρχείου"
 
-#: src/celluloid-view.c:1513
+#: src/celluloid-view.c:1512
 msgid "Add Location to Playlist"
 msgstr "Προσθήκη τοποθεσίας στη λίστα αναπαραγωγής"
 
-#: src/celluloid-view.c:1514
+#: src/celluloid-view.c:1513
 msgid "Open Location"
 msgstr "Άνοιγμα τοποθεσίας"
 
-#: src/celluloid-view.c:1556
+#: src/celluloid-view.c:1555
 msgid "Save Playlist"
 msgstr "Αποθήκευση λίστας αναπαραγωγής"
 
@@ -1460,17 +950,394 @@ msgstr "Αποθήκευση λίστας αναπαραγωγής"
 msgid "translator-credits"
 msgstr "μνεία μεταφραστών"
 
+#~ msgid "This release contains the following changes:"
+#~ msgstr "Αυτή η έκδοση περιλαμβάνει τις παρακάτω αλλαγές:"
+
+#, fuzzy
+#~ msgid "Add Estonian translation by vaba."
+#~ msgstr "Προσθήκη Σλοβενικής μετάφρασης από @bertronika."
+
+#, fuzzy
+#~ msgid "Add Georgian translation by temuri doghonadze."
+#~ msgstr "Προσθήκη Σλοβενικής μετάφρασης από @bertronika."
+
+#, fuzzy
+#~ msgid "Add Lithuanian translation by Jonas Smol."
+#~ msgstr "Προσθήκη Ουκρανικής μετάφρασης από @vl-nix"
+
+#, fuzzy
+#~ msgid "Add Occitan translation by Quentin PAGÈS."
+#~ msgstr "Προσθήκη μετάφρασης Occidental από OIS."
+
+#, fuzzy
+#~ msgid "Add Tamil translation by K.B.Dharun Krishna."
+#~ msgstr "Προσθήκη Βασκικής μετάφρασης από @aldatsa."
+
+#~ msgid "This listing is incomplete. See git log for complete changelog."
+#~ msgstr ""
+#~ "Αυτή η καταχώρηση είναι ατελής. Δες την καταγραφή (log) του git για την "
+#~ "πλήρη καταγραφή των αλλαγών (changelog)."
+
+#, fuzzy
+#~ msgid "Add Malay translation by @dinazmi."
+#~ msgstr "Προσθήκη Βασκικής μετάφρασης από @aldatsa."
+
+#, fuzzy
+#~ msgid "Add option to make the video area draggable."
+#~ msgstr "Δυνατότητα συρσίματος του παραθύρου από την περιοχή του βίντεο"
+
+#, fuzzy
+#~ msgid "Display chapter marks in the seek bar."
+#~ msgstr ""
+#~ "Προβολή του χρόνου στη θέση του δρομέα κατά την αιώρηση πάνω από τη μπάρα "
+#~ "αναζήτησης."
+
+#, fuzzy
+#~ msgid "Display chapter titles in the seek bar popover."
+#~ msgstr ""
+#~ "Προβολή του χρόνου στη θέση του δρομέα κατά την αιώρηση πάνω από τη μπάρα "
+#~ "αναζήτησης."
+
+#~ msgid "This is mostly a bugfix release. It contains the following changes:"
+#~ msgstr ""
+#~ "Αυτή η έκδοση αφορά κυρίως διορθώσεις σφαλμάτων. Περιλαμβάνει τις "
+#~ "παρακάτω αλλαγές:"
+
+#~ msgid "Fix autofit triggering regardless of settings."
+#~ msgstr ""
+#~ "Επιδιόρθωση της ενεργοποίησης αυτόματης προσαρμογής ανεξαρτήτως ρυθμίσεων."
+
+#~ msgid "Fix window size shrinking across sessions."
+#~ msgstr "Επιδιόρθωση της σμίκρυνσης του παραθύρου σε όλες τις συνεδρίες."
+
+#~ msgid "Fix crash when playing files with names containing invalid encoding."
+#~ msgstr ""
+#~ "Επιδιόρθωση κρασαρίσματος κατά την αναπαραγωγή αρχείων με ονόματα που "
+#~ "περιέχουν μη έγκυρη κωδικοποίηση."
+
+#~ msgid "Fix playback starting when the last playlist item is removed."
+#~ msgstr ""
+#~ "Επιδιόρθωση εκκίνησης αναπαραγωγής όταν αφαιρείται το τελευταίο "
+#~ "αντικείμενο της λίστας αναπαραγωγής."
+
+#~ msgid "Migrate to GTK4."
+#~ msgstr "Μεταφορά σε GTK4."
+
+#~ msgid "Add Greek translation by @lepa22."
+#~ msgstr "Προσθήκη Ελληνικής μετάφρασης από @lepa22."
+
+#~ msgid "Add Korean translation by @jullee96."
+#~ msgstr "Προσθήκη Κορεάτικης μετάφρασης από @jullee96."
+
+#~ msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
+#~ msgstr "Προσθήκη Νορβηγικής Bokmål μετάφρασης από Allan Nordhøy."
+
+#~ msgid "Add Occidental translation by OIS."
+#~ msgstr "Προσθήκη μετάφρασης Occidental από OIS."
+
+#~ msgid "Add Arabic translation by Mohamed Benkouider."
+#~ msgstr "Προσθήκη Αραβικής μετάφρασης από Mohamed Benkouider."
+
+#~ msgid "Add Urdu translation by Ahmed Iqbal."
+#~ msgstr "Προσθήκη μετάφρασης Urdu από Ahmed Iqbal."
+
+#~ msgid "Add option to show title buttons in fullscreen mode."
+#~ msgstr ""
+#~ "Προσθήκη επιλογής για εμφάνιση των κουμπιών τίτλου κατά τη λειτουργία "
+#~ "πλήρους οθόνης."
+
+#~ msgid "Add option to present the window when opening files."
+#~ msgstr ""
+#~ "Προσθήκη επιλογής για παρουσίαση του παραθύρου κατά το άνοιγμα αρχείων."
+
+#~ msgid ""
+#~ "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
+#~ msgstr ""
+#~ "Αλλαγή του προεπιλεγμένου προτύπου ονόματος αρχείου για στιγμιότυπα "
+#~ "οθόνης σε ΟΝΟΜΑ ΑΡΧΕΙΟΥ-ΧΡΟΝΙΚΗ ΣΗΜΑΝΣΗ (%f-%P)."
+
+#~ msgid "Fix inaccurate timestamp preview."
+#~ msgstr "Επιδιόρθωση ανακριβούς προεπισκόπησης χρονικής σήμανσης."
+
+#~ msgid "Add Basque translation by @aldatsa."
+#~ msgstr "Προσθήκη Βασκικής μετάφρασης από @aldatsa."
+
+#~ msgid "Make the shuffle and loop command line options work properly."
+#~ msgstr ""
+#~ "Κάνε τις επιλογές γραμμής εντολών shuffle και loop να λειτουργούν σωστά."
+
+#~ msgid "Make the main menu button toggleable by pressing F10."
+#~ msgstr ""
+#~ "Κάνε το κουμπί του κύριου μενού εναλλάξιμο (toggleable) πιέζοντας το F10."
+
+#~ msgid "Add a setting for always appending opened files to the playlist."
+#~ msgstr ""
+#~ "Προσθήκη ρύθμισης για την προσάρτηση των ανοιχτών αρχείων στη λίστα "
+#~ "αναπαραγωγής."
+
+#~ msgid ""
+#~ "Allow appending files to playlist by holding shift while dropping files "
+#~ "onto the video area."
+#~ msgstr ""
+#~ "Να επιτρέπεται η προσάρτηση αρχείων στη λίστα αναπαραγωγής κρατώντας "
+#~ "πατημένο το πλήκτρο shift κατά την απόθεση αρχείων στην περιοχή του "
+#~ "βίντεο."
+
+#~ msgid "Make CSD header bar toggleable via the mpv property \"border\"."
+#~ msgstr ""
+#~ "Κάνε την κεφαλίδα CSD εναλλάξιμη (toggleable) μέσω της ιδιότητας "
+#~ "\"border\" του mpv."
+
+#~ msgid ""
+#~ "Include Flatpak manifest in the repo. This allows Celluloid to be built "
+#~ "in one click in apps like GNOME Builder."
+#~ msgstr ""
+#~ "Συμπερίλαβε το manifest του Flatpak στο αποθετήριο. Αυτό επιτρέπει στον "
+#~ "Celluloid να δομηθεί (build) σε εφαρμογές ενός κλικ όπως ο GNOME Builder."
+
+#~ msgid ""
+#~ "Make it possible to activate context menu when the playlist is empty."
+#~ msgstr ""
+#~ "Κάνε εφικτή την ενεργοποίηση του context menu όταν η λίστα αναπαραγωγής "
+#~ "είναι κενή."
+
+#~ msgid ""
+#~ "Prevent constant resizing of the seek bar due to timestamp label resizing "
+#~ "as its value changes."
+#~ msgstr ""
+#~ "Αποφυγή της συνεχούς αναπροσαρμογής του μεγέθους της μπάρας αναζήτησης "
+#~ "λόγω της αναπροσαρμογής του μεγέθους της ετικέτας χρονικής σήμανσης καθώς "
+#~ "αλλάζει η τιμή της."
+
+#~ msgid ""
+#~ "Only show a single error dialog when a large number of errors occurs in "
+#~ "rapid succession."
+#~ msgstr ""
+#~ "Εμφάνιση μόνο ενός παραθύρου διαλόγου σφάλματος όταν μεγάλος αριθμός "
+#~ "σφαλμάτων λαμβάνει χώρα σε γρήγορη διαδοχή."
+
+#~ msgid "Add menu item for opening folders."
+#~ msgstr "Προσθήκη αντικειμένου μενού για το άνοιγμα φακέλων."
+
+#~ msgid ""
+#~ "Adjust position of UI elements of modal dialogs in non-CSD mode to be "
+#~ "more consistent with CSD mode."
+#~ msgstr ""
+#~ "Προσαρμογή της θέσης στοιχείων UI των λειτουργικών παραθύρων διαλόγου στη "
+#~ "λειτουργία non-CSD ώστε να είναι πιο συνεπή με τη λειτουργία CSD."
+
+#~ msgid "Add support for loading external video tracks."
+#~ msgstr "Προσθήκη υποστήριξης για τη φόρτωση εξωτερικών κομματιών βίντεο."
+
+#~ msgid "Make playlist shuffle toggleable."
+#~ msgstr "Κάνε το ανακάτεμα της λίστας αναπαραγωγής εναλλάξιμο."
+
+#~ msgid "Make arrow key bindings work with arrow keys on numpad."
+#~ msgstr ""
+#~ "Κάνε τις συνδέσεις πλήκτρων (key bindings) από τα βελάκια να λειτουργούν "
+#~ "με τα βελάκια στο αριθμητικό πληκτρολόγιο."
+
+#~ msgid ""
+#~ "Adjust the range of volume button based on the value of the volume-max "
+#~ "property."
+#~ msgstr ""
+#~ "Προσαρμογή της έκτασης του πλήκτρου έντασης ήχου βασισμένη στην τιμή της "
+#~ "ιδιότητας volume-max."
+
+#~ msgid "Retain window maximization state across sessions."
+#~ msgstr ""
+#~ "Διατήρηση της κατάστασης μεγιστοποίησης του παραθύρου σε όλες τις "
+#~ "συνεδρίες."
+
+#~ msgid "Retain loop state across sessions."
+#~ msgstr "Διατήρηση της κατάστασης loop σε όλες τις συνεδρίες."
+
+#~ msgid "Implement playlist search."
+#~ msgstr "Υλοποίηση αναζήτησης της λίστας αναπαραγωγής."
+
+#~ msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
+#~ msgstr ""
+#~ "Ενημέρωση της λίστας συντομεύσεων στο παράθυρο διαλόγου Συντομεύσεις "
+#~ "Πληκτρολογίου."
+
+#~ msgid "Correctly handle quotes and escape sequences in extra mpv options."
+#~ msgstr ""
+#~ "Σωστός χειρισμός εισαγωγικών και αλληλουχιών διαφυγής στις επιπλέον "
+#~ "επιλογές του mpv."
+
+#~ msgid "Display time at cursor position when hovering the seek bar."
+#~ msgstr ""
+#~ "Προβολή του χρόνου στη θέση του δρομέα κατά την αιώρηση πάνω από τη μπάρα "
+#~ "αναζήτησης."
+
+#~ msgid ""
+#~ "Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to "
+#~ "set mpv options instead. For example, passing '--mpv-vf=vflip' to "
+#~ "Celluloid is equivalent to passing '--vf=vflip' to mpv."
+#~ msgstr ""
+#~ "Κατάργηση '--mpv-options'. Οι επιλογές που ξεκινούν με '--mpv' μπορούν να "
+#~ "χρησιμοποιηθούν για τον ορισμό επιλογών του mpv αντί αυτού. Για "
+#~ "παράδειγμα, περνώντας '--mpv-vf=vflip' στον Celluloid είναι ισοδύναμο με "
+#~ "το να περνάς '--vf=vflip' στον mpv."
+
+#~ msgid ""
+#~ "Add support for configuring dead zone, an area in which mouse movement "
+#~ "will not cause controls to be shown."
+#~ msgstr ""
+#~ "Προσθήκη υποστήριξης για τη διαμόρφωση νεκρής ζώνης, μιας περιοχής στην "
+#~ "οποία η κίνηση του ποντικιού δε θα προκαλεί την εμφάνιση των εργαλείων "
+#~ "ελέγχου."
+
+#~ msgid "Make window sizing work correctly with HiDPI displays."
+#~ msgstr ""
+#~ "Κάνε την αλλαγή του μεγέθους του παραθύρου να λειτουργεί σωστά με HiDPI "
+#~ "οθόνες."
+
+#~ msgid "Add Finnish translation by Kimmo Kujansuu."
+#~ msgstr "Προσθήκη Φινλανδικής μετάφρασης από Kimmo Kujansuu."
+
+#~ msgid "Add Slovenian translation by @bertronika."
+#~ msgstr "Προσθήκη Σλοβενικής μετάφρασης από @bertronika."
+
+#~ msgid "Add Persian translation by @danialbehzadi"
+#~ msgstr "Προσθήκη Περσικής μετάφρασης από @danialbehzadi"
+
+#~ msgid "Add Ukranian translation by @vl-nix"
+#~ msgstr "Προσθήκη Ουκρανικής μετάφρασης από @vl-nix"
+
+#~ msgid ""
+#~ "Add support for showing/hiding window decorations using the mpv option --"
+#~ "border"
+#~ msgstr ""
+#~ "Προσθήκη υποστήριξης για την εμφάνιση/απόκρυψη των διακοσμήσεων παραθύρου "
+#~ "χρησιμοποιώντας την επιλογή --border του mpv"
+
+#~ msgid "Add menu item for opening discs"
+#~ msgstr "Προσθήκη αντικειμένου μενού για το άνοιγμα δίσκων"
+
+#~ msgid "Block cursor autohide when volume popup is open in windowed mode"
+#~ msgstr ""
+#~ "Εμπόδιση της αυτόματης απόκρυψης του δρομέα όταν το αναδυόμενο παράθυρο "
+#~ "έντασης ήχου είναι ανοιχτό σε λειτουργία παραθύρου"
+
+#~ msgid "Fix crash with mpv 0.30"
+#~ msgstr "Επιδιόρθωση κρασαρίσματος με τον mpv 0.30"
+
+#~ msgid "Rename project to Celluloid"
+#~ msgstr "Μετονομασία του project σε Celluloid"
+
+#~ msgid "Add Turkish translation by @TeknoMobil"
+#~ msgstr "Προσθήκη Τουρκικής μετάφρασης από @TeknoMobil"
+
+#~ msgid "Add Esperanto translation by @F3nd0"
+#~ msgstr "Προσθήκη Εσπεράντο μετάφρασης από @F3nd0"
+
+#~ msgid "Migrate from opengl-cb to the new render API"
+#~ msgstr "Μετανάστευση από opengl-cb στο νέο render API"
+
+#~ msgid "Handle numpad keybindings"
+#~ msgstr "Χειρισμός συντομεύσεων αριθμητικού πληκτρολογίου"
+
+#~ msgid "Handle unicode keybindings"
+#~ msgstr "Χειρισμός συντομεύσεων πληκτρολογίου unicode"
+
+#~ msgid "Forward media key events to mpv"
+#~ msgstr "Προώθηση γεγονότων πλήκτρων πολυμέσων στον mpv"
+
+#~ msgid ""
+#~ "Add dconf key for controlling cursor speed at which controls are unhidden"
+#~ msgstr ""
+#~ "Προσθήκη κλειδιού dconf για τον έλεγχο της ταχύτητας του δρομέα για την "
+#~ "οποία τα εργαλεία ελέγχου επανεμφανίζονται"
+
+#~ msgid "Add option for suppressing playback errors"
+#~ msgstr "Προσθήκη επιλογής για καταστολή των σφαλμάτων αναπαραγωγής"
+
+#~ msgid "Split up the General tab in the preferences dialog"
+#~ msgstr "Διαχωρισμός της καρτέλας Γενικά στο παράθυρο διαλόγου προτιμήσεων"
+
+#~ msgid "Improve behavior when toggling playlist under tiling window managers"
+#~ msgstr ""
+#~ "Βελτίωση συμπεριφοράς κατά την εναλλαγή της λίστας αναπαραγωγής όταν "
+#~ "χρησιμοποιούνται tiling window managers"
+
+#~ msgid "Move app menu items to primary menu"
+#~ msgstr "Μετακίνηση αντικειμένων του μενού εφαρμογών στο κυρίως μενού"
+
+#~ msgid "Use separate MPRIS DBus connection for each window"
+#~ msgstr "Χρήση ξεχωριστής σύνδεσης MPRIS DBus για κάθε παράθυρο"
+
+#~ msgid "Add support for MPRIS property LoopStatus"
+#~ msgstr "Προσθήκη υποστήριξης για την MPRIS ιδιότητα LoopStatus"
+
+#~ msgid ""
+#~ "Add option --mpv-options for setting arbitrary mpv options from the "
+#~ "command-line"
+#~ msgstr ""
+#~ "Προσθήκη επιλογής --mpv-options για τον ορισμό αυθαίρετων επιλογών του "
+#~ "mpv από τη γραμμή εντολων"
+
+#~ msgid "Set default screenshot directory to XDG_PICTURES_DIR"
+#~ msgstr ""
+#~ "Ορισμός προεπιλεγμένου φακέλου στιγμιοτύπων οθόνης στο XDG_PICTURES_DIR"
+
+#~ msgid ""
+#~ "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
+#~ "autofit-smaller"
+#~ msgstr ""
+#~ "Βελτίωση χειρισμού των --window-scale, --autofit, --autofit-larger, and --"
+#~ "autofit-smaller"
+
+#~ msgid "Add command line option for setting WM_ROLE"
+#~ msgstr "Προσθήκη επιλογής γραμμής εντολών για τον ορισμό WM_ROLE"
+
+#~ msgid "Add context menu item for removing playlist items"
+#~ msgstr ""
+#~ "Προσθήκη αντικειμένου context menu για την αφαίρεση αντικειμένων λίστας "
+#~ "αναπαραγωγής"
+
+#~ msgid "Add context menu item for copying location of playlist items"
+#~ msgstr ""
+#~ "Προσθήκη αντικειμένου context menu για την αντιγραφή της τοποθεσίας "
+#~ "αντικειμένων της λίστας αναπαραγωγής"
+
+#~ msgid ""
+#~ "Add option to make skip buttons change playlist entries rather than "
+#~ "chapters"
+#~ msgstr ""
+#~ "Προσθήκη επιλογής ώστε τα κουμπιά υπερπήδησης (skip) να αλλάζουν "
+#~ "καταχωρήσεις της λίστας αναπαραγωγής αντί για κεφάλαια"
+
+#~ msgid "Make the file chooser accept non-local locations"
+#~ msgstr ""
+#~ "Κάνε τον επιλογέα αρχείων να δέχεται μη-τοπικές (non-local) τοποθεσίες"
+
+#~ msgid "Add right-click menu entry for looping a single file"
+#~ msgstr ""
+#~ "Προσθήκη καταχώρησης μενού δεξιού κλικ για την επανάληψη αναπαραγωγής "
+#~ "ενός αρχείου"
+
+#~ msgid "Handle property change events for fullscreen and window-scale"
+#~ msgstr ""
+#~ "Διαχείριση γεγονότων αλλαγής ιδιοτήτων για πλήρη οθόνη και κλιμάκωση "
+#~ "παραθύρου"
+
+#~ msgid "Add option to autohide mouse cursor in windowed mode"
+#~ msgstr ""
+#~ "Προσθήκη επιλογής αυτόματης απόκρυψης του κέρσορα του ποντικιού σε "
+#~ "λειτουργία παραθύρου"
+
+#~ msgid "_Open"
+#~ msgstr "_Άνοιγμα"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Ακύρωση"
+
+#~ msgid "Loop _Playlist"
+#~ msgstr "Επανάληψη αναπαραγωγής _λίστας αναπαραγωγής"
+
 #~ msgid "Enable media keys support"
 #~ msgstr "Ενεργοποίηση υποστήριξης πλήκτρων πολυμέσων"
-
-#~ msgid "Open"
-#~ msgstr "Άνοιγμα"
-
-#~ msgid "Cancel"
-#~ msgstr "Ακύρωση"
-
-#~ msgid "_Toggle Playlist"
-#~ msgstr "Εναλλαγή λίστας αναπαραγωγής"
 
 #~ msgid "Remove"
 #~ msgstr "Αφαίρεση"
