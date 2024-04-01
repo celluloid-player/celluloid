@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2023-01-24 04:51+0000\n"
-"Last-Translator: 이정희 <daemul72@gmail.com>\n"
+"PO-Revision-Date: 2024-01-18 16:00+0000\n"
+"Last-Translator: ilsubyeega <ilsubyeega@outlook.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ko/>\n"
 "Language: ko\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.16-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -235,25 +235,27 @@ msgstr "이 릴리스에는 다음 변경 사항이 포함됩니다:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "여러 개의 창을 사용할 때 발생하는 충돌 해결."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "정보 대화 상자를 libadwaita로 포팅."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix cursor not autohiding on KDE."
-msgstr ""
+msgstr "KDE에서 커서가 자동으로 숨겨지지 않는 문제 수정."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix mouse presses/releases becoming unreliable during playback."
-msgstr ""
+msgstr "재생 중 마우스 누르기/놓기가 불안정해지는 현상 수정."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
+"Windows에서 빌드할 수 있도록 합니다. 셀룰로이드는 여전히 마우스 클릭 시 "
+"충돌이 발생하지만 실행되고 동영상을 재생할 수 있습니다."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 #, fuzzy
@@ -302,11 +304,11 @@ msgstr "@aldatsa 바스크어 번역 추가."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Use libadwaita."
-msgstr ""
+msgstr "libadwaita 사용."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Fix on_load hook in scripts not triggering."
-msgstr ""
+msgstr "스크립트에서 on_load hook이 트리거되지 않는 문제 수정."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
 #, fuzzy
@@ -315,11 +317,11 @@ msgstr "비디오 영역 드래그 가능"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Fix autofit breaking when playing small videos."
-msgstr ""
+msgstr "작은 동영상을 재생할 때 자동 맞춤이 오류나는 문제를 수정."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Make controls layout adaptive."
-msgstr ""
+msgstr "컨트롤 레이아웃을 적응형으로 설정."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
 #, fuzzy
@@ -1321,11 +1323,11 @@ msgstr "재생"
 
 #: src/celluloid-video-area.c:629
 msgid "Welcome"
-msgstr ""
+msgstr "환영합니다"
 
 #: src/celluloid-video-area.c:632
 msgid "Press ＋ or drag your video file here."
-msgstr ""
+msgstr "+를 누르거나 여기에 동영상 파일을 드래그하세요."
 
 #: src/celluloid-view.c:765
 msgid "Load Audio Track…"

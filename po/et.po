@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2023-08-20 21:35+0000\n"
-"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
+"PO-Revision-Date: 2024-03-01 17:01+0000\n"
+"Last-Translator: vaba <vaba@riseup.net>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/et/>\n"
 "Language: et\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -238,25 +238,29 @@ msgstr "See väljalase sisaldab järgmisi muudatusi:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "Parandage krahh mitme akna kasutamisel."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "Pöörake teabedialoog libadwaitasse."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix cursor not autohiding on KDE."
-msgstr ""
+msgstr "Parandage kursori automaatne peitmine KDE-s."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix mouse presses/releases becoming unreliable during playback."
 msgstr ""
+"Parandage hiirevajutused/vabastused, mis muutuvad taasesituse ajal "
+"ebausaldusväärseks."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
+"Lubage Windowsile ehitada. Celluloid jookseb endiselt kokku hiireklõpsudel, "
+"kuid see töötab ja suudab videoid esitada."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
 msgid "Add Estonian translation by vaba."
@@ -300,34 +304,31 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Use libadwaita."
-msgstr ""
+msgstr "Kasutage libadwaitat."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Fix on_load hook in scripts not triggering."
-msgstr ""
+msgstr "Parandage on_load konks skriptides, mis ei käivitu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
-#, fuzzy
 msgid "Add option to make the video area draggable."
-msgstr "Muutke videoala lohistatavaks"
+msgstr "Lisa valik, et muuta videoala lohistatavaks."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Fix autofit breaking when playing small videos."
-msgstr ""
+msgstr "Parandage automaatse sobitamise katkemine väikeste videote esitamisel."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Make controls layout adaptive."
-msgstr ""
+msgstr "Muutke juhtelementide paigutus kohandatavaks."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
-#, fuzzy
 msgid "Display chapter marks in the seek bar."
-msgstr "Aja kuvamine kursori asukohas otsinguriba hõljutamisel."
+msgstr "Kuva peatükkide märgid otsinguribal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:102
-#, fuzzy
 msgid "Display chapter titles in the seek bar popover."
-msgstr "Aja kuvamine kursori asukohas otsinguriba hõljutamisel."
+msgstr "Peatükkide pealkirjade kuvamine otsinguriba hüpikaknas."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "This is mostly a bugfix release. It contains the following changes:"
@@ -503,7 +504,7 @@ msgstr "Rakendage esitusloendi otsing."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:276
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr "Värskendage dialoogiaknas Klaviatuuri otseteed  loendit."
+msgstr "Värskendage dialoogiaknas Klaviatuuri otseteed loendit."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:279
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
@@ -529,6 +530,8 @@ msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
+"Lisage tuge surnud tsooni konfigureerimiseks – ala, kus hiire liikumine ei "
+"põhjusta juhtnuppude kuvamist."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:295
 msgid "Make window sizing work correctly with HiDPI displays."
@@ -555,6 +558,7 @@ msgid ""
 "Add support for showing/hiding window decorations using the mpv option --"
 "border"
 msgstr ""
+"Lisage aknakaunistuste kuvamise/peitmise tugi, kasutades mpv-valikut --border"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:325
 msgid "Add menu item for opening discs"
@@ -611,7 +615,7 @@ msgstr "Lisage taasesitusvigade summutamise võimalus"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:385
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Jagage eelistuste dialoogis vahekaart Üldine"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:388
 msgid "Improve behavior when toggling playlist under tiling window managers"
@@ -627,7 +631,7 @@ msgstr "Kasutage iga akna jaoks eraldi MPRIS DBus ühendust"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:397
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "Lisage MPRIS-i atribuudi LoopStatus tugi"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:400
 msgid ""
@@ -931,7 +935,7 @@ msgstr "_Teave"
 
 #: src/celluloid-menu.c:319
 msgid "Open _Disc"
-msgstr "Ava _ketas…"
+msgstr "Ava _ketas"
 
 #: src/celluloid-mpv.c:266
 #, c-format
@@ -964,11 +968,11 @@ msgstr "_Eemalda"
 
 #: src/celluloid-playlist-widget.c:564
 msgid "_Add…"
-msgstr "_Lisa"
+msgstr "_Lisa…"
 
 #: src/celluloid-playlist-widget.c:565
 msgid "Add _Folder…"
-msgstr "Lisa _kaust"
+msgstr "Lisa _kaust…"
 
 #: src/celluloid-playlist-widget.c:566
 msgid "Add _Location…"
@@ -1016,9 +1020,8 @@ msgid "Plugins"
 msgstr "Pluginad"
 
 #: src/celluloid-plugins-manager.c:415
-#, fuzzy
 msgid "Add…"
-msgstr "_Lisa"
+msgstr "Lisa…"
 
 #: src/celluloid-plugins-manager.c:449
 #, fuzzy
@@ -1026,9 +1029,8 @@ msgid "No Plugins Found"
 msgstr "Pluginaid ei leitud"
 
 #: src/celluloid-plugins-manager-item.c:82
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "C pluginad"
+msgstr "Eemalda pistikprogramm"
 
 #: src/celluloid-plugins-manager-item.c:177
 #, c-format
@@ -1044,7 +1046,7 @@ msgstr ""
 
 #: src/celluloid-plugins-manager-item.c:208
 msgid "_Keep"
-msgstr ""
+msgstr "_Hoia"
 
 #: src/celluloid-preferences-dialog.c:289
 msgid "mpv configuration file:"
@@ -1055,9 +1057,8 @@ msgid "mpv input configuration file:"
 msgstr "mpv sisendi konfiguratsioonifail:"
 
 #: src/celluloid-preferences-dialog.c:315
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "Mpv lisavalikud:"
+msgstr "Täiendavad mpv-valikud"
 
 #: src/celluloid-preferences-dialog.c:328
 msgid "Interface"
@@ -1173,7 +1174,7 @@ msgstr "Esitusloendi salvestamine"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Set/clear A-B loop points"
-msgstr ""
+msgstr "Määra/tühjenda A-B silmuspunktid"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Toggle infinite looping"
@@ -1221,7 +1222,7 @@ msgstr "Vaigista või tühista vaigistus"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Reguleerige heli viivitust +/- 0,1 sekundi võrra"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Toggle subtitle visibility"
@@ -1233,11 +1234,11 @@ msgstr "Sirvige saadaolevaid subtiitreid"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Reguleerige subtiitrite viivitust +/- 0,1 sekundi võrra"
 
 #: src/celluloid-shortcuts-window.c:97
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr ""
+msgstr "SSA/ASS subtiitrite stiili ülekirjutamise sisse- ja väljalülitamine"
 
 #: src/celluloid-shortcuts-window.c:98
 msgid "Move subtitles up/down"
@@ -1333,11 +1334,11 @@ msgstr "Esitusloend"
 
 #: src/celluloid-video-area.c:629
 msgid "Welcome"
-msgstr ""
+msgstr "Tere tulemast"
 
 #: src/celluloid-video-area.c:632
 msgid "Press ＋ or drag your video file here."
-msgstr ""
+msgstr "Vajutage ＋ või lohistage oma videofail siia."
 
 #: src/celluloid-view.c:765
 msgid "Load Audio Track…"

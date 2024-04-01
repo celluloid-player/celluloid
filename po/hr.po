@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2023-08-12 13:51+0000\n"
+"PO-Revision-Date: 2024-01-18 16:00+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/hr/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -104,19 +104,19 @@ msgstr "Mogućnosti za prosljeđivanje u mpv"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:108
 msgid "Path to mpv configuration file"
-msgstr "Putanja do mpv datoteke podešavanja"
+msgstr "Putanja do datoteke podešavanja mpv-a"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:114
 msgid "Load mpv configuration file"
-msgstr "Učitaj mpv datoteku podešavanja"
+msgstr "Učitaj datoteku podešavanja mpv-a"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:120
 msgid "Path to mpv input configuration file"
-msgstr "Putanja do ulazne datoteke mpv podešavanja"
+msgstr "Putanja do datoteke podešavanja mpv unosa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:126
 msgid "Load mpv input configuration file"
-msgstr "Učitaj ulaznu mpv datoteku podešavanja"
+msgstr "Učitaj datoteku podešavanja mpv unosa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:132
 msgid "Enable MPRIS support"
@@ -213,7 +213,7 @@ msgstr "Povuci i ispusti popis izvođenja"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
-msgstr "Učitavanje vanjske mpv datoteke podešavanja"
+msgstr "Učitavanje externih datoteka podešavanja mpv-a"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:27
 msgid "MPRIS2 D-Bus interface"
@@ -239,7 +239,7 @@ msgstr "Ovo izdanje sadrži sljedeće promjene:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "Ispravljena greška prekida programa pri korištenju više prozora."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
@@ -260,29 +260,24 @@ msgid ""
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
-#, fuzzy
 msgid "Add Estonian translation by vaba."
-msgstr "Slovenski prijevod je dodao @bertronika."
+msgstr "Dodan je estonski prijevod. Autor: vaba."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
-#, fuzzy
 msgid "Add Georgian translation by temuri doghonadze."
-msgstr "Slovenski prijevod je dodao @bertronika."
+msgstr "Dodan je gruzijski prijevod. Autor: temuri doghonadze."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
-#, fuzzy
 msgid "Add Lithuanian translation by Jonas Smol."
-msgstr "Ukrajinski prijevod je dodao @vl-nix"
+msgstr "Dodan je litvanski prijevod. Autor: Jonas Smol."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:63
-#, fuzzy
 msgid "Add Occitan translation by Quentin PAGÈS."
-msgstr "Okcidentalni prijevod je dodao OIS."
+msgstr "Dodan je okcitanski prijevod. Autor: Quentin PAGÈS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
-#, fuzzy
 msgid "Add Tamil translation by K.B.Dharun Krishna."
-msgstr "Baskijski prijevod je dodao @aldatsa."
+msgstr "Dodan je tamilski prijevod. Autor: K.B.Dharun Krishna."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
@@ -301,22 +296,20 @@ msgstr ""
 "Ovaj popis je nepotpun. Pogledajte git zapis za potpuni pregled promjena."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:81
-#, fuzzy
 msgid "Add Malay translation by @dinazmi."
-msgstr "Baskijski prijevod je dodao @aldatsa."
+msgstr "Dodan je malajski prijevod. Autor: @dinazmi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Use libadwaita."
-msgstr ""
+msgstr "Koristi libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Fix on_load hook in scripts not triggering."
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
-#, fuzzy
 msgid "Add option to make the video area draggable."
-msgstr "Omogući povlačenje video područja"
+msgstr "Dodana je opcija za povlačenje područja videa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Fix autofit breaking when playing small videos."
@@ -324,21 +317,15 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Make controls layout adaptive."
-msgstr ""
+msgstr "Prilagodljiv raspored elemenata za upravljanje."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
-#, fuzzy
 msgid "Display chapter marks in the seek bar."
-msgstr ""
-"Prikaz vremena na položaju pokazivača tiejkom prelaska preko trake "
-"prematanja."
+msgstr "Prikaz oznaka poglavlja u traci prematanja."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:102
-#, fuzzy
 msgid "Display chapter titles in the seek bar popover."
-msgstr ""
-"Prikaz vremena na položaju pokazivača tiejkom prelaska preko trake "
-"prematanja."
+msgstr "Prikaz naslova poglavlja u traci prematanja tijekom prelaženja."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "This is mostly a bugfix release. It contains the following changes:"
@@ -377,27 +364,27 @@ msgstr "Migracija na GTK4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:147
 msgid "Add Greek translation by @lepa22."
-msgstr "Grčki prijevod je dodao @lepa22."
+msgstr "Dodan je grčki prijevod. Autor: @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:150
 msgid "Add Korean translation by @jullee96."
-msgstr "Korejski prijevod je dodao @jullee96."
+msgstr "Dodan je korejski prijevod. Autor: @jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:153
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr "Norveški prijevod je dodao Allan Nordhøy."
+msgstr "Dodan je norveški Bokmål prijevod. Autor: Allan Nordhøy."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
 msgid "Add Occidental translation by OIS."
-msgstr "Okcidentalni prijevod je dodao OIS."
+msgstr "Dodan je okcidentalski prijevod. Autor: OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:159
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Arapski prijevod je dodao Mohamed Benkouider."
+msgstr "Dodan je arapski prijevod. Autor: Mohamed Benkouider."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:162
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Urdski prijevod je dodao Ahmed Iqbal."
+msgstr "Dodan je urdski prijevod. Autor: Ahmed Iqbal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:165
 msgid "Add option to show title buttons in fullscreen mode."
@@ -420,7 +407,7 @@ msgstr "Popravljeno je netočno vrijeme u predpregledu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:189
 msgid "Add Basque translation by @aldatsa."
-msgstr "Baskijski prijevod je dodao @aldatsa."
+msgstr "Dodan je baskijski prijevod. Autor: @aldatsa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:192
 msgid "Make the shuffle and loop command line options work properly."
@@ -570,19 +557,19 @@ msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr "Finski prijevod je dodao Kimmo Kujansuu."
+msgstr "Dodan je finski prijevod. Autor: Kimmo Kujansuu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:301
 msgid "Add Slovenian translation by @bertronika."
-msgstr "Slovenski prijevod je dodao @bertronika."
+msgstr "Dodan je slovenski prijevod. Autor: @bertronika."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:316
 msgid "Add Persian translation by @danialbehzadi"
-msgstr "Perzijski prijevod je dodao @danialbehzadi"
+msgstr "Dodan je perzijski prijevod. Autor: @danialbehzadi"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:319
 msgid "Add Ukranian translation by @vl-nix"
-msgstr "Ukrajinski prijevod je dodao @vl-nix"
+msgstr "Dodan je ukrajinski prijevod. Autor: @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:322
 msgid ""
@@ -612,11 +599,11 @@ msgstr "Preimenovanje projekta u Celuloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
 msgid "Add Turkish translation by @TeknoMobil"
-msgstr "Turski prijevod je dodao @TeknoMobil"
+msgstr "Dodan je turski prijevod. Autor: @TeknoMobil"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
 msgid "Add Esperanto translation by @F3nd0"
-msgstr "Esperanto prijevod je dodao @F3nd0"
+msgstr "Dodan je esperanto prijevod. Autor: @F3nd0"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:355
 msgid "Migrate from opengl-cb to the new render API"
@@ -1062,19 +1049,16 @@ msgid "Plugins"
 msgstr "Priključci"
 
 #: src/celluloid-plugins-manager.c:415
-#, fuzzy
 msgid "Add…"
-msgstr "_Dodaj…"
+msgstr "Dodaj …"
 
 #: src/celluloid-plugins-manager.c:449
-#, fuzzy
 msgid "No Plugins Found"
 msgstr "Nema pronađenih priključaka"
 
 #: src/celluloid-plugins-manager-item.c:82
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "C priključci"
+msgstr "Ukloni priključak"
 
 #: src/celluloid-plugins-manager-item.c:177
 #, c-format
@@ -1088,20 +1072,19 @@ msgstr "Sigurno želite ukloniti ovu skriptu? Ova radnja se ne može poništiti.
 
 #: src/celluloid-plugins-manager-item.c:208
 msgid "_Keep"
-msgstr ""
+msgstr "_Zadrži"
 
 #: src/celluloid-preferences-dialog.c:289
 msgid "mpv configuration file:"
-msgstr "Datoteka mpv podešavanja:"
+msgstr "Datoteka podešavanja mpv-a:"
 
 #: src/celluloid-preferences-dialog.c:295
 msgid "mpv input configuration file:"
 msgstr "Datoteka podešavanja mpv unosa:"
 
 #: src/celluloid-preferences-dialog.c:315
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "Dodatne MPV mogućnosti:"
+msgstr "Dodatne MPV mogućnosti"
 
 #: src/celluloid-preferences-dialog.c:328
 msgid "Interface"
@@ -1378,11 +1361,11 @@ msgstr "Popis izvođenja"
 
 #: src/celluloid-video-area.c:629
 msgid "Welcome"
-msgstr ""
+msgstr "Pozdrav"
 
 #: src/celluloid-video-area.c:632
 msgid "Press ＋ or drag your video file here."
-msgstr ""
+msgstr "Pritisni ＋ ili povuci tvoju video datoteku ovamo."
 
 #: src/celluloid-view.c:765
 msgid "Load Audio Track…"

@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-21 04:15+0700\n"
-"PO-Revision-Date: 2022-09-27 13:15+0000\n"
-"Last-Translator: Tomáš Marný <tomik.marny@gmail.com>\n"
+"PO-Revision-Date: 2023-10-22 11:01+0000\n"
+"Last-Translator: menom <menom1@protonmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/cs/>\n"
 "Language: cs\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 5.1\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -244,50 +244,48 @@ msgstr "Tato verze obsahuje následující změny:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:38
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "Opraven pád při použití více oken."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:41
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "Port dialogového okna O aplikaci do libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid "Fix cursor not autohiding on KDE."
-msgstr ""
+msgstr "Opraveno automatické skrývání kurzoru v KDE."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:47
 msgid "Fix mouse presses/releases becoming unreliable during playback."
 msgstr ""
+"Opravte, jak se stisky/uvolnění myši během přehrávání stanou nespolehlivé."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:50
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
+"Umožněno sestavit program pod Windows. Celluloid stále padá při kliknutí "
+"myší, ale běží a umí přehrávat videa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:54
-#, fuzzy
 msgid "Add Estonian translation by vaba."
-msgstr "Přidán překlad do slovinštiny od @bertronika."
+msgstr "Přidán estonský překlad od vaba."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:57
-#, fuzzy
 msgid "Add Georgian translation by temuri doghonadze."
-msgstr "Přidán překlad do slovinštiny od @bertronika."
+msgstr "Přidán gruzínský překlad od temuri doghonadze."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:60
-#, fuzzy
 msgid "Add Lithuanian translation by Jonas Smol."
-msgstr "Přidán překlad do ukrajinštiny od @vl-nix"
+msgstr "Přidán litevský překlad od Jonase Smola."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:63
-#, fuzzy
 msgid "Add Occitan translation by Quentin PAGÈS."
-msgstr "Přidán překlad do jazyka Occidental od OIS."
+msgstr "Přidán okcitánský překlad od Quentina PAGÈS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:66
-#, fuzzy
 msgid "Add Tamil translation by K.B.Dharun Krishna."
-msgstr "Přidán baskický překlad od @aldatsa."
+msgstr "Přidán tamilský překlad od K.B.Dharun Krishna."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:70
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:106
@@ -305,40 +303,36 @@ msgid "This listing is incomplete. See git log for complete changelog."
 msgstr "Tento seznam je neúplný. Úplný přehled změn najdete v git logu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:81
-#, fuzzy
 msgid "Add Malay translation by @dinazmi."
-msgstr "Přidán baskický překlad od @aldatsa."
+msgstr "Přidán malajský překlad od @dinazmi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:84
 msgid "Use libadwaita."
-msgstr ""
+msgstr "Používá libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
 msgid "Fix on_load hook in scripts not triggering."
-msgstr ""
+msgstr "Opravte háček on_load ve skriptech, které se nespouštějí."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:90
-#, fuzzy
 msgid "Add option to make the video area draggable."
-msgstr "Umožnit přetahování plochou přehrávání"
+msgstr "Přidána možnost přetahovat oblast videa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:93
 msgid "Fix autofit breaking when playing small videos."
-msgstr ""
+msgstr "Opraveno automatické přizpůsobení při přehrávání malých videí."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:96
 msgid "Make controls layout adaptive."
-msgstr ""
+msgstr "Rozvržení ovládacích prvků vytvořeno adaptivní."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:99
-#, fuzzy
 msgid "Display chapter marks in the seek bar."
-msgstr "Zobrazit čas na pozici kurzoru při najetí na přehrávací pruh."
+msgstr "Zobrazte značky kapitol v liště hledání."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:102
-#, fuzzy
 msgid "Display chapter titles in the seek bar popover."
-msgstr "Zobrazit čas na pozici kurzoru při najetí na přehrávací pruh."
+msgstr "Zobrazte názvy kapitol ve vyskakovací liště hledání."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:113
 msgid "This is mostly a bugfix release. It contains the following changes:"
@@ -1020,48 +1014,45 @@ msgstr "Seznam přehrávání je prázdný"
 
 #: src/celluloid-plugins-manager.c:190 src/celluloid-plugins-manager.c:445
 msgid "Add Plugin"
-msgstr "Přidat plugin"
+msgstr "Přidat zásuvný modul"
 
 #: src/celluloid-plugins-manager.c:202
 msgid "Lua Plugins"
-msgstr "Lua pluginy"
+msgstr "Lua zásuvné moduly"
 
 #: src/celluloid-plugins-manager.c:208
 msgid "JavaScript Plugins"
-msgstr "JavaScriptové pluginy"
+msgstr "JavaScriptové zásuvné moduly"
 
 #: src/celluloid-plugins-manager.c:213
 msgid "C Plugins"
-msgstr "Pluginy v C"
+msgstr "Zásuvné moduly v C"
 
 #: src/celluloid-plugins-manager.c:354
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr "Selhalo kopírování souboru z ‚%s‘ do ‚%s‘. Důvod: %s"
+msgstr "Selhalo kopírování souboru z „%s“ do „%s“. Důvod: %s"
 
 #: src/celluloid-plugins-manager.c:408
 msgid "Plugins"
-msgstr "Pluginy"
+msgstr "Zásuvné moduly"
 
 #: src/celluloid-plugins-manager.c:415
-#, fuzzy
 msgid "Add…"
-msgstr "_Přidat…"
+msgstr "Přidat…"
 
 #: src/celluloid-plugins-manager.c:449
-#, fuzzy
 msgid "No Plugins Found"
-msgstr "Nebyly nalezeny žádné pluginy"
+msgstr "Nebyly nalezeny žádné zásuvné moduly"
 
 #: src/celluloid-plugins-manager-item.c:82
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "Pluginy v C"
+msgstr "Odebrat zásuvný modul"
 
 #: src/celluloid-plugins-manager-item.c:177
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr "Selhalo smazání souboru ‚%s‘. Důvod: %s"
+msgstr "Smazání souboru „%s“ se nezdařilo. Důvod: %s"
 
 #: src/celluloid-plugins-manager-item.c:201
 msgid ""
@@ -1070,7 +1061,7 @@ msgstr "Určitě si přejete tento skript odstranit? Akci nelze vrátit zpět."
 
 #: src/celluloid-plugins-manager-item.c:208
 msgid "_Keep"
-msgstr ""
+msgstr "_Zachovat"
 
 #: src/celluloid-preferences-dialog.c:289
 msgid "mpv configuration file:"
@@ -1081,9 +1072,8 @@ msgid "mpv input configuration file:"
 msgstr "Vstupní konfigurační soubor mpv:"
 
 #: src/celluloid-preferences-dialog.c:315
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "Rozšířené možnosti mpv:"
+msgstr "Rozšířené možnosti mpv"
 
 #: src/celluloid-preferences-dialog.c:328
 msgid "Interface"
@@ -1359,11 +1349,11 @@ msgstr "Seznam přehrávání"
 
 #: src/celluloid-video-area.c:629
 msgid "Welcome"
-msgstr ""
+msgstr "Vítejte"
 
 #: src/celluloid-video-area.c:632
 msgid "Press ＋ or drag your video file here."
-msgstr ""
+msgstr "Stiskněte ＋ nebo sem přetáhněte svůj videosoubor."
 
 #: src/celluloid-view.c:765
 msgid "Load Audio Track…"
