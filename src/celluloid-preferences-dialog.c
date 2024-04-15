@@ -361,7 +361,7 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 		(	interface_items,
 			dlg->settings,
 			_("Interface"),
-			"preferences-desktop-appearance-symbolic" );
+			"applications-graphics-symbolic" );
 	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
 					ADW_PREFERENCES_PAGE(page));
 
