@@ -183,7 +183,7 @@ key_pressed_handler(	GtkEventControllerKey *key_controller,
 		g_free(keystr);
 	}
 
-	return FALSE;
+	return TRUE;
 }
 
 static void
