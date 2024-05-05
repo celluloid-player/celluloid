@@ -523,6 +523,8 @@ file_open_handler(	CelluloidView *view,
 {
 	CelluloidController *controller = CELLULOID_CONTROLLER(data);
 	CelluloidModel *model = controller->model;
+	const gchar *subtitle_exts[] = SUBTITLE_EXTS;
+	gboolean has_media_file = FALSE;
 	guint files_count = g_list_model_get_n_items(files);
 
 	if(files_count > 0 && !append)
@@ -536,9 +538,16 @@ file_open_handler(	CelluloidView *view,
 		GFile *file = g_list_model_get_item(files, i);
 		gchar *uri = g_file_get_path(file) ?: g_file_get_uri(file);
 
+		has_media_file |= !extension_matches(uri, subtitle_exts);
 		celluloid_model_load_file(model, uri, append || i > 0);
 
 		g_free(uri);
+	}
+
+	if(!has_media_file)
+	{
+		set_video_area_status
+			(controller, CELLULOID_VIDEO_AREA_STATUS_PLAYING);
 	}
 }
 
