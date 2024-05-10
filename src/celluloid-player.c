@@ -1006,28 +1006,20 @@ load_scripts(CelluloidPlayer *player)
 
 	if(dir)
 	{
-		const gchar *name;
+		const gchar *name = g_dir_read_name(dir);
 
-		do
+		while(name)
 		{
-			gchar *full_path;
+			gchar *full_path = g_build_filename(path, name, NULL);
+			const gchar *cmd[] = {"load-script", full_path, NULL};
+
+			g_info("Loading script: %s", full_path);
+			celluloid_mpv_command(CELLULOID_MPV(player), cmd);
 
 			name = g_dir_read_name(dir);
-			full_path = g_build_filename(path, name, NULL);
-
-			if(g_file_test(full_path, G_FILE_TEST_IS_REGULAR))
-			{
-				const gchar *cmd[]
-					= {"load-script", full_path, NULL};
-
-				g_info("Loading script: %s", full_path);
-				celluloid_mpv_command
-					(CELLULOID_MPV(player), cmd);
-			}
 
 			g_free(full_path);
 		}
-		while(name);
 
 		g_dir_close(dir);
 	}
