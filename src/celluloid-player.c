@@ -57,6 +57,7 @@ struct _CelluloidPlayerPrivate
 	GPtrArray *track_list;
 	GPtrArray *disc_list;
 	GHashTable *log_levels;
+	GHashTable *script_options;
 	gboolean loaded;
 	gboolean new_file;
 	gboolean init_vo_config;
@@ -103,8 +104,11 @@ mpv_property_changed(CelluloidMpv *mpv, const gchar *name, gpointer value);
 static void
 observe_properties(CelluloidMpv *mpv);
 
+static gchar *
+build_script_opts_string(CelluloidPlayer *player);
+
 static void
-apply_default_options(CelluloidMpv *mpv);
+apply_default_options(CelluloidPlayer *player);
 
 static void
 initialize(CelluloidMpv *mpv);
@@ -129,6 +133,14 @@ load_config_file(CelluloidMpv *mpv);
 
 static void
 load_input_config_file(CelluloidPlayer *player);
+
+static void
+load_script_opts_from_file(	CelluloidPlayer *player,
+				const gchar *prefix,
+				const gchar *path );
+
+static void
+load_script_opts(CelluloidPlayer *player);
 
 static void
 load_scripts(CelluloidPlayer *player);
@@ -499,11 +511,40 @@ observe_properties(CelluloidMpv *mpv)
 	celluloid_mpv_observe_property(mpv, 0, "window-scale", MPV_FORMAT_DOUBLE);
 }
 
+static gchar *
+build_script_opts_string(CelluloidPlayer *player)
+{
+	CelluloidPlayerPrivate *priv = get_private(player);
+	GList *keys = g_hash_table_get_keys(priv->script_options);
+	GList *values = g_hash_table_get_values(priv->script_options);
+	GString *accum = g_string_new(NULL);
+
+	while(keys && values)
+	{
+		const gchar *key = keys->data;
+		const gchar *value = values->data;
+		gchar *suboption = g_strdup_printf("%s=%s,", key, value);
+
+		g_string_append(accum, suboption);
+
+		keys = keys->next;
+		values = values->next;
+
+		g_free(suboption);
+	}
+
+	g_list_free(values);
+	g_list_free(keys);
+
+	return accum->str;
+}
+
 static void
-apply_default_options(CelluloidMpv *mpv)
+apply_default_options(CelluloidPlayer *player)
 {
 	gchar *config_dir = get_config_dir_path();
 	gchar *watch_dir = get_watch_dir_path();
+	gchar *script_opts_string = build_script_opts_string(player);
 	const gchar *screenshot_dir =	g_get_user_special_dir
 					(G_USER_DIRECTORY_PICTURES);
 
@@ -524,6 +565,7 @@ apply_default_options(CelluloidMpv *mpv)
 			{"ytdl", "yes"},
 			{"ytdl-raw-options", "yes-playlist="},
 			{"load-scripts", "no"},
+			{"script-opts", script_opts_string},
 			{"osd-bar", "no"},
 			{"input-cursor", "no"},
 			{"cursor-autohide", "no"},
@@ -543,9 +585,12 @@ apply_default_options(CelluloidMpv *mpv)
 				options[i].value );
 
 		celluloid_mpv_set_option_string
-			(mpv, options[i].name, options[i].value);
+			(	CELLULOID_MPV(player),
+				options[i].name,
+				options[i].value );
 	}
 
+	g_free(script_opts_string);
 	g_free(config_dir);
 	g_free(watch_dir);
 }
@@ -555,7 +600,8 @@ initialize(CelluloidMpv *mpv)
 {
 	CelluloidPlayer *player = CELLULOID_PLAYER(mpv);
 
-	apply_default_options(mpv);
+	load_script_opts(player);
+	apply_default_options(player);
 	load_config_file(mpv);
 	load_input_config_file(player);
 	apply_extra_options(player);
@@ -685,6 +731,7 @@ reset(CelluloidMpv *mpv)
 
 	CELLULOID_MPV_CLASS(celluloid_player_parent_class)->reset(mpv);
 
+	load_script_opts(CELLULOID_PLAYER(mpv));
 	load_scripts(CELLULOID_PLAYER(mpv));
 
 	if(!idle_active)
@@ -834,6 +881,121 @@ load_input_config_file(CelluloidPlayer *player)
 
 	g_free(input_conf);
 	g_object_unref(settings);
+}
+
+static void
+load_script_opts_from_file(	CelluloidPlayer *player,
+				const gchar *prefix,
+				const gchar *path )
+{
+	GError *error = NULL;
+	gsize contents_length = 0;
+	gchar *contents = NULL;
+
+	const gchar group_name[] = "main";
+	const gchar group_header[] = "[main]\n";
+	gchar *data = NULL;
+	gsize data_length = 0;
+
+	GKeyFile *key_file = NULL;
+
+	g_file_get_contents(path, &contents, &contents_length, &error);
+
+	if(!error)
+	{
+		// GKeyFile can't parse files without section headers, so we
+		// need to stick a header in to get it to parse.
+		data = g_strconcat(group_header, contents, NULL);
+		data_length = contents_length + sizeof(group_header);
+	}
+
+	if(!error)
+	{
+		key_file = g_key_file_new();
+
+		g_key_file_load_from_data
+			(key_file, data, data_length, G_KEY_FILE_NONE, &error);
+	}
+
+	if(!error)
+	{
+		gsize n_keys = 0;
+
+		gchar **keys =
+			g_key_file_get_keys
+			(key_file, group_name, &n_keys, NULL);
+		GHashTable *script_options =
+			get_private(player)->script_options;
+
+		for(gsize i = 0; i < n_keys; i++)
+		{
+			gchar *value =
+				g_key_file_get_string
+				(key_file, group_name, keys[i], NULL);
+			gchar *prefixed_key =
+				g_strdup_printf
+				("%s-%s", prefix, keys[i]);
+
+			g_hash_table_insert
+				(script_options, prefixed_key, value);
+		}
+
+		g_strfreev(keys);
+	}
+
+
+	if(error)
+	{
+		g_warning(	"Failed to load script options file %s: %s",
+				path,
+				error->message );
+
+		g_error_free(error);
+	}
+
+	g_key_file_free(key_file);
+	g_free(data);
+	g_free(contents);
+}
+
+static void
+load_script_opts(CelluloidPlayer *player)
+{
+	gchar *path = get_script_opts_dir_path();
+	GDir *dir = g_dir_open(path, 0, NULL);
+
+	if(dir)
+	{
+		const gchar *name = g_dir_read_name(dir);
+
+		while(name)
+		{
+			gchar *full_path = g_build_filename(path, name, NULL);
+			const gchar *suffix = g_utf8_strchr(name, -1, '.');
+			gchar *prefix = g_utf8_substring(name, 0, suffix - name);
+			if(g_file_test(full_path, G_FILE_TEST_IS_REGULAR))
+			{
+				g_info(	"Loading script options file: %s",
+					full_path );
+
+				load_script_opts_from_file
+					(player, prefix, full_path);
+			}
+
+			name = g_dir_read_name(dir);
+
+			g_free(prefix);
+			g_free(full_path);
+		}
+
+		g_dir_close(dir);
+	}
+	else
+	{
+		g_warning("Failed to open script options directory: %s", path);
+	}
+
+	g_free(path);
 }
 
 static void
@@ -1367,6 +1529,8 @@ celluloid_player_init(CelluloidPlayer *player)
 	priv->disc_list =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)celluloid_disc_free);
 	priv->log_levels =	g_hash_table_new_full
+				(g_str_hash, g_str_equal, g_free, NULL);
+	priv->script_options =	g_hash_table_new_full
 				(g_str_hash, g_str_equal, g_free, NULL);
 
 	priv->loaded = FALSE;
