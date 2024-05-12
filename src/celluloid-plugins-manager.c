@@ -287,31 +287,28 @@ changed_handler(	GFileMonitor *monitor,
 		}
 
 		// Populate the list box with files in the plugins directory
-		do
+		filename = g_dir_read_name(dir);
+
+		while(filename)
 		{
-			gchar *full_path;
+			gchar *full_path =
+				g_build_filename
+				(pmgr->directory, filename, NULL);
+			GtkWidget *item =
+				celluloid_plugins_manager_item_new
+				(	pmgr->parent_window,
+					filename,
+					full_path );
 
-			filename = g_dir_read_name(dir);
-			full_path =	g_build_filename
-					(pmgr->directory, filename, NULL);
+			adw_preferences_group_add
+				(pmgr->pref_group, item);
 
-			if(g_file_test(full_path, G_FILE_TEST_IS_REGULAR))
-			{
-				GtkWidget *item;
-
-				item =	celluloid_plugins_manager_item_new
-					(	pmgr->parent_window,
-						filename,
-						full_path );
-				adw_preferences_group_add
-					(pmgr->pref_group, item);
-
-				empty = FALSE;
-			}
+			empty = FALSE;
 
 			g_free(full_path);
+
+			filename = g_dir_read_name(dir);
 		}
-		while(filename);
 
 		gtk_widget_set_visible(pmgr->placeholder, empty);
 
