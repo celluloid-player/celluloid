@@ -25,6 +25,7 @@
 #include <adwaita.h>
 
 #include "celluloid-plugins-manager-item.h"
+#include "celluloid-common.h"
 
 enum
 {
@@ -159,7 +160,7 @@ remove_response_handler(	AdwMessageDialog *dialog,
 
 	if(strcmp (response_id, "remove") == 0)
 	{
-		g_file_delete(file, NULL, &error);
+		g_file_delete_recursive(file, NULL, &error);
 	}
 
 	gtk_window_destroy(GTK_WINDOW(dialog));
