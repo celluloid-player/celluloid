@@ -335,3 +335,66 @@ activate_action_string(GActionMap *map, const gchar *str)
 		g_warning("Failed to activate action \"%s\"", str);
 	}
 }
+
+gboolean
+g_file_delete_recursive(	GFile *file,
+				GCancellable *cancellable,
+				GError **error)
+{
+	gboolean deleted =
+		FALSE;
+	GFileType type =
+		g_file_query_file_type
+		(file, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, cancellable);
+
+	if(type == G_FILE_TYPE_DIRECTORY)
+	{
+
+		GFileEnumerator *enumerator =
+			g_file_enumerate_children
+				(	file,
+					G_FILE_ATTRIBUTE_STANDARD_NAME,
+					G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+					cancellable,
+					error );
+		GFileInfo *info =
+			g_file_enumerator_next_file
+			(enumerator, cancellable, error);
+
+		while(info)
+		{
+			GFile *child =
+				g_file_enumerator_get_child
+				(enumerator, info);
+
+			g_file_delete_recursive(child, cancellable, error);
+			g_object_unref(info);
+
+			info =	(error && *error) ||
+				g_cancellable_is_cancelled(cancellable) ?
+				NULL :
+				g_file_enumerator_next_file
+				(enumerator, cancellable, error);
+		}
+
+		g_file_enumerator_close(enumerator, cancellable, error);
+
+		if((!error || !*error) && !g_cancellable_is_cancelled(cancellable))
+		{
+			deleted = g_file_delete(file, cancellable, error);
+		}
+	}
+	else if(type == G_FILE_TYPE_UNKNOWN)
+	{
+		gchar *uri = g_file_get_uri(file);
+
+		g_error("Found file with unknown type: %s", uri);
+		g_free(uri);
+	}
+	else
+	{
+		deleted = g_file_delete(file, cancellable, error);
+	}
+
+	return deleted;
+}
