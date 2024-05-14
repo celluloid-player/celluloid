@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
-"PO-Revision-Date: 2023-09-04 12:54+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
+"PO-Revision-Date: 2024-04-18 09:04+0000\n"
+"Last-Translator: David <dawin@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/de/>\n"
 "Language: de\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -45,9 +45,8 @@ msgid "Use floating controls in windowed mode"
 msgstr "Ausblendende Bedienelemente in Fenstermodus"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Use a floating header bar in windowed mode"
-msgstr "Ausblendende Bedienelemente in Fenstermodus"
+msgstr "Verwende eine schwebende Titelleiste im Fenstermodus"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
@@ -196,8 +195,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "Eine GTK-Oberfläche für den Medienspieler mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Filme und Videos abspielen"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -304,7 +304,7 @@ msgstr "MPV-Option MPVOPTION auf WERT festlegen"
 msgid "VALUE"
 msgstr "WERT"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "Ungültige Codierung"
 
@@ -345,9 +345,8 @@ msgid "Shuffle Playlist"
 msgstr "Zufällige Wiedergabe"
 
 #: src/celluloid-control-box.c:750
-#, fuzzy
 msgid "Toggle Playlist"
-msgstr "_Wiedergabeliste ein/aus"
+msgstr "Wiedergabeliste ein/aus"
 
 #: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
 msgid "Toggle Fullscreen"
@@ -504,7 +503,7 @@ msgstr "Abbrechen"
 msgid "Location:"
 msgstr "Adresse (lokal oder Web):"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "MPV-Optionen konnten nicht angewendet werden."
 
@@ -512,7 +511,7 @@ msgstr "MPV-Optionen konnten nicht angewendet werden."
 msgid "_Copy Location"
 msgstr "Ort _kopieren"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Entfernen"
 
@@ -533,15 +532,14 @@ msgid "_Shuffle"
 msgstr "_Zufällige Wiedergabe"
 
 #: src/celluloid-playlist-widget.c:563
-#, fuzzy
 msgid "Loop File"
-msgstr "_Datei in Schleife spielen"
+msgstr "Datei in Schleife spielen"
 
 #: src/celluloid-playlist-widget.c:911
 msgid "Playlist is empty"
 msgstr "Wiedergabeliste ist leer"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Plugin hinzufügen"
 
@@ -557,51 +555,51 @@ msgstr "JavaScript-Plugins"
 msgid "C Plugins"
 msgstr "C-Plugins"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Datei konnte nicht von '%s' nach '%s' kopiert werden. Grund: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
 msgstr "Hinzufügen…"
 
-#: src/celluloid-plugins-manager.c:453
-#, fuzzy
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
 msgstr "Keine Plugins gefunden"
 
-#: src/celluloid-plugins-manager-item.c:82
-#, fuzzy
+#: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
 msgstr "Plugin entfernen"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Datei '%s' konnte nicht gelöscht werden. Grund: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Sind Sie sicher, dass Sie dieses Skript entfernen möchten? Diese Aktion kann "
 "nicht rückgängig gemacht werden."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr "_Behalten"
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "mpv-Konfigurationsdatei:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "mpv-Eingabekonfigurationsdatei:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -852,37 +850,49 @@ msgstr "Deinterlacing (de)aktivieren"
 msgid "Cycle aspect ratio override"
 msgstr "Seitenverhältnis umschalten"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Benutzeroberfläche"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Videowiedergabe"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Audiowiedergabe"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Untertitel"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Wiedergabesteuerung"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Wiedergabeposition"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Wiedergabeliste"
 
 #: src/celluloid-video-area.c:741
 msgid "Loading…"
-msgstr ""
+msgstr "Lade…"
 
 #: src/celluloid-video-area.c:752
 msgid "Welcome"
@@ -945,6 +955,15 @@ msgstr "Wiedergabeliste speichern"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "Vincent Bermel"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "Eine GTK-Oberfläche für den Medienspieler mpv"
+
+#~ msgid "_Open"
+#~ msgstr "Ö_ffnen"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Abbrechen"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Diese Veröffentlichungen umfasst die folgenden Änderungen:"
@@ -1306,12 +1325,6 @@ msgstr "Vincent Bermel"
 #~ msgid "Add option to autohide mouse cursor in windowed mode"
 #~ msgstr "Mauszeiger im Fenstermodus automatisch ausblenden"
 
-#~ msgid "_Open"
-#~ msgstr "Ö_ffnen"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Abbrechen"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "_Wiedergabeliste in Schleife spielen"
 
@@ -1335,3 +1348,9 @@ msgstr "Vincent Bermel"
 
 #~ msgid "_Open…"
 #~ msgstr "_Öffnen…"
+
+#~ msgid "Loop _File"
+#~ msgstr "_Datei in Schleife spielen"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "_Wiedergabeliste ein/aus"

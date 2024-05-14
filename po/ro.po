@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2024-01-20 19:16+0000\n"
 "Last-Translator: Mihai Pavelescu <media.expres@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/celluloid/"
@@ -188,8 +188,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr ""
+#, fuzzy
+msgid "Plays videos"
+msgstr "Listă de redare"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -290,7 +291,7 @@ msgstr ""
 msgid "VALUE"
 msgstr ""
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr ""
 
@@ -495,7 +496,7 @@ msgstr "_Anulează"
 msgid "Location:"
 msgstr "Adresă:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
@@ -503,7 +504,7 @@ msgstr ""
 msgid "_Copy Location"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr ""
 
@@ -533,7 +534,7 @@ msgstr "Deschide Fișier"
 msgid "Playlist is empty"
 msgstr "Listă de redare"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr ""
 
@@ -549,48 +550,50 @@ msgstr ""
 msgid "C Plugins"
 msgstr ""
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr ""
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr ""
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
 msgstr ""
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
 msgstr ""
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
 msgstr ""
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr ""
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
-msgstr ""
+#, fuzzy
+msgid "mpv configuration file"
+msgstr "Calea la fișierul de configurație mpv"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
-msgstr ""
+#, fuzzy
+msgid "mpv input configuration file"
+msgstr "Calea la fișierul de configurație mpv"
 
 #: src/celluloid-preferences-dialog.c:348
 msgid "Extra mpv options"
@@ -840,31 +843,43 @@ msgstr ""
 msgid "Cycle aspect ratio override"
 msgstr ""
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
-msgid "User Interface"
+msgid "Zoom in/out"
 msgstr ""
 
 #: src/celluloid-shortcuts-window.c:119
-msgid "Video"
-msgstr ""
-
-#: src/celluloid-shortcuts-window.c:120
-msgid "Audio"
-msgstr ""
-
-#: src/celluloid-shortcuts-window.c:121
-msgid "Subtitle"
-msgstr ""
-
-#: src/celluloid-shortcuts-window.c:122
-msgid "Playback"
+msgid "Reset pan/zoom settings"
 msgstr ""
 
 #: src/celluloid-shortcuts-window.c:123
-msgid "Seeking"
+msgid "User Interface"
 msgstr ""
 
 #: src/celluloid-shortcuts-window.c:124
+msgid "Video"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:125
+msgid "Audio"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:126
+msgid "Subtitle"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:127
+msgid "Playback"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:128
+msgid "Seeking"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Listă de redare"
 
@@ -945,3 +960,6 @@ msgstr "Robert Datcu"
 
 #~ msgid "A GTK frontend for MPV"
 #~ msgstr "O interfață GTK pentru MPV"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "_Afișează Lista Redare"

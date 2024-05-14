@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2023-02-13 08:40+0000\n"
 "Last-Translator: HudobniVolk <hudobni.volk@tuta.io>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/celluloid/"
@@ -186,8 +186,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "GTK+ frontend for mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Predvajaj filme in videoposnetke"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -294,7 +295,7 @@ msgstr "Nastavi mpv parameter MPVOPTION na VREDNOST"
 msgid "VALUE"
 msgstr "VREDNOST"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "Neveljavno kodiranje"
 
@@ -494,7 +495,7 @@ msgstr "_Prekliči"
 msgid "Location:"
 msgstr "Mesto:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Napaka pri uveljavljanju nastavitev za MPV."
 
@@ -502,7 +503,7 @@ msgstr "Napaka pri uveljavljanju nastavitev za MPV."
 msgid "_Copy Location"
 msgstr "_Kopiraj mesto"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "O_dstrani"
 
@@ -531,7 +532,7 @@ msgstr "Predvajaj v _zanki"
 msgid "Playlist is empty"
 msgstr "Seznam predvajanja je prazen"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Dodaj vtičnik"
 
@@ -547,52 +548,54 @@ msgstr "JavaScript vtičniki"
 msgid "C Plugins"
 msgstr "C vtičniki"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Napaka prenašanja iz '%s' v '%s'. Razlog: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Vtičniki"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 #, fuzzy
 msgid "Add…"
 msgstr "_Dodaj…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Vtičniki niso najdeni"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
 msgid "Remove Plugin"
 msgstr "C vtičniki"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Napaka odstranjevanja datoteke '%s'. Razlog: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Ste prepričani, da želite odstraniti ta skript? Razveljavitev operacije ni "
 "mogoča."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "Konfiguracijska datoteka za mpv:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "Datoteka input.conf za mpv:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -844,31 +847,43 @@ msgstr "Omogoči/onemogoči odpravljanje prepletanja (deinterlacing)"
 msgid "Cycle aspect ratio override"
 msgstr "Kroži med razmerji slike"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Uporabniški vmesnik"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Zvok"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Podnapisi"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Predvajanje"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Iskanje"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Seznam predvajanja"
 
@@ -939,6 +954,15 @@ msgstr "Shrani seznam predvajanja"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "Nejc Bertoncelj <nejc at bertoncelj.eu.org>"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "GTK+ frontend for mpv"
+
+#~ msgid "_Open"
+#~ msgstr "_Odpri"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Prekliči"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "This release contains the following changes:"
@@ -1282,12 +1306,6 @@ msgstr "Nejc Bertoncelj <nejc at bertoncelj.eu.org>"
 #~ msgid "Add option to autohide mouse cursor in windowed mode"
 #~ msgstr "Add option to autohide mouse cursor in windowed mode"
 
-#~ msgid "_Open"
-#~ msgstr "_Odpri"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Prekliči"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Predvajaj seznam pre_dvajanja v zanki"
 
@@ -1311,3 +1329,9 @@ msgstr "Nejc Bertoncelj <nejc at bertoncelj.eu.org>"
 
 #~ msgid "_Open…"
 #~ msgstr "_Odpri…"
+
+#~ msgid "Loop _File"
+#~ msgstr "Predvajaj v _zanki"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "Prikaži _seznam predvajanja"

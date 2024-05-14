@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2021-08-30 14:05+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/celluloid/"
@@ -189,8 +189,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "GTK+-frontend til mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Afspil film og videoer"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -296,7 +297,7 @@ msgstr ""
 msgid "VALUE"
 msgstr ""
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr ""
 
@@ -501,7 +502,7 @@ msgstr "_Annuller"
 msgid "Location:"
 msgstr "Placering:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Kunne ikke anvende et eller flere MPV-tilvalg."
 
@@ -509,7 +510,7 @@ msgstr "Kunne ikke anvende et eller flere MPV-tilvalg."
 msgid "_Copy Location"
 msgstr "_Kopíer placering"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Fjern"
 
@@ -538,7 +539,7 @@ msgstr "Løkke_fil"
 msgid "Playlist is empty"
 msgstr "Afspilningslisten er tom"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Tilføj plugin"
 
@@ -554,52 +555,54 @@ msgstr "JavaScript-plugins"
 msgid "C Plugins"
 msgstr "C-plugins"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Kunne ikke kopiere fil fra '%s' til '%s'. Årsag: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 #, fuzzy
 msgid "Add…"
 msgstr "_Tilføj …"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Ingen plugins fundet"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
 msgid "Remove Plugin"
 msgstr "C-plugins"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Kunne ikke slette filen '%s'. Årsag: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Er du sikker på, at du vil fjerne dette script? Handlingen kan ikke "
 "fortrydes."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "mpv-konfigurationsfil:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "mpv-input-konfigurationsfil:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -852,31 +855,43 @@ msgstr "Aktivér eller deaktivér afsammenfletter"
 msgid "Cycle aspect ratio override"
 msgstr "Løb gennem tilsidesættelse af højde-bredde-forhold"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Brugerflade"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Lyd"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Undertekst"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Afspilning"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Søgning"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Afspilningsliste"
 
@@ -947,6 +962,15 @@ msgstr "Gem afspilningsliste"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "scootergrisen"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "GTK+-frontend til mpv"
+
+#~ msgid "_Open"
+#~ msgstr "_Åbn"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Annuller"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Udgivelsen indeholder følgende ændringer:"
@@ -1236,12 +1260,6 @@ msgstr "scootergrisen"
 #~ "Tilføjet valgmulighed for automatisk at skjule musemarkøren i "
 #~ "vinduestilstand"
 
-#~ msgid "_Open"
-#~ msgstr "_Åbn"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Annuller"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Afspil afspilningsliste i _løkke"
 
@@ -1265,3 +1283,9 @@ msgstr "scootergrisen"
 
 #~ msgid "_Open…"
 #~ msgstr "_Åbn …"
+
+#~ msgid "Loop _File"
+#~ msgstr "Løkke_fil"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "_Afspilningsliste til/fra"

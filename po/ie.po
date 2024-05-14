@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2023-01-09 13:51+0000\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Occidental <https://hosted.weblate.org/projects/celluloid/"
@@ -185,8 +185,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "Un interfacie GTK+ por MPV"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Specta filmes e videos"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -293,7 +294,7 @@ msgstr "Assignar VALORE al parametre de mpv MPVOPTION"
 msgid "VALUE"
 msgstr "VALORE"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "codification ínvalid"
 
@@ -497,7 +498,7 @@ msgstr "A_nullar"
 msgid "Location:"
 msgstr "Localisation:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
@@ -505,7 +506,7 @@ msgstr ""
 msgid "_Copy Location"
 msgstr "_Copiar li localisation"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Remover"
 
@@ -534,7 +535,7 @@ msgstr "Aperter un file"
 msgid "Playlist is empty"
 msgstr "Playlist es vacui"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Adjuncter un plugin"
 
@@ -550,50 +551,52 @@ msgstr "Plugines JavaScript"
 msgid "C Plugins"
 msgstr "Plugines C"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Ne successat copiar li file «%s» a «%s». Cause: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Plugines"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 #, fuzzy
 msgid "Add…"
 msgstr "_Adjunter…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Null plugines trovat"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
 msgid "Remove Plugin"
 msgstr "Plugines C"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Ne successat remover li file «%s». Cause: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "Esque vu vole remover ti-ci scripte? To on ne posse defar."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "File de configuration de mpv:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "File de configutation de intrada de mpv:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -845,31 +848,43 @@ msgstr ""
 msgid "Cycle aspect ratio override"
 msgstr "Alterar li aspecte"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Interfacie de usator"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Audio"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Subtitul"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Reproduction"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Sercha"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Playlist"
 
@@ -939,6 +954,15 @@ msgstr "Gardar li playlist"
 msgid "translator-credits"
 msgstr "OIS <mistresssilvara@hotmail.com>, 2021"
 
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "Un interfacie GTK+ por MPV"
+
+#~ msgid "_Open"
+#~ msgstr "_Aperter"
+
+#~ msgid "_Cancel"
+#~ msgstr "A_nullar"
+
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Ti version contene li sequent modificationes:"
 
@@ -951,12 +975,6 @@ msgstr "OIS <mistresssilvara@hotmail.com>, 2021"
 
 #~ msgid "Rename project to Celluloid"
 #~ msgstr "Renominar li projecte a Celluloid"
-
-#~ msgid "_Open"
-#~ msgstr "_Aperter"
-
-#~ msgid "_Cancel"
-#~ msgstr "A_nullar"
 
 #~ msgid "Loop _Playlist"
 #~ msgstr "Circular _playlist"
@@ -978,3 +996,6 @@ msgstr "OIS <mistresssilvara@hotmail.com>, 2021"
 
 #~ msgid "_Open…"
 #~ msgstr "_Aperter…"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "Playlis_t"

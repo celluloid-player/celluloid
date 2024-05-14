@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2024-02-25 12:44+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/celluloid/"
@@ -191,8 +191,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "GTK+-mediaspeler, gebruikmakend van mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Bekijk films en video's"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -298,7 +299,7 @@ msgstr "MPV-optie MPVOPTIE instellen op WAARDE"
 msgid "VALUE"
 msgstr "WAARDE"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "Ongeldige encodering"
 
@@ -498,7 +499,7 @@ msgstr "Annuleren"
 msgid "Location:"
 msgstr "Locatie:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Een of meerdere MPV-opties kunnen niet worden toegepast."
 
@@ -506,7 +507,7 @@ msgstr "Een of meerdere MPV-opties kunnen niet worden toegepast."
 msgid "_Copy Location"
 msgstr "Lo_catie kopiëren"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "Ve_rwijderen"
 
@@ -535,7 +536,7 @@ msgstr "Bestand herha_len"
 msgid "Playlist is empty"
 msgstr "De afspeellijst is leeg"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Plug-in toevoegen"
 
@@ -551,49 +552,51 @@ msgstr "JavaScript-plug-ins"
 msgid "C Plugins"
 msgstr "C-plug-ins"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Het bestand kan niet van ‘%s’ naar ‘%s’ worden gekopieerd. Reden: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Plug-ins"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
 msgstr "Toevoegen…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
 msgstr "Geen plug-ins gevonden"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
 msgstr "Plug-in verwijderen"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "‘%s’ kan niet worden verwijderd. Reden: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Weet u zeker dat u dit script wil verwijderen? Deze actie kan niet ongedaan "
 "worden gemaakt."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr "_Behouden"
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "mpv-configuratiebestand:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "mpv-invoerconfiguratiebestand:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -844,31 +847,43 @@ msgstr "Deinterlacing aan/uit"
 msgid "Cycle aspect ratio override"
 msgstr "Schakelen tussen beeldverhoudingen"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Venster"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Audio"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Ondertiteling"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Afspelen"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Spoelen"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Afspeellijst"
 
@@ -940,6 +955,15 @@ msgid "translator-credits"
 msgstr ""
 "Heimen Stoffels <vistausss@fastmail.com>\n"
 "Philip Goto https://philipgoto.nl/"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "GTK+-mediaspeler, gebruikmakend van mpv"
+
+#~ msgid "_Open"
+#~ msgstr "_Openen"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Annuleren"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Deze uitgave bevat de volgende aanpassingen:"
@@ -1308,12 +1332,6 @@ msgstr ""
 #~ msgid "Add option to autohide mouse cursor in windowed mode"
 #~ msgstr "Add option to autohide mouse cursor in windowed mode"
 
-#~ msgid "_Open"
-#~ msgstr "_Openen"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Annuleren"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Afs_peellijst herhalen"
 
@@ -1337,3 +1355,9 @@ msgstr ""
 
 #~ msgid "_Open…"
 #~ msgstr "_Openen…"
+
+#~ msgid "Loop _File"
+#~ msgstr "Bestand herha_len"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "Afspeellijst _tonen/verbergen"

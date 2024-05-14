@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
-"PO-Revision-Date: 2023-11-25 05:05+0000\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
+"PO-Revision-Date: 2024-04-11 09:01+0000\n"
 "Last-Translator: bittin1ddc447d824349b2 <bittin@reimu.nl>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/sv/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.2.1-rc\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -41,9 +41,8 @@ msgid "Use floating controls in windowed mode"
 msgstr "Använd flytande kontroller i fönsterläge"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Use a floating header bar in windowed mode"
-msgstr "Använd flytande kontroller i fönsterläge"
+msgstr "Använd ett flytande huvudfält i fönsterläge"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
@@ -189,8 +188,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "GTK+ gränssnitt för mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Spela filmer och videor"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -296,7 +296,7 @@ msgstr "Ställ in mpv alternativet MPVALTERNATIV på VÄRDE"
 msgid "VALUE"
 msgstr "VÄRDE"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "ogiltig kodning"
 
@@ -337,9 +337,8 @@ msgid "Shuffle Playlist"
 msgstr "Blanda spelningslista"
 
 #: src/celluloid-control-box.c:750
-#, fuzzy
 msgid "Toggle Playlist"
-msgstr "_Visa/Dölj spelningslista"
+msgstr "Växla spellista"
 
 #: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
 msgid "Toggle Fullscreen"
@@ -496,7 +495,7 @@ msgstr "Avbryt"
 msgid "Location:"
 msgstr "Plats:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Misslyckades att tillämpa en eller flera mpv-parametrar."
 
@@ -504,7 +503,7 @@ msgstr "Misslyckades att tillämpa en eller flera mpv-parametrar."
 msgid "_Copy Location"
 msgstr "_Kopiera plats"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_ta bort"
 
@@ -525,15 +524,14 @@ msgid "_Shuffle"
 msgstr "_Blanda"
 
 #: src/celluloid-playlist-widget.c:563
-#, fuzzy
 msgid "Loop File"
-msgstr "Upprepa _fil"
+msgstr "Upprepa fil"
 
 #: src/celluloid-playlist-widget.c:911
 msgid "Playlist is empty"
 msgstr "Spelningslistan är tom"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Lägg till insticksmodul"
 
@@ -549,47 +547,49 @@ msgstr "Insticksmoduler JavaScript"
 msgid "C Plugins"
 msgstr "C-instick"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Misslyckades att kopiera filen från '%s' till '%s'. Anledning: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Insticksmoduler"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
 msgstr "Lägg till…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
 msgstr "Inga insticksprogram hittades"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
 msgstr "Ta bort insticksprogrammet"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Misslyckades att radera filen '%s'. Anledning: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "Vill du verkligen ta bort detta skript? Denna åtgärd kan inte ångras."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr "_Behåll"
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "Mpv-konfigurationsfil:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "Konfigurationsfil för mpv-indata:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -840,37 +840,49 @@ msgstr "Aktivera eller inaktivera deinterlacer"
 msgid "Cycle aspect ratio override"
 msgstr "Ändra överskridning av bildförhållande"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Användargränssnitt"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Ljud"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Undertext"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Uppspelning"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Söker"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Spelningslista"
 
 #: src/celluloid-video-area.c:741
 msgid "Loading…"
-msgstr ""
+msgstr "Läser in…"
 
 #: src/celluloid-video-area.c:752
 msgid "Welcome"
@@ -937,6 +949,15 @@ msgid "translator-credits"
 msgstr ""
 "Patrik Nilsson <translation@hembas.se>\n"
 "Åke Engelbrektson <eson@svenskasprakfiler.se>"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "GTK+ gränssnitt för mpv"
+
+#~ msgid "_Open"
+#~ msgstr "_Öppna"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Avbryt"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Den här versionen innehåller följande ändringar:"
@@ -1308,12 +1329,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Lägg till alternativet att dölja muspekaren automatiskt i fönsterläge"
 
-#~ msgid "_Open"
-#~ msgstr "_Öppna"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Avbryt"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Upprepa _spelningslista"
 
@@ -1337,3 +1352,9 @@ msgstr ""
 
 #~ msgid "_Open…"
 #~ msgstr "_Öppna…"
+
+#~ msgid "Loop _File"
+#~ msgstr "Upprepa _fil"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "_Visa/Dölj spelningslista"

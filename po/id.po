@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
-"PO-Revision-Date: 2022-10-17 00:17+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
+"PO-Revision-Date: 2024-04-23 19:07+0000\n"
+"Last-Translator: Juan Manuel <juanmanueldilo09@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/id/>\n"
 "Language: id\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -190,8 +190,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "Tampilan depan GTK+ untuk mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Putar film dan video"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -296,7 +297,7 @@ msgstr "Setel opsi mpv MPVOPTION ke VALUE"
 msgid "VALUE"
 msgstr "NILAI"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "pengkodean tidak valid"
 
@@ -496,7 +497,7 @@ msgstr "Batal"
 msgid "Location:"
 msgstr "Lokasi:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Gagal menerapkan satu atau beberapa opsi MPV."
 
@@ -504,7 +505,7 @@ msgstr "Gagal menerapkan satu atau beberapa opsi MPV."
 msgid "_Copy Location"
 msgstr "_Salin Lokasi"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Hapus"
 
@@ -533,7 +534,7 @@ msgstr "Putar ulang _File"
 msgid "Playlist is empty"
 msgstr "Daftar Putar kosong"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Tambahkan Plugin"
 
@@ -549,58 +550,59 @@ msgstr "Plugin JavaScript"
 msgid "C Plugins"
 msgstr "Plugin C"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Gagal menyalin berkas dari '%s' ke '%s'. Alasan: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Plugin"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 #, fuzzy
 msgid "Add…"
 msgstr "_Tambahkan…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Tak ada plugin yang ditemukan"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
 msgid "Remove Plugin"
 msgstr "Plugin C"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Gagal menghapus berkas '%s'. Alasan: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Apakah Anda yakin ingin menghapus skrip ini? Tindakan ini tidak dapat "
 "dibatalkan."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "berkas konfigurasi mpv:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "file konfigurasi input mpv:"
 
 #: src/celluloid-preferences-dialog.c:348
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "Opsi mpv tambahan:"
+msgstr "Opsi mpv tambahan"
 
 #: src/celluloid-preferences-dialog.c:363
 msgid "Interface"
@@ -846,31 +848,43 @@ msgstr "Aktifkan atau nonaktifkan deinterlacer"
 msgid "Cycle aspect ratio override"
 msgstr "Beralih penggantian aspek rasio"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Antarmuka Pengguna"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Audio"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Subjudul"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Pemutaran"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Mencari"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Daftar Putar"
 
@@ -941,6 +955,15 @@ msgstr "Simpan Daftar Putar"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "neko"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "Tampilan depan GTK+ untuk mpv"
+
+#~ msgid "_Open"
+#~ msgstr "_Buka"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Batal"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Rilis ini berisi perubahan berikut:"
@@ -1289,12 +1312,6 @@ msgstr "neko"
 #~ "Tambahkan opsi untuk menyembunyikan kursor mouse secara otomatis dalam "
 #~ "mode jendela"
 
-#~ msgid "_Open"
-#~ msgstr "_Buka"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Batal"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Putar ulang _Playlist"
 
@@ -1318,3 +1335,9 @@ msgstr "neko"
 
 #~ msgid "_Open…"
 #~ msgstr "_Buka…"
+
+#~ msgid "Loop _File"
+#~ msgstr "Putar ulang _File"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "Alihkan _Daftar Putar"

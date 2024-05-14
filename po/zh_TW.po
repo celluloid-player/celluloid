@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2023-08-28 09:50+0000\n"
 "Last-Translator: Jack77793 <jack77793@hotmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -193,8 +193,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "mpv 的 GTK+ 前端"
+#, fuzzy
+msgid "Plays videos"
+msgstr "播放電影和影片"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -297,7 +298,7 @@ msgstr ""
 msgid "VALUE"
 msgstr ""
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "無效的編碼"
 
@@ -497,7 +498,7 @@ msgstr "取消"
 msgid "Location:"
 msgstr "位置："
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "無法套用一個或多個 MPV 選項。"
 
@@ -505,7 +506,7 @@ msgstr "無法套用一個或多個 MPV 選項。"
 msgid "_Copy Location"
 msgstr "複製位置 (_C)"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "移除 (_R)"
 
@@ -534,7 +535,7 @@ msgstr "循環播放檔案 (_F)"
 msgid "Playlist is empty"
 msgstr "播放清單是空的"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "新增外掛"
 
@@ -550,50 +551,52 @@ msgstr "JavaScript 外掛"
 msgid "C Plugins"
 msgstr "C 外掛"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "從「%s」複製檔案到「%s」失敗。原因：%s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "外掛"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 #, fuzzy
 msgid "Add…"
 msgstr "新增 (_A)…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "未找到外掛"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
 msgid "Remove Plugin"
 msgstr "C 外掛"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "刪除檔案「%s」失敗。原因：%s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "確定要移除此腳本？此動作無法復原。"
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "mpv 設定檔："
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "mpv 輸入設定檔："
 
 #: src/celluloid-preferences-dialog.c:348
@@ -845,31 +848,43 @@ msgstr "開啟或關閉去交錯"
 msgid "Cycle aspect ratio override"
 msgstr "循環切換寬高比覆寫"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "使用者介面"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "影片"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "音訊"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "字幕"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "播放"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "跳轉"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "播放清單"
 
@@ -938,6 +953,15 @@ msgstr "儲存播放清單"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "譯者積分"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "mpv 的 GTK+ 前端"
+
+#~ msgid "_Open"
+#~ msgstr "開啟 (_O)"
+
+#~ msgid "_Cancel"
+#~ msgstr "取消 (_C)"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "此發行版本包含了以下變更："
@@ -1051,12 +1075,6 @@ msgstr "譯者積分"
 #~ msgid "Display time at cursor position when hovering the seek bar."
 #~ msgstr "當鼠標停留在搜索欄上時，在鼠標的位置顯示時間。"
 
-#~ msgid "_Open"
-#~ msgstr "開啟 (_O)"
-
-#~ msgid "_Cancel"
-#~ msgstr "取消 (_C)"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "循環播放清單 (_P)"
 
@@ -1080,3 +1098,9 @@ msgstr "譯者積分"
 
 #~ msgid "_Open…"
 #~ msgstr "開啟(_O)…"
+
+#~ msgid "Loop _File"
+#~ msgstr "循環播放檔案 (_F)"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "切換播放清單 (_T)"

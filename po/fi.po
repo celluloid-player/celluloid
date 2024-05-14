@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
-"PO-Revision-Date: 2024-03-28 09:02+0000\n"
-"Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
+"PO-Revision-Date: 2024-04-14 07:01+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/fi/>\n"
 "Language: fi\n"
@@ -187,8 +187,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "GTK+-käyttöliittymä MPV:lle"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Toista elokuvia ja videoita"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -295,7 +296,7 @@ msgstr "Aseta mpv-valinta MPVOPTION arvoksi VALUE"
 msgid "VALUE"
 msgstr "ARVO"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "virheellinen koodaus"
 
@@ -495,7 +496,7 @@ msgstr "Peru"
 msgid "Location:"
 msgstr "Sijainti:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Yhtä tai useampaa MPV-valintaa ei voitu käyttää."
 
@@ -503,7 +504,7 @@ msgstr "Yhtä tai useampaa MPV-valintaa ei voitu käyttää."
 msgid "_Copy Location"
 msgstr "_Kopioi sijainti"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Poista"
 
@@ -532,7 +533,7 @@ msgstr "Silmukkaan _tiedosto"
 msgid "Playlist is empty"
 msgstr "Soittolista on tyhjä"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Lisää laajennus"
 
@@ -548,49 +549,51 @@ msgstr "JavaScript-laajennukset"
 msgid "C Plugins"
 msgstr "C-laajennukset"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Tiedoston %s kopioiminen kohteeseen %s epäonnistui. Syy: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Laajennukset"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
 msgstr "Lisää…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
 msgstr "Laajennuksia ei löytynyt"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
 msgstr "Poista laajennus"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Tiedostoa %s ei voitu poistaa. Syy: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Haluatko varmasti poistaa tämän komentosarjan? Tätä toimintoa ei voi "
 "peruuttaa."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr "_Pidä"
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "mpv-asetustiedosto:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "mpv-sisääntulon asetustiedosto:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -841,37 +844,49 @@ msgstr "Aktivoi tai deaktivoi skaalain"
 msgid "Cycle aspect ratio override"
 msgstr "Jakson kuvasuhteen ohitus"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Käyttöliittymä"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Ääni"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Tekstitys"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Toisto"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Siirtyminen"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Soittolista"
 
 #: src/celluloid-video-area.c:741
 msgid "Loading…"
-msgstr ""
+msgstr "Ladataan…"
 
 #: src/celluloid-video-area.c:752
 msgid "Welcome"
@@ -936,6 +951,15 @@ msgstr "Tallenna soittolista"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "Kimmo Kujansuu"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "GTK+-käyttöliittymä MPV:lle"
+
+#~ msgid "_Open"
+#~ msgstr "_Avaa"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Peru"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Tämä julkaisu sisältää seuraavat muutokset:"
@@ -1298,12 +1322,6 @@ msgstr "Kimmo Kujansuu"
 #~ "Lisää vaihtoehto hiiren kohdistimen automaattiseen piilottamiseen "
 #~ "ikkunatilassa"
 
-#~ msgid "_Open"
-#~ msgstr "_Avaa"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Peru"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Silmukkaan _soittolista"
 
@@ -1327,3 +1345,9 @@ msgstr "Kimmo Kujansuu"
 
 #~ msgid "_Open…"
 #~ msgstr "_Avaa…"
+
+#~ msgid "Loop _File"
+#~ msgstr "Silmukkaan _tiedosto"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "_Soittolista päällä/pois"

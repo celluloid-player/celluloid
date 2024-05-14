@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
-"PO-Revision-Date: 2024-01-18 16:00+0000\n"
-"Last-Translator: ilsubyeega <ilsubyeega@outlook.com>\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
+"PO-Revision-Date: 2024-04-17 08:03+0000\n"
+"Last-Translator: tabby <tabby4442@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ko/>\n"
 "Language: ko\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -41,9 +41,8 @@ msgid "Use floating controls in windowed mode"
 msgstr "창 모드에서 플로팅 컨트롤 사용"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Use a floating header bar in windowed mode"
-msgstr "창 모드에서 플로팅 컨트롤 사용"
+msgstr "창 모드에서 플로팅 컨트롤 사용하기"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
@@ -187,8 +186,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "mpv 용 GTK + 프런트 엔드"
+#, fuzzy
+msgid "Plays videos"
+msgstr "영화 및 비디오 재생"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -295,7 +295,7 @@ msgstr "mpv 옵션 MPVOPTION을 VALUE로 설정합니다"
 msgid "VALUE"
 msgstr "값"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "존재하지 않는 인코딩"
 
@@ -336,9 +336,8 @@ msgid "Shuffle Playlist"
 msgstr "재생 목록 무작위 재생"
 
 #: src/celluloid-control-box.c:750
-#, fuzzy
 msgid "Toggle Playlist"
-msgstr "재생 목록 전환(_T)"
+msgstr "재생 목록 전환"
 
 #: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
 msgid "Toggle Fullscreen"
@@ -495,7 +494,7 @@ msgstr "취소"
 msgid "Location:"
 msgstr "위치:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "하나 이상의 MPV 옵션을 적용하지 못했습니다."
 
@@ -503,7 +502,7 @@ msgstr "하나 이상의 MPV 옵션을 적용하지 못했습니다."
 msgid "_Copy Location"
 msgstr "위치 복사(_C)"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "제거(_R)"
 
@@ -524,15 +523,14 @@ msgid "_Shuffle"
 msgstr "무작위(_S)"
 
 #: src/celluloid-playlist-widget.c:563
-#, fuzzy
 msgid "Loop File"
-msgstr "파일 반복(_F)"
+msgstr "루프 파일"
 
 #: src/celluloid-playlist-widget.c:911
 msgid "Playlist is empty"
 msgstr "재생 목록이 비어 있습니다"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "플러그인 추가"
 
@@ -548,56 +546,54 @@ msgstr "자바 스크립트 플러그인"
 msgid "C Plugins"
 msgstr "C 플러그인"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "'%s'에서 '%s'(으)로 파일을 복사하지 못했습니다. 원인 : %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "플러그인"
 
-#: src/celluloid-plugins-manager.c:419
-#, fuzzy
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
-msgstr "추가(_A)…"
+msgstr "추가…"
 
-#: src/celluloid-plugins-manager.c:453
-#, fuzzy
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
-msgstr "플러그인이 없습니다"
+msgstr "플러그인을 찾을 수 없음"
 
-#: src/celluloid-plugins-manager-item.c:82
-#, fuzzy
+#: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
-msgstr "C 플러그인"
+msgstr "플러그인 제거"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "'%s' 파일을 삭제하지 못했습니다. 원인 : %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "이 스크립트를 제거 하시겠습니까? 이 작업은 취소 할 수 없습니다."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
-msgstr ""
+msgstr "_유지"
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "mpv 구성 파일 :"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "mpv 입력 구성 파일 :"
 
 #: src/celluloid-preferences-dialog.c:348
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "추가 mpv 옵션 :"
+msgstr "추가 mpv 옵션"
 
 #: src/celluloid-preferences-dialog.c:363
 msgid "Interface"
@@ -843,37 +839,49 @@ msgstr "디인터레이서 활성화 또는 비활성화"
 msgid "Cycle aspect ratio override"
 msgstr "순환 종횡비 재정의"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "사용자 인터페이스"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "비디오"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "오디오"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "자막"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "재생"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "탐색"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "재생"
 
 #: src/celluloid-video-area.c:741
 msgid "Loading…"
-msgstr ""
+msgstr "로드 중…"
 
 #: src/celluloid-video-area.c:752
 msgid "Welcome"
@@ -936,6 +944,15 @@ msgstr "재생 목록 저장"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "이정희 <daemul72@gmail.com>"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "mpv 용 GTK + 프런트 엔드"
+
+#~ msgid "_Open"
+#~ msgstr "열기(_O)"
+
+#~ msgid "_Cancel"
+#~ msgstr "취소(_C)"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "이 릴리스에는 다음 변경 사항이 포함됩니다:"
@@ -1280,12 +1297,6 @@ msgstr "이정희 <daemul72@gmail.com>"
 #~ msgid "Add option to autohide mouse cursor in windowed mode"
 #~ msgstr "창 모드에서 마우스 커서 자동 숨기기 옵션 추가"
 
-#~ msgid "_Open"
-#~ msgstr "열기(_O)"
-
-#~ msgid "_Cancel"
-#~ msgstr "취소(_C)"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "재생 목록 반복(_P)"
 
@@ -1309,3 +1320,9 @@ msgstr "이정희 <daemul72@gmail.com>"
 
 #~ msgid "_Open…"
 #~ msgstr "열기…(_O)"
+
+#~ msgid "Loop _File"
+#~ msgstr "파일 반복(_F)"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "재생 목록 전환(_T)"

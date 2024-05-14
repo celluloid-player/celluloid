@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2022-10-28 11:04+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
@@ -198,8 +198,8 @@ msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
 #, fuzzy
-msgid "GTK+ frontend for mpv"
-msgstr "GTK-skjermflate for mpv"
+msgid "Plays videos"
+msgstr "Spill filmer og videoer"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -309,7 +309,7 @@ msgstr "Sett mpv-innstillingen MPVOPTION til VALUE"
 msgid "VALUE"
 msgstr "VERDI"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "Ugyldig koding"
 
@@ -517,7 +517,7 @@ msgstr "_Avbryt"
 msgid "Location:"
 msgstr "Sted:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 #, fuzzy
 msgid "Failed to apply one or more MPV options."
 msgstr "Klarte ikke å anvende en eller flere mpv-innstillinger."
@@ -526,7 +526,7 @@ msgstr "Klarte ikke å anvende en eller flere mpv-innstillinger."
 msgid "_Copy Location"
 msgstr "_Kopier plassering"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Fjern"
 
@@ -555,7 +555,7 @@ msgstr "Gjenta _fil"
 msgid "Playlist is empty"
 msgstr "Spillelisten er tom"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Legg til programtillegg"
 
@@ -571,53 +571,54 @@ msgstr "JavaScript-programutvidelser"
 msgid "C Plugins"
 msgstr "C-programutvidelser"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, fuzzy, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Klarte ikke å kopiere fil fra «%s» til «%s». Grunn: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Programtillegg"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 #, fuzzy
 msgid "Add…"
 msgstr "_Legg til …"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Fant ingen programutvidelser"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
 msgid "Remove Plugin"
 msgstr "C-programutvidelser"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Klarte ikke å slette filen «%s». Grunn: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Er du sikker på at du vil fjerne dette skriptet? Denne handlingen kan ikke "
 "angres."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "mpv-oppsettsfil:"
 
 #: src/celluloid-preferences-dialog.c:328
 #, fuzzy
-msgid "mpv input configuration file:"
+msgid "mpv input configuration file"
 msgstr "mpv-oppsettsfil for inndata:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -874,31 +875,43 @@ msgstr "Skru av eller på linjefletting"
 msgid "Cycle aspect ratio override"
 msgstr "Veksle overstyring av sideforhold"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Brukergrensesnitt"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Lyd"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Undertekst"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Avspilling"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Blafring"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Spilleliste"
 
@@ -971,6 +984,16 @@ msgstr "Lagre spilleliste"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "Allan Nordhøy, <epost@anotheragency.no>"
+
+#, fuzzy
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "GTK-skjermflate for mpv"
+
+#~ msgid "_Open"
+#~ msgstr "_Åpne"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Avbryt"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Denne utgaven inneholder følgende endringer:"
@@ -1301,12 +1324,6 @@ msgstr "Allan Nordhøy, <epost@anotheragency.no>"
 #~ msgid "Add option to autohide mouse cursor in windowed mode"
 #~ msgstr "Legg til innstilling for autoskjuling av musepeker i vindusmodus"
 
-#~ msgid "_Open"
-#~ msgstr "_Åpne"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Avbryt"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Gjenta _spilleliste"
 
@@ -1332,3 +1349,9 @@ msgstr "Allan Nordhøy, <epost@anotheragency.no>"
 
 #~ msgid "_Open…"
 #~ msgstr "_Åpne …"
+
+#~ msgid "Loop _File"
+#~ msgstr "Gjenta _fil"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "_Veksle spilleliste"

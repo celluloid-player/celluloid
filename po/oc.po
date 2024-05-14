@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2022-11-26 10:16+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan <https://hosted.weblate.org/projects/celluloid/"
@@ -182,8 +182,9 @@ msgid "Celluloid"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "Interfàcia GTK pel lector mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Lectura de film e vidèos"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -283,7 +284,7 @@ msgstr ""
 msgid "VALUE"
 msgstr "VALOR"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr ""
 
@@ -483,7 +484,7 @@ msgstr "Anullar"
 msgid "Location:"
 msgstr "Emplaçament :"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr ""
 
@@ -491,7 +492,7 @@ msgstr ""
 msgid "_Copy Location"
 msgstr "_Copiar l’emplaçament"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Suprimir"
 
@@ -520,7 +521,7 @@ msgstr "Dobrir un fichièr"
 msgid "Playlist is empty"
 msgstr "Lista de lectura voida"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr ""
 
@@ -536,50 +537,50 @@ msgstr ""
 msgid "C Plugins"
 msgstr ""
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr ""
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Empeutons"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 #, fuzzy
 msgid "Add…"
 msgstr "_Ajustar…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Cap de disc pas trobat"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
 msgid "Remove Plugin"
 msgstr "Suprimir"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr ""
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+msgid "mpv configuration file"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+msgid "mpv input configuration file"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:348
@@ -830,31 +831,43 @@ msgstr ""
 msgid "Cycle aspect ratio override"
 msgstr ""
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
-msgid "User Interface"
-msgstr "Interfàcia utilizaire"
+msgid "Zoom in/out"
+msgstr ""
 
 #: src/celluloid-shortcuts-window.c:119
-msgid "Video"
-msgstr "Vidèo"
-
-#: src/celluloid-shortcuts-window.c:120
-msgid "Audio"
-msgstr "Àudio"
-
-#: src/celluloid-shortcuts-window.c:121
-msgid "Subtitle"
-msgstr "Sostítols"
-
-#: src/celluloid-shortcuts-window.c:122
-msgid "Playback"
+msgid "Reset pan/zoom settings"
 msgstr ""
 
 #: src/celluloid-shortcuts-window.c:123
+msgid "User Interface"
+msgstr "Interfàcia utilizaire"
+
+#: src/celluloid-shortcuts-window.c:124
+msgid "Video"
+msgstr "Vidèo"
+
+#: src/celluloid-shortcuts-window.c:125
+msgid "Audio"
+msgstr "Àudio"
+
+#: src/celluloid-shortcuts-window.c:126
+msgid "Subtitle"
+msgstr "Sostítols"
+
+#: src/celluloid-shortcuts-window.c:127
+msgid "Playback"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Lista de lectura"
 
@@ -923,6 +936,9 @@ msgstr ""
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr ""
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "Interfàcia GTK pel lector mpv"
 
 #~ msgid "_Open"
 #~ msgstr "_Dobrir"

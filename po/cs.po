@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2023-10-22 11:01+0000\n"
 "Last-Translator: menom <menom1@protonmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/celluloid/"
@@ -196,8 +196,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "GTK+ rozhraní nad mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Přehrávat filmy a videa"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -303,7 +304,7 @@ msgstr "Nastavit mpv možnost MPVOPTION na HODNOTA"
 msgid "VALUE"
 msgstr "HODNOTA"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "neplatné kódování"
 
@@ -503,7 +504,7 @@ msgstr "Zrušit"
 msgid "Location:"
 msgstr "Umístění:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Nebylo možno uplatnit jednu nebo více předvoleb MPV."
 
@@ -511,7 +512,7 @@ msgstr "Nebylo možno uplatnit jednu nebo více předvoleb MPV."
 msgid "_Copy Location"
 msgstr "_Kopírovat umístění"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Odstranit"
 
@@ -540,7 +541,7 @@ msgstr "Opakovat _soubor"
 msgid "Playlist is empty"
 msgstr "Seznam přehrávání je prázdný"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Přidat zásuvný modul"
 
@@ -556,47 +557,49 @@ msgstr "JavaScriptové zásuvné moduly"
 msgid "C Plugins"
 msgstr "Zásuvné moduly v C"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Selhalo kopírování souboru z „%s“ do „%s“. Důvod: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
 msgstr "Přidat…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
 msgstr "Nebyly nalezeny žádné zásuvné moduly"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
 msgstr "Odebrat zásuvný modul"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Smazání souboru „%s“ se nezdařilo. Důvod: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "Určitě si přejete tento skript odstranit? Akci nelze vrátit zpět."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr "_Zachovat"
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "Konfigurační soubor mpv:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "Vstupní konfigurační soubor mpv:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -847,31 +850,43 @@ msgstr "Zapnout nebo vypnout odstranění prokládání"
 msgid "Cycle aspect ratio override"
 msgstr "Procházet přepsání poměru stran"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Uživatelské rozhraní"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Zvuk"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Titulky"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Přehrávání"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Posouvání"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Seznam přehrávání"
 
@@ -942,6 +957,15 @@ msgstr "_Uložit seznam přehrávání"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "Přispěvatelé: Tomáš Marný, menom"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "GTK+ rozhraní nad mpv"
+
+#~ msgid "_Open"
+#~ msgstr "_Otevřít"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Zrušit"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Tato verze obsahuje následující změny:"
@@ -1314,12 +1338,6 @@ msgstr "Přispěvatelé: Tomáš Marný, menom"
 #~ msgid "Add option to autohide mouse cursor in windowed mode"
 #~ msgstr "Přidána možnost pro automatické skrývání kurzoru myši v režimu okna"
 
-#~ msgid "_Open"
-#~ msgstr "_Otevřít"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Zrušit"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Opakovat seznam přehrávání ve _smyčce"
 
@@ -1343,3 +1361,9 @@ msgstr "Přispěvatelé: Tomáš Marný, menom"
 
 #~ msgid "_Open…"
 #~ msgstr "_Otevřít…"
+
+#~ msgid "Loop _File"
+#~ msgstr "Opakovat _soubor"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "_Přepnout seznam přehrávání"

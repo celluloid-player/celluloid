@@ -5,17 +5,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
-"PO-Revision-Date: 2023-08-28 09:50+0000\n"
-"Last-Translator: menom <menom1@protonmail.com>\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
+"PO-Revision-Date: 2024-05-02 19:07+0000\n"
+"Last-Translator: Milan Šalka <salka.milan@googlemail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0.1-dev\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Generator: Weblate 5.5.3-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -39,9 +39,8 @@ msgid "Use floating controls in windowed mode"
 msgstr "Použiť plávajúce ovládacie prvky v režime okna"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Use a floating header bar in windowed mode"
-msgstr "Použiť plávajúce ovládacie prvky v režime okna"
+msgstr "Použite plávajúce hlavice bar v okennom režime"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
@@ -189,8 +188,9 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "GTK+ frontend pre mpv"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Prehrať filmy a videá"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -296,7 +296,7 @@ msgstr "Nastaviť mpv možnosť MPVOPTION na HODNOTA"
 msgid "VALUE"
 msgstr "HODNOTA"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr "neplatné kódovanie"
 
@@ -337,9 +337,8 @@ msgid "Shuffle Playlist"
 msgstr "Zamiešať zoznam prehrávania"
 
 #: src/celluloid-control-box.c:750
-#, fuzzy
 msgid "Toggle Playlist"
-msgstr "_Prepnúť zoznam prehrávania"
+msgstr "Prepnúť zoznam prehrávania"
 
 #: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
 msgid "Toggle Fullscreen"
@@ -496,7 +495,7 @@ msgstr "Zrušiť"
 msgid "Location:"
 msgstr "Umiestnenie:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Nebolo možné použiť jednu alebo viac predvolieb MPV."
 
@@ -504,7 +503,7 @@ msgstr "Nebolo možné použiť jednu alebo viac predvolieb MPV."
 msgid "_Copy Location"
 msgstr "_Kopírovať umiestnenie"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Odstrániť"
 
@@ -525,15 +524,14 @@ msgid "_Shuffle"
 msgstr "_Zamiešať"
 
 #: src/celluloid-playlist-widget.c:563
-#, fuzzy
 msgid "Loop File"
-msgstr "Opakovať _súbor"
+msgstr "Opakovať súbor"
 
 #: src/celluloid-playlist-widget.c:911
 msgid "Playlist is empty"
 msgstr "Zoznam prehrávania je prázdny"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Pridať zásuvný modul"
 
@@ -549,48 +547,50 @@ msgstr "Zásuvné moduly JavaScript"
 msgid "C Plugins"
 msgstr "Zásuvné moduly C"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Nepodarilo sa skopírovať súbor z '%s' do '%s'. Dôvod: %s"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
 msgstr "Pridať…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
 msgstr "Nenašli sa žiadne zásuvné moduly"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
 msgstr "Odstrániť zásuvný modul"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Nepodarilo sa odstrániť súbor '%s'. Dôvod: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Naozaj chcete odstrániť tento skript? Túto akciu nie je možné vrátiť späť."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr "_Ponechať"
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "konfiguračný súbor mpv:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "vstupný konfiguračný súbor mpv:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -841,37 +841,49 @@ msgstr "Zapnúť alebo vypnúť odstraňovanie prekladania"
 msgid "Cycle aspect ratio override"
 msgstr "Zmena pomeru strán"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Používateľské rozhranie"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Video"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Zvuk"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Titulky"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Prehrávanie"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Prehľadávanie"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Zoznam prehrávania"
 
 #: src/celluloid-video-area.c:741
 msgid "Loading…"
-msgstr ""
+msgstr "Načítavanie…"
 
 #: src/celluloid-video-area.c:752
 msgid "Welcome"
@@ -934,6 +946,15 @@ msgstr "Uložiť playlist"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "Prekladatelia: anton.somora, menom"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "GTK+ frontend pre mpv"
+
+#~ msgid "_Open"
+#~ msgstr "_Otvoriť"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Zrušiť"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Toto vydanie obsahuje nasledujúce zmeny:"
@@ -1305,12 +1326,6 @@ msgstr "Prekladatelia: anton.somora, menom"
 #~ msgid "Add option to autohide mouse cursor in windowed mode"
 #~ msgstr "Pridať možnosť pre automatické skrytie kurzoru v režime okna"
 
-#~ msgid "_Open"
-#~ msgstr "_Otvoriť"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Zrušiť"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Opakovať _zoznam prehrávania"
 
@@ -1334,3 +1349,9 @@ msgstr "Prekladatelia: anton.somora, menom"
 
 #~ msgid "_Open…"
 #~ msgstr "_Otvoriť…"
+
+#~ msgid "Loop _File"
+#~ msgstr "Opakovať _súbor"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "_Prepnúť zoznam prehrávania"

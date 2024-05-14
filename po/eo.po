@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 00:26-0500\n"
+"POT-Creation-Date: 2024-05-14 00:19-0500\n"
 "PO-Revision-Date: 2021-09-26 14:36+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/celluloid/"
@@ -185,8 +185,9 @@ msgid "Celluloid"
 msgstr "Celuloido"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-msgid "GTK+ frontend for mpv"
-msgstr "Fasado per GTK por MPV"
+#, fuzzy
+msgid "Plays videos"
+msgstr "Legi filmojn kaj videojn"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -293,7 +294,7 @@ msgstr "Agordi la mpv-opcion MPVOPTION kiel VALORON"
 msgid "VALUE"
 msgstr "VALORO"
 
-#: src/celluloid-common.c:261
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
 msgstr ""
 
@@ -494,7 +495,7 @@ msgstr "Nuligi"
 msgid "Location:"
 msgstr "Loko:"
 
-#: src/celluloid-player.c:621
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
 msgstr "Malsukcesis apliki unu aŭ pli da opcioj de MPV."
 
@@ -502,7 +503,7 @@ msgstr "Malsukcesis apliki unu aŭ pli da opcioj de MPV."
 msgid "_Copy Location"
 msgstr "_Kopii lokon"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:207
+#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Forigi"
 
@@ -531,7 +532,7 @@ msgstr "Ripedati _dosieron"
 msgid "Playlist is empty"
 msgstr "Leglisto malplenas"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
 msgstr "Aldoni kromprogramon"
 
@@ -547,50 +548,52 @@ msgstr "Kromprogramoj en Ĝavoskripto"
 msgid "C Plugins"
 msgstr "Kromprogramoj en C"
 
-#: src/celluloid-plugins-manager.c:358
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Malskucesis kopii dosieron de « %s » al « %s ». Kialo: « %s »"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
 msgstr "Kromprogramoj"
 
-#: src/celluloid-plugins-manager.c:419
+#: src/celluloid-plugins-manager.c:416
 #, fuzzy
 msgid "Add…"
 msgstr "_Aldoni…"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:450
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Neniuj kromprogramoj troviĝis"
 
-#: src/celluloid-plugins-manager-item.c:82
+#: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
 msgid "Remove Plugin"
 msgstr "Kromprogramoj en C"
 
-#: src/celluloid-plugins-manager-item.c:177
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Malsukcesis forigi dosieron « %s ». Kialo: %s"
 
-#: src/celluloid-plugins-manager-item.c:201
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "Ĉu vi certe volas forigi ĉi tiun skripton? Tiu agon ne eblos malfari."
 
-#: src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
 msgstr ""
 
 #: src/celluloid-preferences-dialog.c:322
-msgid "mpv configuration file:"
+#, fuzzy
+msgid "mpv configuration file"
 msgstr "agorda dosiero de MPV:"
 
 #: src/celluloid-preferences-dialog.c:328
-msgid "mpv input configuration file:"
+#, fuzzy
+msgid "mpv input configuration file"
 msgstr "eniga agorda dosiero de MPV:"
 
 #: src/celluloid-preferences-dialog.c:348
@@ -842,31 +845,43 @@ msgstr "Aktivigi aŭ malaktivigi malinterplektilon"
 msgid "Cycle aspect ratio override"
 msgstr "Cikligi transpason de bildformato"
 
+#: src/celluloid-shortcuts-window.c:117
+msgid "Pan the video"
+msgstr ""
+
 #: src/celluloid-shortcuts-window.c:118
+msgid "Zoom in/out"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:119
+msgid "Reset pan/zoom settings"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
 msgstr "Fasado"
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:124
 msgid "Video"
 msgstr "Filmo"
 
-#: src/celluloid-shortcuts-window.c:120
+#: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
 msgstr "Sono"
 
-#: src/celluloid-shortcuts-window.c:121
+#: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
 msgstr "Subteksto"
 
-#: src/celluloid-shortcuts-window.c:122
+#: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
 msgstr "Legado"
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
 msgstr "Tempiro"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Leglisto"
 
@@ -936,6 +951,15 @@ msgstr "Konservi spektoliston"
 #: src/celluloid-view.c:1617
 msgid "translator-credits"
 msgstr "Tirifto"
+
+#~ msgid "GTK+ frontend for mpv"
+#~ msgstr "Fasado per GTK por MPV"
+
+#~ msgid "_Open"
+#~ msgstr "_Malfermi"
+
+#~ msgid "_Cancel"
+#~ msgstr "_Nuligi"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Ĉi tiu eldono enhavas la jenajn ŝanĝojn:"
@@ -1209,12 +1233,6 @@ msgstr "Tirifto"
 #~ msgid "Add option to autohide mouse cursor in windowed mode"
 #~ msgstr "Aldoni opcion por aŭtomata kaŝo de musmontrilo en fenestra reĝimo"
 
-#~ msgid "_Open"
-#~ msgstr "_Malfermi"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Nuligi"
-
 #~ msgid "Loop _Playlist"
 #~ msgstr "Ripetadi _spektoliston"
 
@@ -1238,3 +1256,9 @@ msgstr "Tirifto"
 
 #~ msgid "_Open…"
 #~ msgstr "_Malfermi…"
+
+#~ msgid "Loop _File"
+#~ msgstr "Ripedati _dosieron"
+
+#~ msgid "_Toggle Playlist"
+#~ msgstr "Baskuligi _spektoliston"
