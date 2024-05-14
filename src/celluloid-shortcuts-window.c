@@ -113,6 +113,11 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{"7 8", _("Adjust saturation")},
 			{"d", _("Activate or deactivate deinterlacer")},
 			{"<Shift>a", _("Cycle aspect ratio override")},
+
+			{"<Alt>Left <Alt>Right <Alt>Up <Alt>Down", _("Pan the video")},
+			{"<Alt>plus <Alt>minus", _("Zoom in/out")},
+			{"<Alt>BackSpace", _("Reset pan/zoom settings")},
+
 			{NULL, NULL} };
 	const ShortcutGroup groups[]
 		= {	{_("User Interface"), general},
