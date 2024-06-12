@@ -232,12 +232,6 @@ constructed(GObject *object)
 	g_object_bind_property(	view, "skip-enabled",
 				control_box, "skip-enabled",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	view, "loop",
-				control_box, "loop",
-				G_BINDING_BIDIRECTIONAL );
-	g_object_bind_property(	view, "shuffle",
-				control_box, "shuffle",
-				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	view, "volume",
 				control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
@@ -1826,3 +1820,4 @@ celluloid_view_get_main_menu_visible(CelluloidView *view)
 
 	return result;
 }
+
