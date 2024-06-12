@@ -36,8 +36,6 @@ enum
   	PROP_SHOW_PLAYLIST,
 	PROP_SHOW_FULLSCREEN_BUTTON,
 	PROP_TIME_POSITION,
-	PROP_LOOP,
-	PROP_SHUFFLE,
 	PROP_VOLUME,
 	PROP_VOLUME_MAX,
 	PROP_VOLUME_POPUP_VISIBLE,
@@ -58,8 +56,6 @@ struct _CelluloidControlBox
 	GtkWidget *rewind_button;
 	GtkWidget *next_button;
 	GtkWidget *previous_button;
-	GtkWidget *loop_button;
-	GtkWidget *shuffle_button;
 	GtkWidget *volume_button;
 	GtkWidget *playlist_button;
 	GtkWidget *fullscreen_button;
@@ -74,8 +70,6 @@ struct _CelluloidControlBox
 	gboolean show_playlist;
 	gboolean show_fullscreen_button;
 	gdouble time_position;
-	gboolean loop;
-	gboolean shuffle;
 	gdouble volume;
 	gdouble volume_max;
 	gboolean volume_popup_visible;
@@ -213,14 +207,6 @@ set_property(	GObject *object,
 				self->time_position );
 		break;
 
-		case PROP_LOOP:
-		self->loop = g_value_get_boolean(value);
-		break;
-
-		case PROP_SHUFFLE:
-		self->shuffle = g_value_get_boolean(value);
-		break;
-
 		case PROP_VOLUME:
 		self->volume = g_value_get_double(value);
 		break;
@@ -297,14 +283,6 @@ get_property(	GObject *object,
 
 		case PROP_TIME_POSITION:
 		g_value_set_double(value, self->time_position);
-		break;
-
-		case PROP_LOOP:
-		g_value_set_boolean(value, self->loop);
-		break;
-
-		case PROP_SHUFFLE:
-		g_value_set_boolean(value, self->shuffle);
 		break;
 
 		case PROP_VOLUME:
@@ -474,14 +452,12 @@ set_compact(CelluloidControlBox *box, gboolean compact)
 	if(box->compact)
 	{
 		gtk_widget_set_halign(box->inner_box, GTK_ALIGN_CENTER);
-		gtk_widget_set_margin_start(box->loop_button, 12);
 		gtk_widget_set_visible(box->seek_bar, FALSE);
 		gtk_widget_set_visible(box->secondary_seek_bar, TRUE);
 	}
 	else
 	{
 		gtk_widget_set_halign(box->inner_box, GTK_ALIGN_FILL);
-		gtk_widget_set_margin_start(box->loop_button, 0);
 		gtk_widget_set_visible(box->seek_bar, TRUE);
 		gtk_widget_set_visible(box->secondary_seek_bar, FALSE);
 	}
@@ -604,24 +580,6 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 	g_object_class_install_property
 		(object_class, PROP_TIME_POSITION, pspec);
 
-	pspec = g_param_spec_boolean
-		(	"loop",
-			"Loop",
-			"Whether or not the loop button is active",
-			FALSE,
-			G_PARAM_READWRITE );
-	g_object_class_install_property
-		(object_class, PROP_LOOP, pspec);
-
-	pspec = g_param_spec_boolean
-		(	"shuffle",
-			"Shuffle",
-			"Whether or not the the shuffle button is active",
-			FALSE,
-			G_PARAM_READWRITE );
-	g_object_class_install_property
-		(object_class, PROP_SHUFFLE, pspec);
-
 	pspec = g_param_spec_double
 		(	"volume",
 			"Volume",
@@ -716,8 +674,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->previous_button = gtk_button_new();
 	box->playlist_button = gtk_toggle_button_new();
 	box->fullscreen_button = gtk_button_new();
-	box->loop_button = gtk_toggle_button_new();
-	box->shuffle_button = gtk_toggle_button_new();
 	box->volume_button = gtk_scale_button_new(0.0, 1.0, 0.02, volume_icons);
 	box->seek_bar = celluloid_seek_bar_new();
 	box->secondary_seek_bar = celluloid_seek_bar_new();
@@ -730,8 +686,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->show_fullscreen_button = FALSE;
   	box->show_playlist = FALSE;
 	box->time_position = 0.0;
-	box->loop = FALSE;
-	box->shuffle = FALSE;
 	box->volume = 0.0;
 	box->volume_max = 100.0;
 	box->volume_popup_visible = FALSE;
@@ -755,12 +709,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	init_button(	box->previous_button,
 			"media-skip-backward-symbolic",
 			_("Previous Chapter") );
-	init_button(	box->loop_button,
-			"media-playlist-repeat-symbolic",
-			_("Loop Playlist") );
-	init_button(	box->shuffle_button,
-			"media-playlist-shuffle-symbolic",
-			_("Shuffle Playlist") );
 	init_button(	box->playlist_button,
 			"sidebar-show-right-symbolic",
 			_("Toggle Playlist") );
@@ -810,8 +758,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_box_append(GTK_BOX(box->inner_box), box->forward_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->next_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->seek_bar);
-	gtk_box_append(GTK_BOX(box->inner_box), box->loop_button);
-	gtk_box_append(GTK_BOX(box->inner_box), box->shuffle_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->volume_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->playlist_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->fullscreen_button);
@@ -850,12 +796,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	g_object_bind_property(	box, "enabled",
 				box->secondary_seek_bar, "enabled",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	box, "loop",
-				box->loop_button, "active",
-				G_BINDING_BIDIRECTIONAL );
-	g_object_bind_property(	box, "shuffle",
-				box->shuffle_button, "active",
-				G_BINDING_BIDIRECTIONAL );
   	g_object_bind_property(	box, "show_playlist",
 				box->playlist_button, "active",
 				G_BINDING_BIDIRECTIONAL );

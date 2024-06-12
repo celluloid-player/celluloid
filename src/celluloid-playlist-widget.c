@@ -1,5 +1,4 @@
-/*
- * Copyright (c) 2014-2022 gnome-mpv
+ /* Copyright (c) 2014-2022 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -23,7 +22,7 @@
 #include <gio/gio.h>
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
-
+#include <adwaita.h>
 #include "celluloid-playlist-widget.h"
 #include "celluloid-playlist-model.h"
 #include "celluloid-playlist-item.h"
@@ -51,7 +50,7 @@ enum PlaylistColumn
 
 struct _CelluloidPlaylistWidget
 {
-	GtkBox parent_instance;
+	AdwBin parent_instance;
 	gint64 playlist_count;
 	gboolean searching;
 	GtkWidget *scrolled_window;
@@ -65,11 +64,23 @@ struct _CelluloidPlaylistWidget
 	gint last_x;
 	gint last_y;
 	GtkCssProvider *css_provider;
+	GtkWidget *toolbar_view;
+	GtkWidget *top_bar;
+	GtkWidget *bottom_bar;
+	GtkWidget *search_button;
+	GtkWidget *select_button;
+	GtkWidget *collapse_button;
+	GtkWidget *title_box;
+  	GtkWidget *item_count;
+	GtkWidget *playlist_consecutive;
+	GtkWidget *playlist_loop1;
+	GtkWidget *playlist_loop;
+	GtkWidget *playlist_shuffle;
 };
 
 struct _CelluloidPlaylistWidgetClass
 {
-	GtkBoxClass parent_class;
+	AdwBin parent_class;
 };
 
 static gint
@@ -168,7 +179,7 @@ drop_handler(	GtkDropTarget *self,
 static void
 realize_handler(GtkWidget *self, gpointer data);
 
-G_DEFINE_TYPE(CelluloidPlaylistWidget, celluloid_playlist_widget, GTK_TYPE_BOX)
+G_DEFINE_TYPE(CelluloidPlaylistWidget, celluloid_playlist_widget, ADW_TYPE_BIN)
 
 static gint
 get_selected_index(CelluloidPlaylistWidget *wgt)
@@ -266,21 +277,14 @@ make_row(GObject *object, gpointer data)
 
 	if(celluloid_playlist_item_get_is_current(item))
 	{
-		PangoAttrList *attrs;
-		PangoAttribute *weight;
-
-		attrs = pango_attr_list_new();
-		weight = pango_attr_weight_new(PANGO_WEIGHT_BOLD);
-
-		pango_attr_list_insert(attrs, weight);
-		gtk_label_set_attributes(GTK_LABEL(label), attrs);
-
-		pango_attr_list_unref(attrs);
+		gtk_widget_add_css_class(label, "heading");
 	}
 
 	gtk_widget_set_halign(label, GTK_ALIGN_START);
-	gtk_widget_set_margin_start(label, 6);
-	gtk_widget_set_margin_end(label, 6);
+  	gtk_widget_set_margin_top(label, 12);
+	gtk_widget_set_margin_bottom(label, 12);
+	gtk_label_set_max_width_chars(GTK_LABEL(label),40);
+	gtk_label_set_ellipsize(GTK_LABEL(label),PANGO_ELLIPSIZE_END);
 	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), label);
 
 	return row;
@@ -295,13 +299,15 @@ constructed(GObject *object)
 	self->list_box = gtk_list_box_new();
 	self->last_selected = -1;
 	self->drag_uri = NULL;
+	self->toolbar_view = adw_toolbar_view_new();
 
 	gtk_list_box_set_selection_mode
 		(GTK_LIST_BOX(self->list_box), GTK_SELECTION_BROWSE);
 	gtk_list_box_set_activate_on_single_click
-		(GTK_LIST_BOX(self->list_box), FALSE);
+		(GTK_LIST_BOX(self->list_box), TRUE);
 	gtk_list_box_set_placeholder
 		(GTK_LIST_BOX(self->list_box), self->placeholder);
+	gtk_widget_add_css_class(self->list_box, "navigation-sidebar");
 
 	gtk_list_box_bind_model
 		(	GTK_LIST_BOX(self->list_box),
@@ -405,13 +411,9 @@ constructed(GObject *object)
 	gtk_scrolled_window_set_child
 		(	GTK_SCROLLED_WINDOW(self->scrolled_window),
 			 GTK_WIDGET(viewport) );
-	gtk_box_append
-		(GTK_BOX(self), self->scrolled_window);
 
 	gtk_search_bar_set_child(GTK_SEARCH_BAR
 		(self->search_bar), self->search_entry);
-	gtk_box_append
-		(GTK_BOX(self), self->search_bar);
 
 	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)
 		->constructed(object);
@@ -905,20 +907,77 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 {
 	wgt->playlist_count = 0;
 	wgt->searching = FALSE;
+
+	wgt->toolbar_view = adw_toolbar_view_new();
+
+	wgt->top_bar = adw_header_bar_new();
+	adw_header_bar_set_show_end_title_buttons(ADW_HEADER_BAR(wgt->top_bar), FALSE);
+	wgt->collapse_button = gtk_button_new_from_icon_name("go-next-symbolic");
+	adw_header_bar_pack_start(ADW_HEADER_BAR(wgt->top_bar), wgt->collapse_button);
+  	gtk_actionable_set_action_name(GTK_ACTIONABLE(wgt->collapse_button), "win.toggle-playlist");
+
+	wgt->title_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+	gtk_box_append(GTK_BOX(wgt->title_box), gtk_label_new(_("Playlist")));
+  	gtk_widget_add_css_class(gtk_widget_get_first_child(wgt->title_box), "heading");
+	wgt->item_count = gtk_label_new(_("0 files"));
+	gtk_widget_set_halign(wgt->item_count, GTK_ALIGN_START);
+  	gtk_box_append(GTK_BOX(wgt->title_box), wgt->item_count);
+	gtk_widget_add_css_class(wgt->item_count, "caption");
+	adw_header_bar_pack_start(ADW_HEADER_BAR(wgt->top_bar), wgt->title_box);
+	adw_header_bar_set_show_title(ADW_HEADER_BAR(wgt->top_bar), FALSE);
+	gtk_widget_set_margin_top(wgt->top_bar, 6);
+  	gtk_widget_set_margin_bottom(wgt->top_bar, 6);
+  	gtk_widget_set_margin_start(wgt->top_bar, 6);
+  	gtk_widget_set_margin_end(wgt->top_bar, 6);
+	//these do nothing at the moment
+	//
+    	wgt->select_button = gtk_button_new_from_icon_name("selection-mode");
+  	adw_header_bar_pack_end(ADW_HEADER_BAR(wgt->top_bar), wgt->select_button);
+	wgt->search_button = gtk_button_new_from_icon_name("system-search");
+  	adw_header_bar_pack_end(ADW_HEADER_BAR(wgt->top_bar), wgt->search_button);
+
+  	wgt->bottom_bar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_widget_set_halign(wgt->bottom_bar, GTK_ALIGN_CENTER);
+	gtk_widget_add_css_class(wgt->bottom_bar, "toolbar");
+
+	wgt->playlist_consecutive = gtk_toggle_button_new();
+	gtk_button_set_icon_name(GTK_BUTTON(wgt->playlist_consecutive), "media-playlist-consecutive-symbolic");
+	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_consecutive);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wgt->playlist_consecutive),TRUE);
+
+	wgt->playlist_loop1 = gtk_toggle_button_new();
+	gtk_button_set_icon_name(GTK_BUTTON(wgt->playlist_loop1), "media-playlist-repeat-song-symbolic");
+	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_loop1);
+	gtk_actionable_set_action_name(GTK_ACTIONABLE(wgt->playlist_loop1), "win.toggle-loop-file");
+	gtk_toggle_button_set_group(GTK_TOGGLE_BUTTON(wgt->playlist_loop1), GTK_TOGGLE_BUTTON(wgt->playlist_consecutive));
+
+	wgt->playlist_loop = gtk_toggle_button_new();
+	gtk_button_set_icon_name(GTK_BUTTON(wgt->playlist_loop), "media-playlist-repeat-symbolic");
+	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_loop);
+	gtk_actionable_set_action_name(GTK_ACTIONABLE(wgt->playlist_loop), "win.toggle-loop-playlist");
+	gtk_toggle_button_set_group(GTK_TOGGLE_BUTTON(wgt->playlist_loop), GTK_TOGGLE_BUTTON(wgt->playlist_consecutive));
+
+	wgt->playlist_shuffle = gtk_toggle_button_new();
+	gtk_button_set_icon_name(GTK_BUTTON(wgt->playlist_shuffle), "media-playlist-shuffle-symbolic");
+	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_shuffle);
+	gtk_actionable_set_action_name(GTK_ACTIONABLE(wgt->playlist_shuffle), "win.toggle-shuffle-playlist");
+
 	wgt->scrolled_window = gtk_scrolled_window_new();
+	adw_bin_set_child(ADW_BIN(wgt), wgt->toolbar_view);
+	adw_toolbar_view_add_top_bar(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->top_bar);
+	adw_toolbar_view_add_bottom_bar(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->bottom_bar);
+	adw_toolbar_view_set_content(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->scrolled_window);
+
 	wgt->search_bar = gtk_search_bar_new();
 	wgt->search_entry = gtk_search_entry_new();
 	wgt->placeholder = gtk_label_new(_("Playlist is empty"));
 	wgt->css_provider = gtk_css_provider_new();
-
 	gtk_widget_add_css_class(wgt->placeholder, "dim-label");
 
-	gtk_widget_set_vexpand
-		(wgt->scrolled_window, TRUE);
+	/* gtk_widget_set_vexpand */
+	/* 	(wgt->scrolled_window, TRUE); */
 	gtk_label_set_ellipsize
 		(GTK_LABEL(wgt->placeholder), PANGO_ELLIPSIZE_END);
-	gtk_orientable_set_orientation
-		(GTK_ORIENTABLE(wgt), GTK_ORIENTATION_VERTICAL);
 }
 
 GtkWidget *
@@ -1005,6 +1064,9 @@ celluloid_playlist_widget_update_contents(	CelluloidPlaylistWidget *wgt,
 		(wgt, MIN(wgt->last_selected, (gint)playlist->len -1));
 
 	wgt->playlist_count = playlist->len;
+	char *items_count;
+	items_count =  g_strdup_printf ("%ld files", wgt->playlist_count);
+	gtk_label_set_label(GTK_LABEL(wgt->item_count), items_count);
 	g_object_notify(G_OBJECT(wgt), "playlist-count");
 }
 
@@ -1031,3 +1093,5 @@ celluloid_playlist_widget_get_contents(CelluloidPlaylistWidget *wgt)
 
 	return result;
 }
+
+
