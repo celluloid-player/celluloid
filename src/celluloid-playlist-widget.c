@@ -65,6 +65,7 @@ struct _CelluloidPlaylistWidget
 	gint last_y;
 	GtkCssProvider *css_provider;
 	GtkWidget *toolbar_view;
+	GtkWidget *header_box;
 	GtkWidget *top_bar;
 	GtkWidget *bottom_bar;
 	GtkWidget *search_button;
@@ -412,8 +413,9 @@ constructed(GObject *object)
 		(	GTK_SCROLLED_WINDOW(self->scrolled_window),
 			 GTK_WIDGET(viewport) );
 
-	gtk_search_bar_set_child(GTK_SEARCH_BAR
-		(self->search_bar), self->search_entry);
+
+  	gtk_search_bar_connect_entry(GTK_SEARCH_BAR(self->search_bar), GTK_EDITABLE(self->search_entry));
+	gtk_search_bar_set_child(GTK_SEARCH_BAR(self->search_bar), self->search_entry);
 
 	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)
 		->constructed(object);
@@ -900,6 +902,7 @@ celluloid_playlist_widget_class_init(CelluloidPlaylistWidgetClass *klass)
 			2,
 			G_TYPE_INT,
 			G_TYPE_INT );
+
 }
 
 static void
@@ -907,14 +910,16 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 {
 	wgt->playlist_count = 0;
 	wgt->searching = FALSE;
-
+	wgt->search_bar = gtk_search_bar_new();
+	wgt->search_entry = gtk_search_entry_new();
 	wgt->toolbar_view = adw_toolbar_view_new();
-
 	wgt->top_bar = adw_header_bar_new();
 	adw_header_bar_set_show_end_title_buttons(ADW_HEADER_BAR(wgt->top_bar), FALSE);
+
 	wgt->collapse_button = gtk_button_new_from_icon_name("go-next-symbolic");
 	adw_header_bar_pack_start(ADW_HEADER_BAR(wgt->top_bar), wgt->collapse_button);
   	gtk_actionable_set_action_name(GTK_ACTIONABLE(wgt->collapse_button), "win.toggle-playlist");
+	gtk_widget_set_tooltip_text(wgt->collapse_button, _("Hide playlist"));
 
 	wgt->title_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
 	gtk_box_append(GTK_BOX(wgt->title_box), gtk_label_new(_("Playlist")));
@@ -923,8 +928,10 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	gtk_widget_set_halign(wgt->item_count, GTK_ALIGN_START);
   	gtk_box_append(GTK_BOX(wgt->title_box), wgt->item_count);
 	gtk_widget_add_css_class(wgt->item_count, "caption");
+
 	adw_header_bar_pack_start(ADW_HEADER_BAR(wgt->top_bar), wgt->title_box);
 	adw_header_bar_set_show_title(ADW_HEADER_BAR(wgt->top_bar), FALSE);
+
 	gtk_widget_set_margin_top(wgt->top_bar, 6);
   	gtk_widget_set_margin_bottom(wgt->top_bar, 6);
   	gtk_widget_set_margin_start(wgt->top_bar, 6);
@@ -933,8 +940,15 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	//
     	wgt->select_button = gtk_button_new_from_icon_name("selection-mode");
   	adw_header_bar_pack_end(ADW_HEADER_BAR(wgt->top_bar), wgt->select_button);
-	wgt->search_button = gtk_button_new_from_icon_name("system-search");
+	gtk_widget_set_tooltip_text(wgt->select_button, _("Select media in playlist"));
+
+	wgt->search_button = gtk_toggle_button_new();
+	gtk_button_set_icon_name(GTK_BUTTON(wgt->search_button), "system-search");
+      	g_object_bind_property(	wgt->search_bar, "search-mode-enabled",
+				wgt->search_button, "active",
+				G_BINDING_BIDIRECTIONAL );
   	adw_header_bar_pack_end(ADW_HEADER_BAR(wgt->top_bar), wgt->search_button);
+	gtk_widget_set_tooltip_text(wgt->search_button, _("Search in playlist"));
 
   	wgt->bottom_bar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_set_halign(wgt->bottom_bar, GTK_ALIGN_CENTER);
@@ -944,38 +958,40 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	gtk_button_set_icon_name(GTK_BUTTON(wgt->playlist_consecutive), "media-playlist-consecutive-symbolic");
 	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_consecutive);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wgt->playlist_consecutive),TRUE);
+	gtk_widget_set_tooltip_text(wgt->playlist_consecutive, _("Disable repeat"));
 
 	wgt->playlist_loop1 = gtk_toggle_button_new();
 	gtk_button_set_icon_name(GTK_BUTTON(wgt->playlist_loop1), "media-playlist-repeat-song-symbolic");
 	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_loop1);
 	gtk_actionable_set_action_name(GTK_ACTIONABLE(wgt->playlist_loop1), "win.toggle-loop-file");
 	gtk_toggle_button_set_group(GTK_TOGGLE_BUTTON(wgt->playlist_loop1), GTK_TOGGLE_BUTTON(wgt->playlist_consecutive));
+	gtk_widget_set_tooltip_text(wgt->playlist_loop1, _("Repeat file"));
 
 	wgt->playlist_loop = gtk_toggle_button_new();
 	gtk_button_set_icon_name(GTK_BUTTON(wgt->playlist_loop), "media-playlist-repeat-symbolic");
 	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_loop);
 	gtk_actionable_set_action_name(GTK_ACTIONABLE(wgt->playlist_loop), "win.toggle-loop-playlist");
 	gtk_toggle_button_set_group(GTK_TOGGLE_BUTTON(wgt->playlist_loop), GTK_TOGGLE_BUTTON(wgt->playlist_consecutive));
+	gtk_widget_set_tooltip_text(wgt->playlist_loop, _("Repeat playlist"));
 
 	wgt->playlist_shuffle = gtk_toggle_button_new();
 	gtk_button_set_icon_name(GTK_BUTTON(wgt->playlist_shuffle), "media-playlist-shuffle-symbolic");
 	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_shuffle);
 	gtk_actionable_set_action_name(GTK_ACTIONABLE(wgt->playlist_shuffle), "win.toggle-shuffle-playlist");
+	gtk_widget_set_tooltip_text(wgt->playlist_shuffle, _("Shuffle playlist"));
 
 	wgt->scrolled_window = gtk_scrolled_window_new();
+	wgt->header_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_append(GTK_BOX(wgt->header_box), wgt->top_bar);
+	gtk_box_append(GTK_BOX(wgt->header_box), wgt->search_bar);
 	adw_bin_set_child(ADW_BIN(wgt), wgt->toolbar_view);
-	adw_toolbar_view_add_top_bar(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->top_bar);
+	adw_toolbar_view_add_top_bar(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->header_box);
 	adw_toolbar_view_add_bottom_bar(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->bottom_bar);
 	adw_toolbar_view_set_content(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->scrolled_window);
 
-	wgt->search_bar = gtk_search_bar_new();
-	wgt->search_entry = gtk_search_entry_new();
 	wgt->placeholder = gtk_label_new(_("Playlist is empty"));
-	wgt->css_provider = gtk_css_provider_new();
 	gtk_widget_add_css_class(wgt->placeholder, "dim-label");
 
-	/* gtk_widget_set_vexpand */
-	/* 	(wgt->scrolled_window, TRUE); */
 	gtk_label_set_ellipsize
 		(GTK_LABEL(wgt->placeholder), PANGO_ELLIPSIZE_END);
 }
