@@ -248,17 +248,26 @@ find_match(	CelluloidPlaylistWidget *wgt,
 		select_index(wgt, (gint)i);
 	}
 }
+static void
+setup_listitem_cb (GtkListItemFactory *factory, GtkListItem *list_item) {
+	GtkWidget *label;
+	label = gtk_label_new("");
+	gtk_list_item_set_child(list_item, label);
+	gtk_widget_set_halign(label, GTK_ALIGN_START);
+  	gtk_widget_set_margin_top(label, 12);
+	gtk_widget_set_margin_bottom(label, 12);
+	gtk_label_set_max_width_chars(GTK_LABEL(label),40);
+	gtk_label_set_ellipsize(GTK_LABEL(label),PANGO_ELLIPSIZE_MIDDLE);
+}
 
-static GtkWidget *
-make_row(GObject *object, gpointer data)
-{
-	GtkWidget *row = gtk_list_box_row_new();
-	CelluloidPlaylistItem *item = CELLULOID_PLAYLIST_ITEM(object);
+static void
+bind_listitem_cb (GtkListItemFactory *factory, GtkListItem *list_item) {
+	CelluloidPlaylistItem *item = gtk_list_item_get_item(list_item);
+	GtkWidget *label;
 	const gchar *title = celluloid_playlist_item_get_title(item);
 	const gchar *uri = celluloid_playlist_item_get_uri(item);
-	GtkWidget *label = NULL;
+	label = gtk_list_item_get_child(GTK_LIST_ITEM(list_item));
 	gchar *text = NULL;
-
 	if(title)
 	{
 		text = sanitize_utf8(title, TRUE);
@@ -270,51 +279,38 @@ make_row(GObject *object, gpointer data)
 		g_free(basename);
 	}
 
-	label = gtk_label_new(text);
-	g_free(text);
-
-	g_assert(label);
-
 	if(celluloid_playlist_item_get_is_current(item))
 	{
 		gtk_widget_add_css_class(label, "heading");
 	}
 
-	gtk_widget_set_halign(label, GTK_ALIGN_START);
-  	gtk_widget_set_margin_top(label, 12);
-	gtk_widget_set_margin_bottom(label, 12);
-	gtk_label_set_max_width_chars(GTK_LABEL(label),40);
-	gtk_label_set_ellipsize(GTK_LABEL(label),PANGO_ELLIPSIZE_MIDDLE);
-	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), label);
-
-	return row;
+	gtk_label_set_text(GTK_LABEL(label), text);
+	g_free(text);
+	g_assert(label);
 }
 
+static void
+activate_cb(GtkListView *list, guint position, gpointer data) {
+	printf("Item %d clicked!\n", position);
+	g_signal_emit_by_name(data, "row-activated", position);
+}
 static void
 constructed(GObject *object)
 {
 	CelluloidPlaylistWidget *self = CELLULOID_PLAYLIST_WIDGET(object);
+	GtkListItemFactory *factory;
 
 	self->model = celluloid_playlist_model_new();
-	self->list_box = gtk_list_box_new();
+	factory = gtk_signal_list_item_factory_new();
+	g_signal_connect(factory, "setup", G_CALLBACK(setup_listitem_cb), NULL);
+	g_signal_connect(factory, "bind", G_CALLBACK(bind_listitem_cb), NULL);
+	self->list_box = gtk_list_view_new(GTK_SELECTION_MODEL(gtk_multi_selection_new(self->model)), factory);
+	g_signal_connect (self->list_box, "activate", G_CALLBACK (activate_cb), self);
 	self->last_selected = -1;
 	self->drag_uri = NULL;
 	self->toolbar_view = adw_toolbar_view_new();
-
-	gtk_list_box_set_selection_mode
-		(GTK_LIST_BOX(self->list_box), GTK_SELECTION_BROWSE);
-	gtk_list_box_set_activate_on_single_click
-		(GTK_LIST_BOX(self->list_box), TRUE);
-	gtk_list_box_set_placeholder
-		(GTK_LIST_BOX(self->list_box), self->placeholder);
+	gtk_list_view_set_single_click_activate(GTK_LIST_VIEW(self->list_box), TRUE);
 	gtk_widget_add_css_class(self->list_box, "navigation-sidebar");
-
-	gtk_list_box_bind_model
-		(	GTK_LIST_BOX(self->list_box),
-			G_LIST_MODEL(self->model),
-			(GtkListBoxCreateWidgetFunc)make_row,
-			NULL,
-			NULL );
 
 	GtkGesture *click_gesture = gtk_gesture_click_new();
 	gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(click_gesture), 0);
@@ -362,14 +358,14 @@ constructed(GObject *object)
 				"realize",
 				G_CALLBACK(realize_handler),
 				self );
-	g_signal_connect(	self->list_box,
-				"row-activated",
-				G_CALLBACK(row_activated_handler),
-				self );
-	g_signal_connect(	self->list_box,
-				"row-selected",
-				G_CALLBACK(row_selected_handler),
-				self );
+	/* g_signal_connect(	self->list_box, */
+	/* 			"row-activated", */
+	/* 			G_CALLBACK(row_activated_handler), */
+	/* 			self ); */
+	/* g_signal_connect(	self->list_box, */
+	/* 			"row-selected", */
+	/* 			G_CALLBACK(row_selected_handler), */
+	/* 			self ); */
 
 	g_signal_connect(	self->model,
 				"items-changed",
@@ -404,15 +400,7 @@ constructed(GObject *object)
 					NULL,
 					NULL );
 
-	GtkViewport *viewport = GTK_VIEWPORT(gtk_viewport_new(NULL, NULL));
-	gtk_viewport_set_child(viewport, self->list_box);
-	gtk_viewport_set_scroll_to_focus(viewport, FALSE);
-
-	gtk_scrolled_window_set_child
-		(	GTK_SCROLLED_WINDOW(self->scrolled_window),
-			 GTK_WIDGET(viewport) );
-
-
+	gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(self->scrolled_window), self->list_box);
   	gtk_search_bar_connect_entry(GTK_SEARCH_BAR(self->search_bar), GTK_EDITABLE(self->search_entry));
 	gtk_search_bar_set_child(GTK_SEARCH_BAR(self->search_bar), self->search_entry);
 
@@ -1108,5 +1096,6 @@ celluloid_playlist_widget_get_contents(CelluloidPlaylistWidget *wgt)
 
 	return result;
 }
+
 
 
