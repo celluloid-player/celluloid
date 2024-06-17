@@ -266,7 +266,6 @@ make_row(GObject *object, gpointer data)
 	else
 	{
 		gchar *basename = g_path_get_basename(uri);
-
 		text = sanitize_utf8(basename, TRUE);
 		g_free(basename);
 	}
@@ -285,7 +284,7 @@ make_row(GObject *object, gpointer data)
   	gtk_widget_set_margin_top(label, 12);
 	gtk_widget_set_margin_bottom(label, 12);
 	gtk_label_set_max_width_chars(GTK_LABEL(label),40);
-	gtk_label_set_ellipsize(GTK_LABEL(label),PANGO_ELLIPSIZE_END);
+	gtk_label_set_ellipsize(GTK_LABEL(label),PANGO_ELLIPSIZE_MIDDLE);
 	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), label);
 
 	return row;
