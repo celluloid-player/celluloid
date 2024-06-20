@@ -773,15 +773,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 
 	g_object_set(box, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
 
-	gchar css_data[] = "box {border-spacing: 0px;}";
-	GtkCssProvider *css = gtk_css_provider_new();
-	gtk_css_provider_load_from_data(css, css_data, -1);
-
-	gtk_style_context_add_provider_for_display
-		(	gtk_widget_get_display(GTK_WIDGET(box)),
-			GTK_STYLE_PROVIDER(css),
-			GTK_STYLE_PROVIDER_PRIORITY_USER );
-
 	box->inner_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
 	gtk_box_append(GTK_BOX(box), box->secondary_seek_bar);
