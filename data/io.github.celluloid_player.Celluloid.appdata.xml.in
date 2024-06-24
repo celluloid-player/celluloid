@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2015-2023 gnome-mpv -->
+<!-- Copyright 2015-2024 gnome-mpv -->
 <component type="desktop">
  <id>io.github.celluloid_player.Celluloid</id>
  <metadata_license>CC-BY-SA-4.0</metadata_license>
@@ -29,6 +29,39 @@
  </description>
  <developer_name>The Celluloid Developers</developer_name>
  <releases>
+  <release date="2024-06-24" version="0.27">
+   <description translate="no">
+    <p>
+     This release contains the following changes:
+    </p>
+    <ul>
+     <li>
+      Add a loading screen that gets displayed during initialization and
+      buffering.
+     </li>
+     <li>
+      Reduce the time it takes for the main window to get displayed after
+      launching.
+     </li>
+     <li>
+      Opening and closing the preferences dialog will no longer trigger an mpv
+      reset unless options that require it are changed.
+     </li>
+     <li>
+      Update the look for controls and header bar in floating mode.
+     </li>
+     <li>
+      Update some of the deprecated GTK API usage.
+     </li>
+     <li>
+      Add support for multi-file user scripts.
+     </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2023-09-16" version="0.26">
    <description translate="no">
     <p>
