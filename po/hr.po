@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-14 00:19-0500\n"
-"PO-Revision-Date: 2024-04-15 05:01+0000\n"
+"PO-Revision-Date: 2024-06-07 23:09+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/hr/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -189,9 +189,8 @@ msgid "Celluloid"
 msgstr "Celuloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "Gledajte filmove i video snimke"
+msgstr "Reproducira videa"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -376,18 +375,18 @@ msgstr "Otvori datoteku…"
 
 #: src/celluloid-file-chooser-button.c:236
 msgid "(None)"
-msgstr "(Neodabrano)"
+msgstr "(Ništa)"
 
 #: src/celluloid-menu.c:106
 msgid "None"
-msgstr "Nedostupno"
+msgstr "Ništa"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
 #.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
-msgstr "Nepoznat"
+msgstr "Nepoznato"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
@@ -585,14 +584,12 @@ msgid "_Keep"
 msgstr "_Zadrži"
 
 #: src/celluloid-preferences-dialog.c:322
-#, fuzzy
 msgid "mpv configuration file"
-msgstr "Datoteka podešavanja mpv-a:"
+msgstr "Datoteka konfiguracije mpv-a"
 
 #: src/celluloid-preferences-dialog.c:328
-#, fuzzy
 msgid "mpv input configuration file"
-msgstr "Datoteka podešavanja mpv unosa:"
+msgstr "Datoteka konfiguracije mpv unosa"
 
 #: src/celluloid-preferences-dialog.c:348
 msgid "Extra mpv options"
@@ -698,7 +695,7 @@ msgstr "Smanji za pola ili udvostruči brzinu trenutne reprodukcije"
 
 #: src/celluloid-shortcuts-window.c:70
 msgid "Reset playback speed to normal"
-msgstr "Vrati na normalnu brzinu repordukcije"
+msgstr "Resetiraj na normalnu brzinu repordukcije"
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Go backward/forward in the playlist"
@@ -758,11 +755,11 @@ msgstr "Pojačaj/Smanji glasnoću zvuka"
 
 #: src/celluloid-shortcuts-window.c:90
 msgid "Mute or unmute"
-msgstr "Utišaj ili uključi zvuk"
+msgstr "Isključi ili uključi zvuk"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr "Prilagodi odgodu zvuka za +/- sekundi"
+msgstr "Prilagodi kašnjenje zvuka za +/− 0,1 sekundu"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Toggle subtitle visibility"
@@ -774,11 +771,11 @@ msgstr "Odaberi/Prebacuj podnaslove"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr "Prilagodi odgodu podnaslova za +/− 0,1 sekundi"
+msgstr "Prilagodi kašnjenje podnaslova za +/− 0,1 sekundu"
 
 #: src/celluloid-shortcuts-window.c:97
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr "Uključi/Isključi obilaženje SSA/ASS izgleda podnaslova"
+msgstr "Uključi/Isključi obilaženje SSA/ASS stila podnaslova"
 
 #: src/celluloid-shortcuts-window.c:98
 msgid "Move subtitles up/down"
@@ -794,7 +791,7 @@ msgstr "Odaberi/Prebacuj video zapise"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Decrease/increase pan-and-scan range"
-msgstr "Povećaj/Smanji raspon skeniranja-obrezivanja"
+msgstr "Smanji/povećaj raspon pomicanja i skeniranja"
 
 #: src/celluloid-shortcuts-window.c:104
 msgid "Take a screenshot"
@@ -830,7 +827,7 @@ msgstr "Prilagodi svjetlinu"
 
 #: src/celluloid-shortcuts-window.c:112
 msgid "Adjust gamma"
-msgstr "Prilagodi gamu"
+msgstr "Prilagodi gamut"
 
 #: src/celluloid-shortcuts-window.c:113
 msgid "Adjust saturation"
@@ -842,19 +839,19 @@ msgstr "Aktiviraj ili deaktiviraj raspletanje"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Cycle aspect ratio override"
-msgstr "Odaberi/Prebacuj omjer prikaza"
+msgstr "Promijeni omjer"
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Pan the video"
-msgstr ""
+msgstr "Pomiči video vodoravno"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Zoom in/out"
-msgstr ""
+msgstr "Povećaj/smanji prikaz"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "Resetiraj postavke pomicanja/zumiranja"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
@@ -930,7 +927,7 @@ msgstr "Otvori mapu"
 
 #: src/celluloid-view.c:1473
 msgid "Add File to Playlist"
-msgstr "Dodaj datoteku na popis izvođenja"
+msgstr "Dodaj datoteku u popis izvođenja"
 
 #: src/celluloid-view.c:1473
 msgid "Open File"

@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-14 00:19-0500\n"
-"PO-Revision-Date: 2023-08-28 09:50+0000\n"
-"Last-Translator: Jack77793 <jack77793@hotmail.com>\n"
+"PO-Revision-Date: 2024-06-24 03:04+0000\n"
+"Last-Translator: ZhangPeng <scbeta@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "celluloid/celluloid/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0.1-dev\n"
+"X-Generator: Weblate 5.6-rc\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -47,9 +47,8 @@ msgid "Use floating controls in windowed mode"
 msgstr "窗口模式下启用浮动控制"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
 msgid "Use a floating header bar in windowed mode"
-msgstr "窗口模式下启用浮动控制"
+msgstr "在窗口模式下启用浮动控制条"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
@@ -193,9 +192,8 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "播放电影和视频"
+msgstr "播放视频"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -339,9 +337,8 @@ msgid "Shuffle Playlist"
 msgstr "随机播放列表"
 
 #: src/celluloid-control-box.c:750
-#, fuzzy
 msgid "Toggle Playlist"
-msgstr "切换播放列表(_T)"
+msgstr "切换播放列表"
 
 #: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
 msgid "Toggle Fullscreen"
@@ -527,9 +524,8 @@ msgid "_Shuffle"
 msgstr "随机播放(_S)"
 
 #: src/celluloid-playlist-widget.c:563
-#, fuzzy
 msgid "Loop File"
-msgstr "循环播放文件(_F)"
+msgstr "循环播放文件"
 
 #: src/celluloid-playlist-widget.c:911
 msgid "Playlist is empty"
@@ -584,17 +580,15 @@ msgstr "您确定移除此脚本吗？该操作无法被撤销。"
 
 #: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
-msgstr ""
+msgstr "保留(_K)"
 
 #: src/celluloid-preferences-dialog.c:322
-#, fuzzy
 msgid "mpv configuration file"
-msgstr "配置文件路径："
+msgstr "mpv配置文件"
 
 #: src/celluloid-preferences-dialog.c:328
-#, fuzzy
 msgid "mpv input configuration file"
-msgstr "输入配置文件路径："
+msgstr "mpv输入配置文件"
 
 #: src/celluloid-preferences-dialog.c:348
 msgid "Extra mpv options"
@@ -846,15 +840,15 @@ msgstr "循环切换宽高比重写"
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Pan the video"
-msgstr ""
+msgstr "平移视频"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Zoom in/out"
-msgstr ""
+msgstr "放大/缩小"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "重置平移/缩放设置"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
@@ -886,7 +880,7 @@ msgstr "播放列表"
 
 #: src/celluloid-video-area.c:741
 msgid "Loading…"
-msgstr ""
+msgstr "加载中…"
 
 #: src/celluloid-video-area.c:752
 msgid "Welcome"
