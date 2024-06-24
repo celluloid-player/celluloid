@@ -20,7 +20,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-
+#include <adwaita.h>
 #include "celluloid-header-bar.h"
 #include "celluloid-menu.h"
 #include "celluloid-def.h"
@@ -161,9 +161,8 @@ set_fullscreen_state(CelluloidHeaderBar *hdr, gboolean fullscreen)
 
 	gtk_button_set_icon_name
 		(GTK_BUTTON(hdr->fullscreen_btn), icon_name);
-	gtk_header_bar_set_show_title_buttons
-		(GTK_HEADER_BAR(hdr->header_bar), show_title_buttons);
-
+	adw_header_bar_set_show_start_title_buttons(ADW_HEADER_BAR(hdr->header_bar), show_title_buttons);
+	adw_header_bar_set_show_end_title_buttons(ADW_HEADER_BAR(hdr->header_bar), show_title_buttons);
 	g_object_unref(settings);
 }
 
@@ -207,7 +206,7 @@ celluloid_header_bar_class_init(CelluloidHeaderBarClass *klass)
 static void
 celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 {
-	GtkHeaderBar *ghdr;
+	AdwHeaderBar *ghdr;
 	GSettings *settings;
 	gboolean csd;
 	GMenu *open_btn_menu;
@@ -218,7 +217,7 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	open_btn_menu = g_menu_new();
 	menu_btn_menu = g_menu_new();
 
-	hdr->header_bar = gtk_header_bar_new();
+	hdr->header_bar = adw_header_bar_new();
 	hdr->open_btn = gtk_menu_button_new();
 	hdr->fullscreen_btn =
 		gtk_button_new_from_icon_name("view-fullscreen-symbolic");
@@ -227,7 +226,7 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	hdr->open_popover_visible = FALSE;
 	hdr->menu_popover_visible = FALSE;
 
-	ghdr = GTK_HEADER_BAR(hdr->header_bar);
+	ghdr = ADW_HEADER_BAR(hdr->header_bar);
 
 	celluloid_menu_build_open_btn(open_btn_menu, NULL);
 	celluloid_menu_build_menu_btn(menu_btn_menu, NULL);
@@ -255,12 +254,11 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 
 	gtk_widget_set_hexpand(GTK_WIDGET(ghdr), TRUE);
 
-	gtk_header_bar_pack_start(ghdr, hdr->open_btn);
-	gtk_header_bar_pack_end(ghdr, hdr->menu_btn);
-	gtk_header_bar_pack_end(ghdr, hdr->fullscreen_btn);
+	adw_header_bar_pack_start(ghdr, hdr->open_btn);
+	adw_header_bar_pack_end(ghdr, hdr->menu_btn);
+	adw_header_bar_pack_end(ghdr, hdr->fullscreen_btn);
 
 	gtk_box_prepend(GTK_BOX(hdr), hdr->header_bar);
-	gtk_header_bar_set_show_title_buttons(ghdr, TRUE);
 	gtk_widget_set_visible(hdr->fullscreen_btn, csd);
 
 	gtk_menu_button_set_create_popup_func
