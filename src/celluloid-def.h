@@ -94,6 +94,7 @@
 		"Alt+2 set window-scale 2.0",\
 		"Ctrl+o script-message celluloid-action win.show-open-dialog((false, false))",\
 		"Ctrl+l script-message celluloid-action win.show-open-location-dialog(false)",\
+		"Ctrl+n script-message celluloid-action app.new-window",\
 		"Ctrl+Shift+o script-message celluloid-action win.show-open-dialog((false, true))",\
 		"Ctrl+Shift+l script-message celluloid-action win.show-open-location-dialog(true)",\
 		"Ctrl+Shift+s script-message celluloid-action win.save-playlist",\
