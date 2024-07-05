@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2022 gnome-mpv
+ * Copyright (c) 2014-2022, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -105,6 +105,7 @@
 		"DEL script-message celluloid-action win.remove-selected-playlist-item",\
 		"U stop",\
 		"STOP stop",\
+		"F10 script-message celluloid-action win.toggle-main-menu",\
 		"F11 cycle fullscreen",\
 		"WHEEL_UP add volume 2",\
 		"WHEEL_DOWN add volume -2",\
