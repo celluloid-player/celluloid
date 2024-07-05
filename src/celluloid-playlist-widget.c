@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2022 gnome-mpv
+ * Copyright (c) 2014-2022, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -23,6 +23,7 @@
 #include <gio/gio.h>
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
+#include <adwaita.h>
 
 #include "celluloid-playlist-widget.h"
 #include "celluloid-playlist-model.h"
@@ -839,6 +840,8 @@ celluloid_playlist_widget_class_init(CelluloidPlaylistWidgetClass *klass)
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 
+	gtk_widget_class_set_css_name(GTK_WIDGET_CLASS(klass), "playlist");
+
 	pspec = g_param_spec_int64
 		(	"playlist-count",
 			"Playlist count",
@@ -908,17 +911,25 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	wgt->scrolled_window = gtk_scrolled_window_new();
 	wgt->search_bar = gtk_search_bar_new();
 	wgt->search_entry = gtk_search_entry_new();
-	wgt->placeholder = gtk_label_new(_("Playlist is empty"));
+	wgt->placeholder = adw_status_page_new();
 	wgt->css_provider = gtk_css_provider_new();
 
+	gchar *css_data =
+		"playlist .icon { -gtk-icon-size: 64px; }\n"
+		"playlist .title { font-weight: normal; font-size: medium; }\n";
+
+	gtk_css_provider_load_from_data(wgt->css_provider, css_data, -1);
 	gtk_widget_add_css_class(wgt->placeholder, "dim-label");
 
 	gtk_widget_set_vexpand
 		(wgt->scrolled_window, TRUE);
-	gtk_label_set_ellipsize
-		(GTK_LABEL(wgt->placeholder), PANGO_ELLIPSIZE_END);
 	gtk_orientable_set_orientation
 		(GTK_ORIENTABLE(wgt), GTK_ORIENTATION_VERTICAL);
+
+	adw_status_page_set_title
+		(ADW_STATUS_PAGE(wgt->placeholder), _("Playlist is Empty"));
+	adw_status_page_set_icon_name
+		(ADW_STATUS_PAGE(wgt->placeholder), "applications-multimedia-symbolic");
 }
 
 GtkWidget *
