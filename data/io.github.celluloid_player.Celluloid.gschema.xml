@@ -74,8 +74,11 @@
 		</key>
 		<key name="always-open-new-window" type="b">
 			<default>false</default>
-			<summary>Always open new window</summary>
+			<summary>Open new window when opening new files</summary>
 			<description>
+                                When opening new files through D-Bus (e.g.
+                                using a file manager), open the file in a new
+                                window.
 			</description>
 		</key>
 		<key name="always-append-to-playlist" type="b">
