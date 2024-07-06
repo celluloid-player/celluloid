@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-14 00:19-0500\n"
+"POT-Creation-Date: 2024-07-06 23:09+0700\n"
 "PO-Revision-Date: 2024-06-02 13:14+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/celluloid/"
@@ -223,21 +223,573 @@ msgstr "wczytywanie zewnętrznych plików konfiguracji programu mpv,"
 msgid "MPRIS2 D-Bus interface"
 msgstr "obsługa interfejsu D-Bus MPRIS2."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:30
-msgid "The Celluloid Developers"
-msgstr "Deweloperzy programu Celluloid"
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:36
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:69
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:144
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:207
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:252
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:287
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:326
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:379
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:409
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:448
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:479
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:507
+msgid "This release contains the following changes:"
+msgstr "To wydanie zawiera następujące zmiany:"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:503
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
+msgid ""
+"Add a loading screen that gets displayed during initialization and buffering."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
+msgid ""
+"Reduce the time it takes for the main window to get displayed after "
+"launching."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
+msgid ""
+"Opening and closing the preferences dialog will no longer trigger an mpv "
+"reset unless options that require it are changed."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
+msgid "Update the look for controls and header bar in floating mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
+msgid "Update some of the deprecated GTK API usage."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
+#, fuzzy
+msgid "Add support for multi-file user scripts."
+msgstr "Obsługa wczytywania zewnętrznych ścieżek wideo."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:137
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:173
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:245
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:280
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:319
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:372
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:402
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:441
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:472
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:500
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:528
+msgid "This listing is incomplete. See git log for complete changelog."
+msgstr ""
+"Ta lista jest niepełna. Polecenie „git log” wyświetli pełną listę zmian."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
+msgid "Fix a bug where the header bar keeps hiding even when a menu is open."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
+msgid "Use toasts instead of dialog to report mpv errors."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
+#, fuzzy
+msgid "Change default screenshot format to PNG."
+msgstr ""
+"Zmiana domyślnego szablonu nazwy pliku zrzutu ekranu na NAZWAPLIKU-CZAS (%f-"
+"%P)."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:82
+msgid ""
+"Fix crash that happens when the mpv-config-file key in GSettings contains a "
+"path rather than a URI."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
+msgid "Expose the Position MPRIS property."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
+msgid ""
+"Use the numeric style class for the time/duration label, which stops it from "
+"jumping around as it changes."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
+msgid "Fix crash when using multiple windows."
+msgstr "Naprawa awarii podczas korzystania z wielu okien."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:108
+msgid "Port the about dialog to libadwaita."
+msgstr "Port okna informacji o programie do libadwaita."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:111
+msgid "Fix cursor not autohiding on KDE."
+msgstr "Naprawa kursora, który nie ukrywał się automatycznie w KDE."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:114
+msgid "Fix mouse presses/releases becoming unreliable during playback."
+msgstr ""
+"Naprawa naciśnięcia i zwolnienia przycisków myszy, które stawały się zawodne "
+"podczas odtwarzania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
+msgid ""
+"Make it possible to build on Windows. Celluloid still crashes on mouse "
+"clicks, but it runs and can play videos."
+msgstr ""
+"Umożliwienie kompilowania w systemie Windows. Celluloid nadal zawiesza się "
+"po kliknięciu myszką, ale działa i może odtwarzać filmy."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
+msgid "Add Estonian translation by vaba."
+msgstr "Nowe tłumaczenie na język estoński od vaba."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
+msgid "Add Georgian translation by temuri doghonadze."
+msgstr "Nowe tłumaczenie na język gruziński od doghonadze."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
+msgid "Add Lithuanian translation by Jonas Smol."
+msgstr "Nowe tłumaczenie na język litewski od Jonasa Smola."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
+msgid "Add Occitan translation by Quentin PAGÈS."
+msgstr "Nowe tłumaczenie na język oksytański od Quentina PAGÈS."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
+msgid "Add Tamil translation by K.B.Dharun Krishna."
+msgstr "Nowe tłumaczenie na język tamilski od K.B.Dharun Krishny."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
+msgid "Add Malay translation by @dinazmi."
+msgstr "Nowe tłumaczenie na język malajski od @dinazmi."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:151
+msgid "Use libadwaita."
+msgstr "Używanie biblioteki libadwaita."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:154
+msgid "Fix on_load hook in scripts not triggering."
+msgstr "Naprawa haka on_load w skryptach, który się nie uruchamiał."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:157
+msgid "Add option to make the video area draggable."
+msgstr "Dodanie opcji przeciągania obszaru wideo."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
+msgid "Fix autofit breaking when playing small videos."
+msgstr ""
+"Naprawa automatycznego dopasowywania, które się psuło podczas odtwarzania "
+"niewielkich filmów."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
+msgid "Make controls layout adaptive."
+msgstr "Układ przycisków sterujących jest teraz adaptacyjny."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
+msgid "Display chapter marks in the seek bar."
+msgstr "Wyświetlanie znaczników rozdziałów na pasku przewijania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
+msgid "Display chapter titles in the seek bar popover."
+msgstr ""
+"Wyświetlanie tytułów rozdziałów w wyskakującym oknie paska przewijania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
+msgid "This is mostly a bugfix release. It contains the following changes:"
+msgstr ""
+"Jest to głównie wydanie naprawiające błędy. Zawiera następujące zmiany:"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
+msgid "Fix autofit triggering regardless of settings."
+msgstr ""
+"Naprawa wyzwalania automatycznego dopasowywania niezależnie od ustawień."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
+msgid "Fix window size shrinking across sessions."
+msgstr "Naprawa zmniejszania rozmiaru okna między sesjami."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:190
+msgid "Fix crash when playing files with names containing invalid encoding."
+msgstr ""
+"Naprawa awarii podczas odtwarzania plików z nazwami zawierającymi "
+"nieprawidłowe kodowanie."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
+msgid "Fix drag-and-drop not working with some file managers."
+msgstr ""
+"Naprawa przeciągania i upuszczania, które nie działa z niektórymi "
+"menedżerami plików."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:196
+msgid "Fix playback starting when the last playlist item is removed."
+msgstr ""
+"Naprawa odtwarzania rozpoczynającego się po usunięciu ostatniego elementu "
+"listy odtwarzania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:211
+msgid "Migrate to GTK4."
+msgstr "Migracja do biblioteki GTK 4."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:214
+msgid "Add Greek translation by @lepa22."
+msgstr "Nowe tłumaczenie na język grecki od @lepa22."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:217
+msgid "Add Korean translation by @jullee96."
+msgstr "Nowe tłumaczenie na język koreański od @jullee96."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:220
+msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
+msgstr "Nowe tłumaczenie na język norweski (bokmål) od Allana Nordhøya."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
+msgid "Add Occidental translation by OIS."
+msgstr "Nowe tłumaczenie na język interlingue od OIS."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
+msgid "Add Arabic translation by Mohamed Benkouider."
+msgstr "Nowe tłumaczenie na język arabski od Mohameda Benkouidera."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
+msgid "Add Urdu translation by Ahmed Iqbal."
+msgstr "Nowe tłumaczenie na język urdu od Ahmeda Iqbala."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
+msgid "Add option to show title buttons in fullscreen mode."
+msgstr "Opcja wyświetlania przycisków tytułowych w trybie pełnoekranowym."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
+msgid "Add option to present the window when opening files."
+msgstr "Opcja wyświetlania okna podczas otwierania plików."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:238
+msgid ""
+"Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
+msgstr ""
+"Zmiana domyślnego szablonu nazwy pliku zrzutu ekranu na NAZWAPLIKU-CZAS (%f-"
+"%P)."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:241
+msgid "Fix inaccurate timestamp preview."
+msgstr "Naprawa niedokładnego podglądu czasu."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
+msgid "Add Basque translation by @aldatsa."
+msgstr "Nowe tłumaczenie na język baskijski od @aldatsa."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
+msgid "Make the shuffle and loop command line options work properly."
+msgstr ""
+"Naprawienie działania opcji wiersza poleceń: losowe odtwarzanie "
+"i powtarzanie."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
+msgid "Make the main menu button toggleable by pressing F10."
+msgstr "Przełączanie przycisku menu głównego klawiszem F10."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
+msgid "Add a setting for always appending opened files to the playlist."
+msgstr "Ustawienie dołączania otwieranych plików do listy odtwarzania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
+msgid ""
+"Allow appending files to playlist by holding shift while dropping files onto "
+"the video area."
+msgstr ""
+"Dołączanie plików do listy odtwarzania przez przytrzymanie klawisza Shift "
+"podczas przeciągania plików na obszar wideo."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
+msgid "Make CSD header bar toggleable via the mpv property \"border\"."
+msgstr ""
+"Pasek nagłówka obramowania okna po stronie klienta jest teraz przełączalny "
+"za pomocą właściwości mpv „border”."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
+msgid ""
+"Include Flatpak manifest in the repo. This allows Celluloid to be built in "
+"one click in apps like GNOME Builder."
+msgstr ""
+"Dołączenie manifestu Flatpak do repozytorium. Pozwala to na kompilowanie "
+"programu Celluloid jednym kliknięciem w programach takich jak GNOME Builder."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
+msgid "Make it possible to activate context menu when the playlist is empty."
+msgstr ""
+"Można teraz aktywować menu kontekstowe, kiedy lista odtwarzania jest pusta."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:294
+msgid ""
+"Prevent constant resizing of the seek bar due to timestamp label resizing as "
+"its value changes."
+msgstr ""
+"Pasek przewijania nie zmienia już bez przerwy rozmiaru z powodu zmieniania "
+"się rozmiaru etykiety z czasem podczas odtwarzania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
+msgid ""
+"Only show a single error dialog when a large number of errors occurs in "
+"rapid succession."
+msgstr ""
+"Wyświetlane jest tylko jedno okno z błędem, kiedy wystąpi duża liczba błędów "
+"w krótkim czasie."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:302
+msgid "Add menu item for opening folders."
+msgstr "Menu otwierania katalogów."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:305
+msgid ""
+"Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
+"consistent with CSD mode."
+msgstr ""
+"Położenie elementów interfejsu w oknach dialogowych w trybie bez CSD jest "
+"spójniejsze z trybem CSD."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
+msgid "Add support for loading external video tracks."
+msgstr "Obsługa wczytywania zewnętrznych ścieżek wideo."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
+msgid "Make playlist shuffle toggleable."
+msgstr "Można teraz przełączać losowe odtwarzanie listy odtwarzania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
+msgid "Make arrow key bindings work with arrow keys on numpad."
+msgstr ""
+"Skróty z klawiszami strzałek działają teraz ze strzałkami na klawiaturze "
+"numerycznej."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:330
+msgid ""
+"Adjust the range of volume button based on the value of the volume-max "
+"property."
+msgstr ""
+"Dostosowanie zakresu przycisku głośności na podstawie wartości własności "
+"„volume-max”."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:334
+msgid "Retain window maximization state across sessions."
+msgstr "Zachowywanie stanu maksymalizacji okna między sesjami."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
+msgid "Retain loop state across sessions."
+msgstr "Zachowywanie stanu powtarzania między sesjami."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
+msgid "Implement playlist search."
+msgstr "Implementacja wyszukiwania na liście odtwarzania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:343
+msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
+msgstr "Aktualizacja listy skrótów w oknie skrótów klawiszowych."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:346
+msgid "Correctly handle quotes and escape sequences in extra mpv options."
+msgstr ""
+"Właściwa obsługa cudzysłowów i sekwencji sterujących w dodatkowych opcjach "
+"mpv."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
+msgid "Display time at cursor position when hovering the seek bar."
+msgstr ""
+"Wyświetlanie czasu w pozycji kursora po najechaniu na pasek przewijania."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
+msgid ""
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
+"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"equivalent to passing '--vf=vflip' to mpv."
+msgstr ""
+"„--mpv-options” jest przestarzałe. Zamiast tego do ustawiania opcji mpv "
+"można używać opcji zaczynających się od „--mpv-”. Na przykład przekazanie „--"
+"mpv-vf=vflip” do programu Celluloid jest odpowiednikiem przekazania „--"
+"vf=vflip” do mpv."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
+msgid ""
+"Add support for configuring dead zone, an area in which mouse movement will "
+"not cause controls to be shown."
+msgstr ""
+"Obsługa konfigurowania martwej strefy, w której ruch kursora nie spowoduje "
+"wyświetlenia przycisków sterujących."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:362
+msgid "Make window sizing work correctly with HiDPI displays."
+msgstr ""
+"Rozmiar okna działa teraz poprawnie na ekranach o wysokiej rozdzielczości."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
+msgid "Add Finnish translation by Kimmo Kujansuu."
+msgstr "Nowe tłumaczenie na język fiński od Kimmo Kujansuu."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:368
+msgid "Add Slovenian translation by @bertronika."
+msgstr "Nowe tłumaczenie na język słoweński od @bertronika."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:383
+msgid "Add Persian translation by @danialbehzadi"
+msgstr "Nowe tłumaczenie na język perski od @danialbehzadi"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:386
+msgid "Add Ukranian translation by @vl-nix"
+msgstr "Nowe tłumaczenie na język ukraiński od @vl-nix"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:389
+msgid ""
+"Add support for showing/hiding window decorations using the mpv option --"
+"border"
+msgstr ""
+"Obsługa wyświetlania/ukrywania obramowania okna za pomocą opcji --border "
+"programu mpv"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
+msgid "Add menu item for opening discs"
+msgstr "Menu otwierania płyt"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:395
+msgid "Block cursor autohide when volume popup is open in windowed mode"
+msgstr ""
+"Blokowanie automatycznego ukrywania kursora, kiedy menu głośności jest "
+"otwarte w trybie okna"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:398
+msgid "Fix crash with mpv 0.30"
+msgstr "Poprawka awarii podczas używania mpv 0.30"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:413
+msgid "Rename project to Celluloid"
+msgstr "Zmiana nazwy projektu na Celluloid"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:416
+msgid "Add Turkish translation by @TeknoMobil"
+msgstr "Nowe tłumaczenie na język turecki od @TeknoMobil"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:419
+msgid "Add Esperanto translation by @F3nd0"
+msgstr "Nowe tłumaczenie na język esperanto od @F3nd0"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:422
+msgid "Migrate from opengl-cb to the new render API"
+msgstr "Migracja z opengl-cb na nowe API wyświetlania"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:425
+msgid "Handle numpad keybindings"
+msgstr "Obsługa skrótów na klawiaturze numerycznej"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:428
+msgid "Handle unicode keybindings"
+msgstr "Obsługa skrótów używających unikodu"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:431
+msgid "Forward media key events to mpv"
+msgstr "Przekierowywanie zdarzeń klawiszy multimedialnych do programu mpv"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:434
+msgid ""
+"Add dconf key for controlling cursor speed at which controls are unhidden"
+msgstr ""
+"Nowy klucz dconf do sterowania prędkością kursora, przy której przyciski "
+"sterowania są wyświetlane"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:437
+msgid "Add option for suppressing playback errors"
+msgstr "Opcja ukrywania błędów odtwarzania"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:452
+msgid "Split up the General tab in the preferences dialog"
+msgstr "Podział karty „Ogólne” w oknie preferencji"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:455
+msgid "Improve behavior when toggling playlist under tiling window managers"
+msgstr ""
+"Ulepszone zachowanie podczas przełączania listy odtwarzania w kafelkowych "
+"menedżerach okien"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:458
+msgid "Move app menu items to primary menu"
+msgstr "Przeniesienie menu programu do głównego menu"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
+msgid "Use separate MPRIS DBus connection for each window"
+msgstr ""
+"Używanie oddzielnego połączenia MPRIS z magistralą D-Bus dla każdego okna"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:464
+msgid "Add support for MPRIS property LoopStatus"
+msgstr "Obsługa własności „LoopStatus” interfejsu MPRIS"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:467
+msgid ""
+"Add option --mpv-options for setting arbitrary mpv options from the command-"
+"line"
+msgstr ""
+"Opcja --mpv-options do ustawiania dowolnych opcji programu mpv z wiersza "
+"poleceń"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:483
+msgid "Set default screenshot directory to XDG_PICTURES_DIR"
+msgstr "Ustawienie domyślnego katalogu zrzutów ekranu na XDG_PICTURES_DIR"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:486
+msgid ""
+"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
+"autofit-smaller"
+msgstr ""
+"Ulepszona obsługa opcji --window-scale, --autofit, --autofit-larger i --"
+"autofit-smaller"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:490
+msgid "Add command line option for setting WM_ROLE"
+msgstr "Opcja wiersza poleceń do ustawiania WM_ROLE"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:493
+msgid "Add context menu item for removing playlist items"
+msgstr "Menu kontekstowe do usuwania pozycji z listy odtwarzania"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:496
+msgid "Add context menu item for copying location of playlist items"
+msgstr "Menu kontekstowe do kopiowania ścieżki do pozycji listy odtwarzania"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
+msgid ""
+"Add option to make skip buttons change playlist entries rather than chapters"
+msgstr ""
+"Opcja zmieniająca działanie przycisków pomijania z rozdziałów na pozycje "
+"listy odtwarzania"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:515
+msgid "Make the file chooser accept non-local locations"
+msgstr "Okno wyboru pliku przyjmuje nielokalne ścieżki"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:518
+msgid "Add right-click menu entry for looping a single file"
+msgstr "Powtarzanie jednego pliku w menu pod prawym przyciskiem"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:521
+msgid "Handle property change events for fullscreen and window-scale"
+msgstr "Obsługa zdarzeń zmiany własności dla pełnego ekranu i skalowania okna"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:524
+msgid "Add option to autohide mouse cursor in windowed mode"
+msgstr "Opcja automatycznego ukrywania kursora w trybie okna"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:538
 msgid "The main window showing the application in action"
 msgstr "Główne okno przedstawiające działanie programu"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:507
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:542
 msgid "The main window with CSD disabled"
 msgstr ""
 "Główne okno programu z wyłączonym wyświetlaniem obramowania okna po stronie "
 "klienta"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:546
 msgid "The main window with playlist open"
 msgstr "Główne okno programu z listą odtwarzania"
 
@@ -333,7 +885,7 @@ msgstr "Następny rozdział"
 msgid "Previous Chapter"
 msgstr "Poprzedni rozdział"
 
-#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:564
+#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:565
 msgid "Loop Playlist"
 msgstr "Powtarza listę odtwarzania"
 
@@ -504,36 +1056,37 @@ msgstr "Położenie:"
 msgid "Failed to apply one or more MPV options."
 msgstr "Zastosowanie jednej lub więcej opcji mpv się nie powiodło."
 
-#: src/celluloid-playlist-widget.c:556
+#: src/celluloid-playlist-widget.c:557
 msgid "_Copy Location"
 msgstr "S_kopiuj położenie"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-playlist-widget.c:558 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Usuń"
 
-#: src/celluloid-playlist-widget.c:559
+#: src/celluloid-playlist-widget.c:560
 msgid "_Add…"
 msgstr "_Dodaj…"
 
-#: src/celluloid-playlist-widget.c:560
+#: src/celluloid-playlist-widget.c:561
 msgid "Add _Folder…"
 msgstr "Dodaj _katalog…"
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:562
 msgid "Add _Location…"
 msgstr "Dodaj p_ołożenie…"
 
-#: src/celluloid-playlist-widget.c:562
+#: src/celluloid-playlist-widget.c:563
 msgid "_Shuffle"
 msgstr "_Losowe odtwarzanie"
 
-#: src/celluloid-playlist-widget.c:563
+#: src/celluloid-playlist-widget.c:564
 msgid "Loop File"
 msgstr "Powtarzanie pliku"
 
-#: src/celluloid-playlist-widget.c:911
-msgid "Playlist is empty"
+#: src/celluloid-playlist-widget.c:930
+#, fuzzy
+msgid "Playlist is Empty"
 msgstr "Lista odtwarzania jest pusta"
 
 #: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
@@ -568,6 +1121,10 @@ msgstr "Dodaj…"
 #: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
 msgstr "Nie odnaleziono wtyczek"
+
+#: src/celluloid-plugins-manager.c:453
+msgid "Click the <b>Add…</b> button to install a new plugin"
+msgstr ""
 
 #: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
@@ -892,8 +1449,8 @@ msgid "Welcome"
 msgstr "Witamy"
 
 #: src/celluloid-video-area.c:755
-msgid "Press ＋ or drag your video file here."
-msgstr "Naciśnij przycisk ＋ lub przeciągnij tutaj plik z filmem."
+msgid "Click the <b>＋</b> button or drag and drop videos here"
+msgstr ""
 
 #: src/celluloid-view.c:739
 msgid "Load Audio Track…"
@@ -953,6 +1510,12 @@ msgstr ""
 "Piotr Sokół <psokol.l10n@gmail.com>, 2016, 2019\n"
 "Piotr Drąg <piotrdrag@gmail.com>, 2020, 2022-2024"
 
+#~ msgid "The Celluloid Developers"
+#~ msgstr "Deweloperzy programu Celluloid"
+
+#~ msgid "Press ＋ or drag your video file here."
+#~ msgstr "Naciśnij przycisk ＋ lub przeciągnij tutaj plik z filmem."
+
 #~ msgid "GTK+ frontend for mpv"
 #~ msgstr "Interfejs GTK dla biblioteki mpv"
 
@@ -961,386 +1524,6 @@ msgstr ""
 
 #~ msgid "_Cancel"
 #~ msgstr "_Anuluj"
-
-#~ msgid "This release contains the following changes:"
-#~ msgstr "To wydanie zawiera następujące zmiany:"
-
-#~ msgid "Fix crash when using multiple windows."
-#~ msgstr "Naprawa awarii podczas korzystania z wielu okien."
-
-#~ msgid "Port the about dialog to libadwaita."
-#~ msgstr "Port okna informacji o programie do libadwaita."
-
-#~ msgid "Fix cursor not autohiding on KDE."
-#~ msgstr "Naprawa kursora, który nie ukrywał się automatycznie w KDE."
-
-#~ msgid "Fix mouse presses/releases becoming unreliable during playback."
-#~ msgstr ""
-#~ "Naprawa naciśnięcia i zwolnienia przycisków myszy, które stawały się "
-#~ "zawodne podczas odtwarzania."
-
-#~ msgid ""
-#~ "Make it possible to build on Windows. Celluloid still crashes on mouse "
-#~ "clicks, but it runs and can play videos."
-#~ msgstr ""
-#~ "Umożliwienie kompilowania w systemie Windows. Celluloid nadal zawiesza "
-#~ "się po kliknięciu myszką, ale działa i może odtwarzać filmy."
-
-#~ msgid "Add Estonian translation by vaba."
-#~ msgstr "Nowe tłumaczenie na język estoński od vaba."
-
-#~ msgid "Add Georgian translation by temuri doghonadze."
-#~ msgstr "Nowe tłumaczenie na język gruziński od doghonadze."
-
-#~ msgid "Add Lithuanian translation by Jonas Smol."
-#~ msgstr "Nowe tłumaczenie na język litewski od Jonasa Smola."
-
-#~ msgid "Add Occitan translation by Quentin PAGÈS."
-#~ msgstr "Nowe tłumaczenie na język oksytański od Quentina PAGÈS."
-
-#~ msgid "Add Tamil translation by K.B.Dharun Krishna."
-#~ msgstr "Nowe tłumaczenie na język tamilski od K.B.Dharun Krishny."
-
-#~ msgid "This listing is incomplete. See git log for complete changelog."
-#~ msgstr ""
-#~ "Ta lista jest niepełna. Polecenie „git log” wyświetli pełną listę zmian."
-
-#~ msgid "Add Malay translation by @dinazmi."
-#~ msgstr "Nowe tłumaczenie na język malajski od @dinazmi."
-
-#~ msgid "Use libadwaita."
-#~ msgstr "Używanie biblioteki libadwaita."
-
-#~ msgid "Fix on_load hook in scripts not triggering."
-#~ msgstr "Naprawa haka on_load w skryptach, który się nie uruchamiał."
-
-#~ msgid "Add option to make the video area draggable."
-#~ msgstr "Dodanie opcji przeciągania obszaru wideo."
-
-#~ msgid "Fix autofit breaking when playing small videos."
-#~ msgstr ""
-#~ "Naprawa automatycznego dopasowywania, które się psuło podczas odtwarzania "
-#~ "niewielkich filmów."
-
-#~ msgid "Make controls layout adaptive."
-#~ msgstr "Układ przycisków sterujących jest teraz adaptacyjny."
-
-#~ msgid "Display chapter marks in the seek bar."
-#~ msgstr "Wyświetlanie znaczników rozdziałów na pasku przewijania."
-
-#~ msgid "Display chapter titles in the seek bar popover."
-#~ msgstr ""
-#~ "Wyświetlanie tytułów rozdziałów w wyskakującym oknie paska przewijania."
-
-#~ msgid "This is mostly a bugfix release. It contains the following changes:"
-#~ msgstr ""
-#~ "Jest to głównie wydanie naprawiające błędy. Zawiera następujące zmiany:"
-
-#~ msgid "Fix autofit triggering regardless of settings."
-#~ msgstr ""
-#~ "Naprawa wyzwalania automatycznego dopasowywania niezależnie od ustawień."
-
-#~ msgid "Fix window size shrinking across sessions."
-#~ msgstr "Naprawa zmniejszania rozmiaru okna między sesjami."
-
-#~ msgid "Fix crash when playing files with names containing invalid encoding."
-#~ msgstr ""
-#~ "Naprawa awarii podczas odtwarzania plików z nazwami zawierającymi "
-#~ "nieprawidłowe kodowanie."
-
-#~ msgid "Fix drag-and-drop not working with some file managers."
-#~ msgstr ""
-#~ "Naprawa przeciągania i upuszczania, które nie działa z niektórymi "
-#~ "menedżerami plików."
-
-#~ msgid "Fix playback starting when the last playlist item is removed."
-#~ msgstr ""
-#~ "Naprawa odtwarzania rozpoczynającego się po usunięciu ostatniego elementu "
-#~ "listy odtwarzania."
-
-#~ msgid "Migrate to GTK4."
-#~ msgstr "Migracja do biblioteki GTK 4."
-
-#~ msgid "Add Greek translation by @lepa22."
-#~ msgstr "Nowe tłumaczenie na język grecki od @lepa22."
-
-#~ msgid "Add Korean translation by @jullee96."
-#~ msgstr "Nowe tłumaczenie na język koreański od @jullee96."
-
-#~ msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-#~ msgstr "Nowe tłumaczenie na język norweski (bokmål) od Allana Nordhøya."
-
-#~ msgid "Add Occidental translation by OIS."
-#~ msgstr "Nowe tłumaczenie na język interlingue od OIS."
-
-#~ msgid "Add Arabic translation by Mohamed Benkouider."
-#~ msgstr "Nowe tłumaczenie na język arabski od Mohameda Benkouidera."
-
-#~ msgid "Add Urdu translation by Ahmed Iqbal."
-#~ msgstr "Nowe tłumaczenie na język urdu od Ahmeda Iqbala."
-
-#~ msgid "Add option to show title buttons in fullscreen mode."
-#~ msgstr "Opcja wyświetlania przycisków tytułowych w trybie pełnoekranowym."
-
-#~ msgid "Add option to present the window when opening files."
-#~ msgstr "Opcja wyświetlania okna podczas otwierania plików."
-
-#~ msgid ""
-#~ "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
-#~ msgstr ""
-#~ "Zmiana domyślnego szablonu nazwy pliku zrzutu ekranu na NAZWAPLIKU-CZAS "
-#~ "(%f-%P)."
-
-#~ msgid "Fix inaccurate timestamp preview."
-#~ msgstr "Naprawa niedokładnego podglądu czasu."
-
-#~ msgid "Add Basque translation by @aldatsa."
-#~ msgstr "Nowe tłumaczenie na język baskijski od @aldatsa."
-
-#~ msgid "Make the shuffle and loop command line options work properly."
-#~ msgstr ""
-#~ "Naprawienie działania opcji wiersza poleceń: losowe odtwarzanie "
-#~ "i powtarzanie."
-
-#~ msgid "Make the main menu button toggleable by pressing F10."
-#~ msgstr "Przełączanie przycisku menu głównego klawiszem F10."
-
-#~ msgid "Add a setting for always appending opened files to the playlist."
-#~ msgstr "Ustawienie dołączania otwieranych plików do listy odtwarzania."
-
-#~ msgid ""
-#~ "Allow appending files to playlist by holding shift while dropping files "
-#~ "onto the video area."
-#~ msgstr ""
-#~ "Dołączanie plików do listy odtwarzania przez przytrzymanie klawisza Shift "
-#~ "podczas przeciągania plików na obszar wideo."
-
-#~ msgid "Make CSD header bar toggleable via the mpv property \"border\"."
-#~ msgstr ""
-#~ "Pasek nagłówka obramowania okna po stronie klienta jest teraz "
-#~ "przełączalny za pomocą właściwości mpv „border”."
-
-#~ msgid ""
-#~ "Include Flatpak manifest in the repo. This allows Celluloid to be built "
-#~ "in one click in apps like GNOME Builder."
-#~ msgstr ""
-#~ "Dołączenie manifestu Flatpak do repozytorium. Pozwala to na kompilowanie "
-#~ "programu Celluloid jednym kliknięciem w programach takich jak GNOME "
-#~ "Builder."
-
-#~ msgid ""
-#~ "Make it possible to activate context menu when the playlist is empty."
-#~ msgstr ""
-#~ "Można teraz aktywować menu kontekstowe, kiedy lista odtwarzania jest "
-#~ "pusta."
-
-#~ msgid ""
-#~ "Prevent constant resizing of the seek bar due to timestamp label resizing "
-#~ "as its value changes."
-#~ msgstr ""
-#~ "Pasek przewijania nie zmienia już bez przerwy rozmiaru z powodu "
-#~ "zmieniania się rozmiaru etykiety z czasem podczas odtwarzania."
-
-#~ msgid ""
-#~ "Only show a single error dialog when a large number of errors occurs in "
-#~ "rapid succession."
-#~ msgstr ""
-#~ "Wyświetlane jest tylko jedno okno z błędem, kiedy wystąpi duża liczba "
-#~ "błędów w krótkim czasie."
-
-#~ msgid "Add menu item for opening folders."
-#~ msgstr "Menu otwierania katalogów."
-
-#~ msgid ""
-#~ "Adjust position of UI elements of modal dialogs in non-CSD mode to be "
-#~ "more consistent with CSD mode."
-#~ msgstr ""
-#~ "Położenie elementów interfejsu w oknach dialogowych w trybie bez CSD jest "
-#~ "spójniejsze z trybem CSD."
-
-#~ msgid "Add support for loading external video tracks."
-#~ msgstr "Obsługa wczytywania zewnętrznych ścieżek wideo."
-
-#~ msgid "Make playlist shuffle toggleable."
-#~ msgstr "Można teraz przełączać losowe odtwarzanie listy odtwarzania."
-
-#~ msgid "Make arrow key bindings work with arrow keys on numpad."
-#~ msgstr ""
-#~ "Skróty z klawiszami strzałek działają teraz ze strzałkami na klawiaturze "
-#~ "numerycznej."
-
-#~ msgid ""
-#~ "Adjust the range of volume button based on the value of the volume-max "
-#~ "property."
-#~ msgstr ""
-#~ "Dostosowanie zakresu przycisku głośności na podstawie wartości własności "
-#~ "„volume-max”."
-
-#~ msgid "Retain window maximization state across sessions."
-#~ msgstr "Zachowywanie stanu maksymalizacji okna między sesjami."
-
-#~ msgid "Retain loop state across sessions."
-#~ msgstr "Zachowywanie stanu powtarzania między sesjami."
-
-#~ msgid "Implement playlist search."
-#~ msgstr "Implementacja wyszukiwania na liście odtwarzania."
-
-#~ msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-#~ msgstr "Aktualizacja listy skrótów w oknie skrótów klawiszowych."
-
-#~ msgid "Correctly handle quotes and escape sequences in extra mpv options."
-#~ msgstr ""
-#~ "Właściwa obsługa cudzysłowów i sekwencji sterujących w dodatkowych "
-#~ "opcjach mpv."
-
-#~ msgid "Display time at cursor position when hovering the seek bar."
-#~ msgstr ""
-#~ "Wyświetlanie czasu w pozycji kursora po najechaniu na pasek przewijania."
-
-#~ msgid ""
-#~ "Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to "
-#~ "set mpv options instead. For example, passing '--mpv-vf=vflip' to "
-#~ "Celluloid is equivalent to passing '--vf=vflip' to mpv."
-#~ msgstr ""
-#~ "„--mpv-options” jest przestarzałe. Zamiast tego do ustawiania opcji mpv "
-#~ "można używać opcji zaczynających się od „--mpv-”. Na przykład przekazanie "
-#~ "„--mpv-vf=vflip” do programu Celluloid jest odpowiednikiem przekazania „--"
-#~ "vf=vflip” do mpv."
-
-#~ msgid ""
-#~ "Add support for configuring dead zone, an area in which mouse movement "
-#~ "will not cause controls to be shown."
-#~ msgstr ""
-#~ "Obsługa konfigurowania martwej strefy, w której ruch kursora nie "
-#~ "spowoduje wyświetlenia przycisków sterujących."
-
-#~ msgid "Make window sizing work correctly with HiDPI displays."
-#~ msgstr ""
-#~ "Rozmiar okna działa teraz poprawnie na ekranach o wysokiej rozdzielczości."
-
-#~ msgid "Add Finnish translation by Kimmo Kujansuu."
-#~ msgstr "Nowe tłumaczenie na język fiński od Kimmo Kujansuu."
-
-#~ msgid "Add Slovenian translation by @bertronika."
-#~ msgstr "Nowe tłumaczenie na język słoweński od @bertronika."
-
-#~ msgid "Add Persian translation by @danialbehzadi"
-#~ msgstr "Nowe tłumaczenie na język perski od @danialbehzadi"
-
-#~ msgid "Add Ukranian translation by @vl-nix"
-#~ msgstr "Nowe tłumaczenie na język ukraiński od @vl-nix"
-
-#~ msgid ""
-#~ "Add support for showing/hiding window decorations using the mpv option --"
-#~ "border"
-#~ msgstr ""
-#~ "Obsługa wyświetlania/ukrywania obramowania okna za pomocą opcji --border "
-#~ "programu mpv"
-
-#~ msgid "Add menu item for opening discs"
-#~ msgstr "Menu otwierania płyt"
-
-#~ msgid "Block cursor autohide when volume popup is open in windowed mode"
-#~ msgstr ""
-#~ "Blokowanie automatycznego ukrywania kursora, kiedy menu głośności jest "
-#~ "otwarte w trybie okna"
-
-#~ msgid "Fix crash with mpv 0.30"
-#~ msgstr "Poprawka awarii podczas używania mpv 0.30"
-
-#~ msgid "Rename project to Celluloid"
-#~ msgstr "Zmiana nazwy projektu na Celluloid"
-
-#~ msgid "Add Turkish translation by @TeknoMobil"
-#~ msgstr "Nowe tłumaczenie na język turecki od @TeknoMobil"
-
-#~ msgid "Add Esperanto translation by @F3nd0"
-#~ msgstr "Nowe tłumaczenie na język esperanto od @F3nd0"
-
-#~ msgid "Migrate from opengl-cb to the new render API"
-#~ msgstr "Migracja z opengl-cb na nowe API wyświetlania"
-
-#~ msgid "Handle numpad keybindings"
-#~ msgstr "Obsługa skrótów na klawiaturze numerycznej"
-
-#~ msgid "Handle unicode keybindings"
-#~ msgstr "Obsługa skrótów używających unikodu"
-
-#~ msgid "Forward media key events to mpv"
-#~ msgstr "Przekierowywanie zdarzeń klawiszy multimedialnych do programu mpv"
-
-#~ msgid ""
-#~ "Add dconf key for controlling cursor speed at which controls are unhidden"
-#~ msgstr ""
-#~ "Nowy klucz dconf do sterowania prędkością kursora, przy której przyciski "
-#~ "sterowania są wyświetlane"
-
-#~ msgid "Add option for suppressing playback errors"
-#~ msgstr "Opcja ukrywania błędów odtwarzania"
-
-#~ msgid "Split up the General tab in the preferences dialog"
-#~ msgstr "Podział karty „Ogólne” w oknie preferencji"
-
-#~ msgid "Improve behavior when toggling playlist under tiling window managers"
-#~ msgstr ""
-#~ "Ulepszone zachowanie podczas przełączania listy odtwarzania w kafelkowych "
-#~ "menedżerach okien"
-
-#~ msgid "Move app menu items to primary menu"
-#~ msgstr "Przeniesienie menu programu do głównego menu"
-
-#~ msgid "Use separate MPRIS DBus connection for each window"
-#~ msgstr ""
-#~ "Używanie oddzielnego połączenia MPRIS z magistralą D-Bus dla każdego okna"
-
-#~ msgid "Add support for MPRIS property LoopStatus"
-#~ msgstr "Obsługa własności „LoopStatus” interfejsu MPRIS"
-
-#~ msgid ""
-#~ "Add option --mpv-options for setting arbitrary mpv options from the "
-#~ "command-line"
-#~ msgstr ""
-#~ "Opcja --mpv-options do ustawiania dowolnych opcji programu mpv z wiersza "
-#~ "poleceń"
-
-#~ msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-#~ msgstr "Ustawienie domyślnego katalogu zrzutów ekranu na XDG_PICTURES_DIR"
-
-#~ msgid ""
-#~ "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-#~ "autofit-smaller"
-#~ msgstr ""
-#~ "Ulepszona obsługa opcji --window-scale, --autofit, --autofit-larger i --"
-#~ "autofit-smaller"
-
-#~ msgid "Add command line option for setting WM_ROLE"
-#~ msgstr "Opcja wiersza poleceń do ustawiania WM_ROLE"
-
-#~ msgid "Add context menu item for removing playlist items"
-#~ msgstr "Menu kontekstowe do usuwania pozycji z listy odtwarzania"
-
-#~ msgid "Add context menu item for copying location of playlist items"
-#~ msgstr "Menu kontekstowe do kopiowania ścieżki do pozycji listy odtwarzania"
-
-#~ msgid ""
-#~ "Add option to make skip buttons change playlist entries rather than "
-#~ "chapters"
-#~ msgstr ""
-#~ "Opcja zmieniająca działanie przycisków pomijania z rozdziałów na pozycje "
-#~ "listy odtwarzania"
-
-#~ msgid "Make the file chooser accept non-local locations"
-#~ msgstr "Okno wyboru pliku przyjmuje nielokalne ścieżki"
-
-#~ msgid "Add right-click menu entry for looping a single file"
-#~ msgstr "Powtarzanie jednego pliku w menu pod prawym przyciskiem"
-
-#~ msgid "Handle property change events for fullscreen and window-scale"
-#~ msgstr ""
-#~ "Obsługa zdarzeń zmiany własności dla pełnego ekranu i skalowania okna"
-
-#~ msgid "Add option to autohide mouse cursor in windowed mode"
-#~ msgstr "Opcja automatycznego ukrywania kursora w trybie okna"
 
 #~ msgid "Loop _Playlist"
 #~ msgstr "Po_wtarzanie listy odtwarzania"
