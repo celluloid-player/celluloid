@@ -300,9 +300,6 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			"always-autohide-cursor",
 			ITEM_TYPE_SWITCH},
 			{NULL,
-			"use-skip-buttons-for-playlist",
-			ITEM_TYPE_SWITCH},
-			{NULL,
 			"last-folder-enable",
 			ITEM_TYPE_SWITCH},
 			{NULL, NULL, ITEM_TYPE_INVALID} };
