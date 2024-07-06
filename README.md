@@ -86,19 +86,21 @@ your keyboard.
 
 ### Configuration
 
-Celluloid can be configured using the preferences dialog accessible via the
-"Preferences" menu item. Additional configuration options can be set from an
-external file using the same syntax as mpv's `mpv.conf`.
-See [mpv's manual](https://mpv.io/manual/stable/) for the full list of options.
-The file must be specified and enabled in the preferences dialog under the "MPV
-Configuration" section.
+Celluloid can be configured using the preferences dialog accessible through the
+`Preferences` menu item. A number of less common options are also available in
+the `dconf` database. You can configure these using a tool like
+[Dconf Editor](https://wiki.gnome.org/Apps/DconfEditor).
 
-It is also possible to set mpv options by putting the options &mdash; as you
-would pass to mpv on the command line &mdash; in `Extra MPV Options` text box in
-the preferences dialog. You can also pass options directly on the command line
-by adding `mpv-` prefix to the option name. For example, using the option
-`--mpv-vf=flip` when launching Celluloid is equivalent to using `--vf=flip` in
-mpv.
+mpv-specific options can be set by creating a configuration file using mpv's
+`mpv.conf` syntax. See [mpv's manual](https://mpv.io/manual/stable/) for the
+full list of options. The file must be specified and enabled in the preferences
+dialog under the "MPV Configuration" section for it to take effect.
+
+It is also possible to set mpv options by putting the options as you would pass
+to mpv on the command line in the `Extra MPV Options` text box in the
+preferences dialog. If you want to set these options on the command line, you
+can do so by adding `mpv-` prefix to the name of the option you want to set.
+For example, the option `--mpv-vf=flip` is equivalent to `--vf=flip` in mpv.
 
 ### User Scripts
 
