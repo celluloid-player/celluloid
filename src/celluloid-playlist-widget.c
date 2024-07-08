@@ -285,7 +285,7 @@ bind_listitem_cb (GtkListItemFactory *factory, GtkListItem *list_item) {
 	{
 		gtk_widget_add_css_class(label, "heading");
 	}
-
+	gtk_widget_set_tooltip_text(label, text);
 	gtk_label_set_text(GTK_LABEL(label), text);
 	g_free(text);
 	g_assert(label);
@@ -306,7 +306,7 @@ constructed(GObject *object)
 	factory = gtk_signal_list_item_factory_new();
 	g_signal_connect(factory, "setup", G_CALLBACK(setup_listitem_cb), NULL);
 	g_signal_connect(factory, "bind", G_CALLBACK(bind_listitem_cb), NULL);
-	self->list_box = gtk_list_view_new(GTK_SELECTION_MODEL(gtk_multi_selection_new(self->model)), factory);
+	self->list_box = gtk_list_view_new(GTK_SELECTION_MODEL(gtk_multi_selection_new(G_LIST_MODEL(self->model))), factory);
 	g_signal_connect (self->list_box, "activate", G_CALLBACK (activate_cb), self);
 	self->last_selected = -1;
 	self->drag_uri = NULL;
