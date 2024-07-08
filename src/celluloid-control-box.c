@@ -33,6 +33,7 @@ enum
 	PROP_COMPACT,
 	PROP_FULLSCREENED,
 	PROP_PAUSE,
+  	PROP_SHOW_PLAYLIST,
 	PROP_SHOW_FULLSCREEN_BUTTON,
 	PROP_TIME_POSITION,
 	PROP_LOOP,
@@ -70,6 +71,7 @@ struct _CelluloidControlBox
 	gboolean compact;
 	gboolean fullscreened;
 	gboolean pause;
+	gboolean show_playlist;
 	gboolean show_fullscreen_button;
 	gdouble time_position;
 	gboolean loop;
@@ -189,6 +191,10 @@ set_property(	GObject *object,
 		set_playing_state(self, !self->pause);
 		break;
 
+	  	case PROP_SHOW_PLAYLIST:
+		self->show_playlist = g_value_get_boolean(value);
+		break;
+
 		case PROP_SHOW_FULLSCREEN_BUTTON:
 		self->show_fullscreen_button = g_value_get_boolean(value);
 		gtk_widget_set_visible
@@ -279,6 +285,10 @@ get_property(	GObject *object,
 
 		case PROP_PAUSE:
 		g_value_set_boolean(value, self->pause);
+		break;
+
+		case PROP_SHOW_PLAYLIST:
+		g_value_set_boolean(value, self->show_playlist);
 		break;
 
 		case PROP_SHOW_FULLSCREEN_BUTTON:
@@ -407,7 +417,6 @@ simple_signal_handler(GtkWidget *widget, gpointer data)
 			{box->rewind_button, "button-clicked", "rewind"},
 			{box->previous_button, "button-clicked", "previous"},
 			{box->next_button, "button-clicked", "next"},
-			{box->playlist_button, "button-clicked", "playlist"},
 			{box->fullscreen_button, "button-clicked", "fullscreen"},
 			{NULL, NULL, NULL} };
 
@@ -488,8 +497,6 @@ set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen)
 
 	gtk_button_set_icon_name
 		(GTK_BUTTON(box->fullscreen_button), icon_name);
-	gtk_widget_set_visible
-		(box->playlist_button, !fullscreen);
 }
 
 static void
@@ -559,6 +566,14 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 			FALSE,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_FULLSCREENED, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"show-playlist",
+			"Playlist shown",
+			"Whether the playlist panel is shown",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_SHOW_PLAYLIST, pspec);
 
 	pspec = g_param_spec_boolean
 		(	"pause",
@@ -699,7 +714,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->rewind_button = gtk_button_new();
 	box->next_button = gtk_button_new();
 	box->previous_button = gtk_button_new();
-	box->playlist_button = gtk_button_new();
+	box->playlist_button = gtk_toggle_button_new();
 	box->fullscreen_button = gtk_button_new();
 	box->loop_button = gtk_toggle_button_new();
 	box->shuffle_button = gtk_toggle_button_new();
@@ -713,6 +728,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->fullscreened = FALSE;
 	box->pause = TRUE;
 	box->show_fullscreen_button = FALSE;
+  	box->show_playlist = FALSE;
 	box->time_position = 0.0;
 	box->loop = FALSE;
 	box->shuffle = FALSE;
@@ -831,6 +847,9 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	g_object_bind_property(	box, "shuffle",
 				box->shuffle_button, "active",
 				G_BINDING_BIDIRECTIONAL );
+  	g_object_bind_property(	box, "show_playlist",
+				box->playlist_button, "active",
+				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property_full(	box->volume_button, "value",
 					box, "volume",
 					G_BINDING_BIDIRECTIONAL,
@@ -880,10 +899,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				G_CALLBACK(simple_signal_handler),
 				box );
 	g_signal_connect(	box->next_button,
-				"clicked",
-				G_CALLBACK(simple_signal_handler),
-				box );
-	g_signal_connect(	box->playlist_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
 				box );
