@@ -199,11 +199,6 @@ initialize_gui(CelluloidApplication *app)
 				"always-use-floating-controls",
 				G_SETTINGS_BIND_GET );
 	g_settings_bind(	settings,
-				"always-use-floating-header-bar",
-				celluloid_view_get_main_window(view),
-				"always-use-floating-header-bar",
-				G_SETTINGS_BIND_GET );
-	g_settings_bind(	settings,
 				"dark-theme-enable",
 				controller,
 				"dark-theme-enable",

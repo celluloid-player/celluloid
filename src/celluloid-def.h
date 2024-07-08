@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2022 gnome-mpv
+ * Copyright (c) 2014-2022, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -94,6 +94,7 @@
 		"Alt+2 set window-scale 2.0",\
 		"Ctrl+o script-message celluloid-action win.show-open-dialog((false, false))",\
 		"Ctrl+l script-message celluloid-action win.show-open-location-dialog(false)",\
+		"Ctrl+n script-message celluloid-action app.new-window",\
 		"Ctrl+Shift+o script-message celluloid-action win.show-open-dialog((false, true))",\
 		"Ctrl+Shift+l script-message celluloid-action win.show-open-location-dialog(true)",\
 		"Ctrl+Shift+s script-message celluloid-action win.save-playlist",\
@@ -105,6 +106,7 @@
 		"DEL script-message celluloid-action win.remove-selected-playlist-item",\
 		"U stop",\
 		"STOP stop",\
+		"F10 script-message celluloid-action win.toggle-main-menu",\
 		"F11 cycle fullscreen",\
 		"WHEEL_UP add volume 2",\
 		"WHEEL_DOWN add volume -2",\

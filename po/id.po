@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-14 00:19-0500\n"
+"POT-Creation-Date: 2024-07-06 23:09+0700\n"
 "PO-Revision-Date: 2024-04-23 19:07+0000\n"
 "Last-Translator: Juan Manuel <juanmanueldilo09@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/celluloid/"
@@ -224,19 +224,566 @@ msgstr "Memuat berkas konfigurasi mpv eksternal"
 msgid "MPRIS2 D-Bus interface"
 msgstr "Antarmuka MPRIS2 D-Bus"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:30
-msgid "The Celluloid Developers"
-msgstr "Pengembang Celluloid"
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:36
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:69
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:144
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:207
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:252
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:287
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:326
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:379
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:409
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:448
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:479
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:507
+msgid "This release contains the following changes:"
+msgstr "Rilis ini berisi perubahan berikut:"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:503
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
+msgid ""
+"Add a loading screen that gets displayed during initialization and buffering."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
+msgid ""
+"Reduce the time it takes for the main window to get displayed after "
+"launching."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
+msgid ""
+"Opening and closing the preferences dialog will no longer trigger an mpv "
+"reset unless options that require it are changed."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
+msgid "Update the look for controls and header bar in floating mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
+msgid "Update some of the deprecated GTK API usage."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
+#, fuzzy
+msgid "Add support for multi-file user scripts."
+msgstr "Tambahan dukungan untuk memuat trek video eksternal."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:137
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:173
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:245
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:280
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:319
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:372
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:402
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:441
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:472
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:500
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:528
+msgid "This listing is incomplete. See git log for complete changelog."
+msgstr ""
+"Daftar ini tidak lengkap. Lihat catatan git untuk daftar perubahan yang "
+"lengkap."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
+msgid "Fix a bug where the header bar keeps hiding even when a menu is open."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
+msgid "Use toasts instead of dialog to report mpv errors."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
+#, fuzzy
+msgid "Change default screenshot format to PNG."
+msgstr ""
+"Ubah template nama file tangkapan layar default menjadi FILENAME-TIMESTAMP "
+"(%f-%P)."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:82
+msgid ""
+"Fix crash that happens when the mpv-config-file key in GSettings contains a "
+"path rather than a URI."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
+msgid "Expose the Position MPRIS property."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
+msgid ""
+"Use the numeric style class for the time/duration label, which stops it from "
+"jumping around as it changes."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
+msgid "Fix crash when using multiple windows."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:108
+msgid "Port the about dialog to libadwaita."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:111
+msgid "Fix cursor not autohiding on KDE."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:114
+msgid "Fix mouse presses/releases becoming unreliable during playback."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
+msgid ""
+"Make it possible to build on Windows. Celluloid still crashes on mouse "
+"clicks, but it runs and can play videos."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
+#, fuzzy
+msgid "Add Estonian translation by vaba."
+msgstr "Menambahkan terjemahan Bahasa Slovenia oleh @bertronika."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
+#, fuzzy
+msgid "Add Georgian translation by temuri doghonadze."
+msgstr "Menambahkan terjemahan Bahasa Slovenia oleh @bertronika."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
+#, fuzzy
+msgid "Add Lithuanian translation by Jonas Smol."
+msgstr "Menambahkan terjemahan Bahasa Ukraina oleh @vl-nix"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
+#, fuzzy
+msgid "Add Occitan translation by Quentin PAGÈS."
+msgstr "Tambahkan terjemahan Occidental oleh OIS."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
+#, fuzzy
+msgid "Add Tamil translation by K.B.Dharun Krishna."
+msgstr "Tambahan translasi Bahasa Basque oleh @aldatsa."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
+#, fuzzy
+msgid "Add Malay translation by @dinazmi."
+msgstr "Tambahan translasi Bahasa Basque oleh @aldatsa."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:151
+msgid "Use libadwaita."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:154
+msgid "Fix on_load hook in scripts not triggering."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:157
+#, fuzzy
+msgid "Add option to make the video area draggable."
+msgstr "Jadikan area video dapat diseret"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
+msgid "Fix autofit breaking when playing small videos."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
+msgid "Make controls layout adaptive."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
+#, fuzzy
+msgid "Display chapter marks in the seek bar."
+msgstr "Tampilkan waktu di posisi kursor saat posisi kursor di seek bar."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
+#, fuzzy
+msgid "Display chapter titles in the seek bar popover."
+msgstr "Tampilkan waktu di posisi kursor saat posisi kursor di seek bar."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
+msgid "This is mostly a bugfix release. It contains the following changes:"
+msgstr ""
+"Ini sebagian besar merupakan rilis perbaikan bug. Ini berisi perubahan "
+"berikut:"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
+msgid "Fix autofit triggering regardless of settings."
+msgstr "Perbaiki pemicu pas otomatis terlepas dari pengaturannya."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
+msgid "Fix window size shrinking across sessions."
+msgstr "Perbaiki ukuran jendela yang menyusut di seluruh sesi."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:190
+msgid "Fix crash when playing files with names containing invalid encoding."
+msgstr ""
+"Perbaiki kerusakan saat memutar file dengan nama yang berisi penyandian "
+"tidak valid."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
+msgid "Fix drag-and-drop not working with some file managers."
+msgstr "Perbaiki drag-and-drop tidak berfungsi dengan beberapa pengelola file."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:196
+msgid "Fix playback starting when the last playlist item is removed."
+msgstr ""
+"Perbaiki pemutaran yang dimulai saat item daftar putar terakhir dihapus."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:211
+msgid "Migrate to GTK4."
+msgstr "Migrasi ke GTK4."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:214
+msgid "Add Greek translation by @lepa22."
+msgstr "Tambahkan terjemahan bahasa Yunani oleh @lepa22."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:217
+msgid "Add Korean translation by @jullee96."
+msgstr "Tambahkan terjemahan bahasa Korea oleh @jullee96."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:220
+msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
+msgstr "Tambahkan terjemahan Bokmål Norwegia oleh Allan Nordhøy."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
+msgid "Add Occidental translation by OIS."
+msgstr "Tambahkan terjemahan Occidental oleh OIS."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
+msgid "Add Arabic translation by Mohamed Benkouider."
+msgstr "Tambahkan terjemahan bahasa Arab oleh Mohamed Benkouider."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
+msgid "Add Urdu translation by Ahmed Iqbal."
+msgstr "Tambahkan terjemahan bahasa Urdu oleh Ahmed Iqbal."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
+msgid "Add option to show title buttons in fullscreen mode."
+msgstr "Tambahkan opsi untuk menampilkan tombol judul dalam mode layar penuh."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
+msgid "Add option to present the window when opening files."
+msgstr "Tambahkan opsi untuk menampilkan jendela saat membuka file."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:238
+msgid ""
+"Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
+msgstr ""
+"Ubah template nama file tangkapan layar default menjadi FILENAME-TIMESTAMP "
+"(%f-%P)."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:241
+msgid "Fix inaccurate timestamp preview."
+msgstr "Perbaiki pratinjau stempel waktu yang tidak akurat."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
+msgid "Add Basque translation by @aldatsa."
+msgstr "Tambahan translasi Bahasa Basque oleh @aldatsa."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
+msgid "Make the shuffle and loop command line options work properly."
+msgstr "Opsi baris perintah acak dan ulang berfungsi dengan baik."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
+msgid "Make the main menu button toggleable by pressing F10."
+msgstr "Jadikan tombol menu utama dapat dialihkan dengan menekan F10."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
+msgid "Add a setting for always appending opened files to the playlist."
+msgstr ""
+"Tambahkan pengaturan untuk selalu menambahkan file yang dibuka ke daftar "
+"putar."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
+msgid ""
+"Allow appending files to playlist by holding shift while dropping files onto "
+"the video area."
+msgstr ""
+"Izinkan penambahan file ke daftar putar dengan menahan tombol shift sambil "
+"menjatuhkan file ke area video."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
+msgid "Make CSD header bar toggleable via the mpv property \"border\"."
+msgstr "Jadikan header bar CSD dapat diubah lewat properti mpv \"batas\"."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
+msgid ""
+"Include Flatpak manifest in the repo. This allows Celluloid to be built in "
+"one click in apps like GNOME Builder."
+msgstr ""
+"Sertakan manifes Flatpak di repo. Ini memungkinkan Celluloid untuk dibangun "
+"dengan satu klik di aplikasi seperti GNOME Builder."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
+msgid "Make it possible to activate context menu when the playlist is empty."
+msgstr ""
+"Memungkinkan untuk mengaktifkan menu konteks ketika daftar putar kosong."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:294
+msgid ""
+"Prevent constant resizing of the seek bar due to timestamp label resizing as "
+"its value changes."
+msgstr ""
+"Cegah pengubahan ukuran seek bar secara konstan karena perubahan ukuran "
+"label timestamp saat nilainya berubah."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
+msgid ""
+"Only show a single error dialog when a large number of errors occurs in "
+"rapid succession."
+msgstr ""
+"Hanya tampilkan satu dialog kesalahan ketika sejumlah besar kesalahan "
+"terjadi secara berurutan dengan cepat."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:302
+msgid "Add menu item for opening folders."
+msgstr "Tambahkan item menu untuk membuka folder."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:305
+msgid ""
+"Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
+"consistent with CSD mode."
+msgstr ""
+"Sesuaikan posisi elemen UI dari dialog modal dalam mode non-CSD agar lebih "
+"konsisten dengan mode CSD."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
+msgid "Add support for loading external video tracks."
+msgstr "Tambahan dukungan untuk memuat trek video eksternal."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
+msgid "Make playlist shuffle toggleable."
+msgstr "Buat daftar putar dapat diacak."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
+msgid "Make arrow key bindings work with arrow keys on numpad."
+msgstr ""
+"Jadikan keybinding tombol panah berfungsi dengan tombol panah di numpad."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:330
+msgid ""
+"Adjust the range of volume button based on the value of the volume-max "
+"property."
+msgstr "Sesuaikan rentang tombol volume berdasarkan nilai properti volume-max."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:334
+msgid "Retain window maximization state across sessions."
+msgstr "Pertahankan status maksimalisasi jendela di seluruh sesi."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
+msgid "Retain loop state across sessions."
+msgstr "Pertahankan status putar ulang di seluruh sesi."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
+msgid "Implement playlist search."
+msgstr "Mengimplementasikan pencarian daftar putar."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:343
+msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
+msgstr "Memperbarui daftar pintasan di dialog Pintasan Papan Ketik."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:346
+msgid "Correctly handle quotes and escape sequences in extra mpv options."
+msgstr ""
+"Tangani kutipan dan urutan keluar dengan benar dalam opsi mpv tambahan."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
+msgid "Display time at cursor position when hovering the seek bar."
+msgstr "Tampilkan waktu di posisi kursor saat posisi kursor di seek bar."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
+msgid ""
+"Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
+"mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
+"equivalent to passing '--vf=vflip' to mpv."
+msgstr ""
+"Hilangkan '--mpv-options'. Opsi yang dimulai dengan '--mpv-' dapat digunakan "
+"untuk menyetel opsi mpv. Misalnya, meneruskan '--mpv-vf=vflip' ke Celluloid "
+"sama dengan meneruskan '--vf=vflip' ke mpv."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
+msgid ""
+"Add support for configuring dead zone, an area in which mouse movement will "
+"not cause controls to be shown."
+msgstr ""
+"Tambahkan dukungan untuk mengkonfigurasi zona mati, area di mana gerakan "
+"mouse tidak akan menyebabkan kontrol ditampilkan."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:362
+msgid "Make window sizing work correctly with HiDPI displays."
+msgstr "Buat pengaturan jendela berfungsi dengan benar dengan display HiDPI."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
+msgid "Add Finnish translation by Kimmo Kujansuu."
+msgstr "Menambahkan terjemahan Bahasa Finlandia oleh Kimmo Kujansuu."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:368
+msgid "Add Slovenian translation by @bertronika."
+msgstr "Menambahkan terjemahan Bahasa Slovenia oleh @bertronika."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:383
+msgid "Add Persian translation by @danialbehzadi"
+msgstr "Menambahkan terjemahan Bahasa Persia oleh @danialbehzadi"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:386
+msgid "Add Ukranian translation by @vl-nix"
+msgstr "Menambahkan terjemahan Bahasa Ukraina oleh @vl-nix"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:389
+msgid ""
+"Add support for showing/hiding window decorations using the mpv option --"
+"border"
+msgstr ""
+"Tambahkan dukungan untuk menampilkan/menyembunyikan dekorasi jendela "
+"menggunakan opsi mpv --border"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
+msgid "Add menu item for opening discs"
+msgstr "Tambahkan item menu untuk membuka kaset"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:395
+msgid "Block cursor autohide when volume popup is open in windowed mode"
+msgstr ""
+"Blokir kursor sembunyi secara otomatis saat popup volume terbuka dalam mode "
+"jendela"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:398
+msgid "Fix crash with mpv 0.30"
+msgstr "Perbaiki kerusakan dengan mpv 0.30"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:413
+msgid "Rename project to Celluloid"
+msgstr "Mengubah nama proyek menjadi Celluloid"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:416
+msgid "Add Turkish translation by @TeknoMobil"
+msgstr "Menambahkan terjemahan Bahasa Turki oleh @TeknoMobil"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:419
+msgid "Add Esperanto translation by @F3nd0"
+msgstr "Tambahkan terjemahan Esperanto oleh @F3nd0"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:422
+msgid "Migrate from opengl-cb to the new render API"
+msgstr "Migrasi dari opengl-cb ke render API baru"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:425
+msgid "Handle numpad keybindings"
+msgstr "Menangani pengaturan tombol numpad"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:428
+msgid "Handle unicode keybindings"
+msgstr "Menangani pengaturan tombol unicode"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:431
+msgid "Forward media key events to mpv"
+msgstr "Teruskan peristiwa kunci media ke mpv"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:434
+msgid ""
+"Add dconf key for controlling cursor speed at which controls are unhidden"
+msgstr ""
+"Tambahkan kunci dconf untuk mengontrol kecepatan kursor di mana kontrol "
+"tidak disembunyikan"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:437
+msgid "Add option for suppressing playback errors"
+msgstr "Tambahkan opsi untuk menekan kesalahan pemutaran"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:452
+msgid "Split up the General tab in the preferences dialog"
+msgstr "Pisahkan tab Umum di dialog preferensi"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:455
+msgid "Improve behavior when toggling playlist under tiling window managers"
+msgstr ""
+"Tingkatkan perilaku saat beralih daftar putar di bawah pengelola jendela "
+"tiling"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:458
+msgid "Move app menu items to primary menu"
+msgstr "Pindahkan item menu aplikasi ke menu utama"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
+msgid "Use separate MPRIS DBus connection for each window"
+msgstr "Gunakan koneksi MPRIS DBus terpisah untuk setiap jendela"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:464
+msgid "Add support for MPRIS property LoopStatus"
+msgstr "Tambahkan dukungan untuk properti LoopStatus MPRIS"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:467
+msgid ""
+"Add option --mpv-options for setting arbitrary mpv options from the command-"
+"line"
+msgstr ""
+"Tambahkan opsi --mpv-options untuk menyetel opsi mpv sembarang dari command-"
+"line"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:483
+msgid "Set default screenshot directory to XDG_PICTURES_DIR"
+msgstr "Mengubah direktori tangkapan layar bawaan menjadi XDG_PICTURES_DIR"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:486
+msgid ""
+"Improve handling of --window-scale, --autofit, --autofit-larger, and --"
+"autofit-smaller"
+msgstr ""
+"Meningkatkan penanganan --window-scale, --autofit, --autofit-larger, dan --"
+"autofit-smaller"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:490
+msgid "Add command line option for setting WM_ROLE"
+msgstr "Tambahkan opsi command line untuk mengatur WM_ROLE"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:493
+msgid "Add context menu item for removing playlist items"
+msgstr "Tambahkan item menu konteks untuk menghapus item daftar putar"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:496
+msgid "Add context menu item for copying location of playlist items"
+msgstr "Tambahkan item menu konteks untuk menyalin lokasi item daftar putar"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
+msgid ""
+"Add option to make skip buttons change playlist entries rather than chapters"
+msgstr ""
+"Tambahkan opsi untuk membuat tombol lewati mengubah entri daftar putar "
+"daripada bab"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:515
+msgid "Make the file chooser accept non-local locations"
+msgstr ""
+"Buat pemilih berkas menerima lokasi berkas yang tidak ada di penyimpanan "
+"lokal"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:518
+msgid "Add right-click menu entry for looping a single file"
+msgstr "Tambahkan entri menu klik kanan untuk mengulang satu file"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:521
+msgid "Handle property change events for fullscreen and window-scale"
+msgstr ""
+"Menangani peristiwa perubahan properti untuk layar penuh dan skala jendela"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:524
+msgid "Add option to autohide mouse cursor in windowed mode"
+msgstr ""
+"Tambahkan opsi untuk menyembunyikan kursor mouse secara otomatis dalam mode "
+"jendela"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:538
 msgid "The main window showing the application in action"
 msgstr "Jendela utama menunjukkan aplikasi dalam aksi"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:507
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:542
 msgid "The main window with CSD disabled"
 msgstr "Jendela utama dengan CSD dinonaktifkan"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:546
 msgid "The main window with playlist open"
 msgstr "Jendela utama dengan daftar putar terbuka"
 
@@ -329,7 +876,7 @@ msgstr "Bab Selanjutnya"
 msgid "Previous Chapter"
 msgstr "Bab Sebelumnya"
 
-#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:564
+#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:565
 msgid "Loop Playlist"
 msgstr "Loop Daftar Putar"
 
@@ -501,37 +1048,38 @@ msgstr "Lokasi:"
 msgid "Failed to apply one or more MPV options."
 msgstr "Gagal menerapkan satu atau beberapa opsi MPV."
 
-#: src/celluloid-playlist-widget.c:556
+#: src/celluloid-playlist-widget.c:557
 msgid "_Copy Location"
 msgstr "_Salin Lokasi"
 
-#: src/celluloid-playlist-widget.c:557 src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-playlist-widget.c:558 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
 msgstr "_Hapus"
 
-#: src/celluloid-playlist-widget.c:559
+#: src/celluloid-playlist-widget.c:560
 msgid "_Add…"
 msgstr "_Tambahkan…"
 
-#: src/celluloid-playlist-widget.c:560
+#: src/celluloid-playlist-widget.c:561
 msgid "Add _Folder…"
 msgstr "Tambahkan _Folder…"
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:562
 msgid "Add _Location…"
 msgstr "Tambahkan _Lokasi berkas…"
 
-#: src/celluloid-playlist-widget.c:562
+#: src/celluloid-playlist-widget.c:563
 msgid "_Shuffle"
 msgstr "_Acak"
 
-#: src/celluloid-playlist-widget.c:563
+#: src/celluloid-playlist-widget.c:564
 #, fuzzy
 msgid "Loop File"
 msgstr "Putar ulang _File"
 
-#: src/celluloid-playlist-widget.c:911
-msgid "Playlist is empty"
+#: src/celluloid-playlist-widget.c:930
+#, fuzzy
+msgid "Playlist is Empty"
 msgstr "Daftar Putar kosong"
 
 #: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
@@ -568,6 +1116,10 @@ msgstr "_Tambahkan…"
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "Tak ada plugin yang ditemukan"
+
+#: src/celluloid-plugins-manager.c:453
+msgid "Click the <b>Add…</b> button to install a new plugin"
+msgstr ""
 
 #: src/celluloid-plugins-manager-item.c:83
 #, fuzzy
@@ -897,7 +1449,7 @@ msgid "Welcome"
 msgstr ""
 
 #: src/celluloid-video-area.c:755
-msgid "Press ＋ or drag your video file here."
+msgid "Click the <b>＋</b> button or drag and drop videos here"
 msgstr ""
 
 #: src/celluloid-view.c:739
@@ -956,6 +1508,9 @@ msgstr "Simpan Daftar Putar"
 msgid "translator-credits"
 msgstr "neko"
 
+#~ msgid "The Celluloid Developers"
+#~ msgstr "Pengembang Celluloid"
+
 #~ msgid "GTK+ frontend for mpv"
 #~ msgstr "Tampilan depan GTK+ untuk mpv"
 
@@ -964,353 +1519,6 @@ msgstr "neko"
 
 #~ msgid "_Cancel"
 #~ msgstr "_Batal"
-
-#~ msgid "This release contains the following changes:"
-#~ msgstr "Rilis ini berisi perubahan berikut:"
-
-#, fuzzy
-#~ msgid "Add Estonian translation by vaba."
-#~ msgstr "Menambahkan terjemahan Bahasa Slovenia oleh @bertronika."
-
-#, fuzzy
-#~ msgid "Add Georgian translation by temuri doghonadze."
-#~ msgstr "Menambahkan terjemahan Bahasa Slovenia oleh @bertronika."
-
-#, fuzzy
-#~ msgid "Add Lithuanian translation by Jonas Smol."
-#~ msgstr "Menambahkan terjemahan Bahasa Ukraina oleh @vl-nix"
-
-#, fuzzy
-#~ msgid "Add Occitan translation by Quentin PAGÈS."
-#~ msgstr "Tambahkan terjemahan Occidental oleh OIS."
-
-#, fuzzy
-#~ msgid "Add Tamil translation by K.B.Dharun Krishna."
-#~ msgstr "Tambahan translasi Bahasa Basque oleh @aldatsa."
-
-#~ msgid "This listing is incomplete. See git log for complete changelog."
-#~ msgstr ""
-#~ "Daftar ini tidak lengkap. Lihat catatan git untuk daftar perubahan yang "
-#~ "lengkap."
-
-#, fuzzy
-#~ msgid "Add Malay translation by @dinazmi."
-#~ msgstr "Tambahan translasi Bahasa Basque oleh @aldatsa."
-
-#, fuzzy
-#~ msgid "Add option to make the video area draggable."
-#~ msgstr "Jadikan area video dapat diseret"
-
-#, fuzzy
-#~ msgid "Display chapter marks in the seek bar."
-#~ msgstr "Tampilkan waktu di posisi kursor saat posisi kursor di seek bar."
-
-#, fuzzy
-#~ msgid "Display chapter titles in the seek bar popover."
-#~ msgstr "Tampilkan waktu di posisi kursor saat posisi kursor di seek bar."
-
-#~ msgid "This is mostly a bugfix release. It contains the following changes:"
-#~ msgstr ""
-#~ "Ini sebagian besar merupakan rilis perbaikan bug. Ini berisi perubahan "
-#~ "berikut:"
-
-#~ msgid "Fix autofit triggering regardless of settings."
-#~ msgstr "Perbaiki pemicu pas otomatis terlepas dari pengaturannya."
-
-#~ msgid "Fix window size shrinking across sessions."
-#~ msgstr "Perbaiki ukuran jendela yang menyusut di seluruh sesi."
-
-#~ msgid "Fix crash when playing files with names containing invalid encoding."
-#~ msgstr ""
-#~ "Perbaiki kerusakan saat memutar file dengan nama yang berisi penyandian "
-#~ "tidak valid."
-
-#~ msgid "Fix drag-and-drop not working with some file managers."
-#~ msgstr ""
-#~ "Perbaiki drag-and-drop tidak berfungsi dengan beberapa pengelola file."
-
-#~ msgid "Fix playback starting when the last playlist item is removed."
-#~ msgstr ""
-#~ "Perbaiki pemutaran yang dimulai saat item daftar putar terakhir dihapus."
-
-#~ msgid "Migrate to GTK4."
-#~ msgstr "Migrasi ke GTK4."
-
-#~ msgid "Add Greek translation by @lepa22."
-#~ msgstr "Tambahkan terjemahan bahasa Yunani oleh @lepa22."
-
-#~ msgid "Add Korean translation by @jullee96."
-#~ msgstr "Tambahkan terjemahan bahasa Korea oleh @jullee96."
-
-#~ msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-#~ msgstr "Tambahkan terjemahan Bokmål Norwegia oleh Allan Nordhøy."
-
-#~ msgid "Add Occidental translation by OIS."
-#~ msgstr "Tambahkan terjemahan Occidental oleh OIS."
-
-#~ msgid "Add Arabic translation by Mohamed Benkouider."
-#~ msgstr "Tambahkan terjemahan bahasa Arab oleh Mohamed Benkouider."
-
-#~ msgid "Add Urdu translation by Ahmed Iqbal."
-#~ msgstr "Tambahkan terjemahan bahasa Urdu oleh Ahmed Iqbal."
-
-#~ msgid "Add option to show title buttons in fullscreen mode."
-#~ msgstr ""
-#~ "Tambahkan opsi untuk menampilkan tombol judul dalam mode layar penuh."
-
-#~ msgid "Add option to present the window when opening files."
-#~ msgstr "Tambahkan opsi untuk menampilkan jendela saat membuka file."
-
-#~ msgid ""
-#~ "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
-#~ msgstr ""
-#~ "Ubah template nama file tangkapan layar default menjadi FILENAME-"
-#~ "TIMESTAMP (%f-%P)."
-
-#~ msgid "Fix inaccurate timestamp preview."
-#~ msgstr "Perbaiki pratinjau stempel waktu yang tidak akurat."
-
-#~ msgid "Add Basque translation by @aldatsa."
-#~ msgstr "Tambahan translasi Bahasa Basque oleh @aldatsa."
-
-#~ msgid "Make the shuffle and loop command line options work properly."
-#~ msgstr "Opsi baris perintah acak dan ulang berfungsi dengan baik."
-
-#~ msgid "Make the main menu button toggleable by pressing F10."
-#~ msgstr "Jadikan tombol menu utama dapat dialihkan dengan menekan F10."
-
-#~ msgid "Add a setting for always appending opened files to the playlist."
-#~ msgstr ""
-#~ "Tambahkan pengaturan untuk selalu menambahkan file yang dibuka ke daftar "
-#~ "putar."
-
-#~ msgid ""
-#~ "Allow appending files to playlist by holding shift while dropping files "
-#~ "onto the video area."
-#~ msgstr ""
-#~ "Izinkan penambahan file ke daftar putar dengan menahan tombol shift "
-#~ "sambil menjatuhkan file ke area video."
-
-#~ msgid "Make CSD header bar toggleable via the mpv property \"border\"."
-#~ msgstr "Jadikan header bar CSD dapat diubah lewat properti mpv \"batas\"."
-
-#~ msgid ""
-#~ "Include Flatpak manifest in the repo. This allows Celluloid to be built "
-#~ "in one click in apps like GNOME Builder."
-#~ msgstr ""
-#~ "Sertakan manifes Flatpak di repo. Ini memungkinkan Celluloid untuk "
-#~ "dibangun dengan satu klik di aplikasi seperti GNOME Builder."
-
-#~ msgid ""
-#~ "Make it possible to activate context menu when the playlist is empty."
-#~ msgstr ""
-#~ "Memungkinkan untuk mengaktifkan menu konteks ketika daftar putar kosong."
-
-#~ msgid ""
-#~ "Prevent constant resizing of the seek bar due to timestamp label resizing "
-#~ "as its value changes."
-#~ msgstr ""
-#~ "Cegah pengubahan ukuran seek bar secara konstan karena perubahan ukuran "
-#~ "label timestamp saat nilainya berubah."
-
-#~ msgid ""
-#~ "Only show a single error dialog when a large number of errors occurs in "
-#~ "rapid succession."
-#~ msgstr ""
-#~ "Hanya tampilkan satu dialog kesalahan ketika sejumlah besar kesalahan "
-#~ "terjadi secara berurutan dengan cepat."
-
-#~ msgid "Add menu item for opening folders."
-#~ msgstr "Tambahkan item menu untuk membuka folder."
-
-#~ msgid ""
-#~ "Adjust position of UI elements of modal dialogs in non-CSD mode to be "
-#~ "more consistent with CSD mode."
-#~ msgstr ""
-#~ "Sesuaikan posisi elemen UI dari dialog modal dalam mode non-CSD agar "
-#~ "lebih konsisten dengan mode CSD."
-
-#~ msgid "Add support for loading external video tracks."
-#~ msgstr "Tambahan dukungan untuk memuat trek video eksternal."
-
-#~ msgid "Make playlist shuffle toggleable."
-#~ msgstr "Buat daftar putar dapat diacak."
-
-#~ msgid "Make arrow key bindings work with arrow keys on numpad."
-#~ msgstr ""
-#~ "Jadikan keybinding tombol panah berfungsi dengan tombol panah di numpad."
-
-#~ msgid ""
-#~ "Adjust the range of volume button based on the value of the volume-max "
-#~ "property."
-#~ msgstr ""
-#~ "Sesuaikan rentang tombol volume berdasarkan nilai properti volume-max."
-
-#~ msgid "Retain window maximization state across sessions."
-#~ msgstr "Pertahankan status maksimalisasi jendela di seluruh sesi."
-
-#~ msgid "Retain loop state across sessions."
-#~ msgstr "Pertahankan status putar ulang di seluruh sesi."
-
-#~ msgid "Implement playlist search."
-#~ msgstr "Mengimplementasikan pencarian daftar putar."
-
-#~ msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-#~ msgstr "Memperbarui daftar pintasan di dialog Pintasan Papan Ketik."
-
-#~ msgid "Correctly handle quotes and escape sequences in extra mpv options."
-#~ msgstr ""
-#~ "Tangani kutipan dan urutan keluar dengan benar dalam opsi mpv tambahan."
-
-#~ msgid "Display time at cursor position when hovering the seek bar."
-#~ msgstr "Tampilkan waktu di posisi kursor saat posisi kursor di seek bar."
-
-#~ msgid ""
-#~ "Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to "
-#~ "set mpv options instead. For example, passing '--mpv-vf=vflip' to "
-#~ "Celluloid is equivalent to passing '--vf=vflip' to mpv."
-#~ msgstr ""
-#~ "Hilangkan '--mpv-options'. Opsi yang dimulai dengan '--mpv-' dapat "
-#~ "digunakan untuk menyetel opsi mpv. Misalnya, meneruskan '--mpv-vf=vflip' "
-#~ "ke Celluloid sama dengan meneruskan '--vf=vflip' ke mpv."
-
-#~ msgid ""
-#~ "Add support for configuring dead zone, an area in which mouse movement "
-#~ "will not cause controls to be shown."
-#~ msgstr ""
-#~ "Tambahkan dukungan untuk mengkonfigurasi zona mati, area di mana gerakan "
-#~ "mouse tidak akan menyebabkan kontrol ditampilkan."
-
-#~ msgid "Make window sizing work correctly with HiDPI displays."
-#~ msgstr ""
-#~ "Buat pengaturan jendela berfungsi dengan benar dengan display HiDPI."
-
-#~ msgid "Add Finnish translation by Kimmo Kujansuu."
-#~ msgstr "Menambahkan terjemahan Bahasa Finlandia oleh Kimmo Kujansuu."
-
-#~ msgid "Add Slovenian translation by @bertronika."
-#~ msgstr "Menambahkan terjemahan Bahasa Slovenia oleh @bertronika."
-
-#~ msgid "Add Persian translation by @danialbehzadi"
-#~ msgstr "Menambahkan terjemahan Bahasa Persia oleh @danialbehzadi"
-
-#~ msgid "Add Ukranian translation by @vl-nix"
-#~ msgstr "Menambahkan terjemahan Bahasa Ukraina oleh @vl-nix"
-
-#~ msgid ""
-#~ "Add support for showing/hiding window decorations using the mpv option --"
-#~ "border"
-#~ msgstr ""
-#~ "Tambahkan dukungan untuk menampilkan/menyembunyikan dekorasi jendela "
-#~ "menggunakan opsi mpv --border"
-
-#~ msgid "Add menu item for opening discs"
-#~ msgstr "Tambahkan item menu untuk membuka kaset"
-
-#~ msgid "Block cursor autohide when volume popup is open in windowed mode"
-#~ msgstr ""
-#~ "Blokir kursor sembunyi secara otomatis saat popup volume terbuka dalam "
-#~ "mode jendela"
-
-#~ msgid "Fix crash with mpv 0.30"
-#~ msgstr "Perbaiki kerusakan dengan mpv 0.30"
-
-#~ msgid "Rename project to Celluloid"
-#~ msgstr "Mengubah nama proyek menjadi Celluloid"
-
-#~ msgid "Add Turkish translation by @TeknoMobil"
-#~ msgstr "Menambahkan terjemahan Bahasa Turki oleh @TeknoMobil"
-
-#~ msgid "Add Esperanto translation by @F3nd0"
-#~ msgstr "Tambahkan terjemahan Esperanto oleh @F3nd0"
-
-#~ msgid "Migrate from opengl-cb to the new render API"
-#~ msgstr "Migrasi dari opengl-cb ke render API baru"
-
-#~ msgid "Handle numpad keybindings"
-#~ msgstr "Menangani pengaturan tombol numpad"
-
-#~ msgid "Handle unicode keybindings"
-#~ msgstr "Menangani pengaturan tombol unicode"
-
-#~ msgid "Forward media key events to mpv"
-#~ msgstr "Teruskan peristiwa kunci media ke mpv"
-
-#~ msgid ""
-#~ "Add dconf key for controlling cursor speed at which controls are unhidden"
-#~ msgstr ""
-#~ "Tambahkan kunci dconf untuk mengontrol kecepatan kursor di mana kontrol "
-#~ "tidak disembunyikan"
-
-#~ msgid "Add option for suppressing playback errors"
-#~ msgstr "Tambahkan opsi untuk menekan kesalahan pemutaran"
-
-#~ msgid "Split up the General tab in the preferences dialog"
-#~ msgstr "Pisahkan tab Umum di dialog preferensi"
-
-#~ msgid "Improve behavior when toggling playlist under tiling window managers"
-#~ msgstr ""
-#~ "Tingkatkan perilaku saat beralih daftar putar di bawah pengelola jendela "
-#~ "tiling"
-
-#~ msgid "Move app menu items to primary menu"
-#~ msgstr "Pindahkan item menu aplikasi ke menu utama"
-
-#~ msgid "Use separate MPRIS DBus connection for each window"
-#~ msgstr "Gunakan koneksi MPRIS DBus terpisah untuk setiap jendela"
-
-#~ msgid "Add support for MPRIS property LoopStatus"
-#~ msgstr "Tambahkan dukungan untuk properti LoopStatus MPRIS"
-
-#~ msgid ""
-#~ "Add option --mpv-options for setting arbitrary mpv options from the "
-#~ "command-line"
-#~ msgstr ""
-#~ "Tambahkan opsi --mpv-options untuk menyetel opsi mpv sembarang dari "
-#~ "command-line"
-
-#~ msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-#~ msgstr "Mengubah direktori tangkapan layar bawaan menjadi XDG_PICTURES_DIR"
-
-#~ msgid ""
-#~ "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
-#~ "autofit-smaller"
-#~ msgstr ""
-#~ "Meningkatkan penanganan --window-scale, --autofit, --autofit-larger, dan "
-#~ "--autofit-smaller"
-
-#~ msgid "Add command line option for setting WM_ROLE"
-#~ msgstr "Tambahkan opsi command line untuk mengatur WM_ROLE"
-
-#~ msgid "Add context menu item for removing playlist items"
-#~ msgstr "Tambahkan item menu konteks untuk menghapus item daftar putar"
-
-#~ msgid "Add context menu item for copying location of playlist items"
-#~ msgstr "Tambahkan item menu konteks untuk menyalin lokasi item daftar putar"
-
-#~ msgid ""
-#~ "Add option to make skip buttons change playlist entries rather than "
-#~ "chapters"
-#~ msgstr ""
-#~ "Tambahkan opsi untuk membuat tombol lewati mengubah entri daftar putar "
-#~ "daripada bab"
-
-#~ msgid "Make the file chooser accept non-local locations"
-#~ msgstr ""
-#~ "Buat pemilih berkas menerima lokasi berkas yang tidak ada di penyimpanan "
-#~ "lokal"
-
-#~ msgid "Add right-click menu entry for looping a single file"
-#~ msgstr "Tambahkan entri menu klik kanan untuk mengulang satu file"
-
-#~ msgid "Handle property change events for fullscreen and window-scale"
-#~ msgstr ""
-#~ "Menangani peristiwa perubahan properti untuk layar penuh dan skala jendela"
-
-#~ msgid "Add option to autohide mouse cursor in windowed mode"
-#~ msgstr ""
-#~ "Tambahkan opsi untuk menyembunyikan kursor mouse secara otomatis dalam "
-#~ "mode jendela"
 
 #~ msgid "Loop _Playlist"
 #~ msgstr "Putar ulang _Playlist"

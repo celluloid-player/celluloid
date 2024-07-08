@@ -41,7 +41,6 @@ enum
 {
 	PROP_0,
 	PROP_ALWAYS_FLOATING_CONTROLS,
-	PROP_ALWAYS_FLOATING_HEADER_BAR,
 	PROP_CHAPTER_LIST,
 	N_PROPERTIES
 };
@@ -55,7 +54,6 @@ struct _CelluloidMainWindowPrivate
 	gint compact_threshold;
 	gboolean csd;
 	gboolean always_floating_controls;
-	gboolean always_floating_header_bar;
 	gboolean use_floating_controls;
 	gboolean use_floating_header_bar;
 	gboolean playlist_visible;
@@ -168,10 +166,6 @@ set_property(	GObject *object,
 	{
 		priv->always_floating_controls = g_value_get_boolean(value);
 	}
-	else if(property_id == PROP_ALWAYS_FLOATING_HEADER_BAR)
-	{
-		priv->always_floating_header_bar = g_value_get_boolean(value);
-	}
 	else if(property_id == PROP_CHAPTER_LIST)
 	{
 		priv->chapter_list = g_value_get_pointer(value);
@@ -193,10 +187,6 @@ get_property(	GObject *object,
 	if(property_id == PROP_ALWAYS_FLOATING_CONTROLS)
 	{
 		g_value_set_boolean(value, priv->always_floating_controls);
-	}
-	else if(property_id == PROP_ALWAYS_FLOATING_HEADER_BAR)
-	{
-		g_value_set_boolean(value, priv->always_floating_header_bar);
 	}
 	else if(property_id == PROP_CHAPTER_LIST)
 	{
@@ -222,7 +212,7 @@ notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	const gboolean floating_controls =
 		priv->always_floating_controls || fullscreen;
 	const gboolean floating_header_bar =
-		(priv->always_floating_header_bar && priv->csd) || fullscreen;
+		(priv->always_floating_controls && priv->csd) || fullscreen;
 	const gboolean playlist_visible =
 		!fullscreen && priv->pre_fs_playlist_visible;
 	const gboolean show_controls = g_settings_get_boolean
@@ -289,11 +279,7 @@ notify(GObject *object, GParamSpec *pspec)
 			priv->always_floating_controls || fullscreen;
 
 		celluloid_main_window_set_use_floating_controls(wnd, floating);
-	}
-	else if(g_strcmp0(pspec->name, "always-use-floating-header-bar") == 0)
-	{
-		celluloid_main_window_set_use_floating_header_bar
-			(wnd, priv->always_floating_header_bar);
+		celluloid_main_window_set_use_floating_header_bar(wnd, floating);
 	}
 }
 
@@ -420,14 +406,6 @@ celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING_CONTROLS, pspec);
 
-	pspec = g_param_spec_boolean
-		(	"always-use-floating-header-bar",
-			"Always use a floating header bar",
-			"Whether or not to use a floating header bar in windowed mode",
-			FALSE,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(obj_class, PROP_ALWAYS_FLOATING_HEADER_BAR, pspec);
-
 	pspec = g_param_spec_pointer
 		(	"chapter-list",
 			"Chapter list",
@@ -467,7 +445,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 
 	priv->csd = FALSE;
 	priv->always_floating_controls = FALSE;
-	priv->always_floating_header_bar = FALSE;
 	priv->use_floating_controls = FALSE;
 	priv->use_floating_header_bar = FALSE;
 	priv->playlist_visible = FALSE;

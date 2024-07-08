@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2023 gnome-mpv
+ * Copyright (c) 2016-2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -183,7 +183,7 @@ key_pressed_handler(	GtkEventControllerKey *key_controller,
 		g_free(keystr);
 	}
 
-	return TRUE;
+	return keystr && !searching;
 }
 
 static void

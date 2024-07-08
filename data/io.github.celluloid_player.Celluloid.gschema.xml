@@ -36,11 +36,6 @@
 			<description>
 			</description>
 		</key>
-		<key name="always-use-floating-header-bar" type="b">
-			<default>false</default>
-			<summary>Use a floating header bar in windowed mode</summary>
-			<description/>
-		</key>
 		<key name="always-autohide-cursor" type="b">
 			<default>false</default>
 			<summary>Automatically hide mouse cursor in windowed mode</summary>
@@ -74,8 +69,11 @@
 		</key>
 		<key name="always-open-new-window" type="b">
 			<default>false</default>
-			<summary>Always open new window</summary>
+			<summary>Open new window when opening new files</summary>
 			<description>
+                                When opening new files through D-Bus (e.g.
+                                using a file manager), open the file in a new
+                                window.
 			</description>
 		</key>
 		<key name="always-append-to-playlist" type="b">
@@ -86,7 +84,7 @@
 		</key>
 		<key name="always-show-title-buttons" type="b">
 			<default>false</default>
-			<summary>Always show title buttons</summary>
+			<summary>Show title buttons in fullscreen mode</summary>
 			<description>
                                 If true, title buttons (close, maximize,
                                 minimize, etc.) are always shown. If false, the

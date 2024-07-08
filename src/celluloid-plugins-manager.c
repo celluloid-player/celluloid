@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021, 2023 gnome-mpv
+ * Copyright (c) 2016-2021, 2023-2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -448,6 +448,9 @@ celluloid_plugins_manager_init(CelluloidPluginsManager *pmgr)
 	adw_status_page_set_title
 		(	ADW_STATUS_PAGE(pmgr->placeholder),
 			_("No Plugins Found") );
+	adw_status_page_set_description
+		(	ADW_STATUS_PAGE(pmgr->placeholder),
+			_("Click the <b>Add…</b> button to install a new plugin") );
 	adw_status_page_set_icon_name
 		(	ADW_STATUS_PAGE(pmgr->placeholder),
 			"application-x-addon-symbolic" );
