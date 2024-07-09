@@ -23,6 +23,7 @@
 
 #include "celluloid-control-box.h"
 #include "celluloid-seek-bar.h"
+#include "adwaita.h"
 
 enum
 {
@@ -33,7 +34,6 @@ enum
 	PROP_COMPACT,
 	PROP_FULLSCREENED,
 	PROP_PAUSE,
-	PROP_SHOW_FULLSCREEN_BUTTON,
 	PROP_TIME_POSITION,
 	PROP_LOOP,
 	PROP_SHUFFLE,
@@ -41,18 +41,20 @@ enum
 	PROP_VOLUME_MAX,
 	PROP_VOLUME_POPUP_VISIBLE,
 	PROP_CHAPTER_LIST,
+	PROP_CONTENT_TITLE,
+	PROP_NARROW,
 	N_PROPERTIES
 };
 
 struct _CelluloidControlBox
 {
-	GtkBox parent_instance;
-
+	AdwBin parent_instance;
 	GtkGesture *click_gesture;
-
+	GtkWidget *clamp;
+	GtkWidget *title_widget;
+	GtkWidget *controls_box;
 	GtkWidget *inner_box;
 	GtkWidget *play_button;
-	GtkWidget *stop_button;
 	GtkWidget *forward_button;
 	GtkWidget *rewind_button;
 	GtkWidget *next_button;
@@ -61,28 +63,29 @@ struct _CelluloidControlBox
 	GtkWidget *shuffle_button;
 	GtkWidget *volume_button;
 	GtkWidget *playlist_button;
-	GtkWidget *fullscreen_button;
 	GtkWidget *seek_bar;
 	GtkWidget *secondary_seek_bar;
 	gboolean skip_enabled;
 	gdouble duration;
 	gboolean enabled;
+	gboolean narrow;
 	gboolean compact;
 	gboolean fullscreened;
 	gboolean pause;
-	gboolean show_fullscreen_button;
 	gdouble time_position;
 	gboolean loop;
 	gboolean shuffle;
+	gchar *content_title;
 	gdouble volume;
 	gdouble volume_max;
 	gboolean volume_popup_visible;
+	AdwTimedAnimation *animate;
 	GPtrArray *chapter_list;
 };
 
 struct _CelluloidControlBoxClass
 {
-	GtkBoxClass parent_class;
+	AdwBinClass parent_class;
 };
 
 static void
@@ -141,6 +144,9 @@ static void
 set_compact(CelluloidControlBox *box, gboolean compact);
 
 static void
+set_narrow(CelluloidControlBox *box, gboolean narrow);
+
+static void
 set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen);
 
 static void
@@ -148,7 +154,7 @@ init_button(	GtkWidget *button,
 		const gchar *icon_name,
 		const gchar *tooltip_text );
 
-G_DEFINE_TYPE(CelluloidControlBox, celluloid_control_box, GTK_TYPE_BOX)
+G_DEFINE_TYPE(CelluloidControlBox, celluloid_control_box, ADW_TYPE_BIN)
 
 static void
 set_property(	GObject *object,
@@ -174,6 +180,11 @@ set_property(	GObject *object,
 		set_enabled(self, self->enabled);
 		break;
 
+		case PROP_NARROW:
+		self->narrow = g_value_get_boolean(value);
+		set_narrow(self, self->narrow);
+		break;
+
 		case PROP_COMPACT:
 		self->compact = g_value_get_boolean(value);
 		set_compact(self, self->compact);
@@ -187,13 +198,6 @@ set_property(	GObject *object,
 		case PROP_PAUSE:
 		self->pause = g_value_get_boolean(value);
 		set_playing_state(self, !self->pause);
-		break;
-
-		case PROP_SHOW_FULLSCREEN_BUTTON:
-		self->show_fullscreen_button = g_value_get_boolean(value);
-		gtk_widget_set_visible
-			(	self->fullscreen_button,
-				self->show_fullscreen_button );
 		break;
 
 		case PROP_TIME_POSITION:
@@ -226,8 +230,7 @@ set_property(	GObject *object,
 		case PROP_VOLUME_POPUP_VISIBLE:
 		self->volume_popup_visible = g_value_get_boolean(value);
 
-		if(	self->volume_popup_visible &&
-			gtk_widget_is_visible(GTK_WIDGET(self)) )
+		if(	self->volume_popup_visible)
 		{
 			g_signal_emit_by_name(self->volume_button, "popup");
 		}
@@ -239,6 +242,10 @@ set_property(	GObject *object,
 
 		case PROP_CHAPTER_LIST:
 		self->chapter_list = g_value_get_pointer(value);
+		break;
+
+		case PROP_CONTENT_TITLE:
+		self->content_title = g_value_get_string(value);
 		break;
 
 		default:
@@ -269,6 +276,10 @@ get_property(	GObject *object,
 		g_value_set_boolean(value, self->enabled);
 		break;
 
+		case PROP_NARROW:
+		g_value_set_boolean(value, self->narrow);
+		break;
+
 		case PROP_COMPACT:
 		g_value_set_boolean(value, self->compact);
 		break;
@@ -279,10 +290,6 @@ get_property(	GObject *object,
 
 		case PROP_PAUSE:
 		g_value_set_boolean(value, self->pause);
-		break;
-
-		case PROP_SHOW_FULLSCREEN_BUTTON:
-		g_value_set_boolean(value, self->show_fullscreen_button);
 		break;
 
 		case PROP_TIME_POSITION:
@@ -311,6 +318,10 @@ get_property(	GObject *object,
 
 		case PROP_CHAPTER_LIST:
 		g_value_set_pointer(value, self->chapter_list);
+		break;
+
+		case PROP_CONTENT_TITLE:
+		g_value_set_string(value, self->content_title);
 		break;
 
 		default:
@@ -402,13 +413,11 @@ simple_signal_handler(GtkWidget *widget, gpointer data)
 	}
 	signal_map[]
 		= {	{box->play_button, "button-clicked", "play"},
-			{box->stop_button, "button-clicked", "stop"},
 			{box->forward_button, "button-clicked", "forward"},
 			{box->rewind_button, "button-clicked", "rewind"},
 			{box->previous_button, "button-clicked", "previous"},
 			{box->next_button, "button-clicked", "next"},
 			{box->playlist_button, "button-clicked", "playlist"},
-			{box->fullscreen_button, "button-clicked", "fullscreen"},
 			{NULL, NULL, NULL} };
 
 	for(i = 0; signal_map[i].name && signal_map[i].widget != widget; i++);
@@ -425,7 +434,6 @@ set_enabled(CelluloidControlBox *box, gboolean enabled)
 {
 	gtk_widget_set_sensitive(box->previous_button, enabled);
 	gtk_widget_set_sensitive(box->rewind_button, enabled);
-	gtk_widget_set_sensitive(box->stop_button, enabled);
 	gtk_widget_set_sensitive(box->play_button, enabled);
 	gtk_widget_set_sensitive(box->forward_button, enabled);
 	gtk_widget_set_sensitive(box->next_button, enabled);
@@ -468,6 +476,8 @@ set_compact(CelluloidControlBox *box, gboolean compact)
 		gtk_widget_set_margin_start(box->loop_button, 12);
 		gtk_widget_set_visible(box->seek_bar, FALSE);
 		gtk_widget_set_visible(box->secondary_seek_bar, TRUE);
+	  	gtk_widget_add_css_class(GTK_WIDGET(box->controls_box), "docked");
+		gtk_widget_remove_css_class(GTK_WIDGET(box->controls_box), "undocked");
 	}
 	else
 	{
@@ -475,21 +485,27 @@ set_compact(CelluloidControlBox *box, gboolean compact)
 		gtk_widget_set_margin_start(box->loop_button, 0);
 		gtk_widget_set_visible(box->seek_bar, TRUE);
 		gtk_widget_set_visible(box->secondary_seek_bar, FALSE);
+		gtk_widget_add_css_class(GTK_WIDGET(box->controls_box), "undocked");
+		gtk_widget_remove_css_class(GTK_WIDGET(box->controls_box), "docked");
 	}
 }
-
+static void
+set_narrow(CelluloidControlBox *box, gboolean narrow)
+{
+	if(box->narrow)
+	{
+	  	gtk_widget_add_css_class(GTK_WIDGET(box->controls_box), "docked");
+		gtk_widget_remove_css_class(GTK_WIDGET(box->controls_box), "undocked");
+	}
+	else
+	{
+		gtk_widget_add_css_class(GTK_WIDGET(box->controls_box), "undocked");
+	  	gtk_widget_remove_css_class(GTK_WIDGET(box->controls_box), "docked");
+	}
+}
 static void
 set_fullscreen_state(CelluloidControlBox *box, gboolean fullscreen)
 {
-	const gchar *icon_name =
-		fullscreen ?
-		"view-restore-symbolic" :
-		"view-fullscreen-symbolic";
-
-	gtk_button_set_icon_name
-		(GTK_BUTTON(box->fullscreen_button), icon_name);
-	gtk_widget_set_visible
-		(box->playlist_button, !fullscreen);
 }
 
 static void
@@ -498,8 +514,6 @@ init_button(	GtkWidget *button,
 		const gchar *tooltip_text )
 {
 	gtk_button_set_icon_name(GTK_BUTTON(button), icon_name);
-
-	g_object_set(button, "has-frame", FALSE, NULL);
 	gtk_widget_set_tooltip_text(button, tooltip_text);
 	gtk_widget_set_can_focus(button, FALSE);
 }
@@ -569,15 +583,6 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 	g_object_class_install_property
 		(object_class, PROP_PAUSE, pspec);
 
-	pspec = g_param_spec_boolean
-		(	"show-fullscreen-button",
-			"Show fullscreen button",
-			"Whether to show fullscreen button when applicable",
-			FALSE,
-			G_PARAM_READWRITE );
-	g_object_class_install_property
-		(object_class, PROP_SHOW_FULLSCREEN_BUTTON, pspec);
-
 	pspec = g_param_spec_double
 		(	"time-position",
 			"Time position",
@@ -606,6 +611,14 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property
 		(object_class, PROP_SHUFFLE, pspec);
+
+	pspec = g_param_spec_string
+		(	"content-title",
+			"Content Title",
+			"Title of the currently playing item",
+			NULL,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_CONTENT_TITLE, pspec);
 
 	pspec = g_param_spec_double
 		(	"volume",
@@ -638,13 +651,12 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 		(object_class, PROP_CHAPTER_LIST, pspec);
 
 	pspec = g_param_spec_boolean
-		(	"volume-popup-visible",
-			"Volume popup visible",
-			"Whether or not the volume popup is visible",
+		(	"narrow",
+			"Narrow",
+			"Whether or not narrow mode is enabled",
 			FALSE,
 			G_PARAM_READWRITE );
-	g_object_class_install_property
-		(object_class, PROP_VOLUME_POPUP_VISIBLE, pspec);
+	g_object_class_install_property(object_class, PROP_NARROW, pspec);
 
 	g_signal_new(	"button-clicked",
 			G_TYPE_FROM_CLASS(klass),
@@ -689,18 +701,17 @@ celluloid_control_box_init(CelluloidControlBox *box)
 			"audio-volume-low",
 			"audio-volume-medium",
 			NULL };
-
+	box->clamp = adw_clamp_new();
 	box->click_gesture = gtk_gesture_click_new();
-
+	box->title_widget = gtk_label_new("");
+	box->controls_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	box->inner_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	box->play_button = gtk_button_new();
-	box->stop_button = gtk_button_new();
 	box->forward_button = gtk_button_new();
 	box->rewind_button = gtk_button_new();
 	box->next_button = gtk_button_new();
 	box->previous_button = gtk_button_new();
 	box->playlist_button = gtk_button_new();
-	box->fullscreen_button = gtk_button_new();
 	box->loop_button = gtk_toggle_button_new();
 	box->shuffle_button = gtk_toggle_button_new();
 	box->volume_button = gtk_scale_button_new(0.0, 1.0, 0.02, volume_icons);
@@ -709,24 +720,22 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->skip_enabled = FALSE;
 	box->duration = 0.0;
 	box->enabled = TRUE;
+	box->narrow = FALSE;
 	box->compact = FALSE;
 	box->fullscreened = FALSE;
 	box->pause = TRUE;
-	box->show_fullscreen_button = FALSE;
 	box->time_position = 0.0;
 	box->loop = FALSE;
 	box->shuffle = FALSE;
 	box->volume = 0.0;
+	box->content_title = "";
 	box->volume_max = 100.0;
 	box->volume_popup_visible = FALSE;
 	box->chapter_list = NULL;
-
+	gtk_widget_add_css_class(box->controls_box,"control-box");
 	init_button(	box->play_button,
 			"media-playback-start-symbolic",
 			_("Play") );
-	init_button(	box->stop_button,
-			"media-playback-stop-symbolic",
-			_("Stop") );
 	init_button(	box->forward_button,
 			"media-seek-forward-symbolic",
 			_("Forward") );
@@ -748,14 +757,14 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	init_button(	box->playlist_button,
 			"sidebar-show-right-symbolic",
 			_("Toggle Playlist") );
-	init_button(	box->fullscreen_button,
-			"view-fullscreen-symbolic",
-			_("Toggle Fullscreen") );
 
 	gtk_widget_add_controller
 		(GTK_WIDGET(box), GTK_EVENT_CONTROLLER(box->click_gesture));
-
-	gtk_widget_add_css_class(GTK_WIDGET(box), "toolbar");
+	gtk_widget_add_css_class(box->title_widget, "heading");
+	gtk_label_set_max_width_chars(GTK_LABEL(box->title_widget), 20);
+	gtk_label_set_ellipsize(GTK_LABEL(box->title_widget), PANGO_ELLIPSIZE_MIDDLE);
+	gtk_widget_set_size_request (GTK_WIDGET(box->title_widget), 200, -1);
+	gtk_widget_add_css_class(GTK_WIDGET(box->controls_box), "toolbar");
 
 	gtk_widget_set_margin_end(box->seek_bar, 6);
 	gtk_widget_set_margin_end(box->secondary_seek_bar, 6);
@@ -769,27 +778,26 @@ celluloid_control_box_init(CelluloidControlBox *box)
 
 	g_object_set(box->secondary_seek_bar, "show-label", FALSE, NULL);
 
+	gtk_widget_set_tooltip_text(box->volume_button, _("Volume"));
+	set_narrow(box, box->narrow);
 	set_compact(box, box->compact);
 
-	g_object_set(box, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
-
+	adw_bin_set_child(ADW_BIN(box), box->clamp);
+	adw_clamp_set_child(ADW_CLAMP(box->clamp), box->controls_box);
+	adw_clamp_set_maximum_size(ADW_CLAMP(box->clamp), 1000);
+	adw_clamp_set_tightening_threshold(ADW_CLAMP(box->clamp), 700);
 	box->inner_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-	gtk_box_append(GTK_BOX(box), box->secondary_seek_bar);
-	gtk_box_append(GTK_BOX(box), box->inner_box);
-
+	gtk_box_append(GTK_BOX(box->controls_box), box->title_widget);
+	gtk_box_append(GTK_BOX(box->controls_box), box->secondary_seek_bar);
+	gtk_box_append(GTK_BOX(box->controls_box), box->inner_box);
 	gtk_box_append(GTK_BOX(box->inner_box), box->previous_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->rewind_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->play_button);
-	gtk_box_append(GTK_BOX(box->inner_box), box->stop_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->forward_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->next_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->seek_bar);
-	gtk_box_append(GTK_BOX(box->inner_box), box->loop_button);
-	gtk_box_append(GTK_BOX(box->inner_box), box->shuffle_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->volume_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->playlist_button);
-	gtk_box_append(GTK_BOX(box->inner_box), box->fullscreen_button);
 
 	popup =	gtk_scale_button_get_popup
 		(GTK_SCALE_BUTTON(box->volume_button));
@@ -798,9 +806,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 
 	gtk_popover_set_position(GTK_POPOVER(popup), GTK_POS_TOP);
 
-	g_object_bind_property(	popup, "visible",
-				box, "volume-popup-visible",
-				G_BINDING_DEFAULT );
 	g_object_bind_property(	box, "duration",
 				box->seek_bar, "duration",
 				G_BINDING_DEFAULT );
@@ -831,6 +836,12 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	g_object_bind_property(	box, "shuffle",
 				box->shuffle_button, "active",
 				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	box, "content-title",
+				box->title_widget, "label",
+				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	box->title_widget, "label",
+				box->title_widget, "tooltip-text",
+				G_BINDING_DEFAULT );
 	g_object_bind_property_full(	box->volume_button, "value",
 					box, "volume",
 					G_BINDING_BIDIRECTIONAL,
@@ -852,10 +863,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				NULL );
 
 	g_signal_connect(	box->play_button,
-				"clicked",
-				G_CALLBACK(simple_signal_handler),
-				box );
-	g_signal_connect(	box->stop_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
 				box );
@@ -884,10 +891,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				G_CALLBACK(simple_signal_handler),
 				box );
 	g_signal_connect(	box->playlist_button,
-				"clicked",
-				G_CALLBACK(simple_signal_handler),
-				box );
-	g_signal_connect(	box->fullscreen_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
 				box );
@@ -938,7 +941,7 @@ celluloid_control_box_get_volume(CelluloidControlBox *box)
 gboolean
 celluloid_control_box_get_volume_popup_visible(CelluloidControlBox *box)
 {
-	return box->volume_popup_visible;
+	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(gtk_widget_get_first_child(box->volume_button)));
 }
 
 void
@@ -946,22 +949,20 @@ celluloid_control_box_set_floating(CelluloidControlBox *box, gboolean floating)
 {
 	if(floating)
 	{
-		gtk_widget_add_css_class(GTK_WIDGET(box), "osd");
-
-		gtk_widget_set_margin_start(GTK_WIDGET(box), 12);
-		gtk_widget_set_margin_end(GTK_WIDGET(box), 12);
-		gtk_widget_set_margin_top(GTK_WIDGET(box), 12);
-		gtk_widget_set_margin_bottom(GTK_WIDGET(box), 12);
+		gtk_widget_add_css_class(GTK_WIDGET(box->controls_box), "undocked");
+		gtk_widget_add_css_class(GTK_WIDGET(box->controls_box), "osd");
+		gtk_widget_set_visible(GTK_WIDGET(box->title_widget), TRUE);
 	}
 	else
 	{
-		gtk_widget_remove_css_class(GTK_WIDGET(box), "osd");
-
-		gtk_widget_set_margin_start(GTK_WIDGET(box), 0);
-		gtk_widget_set_margin_end(GTK_WIDGET(box), 0);
-		gtk_widget_set_margin_top(GTK_WIDGET(box), 0);
-		gtk_widget_set_margin_bottom(GTK_WIDGET(box), 0);
+		gtk_widget_remove_css_class(GTK_WIDGET(box->controls_box), "undocked");
+		gtk_widget_remove_css_class(GTK_WIDGET(box->controls_box), "osd");
+		gtk_widget_set_visible(GTK_WIDGET(box->title_widget), FALSE);
 	}
+}
+void
+celluloid_control_box_set_title(CelluloidControlBox *box, gchar* title) {
+	gtk_label_set_label(GTK_LABEL(box->title_widget), title);
 }
 
 void
@@ -970,3 +971,4 @@ celluloid_control_box_reset(CelluloidControlBox *box)
 	celluloid_control_box_set_seek_bar_pos(box, 0);
 	set_fullscreen_state(box, FALSE);
 }
+

@@ -116,8 +116,6 @@ resize_video_area_finalize(	GtkWidget *widget,
 static gboolean
 resize_to_target(gpointer data);
 
-gboolean
-update_compact_mode(GtkWidget *widget);
 
 G_DEFINE_TYPE_WITH_PRIVATE(CelluloidMainWindow, celluloid_main_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -239,7 +237,7 @@ notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data)
 	}
 
 	celluloid_main_window_set_use_floating_controls
-		(wnd, floating_controls && show_controls);
+		(wnd, floating_controls);
 	celluloid_main_window_set_use_floating_header_bar
 		(wnd, floating_header_bar);
 	gtk_widget_set_visible
@@ -288,8 +286,6 @@ size_allocate(GtkWidget *widget, gint width, gint height, gint baseline)
 {
 	GTK_WIDGET_CLASS(celluloid_main_window_parent_class)
 		->size_allocate(widget, width, height, baseline);
-
-	g_idle_add((GSourceFunc)update_compact_mode, widget);
 }
 
 static void
@@ -356,33 +352,6 @@ resize_to_target(gpointer data)
 	return FALSE;
 }
 
-gboolean
-update_compact_mode(GtkWidget *widget)
-{
-	CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(widget);
-	CelluloidMainWindowPrivate *priv = get_private(wnd);
-
-	if(priv->compact_threshold < 0)
-	{
-		gtk_widget_measure
-			(	widget,
-				GTK_ORIENTATION_HORIZONTAL,
-				-1,
-				&priv->compact_threshold,
-				NULL,
-				NULL,
-				NULL );
-
-		g_assert(priv->compact_threshold > -1);
-		priv->compact_threshold += COMPACT_THRESHOLD_OFFSET;
-	}
-
-	const gint width = gtk_widget_get_allocated_width(widget);
-	const gboolean compact = width <= priv->compact_threshold;
-	g_object_set(priv->control_box, "compact", compact, NULL);
-
-	return G_SOURCE_REMOVE;
-}
 
 static void
 celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
@@ -464,7 +433,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	priv->width_offset = 0;
 	priv->height_offset = 0;
 	priv->compact_threshold = -1;
-
+	gtk_widget_set_visible(priv->header_bar, FALSE);
 	video_area_control_box =
 		celluloid_video_area_get_control_box
 		(CELLULOID_VIDEO_AREA(priv->video_area));
@@ -502,9 +471,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	g_object_bind_property(	priv->control_box, "skip-enabled",
 				video_area_control_box, "skip-enabled",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	priv->control_box, "show-fullscreen-button",
-				video_area_control_box, "show-fullscreen-button",
-				G_BINDING_DEFAULT );
 	g_object_bind_property(	priv->control_box, "time-position",
 				video_area_control_box, "time-position",
 				G_BINDING_DEFAULT );
@@ -514,10 +480,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	g_object_bind_property(	priv->control_box, "volume",
 				video_area_control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
-	g_object_bind_property(	priv->control_box, "volume-popup-visible",
-				video_area_control_box, "volume-popup-visible",
-				G_BINDING_BIDIRECTIONAL );
-
 	g_signal_connect(	wnd,
 				"notify::fullscreened",
 				G_CALLBACK(notify_fullscreened_handler),
@@ -550,13 +512,11 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 					MAIN_WINDOW_DEFAULT_WIDTH,
 					MAIN_WINDOW_DEFAULT_HEIGHT );
 
-	gtk_widget_set_hexpand(priv->header_bar, TRUE);
-	gtk_widget_set_hexpand(priv->control_box, TRUE);
 	gtk_widget_set_vexpand(priv->video_area_paned, TRUE);
 
 	gtk_box_append(GTK_BOX(priv->main_box), priv->video_area_paned);
-	gtk_box_append(GTK_BOX(priv->main_box), priv->control_box);
 	gtk_window_set_child(GTK_WINDOW(wnd), priv->main_box);
+	gtk_widget_set_size_request(GTK_WIDGET(wnd), 260, 220);
 }
 
 GtkWidget *
@@ -595,21 +555,17 @@ celluloid_main_window_set_use_floating_controls(	CelluloidMainWindow *wnd,
 {
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 
-	if(floating != priv->use_floating_controls)
-	{
-		GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
-		gboolean controls_visible =	g_settings_get_boolean
-						(settings, "show-controls");
+	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
+	gboolean controls_visible =	g_settings_get_boolean
+					(settings, "show-controls");
+	celluloid_video_area_set_control_box_visible
+			(CELLULOID_VIDEO_AREA(priv->video_area), controls_visible);
+	celluloid_video_area_set_control_box_floating
+		(CELLULOID_VIDEO_AREA(priv->video_area), floating);
+	priv->use_floating_controls = floating;
 
-		gtk_widget_set_visible
-			(priv->control_box, controls_visible && !floating);
-		celluloid_video_area_set_control_box_visible
-			(CELLULOID_VIDEO_AREA(priv->video_area), floating);
+	g_clear_object(&settings);
 
-		priv->use_floating_controls = floating;
-
-		g_clear_object(&settings);
-	}
 }
 
 gboolean
@@ -624,20 +580,15 @@ celluloid_main_window_set_use_floating_header_bar(	CelluloidMainWindow *wnd,
 {
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 
-	if(floating != priv->use_floating_header_bar)
-	{
-		CelluloidVideoArea *area =
-			CELLULOID_VIDEO_AREA(priv->video_area);
+	CelluloidVideoArea *area =
+		CELLULOID_VIDEO_AREA(priv->video_area);
 
-		priv->use_floating_header_bar =
-			(floating && priv->csd) ||
-			gtk_window_is_fullscreen(GTK_WINDOW(wnd));
+	priv->use_floating_header_bar =
+		(floating && priv->csd) ||
+		gtk_window_is_fullscreen(GTK_WINDOW(wnd));
 
-		gtk_widget_set_visible
-			(priv->header_bar, !floating && priv->csd);
-		celluloid_video_area_set_use_floating_header_bar
-			(area, priv->use_floating_header_bar);
-	}
+	celluloid_video_area_set_use_floating_header_bar
+		(area, priv->use_floating_header_bar);
 }
 
 gboolean
@@ -857,7 +808,7 @@ celluloid_main_window_resize_video_area(	CelluloidMainWindow *wnd,
 		resize_to_target(wnd);
 
 		/* The size may not change, so this is needed to ensure that
-		 * resize_video_area_finalize() will be called so that the event handler
+		 * resize_video_area_finalize() will be called so that the event handlers
 		 * will be disconnected.
 		 */
 		gtk_widget_queue_allocate(priv->video_area);
@@ -868,9 +819,11 @@ void
 celluloid_main_window_enable_csd(CelluloidMainWindow *wnd)
 {
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
-
+  	CelluloidHeaderBar *video_area_header_bar =
+		celluloid_video_area_get_header_bar
+		(CELLULOID_VIDEO_AREA(priv->video_area));
 	priv->csd = TRUE;
-
+	gtk_widget_show(GTK_WIDGET(video_area_header_bar));
 	gtk_window_set_titlebar(GTK_WINDOW(wnd), priv->header_bar);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 }
@@ -947,9 +900,6 @@ celluloid_main_window_set_controls_visible(	CelluloidMainWindow *wnd,
 	const gboolean floating = priv->use_floating_controls;
 	const gboolean fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(wnd));
 
-	gtk_widget_set_visible
-		(	GTK_WIDGET(priv->control_box),
-			visible && !fullscreen && !floating );
 	celluloid_video_area_set_control_box_visible
 		(	CELLULOID_VIDEO_AREA(priv->video_area),
 			visible && (fullscreen || floating) );
