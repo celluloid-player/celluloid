@@ -23,13 +23,13 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
-
+#include <adwaita.h>
 #include "celluloid-control-box.h"
 #include "celluloid-header-bar.h"
 
 #define CELLULOID_TYPE_VIDEO_AREA (celluloid_video_area_get_type ())
 
-G_DECLARE_FINAL_TYPE(CelluloidVideoArea, celluloid_video_area, CELLULOID, VIDEO_AREA, GtkBox)
+G_DECLARE_FINAL_TYPE(CelluloidVideoArea, celluloid_video_area, CELLULOID, VIDEO_AREA, AdwBreakpointBin)
 
 enum CelluloidVideoAreaStatus
 {
@@ -73,6 +73,10 @@ celluloid_video_area_get_control_box_visible(CelluloidVideoArea *area);
 void
 celluloid_video_area_set_use_floating_header_bar(	CelluloidVideoArea *area,
 							gboolean floating );
+
+void
+celluloid_video_area_set_control_box_floating(	CelluloidVideoArea *area,
+						gboolean floating );
 
 void
 celluloid_video_area_queue_render(CelluloidVideoArea *area);

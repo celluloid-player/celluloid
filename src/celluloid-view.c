@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 gnome-mpv
+ * Copyright (c) 2017-2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -530,12 +530,36 @@ static void
 load_css(CelluloidView *view)
 {
 	const gchar *style =
-		"celluloid-seek-bar slider { border-radius: 100%; }"
-		"celluloid-video-area { background-color: black; }"
-		".dialog-action-area { margin: -12px 12px 12px 0px; }"
-		".dialog-action-area > button { margin-left: 12px; }";
-	GtkCssProvider *style_provider =
-		gtk_css_provider_new();
+		"celluloid-video-area"
+		"{"
+		"	background-color: black;"
+		"}"
+		"celluloid-seek-bar slider"
+		"{"
+		"	border-radius: 100%;"
+		"}"
+		".dialog-action-area"
+		"{"
+		"	margin: -12px 12px 12px 0px;"
+		"}"
+		".dialog-action-area > button"
+		"{"
+		"	margin-left: 12px;"
+		"}"
+		".osd.docked"
+		"{"
+		"	border-radius: 0px;"
+		"}"
+		".control-box.osd.undocked"
+		"{"
+		"	margin: 12px 12px 12px 12px;"
+		"}"
+		".control-box.osd.docked"
+		"{"
+		"	margin: 0px 0px 0px 0px;"
+		"}";
+
+	GtkCssProvider *style_provider = gtk_css_provider_new();
 
 	gtk_css_provider_load_from_data(style_provider, style, -1);
 
@@ -568,12 +592,7 @@ load_settings(CelluloidView *view)
 	CelluloidControlBox *control_box =
 		celluloid_main_window_get_control_box(wnd);
 
-	gboolean csd_enable;
-
-	csd_enable =	g_settings_get_boolean (settings, "csd-enable");
-
 	g_object_set(	control_box,
-			"show-fullscreen-button", !csd_enable,
 			"skip-enabled", FALSE,
 			NULL );
 
@@ -639,6 +658,15 @@ update_title(CelluloidView *view)
 	gchar *title =
 		sanitize_utf8(title_source, TRUE);
 
+	CelluloidMainWindow *wnd =
+		CELLULOID_MAIN_WINDOW(view);
+	CelluloidVideoArea *video_area =
+		celluloid_main_window_get_video_area(wnd);
+	CelluloidControlBox *control_box =
+		celluloid_video_area_get_control_box
+		(CELLULOID_VIDEO_AREA(video_area));
+
+	celluloid_control_box_set_title(control_box, title);
 	gtk_window_set_title(GTK_WINDOW(view), title);
 	g_free(title);
 }
@@ -1685,12 +1713,9 @@ celluloid_view_get_video_area_geometry(	CelluloidView *view,
 {
 	CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(view);
 	CelluloidVideoArea *area = celluloid_main_window_get_video_area(wnd);
-	GtkAllocation allocation;
-
-	gtk_widget_get_allocation(GTK_WIDGET(area), &allocation);
-
-	*width = allocation.width;
-	*height = allocation.height;
+	GtkGLArea *gl_area = celluloid_video_area_get_gl_area(area);
+	*width = gtk_widget_get_width(GTK_WIDGET(gl_area));
+	*height = gtk_widget_get_height(GTK_WIDGET(gl_area));
 }
 
 void

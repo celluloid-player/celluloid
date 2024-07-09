@@ -46,6 +46,9 @@ celluloid_control_box_set_seek_bar_duration(	CelluloidControlBox *box,
 void
 celluloid_control_box_set_volume(CelluloidControlBox *box, gdouble volume);
 
+void
+celluloid_control_box_set_title(CelluloidControlBox *box, gchar* title);
+
 gdouble
 celluloid_control_box_get_volume(CelluloidControlBox *box);
 

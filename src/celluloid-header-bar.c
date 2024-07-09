@@ -20,6 +20,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <adwaita.h>
 
 #include "celluloid-header-bar.h"
 #include "celluloid-menu.h"
@@ -161,8 +162,10 @@ set_fullscreen_state(CelluloidHeaderBar *hdr, gboolean fullscreen)
 
 	gtk_button_set_icon_name
 		(GTK_BUTTON(hdr->fullscreen_btn), icon_name);
-	gtk_header_bar_set_show_title_buttons
-		(GTK_HEADER_BAR(hdr->header_bar), show_title_buttons);
+	adw_header_bar_set_show_start_title_buttons
+		(ADW_HEADER_BAR(hdr->header_bar), show_title_buttons);
+	adw_header_bar_set_show_end_title_buttons
+		(ADW_HEADER_BAR(hdr->header_bar), show_title_buttons);
 
 	g_object_unref(settings);
 }
@@ -207,7 +210,7 @@ celluloid_header_bar_class_init(CelluloidHeaderBarClass *klass)
 static void
 celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 {
-	GtkHeaderBar *ghdr;
+	AdwHeaderBar *ghdr;
 	GSettings *settings;
 	gboolean csd;
 	GMenu *open_btn_menu;
@@ -218,7 +221,7 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	open_btn_menu = g_menu_new();
 	menu_btn_menu = g_menu_new();
 
-	hdr->header_bar = gtk_header_bar_new();
+	hdr->header_bar = adw_header_bar_new();
 	hdr->open_btn = gtk_menu_button_new();
 	hdr->fullscreen_btn =
 		gtk_button_new_from_icon_name("view-fullscreen-symbolic");
@@ -227,13 +230,19 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 	hdr->open_popover_visible = FALSE;
 	hdr->menu_popover_visible = FALSE;
 
-	ghdr = GTK_HEADER_BAR(hdr->header_bar);
+	ghdr = ADW_HEADER_BAR(hdr->header_bar);
 
 	celluloid_menu_build_open_btn(open_btn_menu, NULL);
 	celluloid_menu_build_menu_btn(menu_btn_menu, NULL);
 
-	gtk_menu_button_set_icon_name
-		(GTK_MENU_BUTTON(hdr->open_btn), "list-add-symbolic");
+	gtk_menu_button_set_label
+		(GTK_MENU_BUTTON(hdr->open_btn), _("Open"));
+	gtk_menu_button_set_always_show_arrow
+		(GTK_MENU_BUTTON(hdr->open_btn), TRUE);
+	gtk_widget_set_tooltip_text
+		(hdr->open_btn, _("Select a Media File, Folder or URL"));
+	gtk_widget_set_tooltip_text
+		(hdr->menu_btn, _("Main Menu"));
 	gtk_menu_button_set_icon_name
 		(GTK_MENU_BUTTON(hdr->menu_btn), "open-menu-symbolic");
 
@@ -255,12 +264,13 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 
 	gtk_widget_set_hexpand(GTK_WIDGET(ghdr), TRUE);
 
-	gtk_header_bar_pack_start(ghdr, hdr->open_btn);
-	gtk_header_bar_pack_end(ghdr, hdr->menu_btn);
-	gtk_header_bar_pack_end(ghdr, hdr->fullscreen_btn);
+	adw_header_bar_pack_start(ghdr, hdr->open_btn);
+	adw_header_bar_pack_end(ghdr, hdr->menu_btn);
+	adw_header_bar_pack_end(ghdr, hdr->fullscreen_btn);
 
 	gtk_box_prepend(GTK_BOX(hdr), hdr->header_bar);
-	gtk_header_bar_set_show_title_buttons(ghdr, TRUE);
+	adw_header_bar_set_show_start_title_buttons(ghdr, TRUE);
+	adw_header_bar_set_show_end_title_buttons(ghdr, TRUE);
 	gtk_widget_set_visible(hdr->fullscreen_btn, csd);
 
 	gtk_menu_button_set_create_popup_func
@@ -270,7 +280,21 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 
 	gtk_menu_button_set_primary(GTK_MENU_BUTTON(hdr->menu_btn), TRUE);
 
-	gchar css_data[] = ".floating-header {background: rgba(0,0,0,0.7); border-radius: 12px; box-shadow: none;}";
+	gchar css_data[] =
+		".top-bar .floating-header button"
+		"{"
+		"	border-radius: 999px;"
+		"}"
+		".floating-header windowcontrols image"
+		"{"
+		"	background-color: rgba(0,0,0,0.65);"
+		"	color: white;"
+		"}"
+		"headerbar.floating-header"
+		"{"
+		"	margin: 12px 12px 12px 12px;"
+		"}";
+
 	GtkCssProvider *css = gtk_css_provider_new();
 	gtk_css_provider_load_from_data(css, css_data, -1);
 
@@ -330,29 +354,48 @@ celluloid_header_bar_set_menu_button_popup_visible(	CelluloidHeaderBar *hdr,
 void
 celluloid_header_bar_set_floating(CelluloidHeaderBar *hdr, gboolean floating)
 {
+	GtkWidget *open_toggle_btn =
+		gtk_widget_get_first_child(GTK_WIDGET(hdr->open_btn));
+	GtkWidget *menu_toggle_btn =
+		gtk_widget_get_first_child(GTK_WIDGET(hdr->menu_btn));
+
 	if(floating)
 	{
 		gtk_widget_add_css_class
-			(GTK_WIDGET(hdr->header_bar), "osd");
-		gtk_widget_add_css_class
 			(GTK_WIDGET(hdr->header_bar), "floating-header");
-
-		gtk_widget_set_margin_start(GTK_WIDGET(hdr), 12);
-		gtk_widget_set_margin_end(GTK_WIDGET(hdr), 12);
-		gtk_widget_set_margin_top(GTK_WIDGET(hdr), 12);
-		gtk_widget_set_margin_bottom(GTK_WIDGET(hdr), 12);
+		gtk_widget_add_css_class
+			(GTK_WIDGET(hdr->fullscreen_btn), "osd");
+		gtk_widget_add_css_class
+			(GTK_WIDGET(hdr->fullscreen_btn), "raised");
+		gtk_widget_add_css_class
+			(GTK_WIDGET(open_toggle_btn), "osd");
+		gtk_widget_add_css_class
+			(GTK_WIDGET(open_toggle_btn), "raised");
+		gtk_widget_add_css_class
+			(GTK_WIDGET(menu_toggle_btn), "osd");
+		gtk_widget_add_css_class
+			(GTK_WIDGET(menu_toggle_btn), "raised");
+		adw_header_bar_set_show_title
+			(ADW_HEADER_BAR(hdr->header_bar), FALSE);
 	}
 	else
 	{
 		gtk_widget_remove_css_class
-			(GTK_WIDGET(hdr->header_bar), "osd");
-		gtk_widget_remove_css_class
 			(GTK_WIDGET(hdr->header_bar), "floating-header");
-
-		gtk_widget_set_margin_start(GTK_WIDGET(hdr), 0);
-		gtk_widget_set_margin_end(GTK_WIDGET(hdr), 0);
-		gtk_widget_set_margin_top(GTK_WIDGET(hdr), 0);
-		gtk_widget_set_margin_bottom(GTK_WIDGET(hdr), 0);
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(hdr->fullscreen_btn), "osd");
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(hdr->fullscreen_btn), "raised");
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(open_toggle_btn), "osd");
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(open_toggle_btn), "raised");
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(menu_toggle_btn), "osd");
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(menu_toggle_btn), "raised");
+		adw_header_bar_set_show_title
+			(ADW_HEADER_BAR(hdr->header_bar), TRUE);
 	}
 }
 
