@@ -89,6 +89,17 @@ handle_changed(GSettings *settings, const gchar *key, gpointer data)
 	dlg->needs_mpv_reset |= g_strcmp0(key, "mpv-options") == 0;
 }
 
+static void
+handle_plugins_manager_error(	CelluloidPluginsManager *pmgr,
+				const gchar *message,
+				gpointer data )
+{
+	CelluloidPreferencesDialog *dialog =
+		CELLULOID_PREFERENCES_DIALOG(data);
+
+	g_signal_emit_by_name(dialog, "error-raised", message);
+}
+
 static gboolean
 save_settings(AdwPreferencesWindow *dialog)
 {
@@ -275,6 +286,17 @@ celluloid_preferences_dialog_class_init(CelluloidPreferencesDialogClass *klass)
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE,
 			0 );
+
+	g_signal_new(	"error-raised",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
 }
 
 static void
@@ -369,9 +391,11 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
 					ADW_PREFERENCES_PAGE(page));
 
-	page = GTK_WIDGET(celluloid_plugins_manager_new(GTK_WINDOW(dlg)));
+	AdwPreferencesPage *plugins_manager =
+		celluloid_plugins_manager_new(GTK_WINDOW(dlg));
+
 	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
-					ADW_PREFERENCES_PAGE(page) );
+					plugins_manager );
 
 	g_signal_connect(	dlg,
 				"close-request",
@@ -380,6 +404,10 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 	g_signal_connect(	dlg->settings,
 				"changed",
 				G_CALLBACK(handle_changed),
+				dlg );
+	g_signal_connect(	plugins_manager,
+				"error-raised",
+				G_CALLBACK(handle_plugins_manager_error),
 				dlg );
 }
 

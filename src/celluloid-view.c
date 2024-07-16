@@ -159,6 +159,11 @@ static gboolean
 mpv_reset_request_handler(AdwPreferencesWindow *dialog, gpointer data);
 
 static void
+error_handler(	CelluloidPreferencesDialog *dialog,
+		const gchar *message,
+		gpointer data );
+
+static void
 realize_handler(GtkWidget *widget, gpointer data);
 
 static void
@@ -992,6 +997,16 @@ mpv_reset_request_handler(AdwPreferencesWindow *dialog, gpointer data)
 }
 
 static void
+error_handler(	CelluloidPreferencesDialog *dialog,
+		const gchar *message,
+		gpointer data )
+{
+	CelluloidView *view = CELLULOID_VIEW(data);
+
+	show_message_dialog(view, GTK_MESSAGE_ERROR, _("Error"), NULL, message);
+}
+
+static void
 realize_handler(GtkWidget *widget, gpointer data)
 {
 	CelluloidView *view = CELLULOID_VIEW(widget);
@@ -1603,6 +1618,10 @@ celluloid_view_show_preferences_dialog(CelluloidView *view)
 	g_signal_connect_after(	dialog,
 				"mpv-reset-request",
 				G_CALLBACK(mpv_reset_request_handler),
+				view );
+	g_signal_connect(	dialog,
+				"error-raised",
+				G_CALLBACK(error_handler),
 				view );
 
 	gtk_widget_set_visible(dialog, TRUE);

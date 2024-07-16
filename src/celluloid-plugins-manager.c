@@ -341,38 +341,23 @@ copy_file_to_directory(CelluloidPluginsManager *pmgr, GFile *src)
 
 	if(error)
 	{
-		GtkWidget *error_dialog = NULL;
-		gchar *src_path = NULL;
-
-		src_path = g_file_get_path(src)?:g_file_get_uri(src);
-
-		error_dialog =	gtk_message_dialog_new
-				(	pmgr->parent_window,
-					GTK_DIALOG_MODAL|
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_ERROR,
-					GTK_BUTTONS_OK,
-					_("Failed to copy file from '%s' "
-					"to '%s'. Reason: %s"),
-					src_path,
-					dest_path,
-					error->message );
-
-		g_signal_connect(	error_dialog,
-					"response",
-					G_CALLBACK(gtk_window_destroy),
-					NULL );
-
-		g_warning(	"Failed to copy file from '%s' to '%s'. "
-				"Reason: %s",
+		gchar *src_path =
+			g_file_get_path(src)?
+			NULL:
+			g_file_get_uri(src);
+		gchar *message =
+			g_strdup_printf
+			(	_("Failed to copy file from '%s' to '%s'. Reason: %s"),
 				src_path,
 				dest_path,
 				error->message );
 
-		gtk_widget_set_visible(error_dialog, TRUE);
+		g_signal_emit_by_name(pmgr, "error-raised", message, NULL);
+		g_warning("%s", message);
 
 		g_error_free(error);
 		g_free(src_path);
+		g_free(message);
 	}
 
 	g_clear_object(&dest);
@@ -389,6 +374,17 @@ celluloid_plugins_manager_class_init(CelluloidPluginsManagerClass *klass)
 	obj_class->finalize = celluloid_plugins_manager_finalize;
 	obj_class->set_property = celluloid_plugins_manager_set_property;
 	obj_class->get_property = celluloid_plugins_manager_get_property;
+
+	g_signal_new(	"error-raised",
+			G_TYPE_FROM_CLASS(klass),
+			G_SIGNAL_RUN_FIRST,
+			0,
+			NULL,
+			NULL,
+			g_cclosure_marshal_VOID__STRING,
+			G_TYPE_NONE,
+			1,
+			G_TYPE_STRING );
 
 	pspec = g_param_spec_pointer
 		(	"parent",
