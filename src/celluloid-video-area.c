@@ -482,7 +482,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 		(	ADW_TOOLBAR_VIEW(area->toolbar_view),
 			area->use_floating_controls );
 
-	gtk_widget_hide(GTK_WIDGET(area->header_bar));
+	gtk_widget_set_visible(GTK_WIDGET(area->header_bar), FALSE);
 
 	adw_breakpoint_bin_add_breakpoint
 		(ADW_BREAKPOINT_BIN(area), area->wide);
