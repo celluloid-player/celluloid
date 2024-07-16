@@ -171,7 +171,9 @@ response_handler(GtkNativeDialog *self, gint response_id, gpointer data)
 
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
-		src = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(self));
+		CelluloidFileChooser *chooser = CELLULOID_FILE_CHOOSER(self);
+
+		src = celluloid_file_chooser_get_file(chooser);
 		copy_file_to_directory(CELLULOID_PLUGINS_MANAGER(data), src);
 	}
 
@@ -185,7 +187,6 @@ add_handler(GtkButton *button, gpointer data)
 	CelluloidPluginsManager *pmgr = data;
 	CelluloidFileChooser *dialog = NULL;
 	GtkFileFilter *filter;
-	GtkFileChooser *chooser;
 
 	dialog =
 		celluloid_file_chooser_new
@@ -195,28 +196,27 @@ add_handler(GtkButton *button, gpointer data)
 			TRUE );
 
 	filter = NULL;
-	chooser = GTK_FILE_CHOOSER(dialog);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("All Files"));
 	gtk_file_filter_add_pattern(filter, "*");
-	gtk_file_chooser_add_filter(chooser, filter);
+	celluloid_file_chooser_add_filter(dialog, filter);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("Lua Plugins"));
 	gtk_file_filter_add_mime_type(filter, "text/x-lua");
-	gtk_file_chooser_add_filter(chooser, filter);
-	gtk_file_chooser_set_filter(chooser, filter);
+	celluloid_file_chooser_add_filter(dialog, filter);
+	celluloid_file_chooser_set_filter(dialog, filter);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("JavaScript Plugins"));
 	gtk_file_filter_add_mime_type(filter, "application/javascript");
-	gtk_file_chooser_add_filter(chooser, filter);
+	celluloid_file_chooser_add_filter(dialog, filter);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("C Plugins"));
 	gtk_file_filter_add_mime_type(filter, "application/x-sharedlib");
-	gtk_file_chooser_add_filter(chooser, filter);
+	celluloid_file_chooser_add_filter(dialog, filter);
 
 	g_signal_connect(	dialog,
 				"response",

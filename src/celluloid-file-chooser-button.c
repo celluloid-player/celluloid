@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 gnome-mpv
+ * Copyright (c) 2021, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -171,8 +171,12 @@ set_file(CelluloidFileChooserButton *self, GFile *file)
 static void
 handle_response(GtkNativeDialog *file_chooser, gint response_id, gpointer data)
 {
-	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(data);
-	GFile *file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(file_chooser));
+	CelluloidFileChooserButton *self =
+		CELLULOID_FILE_CHOOSER_BUTTON
+		(data);
+	GFile *file =
+		celluloid_file_chooser_get_file
+		(CELLULOID_FILE_CHOOSER(file_chooser));
 
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
@@ -280,26 +284,19 @@ celluloid_file_chooser_button_set_file(	CelluloidFileChooserButton *self,
 					GFile *file,
 					GError **error )
 {
-
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->file_chooser);
-
 	set_file(self, file);
-	gtk_file_chooser_set_file(chooser, file, error);
+	celluloid_file_chooser_set_file(self->file_chooser, file, error);
 }
 
 GFile *
 celluloid_file_chooser_button_get_file(CelluloidFileChooserButton *self)
 {
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->file_chooser);
-
-	return gtk_file_chooser_get_file(chooser);
+	return celluloid_file_chooser_get_file(self->file_chooser);
 }
 
 void
 celluloid_file_chooser_button_set_filter(	CelluloidFileChooserButton *self,
 						GtkFileFilter *filter )
 {
-	GtkFileChooser *chooser = GTK_FILE_CHOOSER(self->file_chooser);
-
-	gtk_file_chooser_set_filter(chooser, filter);
+	celluloid_file_chooser_set_filter(self->file_chooser, filter);
 }

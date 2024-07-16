@@ -824,8 +824,8 @@ open_dialog_response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
-		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
-		GListModel *files = gtk_file_chooser_get_files(chooser);
+		CelluloidFileChooser *chooser = CELLULOID_FILE_CHOOSER(dialog);
+		GListModel *files = celluloid_file_chooser_get_files(chooser);
 
 		if(files)
 		{
@@ -879,8 +879,8 @@ open_track_dialog_response_handler(	GtkDialog *dialog,
 {
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
-		GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
-		GListModel *files = gtk_file_chooser_get_files(chooser);
+		CelluloidFileChooser *chooser = CELLULOID_FILE_CHOOSER(dialog);
+		GListModel *files = celluloid_file_chooser_get_files(chooser);
 		const gchar *name = NULL;
 
 		TrackType type =
@@ -936,7 +936,8 @@ save_playlist_response_handler(	GtkDialog *dialog,
 	if(response_id == GTK_RESPONSE_ACCEPT)
 	{
 		/* There should be only one file selected. */
-		dest_file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(dialog));
+		dest_file =	celluloid_file_chooser_get_file
+				(CELLULOID_FILE_CHOOSER(dialog));
 	}
 
 	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
@@ -1577,16 +1578,14 @@ void
 celluloid_view_show_save_playlist_dialog(CelluloidView *view)
 {
 	CelluloidFileChooser *file_chooser;
-	GtkFileChooser *gtk_chooser;
 
 	file_chooser =	celluloid_file_chooser_new
 			(	_("Save Playlist"),
 				GTK_WINDOW(view),
 				GTK_FILE_CHOOSER_ACTION_SAVE,
 				TRUE );
-	gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
 
-	gtk_file_chooser_set_current_name(gtk_chooser, "playlist.m3u");
+	celluloid_file_chooser_set_current_name(file_chooser, "playlist.m3u");
 
 	g_signal_connect(	file_chooser,
 				"response",

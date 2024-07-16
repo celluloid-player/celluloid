@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 gnome-mpv
+ * Copyright (c) 2017-2021, 2024 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -22,6 +22,12 @@
 
 #include "celluloid-file-chooser.h"
 #include "celluloid-def.h"
+
+// Ignore deprecation warnings for GtkFileChooser. As of 2024-07-16, we can't
+// switch to GtkFileDialog because it uses the file portal by default, and
+// it doesn't seem to respect per-application dark mode settings at this time.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 static void
 load_last_folder(GtkFileChooser *chooser);
@@ -83,6 +89,48 @@ response_handler(GtkDialog *dialog, gint response_id, gpointer data)
 
 		g_object_unref(main_config);
 	}
+}
+
+GFile *
+celluloid_file_chooser_get_file(CelluloidFileChooser *chooser)
+{
+	return gtk_file_chooser_get_file(GTK_FILE_CHOOSER(chooser));
+}
+
+GListModel *
+celluloid_file_chooser_get_files(CelluloidFileChooser *chooser)
+{
+	return gtk_file_chooser_get_files(GTK_FILE_CHOOSER(chooser));
+}
+
+gboolean
+celluloid_file_chooser_set_file(	CelluloidFileChooser *chooser,
+					GFile *file,
+					GError **error )
+{
+	return	gtk_file_chooser_set_file
+		(GTK_FILE_CHOOSER(chooser), file, error);
+}
+
+void
+celluloid_file_chooser_add_filter(	CelluloidFileChooser *chooser,
+					GtkFileFilter *filter )
+{
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(chooser), filter);
+}
+
+void
+celluloid_file_chooser_set_filter(	CelluloidFileChooser *chooser,
+					GtkFileFilter *filter )
+{
+	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(chooser), filter);
+}
+
+void
+celluloid_file_chooser_set_current_name(	CelluloidFileChooser *chooser,
+						const gchar *name )
+{
+	gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(chooser), name);
 }
 
 CelluloidFileChooser *
@@ -207,3 +255,5 @@ celluloid_file_chooser_set_default_filters(	CelluloidFileChooser *chooser,
 
 	g_object_unref(filters);
 }
+
+#pragma GCC diagnostic pop

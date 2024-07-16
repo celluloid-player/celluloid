@@ -29,6 +29,35 @@ G_BEGIN_DECLS
 #define celluloid_file_chooser_show(x) gtk_native_dialog_show(GTK_NATIVE_DIALOG(x))
 #define celluloid_file_chooser_set_modal(x, y) gtk_native_dialog_set_modal(GTK_NATIVE_DIALOG(x), y)
 
+// Ignore deprecation warnings for GtkFileChooser. As of 2024-07-16, we can't
+// switch to GtkFileDialog because it uses the file portal by default, and
+// it doesn't seem to respect per-application dark mode settings at this time.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+GFile *
+celluloid_file_chooser_get_file(CelluloidFileChooser *chooser);
+
+GListModel *
+celluloid_file_chooser_get_files(CelluloidFileChooser *chooser);
+
+gboolean
+celluloid_file_chooser_set_file(	CelluloidFileChooser *chooser,
+					GFile *file,
+					GError **error );
+
+void
+celluloid_file_chooser_add_filter(	CelluloidFileChooser *chooser,
+					GtkFileFilter *filter );
+
+void
+celluloid_file_chooser_set_filter(	CelluloidFileChooser *chooser,
+					GtkFileFilter *filter );
+
+void
+celluloid_file_chooser_set_current_name(	CelluloidFileChooser *chooser,
+						const gchar *name );
+
 CelluloidFileChooser *
 celluloid_file_chooser_new(	const gchar *title,
 				GtkWindow *parent,
@@ -44,6 +73,8 @@ celluloid_file_chooser_set_default_filters(	CelluloidFileChooser *chooser,
 						gboolean video,
 						gboolean image,
 						gboolean subtitle );
+
+#pragma GCC diagnostic pop
 
 G_END_DECLS
 
