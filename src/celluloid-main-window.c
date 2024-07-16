@@ -828,7 +828,7 @@ celluloid_main_window_enable_csd(CelluloidMainWindow *wnd)
 
 	priv->csd = TRUE;
 
-	gtk_widget_show(GTK_WIDGET(video_area_header_bar));
+	gtk_widget_set_visible(GTK_WIDGET(video_area_header_bar), TRUE);
 	gtk_window_set_titlebar(GTK_WINDOW(wnd), priv->header_bar);
 	gtk_window_set_title(GTK_WINDOW(wnd), g_get_application_name());
 }
