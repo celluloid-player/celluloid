@@ -122,21 +122,12 @@ static void
 update_title(CelluloidView *view);
 
 static void
-show_message_dialog(	CelluloidView *view,
-			GtkMessageType type,
-			const gchar *title,
-			const gchar *prefix,
-			const gchar *msg );
+show_message_dialog(CelluloidView *view, const gchar *prefix, const gchar *msg);
 
 static void
 show_open_track_dialog(CelluloidView  *view, TrackType type);
 
 /* Dialog responses */
-static void
-message_dialog_response_handler(	GtkDialog *dialog,
-					gint response_id,
-					gpointer data);
-
 static void
 open_dialog_response_handler(GtkDialog *dialog, gint response_id, gpointer data);
 
@@ -677,13 +668,9 @@ update_title(CelluloidView *view)
 }
 
 void
-show_message_dialog(	CelluloidView *view,
-			GtkMessageType type,
-			const gchar *title,
-			const gchar *prefix,
-			const gchar *msg )
+show_message_dialog(CelluloidView *view, const gchar *prefix, const gchar *msg)
 {
-	GtkWidget *dialog = NULL;
+	GtkAlertDialog *dialog = NULL;
 
 	if(view->has_dialog)
 	{
@@ -691,11 +678,11 @@ show_message_dialog(	CelluloidView *view,
 
 		if(prefix)
 		{
-			g_info("Content: *%s* [%s] %s", title, prefix, msg);
+			g_info("Content: [%s] %s", prefix, msg);
 		}
 		else
 		{
-			g_info("Content: *%s* %s", title, msg);
+			g_info("Content: %s", msg);
 		}
 	}
 	else if(prefix)
@@ -703,61 +690,22 @@ show_message_dialog(	CelluloidView *view,
 		gchar *prefix_escaped = g_markup_printf_escaped("%s", prefix);
 		gchar *msg_escaped = g_markup_printf_escaped("%s", msg);
 
-		dialog =	gtk_message_dialog_new_with_markup
-				(	GTK_WINDOW(view),
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					type,
-					GTK_BUTTONS_OK,
-					"<b>[%s]</b> %s",
-					prefix_escaped,
-					msg_escaped );
+		dialog =	gtk_alert_dialog_new
+				("[%s] %s", prefix_escaped, msg_escaped);
 
 		g_free(prefix_escaped);
 		g_free(msg_escaped);
 	}
 	else
 	{
-		dialog =	gtk_message_dialog_new
-				(	GTK_WINDOW(view),
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					type,
-					GTK_BUTTONS_OK,
-					"%s",
-					msg );
+		dialog = gtk_alert_dialog_new("%s", msg);
 	}
 
 	if(dialog)
 	{
-		GtkMessageDialog *message_dialog =
-			GTK_MESSAGE_DIALOG(dialog);
-		GtkWidget *message_area =
-			gtk_message_dialog_get_message_area(message_dialog);
-		GtkWidget *first_child =
-			gtk_widget_get_first_child(message_area);
-
 		view->has_dialog = TRUE;
 
-		for(	GtkWidget *child = first_child;
-			child;
-			child = gtk_widget_get_next_sibling(child) )
-		{
-			if(GTK_IS_LABEL(child))
-			{
-				gtk_label_set_wrap_mode
-					(	GTK_LABEL(child),
-						PANGO_WRAP_WORD_CHAR );
-			}
-		}
-
-		g_signal_connect
-			(	dialog,
-				"response",
-				G_CALLBACK(message_dialog_response_handler),
-				view );
-
-		gtk_window_set_title(GTK_WINDOW(dialog), title);
-		gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-		gtk_widget_set_visible(dialog, TRUE);
+		gtk_alert_dialog_show(dialog, GTK_WINDOW(view));
 	}
 }
 
@@ -808,16 +756,6 @@ show_open_track_dialog(CelluloidView  *view, TrackType type)
 			type == TRACK_TYPE_SUBTITLE );
 
 	celluloid_file_chooser_show(chooser);
-}
-
-static void
-message_dialog_response_handler(	GtkDialog *dialog,
-					gint response_id,
-					gpointer data)
-{
-	CELLULOID_VIEW(data)->has_dialog = FALSE;
-
-	gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
 static void
@@ -955,11 +893,7 @@ save_playlist_response_handler(	GtkDialog *dialog,
 
 	if(error)
 	{
-		show_message_dialog(	view,
-					GTK_MESSAGE_ERROR,
-					_("Error"),
-					NULL,
-					error->message );
+		show_message_dialog(view, NULL, error->message);
 
 		g_error_free(error);
 	}
@@ -979,8 +913,6 @@ mpv_reset_request_handler(AdwPreferencesWindow *dialog, gpointer data)
 	if(celluloid_main_window_get_csd_enabled(wnd) != csd_enable)
 	{
 		show_message_dialog(	CELLULOID_VIEW(data),
-					GTK_MESSAGE_INFO,
-					g_get_application_name(),
 					NULL,
 					_("Enabling or disabling "
 					"client-side decorations "
@@ -1003,7 +935,7 @@ error_handler(	CelluloidPreferencesDialog *dialog,
 {
 	CelluloidView *view = CELLULOID_VIEW(data);
 
-	show_message_dialog(view, GTK_MESSAGE_ERROR, _("Error"), NULL, message);
+	show_message_dialog(view, NULL, message);
 }
 
 static void
