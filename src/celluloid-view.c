@@ -50,6 +50,7 @@ enum
 	PROP_TRACK_LIST,
 	PROP_DISC_LIST,
 	PROP_SKIP_ENABLED,
+	PROP_LOOP_FILE,
 	PROP_LOOP,
 	PROP_SHUFFLE,
 	PROP_MEDIA_TITLE,
@@ -77,6 +78,7 @@ struct _CelluloidView
 	GPtrArray *disc_list;
 	gboolean skip_enabled;
 	gboolean control_box_enabled;
+	gboolean loop_file;
 	gboolean loop;
 	gboolean shuffle;
 	gchar *media_title;
@@ -228,12 +230,6 @@ constructed(GObject *object)
 	g_object_bind_property(	view, "skip-enabled",
 				control_box, "skip-enabled",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	view, "loop",
-				control_box, "loop",
-				G_BINDING_BIDIRECTIONAL );
-	g_object_bind_property(	view, "shuffle",
-				control_box, "shuffle",
-				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	view, "volume",
 				control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
@@ -245,6 +241,15 @@ constructed(GObject *object)
 				G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE );
 	g_object_bind_property(	playlist, "searching",
 				view, "searching",
+				G_BINDING_BIDIRECTIONAL );
+  	g_object_bind_property(	view, "loop-file",
+				playlist, "loop-file",
+				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	view, "loop",
+				playlist, "loop-playlist",
+				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	view, "shuffle",
+				playlist, "shuffle",
 				G_BINDING_BIDIRECTIONAL );
 
 	celluloid_main_window_load_state(wnd);
@@ -403,6 +408,10 @@ set_property(	GObject *object,
 		self->skip_enabled = g_value_get_boolean(value);
 		break;
 
+		case PROP_LOOP_FILE:
+		self->loop_file = g_value_get_boolean(value);
+		break;
+
 		case PROP_LOOP:
 		self->loop = g_value_get_boolean(value);
 		break;
@@ -494,6 +503,10 @@ get_property(	GObject *object,
 
 		case PROP_SKIP_ENABLED:
 		g_value_set_boolean(value, self->skip_enabled);
+		break;
+
+	  	case PROP_LOOP_FILE:
+		g_value_set_boolean(value, self->loop_file);
 		break;
 
 		case PROP_LOOP:
@@ -1202,6 +1215,14 @@ celluloid_view_class_init(CelluloidViewClass *klass)
 	g_object_class_install_property(object_class, PROP_SKIP_ENABLED, pspec);
 
 	pspec = g_param_spec_boolean
+		(	"loop-file",
+			"Loop file",
+			"Whether or not the the loop file button is active",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_LOOP_FILE, pspec);
+
+	pspec = g_param_spec_boolean
 		(	"loop",
 			"Loop",
 			"Whether or not the the loop button is active",
@@ -1383,6 +1404,7 @@ celluloid_view_init(CelluloidView *view)
 	view->track_list = NULL;
 	view->disc_list = NULL;
 	view->skip_enabled = FALSE;
+	view->loop_file = FALSE;
 	view->loop = FALSE;
 	view->shuffle = FALSE;
 	view->media_title = NULL;
