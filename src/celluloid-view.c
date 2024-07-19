@@ -528,7 +528,7 @@ load_css(CelluloidView *view)
 	const gchar *style =
 		"celluloid-video-area"
 		"{"
-		"	background-color: black;"
+		"	background-color: @view_bg_color;"
 		"}"
 		"celluloid-seek-bar slider"
 		"{"
