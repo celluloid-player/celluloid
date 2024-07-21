@@ -34,6 +34,7 @@ enum
 	PROP_COMPACT,
 	PROP_FULLSCREENED,
 	PROP_PAUSE,
+	PROP_SHOW_PLAYLIST,
 	PROP_TIME_POSITION,
 	PROP_VOLUME,
 	PROP_VOLUME_MAX,
@@ -68,6 +69,7 @@ struct _CelluloidControlBox
 	gboolean compact;
 	gboolean fullscreened;
 	gboolean pause;
+	gboolean show_playlist;
 	gdouble time_position;
 	const gchar *content_title;
 	gdouble volume;
@@ -193,6 +195,10 @@ set_property(	GObject *object,
 		set_playing_state(self, !self->pause);
 		break;
 
+		case PROP_SHOW_PLAYLIST:
+		self->show_playlist = g_value_get_boolean(value);
+		break;
+
 		case PROP_TIME_POSITION:
 		self->time_position = g_value_get_double(value);
 
@@ -271,6 +277,10 @@ get_property(	GObject *object,
 
 		case PROP_FULLSCREENED:
 		g_value_set_boolean(value, self->fullscreened);
+		break;
+
+		case PROP_SHOW_PLAYLIST:
+		g_value_set_boolean(value, self->show_playlist);
 		break;
 
 		case PROP_PAUSE:
@@ -570,6 +580,14 @@ celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 	g_object_class_install_property
 		(object_class, PROP_PAUSE, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"show-playlist",
+			"Playlist shown",
+			"Whether the playlist panel is shown",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_SHOW_PLAYLIST, pspec);
+
 	pspec = g_param_spec_double
 		(	"time-position",
 			"Time position",
@@ -681,7 +699,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->rewind_button = gtk_button_new();
 	box->next_button = gtk_button_new();
 	box->previous_button = gtk_button_new();
-	box->playlist_button = gtk_button_new();
+	box->playlist_button = gtk_toggle_button_new();
 	box->volume_button = gtk_scale_button_new(0.0, 1.0, 0.02, volume_icons);
 	box->seek_bar = celluloid_seek_bar_new();
 	box->secondary_seek_bar = celluloid_seek_bar_new();
@@ -692,6 +710,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->compact = FALSE;
 	box->fullscreened = FALSE;
 	box->pause = TRUE;
+	box->show_playlist = FALSE;
 	box->time_position = 0.0;
 	box->volume = 0.0;
 	box->content_title = "";
@@ -716,7 +735,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 			_("Previous Chapter") );
 	init_button(	box->playlist_button,
 			"sidebar-show-right-symbolic",
-			_("Toggle Playlist") );
+			_("Show Playlist") );
 
 	gtk_widget_add_css_class(box->controls_box,"control-box");
 	gtk_widget_add_css_class(box->controls_box, "toolbar");
@@ -793,6 +812,9 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	g_object_bind_property(	box, "pause",
 				box->secondary_seek_bar, "pause",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	box, "show_playlist",
+				box->playlist_button, "active",
+				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	box, "enabled",
 				box->secondary_seek_bar, "enabled",
 				G_BINDING_DEFAULT );
@@ -847,10 +869,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				G_CALLBACK(simple_signal_handler),
 				box );
 	g_signal_connect(	box->next_button,
-				"clicked",
-				G_CALLBACK(simple_signal_handler),
-				box );
-	g_signal_connect(	box->playlist_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
 				box );

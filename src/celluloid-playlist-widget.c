@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <adwaita.h>
 
+#include "celluloid-view.h"
 #include "celluloid-playlist-widget.h"
 #include "celluloid-playlist-model.h"
 #include "celluloid-playlist-item.h"
@@ -39,6 +40,9 @@ enum
 	PROP_0,
 	PROP_PLAYLIST_COUNT,
 	PROP_SEARCHING,
+	PROP_LOOP_FILE,
+	PROP_LOOP_PLAYLIST,
+	PROP_SHUFFLE,
 	N_PROPERTIES
 };
 
@@ -52,25 +56,41 @@ enum PlaylistColumn
 
 struct _CelluloidPlaylistWidget
 {
-	GtkBox parent_instance;
+	AdwBin parent_instance;
 	gint64 playlist_count;
 	gboolean searching;
-	GtkWidget *scrolled_window;
 	CelluloidPlaylistModel *model;
-	GtkWidget *list_box;
 	gint last_selected;
 	gchar *drag_uri;
+	gint last_x;
+	gint last_y;
+	gboolean loop_file;
+	gboolean loop_playlist;
+	gboolean shuffle;
+	GtkCssProvider *css_provider;
 	GtkWidget *search_bar;
 	GtkWidget *search_entry;
 	GtkWidget *placeholder;
-	gint last_x;
-	gint last_y;
-	GtkCssProvider *css_provider;
+	GtkWidget *scrolled_window;
+	GtkWidget *list_box;
+	GtkWidget *toolbar_view;
+	GtkWidget *header_box;
+	GtkWidget *top_bar;
+	GtkWidget *bottom_bar;
+	GtkWidget *search_button;
+	GtkWidget *select_button;
+	GtkWidget *collapse_button;
+	GtkWidget *title_box;
+	GtkWidget *item_count;
+	GtkWidget *playlist_consecutive;
+	GtkWidget *loop1_btn;
+	GtkWidget *loop_list_btn;
+	GtkWidget *shuffle_btn;
 };
 
 struct _CelluloidPlaylistWidgetClass
 {
-	GtkBoxClass parent_class;
+	AdwBin parent_class;
 };
 
 static gint
@@ -169,7 +189,7 @@ drop_handler(	GtkDropTarget *self,
 static void
 realize_handler(GtkWidget *self, gpointer data);
 
-G_DEFINE_TYPE(CelluloidPlaylistWidget, celluloid_playlist_widget, GTK_TYPE_BOX)
+G_DEFINE_TYPE(CelluloidPlaylistWidget, celluloid_playlist_widget, ADW_TYPE_BIN)
 
 static gint
 get_selected_index(CelluloidPlaylistWidget *wgt)
@@ -261,27 +281,21 @@ make_row(GObject *object, gpointer data)
 	}
 
 	label = gtk_label_new(text);
+	gtk_widget_set_tooltip_text(label, text);
 	g_free(text);
 
 	g_assert(label);
 
 	if(celluloid_playlist_item_get_is_current(item))
 	{
-		PangoAttrList *attrs;
-		PangoAttribute *weight;
-
-		attrs = pango_attr_list_new();
-		weight = pango_attr_weight_new(PANGO_WEIGHT_BOLD);
-
-		pango_attr_list_insert(attrs, weight);
-		gtk_label_set_attributes(GTK_LABEL(label), attrs);
-
-		pango_attr_list_unref(attrs);
+		gtk_widget_add_css_class(label, "heading");
 	}
 
 	gtk_widget_set_halign(label, GTK_ALIGN_START);
-	gtk_widget_set_margin_start(label, 6);
-	gtk_widget_set_margin_end(label, 6);
+	gtk_widget_set_margin_top(label, 12);
+	gtk_widget_set_margin_bottom(label, 12);
+	gtk_label_set_max_width_chars(GTK_LABEL(label), 40);
+	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_MIDDLE);
 	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), label);
 
 	return row;
@@ -296,13 +310,16 @@ constructed(GObject *object)
 	self->list_box = gtk_list_box_new();
 	self->last_selected = -1;
 	self->drag_uri = NULL;
+	self->toolbar_view = adw_toolbar_view_new();
 
 	gtk_list_box_set_selection_mode
 		(GTK_LIST_BOX(self->list_box), GTK_SELECTION_BROWSE);
 	gtk_list_box_set_activate_on_single_click
-		(GTK_LIST_BOX(self->list_box), FALSE);
+		(GTK_LIST_BOX(self->list_box), TRUE);
 	gtk_list_box_set_placeholder
 		(GTK_LIST_BOX(self->list_box), self->placeholder);
+	gtk_widget_add_css_class
+		(self->list_box, "navigation-sidebar");
 
 	gtk_list_box_bind_model
 		(	GTK_LIST_BOX(self->list_box),
@@ -340,6 +357,7 @@ constructed(GObject *object)
 					G_N_ELEMENTS(types) );
 	gtk_widget_add_controller(	GTK_WIDGET(self->list_box),
 					GTK_EVENT_CONTROLLER(drop_target) );
+
 	g_signal_connect(	drop_target,
 				"motion",
 				G_CALLBACK(motion_handler),
@@ -406,13 +424,8 @@ constructed(GObject *object)
 	gtk_scrolled_window_set_child
 		(	GTK_SCROLLED_WINDOW(self->scrolled_window),
 			 GTK_WIDGET(viewport) );
-	gtk_box_append
-		(GTK_BOX(self), self->scrolled_window);
-
 	gtk_search_bar_set_child(GTK_SEARCH_BAR
 		(self->search_bar), self->search_entry);
-	gtk_box_append
-		(GTK_BOX(self), self->search_bar);
 
 	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)
 		->constructed(object);
@@ -425,23 +438,35 @@ set_property(	GObject *object,
 		GParamSpec *pspec )
 {
 	CelluloidPlaylistWidget *self = CELLULOID_PLAYLIST_WIDGET(object);
-
-	if(property_id == PROP_PLAYLIST_COUNT)
+	switch(property_id)
 	{
+		case PROP_PLAYLIST_COUNT:
 		self->playlist_count = g_value_get_int64(value);
-	}
-	else if(property_id == PROP_SEARCHING)
-	{
-		self->searching = g_value_get_boolean(value);
+		break;
 
+		case PROP_SEARCHING:
+		self->searching = g_value_get_boolean(value);
 		if(self->searching)
 		{
 			gtk_widget_grab_focus(self->search_entry);
 		}
-	}
-	else
-	{
+		break;
+
+		case PROP_LOOP_FILE:
+		self->loop_file = g_value_get_boolean(value);
+		break;
+
+		case PROP_LOOP_PLAYLIST:
+		self->loop_playlist = g_value_get_boolean(value);
+		break;
+
+		case PROP_SHUFFLE:
+		self->shuffle = g_value_get_boolean(value);
+		break;
+
+		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
 	}
 }
 
@@ -452,18 +477,31 @@ get_property(	GObject *object,
 		GParamSpec *pspec )
 {
 	CelluloidPlaylistWidget *self = CELLULOID_PLAYLIST_WIDGET(object);
-
-	if(property_id == PROP_PLAYLIST_COUNT)
+	switch(property_id)
 	{
+		case PROP_PLAYLIST_COUNT:
 		g_value_set_int64(value, self->playlist_count);
-	}
-	else if(property_id == PROP_SEARCHING)
-	{
+		break;
+
+		case PROP_SEARCHING:
 		g_value_set_boolean(value, self->searching);
-	}
-	else
-	{
+		break;
+
+		case PROP_LOOP_FILE:
+		g_value_set_boolean(value, self->loop_file);
+		break;
+
+		case PROP_LOOP_PLAYLIST:
+		g_value_set_boolean(value, self->loop_playlist);
+		break;
+
+		case PROP_SHUFFLE:
+		g_value_set_boolean(value, self->shuffle);
+		break;
+
+		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
 	}
 }
 
@@ -860,6 +898,30 @@ celluloid_playlist_widget_class_init(CelluloidPlaylistWidgetClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_SEARCHING, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"loop-file",
+			"Loop file",
+			"Loop a single media file",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_LOOP_FILE, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"loop-playlist",
+			"Loop playlist",
+			"Loop current playlist",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_LOOP_PLAYLIST, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"shuffle",
+			"Shuffle playlist",
+			"Shuffle current playlist",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_SHUFFLE, pspec);
+
 	g_signal_new(	"row-activated",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST,
@@ -908,11 +970,123 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 {
 	wgt->playlist_count = 0;
 	wgt->searching = FALSE;
+	wgt->loop_file = FALSE;
+	wgt->loop_playlist = FALSE;
+	wgt->shuffle = FALSE;
 	wgt->scrolled_window = gtk_scrolled_window_new();
 	wgt->search_bar = gtk_search_bar_new();
 	wgt->search_entry = gtk_search_entry_new();
 	wgt->placeholder = adw_status_page_new();
 	wgt->css_provider = gtk_css_provider_new();
+	wgt->toolbar_view = adw_toolbar_view_new();
+	wgt->top_bar = adw_header_bar_new();
+	wgt->collapse_button = gtk_button_new_from_icon_name("go-next-symbolic");
+	wgt->title_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+	wgt->search_button = gtk_toggle_button_new();
+	wgt->bottom_bar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	wgt->playlist_consecutive = gtk_toggle_button_new();
+	wgt->item_count = gtk_label_new(_("0 files"));
+	wgt->loop1_btn = gtk_toggle_button_new();
+
+	adw_header_bar_set_show_end_title_buttons
+		(ADW_HEADER_BAR(wgt->top_bar), FALSE);
+	adw_header_bar_pack_start
+		(ADW_HEADER_BAR(wgt->top_bar), wgt->collapse_button);
+
+	gtk_actionable_set_action_name
+		(GTK_ACTIONABLE(wgt->collapse_button), "win.toggle-playlist");
+	gtk_widget_set_tooltip_text
+		(wgt->collapse_button, _("Hide playlist"));
+
+	gtk_box_append
+		(GTK_BOX(wgt->title_box), gtk_label_new(_("Playlist")));
+	gtk_widget_add_css_class
+		(gtk_widget_get_first_child(wgt->title_box), "heading");
+
+	gtk_widget_set_halign(wgt->item_count, GTK_ALIGN_START);
+	gtk_box_append(GTK_BOX(wgt->title_box), wgt->item_count);
+	gtk_widget_add_css_class(wgt->item_count, "caption");
+
+	adw_header_bar_pack_start
+		(ADW_HEADER_BAR(wgt->top_bar), wgt->title_box);
+	adw_header_bar_pack_end
+		(ADW_HEADER_BAR(wgt->top_bar), wgt->search_button);
+	adw_header_bar_set_show_title
+		(ADW_HEADER_BAR(wgt->top_bar), FALSE);
+
+	gtk_widget_set_margin_top(wgt->top_bar, 6);
+	gtk_widget_set_margin_bottom(wgt->top_bar, 6);
+	gtk_widget_set_margin_start(wgt->top_bar, 6);
+	gtk_widget_set_margin_end(wgt->top_bar, 6);
+
+	gtk_button_set_icon_name
+		(GTK_BUTTON(wgt->search_button), "system-search");
+	g_object_bind_property
+		(	wgt->search_bar, "search-mode-enabled",
+			wgt->search_button, "active",
+			G_BINDING_BIDIRECTIONAL );
+	gtk_widget_set_tooltip_text
+		(wgt->search_button, _("Search in playlist"));
+
+	gtk_search_entry_set_placeholder_text
+		(GTK_SEARCH_ENTRY(wgt->search_entry), _("Search in playlist…"));
+
+	gtk_widget_set_halign(wgt->bottom_bar, GTK_ALIGN_CENTER);
+	gtk_widget_add_css_class(wgt->bottom_bar, "toolbar");
+
+	gtk_button_set_icon_name
+		(	GTK_BUTTON(wgt->playlist_consecutive),
+			"media-playlist-consecutive-symbolic" );
+
+	gtk_box_append(GTK_BOX(wgt->bottom_bar), wgt->playlist_consecutive);
+
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON(wgt->playlist_consecutive),TRUE);
+	gtk_widget_set_tooltip_text
+		(wgt->playlist_consecutive, _("Disable repeat"));
+
+	gtk_button_set_icon_name
+		(GTK_BUTTON(wgt->loop1_btn), "media-playlist-repeat-song-symbolic");
+	gtk_box_append
+		(GTK_BOX(wgt->bottom_bar), wgt->loop1_btn);
+	gtk_toggle_button_set_group
+		(	GTK_TOGGLE_BUTTON(wgt->loop1_btn),
+			GTK_TOGGLE_BUTTON(wgt->playlist_consecutive) );
+	gtk_widget_set_tooltip_text
+		(wgt->loop1_btn, _("Repeat file"));
+
+	wgt->loop_list_btn = gtk_toggle_button_new();
+	gtk_button_set_icon_name
+		(GTK_BUTTON(wgt->loop_list_btn), "media-playlist-repeat-symbolic");
+	gtk_box_append
+		(GTK_BOX(wgt->bottom_bar), wgt->loop_list_btn);
+	gtk_toggle_button_set_group
+		(	GTK_TOGGLE_BUTTON(wgt->loop_list_btn),
+			GTK_TOGGLE_BUTTON(wgt->playlist_consecutive) );
+	gtk_widget_set_tooltip_text
+		(wgt->loop_list_btn, _("Repeat playlist"));
+
+	wgt->shuffle_btn = gtk_toggle_button_new();
+	gtk_button_set_icon_name
+		(GTK_BUTTON(wgt->shuffle_btn), "media-playlist-shuffle-symbolic");
+	gtk_box_append
+		(GTK_BOX(wgt->bottom_bar), wgt->shuffle_btn);
+	gtk_widget_set_tooltip_text
+		(wgt->shuffle_btn, _("Shuffle playlist"));
+
+	wgt->scrolled_window = gtk_scrolled_window_new();
+	wgt->header_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_append(GTK_BOX(wgt->header_box), wgt->top_bar);
+	gtk_box_append(GTK_BOX(wgt->header_box), wgt->search_bar);
+
+	adw_bin_set_child
+		(ADW_BIN(wgt), wgt->toolbar_view);
+	adw_toolbar_view_add_top_bar
+		(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->header_box);
+	adw_toolbar_view_add_bottom_bar
+		(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->bottom_bar);
+	adw_toolbar_view_set_content
+		(ADW_TOOLBAR_VIEW(wgt->toolbar_view), wgt->scrolled_window);
 
 	gchar *css_data =
 		"playlist .icon { -gtk-icon-size: 64px; }\n"
@@ -921,15 +1095,22 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 	gtk_css_provider_load_from_data(wgt->css_provider, css_data, -1);
 	gtk_widget_add_css_class(wgt->placeholder, "dim-label");
 
-	gtk_widget_set_vexpand
-		(wgt->scrolled_window, TRUE);
-	gtk_orientable_set_orientation
-		(GTK_ORIENTABLE(wgt), GTK_ORIENTATION_VERTICAL);
-
 	adw_status_page_set_title
-		(ADW_STATUS_PAGE(wgt->placeholder), _("Playlist is Empty"));
+		(	ADW_STATUS_PAGE(wgt->placeholder),
+			_("Playlist is Empty") );
 	adw_status_page_set_icon_name
-		(ADW_STATUS_PAGE(wgt->placeholder), "applications-multimedia-symbolic");
+		(	ADW_STATUS_PAGE(wgt->placeholder),
+			"applications-multimedia-symbolic" );
+
+	g_object_bind_property(	wgt, "loop-file",
+				wgt->loop1_btn, "active",
+				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	wgt, "loop-playlist",
+				wgt->loop_list_btn, "active",
+				G_BINDING_BIDIRECTIONAL );
+	g_object_bind_property(	wgt, "shuffle",
+				wgt->shuffle_btn, "active",
+				G_BINDING_BIDIRECTIONAL );
 }
 
 GtkWidget *
@@ -1017,6 +1198,17 @@ celluloid_playlist_widget_update_contents(	CelluloidPlaylistWidget *wgt,
 
 	wgt->playlist_count = playlist->len;
 	g_object_notify(G_OBJECT(wgt), "playlist-count");
+
+	const gulong playlist_count =
+		(gulong)wgt->playlist_count;
+	gchar *label_text =
+		g_strdup_printf
+		(	ngettext("%ld file", "%ld files", playlist_count),
+			playlist_count );
+
+	gtk_label_set_label(GTK_LABEL(wgt->item_count), label_text);
+
+	g_free(label_text);
 }
 
 GPtrArray *
