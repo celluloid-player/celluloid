@@ -407,7 +407,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
 	CelluloidControlBox *video_area_control_box = NULL;
 	CelluloidHeaderBar *video_area_header_bar = NULL;
-	GSettings *state = g_settings_new(CONFIG_WIN_STATE);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 
 	priv->csd = FALSE;
@@ -439,9 +438,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 		celluloid_video_area_get_header_bar
 		(CELLULOID_VIDEO_AREA(priv->video_area));
 
-	g_settings_bind(	state, "loop-playlist",
-				priv->control_box, "loop",
-				G_SETTINGS_BIND_DEFAULT );
 	g_settings_bind(	settings, "menubar-accel-enable",
 				wnd, "handle-menubar-accel",
 				G_SETTINGS_BIND_DEFAULT );
@@ -472,9 +468,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	g_object_bind_property(	priv->control_box, "time-position",
 				video_area_control_box, "time-position",
 				G_BINDING_DEFAULT );
-	g_object_bind_property(	priv->control_box, "loop",
-				video_area_control_box, "loop",
-				G_BINDING_BIDIRECTIONAL );
 	g_object_bind_property(	priv->control_box, "volume",
 				video_area_control_box, "volume",
 				G_BINDING_BIDIRECTIONAL );
