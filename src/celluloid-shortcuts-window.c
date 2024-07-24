@@ -62,7 +62,7 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{"<Shift>downarrow <Shift>uparrow", _("Exact seek backward/forward 5 seconds")},
 			{"<Ctrl>Left <Ctrl>Right", _("Seek to previous/next subtitle")},
 			{"comma period", _("Step backward/forward a single frame")},
-			{"Page_Up Page_Down", _("Seek to the beginning of the previous/next chapter")},
+			{"Page_Down Page_Up", _("Seek to the beginning of the previous/next chapter")},
 			{NULL, NULL} };
 	const ShortcutEntry playback[]
 		= {	{"bracketleft bracketright", _("Decrease/increase playback speed by 10%")},
