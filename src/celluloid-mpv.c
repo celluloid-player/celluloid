@@ -316,11 +316,17 @@ process_mpv_events(gpointer data)
 
 		if(event)
 		{
-			if(	!priv->mpv_ctx ||
+                       done = !priv->mpv_ctx ||
 				event->event_id == MPV_EVENT_SHUTDOWN ||
-				event->event_id == MPV_EVENT_NONE )
+                               event->event_id == MPV_EVENT_NONE;
+
+                       if(!done && event->event_id == MPV_EVENT_CLIENT_MESSAGE)
 			{
-				done = TRUE;
+                               mpv_event_client_message *msg =event->data;
+
+                               done =  msg->num_args == 2 &&
+                                       g_strcmp0(msg->args[0], ACTION_PREFIX) == 0 &&
+                                       g_strcmp0(msg->args[1], "win.quit") == 0;
 			}
 
 			g_signal_emit_by_name(	mpv,
