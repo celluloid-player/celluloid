@@ -767,10 +767,12 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	set_narrow(box, box->narrow);
 	set_compact(box, box->compact);
 
+	// No need to set maximum size here. It will be set by
+	// celluloid_control_box_set_floating().
 	adw_bin_set_child(ADW_BIN(box), box->clamp);
 	adw_clamp_set_child(ADW_CLAMP(box->clamp), box->controls_box);
-	adw_clamp_set_maximum_size(ADW_CLAMP(box->clamp), 1000);
 	adw_clamp_set_tightening_threshold(ADW_CLAMP(box->clamp), 700);
+
 	box->inner_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_append(GTK_BOX(box->controls_box), box->title_widget);
 	gtk_box_append(GTK_BOX(box->controls_box), box->secondary_seek_bar);
@@ -936,6 +938,8 @@ celluloid_control_box_set_floating(CelluloidControlBox *box, gboolean floating)
 			(GTK_WIDGET(box->controls_box), "osd");
 		gtk_widget_set_visible
 			(GTK_WIDGET(box->title_widget), TRUE);
+		adw_clamp_set_maximum_size
+			(ADW_CLAMP(box->clamp), 1000);
 	}
 	else
 	{
@@ -945,6 +949,8 @@ celluloid_control_box_set_floating(CelluloidControlBox *box, gboolean floating)
 			(GTK_WIDGET(box->controls_box), "osd");
 		gtk_widget_set_visible
 			(GTK_WIDGET(box->title_widget), FALSE);
+		adw_clamp_set_maximum_size
+			(ADW_CLAMP(box->clamp), G_MAXINT);
 	}
 }
 
