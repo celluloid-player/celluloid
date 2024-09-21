@@ -1594,7 +1594,7 @@ celluloid_view_show_about_window (CelluloidView *view)
 {
 	const gchar *const authors[] = AUTHORS;
 
-	adw_show_about_window(	GTK_WINDOW(view),
+	adw_show_about_dialog(	GTK_WIDGET(view),
 				"application-icon",
 				ICON_NAME,
 				"application-name",
