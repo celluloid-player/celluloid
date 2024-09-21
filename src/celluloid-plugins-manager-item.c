@@ -167,14 +167,11 @@ remove_response_handler(	AdwMessageDialog *dialog,
 
 	if(error)
 	{
-		GtkWidget *error_dialog;
+		AdwDialog *error_dialog;
 
-		error_dialog =	adw_message_dialog_new
-				(	item->parent_window,
-					NULL,
-					NULL);
-		adw_message_dialog_format_body
-			(	ADW_MESSAGE_DIALOG (error_dialog),
+		error_dialog =	adw_alert_dialog_new(NULL, NULL);
+		adw_alert_dialog_format_body
+			(	ADW_ALERT_DIALOG (error_dialog),
 				_("Failed to delete file '%s'. Reason: %s"),
 				g_file_get_uri(file),
 				error->message );
@@ -183,7 +180,8 @@ remove_response_handler(	AdwMessageDialog *dialog,
 				g_file_get_uri(file),
 				error->message );
 
-		gtk_window_present(GTK_WINDOW(error_dialog));
+		adw_dialog_present
+			(error_dialog, GTK_WIDGET(item->parent_window));
 
 		gtk_window_destroy(GTK_WINDOW(error_dialog));
 		g_error_free(error);
@@ -196,29 +194,28 @@ static void
 remove_handler(GtkButton *button, gpointer data)
 {
 	CelluloidPluginsManagerItem *item = data;
-	GtkWidget *confirm_dialog =	adw_message_dialog_new
-					(	item->parent_window,
-						NULL,
+	AdwDialog *confirm_dialog =	adw_alert_dialog_new
+					(	NULL,
 						_("Are you sure you want to "
 						"remove this script? This "
 						"action cannot be undone."));
 
-	adw_message_dialog_add_responses
-		(	ADW_MESSAGE_DIALOG(confirm_dialog),
+	adw_alert_dialog_add_responses
+		(	ADW_ALERT_DIALOG(confirm_dialog),
 			"remove", _("_Remove"),
 			"keep", _("_Keep"),
 			NULL );
 
-	adw_message_dialog_set_response_appearance
-		(	ADW_MESSAGE_DIALOG(confirm_dialog),
+	adw_alert_dialog_set_response_appearance
+		(	ADW_ALERT_DIALOG(confirm_dialog),
 			 "remove",
 			 ADW_RESPONSE_DESTRUCTIVE );
 
-	adw_message_dialog_set_default_response
-		(	ADW_MESSAGE_DIALOG(confirm_dialog),
+	adw_alert_dialog_set_default_response
+		(	ADW_ALERT_DIALOG(confirm_dialog),
 			"keep" );
-	adw_message_dialog_set_close_response
-		(	ADW_MESSAGE_DIALOG(confirm_dialog),
+	adw_alert_dialog_set_close_response
+		(	ADW_ALERT_DIALOG(confirm_dialog),
 			"keep" );
 
 	g_signal_connect
@@ -227,7 +224,9 @@ remove_handler(GtkButton *button, gpointer data)
 			G_CALLBACK(remove_response_handler),
 			item );
 
-	gtk_window_present(GTK_WINDOW(confirm_dialog));
+	adw_dialog_present(confirm_dialog, GTK_WIDGET(item->parent_window));
+
+	gtk_window_destroy(GTK_WINDOW(confirm_dialog));
 }
 
 static void
