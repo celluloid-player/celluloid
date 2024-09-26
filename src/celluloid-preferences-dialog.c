@@ -35,14 +35,14 @@ typedef enum PreferencesDialogItemType PreferencesDialogItemType;
 
 struct _CelluloidPreferencesDialog
 {
-	AdwPreferencesDialog parent_instance;
+	AdwPreferencesWindow parent_instance;
 	GSettings *settings;
 	gboolean needs_mpv_reset;
 };
 
 struct _CelluloidPreferencesDialogClass
 {
-	AdwPreferencesDialogClass parent_class;
+	AdwPreferencesWindowClass parent_class;
 };
 
 enum PreferencesDialogItemType
@@ -60,7 +60,7 @@ struct PreferencesDialogItem
 	PreferencesDialogItemType type;
 };
 
-G_DEFINE_TYPE(CelluloidPreferencesDialog, celluloid_preferences_dialog, ADW_TYPE_PREFERENCES_DIALOG)
+G_DEFINE_TYPE(CelluloidPreferencesDialog, celluloid_preferences_dialog, ADW_TYPE_PREFERENCES_WINDOW)
 
 static void
 file_set_handler(CelluloidFileChooserButton *button, gpointer data)
@@ -101,7 +101,7 @@ handle_plugins_manager_error(	CelluloidPluginsManager *pmgr,
 }
 
 static gboolean
-save_settings(AdwPreferencesDialog *dialog)
+save_settings(AdwPreferencesWindow *dialog)
 {
 	CelluloidPreferencesDialog *dlg = CELLULOID_PREFERENCES_DIALOG(dialog);
 
@@ -372,7 +372,7 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			dlg->settings,
 			_("Interface"),
 			"applications-graphics-symbolic" );
-	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
+	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
 					ADW_PREFERENCES_PAGE(page));
 
 	page = build_page
@@ -380,7 +380,7 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			dlg->settings,
 			_("Config Files"),
 			"document-properties-symbolic" );
-	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
+	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
 					ADW_PREFERENCES_PAGE(page));
 
 	page = build_page
@@ -388,13 +388,13 @@ celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 			dlg->settings,
 			_("Miscellaneous"),
 			"preferences-other-symbolic" );
-	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
+	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
 					ADW_PREFERENCES_PAGE(page));
 
 	AdwPreferencesPage *plugins_manager =
 		celluloid_plugins_manager_new(GTK_WINDOW(dlg));
 
-	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
+	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
 					plugins_manager );
 
 	g_signal_connect(	dlg,
