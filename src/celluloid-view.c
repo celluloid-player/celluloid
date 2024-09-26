@@ -566,6 +566,10 @@ load_css(CelluloidView *view)
 		".control-box.osd.docked"
 		"{"
 		"	margin: 0px 0px 0px 0px;"
+		"}"
+		".osd, .floating-header windowcontrols image"
+		"{"
+		"	border: 1px solid var(--border-color);"
 		"}";
 
 	GtkCssProvider *style_provider = gtk_css_provider_new();
