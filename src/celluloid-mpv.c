@@ -435,6 +435,13 @@ initialize(CelluloidMpv *mpv)
 	{
 		g_info("Forcing --vo=libmpv");
 		mpv_set_option_string(priv->mpv_ctx, "vo", "libmpv");
+
+		// According to the libmpv documentation (https://www.ccoderun.ca/programming/doxygen/mpv/render_8h.html#aad9f0d390bf1e49242b9cfe813264314),
+		// the render update callback will block before the value of video-timing-offset (default 0.050s).
+		// This significantly reduces smoothness at low frame rates. Setting it to 0 can fix this issue.
+		mpv_set_option_string(priv->mpv_ctx, "video-timing-offset", "0");
+		// According to the documentation, when setting this property, we also need to set video-sync=audio.
+		mpv_set_option_string(priv->mpv_ctx, "video-sync", "audio");
 	}
 
 	mpv_set_wakeup_callback(priv->mpv_ctx, wakeup_callback, mpv);
