@@ -375,6 +375,12 @@ dispose(GObject *object)
 
 	if(controller->view)
 	{
+		gtk_widget_remove_controller
+			(	GTK_WIDGET(controller->view),
+				controller->key_controller );
+
+		celluloid_controller_input_disconnect_signals(controller);
+
 		celluloid_view_make_gl_context_current(controller->view);
 		g_clear_object(&controller->model);
 
@@ -1395,7 +1401,18 @@ celluloid_controller_class_init(CelluloidControllerClass *klass)
 static void
 celluloid_controller_init(CelluloidController *controller)
 {
-	controller->key_controller = gtk_event_controller_key_new();
+	const GtkEventControllerScrollFlags scroll_flags =
+		GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES |
+		GTK_EVENT_CONTROLLER_SCROLL_DISCRETE;
+
+	controller->key_controller =
+		gtk_event_controller_key_new();
+	controller->motion_controller =
+		gtk_event_controller_motion_new();
+	controller->scroll_controller =
+		gtk_event_controller_scroll_new(scroll_flags);
+	controller->click_gesture =
+		gtk_gesture_click_new();
 
 	gtk_event_controller_set_propagation_phase
 		(controller->key_controller, GTK_PHASE_CAPTURE);

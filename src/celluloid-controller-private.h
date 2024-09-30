@@ -42,6 +42,9 @@ struct _CelluloidController
 	GObject parent;
 
 	GtkEventController *key_controller;
+	GtkEventController *motion_controller;
+	GtkEventController *scroll_controller;
+	GtkGesture *click_gesture;
 
 	CelluloidApplication *app;
 	CelluloidModel *model;
