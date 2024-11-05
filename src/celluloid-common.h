@@ -119,6 +119,9 @@ gchar *
 get_script_opts_dir_path(void);
 
 gchar *
+get_script_modules_dir_path(void);
+
+gchar *
 get_watch_dir_path(void);
 
 gchar *

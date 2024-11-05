@@ -61,6 +61,9 @@ initialize_gui(CelluloidApplication *app);
 static void
 create_dirs(void);
 
+static void
+set_lua_path(void);
+
 static gboolean
 shutdown_signal_handler(gpointer data);
 
@@ -222,6 +225,30 @@ create_dirs()
 	g_free(config_dir);
 	g_free(scripts_dir);
 	g_free(watch_dir);
+}
+
+static void
+set_lua_path()
+{
+	const gchar *old_lua_path = g_getenv("LUA_PATH");
+	gchar *new_lua_path = NULL;
+	gchar *modules = get_script_modules_dir_path();
+
+	if(old_lua_path)
+	{
+		new_lua_path =
+			g_strdup_printf("%s/?.lua;%s", modules, old_lua_path);
+	}
+	else
+	{
+		new_lua_path =
+			g_strdup_printf("%s/?.lua;;", modules);
+	}
+
+	g_setenv("LUA_PATH", new_lua_path, TRUE);
+
+	g_free(modules);
+	g_free(new_lua_path);
 }
 
 static gboolean
@@ -457,6 +484,8 @@ startup_handler(GApplication *gapp, gpointer data)
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
 	create_dirs();
+	set_lua_path();
+
 
 	g_info("Starting Celluloid " VERSION);
 }
