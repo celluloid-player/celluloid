@@ -163,6 +163,15 @@ get_script_opts_dir_path(void)
 }
 
 gchar *
+get_script_modules_dir_path(void)
+{
+	return g_build_filename(	g_get_user_config_dir(),
+					CONFIG_DIR,
+					"script-modules",
+					NULL );
+}
+
+gchar *
 get_watch_dir_path(void)
 {
 	return g_build_filename(	g_get_user_config_dir(),

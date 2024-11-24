@@ -88,7 +88,15 @@ toggle_controls_handler(	GSimpleAction *action,
 				gpointer data );
 
 static void
+set_controls_visible_handler(	GSimpleAction *action,
+				GVariant *param,
+				gpointer data );
+
+static void
 toggle_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
+
+static void
+set_playlist_visible_handler(GSimpleAction *action, GVariant *param, gpointer data);
 
 static void
 save_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data);
@@ -371,12 +379,32 @@ toggle_controls_handler(GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
+set_controls_visible_handler(GSimpleAction *action, GVariant *param, gpointer data)
+{
+	CelluloidView *view = celluloid_controller_get_view(data);
+	gboolean visible = TRUE;
+
+	g_variant_get(param, "b", &visible);
+	celluloid_view_set_controls_visible(view, visible);
+}
+
+static void
 toggle_playlist_handler(GSimpleAction *action, GVariant *param, gpointer data)
 {
 	CelluloidView *view = celluloid_controller_get_view(data);
 	gboolean visible = celluloid_view_get_playlist_visible(view);
 
 	celluloid_view_set_playlist_visible(view, !visible);
+}
+
+static void
+set_playlist_visible_handler(GSimpleAction *action, GVariant *param, gpointer data)
+{
+	CelluloidView *view = celluloid_controller_get_view(data);
+	gboolean visible = FALSE;
+
+	g_variant_get(param, "b", &visible);
+	celluloid_view_set_playlist_visible(view, visible);
 }
 
 static void
@@ -585,8 +613,16 @@ celluloid_controller_action_register_actions(CelluloidController *controller)
 			.activate = show_shortcuts_dialog_handler},
 			{.name = "toggle-controls",
 			.activate = toggle_controls_handler},
+			{.name = "set-controls-visible",
+			.state = "true",
+			.parameter_type = "b",
+			.change_state = set_controls_visible_handler},
 			{.name = "toggle-playlist",
 			.activate = toggle_playlist_handler},
+			{.name = "set-playlist-visible",
+			.state = "false",
+			.parameter_type = "b",
+			.change_state = set_playlist_visible_handler},
 			{.name = "save-playlist",
 			.activate = save_playlist_handler},
 			{.name = "search-playlist",

@@ -29,6 +29,9 @@ G_BEGIN_DECLS
 void
 celluloid_controller_input_connect_signals(CelluloidController *controller);
 
+void
+celluloid_controller_input_disconnect_signals(CelluloidController *controller);
+
 G_END_DECLS
 
 #endif

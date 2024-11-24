@@ -345,8 +345,8 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 				G_CALLBACK(key_released_handler),
 				controller );
 
-	GtkGesture *click_gesture =
-		gtk_gesture_click_new();
+	GtkGesture *const click_gesture =
+		controller->click_gesture;
 	gtk_gesture_single_set_button
 		(GTK_GESTURE_SINGLE(click_gesture), 0);
 	gtk_widget_add_controller
@@ -365,8 +365,8 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 				G_CALLBACK(button_stopped_handler),
 				controller );
 
-	GtkEventController *motion_controller =
-		gtk_event_controller_motion_new();
+	GtkEventController *const motion_controller =
+		controller->motion_controller;
 	gtk_widget_add_controller
 		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(motion_controller));
 
@@ -375,9 +375,8 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 				G_CALLBACK(mouse_move_handler),
 				controller );
 
-	GtkEventController *scroll_controller =
-		gtk_event_controller_scroll_new
-		(GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES | GTK_EVENT_CONTROLLER_SCROLL_DISCRETE);
+	GtkEventController *const scroll_controller =
+		controller->scroll_controller;
 	gtk_widget_add_controller
 		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(scroll_controller));
 
@@ -385,4 +384,20 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 				"scroll",
 				G_CALLBACK(scroll_handler),
 				controller );
+}
+
+void
+celluloid_controller_input_disconnect_signals(CelluloidController *controller)
+{
+	CelluloidMainWindow *wnd =
+		celluloid_view_get_main_window(controller->view);
+	GtkWidget *video_area =
+		GTK_WIDGET(celluloid_main_window_get_video_area(wnd));
+
+	gtk_widget_remove_controller
+		(video_area, controller->motion_controller);
+	gtk_widget_remove_controller
+		(video_area, controller->scroll_controller);
+	gtk_widget_remove_controller
+		(video_area, GTK_EVENT_CONTROLLER(controller->click_gesture));
 }
