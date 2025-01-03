@@ -683,10 +683,10 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	GtkWidget *popup = NULL;
 	GtkAdjustment *adjustment = NULL;
 	const gchar *volume_icons[] =
-		{	"audio-volume-muted",
-			"audio-volume-high",
-			"audio-volume-low",
-			"audio-volume-medium",
+		{	"audio-volume-muted-symbolic",
+			"audio-volume-high-symbolic",
+			"audio-volume-low-symbolic",
+			"audio-volume-medium-symbolic",
 			NULL };
 
 	box->clamp = adw_clamp_new();
