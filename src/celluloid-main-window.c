@@ -279,8 +279,12 @@ notify(GObject *object, GParamSpec *pspec)
 static void
 size_allocate(GtkWidget *widget, gint width, gint height, gint baseline)
 {
+	CelluloidMainWindowPrivate *priv = get_private(widget);
+
 	GTK_WIDGET_CLASS(celluloid_main_window_parent_class)
 		->size_allocate(widget, width, height, baseline);
+
+	celluloid_video_area_get_offset((CelluloidVideoArea*)priv->video_area, &priv->width_offset, &priv->height_offset);
 }
 
 static void

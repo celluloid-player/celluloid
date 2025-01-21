@@ -811,3 +811,20 @@ celluloid_video_area_get_xid(CelluloidVideoArea *area)
 
 	return -1;
 }
+
+void
+celluloid_video_area_get_offset(CelluloidVideoArea *area, gint *width, gint *height)
+{
+	GtkAllocation allocation;
+
+	*width = 0;
+	*height = 0;
+
+	gtk_widget_get_allocation((GtkWidget*)area, &allocation);
+	*width = allocation.width;
+	*height = allocation.height;
+
+	gtk_widget_get_allocation(area->stack, &allocation);
+	*width -= allocation.width;
+	*height -= allocation.height;
+}

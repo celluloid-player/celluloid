@@ -93,4 +93,7 @@ celluloid_video_area_get_control_box(CelluloidVideoArea *area);
 gint64
 celluloid_video_area_get_xid(CelluloidVideoArea *area);
 
+void
+celluloid_video_area_get_offset(CelluloidVideoArea *area, gint *width, gint *height);
+
 #endif
