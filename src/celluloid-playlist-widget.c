@@ -258,6 +258,34 @@ find_match(	CelluloidPlaylistWidget *wgt,
 	}
 }
 
+static gchar * 
+get_length(const gchar *filename)
+{
+    AVFormatContext *fmt_ctx = NULL;
+    gint64 duration;
+    gint hours, mins, secs;
+    static gchar duration_str[50];
+
+    if (avformat_open_input(&fmt_ctx, filename, NULL, NULL) != 0) {
+        return "Error: Cannot open file";
+    }
+
+    if (avformat_find_stream_info(fmt_ctx, NULL) < 0) {
+        avformat_close_input(&fmt_ctx);
+        return "Error: Cannot read stream info";
+    }
+
+    duration = (gint64)(fmt_ctx->duration / AV_TIME_BASE);
+    hours = (gint)(duration / 3600);
+    mins = (gint)((duration % 3600) / 60);
+    secs = (gint)(duration % 60);
+
+    snprintf(duration_str, sizeof(duration_str), "%02d:%02d:%02d", hours, mins, secs);
+
+    avformat_close_input(&fmt_ctx);
+    return duration_str;
+}
+
 static GtkWidget *
 make_row(GObject *object, gpointer data)
 {
@@ -266,7 +294,11 @@ make_row(GObject *object, gpointer data)
 	const gchar *title = celluloid_playlist_item_get_title(item);
 	const gchar *uri = celluloid_playlist_item_get_uri(item);
 	GtkWidget *label = NULL;
+	GtkWidget *length_label = NULL;
+	GtkWidget *spacer = NULL;
+	GtkWidget *hbox = NULL;
 	gchar *text = NULL;
+	gchar *length = NULL;
 
 	if(title)
 	{
@@ -296,8 +328,26 @@ make_row(GObject *object, gpointer data)
 	gtk_widget_set_margin_bottom(label, 12);
 	gtk_label_set_max_width_chars(GTK_LABEL(label), 40);
 	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_MIDDLE);
-	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), label);
+	
+	length = get_length(uri);
+	length_label = gtk_label_new(length);
+	gtk_widget_set_tooltip_text(length_label, length);
 
+	g_assert(length_label);
+
+	gtk_widget_set_halign(length_label, GTK_ALIGN_START);
+	gtk_widget_set_margin_top(length_label, 12);
+	gtk_widget_set_margin_bottom(length_label, 12);
+	gtk_label_set_max_width_chars(GTK_LABEL(length_label), 40);
+	gtk_label_set_ellipsize(GTK_LABEL(length_label), PANGO_ELLIPSIZE_MIDDLE);
+	
+	spacer = gtk_label_new(NULL);
+	gtk_widget_set_hexpand(spacer, TRUE);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+	gtk_box_append(GTK_BOX(hbox), label);
+	gtk_box_append(GTK_BOX(hbox), spacer);
+	gtk_box_append(GTK_BOX(hbox), length_label);
+	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), hbox);
 	return row;
 }
 

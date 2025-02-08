@@ -132,7 +132,11 @@ executable('celluloid', sources,
     meson.get_compiler('c').find_library('m', required: false),
     dependency('mpv', version: '>= 1.107'),
     dependency('libadwaita-1', version: '>= 1.6.0'),
-    dependency('epoxy')
+    dependency('epoxy'),
+    # FFmpeg dependencies to show the length of the movies in the playlist
+    dependency('libavformat'),
+    dependency('libavcodec'),
+    dependency('libavutil')
   ],
   link_with: extra_libs,
   include_directories: includes,
