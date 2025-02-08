@@ -24,6 +24,7 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 #include <adwaita.h>
+#include <libavformat/avformat.h>
 
 #include "celluloid-view.h"
 #include "celluloid-playlist-widget.h"
