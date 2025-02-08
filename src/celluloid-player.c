@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2024 gnome-mpv
+ * Copyright (c) 2017-2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -1166,13 +1166,15 @@ update_playlist(CelluloidPlayer *player)
 
 			entry = parse_playlist_entry(org_list->values[i].u.list);
 
-			if(!entry->title && prefetch_metadata)
+			if(	prefetch_metadata &&
+				(!entry->title || entry->duration < 0.0) )
 			{
 				CelluloidMetadataCacheEntry *cache_entry;
 
 				cache_entry =	celluloid_metadata_cache_lookup
 						(priv->cache, entry->filename);
 				entry->title =	g_strdup(cache_entry->title);
+				entry->duration = cache_entry->duration;
 			}
 
 			g_ptr_array_add(priv->playlist, entry);
@@ -1319,7 +1321,9 @@ cache_update_handler(	CelluloidMetadataCache *cache,
 				celluloid_metadata_cache_lookup(cache, uri);
 
 			g_free(entry->title);
+
 			entry->title = g_strdup(cache_entry->title);
+			entry->duration = cache_entry->duration;
 
 			g_signal_emit_by_name
 				(data, "metadata-cache-update", (gint64)i);

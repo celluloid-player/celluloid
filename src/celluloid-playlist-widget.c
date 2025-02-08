@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2022, 2024 gnome-mpv
+ * Copyright (c) 2014-2022, 2024-2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -261,42 +261,66 @@ find_match(	CelluloidPlaylistWidget *wgt,
 static GtkWidget *
 make_row(GObject *object, gpointer data)
 {
-	GtkWidget *row = gtk_list_box_row_new();
 	CelluloidPlaylistItem *item = CELLULOID_PLAYLIST_ITEM(object);
+	GtkWidget *row = gtk_list_box_row_new();
+	GtkWidget *row_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	GtkWidget *title_label = NULL;
+	GtkWidget *duration_label = NULL;
 	const gchar *title = celluloid_playlist_item_get_title(item);
 	const gchar *uri = celluloid_playlist_item_get_uri(item);
-	GtkWidget *label = NULL;
-	gchar *text = NULL;
+	const gint duration = (gint) celluloid_playlist_item_get_duration(item);
+	gchar *title_text = NULL;
+	gchar *duration_text = NULL;
 
 	if(title)
 	{
-		text = sanitize_utf8(title, TRUE);
+		title_text = sanitize_utf8(title, TRUE);
 	}
 	else
 	{
 		gchar *basename = g_path_get_basename(uri);
 
-		text = sanitize_utf8(basename, TRUE);
+		title_text = sanitize_utf8(basename, TRUE);
 		g_free(basename);
 	}
 
-	label = gtk_label_new(text);
-	gtk_widget_set_tooltip_text(label, text);
-	g_free(text);
+	title_label = gtk_label_new(title_text);
+	gtk_widget_set_tooltip_text(title_label, title_text);
+	g_free(title_text);
 
-	g_assert(label);
+	g_assert(title_label);
 
 	if(celluloid_playlist_item_get_is_current(item))
 	{
-		gtk_widget_add_css_class(label, "heading");
+		gtk_widget_add_css_class(title_label, "heading");
 	}
 
-	gtk_widget_set_halign(label, GTK_ALIGN_START);
-	gtk_widget_set_margin_top(label, 12);
-	gtk_widget_set_margin_bottom(label, 12);
-	gtk_label_set_max_width_chars(GTK_LABEL(label), 40);
-	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_MIDDLE);
-	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), label);
+	gtk_widget_set_halign(title_label, GTK_ALIGN_START);
+	gtk_widget_set_margin_top(title_label, 12);
+	gtk_widget_set_margin_bottom(title_label, 12);
+	gtk_widget_set_hexpand(title_label, TRUE);
+	gtk_label_set_max_width_chars(GTK_LABEL(title_label), 40);
+	gtk_label_set_ellipsize(GTK_LABEL(title_label), PANGO_ELLIPSIZE_MIDDLE);
+
+	if(duration >= 0)
+	{
+		duration_text = format_time(duration, TRUE);
+	}
+
+	duration_label = gtk_label_new(duration_text);
+	gtk_widget_set_tooltip_text(duration_label, duration_text);
+	g_free(duration_text);
+
+	g_assert(duration_label);
+
+	gtk_widget_set_halign(duration_label, GTK_ALIGN_END);
+	gtk_widget_set_margin_top(duration_label, 12);
+	gtk_widget_set_margin_bottom(duration_label, 12);
+	gtk_label_set_ellipsize(GTK_LABEL(duration_label), PANGO_ELLIPSIZE_MIDDLE);
+
+	gtk_box_append(GTK_BOX(row_hbox), title_label);
+	gtk_box_append(GTK_BOX(row_hbox), duration_label);
+	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), row_hbox);
 
 	return row;
 }
@@ -834,7 +858,7 @@ drop_handler(	GtkDropTarget *self,
 
 			CelluloidPlaylistItem *item =
 				celluloid_playlist_item_new_take
-				(title, uri, FALSE);
+				(title, uri, 0, FALSE);
 
 			celluloid_playlist_model_append(wgt->model, item);
 			g_signal_emit_by_name(wgt, "row-inserted", position++);
@@ -845,7 +869,7 @@ drop_handler(	GtkDropTarget *self,
 		const gchar *string =
 			g_value_get_string(value);
 		CelluloidPlaylistItem *item =
-			celluloid_playlist_item_new(string, string, FALSE);
+			celluloid_playlist_item_new(string, string, 0, FALSE);
 
 		celluloid_playlist_model_append(wgt->model, item);
 		g_signal_emit_by_name(wgt, "row-inserted", n_items);
@@ -1186,6 +1210,7 @@ celluloid_playlist_widget_update_contents(	CelluloidPlaylistWidget *wgt,
 			celluloid_playlist_item_new_take
 			(	g_strdup(entry->title),
 				g_strdup(entry->filename),
+				entry->duration,
 				(gint)i == current	);
 
 		celluloid_playlist_model_append(wgt->model, item);

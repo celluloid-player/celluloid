@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 gnome-mpv
+ * Copyright (c) 2021, 2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -29,11 +29,13 @@ G_DECLARE_FINAL_TYPE(CelluloidPlaylistItem, celluloid_playlist_item, CELLULOID, 
 CelluloidPlaylistItem *
 celluloid_playlist_item_new_take(	gchar *title,
 					gchar *uri,
+					gdouble duration,
 					gboolean is_current );
 
 CelluloidPlaylistItem *
 celluloid_playlist_item_new(	const gchar *title,
 				const gchar *uri,
+				const gdouble duration,
 				gboolean is_current );
 
 CelluloidPlaylistItem *
@@ -44,6 +46,9 @@ celluloid_playlist_item_get_title(CelluloidPlaylistItem *self);
 
 const gchar *
 celluloid_playlist_item_get_uri(CelluloidPlaylistItem *self);
+
+gdouble
+celluloid_playlist_item_get_duration(CelluloidPlaylistItem *self);
 
 gboolean
 celluloid_playlist_item_get_is_current(CelluloidPlaylistItem *self);

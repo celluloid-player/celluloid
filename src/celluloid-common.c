@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2022 gnome-mpv
+ * Copyright (c) 2014-2022, 2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -37,6 +37,7 @@ celluloid_playlist_entry_new(const gchar *filename, const gchar *title)
 
 	entry->filename =	g_strdup(filename);
 	entry->title =		g_strdup(title);
+	entry->duration =	-1.0;
 	entry->metadata =	g_ptr_array_new_with_free_func
 				((GDestroyNotify)celluloid_metadata_entry_free);
 
