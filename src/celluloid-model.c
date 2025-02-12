@@ -81,6 +81,7 @@ struct _CelluloidModel
 	gboolean window_maximized;
 	gdouble window_scale;
 	gdouble display_fps;
+	GStrv input_binding_list;
 };
 
 struct _CelluloidModelClass
@@ -707,6 +708,50 @@ mpv_prop_change_handler(	CelluloidMpv *mpv,
 	}
 }
 
+static GStrv
+build_input_binding_list(CelluloidMpv *mpv)
+{
+	GStrvBuilder *builder = g_strv_builder_new();
+	mpv_node bindings_node;
+	mpv_node_list *bindings_array;
+	gint err = celluloid_mpv_get_property(mpv, "input-bindings", MPV_FORMAT_NODE, &bindings_node);
+
+	if (err != MPV_ERROR_SUCCESS) {
+		g_warning("Failed to get property \"input-bindings\": %s (%d)", mpv_error_string(err), err);
+		return NULL;
+	}
+	g_return_val_if_fail(bindings_node.format == MPV_FORMAT_NODE_ARRAY, NULL);
+
+	bindings_array = bindings_node.u.list;
+	for (int i = 0; i < bindings_array->num; i++) {
+		mpv_node *binding_node = &bindings_array->values[i];
+
+		if (binding_node->format != MPV_FORMAT_NODE_MAP) {
+			g_warning("Input binding is not a map");
+			continue;
+		}
+		mpv_node_list *binding_map = binding_node->u.list;
+
+		for (int j = 0; j < binding_map->num; j++) {
+			char *map_key = binding_map->keys[j];
+			if (g_strcmp0(map_key, "key") == 0) {
+				mpv_node *key_node = &binding_map->values[j];
+
+				if (key_node->format != MPV_FORMAT_STRING) {
+					g_warning("Input binding key is not a string");
+					continue;
+				}
+
+				g_strv_builder_add(builder, key_node->u.string);
+			}
+		}
+	}
+
+	mpv_free_node_contents(&bindings_node);
+
+	return g_strv_builder_end(builder);
+}
+
 static void
 celluloid_model_class_init(CelluloidModelClass *klass)
 {
@@ -826,6 +871,7 @@ celluloid_model_init(CelluloidModel *model)
 	model->window_maximized = FALSE;
 	model->window_scale = 1.0;
 	model->display_fps = 0.0;
+	model->input_binding_list = NULL;
 }
 
 CelluloidModel *
@@ -895,6 +941,8 @@ celluloid_model_initialize(CelluloidModel *model)
 		g_object_set(model, "loop-playlist", loop_playlist, NULL);
 	}
 
+	model->input_binding_list = build_input_binding_list(mpv);
+
 	g_object_unref(win_settings);
 }
 
@@ -951,6 +999,15 @@ celluloid_model_key_press(CelluloidModel *model, const gchar* keystr)
 
 	g_debug("Sent '%s' key press to mpv", keystr);
 	celluloid_mpv_command_async(CELLULOID_MPV(model), cmd);
+}
+
+gboolean
+celluloid_model_input_binding_exists(CelluloidModel *model, const gchar* keystr)
+{
+	if (!model->input_binding_list)
+		return FALSE;
+
+	return g_strv_contains((const char * const *)model->input_binding_list, keystr);
 }
 
 void

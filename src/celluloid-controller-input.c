@@ -173,17 +173,16 @@ key_pressed_handler(	GtkEventControllerKey *key_controller,
 {
 	CelluloidController *controller = data;
 	gchar *keystr = get_full_keystr(keyval, state);
-	gboolean searching = FALSE;
+	gboolean playlist_visible = celluloid_view_get_playlist_visible(controller->view);
+	gboolean in_mpv_keymap = celluloid_model_input_binding_exists(controller->model, keystr);
 
-	g_object_get(controller->view, "searching", &searching, NULL);
-
-	if(keystr && !searching)
+	if(keystr && !playlist_visible)
 	{
 		celluloid_model_key_down(controller->model, keystr);
 		g_free(keystr);
 	}
 
-	return keystr && !searching;
+	return keystr && !playlist_visible && in_mpv_keymap;
 }
 
 static void
@@ -195,11 +194,9 @@ key_released_handler(	GtkEventControllerKey *key_controller,
 {
 	CelluloidController *controller = data;
 	gchar *keystr = get_full_keystr(keyval, state);
-	gboolean searching = FALSE;
+	gboolean playlist_visible = celluloid_view_get_playlist_visible(controller->view);
 
-	g_object_get(controller->view, "searching", &searching, NULL);
-
-	if(keystr && !searching)
+	if(keystr && !playlist_visible)
 	{
 		celluloid_model_key_up(controller->model, keystr);
 		g_free(keystr);
