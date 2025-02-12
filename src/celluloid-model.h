@@ -55,6 +55,9 @@ celluloid_model_key_up(CelluloidModel *model, const gchar* keystr);
 void
 celluloid_model_key_press(CelluloidModel *model, const gchar* keystr);
 
+gboolean
+celluloid_model_input_binding_exists(CelluloidModel *model, const gchar* keystr);
+
 void
 celluloid_model_reset_keys(CelluloidModel *model);
 

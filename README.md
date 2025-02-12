@@ -13,7 +13,7 @@ Repository Mirror: https://codeberg.org/celluloid-player/celluloid
 - appstream-glib (build)
 - pkg-config (build)
 - gcc (build)
-- glib >= 2.66
+- glib >= 2.68
 - gtk >= 4.16
 - libadwaita >= 1.6.0
 - mpv >= 0.32
