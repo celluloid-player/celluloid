@@ -47,6 +47,7 @@ struct _CelluloidVideoArea
 	GtkWidget *toast_overlay;
 	GtkWidget *stack;
 	GtkWidget *gl_area;
+	GtkWidget *graphics_offload;
 	GtkWidget *toolbar_view;
 	GtkWidget *initial_page;
 	GtkWidget *control_box;
@@ -444,6 +445,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->toast_overlay = adw_toast_overlay_new();
 	area->stack = gtk_stack_new();
 	area->gl_area = gtk_gl_area_new();
+	area->graphics_offload = gtk_graphics_offload_new(area->gl_area);
 	area->toolbar_view = adw_toolbar_view_new();
 	area->initial_page = adw_status_page_new();
 	area->control_box = celluloid_control_box_new();
@@ -561,11 +563,13 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 		(	ADW_STATUS_PAGE(area->initial_page),
 			"io.github.celluloid_player.Celluloid" );
 
-	gtk_stack_add_child(GTK_STACK(area->stack), area->gl_area);
+	gtk_stack_add_child(GTK_STACK(area->stack), area->graphics_offload);
 	gtk_stack_add_child(GTK_STACK(area->stack), area->initial_page);
 
 	celluloid_video_area_set_status
 		(area, CELLULOID_VIDEO_AREA_STATUS_LOADING);
+
+	gtk_graphics_offload_set_black_background(GTK_GRAPHICS_OFFLOAD(area->graphics_offload), TRUE);
 
 	gtk_widget_set_hexpand(area->stack, TRUE);
 
@@ -702,7 +706,7 @@ celluloid_video_area_set_status(	CelluloidVideoArea *area,
 
 		case CELLULOID_VIDEO_AREA_STATUS_PLAYING:
 		gtk_stack_set_visible_child
-			(GTK_STACK(area->stack), area->gl_area);
+			(GTK_STACK(area->stack), area->graphics_offload);
 		break;
 	}
 
