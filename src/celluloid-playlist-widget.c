@@ -259,34 +259,6 @@ find_match(	CelluloidPlaylistWidget *wgt,
 	}
 }
 
-static gchar * 
-get_length(const gchar *filename)
-{
-    AVFormatContext *fmt_ctx = NULL;
-    gint64 duration;
-    gint hours, mins, secs;
-    static gchar duration_str[50];
-
-    if (avformat_open_input(&fmt_ctx, filename, NULL, NULL) != 0) {
-        return "Error: Cannot open file";
-    }
-
-    if (avformat_find_stream_info(fmt_ctx, NULL) < 0) {
-        avformat_close_input(&fmt_ctx);
-        return "Error: Cannot read stream info";
-    }
-
-    duration = (gint64)(fmt_ctx->duration / AV_TIME_BASE);
-    hours = (gint)(duration / 3600);
-    mins = (gint)((duration % 3600) / 60);
-    secs = (gint)(duration % 60);
-
-    snprintf(duration_str, sizeof(duration_str), "%02d:%02d:%02d", hours, mins, secs);
-
-    avformat_close_input(&fmt_ctx);
-    return duration_str;
-}
-
 static GtkWidget *
 make_row(GObject *object, gpointer data)
 {
@@ -294,6 +266,7 @@ make_row(GObject *object, gpointer data)
 	CelluloidPlaylistItem *item = CELLULOID_PLAYLIST_ITEM(object);
 	const gchar *title = celluloid_playlist_item_get_title(item);
 	const gchar *uri = celluloid_playlist_item_get_uri(item);
+	gint duration = (gint) celluloid_playlist_item_get_duration(item);
 	GtkWidget *label = NULL;
 	GtkWidget *length_label = NULL;
 	GtkWidget *spacer = NULL;
@@ -330,7 +303,14 @@ make_row(GObject *object, gpointer data)
 	gtk_label_set_max_width_chars(GTK_LABEL(label), 40);
 	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_MIDDLE);
 	
-	length = get_length(uri);
+	if(duration == 0)
+	{
+		length = "⏳";
+	} 
+	else 
+	{
+		length = format_time(duration, TRUE);
+	}
 	length_label = gtk_label_new(length);
 	gtk_widget_set_tooltip_text(length_label, length);
 
@@ -885,7 +865,7 @@ drop_handler(	GtkDropTarget *self,
 
 			CelluloidPlaylistItem *item =
 				celluloid_playlist_item_new_take
-				(title, uri, FALSE);
+				(title, uri, 0, FALSE);
 
 			celluloid_playlist_model_append(wgt->model, item);
 			g_signal_emit_by_name(wgt, "row-inserted", position++);
@@ -896,7 +876,7 @@ drop_handler(	GtkDropTarget *self,
 		const gchar *string =
 			g_value_get_string(value);
 		CelluloidPlaylistItem *item =
-			celluloid_playlist_item_new(string, string, FALSE);
+			celluloid_playlist_item_new(string, string, 0, FALSE);
 
 		celluloid_playlist_model_append(wgt->model, item);
 		g_signal_emit_by_name(wgt, "row-inserted", n_items);
@@ -1237,6 +1217,7 @@ celluloid_playlist_widget_update_contents(	CelluloidPlaylistWidget *wgt,
 			celluloid_playlist_item_new_take
 			(	g_strdup(entry->title),
 				g_strdup(entry->filename),
+				entry->duration,
 				(gint)i == current	);
 
 		celluloid_playlist_model_append(wgt->model, item);

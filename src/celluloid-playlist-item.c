@@ -26,6 +26,7 @@ struct _CelluloidPlaylistItem
 	GObject parent_instance;
 	gchar *title;
 	gchar *uri;
+	gdouble duration;
 	gboolean is_current;
 };
 
@@ -50,6 +51,7 @@ celluloid_playlist_item_init(CelluloidPlaylistItem *self)
 {
 	self->title = NULL;
 	self->uri = NULL;
+	self->duration = 0.0;
 	self->is_current = FALSE;
 }
 
@@ -64,6 +66,7 @@ celluloid_playlist_item_class_init(CelluloidPlaylistItemClass *klass)
 CelluloidPlaylistItem *
 celluloid_playlist_item_new_take(	gchar *title,
 					gchar *uri,
+					gdouble duration,
 					gboolean is_current )
 {
 	CelluloidPlaylistItem *self;
@@ -71,6 +74,7 @@ celluloid_playlist_item_new_take(	gchar *title,
 	self = g_object_new(CELLULOID_TYPE_PLAYLIST_ITEM, NULL);
 	self->title = title;
 	self->uri = uri;
+	self->duration = duration;
 	self->is_current = is_current;
 
 	return self;
@@ -79,10 +83,11 @@ celluloid_playlist_item_new_take(	gchar *title,
 CelluloidPlaylistItem *
 celluloid_playlist_item_new(	const gchar *title,
 				const gchar *uri,
+				gdouble duration,
 				gboolean is_current )
 {
 	return	celluloid_playlist_item_new_take
-		(g_strdup(title), g_strdup(uri), is_current);
+		(g_strdup(title), g_strdup(uri), duration, is_current);
 }
 
 CelluloidPlaylistItem *
@@ -93,6 +98,7 @@ celluloid_playlist_item_copy(CelluloidPlaylistItem *source)
 	self = g_object_new(CELLULOID_TYPE_PLAYLIST_ITEM, NULL);
 	self->title = source->title;
 	self->uri = source->uri;
+	self->duration = source->duration;
 	self->is_current = source->is_current;
 
 	return self;
@@ -108,6 +114,12 @@ const gchar *
 celluloid_playlist_item_get_uri(CelluloidPlaylistItem *self)
 {
 	return self->uri;
+}
+
+gdouble
+celluloid_playlist_item_get_duration(CelluloidPlaylistItem *self)
+{
+	return self->duration;
 }
 
 gboolean

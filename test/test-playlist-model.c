@@ -6,15 +6,16 @@
 #include <stdio.h>
 
 #define TEST_DATA \
-	{	{"Foo", "file:///foo.webm"}, \
-		{"Bar", "file:///bar.webm"}, \
-		{"Baz", "file:///baz.webm"}, \
-		{NULL, NULL} }
+	{	{"Foo", "file:///foo.webm", 123456}, \
+		{"Bar", "file:///bar.webm", 12345}, \
+		{"Baz", "file:///baz.webm", 1234}, \
+		{NULL, NULL, 0} }
 
 struct ItemData
 {
 	const gchar *title;
 	const gchar *uri;
+	gdouble duration;
 };
 
 static CelluloidPlaylistModel *
@@ -29,7 +30,7 @@ add_test_data(CelluloidPlaylistModel *model)
 	{
 		CelluloidPlaylistItem *item =
 			celluloid_playlist_item_new_take
-			(g_strdup(data[i].title), g_strdup(data[i].uri), FALSE);
+			(g_strdup(data[i].title), g_strdup(data[i].uri), data[i].duration, FALSE);
 
 		celluloid_playlist_model_append(model, item);
 
@@ -62,9 +63,11 @@ test_append(void)
 			celluloid_playlist_item_get_title(item);
 		const gchar *uri =
 			celluloid_playlist_item_get_uri(item);
-
+		const gdouble duration =
+			celluloid_playlist_item_get_duration(item);
 		g_assert_cmpstr(title, ==, data[i].title);
 		g_assert_cmpstr(uri, ==, data[i].uri);
+		g_assert_cmpfloat(duration, ==, data[i].duration);
 	}
 
 	g_object_unref(model);
