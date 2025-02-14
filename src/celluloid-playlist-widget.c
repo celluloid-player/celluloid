@@ -305,7 +305,7 @@ make_row(GObject *object, gpointer data)
 	
 	if(duration == 0)
 	{
-		length = "⏳";
+		length = g_strdup("⏳");
 	} 
 	else 
 	{
@@ -313,7 +313,8 @@ make_row(GObject *object, gpointer data)
 	}
 	length_label = gtk_label_new(length);
 	gtk_widget_set_tooltip_text(length_label, length);
-
+	g_free(length);
+	
 	g_assert(length_label);
 
 	gtk_widget_set_halign(length_label, GTK_ALIGN_START);
