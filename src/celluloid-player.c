@@ -262,6 +262,8 @@ dispose(GObject *object)
 {
 	CelluloidPlayerPrivate *priv = get_private(object);
 
+	g_signal_handlers_disconnect_by_data(priv->monitor, object);
+
 	g_clear_object(&priv->cache);
 	g_clear_object(&priv->monitor);
 
