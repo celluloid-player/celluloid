@@ -56,3 +56,6 @@ if glib_compile_schemas.found()
     args: ['--strict', '--dry-run', meson.current_source_dir()]
   )
 endif
+
+# Compile schemas for devenv etc.
+gnome.compile_schemas()
