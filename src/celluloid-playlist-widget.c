@@ -24,7 +24,6 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 #include <adwaita.h>
-#include <libavformat/avformat.h>
 
 #include "celluloid-view.h"
 #include "celluloid-playlist-widget.h"
@@ -268,11 +267,10 @@ make_row(GObject *object, gpointer data)
 	const gchar *uri = celluloid_playlist_item_get_uri(item);
 	gint duration = (gint) celluloid_playlist_item_get_duration(item);
 	GtkWidget *label = NULL;
-	GtkWidget *length_label = NULL;
-	GtkWidget *spacer = NULL;
+	GtkWidget *duration_label = NULL;
 	GtkWidget *hbox = NULL;
 	gchar *text = NULL;
-	gchar *length = NULL;
+	gchar *duration_text = NULL;
 
 	if(title)
 	{
@@ -300,35 +298,32 @@ make_row(GObject *object, gpointer data)
 	gtk_widget_set_halign(label, GTK_ALIGN_START);
 	gtk_widget_set_margin_top(label, 12);
 	gtk_widget_set_margin_bottom(label, 12);
+	gtk_widget_set_hexpand(label, TRUE);
 	gtk_label_set_max_width_chars(GTK_LABEL(label), 40);
 	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_MIDDLE);
 	
-	if(duration == 0)
+	if(duration < 0)
 	{
-		length = g_strdup("⏳");
+		duration_text = g_strdup("⏳");
 	} 
 	else 
 	{
-		length = format_time(duration, TRUE);
+		duration_text = format_time(duration, TRUE);
 	}
-	length_label = gtk_label_new(length);
-	gtk_widget_set_tooltip_text(length_label, length);
-	g_free(length);
+	duration_label = gtk_label_new(duration_text);
+	gtk_widget_set_tooltip_text(duration_label, duration_text);
+	g_free(duration_text);
 	
-	g_assert(length_label);
+	g_assert(duration_label);
 
-	gtk_widget_set_halign(length_label, GTK_ALIGN_START);
-	gtk_widget_set_margin_top(length_label, 12);
-	gtk_widget_set_margin_bottom(length_label, 12);
-	gtk_label_set_max_width_chars(GTK_LABEL(length_label), 40);
-	gtk_label_set_ellipsize(GTK_LABEL(length_label), PANGO_ELLIPSIZE_MIDDLE);
+	gtk_widget_set_halign(duration_label, GTK_ALIGN_END);
+	gtk_widget_set_margin_top(duration_label, 12);
+	gtk_widget_set_margin_bottom(duration_label, 12);
+	gtk_label_set_ellipsize(GTK_LABEL(duration_label), PANGO_ELLIPSIZE_MIDDLE);
 	
-	spacer = gtk_label_new(NULL);
-	gtk_widget_set_hexpand(spacer, TRUE);
 	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_box_append(GTK_BOX(hbox), label);
-	gtk_box_append(GTK_BOX(hbox), spacer);
-	gtk_box_append(GTK_BOX(hbox), length_label);
+	gtk_box_append(GTK_BOX(hbox), duration_label);
 	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), hbox);
 	return row;
 }
