@@ -59,6 +59,7 @@ struct _CelluloidController
 	GBinding *skip_buttons_binding;
 	GSettings *settings;
 	CelluloidMpris *mpris;
+	guint inhibit_cookie;
 };
 
 struct _CelluloidControllerClass

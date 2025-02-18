@@ -238,6 +238,9 @@ celluloid_controller_init(CelluloidController *controller);
 static void
 update_extra_mpv_options(CelluloidController *controller);
 
+static void
+inhibit_idle(CelluloidController *controller, gboolean inhibit);
+
 G_DEFINE_TYPE(CelluloidController, celluloid_controller, G_TYPE_OBJECT)
 
 static void
@@ -307,6 +310,7 @@ set_property(	GObject *object,
 			set_video_area_status
 				(self, CELLULOID_VIDEO_AREA_STATUS_PLAYING);
 		}
+		inhibit_idle(self, !self->idle);
 		break;
 
 		case PROP_USE_SKIP_BUTTONS_FOR_PLAYLIST:
@@ -375,6 +379,8 @@ dispose(GObject *object)
 
 	if(controller->view)
 	{
+		inhibit_idle(controller, FALSE);
+
 		gtk_widget_remove_controller
 			(	GTK_WIDGET(controller->view),
 				controller->key_controller );
@@ -1338,6 +1344,28 @@ seek_handler(GtkButton *button, gdouble value, gpointer data)
 }
 
 static void
+inhibit_idle(CelluloidController *controller, gboolean inhibit)
+{
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
+	if (	inhibit &&
+			controller->inhibit_cookie == 0 &&
+			g_settings_get_boolean(settings, "inhibit-idle") ) {
+		controller->inhibit_cookie
+			= gtk_application_inhibit
+				(	GTK_APPLICATION(controller->app),
+					GTK_WINDOW(celluloid_view_get_main_window(controller->view)),
+					GTK_APPLICATION_INHIBIT_IDLE,
+					_("Playing") );
+	} else if (!inhibit && controller->inhibit_cookie != 0) {
+		gtk_application_uninhibit(GTK_APPLICATION(controller->app), controller->inhibit_cookie);
+		controller->inhibit_cookie = 0;
+	}
+
+	g_object_unref(settings);
+}
+
+static void
 celluloid_controller_class_init(CelluloidControllerClass *klass)
 {
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -1428,6 +1456,7 @@ celluloid_controller_init(CelluloidController *controller)
 	controller->skip_buttons_binding = NULL;
 	controller->settings = g_settings_new(CONFIG_ROOT);
 	controller->mpris = NULL;
+	controller->inhibit_cookie = 0;
 }
 
 static void

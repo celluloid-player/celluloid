@@ -95,9 +95,6 @@ static void
 startup_handler(GApplication *gapp, gpointer data);
 
 static void
-idle_handler(GObject *object, GParamSpec *pspec, gpointer data);
-
-static void
 shutdown_handler(CelluloidController *controller, gpointer data);
 
 static void
@@ -182,10 +179,6 @@ initialize_gui(CelluloidApplication *app)
 	g_unix_signal_add(SIGTERM, shutdown_signal_handler, app);
 #endif
 
-	g_signal_connect(	controller,
-				"notify::idle",
-				G_CALLBACK(idle_handler),
-				app );
 	g_signal_connect(	controller,
 				"shutdown",
 				G_CALLBACK(shutdown_handler),
@@ -491,52 +484,6 @@ startup_handler(GApplication *gapp, gpointer data)
 }
 
 static void
-idle_handler(GObject *object, GParamSpec *pspec, gpointer data)
-{
-	GSettings *settings = g_settings_new(CONFIG_ROOT);
-	CelluloidApplication *app = data;
-	CelluloidController *controller = NULL;
-	gboolean idle = TRUE;
-
-	for(	GSList *iter = app->controllers;
-		iter && idle;
-		iter = g_slist_next(iter) )
-	{
-		gboolean current = TRUE;
-
-		g_object_get(iter->data, "idle", &current, NULL);
-		idle &= current;
-		controller = iter->data;
-	}
-
-	if(	!idle &&
-		app->inhibit_cookie == 0 &&
-		g_settings_get_boolean(settings, "inhibit-idle") )
-	{
-		CelluloidView *view =
-			celluloid_controller_get_view(controller);
-		CelluloidMainWindow *window =
-			celluloid_view_get_main_window(view);
-
-		app->inhibit_cookie
-			= gtk_application_inhibit
-				(	GTK_APPLICATION(app),
-					GTK_WINDOW(window),
-					GTK_APPLICATION_INHIBIT_IDLE,
-					_("Playing") );
-	}
-	else if(idle && app->inhibit_cookie != 0)
-	{
-		gtk_application_uninhibit
-			(GTK_APPLICATION(app), app->inhibit_cookie);
-
-		app->inhibit_cookie = 0;
-	}
-
-	g_object_unref(settings);
-}
-
-static void
 shutdown_handler(CelluloidController *controller, gpointer data)
 {
 	CelluloidApplication *app = data;
@@ -568,7 +515,6 @@ celluloid_application_init(CelluloidApplication *app)
 	app->new_window = FALSE;
 	app->mpv_options = NULL;
 	app->role = NULL;
-	app->inhibit_cookie = 0;
 
 	g_set_prgname(APP_ID);
 	g_action_map_add_action(G_ACTION_MAP(app), G_ACTION(new_window));
