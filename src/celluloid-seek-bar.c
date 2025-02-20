@@ -320,26 +320,29 @@ motion_handler(	GtkEventControllerMotion *controller,
 	GPtrArray *chapter_list = bar->chapter_list;
 	const gchar *title_text = NULL;
 
-	for(guint i = 0; !title_text && i < chapter_list->len; i++)
+	if (chapter_list)
 	{
-		CelluloidChapter *chapter = g_ptr_array_index(chapter_list, i);
+		for(guint i = 0; !title_text && i < chapter_list->len; i++)
+		{
+			CelluloidChapter *chapter = g_ptr_array_index(chapter_list, i);
 
-		if(chapter->time > time)
-		{
-			// At this point, we should be looking at the chapter
-			// after the one we need. To get to the right chapter,
-			// subtract the index by one. If we're already at the
-			// first chapter, just pick that one.
-			chapter = g_ptr_array_index(chapter_list, MAX(1, i) - 1);
-			title_text = chapter->title;
-		}
-		else if(i == chapter_list->len - 1)
-		{
-			// The time should be beyond the last chapter's in this
-			// case, meaning the last chapter (the current index)
-			// is the one we need.
-			chapter = g_ptr_array_index(chapter_list, i);
-			title_text = chapter->title;
+			if(chapter->time > time)
+			{
+				// At this point, we should be looking at the chapter
+				// after the one we need. To get to the right chapter,
+				// subtract the index by one. If we're already at the
+				// first chapter, just pick that one.
+				chapter = g_ptr_array_index(chapter_list, MAX(1, i) - 1);
+				title_text = chapter->title;
+			}
+			else if(i == chapter_list->len - 1)
+			{
+				// The time should be beyond the last chapter's in this
+				// case, meaning the last chapter (the current index)
+				// is the one we need.
+				chapter = g_ptr_array_index(chapter_list, i);
+				title_text = chapter->title;
+			}
 		}
 	}
 
