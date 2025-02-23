@@ -571,6 +571,8 @@ is_active_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 	CelluloidView *view = CELLULOID_VIEW(gobject);
 	gboolean is_active = TRUE;
 
+	g_return_if_fail(controller->model);
+
 	g_object_get(view, "is-active", &is_active, NULL);
 
 	if(!is_active)
