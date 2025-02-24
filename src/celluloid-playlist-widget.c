@@ -744,13 +744,19 @@ motion_handler(	GtkDropTarget *self,
 	{
 		GtkWidget *src = gtk_event_controller_get_widget(controller);
 		const gint row_h = gtk_widget_get_height(GTK_WIDGET(row));
-		gdouble row_x = 0;
-		gdouble row_y = 0;
 
-		gtk_widget_translate_coordinates
-			(src, GTK_WIDGET(row), x, y, &row_x, &row_y);
+		const graphene_point_t in_point =
+			{.x = (gfloat)x, .y = (gfloat)y};
+		graphene_point_t out_point =
+			{0};
 
-		const gboolean top_half = row_y < (row_h / 2);
+		const gboolean computed =
+			gtk_widget_compute_point
+			(src, GTK_WIDGET(row), &in_point, &out_point);
+
+		g_assert(computed);
+
+		const gboolean top_half = out_point.y < (row_h / 2);
 		gint row_index = gtk_list_box_row_get_index(row);
 
 		css_data =
@@ -813,16 +819,21 @@ drop_handler(	GtkDropTarget *self,
 
 		if(dst_row)
 		{
-			gdouble row_x = 0;
-			gdouble row_y = 0;
+			const graphene_point_t in_point =
+				{.x = (gfloat)x, .y = (gfloat)y};
+			graphene_point_t out_point =
+				{0};
 
-			gtk_widget_translate_coordinates
-				(src, GTK_WIDGET(dst_row), x, y, &row_x, &row_y);
+			const gboolean computed =
+				gtk_widget_compute_point
+				(src, GTK_WIDGET(dst_row), &in_point, &out_point);
+
+			g_assert(computed);
 
 			const gint row_h =
 				gtk_widget_get_height(GTK_WIDGET(dst_row));
 			const gboolean top_half =
-				row_y < (row_h / 2);
+				out_point.y < (row_h / 2);
 			const gint dst_row_index =
 				gtk_list_box_row_get_index(dst_row);
 			const gint offset =
