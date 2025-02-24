@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2024 gnome-mpv
+ * Copyright (c) 2017-2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -574,7 +574,7 @@ load_css(CelluloidView *view)
 
 	GtkCssProvider *style_provider = gtk_css_provider_new();
 
-	gtk_css_provider_load_from_data(style_provider, style, -1);
+	gtk_css_provider_load_from_string(style_provider, style);
 
 	GdkSurface *surface = gtk_widget_get_surface(view);
 

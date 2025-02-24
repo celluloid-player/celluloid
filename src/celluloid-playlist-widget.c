@@ -772,7 +772,7 @@ motion_handler(	GtkDropTarget *self,
 				"}					");
 	}
 
-	gtk_css_provider_load_from_data(wgt->css_provider, css_data, -1);
+	gtk_css_provider_load_from_string(wgt->css_provider, css_data);
 	g_free(css_data);
 
 	return GDK_ACTION_MOVE;
@@ -783,7 +783,7 @@ leave_handler(GtkDropTarget *self, gpointer data)
 {
 	CelluloidPlaylistWidget *wgt = CELLULOID_PLAYLIST_WIDGET(data);
 
-	gtk_css_provider_load_from_data(wgt->css_provider, "", -1);
+	gtk_css_provider_load_from_string(wgt->css_provider, "");
 }
 
 static gboolean
@@ -837,7 +837,7 @@ drop_handler(	GtkDropTarget *self,
 			(GTK_LIST_BOX(wgt->list_box), dst_index);
 
 		gtk_list_box_select_row(GTK_LIST_BOX(wgt->list_box), new_dst_row);
-		gtk_css_provider_load_from_data(wgt->css_provider, "", -1);
+		gtk_css_provider_load_from_string(wgt->css_provider, "");
 
 		g_signal_emit_by_name
 			(	wgt,
@@ -1116,7 +1116,7 @@ celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 		"playlist .icon { -gtk-icon-size: 64px; }\n"
 		"playlist .title { font-weight: normal; font-size: medium; }\n";
 
-	gtk_css_provider_load_from_data(wgt->css_provider, css_data, -1);
+	gtk_css_provider_load_from_string(wgt->css_provider, css_data);
 	gtk_widget_add_css_class(wgt->placeholder, "dim-label");
 
 	adw_status_page_set_title

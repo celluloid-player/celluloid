@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2022, 2024 gnome-mpv
+ * Copyright (c) 2016-2022, 2024-2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -296,7 +296,7 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 		"}";
 
 	GtkCssProvider *css = gtk_css_provider_new();
-	gtk_css_provider_load_from_data(css, css_data, -1);
+	gtk_css_provider_load_from_string(css, css_data);
 
 	gtk_style_context_add_provider_for_display
 		(	gtk_widget_get_display(GTK_WIDGET(hdr)),

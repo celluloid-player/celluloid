@@ -311,7 +311,7 @@ motion_handler(	GtkEventControllerMotion *controller,
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	GtkWidget *widget = GTK_WIDGET(data);
 	CelluloidVideoArea *area = CELLULOID_VIDEO_AREA(data);
-	const gint height = gtk_widget_get_allocated_height(widget);
+	const gint height = gtk_widget_get_height(widget);
 
 	const gdouble unhide_speed =
 		g_settings_get_double(settings, "controls-unhide-cursor-speed");
