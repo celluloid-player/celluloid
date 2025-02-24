@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2024 gnome-mpv
+ * Copyright (c) 2016-2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -821,16 +821,15 @@ celluloid_video_area_get_offset(	CelluloidVideoArea *area,
 					gint *width,
 					gint *height )
 {
-	GtkAllocation allocation;
+	const gint area_width =
+		gtk_widget_get_width(GTK_WIDGET(area));
+	const gint area_height =
+		gtk_widget_get_height(GTK_WIDGET(area));
+	const gint stack_width =
+		gtk_widget_get_width(GTK_WIDGET(area->stack));
+	const gint stack_height =
+		gtk_widget_get_height(GTK_WIDGET(area->stack));
 
-	*width = 0;
-	*height = 0;
-
-	gtk_widget_get_allocation((GtkWidget*)area, &allocation);
-	*width = allocation.width;
-	*height = allocation.height;
-
-	gtk_widget_get_allocation(area->stack, &allocation);
-	*width -= allocation.width;
-	*height -= allocation.height;
+	*width = area_width - stack_width;
+	*height = area_height - stack_height;
 }
