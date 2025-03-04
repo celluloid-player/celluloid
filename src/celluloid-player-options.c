@@ -315,9 +315,9 @@ handle_window_scale(CelluloidMpv *mpv, gint64 dim[2])
 		scale = g_ascii_strtod(scale_str, NULL);
 		dim[0] = (gint64)(scale*(gdouble)dim[0]);
 		dim[1] = (gint64)(scale*(gdouble)dim[1]);
-	}
 
-	mpv_free(scale_str);
+		mpv_free(scale_str);
+	}
 
 	return scale_set;
 }
@@ -352,18 +352,21 @@ handle_autofit(CelluloidMpv *mpv, gint64 dim[2], GdkRectangle monitor_geom)
 	{
 		g_debug("Retrieved option --autofit=%s", autofit_str);
 		parse_dim_string(autofit_str, monitor_geom, autofit_dim);
+		mpv_free(autofit_str);
 	}
 
 	if(larger_set)
 	{
 		g_debug("Retrieved option --autofit-larger=%s", larger_str);
 		parse_dim_string(larger_str, monitor_geom, larger_dim);
+		mpv_free(larger_str);
 	}
 
 	if(smaller_set)
 	{
 		g_debug("Retrieved option --autofit-smaller=%s", smaller_str);
 		parse_dim_string(smaller_str, monitor_geom, smaller_dim);
+		mpv_free(smaller_str);
 	}
 
 	if(updated)
@@ -387,10 +390,6 @@ handle_autofit(CelluloidMpv *mpv, gint64 dim[2], GdkRectangle monitor_geom)
 		dim[0] = (gint64)(ratio*(gdouble)orig_dim[0]);
 		dim[1] = (gint64)(ratio*(gdouble)orig_dim[1]);
 	}
-
-	mpv_free(autofit_str);
-	mpv_free(larger_str);
-	mpv_free(smaller_str);
 
 	return updated;
 }
@@ -424,9 +423,9 @@ handle_geometry(CelluloidPlayer *player, GdkRectangle monitor_geom)
 						"window-resize",
 						dim[0], dim[1] );
 		}
-	}
 
-	mpv_free(geometry_str);
+		mpv_free(geometry_str);
+	}
 }
 
 static void
@@ -442,18 +441,18 @@ handle_msg_level(CelluloidPlayer *player)
 	if(optbuf)
 	{
 		tokens = g_strsplit(optbuf, ",", 0);
+
+		for(i = 0; tokens && tokens[i]; i++)
+		{
+			gchar **pair = g_strsplit(tokens[i], "=", 2);
+
+			celluloid_player_set_log_level(player, pair[0], pair[1]);
+			g_strfreev(pair);
+		}
+
+		mpv_free(optbuf);
+		g_strfreev(tokens);
 	}
-
-	for(i = 0; tokens && tokens[i]; i++)
-	{
-		gchar **pair = g_strsplit(tokens[i], "=", 2);
-
-		celluloid_player_set_log_level(player, pair[0], pair[1]);
-		g_strfreev(pair);
-	}
-
-	mpv_free(optbuf);
-	g_strfreev(tokens);
 }
 
 void
