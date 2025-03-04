@@ -729,10 +729,10 @@ celluloid_control_box_init(CelluloidControlBox *box)
 			_("Rewind") );
 	init_button(	box->next_button,
 			"media-skip-forward-symbolic",
-			_("Next Chapter") );
+			_("Next Track") );
 	init_button(	box->previous_button,
 			"media-skip-backward-symbolic",
-			_("Previous Chapter") );
+			_("Previous Track") );
 	init_button(	box->playlist_button,
 			"sidebar-show-right-symbolic",
 			_("Show Playlist") );
