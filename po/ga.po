@@ -1,198 +1,198 @@
-# Asier Iturralde Sarasola <asier.iturralde@gmail.com>, 2021. #zanata
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the celluloid package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-03 22:56-0600\n"
-"PO-Revision-Date: 2023-09-15 22:56+0000\n"
-"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
-"Language-Team: Basque <https://hosted.weblate.org/projects/celluloid/"
-"celluloid/eu/>\n"
-"Language: eu\n"
+"POT-Creation-Date: 2024-07-06 23:09+0700\n"
+"PO-Revision-Date: 2024-09-01 18:09+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
+"Language-Team: Irish <https://hosted.weblate.org/projects/celluloid/"
+"celluloid/ga/>\n"
+"Language: ga\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1-dev\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
+"n>6 && n<11) ? 3 : 4;\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "Ezarpenak aurreko bertsiotik jada migratu diren ala ez"
+msgstr "Cibé an bhfuil na socruithe aistrithe ón leagan roimhe seo cheana"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
-msgstr "Aldatu leihoaren tamaina automatikoki bideora doitzeko"
+msgstr "Athraigh méid na fuinneoige go huathoibríoch chun an físeán a oiriúnú"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Prefer dark theme"
-msgstr "Gai iluna hobestea"
+msgstr "Is fearr téama dorcha"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
-msgstr "Gaitu bezeroaren aldeko apaingarriak"
+msgstr "Cumasaigh maisiúcháin taobh cliaint"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr "Gaitu kontrol mugikorrak leiho moduan"
+msgstr "Bain úsáid as rialuithe ar snámh i mód windowed"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
+msgid "Use a floating header bar in windowed mode"
+msgstr "Bain úsáid as barra ceanntásc ar snámh i mód fuinneoige"
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr "Ezkutatu saguaren kurtsorea automatikoki leiho moduan"
+msgstr "Cuir cúrsóir na luiche i bhfolach go huathoibríoch i mód fuinneoige"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:47
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:52
 msgid "The minimum cursor speed at which floating controls will be unhidden."
-msgstr ""
-"Kurtsorearen gutxieneko ze abiaduratan bistaratuko diren kontrol mugikorrak."
+msgstr "An t-íosluas cúrsóra ag a mbeidh rialtáin ar snámh neamhfholaithe."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:54
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:59
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
-"Kurtsorearen mugimenduek kurtsorea bistaratzea eragiten ez duten eremu "
-"hilaren tamaina."
+"Méid an chrios marbh nach mbeidh gluaiseacht cúrsóra ina chúis leis na "
+"rialuithe a thaispeáint."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:60
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:65
 msgid "Use skip buttons to control the playlist"
-msgstr "Jauziko botoiak erabili erreprodukzio-zerrenda kontrolatzeko"
+msgstr "Úsáid cnaipí scipeála chun an seinmliosta a rialú"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:66
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:71
 msgid "Remember last location in file chooser"
-msgstr "Fitxategien hautatzailean izandako azken kokapena gogoratu"
+msgstr "Cuimhnigh ar an suíomh deireanach sa roghnóir comhaid"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
-msgid "Open new window when opening new files"
-msgstr "Leihoari fokua eman fitxategi berriak irekitzean"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:77
+msgid "Always open new window"
+msgstr "Oscail fuinneog nua i gcónaí"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:73
-msgid ""
-"When opening new files through D-Bus (e.g. using a file manager), open the "
-"file in a new window."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:81
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:83
 msgid "Always append opened files to playlist"
-msgstr "Gehitu beti irekitako fitxategiak erreprodukzio-zerrendara"
+msgstr "Cuir comhaid oscailte leis an seinmliosta i gcónaí"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
-msgid "Show title buttons in fullscreen mode"
-msgstr ""
-"Izenburuaren botoiak pantaila osoaren moduan erakusteko aukera gehituko da."
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:89
+msgid "Always show title buttons"
+msgstr "Taispeáin cnaipí teidil i gcónaí"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:88
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
-"Egia bada, izenburu-botoiak (itxi, maximizatu, minimizatu...) beti "
-"erakutsiko dira. Gezurra bada, botoiak ezkutatuko dira pantaila osoko moduan."
+"Más fíor, taispeántar cnaipí teidil (dún, uasmhéadaigh, íoslaghdaigh, etc.). "
+"Más bréagach é, cuirfear na cnaipí i bhfolach i mód lánscáileáin."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:98
 msgid "Give focus to the window when opening new files"
-msgstr "Leihoari fokua eman fitxategi berriak irekitzean"
+msgstr "Dírigh ar an bhfuinneog agus comhaid nua á n-oscailt agat"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:97
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:99
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
-"Egiazkoa bada, Celluloidek fokua leihoari emango dio artxibo berri bat "
-"irekitzen denean. Gezurra bada, ez da ahaleginik egingo."
+"Más fíor, tabharfaidh Celluloid fócas don fhuinneog nuair a osclaítear "
+"comhad nua. Má tá sé bréagach, ní dhéanfar aon iarracht."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:105
-#: src/celluloid-application.c:552
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:107
+#: src/celluloid-application.c:582
 msgid "Options to pass to mpv"
-msgstr "mpv-ri pasako zaizkion aukerak"
+msgstr "Roghanna chun pas a fháil go mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:111
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:113
 msgid "Path to mpv configuration file"
-msgstr "mpv konfigurazio-fitxategiaren bidea"
+msgstr "Conair go comhad cumraíochta mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:117
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:119
 msgid "Load mpv configuration file"
-msgstr "Kargatu mpv konfigurazio-fitxategia"
+msgstr "Íoslódáil an comhad cumraíochta mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:123
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:125
 msgid "Path to mpv input configuration file"
-msgstr "mpv-ren sarrerako konfigurazio-fitxategiaren bidea"
+msgstr "Conair go comhad cumraíochta ionchuir mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:129
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:131
 msgid "Load mpv input configuration file"
-msgstr "Kargatu mpv-ren sarrerako konfigurazio-fitxategia"
+msgstr "Íoslódáil an comhad cumraíochta ionchuir mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:135
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:137
 msgid "Enable MPRIS support"
-msgstr "Gaitu MPRIS euskarria"
+msgstr "Cumasaigh tacaíocht MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:141
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:143
 msgid "Enable menubar accelerator key handling"
-msgstr "Aktibatu menu-barrako azelerazio-teklen erabilera"
+msgstr "Cumasaigh láimhseáil eochair luasaire an bharra roghchláir"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:147
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:149
 msgid "Prefetch metadata"
-msgstr "Eskuratu aurrez metadatuak"
+msgstr "Meiteashonraí réamhshocraithe"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:153
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
 msgid "Ignore playback errors"
-msgstr "Egin ez ikusi erreprodukzio-erroreei"
+msgstr "Déan neamhaird de earráidí athsheinm"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:159
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
 msgid "Inhibit session idling"
-msgstr "Eragotzi saioa ixtea"
+msgstr "Cuir cosc ar sheisiún réchasta"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:165
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
 msgid "Make video area draggable"
-msgstr "Bideo-eremua arrastatu ahal izatea"
+msgstr "Déan an limistéar físeáin a tharraingt siar"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:175
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Width of the window"
-msgstr "Leihoaren zabalera"
+msgstr "Leithead na fuinneoige"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:181
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:183
 msgid "Height of the window"
-msgstr "Leihoaren altuera"
+msgstr "Airde na fuinneoige"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:187
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:189
 msgid "Whether or not the window is maximized"
-msgstr "Leihoa maximizatua dagoen ala ez"
+msgstr "Cibé an bhfuil an fhuinneog uasmhéadú nó nach bhfuil"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:194
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:196
 msgid "Volume of player"
-msgstr "Erreproduzigailuaren bolumena"
+msgstr "Méid an imreora"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:200
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:202
 msgid "Whether or not to loop when the end of playlist is reached"
-msgstr "Erreprodukzio-zerrendaren amaierara iristean begizta egin ala ez"
+msgstr ""
+"Cibé an lúbfar nó nach ndéanfar nuair a bheidh deireadh an tseinmliosta "
+"bainte amach"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:206
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:208
 msgid "Width of the playlist"
-msgstr "Erreprodukzio-zerrendaren zabalera"
+msgstr "Leithead an seinmliosta"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:212
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:214
 msgid "Show/hide the controls"
-msgstr "Kontrolak erakutsi/ezkutatu"
+msgstr "Taispeáin/folaigh na rialtáin"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:218
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:220
 msgid "Show/hide the playlist"
-msgstr "Erakutsi/ezkutatu erreprodukzio-zerrenda"
+msgstr "Taispeáin/folaigh an seinmliosta"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:224
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:226
 msgid "URI of the last folder accessed"
-msgstr "Atzitutako azken karpetaren URIa"
+msgstr "URI an fhillteáin dheireanaigh a bhfuarthas rochtain air"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
-#: data/io.github.celluloid_player.Celluloid.desktop.in:3
-#: src/celluloid-application.c:473
+#: data/io.github.celluloid_player.Celluloid.desktop.in:4
+#: src/celluloid-application.c:458
 msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "Erreproduzitu film eta bideoak"
+msgstr "Seinneann físeáin"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -202,28 +202,28 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
-"Celluloid multimedia erreproduzigailu sinple bat da, eta bideo eta audio "
-"formatu ia guztiak erreproduzitu ditzake. Erreprodukzio-zerrenda eta MPRIS2 "
-"multimedia erreproduzigailu kontrolen euskarria du. Celluloiden diseinuak "
-"GNOMEren Gizakientzako interfaze gidalerroak jarraitzen ditu, baina "
-"bezeroaren aldeko apaingarriak (CSD) erabiltzen ez dituzten beste "
-"sistemetara egokitu daiteke. mpv liburutegian eta GTK-n oinarritua dago."
+"Is seinnteoir meáin simplí é Celluloid atá in ann beagnach gach formáid físe "
+"agus fuaime a imirt. Tacaíonn sé le seinmliostaí agus rialuithe seinnteoir "
+"meáin MPRIS2. Leanann dearadh Celluloid Treoirlínte GNOME Chomhéadain "
+"Daonna, ach is féidir é a oiriúnú freisin do chórais eile nach n-úsáideann "
+"maisiúcháin taobh cliant (CSD). Tá sé bunaithe ar an leabharlann mpv agus "
+"GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
-msgstr "Ezaugarriak:"
+msgstr "Gnéithe:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:25
 msgid "Drag and drop playlist"
-msgstr "Erreprodukzio-zerrendak arrastatu eta jaregitea"
+msgstr "Tarraing agus scaoil seinmliosta"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
-msgstr "Kanpoko mpv konfigurazio-fitxategiak kargatzea"
+msgstr "Comhaid cumraíochta mpv seachtracha á lódáil"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:27
 msgid "MPRIS2 D-Bus interface"
-msgstr "MPRIS2 D-Bus interfazea"
+msgstr "Comhéadan MPRIS2 D-Bus"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:36
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:69
@@ -239,37 +239,41 @@ msgstr "MPRIS2 D-Bus interfazea"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:479
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:507
 msgid "This release contains the following changes:"
-msgstr "Bertsio honek ondorengo aldaketak ditu:"
+msgstr "Tá na hathruithe seo a leanas san eisiúint seo:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
 msgid ""
 "Add a loading screen that gets displayed during initialization and buffering."
 msgstr ""
+"Cuir scáileán luchtaithe leis a thaispeánfar le linn thúsaithe agus maoláin."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid ""
 "Reduce the time it takes for the main window to get displayed after "
 "launching."
 msgstr ""
+"Laghdaigh an t-am a thógann sé chun an phríomhfhuinneog a thaispeáint tar "
+"éis é a sheoladh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
 msgid ""
 "Opening and closing the preferences dialog will no longer trigger an mpv "
 "reset unless options that require it are changed."
 msgstr ""
+"Má osclaítear agus má dhúnann tú an dialóg sainroghanna, ní spreagfar "
+"athshocrú mpv a thuilleadh mura n-athraítear na roghanna a éilíonn é."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid "Update the look for controls and header bar in floating mode."
-msgstr ""
+msgstr "Nuashonraigh an lorg rialuithe agus barra ceanntásc i mód ar snámh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
 msgid "Update some of the deprecated GTK API usage."
-msgstr ""
+msgstr "Nuashonraigh cuid den úsáid GTK API atá dímheasta."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
-#, fuzzy
 msgid "Add support for multi-file user scripts."
-msgstr "Kanpoko bideo-pistak kargatzeko euskarria gehitu."
+msgstr "Cuir tacaíocht le haghaidh scripteanna úsáideora ilchomhad."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
@@ -286,316 +290,321 @@ msgstr "Kanpoko bideo-pistak kargatzeko euskarria gehitu."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:500
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:528
 msgid "This listing is incomplete. See git log for complete changelog."
-msgstr "Zerrenda hau osatugabea da. Ikusi git log aldaketen zerrenda osorako."
+msgstr ""
+"Tá an liostú seo neamhiomlán. Féach logáil git le haghaidh loga athraithe "
+"iomlán."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
 msgid "Fix a bug where the header bar keeps hiding even when a menu is open."
 msgstr ""
+"Deisigh fabht ina gcoinníonn an barra ceanntásc i bhfolach fiú nuair a "
+"bhíonn an roghchlár ar oscailt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
 msgid "Use toasts instead of dialog to report mpv errors."
-msgstr ""
+msgstr "Úsáid toasts in ionad dialóige chun earráidí mpv a thuairisciú."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
-#, fuzzy
 msgid "Change default screenshot format to PNG."
-msgstr ""
-"Aldatu egin da pantailaren izenaren txantiloia lehenetsita FILENAME-"
-"TIMESTAMP (%f-%P) egoerara."
+msgstr "Athraigh formáid réamhshocraithe scáileáin go PNG."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:82
 msgid ""
 "Fix crash that happens when the mpv-config-file key in GSettings contains a "
 "path rather than a URI."
 msgstr ""
+"Timpiste a dheisiú a tharlaíonn nuair a bhíonn conair seachas URI san "
+"eochair mpv-config-file in GSettings."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Expose the Position MPRIS property."
-msgstr ""
+msgstr "Nocht an t-airí Position MPRIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
 msgid ""
 "Use the numeric style class for the time/duration label, which stops it from "
 "jumping around as it changes."
 msgstr ""
+"Bain úsáid as an rang stíl uimhriúil don lipéad ama/fad, rud a chuireann bac "
+"air ó léim thart de réir mar a athraíonn sé."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
 msgid "Fix crash when using multiple windows."
-msgstr "Akats bat konpondu da hainbat leiho erabiltzean."
+msgstr "Deisigh tuairteála nuair a úsáideann fuinneoga iolracha."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:108
 msgid "Port the about dialog to libadwaita."
-msgstr "Libadwaita-ko «Honi buruz» leihoa darama."
+msgstr "Íoslódáil an dialóg faoi libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:111
 msgid "Fix cursor not autohiding on KDE."
 msgstr ""
-"Errore bat zuzendu da, non kurtsorea ez zen automatikoki KDEn ezkutatzen."
+"Deisigh nach bhfuil an cúrsóir á chur i bhfolach go huathoibríoch ar KDE."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:114
 msgid "Fix mouse presses/releases becoming unreliable during playback."
 msgstr ""
-"Erreproduzitzean sagua sakatzean edo askatzean fidagarritasun falta zuzendu "
-"da."
+"Deisigh brúigh/eisiúintí luiche ag éirí neamhiontaofa le linn athsheinm."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
-"Windowsen konpilazioa ahalbidetzea. Celluloid oraindik blokeatu egiten da "
-"saguarekin klik egitean, baina exekutatu egiten da eta bideoak erreproduzitu "
-"ditzake."
+"Déan é a chumasú tógáil ar Windows. Tuairteanna celluloid fós ar cad a "
+"tharlaíonn nuair luiche, ach ritheann sé agus is féidir físeáin a imirt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
 msgid "Add Estonian translation by vaba."
-msgstr "Gehitu da Estoniorako itzulpena, @vaba-ri esker."
+msgstr "Cuir aistriúchán Eastóinis le vaba leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
 msgid "Add Georgian translation by temuri doghonadze."
-msgstr "Georgierazko itzulpena gehitu da @temuri doghonadze-ri esker."
+msgstr "Cuir aistriúchán Seoirsis le temuri doghonadze leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
 msgid "Add Lithuanian translation by Jonas Smol."
-msgstr "Lituanierazko itzulpena gehitu da @Jonas Smol-ri esker."
+msgstr "Cuir aistriúchán Liotuáinis le Jonas Smol leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
 msgid "Add Occitan translation by Quentin PAGÈS."
-msgstr "Okzitanierara egindako itzulpena gehitu da @Quentin PAGÈSek-ri esker."
+msgstr "Cuir aistriúchán Occitan le Quentin PAGÈS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
 msgid "Add Tamil translation by K.B.Dharun Krishna."
-msgstr "Tamilerako itzulpena gehitu da @K.B.Dharun Krishnak-ri esker."
+msgstr "Cuir aistriúchán Tamailis le K.B.Dharun Krishna leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
 msgid "Add Malay translation by @dinazmi."
-msgstr "Malaysiorako itzulpena gehitu da, @dinazmi-ri esker."
+msgstr "Cuir aistriúchán Malaeis le @dinazmi leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:151
 msgid "Use libadwaita."
-msgstr "Orain libadwaita erabiltzen da."
+msgstr "Bain úsáid as libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:154
 msgid "Fix on_load hook in scripts not triggering."
-msgstr "on_load kakoa aktibatuko ez diren script-etan konpondu dira."
+msgstr "Deisigh an hook on_load i scripteanna nach bhfuil á spreagadh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:157
 msgid "Add option to make the video area draggable."
-msgstr "Bideoaren eremua herrestan eraman ahal izateko aukera gehitu da."
+msgstr "Cuir rogha leis chun an limistéar físeáin a dhéanamh in-tharraingt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
 msgid "Fix autofit breaking when playing small videos."
-msgstr ""
-"Ezarpen automatikoaren etena zuzendu da bideo txikiak erreproduzitzean."
+msgstr "Deisigh briseadh autofit nuair a imirt físeáin beag."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Make controls layout adaptive."
-msgstr "Diseinu moldagarria gehitu da."
+msgstr "Déan leagan amach na rialuithe oiriúnaitheach."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Display chapter marks in the seek bar."
-msgstr "Erakutsi kapituluaren markak bilaketa-barran."
+msgstr "Taispeáin marcanna caibidle sa bharra cuardaigh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Display chapter titles in the seek bar popover."
-msgstr "Erakutsi kapituluen izenburuak bilaketa-barran."
+msgstr "Taispeáin teidil na gcaibidlí sa bharra cuardaigh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "Hau erroreak zuzentzeko bertsio bat da. Aldaketa hauek ditu:"
+msgstr ""
+"Is scaoileadh bugfix é seo den chuid is mó. Tá na hathruithe seo a leanas "
+"ann:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
-"Ezarpen automatikoaren aktibazioa finkatu, konfigurazioa edozein dela ere."
+msgstr "Deisigh autofit truicear beag beann ar na socruithe."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
 msgid "Fix window size shrinking across sessions."
-msgstr "Saioen bidez leihoaren tamaina murrizketa zuzendu da."
+msgstr "Ceartaigh méid na fuinneoige ag crapadh ar fud na seisiún."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:190
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
-"Akats bat zuzendu da kodifikazio baliogabea duten izenak dituzten "
-"fitxategiak erreproduzitzean."
+"Deisigh tuairteála nuair a bhíonn comhaid á imirt le hainmneacha ina bhfuil "
+"ionchódú neamhbhailí."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
 msgid "Fix drag-and-drop not working with some file managers."
 msgstr ""
-"Zenbait fitxategi-kudeatzailerekin funtzionatzen ez zuela arrastatzeko eta "
-"askatzeko funtzioa konponduta."
+"Ceartaigh tarraing-agus-titim nach bhfuil ag obair le roinnt bainisteoirí "
+"comhad."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:196
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
-"Erreprodukzioaren hasiera zuzenduta, erreprodukzio-zerrendako azken "
-"elementua ezabatzen denean."
+"Deisigh athsheinm ag tosú nuair a bhaintear an mhír dheireanach den "
+"seinmliosta."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:211
 msgid "Migrate to GTK4."
-msgstr "GTK4-ra migratu da."
+msgstr "Aistrigh go GTK4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:214
 msgid "Add Greek translation by @lepa22."
-msgstr "Grekoko itzulpena gehitu da @lepa22-ri esker."
+msgstr "Cuir aistriúchán Gréigise le @lepa22 leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:217
 msgid "Add Korean translation by @jullee96."
-msgstr "Koreerara itzulpena gehitu da @jullee96-ri esker"
+msgstr "Cuir aistriúchán Cóiréis le @jullee96 leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:220
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr "Norvegiako itzulpena gehitu da @Allan Nordhøy-ri esker."
+msgstr "Cuir aistriúchán Ioruais Bokmål le Allan Nordhøy leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
 msgid "Add Occidental translation by OIS."
-msgstr "Mendebaldeko itzulpena gehitu da @OIS-ri esker."
+msgstr "Cuir Aistriúchán Occidental le OIS leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Arabierazko itzulpena gehitu da @Mohamed Benkouider-ri esker."
+msgstr "Cuir aistriúchán Araibis le Mohamed Benkouider leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Urduko itzulpena gehitu da Ahmed Iqbal-ri esker."
+msgstr "Cuir aistriúchán Urdais le Ahmed Iqbal leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
 msgid "Add option to show title buttons in fullscreen mode."
-msgstr ""
-"Izenburuaren botoiak pantaila osoaren moduan erakusteko aukera gehituko da."
+msgstr "Cuir rogha leis chun cnaipí teidil a thaispeáint i mód lánscáileáin."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
 msgid "Add option to present the window when opening files."
-msgstr "Gehitu da leihoa aurkezteko aukera fitxategiak irekitzean."
+msgstr ""
+"Cuir rogha leis chun an fhuinneog a chur i láthair nuair a bhíonn comhaid á "
+"oscailt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:238
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
-"Aldatu egin da pantailaren izenaren txantiloia lehenetsita FILENAME-"
-"TIMESTAMP (%f-%P) egoerara."
+"Athraigh teimpléad ainm comhaid réamhshocraithe scáileáin go FILENAME-"
+"TIMESTAMP (%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:241
 msgid "Fix inaccurate timestamp preview."
-msgstr "Denbora-marka zehaztugabearen aldez aurreko bista zuzendu da."
+msgstr "Deisigh réamhamharc stampa ama míchruinn."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
 msgid "Add Basque translation by @aldatsa."
-msgstr "@aldatsa-ren euskarazko itzulpena gehitu."
+msgstr "Cuir aistriúchán Bascais le @aldatsa leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
 msgid "Make the shuffle and loop command line options work properly."
-msgstr "Komando lerroko ausaz nahasi eta begizta aukerek ondo funtzionatzea."
+msgstr "Déan roghanna na n-orduithe Suaitheadh agus lúb oibriú i gceart."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
 msgid "Make the main menu button toggleable by pressing F10."
-msgstr "Menu nagusiko botoia F10 sakatuz txandakatu ahal izatea."
+msgstr "Déan cnaipe an phríomh-roghchláir a scoránaigh trí F10 a bhrú."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
 msgid "Add a setting for always appending opened files to the playlist."
 msgstr ""
-"Irekitako fitxategiak beti erreprodukzio-zerrendara gehitzeko aukera ematen "
-"duen ezarpena sortu."
+"Cuir socrú leis chun comhaid oscailte a chur i gceangal leis an seinmliosta "
+"i gcónaí."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
 msgstr ""
-"Fitxategiak bideo-areara jaregitean Maius sakatuz erreprodukzio-zerrenda "
-"gehitzeko aukera eman."
+"Ceadaigh comhaid a chur i gceangal leis an seinmliosta trí shealú a "
+"choinneáil agus comhaid á scaoileadh isteach sa limistéar físeáin."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
-msgstr ""
-"CSD goiburu-barra txandakagarri egin mpv-ren \"border\" propietatea erabiliz."
+msgstr "Déan barra ceanntásc CSD a scoránaigh tríd an \"teorainn\" airí mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
 msgstr ""
-"Flatpak manifestua gehitu biltegian. Horri esker Celluloid GNOME Builder "
-"bezalako aplikazioetan klik bakarrean eraiki daiteke."
+"Cuir forléiriú Flatpak san áireamh sa repo. Ligeann sé seo Celluloid a "
+"thógáil i cliceáil amháin in apps cosúil le GNOME Builder."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr ""
-"Erreprodukzio-zerrenda hutsik dagoenean laster-menua aktibatzeko aukera eman."
+"Bíodh sé indéanta roghchlár comhthéacs a ghníomhachtú nuair a bhíonn an "
+"seinmliosta folamh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:294
 msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as "
 "its value changes."
 msgstr ""
-"Denbora-zigiluaren balioa aldatzean bere etiketaren tamaina aldatzearen "
-"ondorioz bilaketa-barraren tamaina etengabe tamainaz aldatzea eragotzi."
+"Cosc a chur ar athrú méide seasta an bharra cuardaigh mar gheall ar an "
+"lipéad stampa ama a athrú de réir mar a athraíonn a luach."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
 msgstr ""
-"Errore kopuru handi bat azkar batean ematen direnean elkarrizketa-koadro "
-"bakarra erakutsi."
+"Ná taispeáin dialóg earráide amháin ach amháin nuair a tharlaíonn líon mór "
+"earráidí as a chéile go gasta."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:302
 msgid "Add menu item for opening folders."
-msgstr "Karpetak irekitzeko menuko elementua gehitu."
+msgstr "Cuir mír roghchláir leis chun fillteáin a oscailt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:305
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
-"Elkarrizketa-koadro modalen interfazeko elementuen kokapena doitu ez-CSD "
-"moduetan, CSD moduarekin koherenteago izateko."
+"Coigeartaigh suíomh na n-eilimintí Chomhéadain de na dialóga módúla i mód "
+"neamh-CSD chun a bheith níos comhsheasmhaí le mód TLU."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
 msgid "Add support for loading external video tracks."
-msgstr "Kanpoko bideo-pistak kargatzeko euskarria gehitu."
+msgstr "Cuir tacaíocht leis chun rianta físeáin sheachtracha a luchtú."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
 msgid "Make playlist shuffle toggleable."
-msgstr "Erreprodukzio-zerrendak nahastea txandakatzeko aukera eman."
+msgstr "Déan suaitheadh seinmliosta a scoránaigh."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
 msgid "Make arrow key bindings work with arrow keys on numpad."
-msgstr "Zenbakizko teklatuko geziak gezien laster-tekletan erabil daitezke."
+msgstr ""
+"Déan ceangail na heochrach saighde a bheith ag obair le saigheadeochracha ar "
+"numpad."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:330
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr ""
-"Bolumenaren botoiaren tartea gehienezko bolumena propietatearen balioaren "
-"arabera doitu."
+"Coigeartaigh an raon cnaipe toirte bunaithe ar luach na maoine toirt-uas."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:334
 msgid "Retain window maximization state across sessions."
-msgstr "Leihoaren maximizazio egoera mantendu saioen artean."
+msgstr "Coimeád staid uasmhéadú na bhfuinneog ar fud na seisiún."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
 msgid "Retain loop state across sessions."
-msgstr "Begiztaren egoera saioen artean mantendu."
+msgstr "Coinnigh staid lúb ar fud na seisiún."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
 msgid "Implement playlist search."
-msgstr "Erreprodukzio-zerrenden bilaketa inplementatu."
+msgstr "Cuir cuardach seinmliosta i bhfeidhm."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:343
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr "Laster-teklak elkarrizketa-koadroko zerrenda eguneratu."
+msgstr "Nuashonraigh liosta na n-aicearraí sa dialóg Aicearraí Méarchláir."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:346
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr ""
-"Komatxoak eta ihes sekuentziak zuzen maneiatu mpv-ren aukera gehigarrietan."
+"Láimhseáil Sleachta agus seichimh éalaithe i gceart i roghanna breise mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
 msgid "Display time at cursor position when hovering the seek bar."
 msgstr ""
-"Denbora kurtsoaren posizioan bistaratu bilaketa-barraren gainean jartzean."
+"Taispeáin an t-am ag suíomh an chúrsóra agus an barra cuardaigh á haistriú."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
 msgid ""
@@ -603,1026 +612,905 @@ msgid ""
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
-"'--mpv-options' zaharkitutzat jo. Horren ordez '--mpv-' aurrizkiarekin "
-"hasten diren aukerak erabil daitezke mpv-ren aukerak ezartzeko. Adibidez, "
-"Celluloidi '--mpv-vf=vflip' pasatzea mpv-ri '--vf=vflip' pasatzearen "
-"baliokidea da."
+"Déan ‘--mpv-options’ i léig. Is féidir roghanna ag tosú le '--mpv-' a úsáid "
+"chun roghanna mpv a shocrú ina ionad. Mar shampla, is ionann '--mpv-vf = "
+"vflip' a rith go Celluloid agus '--vf = vflip' a chur ar aghaidh go mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
-"Zonalde hila konfiguratzeko euskarria gehitu, saguaren mugimenduek kontrolak "
-"bistaraziko ez dituzten eremua."
+"Cuir tacaíocht leis chun crios marbh a chumrú, limistéar nach mbeidh "
+"gluaiseacht luiche ina chúis le rialuithe a thaispeáint."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:362
 msgid "Make window sizing work correctly with HiDPI displays."
-msgstr "Leiho tamainak HiDPI pantailetan behar bezala funtzionatzea."
+msgstr "Déan méid na bhfuinneog a oibriú i gceart le taispeántais HiDPI."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr "Kimmo Kujansuu-ren suomierazko itzulpena gehitu."
+msgstr "Cuir aistriúchán Fionlainnis le Kimmo Kujansuu leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:368
 msgid "Add Slovenian translation by @bertronika."
-msgstr "@bertronika-ren eslovenierazko itzulpena gehitu."
+msgstr "Cuir aistriúchán Slóivéinis le @bertronika leis."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:383
 msgid "Add Persian translation by @danialbehzadi"
-msgstr "@danialbehzadi-ren persierazko itzulpena gehitu"
+msgstr "Cuir aistriúchán Peirsis le @danialbehzadi leis"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:386
 msgid "Add Ukranian translation by @vl-nix"
-msgstr "@vl-nix-ren ukrainerazko itzulpena gehitu"
+msgstr "Cuir aistriúchán Úcráinis le @vl-nix leis"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:389
 msgid ""
 "Add support for showing/hiding window decorations using the mpv option --"
 "border"
 msgstr ""
-"mpv-ren --border aukera erabiliz leihoen apaingarriak erakutsi/ezkutatzeko "
-"euskarria gehitu"
+"Cuir tacaíocht leis chun maisiúcháin fuinneoige a thaispeáint/a chur i "
+"bhfolach ag baint úsáide as an rogha mpv --teorainn"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
 msgid "Add menu item for opening discs"
-msgstr "Diskoak irekitzeko menuko elementua gehitu"
+msgstr "Cuir mír roghchláir leis le haghaidh dioscaí a oscailt"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:395
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
-"Kurtsorea automatikoki ezkutatzea blokeatu bolumenaren laster-leihoa leiho "
-"moduan irekita dagoenean"
+"Cuir an cúrsóir i bhfolach go huathoibríoch nuair a bhíonn aníos toirte "
+"oscailte i mód fuinneoige"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:398
 msgid "Fix crash with mpv 0.30"
-msgstr "mpv 0.30 bertsioarekin hutsegitea zuzendu"
+msgstr "Deisigh tuairteála le mpv 0.30"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:413
 msgid "Rename project to Celluloid"
-msgstr "Proiektua Celluloid moduan berrizendatu"
+msgstr "Athainmnigh an tionscadal go Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:416
 msgid "Add Turkish translation by @TeknoMobil"
-msgstr "@TeknoMobil-en turkierazko itzulpena gehitu"
+msgstr "Cuir aistriúchán Tuircis le @TeknoMobil leis"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:419
 msgid "Add Esperanto translation by @F3nd0"
-msgstr "@F3nd0-ren esperantozko itzulpena gehitu"
+msgstr "Cuir aistriúchán Esperanto le @F3nd0 leis"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:422
 msgid "Migrate from opengl-cb to the new render API"
-msgstr "opengl-cb-tik errendatze API berrira migratu"
+msgstr "Aistrigh ó opengl-cb chuig an API rindreála nua"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:425
 msgid "Handle numpad keybindings"
-msgstr "Zenbakizko teklatuko laster-teklak maneiatu"
+msgstr "Láimhseáil eochaircheangail numpad"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:428
 msgid "Handle unicode keybindings"
-msgstr "Unicode laster-teklak maneiatu"
+msgstr "Láimhseáil eochaircheangail Unicode"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:431
 msgid "Forward media key events to mpv"
-msgstr "Multimedia tekla gertaerak mpv-ri igorri"
+msgstr "Cuir príomhimeachtaí meáin ar aghaidh go mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:434
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
-"Kontrolak kurtsorearen ze abiaduratan bistaratuko diren kontrolatzeko dconf "
-"gakoa gehitu"
+"Cuir eochair dconf leis chun luas an chúrsóra a rialú ag a bhfuil rialuithe "
+"neamhfholaithe"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:437
 msgid "Add option for suppressing playback errors"
-msgstr "Erreprodukzio-erroreak isiltzeko aukera gehitu"
+msgstr "Cuir rogha leis chun earráidí athsheinm a shochtadh"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:452
 msgid "Split up the General tab in the preferences dialog"
-msgstr "Hobespenak elkarrizketa-koadroko Orokorra fitxa banatu"
+msgstr "Scoilt suas an cluaisín Ginearálta sa dialóg roghanna"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:455
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
-"Erreprodukzio-zerrenda txandakatzeko portaera hobetu mosaiko moduko leiho "
-"kudeatzaileetan"
+"Feabhas a chur ar iompraíocht agus tú ag scoránú seinmliosta faoi "
+"bhainisteoirí fuinneog tíleála"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:458
 msgid "Move app menu items to primary menu"
-msgstr "Aplikazioaren menuko elementuak menu nagusira eraman"
+msgstr "Bog míreanna roghchláir na haipe go dtí an príomh-roghchlár"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr "MPRIS DBUS konexio bereizi bat erabili leiho bakoitzean"
+msgstr "Úsáid nasc MPRIS DBus ar leith do gach fuinneog"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:464
 msgid "Add support for MPRIS property LoopStatus"
-msgstr "MPRIS-en LoopStatus propietatearen euskarria gehitu"
+msgstr "Cuir tacaíocht leis an maoin MPRIS LoopStatus"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:467
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
-"--mpv-options aukera gehitu, komando lerrotik hautazko mpv aukerak ezartzeko"
+"Cuir rogha leis --mpv-options chun roghanna mpv treallach a shocrú ón líne "
+"ordaithe"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:483
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr "XDG_PICTURES_DIR pantaila-argazkien direktorio lehenetsi bezala ezarri"
+msgstr "Socraigh comhadlann scáileáin réamhshocraithe go XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:486
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
 msgstr ""
-"--window-scale, --autofit, --autofit-larger eta --autofit-smaller aukeren "
-"maneiatzea hobetu"
+"Feabhas a chur ar láimhseáil --scála fuinneoige, --autofit, --autofit-níos "
+"mó, agus --autofit-níos lú"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:490
 msgid "Add command line option for setting WM_ROLE"
-msgstr "WM_ROLE ezartzeko komando-lerroko aukera gehitu"
+msgstr "Cuir rogha na n-orduithe leis chun WM_ROLE a shocrú"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:493
 msgid "Add context menu item for removing playlist items"
-msgstr ""
-"Erreprodukzio-zerrendako elementuak kentzeko laster-menuko elementua gehitu"
+msgstr "Cuir mír roghchláir comhthéacs leis chun míreanna seinmliosta a bhaint"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:496
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
-"Erreprodukzio-zerrendako elementuen kokalekua kopiatzeko laster-menuko "
-"elementua gehitu"
+"Cuir mír roghchláir comhthéacs leis chun suíomh na míreanna seinmliosta a "
+"chóipeáil"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
-"Saltatzeko botoiak erabiliz kapituluen ordez erreprodukzio-zerrendako "
-"sarrerak aldatzeko aukera gehitu"
+"Cuir rogha leis chun go n-athróidh cnaipí scipeála iontrálacha seinmliosta "
+"seachas caibidlí"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:515
 msgid "Make the file chooser accept non-local locations"
-msgstr "Fitxategi-hautatzaileak kokaleku ez-lokalak onartzen ditu orain"
+msgstr "Déan an roghnóir comhaid glacadh le láithreacha neamháitiúla"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:518
 msgid "Add right-click menu entry for looping a single file"
-msgstr ""
-"Fitxategi bakarra begiztan jartzeko sarrera gehitu eskuineko botoiko laster-"
-"menuan"
+msgstr "Cuir iontráil roghchlár deaschliceáil leis chun comhad amháin a lúbadh"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:521
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
-"Pantaila osoa eta leihoa eskalatzea kudeatzeko aldaketa gertaerak kudeatu"
+"Déileáil le teagmhais athraithe réadmhaoine le haghaidh lánscáileáin agus "
+"scála fuinneoige"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:524
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr "Leiho moduan saguaren kurtsorea automatikoki ezkutatzeko aukera gehitu"
+msgstr ""
+"Cuir leis an rogha chun cúrsóir luiche a fholú go huathoibríoch i mód "
+"fuinneoige"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:538
 msgid "The main window showing the application in action"
-msgstr "Leiho nagusia aplikazioa lanean erakusten"
+msgstr "An phríomhfhuinneog a thaispeánann an feidhmchlár i ngníomh"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:542
 msgid "The main window with CSD disabled"
-msgstr "Leiho nagusia CSD desgaituta"
+msgstr "An phríomhfhuinneog le taisclann lárnach urrús díchumasaithe"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:546
 msgid "The main window with playlist open"
-msgstr "Leiho nagusia erreprodukzio-zerrenda irekita"
-
-#: data/io.github.celluloid_player.Celluloid.desktop.in:4
-msgid "Multimedia Player"
-msgstr "Multimedia erreproduzigailua"
+msgstr "An phríomhfhuinneog le seinmliosta oscailte"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:5
+msgid "Multimedia Player"
+msgstr "Imreoir Ilmheáin"
+
+#: data/io.github.celluloid_player.Celluloid.desktop.in:6
 msgid "Play movies and videos"
-msgstr "Erreproduzitu film eta bideoak"
+msgstr "Seinn scannáin agus físeáin"
 
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:16
+#: data/io.github.celluloid_player.Celluloid.desktop.in:17
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr "Bideoa;Filma;Pelikula;Klipa;Telesailak;Erreproduzigailua;DVD;TV;Diskoa;Albuma;Musika;GNOME;mpv;"
+msgstr ""
+"Físeán;Scannán;Scannán;Gearrthóg;Sraith;Seinnteoir;DVD;Teilifís;Diosca;Albam;"
+"Ceol;GNOME;mpv;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:22
+#: data/io.github.celluloid_player.Celluloid.desktop.in:23
 msgid "New Window"
-msgstr "Leiho berria"
+msgstr "Fuinneog Nua"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:26
+#: data/io.github.celluloid_player.Celluloid.desktop.in:27
 msgid "Add to Playlist"
-msgstr "Gehitu erreprodukzio-zerrendara"
+msgstr "Cuir leis an Seinmliosta"
 
-#: src/celluloid-application.c:528
+#: src/celluloid-application.c:502
+msgid "Playing"
+msgstr "Ag imirt"
+
+#: src/celluloid-application.c:558
 msgid "Show release version"
-msgstr "Erakutsi argitalpenaren bertsioa"
+msgstr "Taispeáin leagan scaoileadh"
 
-#: src/celluloid-application.c:536
+#: src/celluloid-application.c:566
 msgid "Enqueue"
-msgstr "Jarri ilaran"
+msgstr "Cuir i scuaine"
 
-#: src/celluloid-application.c:544
+#: src/celluloid-application.c:574
 msgid "Create a new window"
-msgstr "Sortu leiho berri bat"
+msgstr "Cruthaigh fuinneog nua"
 
-#: src/celluloid-application.c:553
+#: src/celluloid-application.c:583
 msgid "OPTIONS"
-msgstr "AUKERAK"
+msgstr "ROGHANNA"
 
-#: src/celluloid-application.c:560
+#: src/celluloid-application.c:590
 msgid "Set the window role"
-msgstr "Ezarri leihoaren rola"
+msgstr "Socraigh ról na fuinneoige"
 
-#: src/celluloid-application.c:568
+#: src/celluloid-application.c:598
 msgid "Don't connect to an already-running instance"
-msgstr "Ez konektatu dagoeneko martxan dagoen instantzia batera"
+msgstr "Ná ceangail le háis atá ar siúl cheana féin"
 
-#: src/celluloid-application.c:579
+#: src/celluloid-application.c:609
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr "Ezarri mpv-ren MPVAUKERA aukera BALIOA baliora"
+msgstr "Socraigh an rogha mpv MPVOPTION go LUACH"
 
-#: src/celluloid-application.c:580
+#: src/celluloid-application.c:610
 msgid "VALUE"
-msgstr "BALIOA"
+msgstr "LUACH"
 
-#: src/celluloid-common.c:280
+#: src/celluloid-common.c:270
 msgid "invalid encoding"
-msgstr "kodifikazioa ez da baliozkoa"
+msgstr "ionchódú neamhbhailí"
 
-#: src/celluloid-control-box.c:447
+#: src/celluloid-control-box.c:452
 msgid "Pause"
-msgstr "Pausatu"
+msgstr "Sos"
 
-#: src/celluloid-control-box.c:447 src/celluloid-control-box.c:723
+#: src/celluloid-control-box.c:452 src/celluloid-control-box.c:726
 msgid "Play"
-msgstr "Erreproduzitu"
-
-#: src/celluloid-control-box.c:726
-msgid "Forward"
-msgstr "Aurrera"
+msgstr "Imirt"
 
 #: src/celluloid-control-box.c:729
-msgid "Rewind"
-msgstr "Atzera"
+msgid "Stop"
+msgstr "Stad"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
-msgid "Next Track"
-msgstr "_Bideo-pista"
+msgid "Forward"
+msgstr "Ar aghaidh"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
-msgid "Previous Track"
-msgstr "Aurreko kapitulua"
+msgid "Rewind"
+msgstr "Athchasadh"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
-msgid "Show Playlist"
-msgstr "Egin erreprodukzio-zerrendaren begizta"
+msgid "Next Chapter"
+msgstr "An Chéad Chaibidil Eile"
 
-#: src/celluloid-control-box.c:766
-msgid "Volume"
-msgstr ""
+#: src/celluloid-control-box.c:741
+msgid "Previous Chapter"
+msgstr "Caibidil Roimhe Seo"
 
-#: src/celluloid-controller.c:1369
-msgid "Playing"
-msgstr "Erreproduzitzen"
+#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:565
+msgid "Loop Playlist"
+msgstr "Seinmliosta Lúb"
 
-#: src/celluloid-file-chooser.c:193 src/celluloid-plugins-manager.c:201
+#: src/celluloid-control-box.c:747
+msgid "Shuffle Playlist"
+msgstr "Seinmliosta Shuffle"
+
+#: src/celluloid-control-box.c:750
+msgid "Toggle Playlist"
+msgstr "Scoránaigh Seinmliosta"
+
+#: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
+msgid "Toggle Fullscreen"
+msgstr "Scoránaigh Lánscáileán"
+
+#: src/celluloid-file-chooser.c:145 src/celluloid-plugins-manager.c:201
 msgid "All Files"
-msgstr "Fitxategi guztiak"
+msgstr "Gach Comhad"
 
-#: src/celluloid-file-chooser.c:201
+#: src/celluloid-file-chooser.c:153
 msgid "Media Files"
-msgstr "Multimedia-fitxategiak"
+msgstr "Comhaid Meán"
 
-#: src/celluloid-file-chooser.c:212
+#: src/celluloid-file-chooser.c:164
 msgid "Audio Files"
-msgstr "Audio-fitxategiak"
+msgstr "Comhaid Fuaime"
 
-#: src/celluloid-file-chooser.c:220
+#: src/celluloid-file-chooser.c:172
 msgid "Video Files"
-msgstr "Bideo-fitxategiak"
+msgstr "Comhaid Físe"
 
-#: src/celluloid-file-chooser.c:228
+#: src/celluloid-file-chooser.c:180
 msgid "Image Files"
-msgstr "Irudi fitxategiak"
+msgstr "Comhaid Íomhá"
 
-#: src/celluloid-file-chooser.c:238
+#: src/celluloid-file-chooser.c:190
 msgid "Subtitle Files"
-msgstr "Azpititulu-fitxategiak"
+msgstr "Comhaid Fotheideal"
+
+#: src/celluloid-file-chooser-button.c:232
+msgid "Open File…"
+msgstr "Oscail Comhad…"
 
 #: src/celluloid-file-chooser-button.c:236
-msgid "Open File…"
-msgstr "Ireki fitxategia…"
-
-#: src/celluloid-file-chooser-button.c:240
 msgid "(None)"
-msgstr "(Bat ere ez)"
-
-#: src/celluloid-header-bar.c:239 src/celluloid-open-location-dialog.c:75
-msgid "Open"
-msgstr "Ireki"
-
-#: src/celluloid-header-bar.c:243
-msgid "Select a Media File, Folder or URL"
-msgstr ""
-
-#: src/celluloid-header-bar.c:245
-msgid "Main Menu"
-msgstr ""
-
-#: src/celluloid-header-bar.c:257
-msgid "Toggle Fullscreen"
-msgstr "Txandakatu pantaila osoa"
+msgstr "(Tada)"
 
 #: src/celluloid-menu.c:106
 msgid "None"
-msgstr "Bat ere ez"
+msgstr "Dada"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
 #.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
-msgstr "Ezezaguna"
+msgstr "Anaithnid"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr "_Kargatu kanpokoa…"
+msgstr "_Lódáil Seachtrach…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
 #.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
-msgstr "Ez da diskorik aurkitu"
+msgstr "Níor aimsíodh diosca"
 
 #: src/celluloid-menu.c:235
 msgid "_File"
-msgstr "_Fitxategia"
+msgstr "_Comhad"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:316
 msgid "_Open File…"
-msgstr "_Ireki fitxategia…"
+msgstr "_Oscail Comhad…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:317
 msgid "Open _Folder…"
-msgstr "Ireki _karpeta…"
+msgstr "Oscail _Fillteán…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:318
 msgid "Open _Location…"
-msgstr "Ireki _kokalekua…"
+msgstr "Oscail _Suíomh…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr "Ireki _diskoa…"
+msgstr "Oscail _Diosca…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:288
 msgid "_Save Playlist"
-msgstr "_Gorde erreprodukzio-zerrenda"
+msgstr "_Sábháil Seinmliosta"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:321
 msgid "_New Window"
-msgstr "Leiho _berria"
+msgstr "_Fuinneog Nua"
 
 #: src/celluloid-menu.c:242
 msgid "_Quit"
-msgstr "_Irten"
+msgstr "_Scoir"
 
 #: src/celluloid-menu.c:243
 msgid "_Edit"
-msgstr "_Editatu"
+msgstr "_Cuir in eagar"
 
 #: src/celluloid-menu.c:244 src/celluloid-menu.c:294
 msgid "_Preferences"
-msgstr "_Hobespenak"
+msgstr "_Roghanna"
 
 #: src/celluloid-menu.c:245 src/celluloid-menu.c:290
 msgid "_Video Track"
-msgstr "_Bideo-pista"
+msgstr "_Rian Físeáin"
 
 #: src/celluloid-menu.c:246 src/celluloid-menu.c:291
 msgid "_Audio Track"
-msgstr "_Audio-pista"
+msgstr "_ Rian Fuaime"
 
 #: src/celluloid-menu.c:247 src/celluloid-menu.c:292
 msgid "S_ubtitle Track"
-msgstr "A_zpititulu-pista"
+msgstr "Rian F_otheideal"
 
 #: src/celluloid-menu.c:248
 msgid "_View"
-msgstr "_Ikusi"
+msgstr "_Féach"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:286
 msgid "_Toggle Controls"
-msgstr "_Txandakatu kontrolak"
+msgstr "_Scoránaigh Rialuithe"
 
 #: src/celluloid-menu.c:250
 msgid "_Fullscreen"
-msgstr "_Pantaila osoa"
+msgstr "_ Lánscáileán"
 
 #: src/celluloid-menu.c:251
 msgid "_Help"
-msgstr "_Laguntza"
+msgstr "_Cabhair"
 
 #: src/celluloid-menu.c:252 src/celluloid-menu.c:295
 msgid "_Keyboard Shortcuts"
-msgstr "Laster-_teklak"
+msgstr "Aicearraí _Méarchláir"
 
 #: src/celluloid-menu.c:253 src/celluloid-menu.c:296
 msgid "_About Celluloid"
-msgstr "_Celluloidi buruz"
+msgstr "_Maidir le Celluloid"
 
 #: src/celluloid-menu.c:319
 msgid "Open _Disc"
-msgstr "Ireki _diskoa"
+msgstr "Oscail _Diosca"
 
 #: src/celluloid-mpv.c:266
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr "Erreprodukzioa modu anormalean bukatu da. Arrazoia: %s."
+msgstr "Cuireadh deireadh neamhghnách le hathsheinm. Cúis: %s."
+
+#: src/celluloid-open-location-dialog.c:75
+msgid "Open"
+msgstr "Oscail"
 
 #: src/celluloid-open-location-dialog.c:77
 msgid "Cancel"
-msgstr "Utzi"
+msgstr "Cealaigh"
 
 #: src/celluloid-open-location-dialog.c:274
 msgid "Location:"
-msgstr "Kokalekua:"
+msgstr "Suíomh:"
 
-#: src/celluloid-player.c:669
+#: src/celluloid-player.c:667
 msgid "Failed to apply one or more MPV options."
-msgstr "Huts egin du MPV-ren aukera bat edo gehiago aplikatzean."
+msgstr "Theip ar rogha MPV amháin nó níos mó a chur i bhfeidhm."
 
-#: src/celluloid-playlist-widget.c:619
+#: src/celluloid-playlist-widget.c:557
 msgid "_Copy Location"
-msgstr "_Kopiatu kokalekua"
+msgstr "_Cóipeáil Suíomh"
 
-#: src/celluloid-playlist-widget.c:620 src/celluloid-plugins-manager-item.c:205
+#: src/celluloid-playlist-widget.c:558 src/celluloid-plugins-manager-item.c:208
 msgid "_Remove"
-msgstr "_Kendu"
+msgstr "_Bain"
 
-#: src/celluloid-playlist-widget.c:622
+#: src/celluloid-playlist-widget.c:560
 msgid "_Add…"
-msgstr "_Gehitu…"
+msgstr "_Cuir leis…"
 
-#: src/celluloid-playlist-widget.c:623
+#: src/celluloid-playlist-widget.c:561
 msgid "Add _Folder…"
-msgstr "Gehitu _karpeta…"
+msgstr "Cuir _Fillteán leis…"
 
-#: src/celluloid-playlist-widget.c:624
+#: src/celluloid-playlist-widget.c:562
 msgid "Add _Location…"
-msgstr "Gehitu k_okalekua…"
+msgstr "Cuir _Suíomh leis…"
 
-#: src/celluloid-playlist-widget.c:625
+#: src/celluloid-playlist-widget.c:563
 msgid "_Shuffle"
-msgstr "_Nahasi"
+msgstr "_Suaitheadh"
 
-#: src/celluloid-playlist-widget.c:626
-#, fuzzy
+#: src/celluloid-playlist-widget.c:564
 msgid "Loop File"
-msgstr "Egin _fitxategiaren begizta"
+msgstr "Comhad Lúb"
 
-#: src/celluloid-playlist-widget.c:627
-msgid "Loop Playlist"
-msgstr "Egin erreprodukzio-zerrendaren begizta"
-
-#: src/celluloid-playlist-widget.c:1023
-#, fuzzy
-msgid "0 files"
-msgstr "Ireki fitxategia"
-
-#: src/celluloid-playlist-widget.c:1034
-#, fuzzy
-msgid "Hide playlist"
-msgstr "Gorde erreprodukzio-zerrenda"
-
-#: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
-msgid "Playlist"
-msgstr "Erreprodukzio-zerrenda"
-
-#: src/celluloid-playlist-widget.c:1064
-#, fuzzy
-msgid "Search in playlist"
-msgstr "Gorde erreprodukzio-zerrenda"
-
-#: src/celluloid-playlist-widget.c:1067
-#, fuzzy
-msgid "Search in playlist…"
-msgstr "Gorde erreprodukzio-zerrenda"
-
-#: src/celluloid-playlist-widget.c:1081
-msgid "Disable repeat"
-msgstr ""
-
-#: src/celluloid-playlist-widget.c:1091
-#, fuzzy
-msgid "Repeat file"
-msgstr "Ireki fitxategia"
-
-#: src/celluloid-playlist-widget.c:1102
-#, fuzzy
-msgid "Repeat playlist"
-msgstr "Gorde erreprodukzio-zerrenda"
-
-#: src/celluloid-playlist-widget.c:1110
-#, fuzzy
-msgid "Shuffle playlist"
-msgstr "Nahasi erreprodukzio-zerrenda"
-
-#: src/celluloid-playlist-widget.c:1135
-#, fuzzy
+#: src/celluloid-playlist-widget.c:930
 msgid "Playlist is Empty"
-msgstr "Erreprodukzio-zerrenda hutsik dago"
+msgstr "Tá an Seinmliosta Folamh"
 
-#: src/celluloid-playlist-widget.c:1242
-#, c-format
-msgid "%ld file"
-msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
+#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
 msgid "Add Plugin"
-msgstr "Gehitu plugina"
+msgstr "Cuir Breiseán leis"
 
 #: src/celluloid-plugins-manager.c:206
 msgid "Lua Plugins"
-msgstr "Lua pluginak"
+msgstr "Breiseáin Lua"
 
 #: src/celluloid-plugins-manager.c:212
 msgid "JavaScript Plugins"
-msgstr "JavaScript pluginak"
+msgstr "Breiseáin Javascript"
 
 #: src/celluloid-plugins-manager.c:217
 msgid "C Plugins"
-msgstr "C pluginak"
+msgstr "C Breiseáin"
 
-#: src/celluloid-plugins-manager.c:350
+#: src/celluloid-plugins-manager.c:355
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr ""
-"Huts egin du fitxategia '%s' jatorritik '%s' helburura kopiatzean. Arrazoia: "
-"%s"
+msgstr "Níorbh fhéidir an comhad a chóipeáil ó '%s' go '%s'. Cúis: %s"
 
-#: src/celluloid-plugins-manager.c:405
+#: src/celluloid-plugins-manager.c:409
 msgid "Plugins"
-msgstr "Pluginak"
+msgstr "Breiseáin"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:416
 msgid "Add…"
-msgstr "Gehitu…"
+msgstr "Cuir…"
 
-#: src/celluloid-plugins-manager.c:446
+#: src/celluloid-plugins-manager.c:450
 msgid "No Plugins Found"
-msgstr "Ez dira pluginik aurkitu"
+msgstr "Níl aon Breiseáin le fáil"
 
-#: src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:453
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "Cliceáil an cnaipe <b>Cuir leis…</b> chun breiseán nua a shuiteáil"
 
 #: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
-msgstr "Ezabatu plugina"
+msgstr "Bain Breiseán"
 
-#: src/celluloid-plugins-manager-item.c:175
+#: src/celluloid-plugins-manager-item.c:178
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr "Huts egin du '%s' fitxategia ezabatzean. Arrazoia: %s"
+msgstr "Theip ar an comhad '%s' a scriosadh. Cúis: %s"
 
-#: src/celluloid-plugins-manager-item.c:199
+#: src/celluloid-plugins-manager-item.c:202
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
-msgstr "Ziur zaude script hau kendu nahi duzula? Ekintza hau ezin da desegin."
+msgstr ""
+"An bhfuil tú cinnte gur mhaith leat an script seo a bhaint? Ní féidir an "
+"gníomh seo a chur ar ais."
 
-#: src/celluloid-plugins-manager-item.c:206
+#: src/celluloid-plugins-manager-item.c:209
 msgid "_Keep"
-msgstr "_Gorde"
+msgstr "_Coinnigh"
 
-#: src/celluloid-preferences-dialog.c:332
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:322
 msgid "mpv configuration file"
-msgstr "mpv konfigurazio-fitxategia:"
+msgstr "comhad cumraíochta mpv"
 
-#: src/celluloid-preferences-dialog.c:338
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:328
 msgid "mpv input configuration file"
-msgstr "mpv-ren sarrerako konfigurazio-fitxategia:"
+msgstr "comhad cumraíochta ionchuir mpv"
 
-#: src/celluloid-preferences-dialog.c:358
+#: src/celluloid-preferences-dialog.c:348
 msgid "Extra mpv options"
-msgstr "mpv aukera gehigarriak"
+msgstr "Roghanna breise mpv"
 
-#: src/celluloid-preferences-dialog.c:373
+#: src/celluloid-preferences-dialog.c:363
 msgid "Interface"
-msgstr "Interfazea"
+msgstr "Comhéadan"
 
-#: src/celluloid-preferences-dialog.c:381
+#: src/celluloid-preferences-dialog.c:371
 msgid "Config Files"
-msgstr "Konfigurazio-fitxategiak"
+msgstr "Comhaid Configúrtha"
 
-#: src/celluloid-preferences-dialog.c:389
+#: src/celluloid-preferences-dialog.c:379
 msgid "Miscellaneous"
-msgstr "Askotarikoa"
+msgstr "Ilghnéireach"
 
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:405
 msgid "Preferences"
-msgstr "Hobespenak"
+msgstr "Roghanna"
 
 #: src/celluloid-shortcuts-window.c:46
 msgid "Open file"
-msgstr "Ireki fitxategia"
+msgstr "Oscail comhad"
 
 #: src/celluloid-shortcuts-window.c:47
 msgid "Open location"
-msgstr "Ireki kokalekua"
+msgstr "Suíomh oscailte"
 
 #: src/celluloid-shortcuts-window.c:48
 msgid "Add file to playlist"
-msgstr "Gehitu fitxategia erreprodukzio-zerrendara"
+msgstr "Cuir comhad le seinmliosta"
 
 #: src/celluloid-shortcuts-window.c:49
 msgid "Add location to playlist"
-msgstr "Gehitu kokalekua erreprodukzio-zerrendara"
+msgstr "Cuir suíomh leis an seinmliosta"
 
 #: src/celluloid-shortcuts-window.c:50
 msgid "Show preferences dialog"
-msgstr "Erakutsi hobespenen elkarrizketa-koadroa"
+msgstr "Taispeáin dialóg roghanna"
 
 #: src/celluloid-shortcuts-window.c:51
 msgid "Toggle playlist"
-msgstr "Txandakatu erreprodukzio-zerrenda"
+msgstr "Athraigh seinmliosta"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Toggle fullscreen mode"
-msgstr "Txandakatu pantaila osoko modua"
+msgstr "Athraigh mód lánscáileáin"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Leave fullscreen mode"
-msgstr "Irten pantaila osoko modutik"
+msgstr "Fág modh lánscáileáin"
 
 #: src/celluloid-shortcuts-window.c:54
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
-"Txandakatu OSD egoerak normalaren eta erreprodukzioaren denbora/iraupenaren "
-"artean"
+msgstr "Athraigh stáit OSD idir gnáthaim/am athsheinm"
 
 #: src/celluloid-shortcuts-window.c:55
 msgid "Show filename on the OSD"
-msgstr "Erakutsi fitxategi-izena OSD-an"
+msgstr "Taispeáin ainm comhaid ar an OSD"
 
 #: src/celluloid-shortcuts-window.c:56
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr "Erakutsi aurrerapena, igarotako denbora eta iraupena OSD-an"
+msgstr "Taispeáin dul chun cinn, am caite, agus fad ar an OSD"
 
 #: src/celluloid-shortcuts-window.c:59
 msgid "Seek backward/forward 5 seconds"
-msgstr "Joan atzera/aurrera 5 segundo"
+msgstr "Cuardaigh ar chúl/ar aghaidh 5 soicind"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Exact seek backward/forward 1 second"
-msgstr "Joan atzera/aurrera zehazki segundo bat"
+msgstr "Cuardaigh cruinn ar chúl/ar aghaidh 1 soicind"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Seek backward/forward 1 minute"
-msgstr "Joan atzera/aurrera minutu bat"
+msgstr "Cuardaigh ar chúl/ar aghaidh 1 nóiméad"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Exact seek backward/forward 5 seconds"
-msgstr "Joan atzera/aurrera zehazki 5 segundo"
+msgstr "Cuardaigh cruinn ar chúl/ar aghaidh 5 soicind"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Seek to previous/next subtitle"
-msgstr "Joan aurreko/hurrengo azpititulura"
+msgstr "Déan iarracht fotheideal roimhe seo/an chéad cheann eile"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Step backward/forward a single frame"
-msgstr "Joan atzera/aurrera fotograma bakar bat"
+msgstr "Céim ar siúl/ar aghaidh fráma amháin"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr "Joan aurreko/hurrengo kapituluaren hasierara"
+msgstr "Déan iarracht chuig tús na caibidil roimhe seo/chéad chaibidil"
 
 #: src/celluloid-shortcuts-window.c:68
 msgid "Decrease/increase playback speed by 10%"
-msgstr "Txikiagotu/handiagotu erreprodukzio-abiadura %10ean"
+msgstr "Laghdai/méadú luas athsheinm 10%"
 
 #: src/celluloid-shortcuts-window.c:69
 msgid "Halve/double current playback speed"
-msgstr "Erdira jaitsi/Bikoiztu erreprodukzio-abiadura"
+msgstr "Luas athsheinm reatha leath/dúbailte"
 
 #: src/celluloid-shortcuts-window.c:70
 msgid "Reset playback speed to normal"
-msgstr "Berrezarri erreprodukzio-abiadura normala"
+msgstr "Athshocraigh luas athsheinm go gnáth"
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Go backward/forward in the playlist"
-msgstr "Joan atzera/aurrera erreprodukzio-zerrendan"
+msgstr "Téigh ar siúl/ar aghaidh sa seinmliosta"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Remove selected playlist item"
-msgstr "Kendu hautatutako erreprodukzio-zerrendako elementua"
+msgstr "Bain mír seinmliosta roghnaithe"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Save playlist"
-msgstr "Gorde erreprodukzio-zerrenda"
+msgstr "Sábháil seinmliosta"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Set/clear A-B loop points"
-msgstr "Ezarri/garbitu A-B begizta-puntuak"
+msgstr "Pointí lúb A-B socraí/soiléir"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Toggle infinite looping"
-msgstr "Txandakatu begizta infinitua"
+msgstr "Athraigh lúpáil gan teorainn"
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Pause or unpause"
-msgstr "Pausatu edo despausatu"
+msgstr "Sos nó dístopadh"
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Quit"
-msgstr "Irten"
+msgstr "Scoir"
 
 #: src/celluloid-shortcuts-window.c:78
 msgid "Save current playback position and quit"
-msgstr "Gorde uneko erreprodukzioaren posizioa eta irten"
+msgstr "Sábháil an suíomh athsheinm reatha agus scor"
 
 #: src/celluloid-shortcuts-window.c:81
 msgid "Enter search mode"
-msgstr "Sartu bilaketa moduan"
+msgstr "Cuir isteach modh cuardaigh"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Jump to next match"
-msgstr "Jauzi hurrengo bat-etortzera"
+msgstr "Léim chuig an gcéad cluiche"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Jump to previous match"
-msgstr "Jauzi aurreko bat-etortzera"
+msgstr "Léim chuig cluiche roimhe seo"
 
 #: src/celluloid-shortcuts-window.c:84
 msgid "Exit search mode"
-msgstr "Irten bilaketa modutik"
+msgstr "Modh cuardaigh amach"
 
 #: src/celluloid-shortcuts-window.c:87
 msgid "Cycle through audio tracks"
-msgstr "Txandakatu audio-pistak"
+msgstr "Rothaíocht trí rianta fuaime"
 
 #: src/celluloid-shortcuts-window.c:88 src/celluloid-shortcuts-window.c:89
 msgid "Decrease/increase volume"
-msgstr "Jaitsi/Igo bolumena"
+msgstr "Laghdú/méadú toirt"
 
 #: src/celluloid-shortcuts-window.c:90
 msgid "Mute or unmute"
-msgstr "Mututu edo desmututu"
+msgstr "Balbhaigh nó díbhalbhaigh"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr "Doitu audioaren atzerapena +/- 0,1 segundoz"
+msgstr "Coigeartaigh moill fuaime faoi +/- 0.1 soicind"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Toggle subtitle visibility"
-msgstr "Txandakatu azpitituluen ikusgaitasuna"
+msgstr "Athraigh infheictheacht fotheidil"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Cycle through available subtitles"
-msgstr "Txandakatu erabilgarri dauden azpitituluak"
+msgstr "Rothaigh trí fhotheidil atá ar fáil"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr "Doitu azpitituluen atzerapena +/- 0,1 segundoz"
+msgstr "Coigeartaigh moill fotheidil faoi +/- 0.1 soicind"
 
 #: src/celluloid-shortcuts-window.c:97
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr "Txandakatu SSA/ASS azpitituluen estiloa gainidaztea"
+msgstr "Athraigh stíl fotheidil SSA/ASS"
 
 #: src/celluloid-shortcuts-window.c:98
 msgid "Move subtitles up/down"
-msgstr "Mugitu azpitituluak gora/behera"
+msgstr "Bog fotheidil suas/síos"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr "Txandakatu VSFilter aspektu bateragarritasun modua"
+msgstr "Athraigh modh comhoiriúnachta gné VSFilter"
 
 #: src/celluloid-shortcuts-window.c:102
 msgid "Cycle through video tracks"
-msgstr "Txandakatu bideo-pistak"
+msgstr "Rothaíocht trí rianta físe"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Decrease/increase pan-and-scan range"
-msgstr "Txikiagotu/Handiagotu pan-and-scan barrutia"
+msgstr "Raon pan-agus-scanadh a laghdú/a mhéadú"
 
 #: src/celluloid-shortcuts-window.c:104
 msgid "Take a screenshot"
-msgstr "Atera pantaila-argazkia"
+msgstr "Tóg scáileán"
 
 #: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot, without subtitles"
-msgstr "Atera pantaila-argazkia, azpititulurik gabe"
+msgstr "Tóg pictiúr, gan fotheidil"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, as the window shows it"
-msgstr "Atera pantaila-argazkia, leihoak erakusten duen bezala"
+msgstr "Tóg pictiúr, mar a thaispeánann an fhuinneog é"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Resize video to half its original size"
-msgstr "Aldatu bideoaren tamaina jatorrizkoaren erdira"
+msgstr "Athraigh méid físeáin go leath a mhéid bunaidh"
 
 #: src/celluloid-shortcuts-window.c:108
 msgid "Resize video to its original size"
-msgstr "Aldatu bideoaren tamaina jatorrizkora"
+msgstr "Athraigh méid físe go dtí a mhéid bunaidh"
 
 #: src/celluloid-shortcuts-window.c:109
 msgid "Resize video to double its original size"
-msgstr "Aldatu bideoaren tamaina jatorrizkoaren bikoitzera"
+msgstr "Athraigh méid físe chun a mhéid bunaidh a dhúbail"
 
 #: src/celluloid-shortcuts-window.c:110
 msgid "Adjust contrast"
-msgstr "Doitu kontrastea"
+msgstr "Déan codarsnacht a"
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Adjust brightness"
-msgstr "Doitu distira"
+msgstr "Coigeartaigh gile"
 
 #: src/celluloid-shortcuts-window.c:112
 msgid "Adjust gamma"
-msgstr "Doitu gamma"
+msgstr "Coigeartaigh gama"
 
 #: src/celluloid-shortcuts-window.c:113
 msgid "Adjust saturation"
-msgstr "Doitu asetasuna"
+msgstr "Coigeartaigh sáithi"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Activate or deactivate deinterlacer"
-msgstr "Aktibatu edo desaktibatu desgurutzelarkatzailea"
+msgstr "Díinterlacer a ghníomhachtú nó a dhíghníomhachtú"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Cycle aspect ratio override"
-msgstr "Txandakatu aspektu-erlazioa gainidaztea"
+msgstr "Athshlánú cóimheas gné timthriall"
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Pan the video"
-msgstr ""
+msgstr "Déan an físeán"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Zoom in/out"
-msgstr ""
+msgstr "Súmáil isteach/amach"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "Athshocraigh socruithe pan/súmáil"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
-msgstr "Erabiltzaile-interfazea"
+msgstr "Comhéadan Úsáideora"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "Video"
-msgstr "Bideoa"
+msgstr "Físeán"
 
 #: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
-msgstr "Audioa"
+msgstr "Fuaim"
 
 #: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
-msgstr "Azpititulua"
+msgstr "Fotheideal"
 
 #: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
-msgstr "Erreprodukzioa"
+msgstr "Athsheinm"
 
 #: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
-msgstr "Bilaketa"
+msgstr "Ag lorg"
 
-#: src/celluloid-video-area.c:688
+#: src/celluloid-shortcuts-window.c:129
+msgid "Playlist"
+msgstr "Seinmliosta"
+
+#: src/celluloid-video-area.c:741
 msgid "Loading…"
-msgstr ""
+msgstr "Á lódáil…"
 
-#: src/celluloid-video-area.c:699
+#: src/celluloid-video-area.c:752
 msgid "Welcome"
-msgstr "Ongietorri"
+msgstr "Fáilte"
 
-#: src/celluloid-video-area.c:702
-msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr ""
+#: src/celluloid-video-area.c:755
+msgid "Click the <b>＋</b> button or drag and drop videos here"
+msgstr "Cliceáil an cnaipe <b>＋</b> nó tarraing agus scaoil físeáin anseo"
 
-#: src/celluloid-view.c:737
+#: src/celluloid-view.c:739
 msgid "Load Audio Track…"
-msgstr "Kargatu audio-pista…"
+msgstr "Luchtaigh Rian Fuaime…"
 
-#: src/celluloid-view.c:741
+#: src/celluloid-view.c:743
 msgid "Load Video Track…"
-msgstr "Kargatu bideo-pista…"
+msgstr "Luchtaigh Rian Físe…"
 
-#: src/celluloid-view.c:745
+#: src/celluloid-view.c:747
 msgid "Load Subtitle Track…"
-msgstr "Kargatu azpititulu-pista…"
+msgstr "Luchtaigh Rian Fotheidil…"
 
-#: src/celluloid-view.c:934
+#: src/celluloid-view.c:926
+msgid "Error"
+msgstr "Earráid"
+
+#: src/celluloid-view.c:951
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
-"Bezeroaren aldeko apaingarriak gaitu edo desgaitzeko berrabiarazi beharra "
-"dago."
+"Chun maisiúcháin ar thaobh an chliaint a chumasú nó a dhíchumasú, ní mór "
+"atosú chun éifeacht a thabhairt."
 
-#: src/celluloid-view.c:1470
+#: src/celluloid-view.c:1468
 msgid "Add Folder to Playlist"
-msgstr "Gehitu karpeta erreprodukzio-zerrendara"
+msgstr "Cuir Fillteán leis an seinmliosta"
 
-#: src/celluloid-view.c:1470
+#: src/celluloid-view.c:1468
 msgid "Open Folder"
-msgstr "Ireki karpeta"
+msgstr "Fillteán Oscail"
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1473
 msgid "Add File to Playlist"
-msgstr "Gehitu fitxategia erreprodukzio-zerrendara"
+msgstr "Cuir Comhad le seinmliosta"
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1473
 msgid "Open File"
-msgstr "Ireki fitxategia"
+msgstr "Oscail Comhad"
 
-#: src/celluloid-view.c:1514
+#: src/celluloid-view.c:1512
 msgid "Add Location to Playlist"
-msgstr "Gehitu kokalekua erreprodukzio-zerrendara"
+msgstr "Cuir Suíomh leis an seinmliosta"
 
-#: src/celluloid-view.c:1515
+#: src/celluloid-view.c:1513
 msgid "Open Location"
-msgstr "Gehitu kokalekua"
+msgstr "Suíomh Oscailte"
 
-#: src/celluloid-view.c:1556
+#: src/celluloid-view.c:1555
 msgid "Save Playlist"
-msgstr "Gorde erreprodukzio-zerrenda"
+msgstr "Sábháil Seinmliosta"
 
-#: src/celluloid-view.c:1621
+#: src/celluloid-view.c:1617
 msgid "translator-credits"
-msgstr "Asier Iturralde Sarasola <asier.iturralde@gmail.com>"
-
-#, fuzzy
-#~ msgid "Use a floating header bar in windowed mode"
-#~ msgstr "Gaitu kontrol mugikorrak leiho moduan"
-
-#~ msgid "Always open new window"
-#~ msgstr "Ireki leiho berria beti"
-
-#~ msgid "Always show title buttons"
-#~ msgstr "Erakutsi beti izenburu-botoiak"
-
-#~ msgid "Stop"
-#~ msgstr "Gelditu"
-
-#~ msgid "Next Chapter"
-#~ msgstr "Hurrengo kapitulua"
-
-#, fuzzy
-#~ msgid "Toggle Playlist"
-#~ msgstr "_Txandakatu erreprodukzio-zerrenda"
-
-#~ msgid "Error"
-#~ msgstr "Errorea"
-
-#~ msgid "The Celluloid Developers"
-#~ msgstr "Celluloiden garatzaileak"
-
-#~ msgid "Press ＋ or drag your video file here."
-#~ msgstr "Sakatu ＋ edo arrastatu zure bideo fitxategia hemen."
-
-#~ msgid "GTK+ frontend for mpv"
-#~ msgstr "mpv-ren GTK+ interfazea"
-
-#~ msgid "_Open"
-#~ msgstr "_Ireki"
-
-#~ msgid "_Cancel"
-#~ msgstr "_Utzi"
-
-#~ msgid "Loop _Playlist"
-#~ msgstr "Egin _erreprodukzio-zerrendaren begizta"
-
-#~ msgid "Enable media keys support"
-#~ msgstr "Gaitu multimedia teklen euskarria"
-
-#~ msgid "Remove"
-#~ msgstr "Kendu"
-
-#~ msgid "_Save"
-#~ msgstr "_Gorde"
-
-#~ msgid "Toggle controls"
-#~ msgstr "Txandakatu kontrolak"
-
-#~ msgid "A GTK frontend for MPV"
-#~ msgstr "MPVren GTK interfaze bat"
-
-#~ msgid "Make file chooser remember last file's location"
-#~ msgstr "Fitxategi-hautatzaileak gogora dezala azken fitxategiaren kokalekua"
-
-#~ msgid "_Open…"
-#~ msgstr "_Ireki…"
-
-#~ msgid "Loop _File"
-#~ msgstr "Egin _fitxategiaren begizta"
-
-#~ msgid "_Toggle Playlist"
-#~ msgstr "_Txandakatu erreprodukzio-zerrenda"
+msgstr "creidmheasanna aistritheora"

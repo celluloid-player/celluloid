@@ -4,9 +4,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-06 23:09+0700\n"
-"PO-Revision-Date: 2023-08-20 21:35+0000\n"
-"Last-Translator: gnome-mpv <gnome-mpv@teknik.io>\n"
+"POT-Creation-Date: 2025-03-03 22:56-0600\n"
+"PO-Revision-Date: 2024-07-23 23:09+0000\n"
+"Last-Translator: Lates Kempelen <lates@netengine.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/hu/>\n"
 "Language: hu\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -38,46 +38,51 @@ msgid "Use floating controls in windowed mode"
 msgstr "Lebegő vezérlők használata ablak módban"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
-msgid "Use a floating header bar in windowed mode"
-msgstr "Lebegő vezérlők használata ablak módban"
-
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
 msgstr "Egérkurzor automatikus elrejtése ablak módban"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:52
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
-msgstr "A minimális kurzorsebesség, amitől a lebegő vezérlők megjelennek."
+msgstr "A minimális kurzorsebesség, amelynél a lebegő vezérlők megjelennek."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:59
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
 "A holtjáték mérete, amin belül a kurzormozgás nem jeleníti meg a vezérlőket."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:65
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons to control the playlist"
 msgstr "Átugrás gomb használata a lejátszási lista vezérléséhez"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:71
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
 msgstr "Emlékezzen az utolsó helyre a fájlválasztóban"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:77
-msgid "Always open new window"
-msgstr "Mindig nyisson új ablakot"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:72
+#, fuzzy
+msgid "Open new window when opening new files"
+msgstr "Új fájlok megnyitásakor fókuszáljon az ablakra"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:83
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:73
+msgid ""
+"When opening new files through D-Bus (e.g. using a file manager), open the "
+"file in a new window."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
-msgstr "Fájlt adja hozzá mindig a lejátszási listához"
+msgstr "A fájlokat mindig adja hozzá a lejátszási listához"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:89
-msgid "Always show title buttons"
-msgstr "Mindig mutasd a gombok feliratait"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:87
+#, fuzzy
+msgid "Show title buttons in fullscreen mode"
+msgstr ""
+"Opció hozzáadása a címsor gombok teljes képernyős módban történő "
+"megjelenítéséhez."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
@@ -86,11 +91,11 @@ msgstr ""
 "stb.) mindig megjelennek. Ha hamis, a gombok teljes képernyős módban rejtve "
 "lesznek."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:98
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Give focus to the window when opening new files"
 msgstr "Új fájlok megnyitásakor fókuszáljon az ablakra"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:99
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:97
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
@@ -98,97 +103,96 @@ msgstr ""
 "Ha igaz, a Celluloid új fájl megnyitásakor az ablakra helyezi a fókuszt. Ha "
 "hamis, nem történik erre kísérlet."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:107
-#: src/celluloid-application.c:582
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:105
+#: src/celluloid-application.c:552
 msgid "Options to pass to mpv"
 msgstr "Az mpv-nek átadandó opciók"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:113
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:111
 msgid "Path to mpv configuration file"
 msgstr "Az mpv konfigurációs fájl útvonala"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:119
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:117
 msgid "Load mpv configuration file"
 msgstr "Mpv konfigurációs fájl betöltése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:125
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:123
 msgid "Path to mpv input configuration file"
 msgstr "Az mpv bemeneti konfigurációs fájl útvonala"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:131
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:129
 msgid "Load mpv input configuration file"
 msgstr "Mpv bemeneti konfigurációs fájl betöltése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:137
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:135
 msgid "Enable MPRIS support"
 msgstr "MPRIS támogatás engedélyezése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:143
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:141
 msgid "Enable menubar accelerator key handling"
 msgstr "A menüsor gyorsító gombjainak kezelésének engedélyezése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:149
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:147
 msgid "Prefetch metadata"
 msgstr "Metaadatok előtöltése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:153
 msgid "Ignore playback errors"
 msgstr "Lejátszási hibák figyelmen kívül hagyása"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:159
 msgid "Inhibit session idling"
 msgstr "A munkamenet alapjáratának tiltása"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:165
 msgid "Make video area draggable"
 msgstr "A videoterület húzhatóvá tétele"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:177
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:175
 msgid "Width of the window"
 msgstr "Az ablak szélessége"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:183
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:181
 msgid "Height of the window"
 msgstr "Az ablak magassága"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:189
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Whether or not the window is maximized"
-msgstr "Függetlenül attól, hogy az ablak maximalizált-e vagy sem"
+msgstr "Függetlenül attól, hogy az ablak maximalizált-e"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:196
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:194
 msgid "Volume of player"
 msgstr "A lejátszó hangereje"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:202
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:200
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "Kezdje-e elölről, ha a lejátszási lista végére ért"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:208
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:206
 msgid "Width of the playlist"
 msgstr "A lejátszási lista szélessége"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:214
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:212
 msgid "Show/hide the controls"
-msgstr "Mutassa-e a vezérlőket"
+msgstr "Vezérlők megjelenítése v. elrejtése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:220
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:218
 msgid "Show/hide the playlist"
-msgstr "Mutassa-e a lejátszási listát"
+msgstr "Lejátszási lista megjelenítése v. elrejtése"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:226
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:224
 msgid "URI of the last folder accessed"
 msgstr "A legutóbb elért mappa URI-je"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
-#: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:458
+#: data/io.github.celluloid_player.Celluloid.desktop.in:3
+#: src/celluloid-application.c:473
 msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "Lejátszási lista"
+msgstr "Videólejátszó"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -239,32 +243,35 @@ msgstr "Ez a kiadás a következő változtatásokat tartalmazza:"
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
 msgid ""
 "Add a loading screen that gets displayed during initialization and buffering."
-msgstr ""
+msgstr "Töltőképernyő megjelenítése inicializáláskor és puffereléskor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid ""
 "Reduce the time it takes for the main window to get displayed after "
 "launching."
-msgstr ""
+msgstr "Az indításkor a főablak megjelenítéséhez szükséges idő csökkentése."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
 msgid ""
 "Opening and closing the preferences dialog will no longer trigger an mpv "
 "reset unless options that require it are changed."
 msgstr ""
+"A beállítások ablak megnyitása és bezárása a továbbiakban nem inicializálja "
+"az mpv-t, hacsak nem a megváltoztatott beállítások igénylik."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid "Update the look for controls and header bar in floating mode."
 msgstr ""
+"A lebegő módban megjelenő fejléc és vezérlő elemek megjelenítésének "
+"frissítése."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
 msgid "Update some of the deprecated GTK API usage."
-msgstr ""
+msgstr "Néhány elavult GTK API hívás frissítése."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
-#, fuzzy
 msgid "Add support for multi-file user scripts."
-msgstr "Támogatás hozzáadása külső videosávok betöltéséhez."
+msgstr "Többfájlos felhasználói szkriptek támogatása."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
@@ -281,260 +288,254 @@ msgstr "Támogatás hozzáadása külső videosávok betöltéséhez."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:500
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:528
 msgid "This listing is incomplete. See git log for complete changelog."
-msgstr "Ez a lista nem teljes. Lásd a git naplót a teljes változásnaplóért."
+msgstr ""
+"Ez a lista nem teljes. A változások teljes listája a git naplóban olvasható "
+"el."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
 msgid "Fix a bug where the header bar keeps hiding even when a menu is open."
 msgstr ""
+"Hiba javítása, ami miatt a fejléc folyton eltűnt, akkor is ha nyitva volt a "
+"menü."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
 msgid "Use toasts instead of dialog to report mpv errors."
-msgstr ""
+msgstr "Az mpv hibák ablak helyett felbukkanó szövegként jelennek meg."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
-#, fuzzy
 msgid "Change default screenshot format to PNG."
-msgstr ""
-"Módosítsa az alapértelmezett képernyőkép-fájlnév-sablont FÁJLNÉV-"
-"IDŐBÉLYEGZÉSRE (%f-%P)."
+msgstr "Az alapértelmezett képernyőkép formátum a továbbiakban PNG."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:82
 msgid ""
 "Fix crash that happens when the mpv-config-file key in GSettings contains a "
 "path rather than a URI."
 msgstr ""
+"Összeomlás javítása arra az esetre, ha az mpv-config-file GSettings kulcs "
+"egy URI-t tartalmaz útvonal helyett."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Expose the Position MPRIS property."
-msgstr ""
+msgstr "Az MPRIS Position tulajdonság felfedése."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
 msgid ""
 "Use the numeric style class for the time/duration label, which stops it from "
 "jumping around as it changes."
 msgstr ""
+"Numerikus stílus használata az idő/tartam címkén, ami megakadályozza, hogy a "
+"változásaikor ugráljon."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "Több ablak használata esetén történő összeomlás javítása."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:108
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "A névjegy ablak átírása libadwaita rendszerre."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:111
 msgid "Fix cursor not autohiding on KDE."
-msgstr ""
+msgstr "Javítva, hogy a kurzor nem tűnt el automatikusan a KDE-n."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:114
 msgid "Fix mouse presses/releases becoming unreliable during playback."
 msgstr ""
+"Javítva hogy az egér megnyomások és elengedések megbízhatatlanok lettek "
+"lejátszás közben."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
+"Windowson való lefordítás megoldása. A program még mindig összeomlik "
+"kattintáskor, de már fut és lejátssza a videókat."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
-#, fuzzy
 msgid "Add Estonian translation by vaba."
-msgstr "Add hozzá @aldatsa baszk fordítását."
+msgstr "Észt fordítás (vaba)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
-#, fuzzy
 msgid "Add Georgian translation by temuri doghonadze."
-msgstr "@jullee96 koreai fordításának hozzáadása."
+msgstr "Grúz fordítás (temuri doghonadze)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
-#, fuzzy
 msgid "Add Lithuanian translation by Jonas Smol."
-msgstr "Az OIS által készített nyugati fordítás hozzáadása."
+msgstr "Litván fordítás (Jonas Smol)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
-#, fuzzy
 msgid "Add Occitan translation by Quentin PAGÈS."
-msgstr "Az OIS által készített nyugati fordítás hozzáadása."
+msgstr "Okszitán fordítás (Quentin PAGÈS)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
-#, fuzzy
 msgid "Add Tamil translation by K.B.Dharun Krishna."
-msgstr "Add hozzá @aldatsa baszk fordítását."
+msgstr "Tamil fordítás (K.B.Dharun Krishna)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
-#, fuzzy
 msgid "Add Malay translation by @dinazmi."
-msgstr "Add hozzá @aldatsa baszk fordítását."
+msgstr "Maláj fordítás (@dinazmi)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:151
 msgid "Use libadwaita."
-msgstr ""
+msgstr "A libadwaita használata."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:154
 msgid "Fix on_load hook in scripts not triggering."
-msgstr ""
+msgstr "Javítva, hogy az on_load hurok nem került meghívásra a szkriptekben."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:157
-#, fuzzy
 msgid "Add option to make the video area draggable."
-msgstr "A videoterület húzhatóvá tétele"
+msgstr "A videoterület húzhatóvá tétele."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
 msgid "Fix autofit breaking when playing small videos."
-msgstr ""
+msgstr "Javítva, hogy az ablakhoz illesztés elromlott kicsi videók esetén."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Make controls layout adaptive."
-msgstr ""
+msgstr "A vezérlők elrendezése a környezethez adaptálódik."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Display chapter marks in the seek bar."
-msgstr ""
+msgstr "Fejezet jelölők megjelenítése a tekerési sávban."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Display chapter titles in the seek bar popover."
-msgstr ""
+msgstr "Fejezetcímek megjelenítése a tekerési sáv eszköztippjében."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
 msgid "This is mostly a bugfix release. It contains the following changes:"
-msgstr "Ez a kiadás a következő változtatásokat tartalmazza:"
+msgstr "Ez a hibajavítási kiadás a következő változtatásokat tartalmazza:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid "Fix autofit triggering regardless of settings."
 msgstr ""
-"Javítsa ki az automatikus illesztés kioldását a beállításoktól függetlenül."
+"Az automatikus illesztés indításának javítása, a beállításoktól függetlenül."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
 msgid "Fix window size shrinking across sessions."
-msgstr "Javítsa ki a munkamenetek során csökkenő ablakméretet."
+msgstr "Az ablakméret csökkentésének javítása a munkamenetek közt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:190
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
-"Javítsa ki az összeomlást az érvénytelen kódolást tartalmazó fájlok "
-"lejátszásakor."
+"Érvénytelen karakterkódolású fájlok lejátszásakor történő összeomlás "
+"javítása."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
 msgid "Fix drag-and-drop not working with some file managers."
-msgstr ""
-"Javítsa ki a fogd és vidd funkciót, amely egyes fájlkezelőkkel nem működik."
+msgstr "A húzd és vidd funkciók javítása bizonyos fájlkezelőkhöz."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:196
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
-"Javítsa ki a lejátszást az utolsó lejátszási listaelem eltávolításával "
-"kezdődően."
+"A lejátszás indításának javítása abban az esetben ha a lejátszási lista "
+"utolsó elemét eltávolítják."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:211
 msgid "Migrate to GTK4."
-msgstr "Migráció a GTK4-re."
+msgstr "Átállás a GTK4-re."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:214
 msgid "Add Greek translation by @lepa22."
-msgstr "@lepa22 görög fordításának hozzáadása."
+msgstr "Görög fordítás (@lepa22)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:217
 msgid "Add Korean translation by @jullee96."
-msgstr "@jullee96 koreai fordításának hozzáadása."
+msgstr "Koreai fordítás (@jullee96)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:220
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr "Add hozzá Allan Nordhøy norvég bokmål fordítását."
+msgstr "Norvég bokmål fordítás (Allan Nordhøy)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
 msgid "Add Occidental translation by OIS."
-msgstr "Az OIS által készített nyugati fordítás hozzáadása."
+msgstr "Occidental fordítás (OIS)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr "Add hozzá Mohamed Benkouider arab fordítását."
+msgstr "Arab fordítás (Mohamed Benkouider)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr "Add hozzá Ahmed Iqbal urdu fordítását."
+msgstr "Urdu fordítás (Ahmed Iqbal)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
 msgid "Add option to show title buttons in fullscreen mode."
 msgstr ""
-"Opció hozzáadása a címgombok teljes képernyős módban történő "
+"Opció hozzáadása a címsor gombok teljes képernyős módban történő "
 "megjelenítéséhez."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
 msgid "Add option to present the window when opening files."
-msgstr ""
-"Adjon hozzá lehetőséget az ablak megjelenítéséhez a fájlok megnyitásakor."
+msgstr "Új opció az ablak megjelenítésére fájlok megnyitásakor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:238
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
-msgstr ""
-"Módosítsa az alapértelmezett képernyőkép-fájlnév-sablont FÁJLNÉV-"
-"IDŐBÉLYEGZÉSRE (%f-%P)."
+msgstr "Az alapértelmezett képernyőkép fájlnév FÁJLNÉV-IDŐ (%f-%P) formátumú."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:241
 msgid "Fix inaccurate timestamp preview."
-msgstr "Javítsa ki a pontatlan időbélyeg-előnézetet."
+msgstr "Pontatlan időbélyeg előnézet javítása."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
 msgid "Add Basque translation by @aldatsa."
-msgstr "Add hozzá @aldatsa baszk fordítását."
+msgstr "Baszk fordítás (@aldatsa)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
 msgid "Make the shuffle and loop command line options work properly."
-msgstr "Működtesse megfelelően a shuffle és loop parancssori beállításokat."
+msgstr "A shuffle és loop parancssori opciók működésének javítása."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
 msgid "Make the main menu button toggleable by pressing F10."
-msgstr "A főmenü gombját válthatóvá teheti az F10 megnyomásával."
+msgstr "A főmenü gomb kapcsolhatóvá tehető az F10 megnyomásával."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
 msgid "Add a setting for always appending opened files to the playlist."
 msgstr ""
-"Adjon hozzá egy beállítást a megnyitott fájlok lejátszási listához való "
-"állandó csatolásához."
+"Új beállítás arra, hogy a megnyitott fájlok mindig a lejátszási listához "
+"adódjanak hozzá."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
 msgstr ""
-"Engedélyezze a fájlok lejátszási listához fűzését úgy, hogy lenyomva tartja "
-"a Shift billentyűt, miközben a fájlokat a videoterületre dobja."
+"A fájlok hozzáadhatók a lejátszási listához úgy, hogy a Shift lenyomása "
+"közben a videó területére húzza."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
-msgstr ""
-"Tegye átkapcsolhatóvá a CSD fejlécet az mpv tulajdonságon keresztül: "
-"„border”."
+msgstr "A CSD címsor kapcsolhatóvá tétele az mpv \"border\" tulajdonsággal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
 msgstr ""
-"A Flatpak manifest belefoglalása a repoba. Ez lehetővé teszi, hogy a "
-"Celluloid egy kattintással beépüljön olyan alkalmazásokban, mint a GNOME "
-"Builder."
+"A Flatpak manifest elkészítése. Így a Celluloid könnyen lefordítható olyan "
+"alkalmazásokkal mint a GNOME Builder."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
 msgid "Make it possible to activate context menu when the playlist is empty."
-msgstr ""
-"Lehetővé teszi a helyi menü aktiválását, amikor a lejátszási lista üres."
+msgstr "A helyi menü akkor is megjelenik, amikor a lejátszási lista üres."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:294
 msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as "
 "its value changes."
 msgstr ""
-"Megakadályozza a keresősáv állandó átméretezését az időbélyegcímke "
-"átméretezése miatt, amikor az érték változik."
+"Javítva, hogy a tekerési sáv folyton átméreteződött az időbélyeg címke "
+"változásakor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
 msgstr ""
-"Csak egy hibaüzenet-dialógus megjelenítése, amikor sok hiba történik gyorsan "
+"Csak egy hibaüzenet ablak megjelenítése, amikor sok hiba történik gyorsan "
 "egymás után."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:302
@@ -546,8 +547,8 @@ msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
-"Állítsa be a modális párbeszédpanelek felhasználói felület elemeinek "
-"helyzetét nem CSD módban, hogy jobban konzisztens legyen a CSD móddal."
+"A párbeszédpanel elemek helyzetének hasonlóvá tétele a nem CSD módban a CSD "
+"módhoz."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
 msgid "Add support for loading external video tracks."
@@ -555,44 +556,43 @@ msgstr "Támogatás hozzáadása külső videosávok betöltéséhez."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
 msgid "Make playlist shuffle toggleable."
-msgstr "Lejátszási lista keverésének kapcsolhatóvá tétele."
+msgstr "Lejátszási lista összekeverésének kapcsolhatóvá tétele."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
 msgid "Make arrow key bindings work with arrow keys on numpad."
-msgstr ""
-"Működtesse a nyílbillentyű-kötéseket a számbillentyűzet nyílbillentyűivel."
+msgstr "A nyílbillentyűk a numerikus billentyűzetről is használhatók."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:330
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr ""
-"Állítsa be a hangerő gomb tartományát a volume-max tulajdonság értéke "
-"alapján."
+"A hangerő gomb tartományának beállítása a hangerő-maximum tulajdonság értéke "
+"alapján (volume-max)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:334
 msgid "Retain window maximization state across sessions."
-msgstr "Az ablak maximalizálási állapotának megőrzése a munkamenetek során."
+msgstr "Az ablak maximalizálási állapotának megőrzése a munkamenetek közt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
 msgid "Retain loop state across sessions."
-msgstr "A hurokállapot megőrzése a munkamenetek során."
+msgstr "Az ismétlés állapotának megőrzése a munkamenetek közt."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
 msgid "Implement playlist search."
-msgstr ""
+msgstr "Keresési lehetőség a lejátszási listán."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:343
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
-msgstr ""
+msgstr "A gyorsbillentyűk súgóablak frissítése."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:346
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
-msgstr ""
+msgstr "Az idézőjelek és escape szekvenciák javítása az mpv opcióknál."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
 msgid "Display time at cursor position when hovering the seek bar."
-msgstr ""
+msgstr "Az idő megjelenítése a kurzornál, amikor az egér a idősávon van."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
 msgid ""
@@ -600,323 +600,332 @@ msgid ""
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
+"Az '--mpv-options' innentől elavult. Az '--mpv-' kezdetű opciókkal az mpv-re "
+"vonatkozó opciók adhatók meg. Például a Celluloid indítása a '--mpv-"
+"vf=vflip' opcióval megegyezik a '--vf=vflip' beadásával az mpv-nek."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
-#, fuzzy
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
-"A holtjáték mérete, amin belül a kurzormozgás nem jeleníti meg a vezérlőket."
+"Új beállítás a holtjáték megadásához, amin belül a kurzor mozgatása nem "
+"jeleníti meg a vezérlőket."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:362
 msgid "Make window sizing work correctly with HiDPI displays."
-msgstr ""
+msgstr "Az ablak méretezés javítása HiDPI kijelzőkhöz."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
-#, fuzzy
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr "Az OIS által készített nyugati fordítás hozzáadása."
+msgstr "Finn fordítás (Kimmo Kujansuu)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:368
-#, fuzzy
 msgid "Add Slovenian translation by @bertronika."
-msgstr "Add hozzá @aldatsa baszk fordítását."
+msgstr "Szlovén fordítás (@bertronika)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:383
-#, fuzzy
 msgid "Add Persian translation by @danialbehzadi"
-msgstr "Add hozzá @aldatsa baszk fordítását."
+msgstr "Perzsa fordítás (@danialbehzadi)"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:386
-#, fuzzy
 msgid "Add Ukranian translation by @vl-nix"
-msgstr "Add hozzá @aldatsa baszk fordítását."
+msgstr "Ukrán fordítás (@vl-nix)"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:389
 msgid ""
 "Add support for showing/hiding window decorations using the mpv option --"
 "border"
 msgstr ""
+"Az ablakdíszítések elrejtésének vagy megjelenítésének támogatása az mpv --"
+"border opciójával"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
-#, fuzzy
 msgid "Add menu item for opening discs"
-msgstr "Menüelem hozzáadása mappák megnyitásához."
+msgstr "Új menüelem hozzáadása lemezek megnyitásához"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:395
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
+"A kurzor elrejtésének megakadályozása amikor ablakos módban a hangerő "
+"vezérlés ki van nyitva"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:398
 msgid "Fix crash with mpv 0.30"
-msgstr ""
+msgstr "Az mpv 0.30 használatával kapcsolatos összeomlás javítása"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:413
 msgid "Rename project to Celluloid"
-msgstr ""
+msgstr "A projekt átnevezése Celluloid-ra"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:416
-#, fuzzy
 msgid "Add Turkish translation by @TeknoMobil"
-msgstr "@lepa22 görög fordításának hozzáadása."
+msgstr "Török fordítás (@TeknoMobil)"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:419
-#, fuzzy
 msgid "Add Esperanto translation by @F3nd0"
-msgstr "Add hozzá @aldatsa baszk fordítását."
+msgstr "Eszperantó fordítás (@F3nd0)"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:422
 msgid "Migrate from opengl-cb to the new render API"
-msgstr ""
+msgstr "Átállás opengl-cb-ről az új megjelenítési API-ra"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:425
 msgid "Handle numpad keybindings"
-msgstr ""
+msgstr "Numerikus billentyűk kezelése gyorsbillentyűkhöz"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:428
 msgid "Handle unicode keybindings"
-msgstr ""
+msgstr "Unicode gyorsbillentyűk kezelése"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:431
 msgid "Forward media key events to mpv"
-msgstr ""
+msgstr "Médiaesemények átküldése az mpv-hez"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:434
-#, fuzzy
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
-msgstr "A minimális kurzorsebesség, amitől a lebegő vezérlők megjelennek."
+msgstr ""
+"Új dconf érték felvétele annak megadására, hogy milyen kurzorsebességnél "
+"jelenjenek meg a vezérlők"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:437
-#, fuzzy
 msgid "Add option for suppressing playback errors"
-msgstr "Lejátszási hibák figyelmen kívül hagyása"
+msgstr "Új opció a lejátszási hibák figyelmen kívül hagyására"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:452
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Az Általános lap felosztása a beállítások ablakban"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:455
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
+"A lejátszás lista megjelenítésének javítása csempézett ablakkezelők alatt"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:458
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Az alkalmazás menüelemek áthelyezése az elsődleges menübe"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Külön MPRIS DBus kapcsolat használata minden ablakhoz"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:464
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "Az MPRIS LoopStatus tulajdonság támogatása"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:467
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Egy új opció (--mpv-options) az mpv-nek átadandó opciók parancssorból való "
+"megadásához"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:483
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
-msgstr ""
+msgstr "Az alapértelmezett képernyőkép könyvtár mostantól az XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:486
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
 msgstr ""
+"A --window-scale, --autofit, --autofit-larger, és --autofit-smaller opciók "
+"kezelésének fejlesztése"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:490
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "Új parancssori opció a WM_ROLE megadásához"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:493
-#, fuzzy
 msgid "Add context menu item for removing playlist items"
-msgstr "Menüelem hozzáadása mappák megnyitásához."
+msgstr "Új menüelem hozzáadása lejátszási lista elemek törléséhez"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:496
 msgid "Add context menu item for copying location of playlist items"
-msgstr ""
+msgstr "Új menüelem a lejátszási lista elemek helyének másolásához"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Új opció, hogy az átugrás gombok a lejátszási listán lépjenek a fejezetek "
+"helyett"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:515
-#, fuzzy
 msgid "Make the file chooser accept non-local locations"
-msgstr "A fájlkiválasztó emlékezzen az utolsó fájl helyére"
+msgstr "A fájlkiválasztó már nem csak helyi címeket fogad el"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:518
 msgid "Add right-click menu entry for looping a single file"
-msgstr ""
+msgstr "Új menüelem egyetlen fájl ismételt lejátszásához"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:521
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
+"A tulajdonság változási események kezelése teljes képernyős és átméretezett "
+"ablakos módban"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:524
-#, fuzzy
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr "Egérkurzor automatikus elrejtése ablak módban"
+msgstr "Új opció az egérkurzor automatikus elrejtésére ablak módban"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:538
 msgid "The main window showing the application in action"
-msgstr "Az alkalmazás működés közben"
+msgstr "Az alkalmazás fő ablaka működés közben"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:542
 msgid "The main window with CSD disabled"
-msgstr "A főablak letiltott díszítésekkel"
+msgstr "A főablak a CSD letiltásakor"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:546
 msgid "The main window with playlist open"
 msgstr "A főablak megnyitott lejátszási listával"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+#: data/io.github.celluloid_player.Celluloid.desktop.in:4
 msgid "Multimedia Player"
-msgstr ""
+msgstr "Multimédia lejátszó"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Play movies and videos"
-msgstr ""
+msgstr "Filmek és videók lejátszása"
 
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:17
+#: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr ""
+msgstr "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;Videó;Klipp;Sorozat;Lejátszás;Lejátszó;Lemez;Zene;Hang;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:23
+#: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
-msgstr ""
+msgstr "Új ablak"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:27
-#, fuzzy
+#: data/io.github.celluloid_player.Celluloid.desktop.in:26
 msgid "Add to Playlist"
-msgstr "Fájl hozzáadása a lejátszási listához"
+msgstr "Hozzáadás a lejátszási listához"
 
-#: src/celluloid-application.c:502
-msgid "Playing"
-msgstr ""
-
-#: src/celluloid-application.c:558
-#, fuzzy
+#: src/celluloid-application.c:528
 msgid "Show release version"
-msgstr "Kiadási verzió megjelenítése"
+msgstr "Verzió megjelenítése"
 
-#: src/celluloid-application.c:566
+#: src/celluloid-application.c:536
 msgid "Enqueue"
 msgstr "Sorba állítás"
 
-#: src/celluloid-application.c:574
+#: src/celluloid-application.c:544
 msgid "Create a new window"
 msgstr "Új ablak létrehozása"
 
-#: src/celluloid-application.c:583
+#: src/celluloid-application.c:553
 msgid "OPTIONS"
-msgstr "Opciók"
+msgstr "OPCIÓK"
 
-#: src/celluloid-application.c:590
+#: src/celluloid-application.c:560
 msgid "Set the window role"
-msgstr "Ablakszabályok beállítása"
+msgstr "Az ablak szerepének beállítása"
 
-#: src/celluloid-application.c:598
+#: src/celluloid-application.c:568
 msgid "Don't connect to an already-running instance"
 msgstr "Ne csatlakozzon egy már futó példányhoz"
 
-#: src/celluloid-application.c:609
+#: src/celluloid-application.c:579
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr "Állítsa az MPVOPTION mpv beállítást VALUE értékre"
+msgstr "Az MPVOPTION mpv opció beállítása ÉRTÉK értékre"
 
-#: src/celluloid-application.c:610
-#, fuzzy
+#: src/celluloid-application.c:580
 msgid "VALUE"
-msgstr "VALUE"
+msgstr "ÉRTÉK"
 
-#: src/celluloid-common.c:270
+#: src/celluloid-common.c:280
 msgid "invalid encoding"
 msgstr "érvénytelen kódolás"
 
-#: src/celluloid-control-box.c:452
+#: src/celluloid-control-box.c:447
 msgid "Pause"
 msgstr "Szünet"
 
-#: src/celluloid-control-box.c:452 src/celluloid-control-box.c:726
+#: src/celluloid-control-box.c:447 src/celluloid-control-box.c:723
 msgid "Play"
 msgstr "Lejátszás"
 
-#: src/celluloid-control-box.c:729
-msgid "Stop"
-msgstr "Megállítás"
-
-#: src/celluloid-control-box.c:732
+#: src/celluloid-control-box.c:726
 msgid "Forward"
 msgstr "Előretekerés"
 
-#: src/celluloid-control-box.c:735
+#: src/celluloid-control-box.c:729
 msgid "Rewind"
 msgstr "Visszatekerés"
 
-#: src/celluloid-control-box.c:738
-msgid "Next Chapter"
-msgstr "Következő fejezet"
+#: src/celluloid-control-box.c:732
+#, fuzzy
+msgid "Next Track"
+msgstr "_Videósáv"
 
-#: src/celluloid-control-box.c:741
-msgid "Previous Chapter"
+#: src/celluloid-control-box.c:735
+#, fuzzy
+msgid "Previous Track"
 msgstr "Előző fejezet"
 
-#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:565
-msgid "Loop Playlist"
+#: src/celluloid-control-box.c:738
+#, fuzzy
+msgid "Show Playlist"
 msgstr "Lejátszási lista ismétlése"
 
-#: src/celluloid-control-box.c:747
-msgid "Shuffle Playlist"
-msgstr "Lejátszási lista keverése"
+#: src/celluloid-control-box.c:766
+msgid "Volume"
+msgstr ""
 
-#: src/celluloid-control-box.c:750
-#, fuzzy
-msgid "Toggle Playlist"
-msgstr "_Lejátszási lista be-/kikapcsolása"
+#: src/celluloid-controller.c:1369
+msgid "Playing"
+msgstr "Lejátszás"
 
-#: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
-msgid "Toggle Fullscreen"
-msgstr "Átváltás teljes képernyőre"
-
-#: src/celluloid-file-chooser.c:145 src/celluloid-plugins-manager.c:201
+#: src/celluloid-file-chooser.c:193 src/celluloid-plugins-manager.c:201
 msgid "All Files"
 msgstr "Minden fájl"
 
-#: src/celluloid-file-chooser.c:153
+#: src/celluloid-file-chooser.c:201
 msgid "Media Files"
 msgstr "Média fájlok"
 
-#: src/celluloid-file-chooser.c:164
+#: src/celluloid-file-chooser.c:212
 msgid "Audio Files"
 msgstr "Audio fájlok"
 
-#: src/celluloid-file-chooser.c:172
+#: src/celluloid-file-chooser.c:220
 msgid "Video Files"
-msgstr "Video fájlok"
+msgstr "Videó fájlok"
 
-#: src/celluloid-file-chooser.c:180
+#: src/celluloid-file-chooser.c:228
 msgid "Image Files"
 msgstr "Kép fájlok"
 
-#: src/celluloid-file-chooser.c:190
+#: src/celluloid-file-chooser.c:238
 msgid "Subtitle Files"
 msgstr "Felirat fájlok"
 
-#: src/celluloid-file-chooser-button.c:232
+#: src/celluloid-file-chooser-button.c:236
 msgid "Open File…"
 msgstr "Fájl megnyitása…"
 
-#: src/celluloid-file-chooser-button.c:236
+#: src/celluloid-file-chooser-button.c:240
 msgid "(None)"
 msgstr "(Egyik sem)"
+
+#: src/celluloid-header-bar.c:239 src/celluloid-open-location-dialog.c:75
+msgid "Open"
+msgstr "Megnyitás"
+
+#: src/celluloid-header-bar.c:243
+msgid "Select a Media File, Folder or URL"
+msgstr ""
+
+#: src/celluloid-header-bar.c:245
+msgid "Main Menu"
+msgstr ""
+
+#: src/celluloid-header-bar.c:257
+msgid "Toggle Fullscreen"
+msgstr "Váltás teljes képernyőre v. vissza"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -954,7 +963,7 @@ msgstr "_Mappa megnyitása…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:318
 msgid "Open _Location…"
-msgstr "He_ly megnyitása…"
+msgstr "_Hely megnyitása…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
@@ -998,7 +1007,7 @@ msgstr "_Nézet"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:286
 msgid "_Toggle Controls"
-msgstr "_Vezérlők be-/kikapcsolása"
+msgstr "_Vezérlők be- v. kikapcsolása"
 
 #: src/celluloid-menu.c:250
 msgid "_Fullscreen"
@@ -1010,7 +1019,7 @@ msgstr "_Súgó"
 
 #: src/celluloid-menu.c:252 src/celluloid-menu.c:295
 msgid "_Keyboard Shortcuts"
-msgstr "_Billentyűkombinációk"
+msgstr "Gyors_billentyűk"
 
 #: src/celluloid-menu.c:253 src/celluloid-menu.c:296
 msgid "_About Celluloid"
@@ -1025,60 +1034,107 @@ msgstr "_Lemez megnyitása"
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "A lejátszás nem megfelelően lett leállítva. Ok: %s."
 
-#: src/celluloid-open-location-dialog.c:75
-#, fuzzy
-msgid "Open"
-msgstr "_Megnyitás"
-
 #: src/celluloid-open-location-dialog.c:77
 msgid "Cancel"
-msgstr "_Mégse"
+msgstr "Mégsem"
 
 #: src/celluloid-open-location-dialog.c:274
 msgid "Location:"
 msgstr "Hely:"
 
-#: src/celluloid-player.c:667
+#: src/celluloid-player.c:669
 msgid "Failed to apply one or more MPV options."
-msgstr "Egy vagy több MPV beállítás alkalmazása nem sikerült"
+msgstr "Egy vagy több MPV beállítás alkalmazása nem sikerült."
 
-#: src/celluloid-playlist-widget.c:557
+#: src/celluloid-playlist-widget.c:619
 msgid "_Copy Location"
 msgstr "He_ly másolása"
 
-#: src/celluloid-playlist-widget.c:558 src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-playlist-widget.c:620 src/celluloid-plugins-manager-item.c:205
 msgid "_Remove"
 msgstr "_Eltávolítás"
 
-#: src/celluloid-playlist-widget.c:560
+#: src/celluloid-playlist-widget.c:622
 msgid "_Add…"
 msgstr "_Hozzáadás…"
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:623
 msgid "Add _Folder…"
 msgstr "_Mappa hozzáadása…"
 
-#: src/celluloid-playlist-widget.c:562
+#: src/celluloid-playlist-widget.c:624
 msgid "Add _Location…"
 msgstr "He_ly hozzáadása…"
 
-#: src/celluloid-playlist-widget.c:563
+#: src/celluloid-playlist-widget.c:625
 msgid "_Shuffle"
-msgstr "Keveré_s"
+msgstr "Összekeveré_s"
 
-#: src/celluloid-playlist-widget.c:564
-#, fuzzy
+#: src/celluloid-playlist-widget.c:626
 msgid "Loop File"
-msgstr "_Fájl ismétlése"
+msgstr "Fájl ismétlése"
 
-#: src/celluloid-playlist-widget.c:930
+#: src/celluloid-playlist-widget.c:627
+msgid "Loop Playlist"
+msgstr "Lejátszási lista ismétlése"
+
+#: src/celluloid-playlist-widget.c:1023
 #, fuzzy
-msgid "Playlist is Empty"
-msgstr "Lejátszási lista üres"
+msgid "0 files"
+msgstr "Fájl megnyitása"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
+#: src/celluloid-playlist-widget.c:1034
+#, fuzzy
+msgid "Hide playlist"
+msgstr "Lejátszási lista mentése"
+
+#: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
+msgid "Playlist"
+msgstr "Lejátszási lista"
+
+#: src/celluloid-playlist-widget.c:1064
+#, fuzzy
+msgid "Search in playlist"
+msgstr "Lejátszási lista mentése"
+
+#: src/celluloid-playlist-widget.c:1067
+#, fuzzy
+msgid "Search in playlist…"
+msgstr "Lejátszási lista mentése"
+
+#: src/celluloid-playlist-widget.c:1081
+msgid "Disable repeat"
+msgstr ""
+
+#: src/celluloid-playlist-widget.c:1091
+#, fuzzy
+msgid "Repeat file"
+msgstr "Fájl megnyitása"
+
+#: src/celluloid-playlist-widget.c:1102
+#, fuzzy
+msgid "Repeat playlist"
+msgstr "Lejátszási lista mentése"
+
+#: src/celluloid-playlist-widget.c:1110
+#, fuzzy
+msgid "Shuffle playlist"
+msgstr "Lejátszási lista keverése"
+
+#: src/celluloid-playlist-widget.c:1135
+msgid "Playlist is Empty"
+msgstr "A lejátszási lista üres"
+
+#: src/celluloid-playlist-widget.c:1242
+#, c-format
+msgid "%ld file"
+msgid_plural "%ld files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
 msgid "Add Plugin"
-msgstr "Plugin hozzáadása"
+msgstr "Bővítmény hozzáadása"
 
 #: src/celluloid-plugins-manager.c:206
 msgid "Lua Plugins"
@@ -1092,78 +1148,72 @@ msgstr "Javascript bővítmények"
 msgid "C Plugins"
 msgstr "C bővítmények"
 
-#: src/celluloid-plugins-manager.c:355
+#: src/celluloid-plugins-manager.c:350
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "A fájl másolása innen: „%s\", ide: „%s\" nem sikerült. Ok: %s"
 
-#: src/celluloid-plugins-manager.c:409
+#: src/celluloid-plugins-manager.c:405
 msgid "Plugins"
 msgstr "Bővítmények"
 
-#: src/celluloid-plugins-manager.c:416
-#, fuzzy
+#: src/celluloid-plugins-manager.c:412
 msgid "Add…"
-msgstr "_Hozzáadás…"
+msgstr "Hozzáadás…"
 
-#: src/celluloid-plugins-manager.c:450
-#, fuzzy
+#: src/celluloid-plugins-manager.c:446
 msgid "No Plugins Found"
-msgstr "Bővítmények nem találhatóak"
+msgstr "Nincsenek bővítmények"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:449
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "Kattintson a <b>Hozzáadás...</b> gombra egy bővítmény telepítéséhez"
 
 #: src/celluloid-plugins-manager-item.c:83
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "C bővítmények"
+msgstr "Bővítmény eltávolítása"
 
-#: src/celluloid-plugins-manager-item.c:178
+#: src/celluloid-plugins-manager-item.c:175
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "„%s\" fájl törlése nem sikerült. Ok: %s"
 
-#: src/celluloid-plugins-manager-item.c:202
+#: src/celluloid-plugins-manager-item.c:199
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "Biztosan el akarja távolítani ezt a parancsfájlt? Ez a művelet nem vonható "
 "vissza."
 
-#: src/celluloid-plugins-manager-item.c:209
+#: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
-msgstr ""
+msgstr "_Megtartás"
 
-#: src/celluloid-preferences-dialog.c:322
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:332
 msgid "mpv configuration file"
-msgstr "mpv konfigurációs fájl:"
+msgstr "mpv konfigurációs fájl"
 
-#: src/celluloid-preferences-dialog.c:328
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:338
 msgid "mpv input configuration file"
-msgstr "mpv bemeneti konfigurációs fájl:"
+msgstr "mpv bemeneti konfigurációs fájl"
 
-#: src/celluloid-preferences-dialog.c:348
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:358
 msgid "Extra mpv options"
-msgstr "Extra mpv opciók:"
+msgstr "Extra mpv opciók"
 
-#: src/celluloid-preferences-dialog.c:363
+#: src/celluloid-preferences-dialog.c:373
 msgid "Interface"
 msgstr "Kezelőfelület"
 
-#: src/celluloid-preferences-dialog.c:371
+#: src/celluloid-preferences-dialog.c:381
 msgid "Config Files"
-msgstr "Konfig fájlok"
+msgstr "Beállítási fájlok"
 
-#: src/celluloid-preferences-dialog.c:379
+#: src/celluloid-preferences-dialog.c:389
 msgid "Miscellaneous"
 msgstr "Egyéb"
 
-#: src/celluloid-preferences-dialog.c:405
+#: src/celluloid-preferences-dialog.c:421
 msgid "Preferences"
 msgstr "Beállítások"
 
@@ -1185,15 +1235,15 @@ msgstr "Hely hozzáadása lejátszási listához"
 
 #: src/celluloid-shortcuts-window.c:50
 msgid "Show preferences dialog"
-msgstr "Beállítások párbeszédablak mutatása"
+msgstr "A beállítások ablak megjelenítése"
 
 #: src/celluloid-shortcuts-window.c:51
 msgid "Toggle playlist"
-msgstr "Lejátszási lista be-/kikapcsolása"
+msgstr "Lejátszási lista be- v. kikapcsolása"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Toggle fullscreen mode"
-msgstr "Teljes képernyős mód be-/kikapcsolása"
+msgstr "Teljes képernyős mód be- v. kikapcsolása"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Leave fullscreen mode"
@@ -1216,7 +1266,6 @@ msgid "Seek backward/forward 5 seconds"
 msgstr "Visszatekerés/előretekerés 5 másodperccel"
 
 #: src/celluloid-shortcuts-window.c:60
-#, fuzzy
 msgid "Exact seek backward/forward 1 second"
 msgstr "Visszatekerés/előretekerés pontosan 1 másodperccel"
 
@@ -1258,7 +1307,7 @@ msgstr "Ugrás előre/hátra a lejátszási listában"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Remove selected playlist item"
-msgstr "Kiválasztott lejátszási elem eltávolítása"
+msgstr "Kiválasztott elem eltávolítása a lejátszási listáról"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Save playlist"
@@ -1270,7 +1319,7 @@ msgstr "A-B ismétlési szakasz beállítása/törlése"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Toggle infinite looping"
-msgstr "Végtelen ismétlés be-/kikapcsolása"
+msgstr "Végtelen ismétlés be- v. kikapcsolása"
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Pause or unpause"
@@ -1310,15 +1359,15 @@ msgstr "Hangerő csökkentése/növelése"
 
 #: src/celluloid-shortcuts-window.c:90
 msgid "Mute or unmute"
-msgstr "Némítás be-/kikapcsolása"
+msgstr "Némítás be- v. kikapcsolása"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr "Hangsáv eltolásának beállítása 0,1 mp időközökkel"
+msgstr "Hangsáv eltolása 0,1 mp időközökkel"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Toggle subtitle visibility"
-msgstr "Felirat láthatóságának be-/kikapcsolása"
+msgstr "Felirat láthatóságának be- v. kikapcsolása"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Cycle through available subtitles"
@@ -1330,7 +1379,7 @@ msgstr "Feliratok eltolásának beállítása 0,1 mp időközökkel"
 
 #: src/celluloid-shortcuts-window.c:97
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr "SSA/ASS feliratstílus felülbírálásának be-/kikapcsolása"
+msgstr "SSA/ASS feliratstílus felülbírálásának be- v. kikapcsolása"
 
 #: src/celluloid-shortcuts-window.c:98
 msgid "Move subtitles up/down"
@@ -1338,7 +1387,7 @@ msgstr "Feliratok mozgatása fel/le"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr "VSFilter képarány-kompatibilitási mód be-/kikapcsolása"
+msgstr "VSFilter képarány-kompatibilitási mód be- v. kikapcsolása"
 
 #: src/celluloid-shortcuts-window.c:102
 msgid "Cycle through video tracks"
@@ -1358,7 +1407,7 @@ msgstr "Képernyőkép készítése feliratok nélkül"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, as the window shows it"
-msgstr "Képernyőkép készítése az ablak tartalmáról"
+msgstr "Képernyőkép készítése, ahogy az ablakban látható"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Resize video to half its original size"
@@ -1390,23 +1439,23 @@ msgstr "Telítettség beállítása"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Activate or deactivate deinterlacer"
-msgstr "Váltottsorosság-mentesítés be-/kikapcsolása"
+msgstr "Váltottsorosság-mentesítés be- v. kikapcsolása"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Cycle aspect ratio override"
-msgstr "Kapcsolja be a képarány felülbírálását"
+msgstr "Váltás a különböző képarányok közt"
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Pan the video"
-msgstr ""
+msgstr "Pásztázás a videón"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Zoom in/out"
-msgstr ""
+msgstr "Nagyítás/kicsinyítés"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "Nagyítás és pásztázás visszaállítása"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
@@ -1432,39 +1481,32 @@ msgstr "Lejátszás"
 msgid "Seeking"
 msgstr "Tekerés"
 
-#: src/celluloid-shortcuts-window.c:129
-msgid "Playlist"
-msgstr "Lejátszási lista"
-
-#: src/celluloid-video-area.c:741
+#: src/celluloid-video-area.c:688
 msgid "Loading…"
-msgstr ""
+msgstr "Betöltés…"
 
-#: src/celluloid-video-area.c:752
+#: src/celluloid-video-area.c:699
 msgid "Welcome"
-msgstr ""
+msgstr "Üdvözöljük"
 
-#: src/celluloid-video-area.c:755
-msgid "Click the <b>＋</b> button or drag and drop videos here"
-msgstr ""
+#: src/celluloid-video-area.c:702
+#, fuzzy
+msgid "Click the <b>Open</b> button or drag and drop videos here"
+msgstr "Kattintson a <b> + </b> gombra vagy húzzon ide videókat"
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:737
 msgid "Load Audio Track…"
 msgstr "Hangsáv betöltése…"
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:741
 msgid "Load Video Track…"
 msgstr "Videosáv betöltése…"
 
-#: src/celluloid-view.c:747
+#: src/celluloid-view.c:745
 msgid "Load Subtitle Track…"
 msgstr "Feliratsáv betöltése…"
 
-#: src/celluloid-view.c:926
-msgid "Error"
-msgstr "Hiba"
-
-#: src/celluloid-view.c:951
+#: src/celluloid-view.c:934
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1472,37 +1514,58 @@ msgstr ""
 "Az ügyféloldali dekorációk engedélyezése vagy letiltása újraindítást "
 "igényel, hogy érvénybe lépjen."
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Add Folder to Playlist"
 msgstr "Mappa hozzáadása a lejátszási listához"
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Open Folder"
 msgstr "Mappa megnyitása"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Add File to Playlist"
 msgstr "Fájl hozzáadása a lejátszási listához"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Open File"
 msgstr "Fájl megnyitása"
 
-#: src/celluloid-view.c:1512
+#: src/celluloid-view.c:1514
 msgid "Add Location to Playlist"
 msgstr "Hely hozzáadása a lejátszási listához"
 
-#: src/celluloid-view.c:1513
+#: src/celluloid-view.c:1515
 msgid "Open Location"
 msgstr "Hely megnyitása"
 
-#: src/celluloid-view.c:1555
+#: src/celluloid-view.c:1556
 msgid "Save Playlist"
 msgstr "Lejátszási lista mentése"
 
-#: src/celluloid-view.c:1617
+#: src/celluloid-view.c:1621
 msgid "translator-credits"
 msgstr "fordítói információk"
+
+#~ msgid "Use a floating header bar in windowed mode"
+#~ msgstr "Lebegő fejlécsor használata ablak módban"
+
+#~ msgid "Always open new window"
+#~ msgstr "Mindig nyisson új ablakot"
+
+#~ msgid "Always show title buttons"
+#~ msgstr "A címsor gombok mindig jelenjenek meg"
+
+#~ msgid "Stop"
+#~ msgstr "Megállítás"
+
+#~ msgid "Next Chapter"
+#~ msgstr "Következő fejezet"
+
+#~ msgid "Toggle Playlist"
+#~ msgstr "Lejátszási lista be- v. kikapcsolása"
+
+#~ msgid "Error"
+#~ msgstr "Hiba"
 
 #~ msgid "The Celluloid Developers"
 #~ msgstr "A Celluloid fejlesztői"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-06 23:09+0700\n"
-"PO-Revision-Date: 2024-01-20 19:16+0000\n"
-"Last-Translator: Mihai Pavelescu <media.expres@gmail.com>\n"
+"POT-Creation-Date: 2025-03-03 22:56-0600\n"
+"PO-Revision-Date: 2025-02-06 08:01+0000\n"
+"Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ro/>\n"
 "Language: ro\n"
@@ -19,20 +19,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "Daca setarile au fost deja migrate de la versiunea anterioara"
+msgstr "Dacă configurările au fost deja migrate de la versiunea anterioară"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
-msgstr "Dimensiune fereastră automată la mărimea video"
+msgstr "Redimensionează automat fereastra pentru a se potrivi videoclipului"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Prefer dark theme"
-msgstr "Preferați tema întunecată"
+msgstr "Activează tema întunecată"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
@@ -40,157 +40,169 @@ msgstr "Activează decorațiile ferestrelor (CSD)"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr "Control floating peste mod fereastra"
+msgstr "Utilizează controale flotante în modul fereastră"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
-msgid "Use a floating header bar in windowed mode"
-msgstr "Control floating peste mod fereastra"
-
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr "Ascunde cursor mouse automat in mod fereastra"
+msgstr "Ascunde automat cursorul mouse-ului în modul fereastră"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:52
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
-msgstr "Viteza minimă cursor la care controlul flotant va fi vizibil."
+msgstr ""
+"Viteza minimă a cursorului mouse-ului la care controlul flotant va fi "
+"vizibil."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:59
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
-"Mărimea zonei moarte în care mișcarea cursorului nu duce la apariția "
-"controlului."
+"Dimensiunea zonei moarte în care mișcarea cursorului nu va determina "
+"afișarea controalelor."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:65
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons to control the playlist"
-msgstr "Foloseste butoanele skip la controlul listei de redare"
+msgstr "Utilizează butoanele de salt pentru a controla lista de redare"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:71
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr "Memoreaza ultima locatie la alegerea fisierelor"
+msgstr "Memorează ultima locație la alegerea fișierelor"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:77
-msgid "Always open new window"
-msgstr "Deschide intotdeauna o fereastră nouă"
-
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:83
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 #, fuzzy
+msgid "Open new window when opening new files"
+msgstr "Acordă focalizarea pe fereastră la deschiderea de fișiere noi"
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:73
+msgid ""
+"When opening new files through D-Bus (e.g. using a file manager), open the "
+"file in a new window."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
-msgstr "Adaugă un fișier Listei de Redare"
+msgstr "Adaugă întotdeauna fișierele deschise la lista de redare"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:89
-msgid "Always show title buttons"
-msgstr "Arată întotdeauna butoanele de titlu"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:87
+#, fuzzy
+msgid "Show title buttons in fullscreen mode"
+msgstr ""
+"Adaugă opțiunea de a afișa butoanele de titlu în modul de ecran complet."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
+"Dacă este activată, butoanele de titlu (închidere, maximizare, minimizare "
+"etc.) sunt întotdeauna afișate. Dacă este dezactivată, butoanele vor fi "
+"ascunse în modul de ecran complet."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:98
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Give focus to the window when opening new files"
-msgstr ""
+msgstr "Acordă focalizarea pe fereastră la deschiderea de fișiere noi"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:99
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:97
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
+"Dacă este activată, Celluloid va acorda focalizarea ferestrei atunci când "
+"este deschis un fișier nou. Dacă este dezactivată, nu se va face nimic."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:107
-#: src/celluloid-application.c:582
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:105
+#: src/celluloid-application.c:552
 msgid "Options to pass to mpv"
-msgstr ""
+msgstr "Opțiuni de transmis către mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:113
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:111
 msgid "Path to mpv configuration file"
-msgstr "Calea la fișierul de configurație mpv"
+msgstr "Ruta la fișierul de configurare al mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:119
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:117
 msgid "Load mpv configuration file"
-msgstr ""
+msgstr "Încarcă fișierul de configurare al mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:125
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:123
 msgid "Path to mpv input configuration file"
 msgstr ""
+"Ruta către fișierul de configurare al tastelor de comenzi rapide al mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:131
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:129
 msgid "Load mpv input configuration file"
-msgstr ""
+msgstr "Încarcă fișierul de configurare al tastelor de comenzi rapide al mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:137
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:135
 msgid "Enable MPRIS support"
-msgstr "Activeaza suport MPRIS"
+msgstr "Activează suportul pentru MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:143
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:141
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "Activează gestionarea tastelor de comenzi rapide din bara de meniu"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:149
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:147
 msgid "Prefetch metadata"
-msgstr ""
+msgstr "Preîncarcă metadatele"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:153
 msgid "Ignore playback errors"
-msgstr "Ignorați erorile de redare"
+msgstr "Ignoră erorile de redare"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:159
 msgid "Inhibit session idling"
-msgstr ""
+msgstr "Inhibă inactivitatea sesiunii"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:165
 msgid "Make video area draggable"
-msgstr ""
+msgstr "Face ca zona video să fie deplasabilă"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:177
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:175
 msgid "Width of the window"
 msgstr "Lățimea ferestrei"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:183
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:181
 msgid "Height of the window"
 msgstr "Înălțimea ferestrei"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:189
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Whether or not the window is maximized"
-msgstr ""
+msgstr "Stabilește dacă fereastra este maximizată sau nu"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:196
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:194
 msgid "Volume of player"
-msgstr ""
+msgstr "Volumul programului de redare"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:202
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:200
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr ""
+"Stabilește dacă se execută sau nu o buclă de redare atunci când se ajunge la "
+"sfârșitul listei de redare"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:208
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:206
 msgid "Width of the playlist"
-msgstr ""
+msgstr "Lățimea listei de redare"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:214
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:212
 msgid "Show/hide the controls"
-msgstr "Arătaţi/ascundeţi controalele"
+msgstr "Afișează/ascunde controalele"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:220
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:218
 msgid "Show/hide the playlist"
-msgstr "Arătaţi/ascundeţi lista de redare"
+msgstr "Afișează/ascunde lista de redare"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:226
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:224
 msgid "URI of the last folder accessed"
-msgstr ""
+msgstr "Adresa URI a ultimului dosar accesat"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
-#: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:458
+#: data/io.github.celluloid_player.Celluloid.desktop.in:3
+#: src/celluloid-application.c:473
 msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "Listă de redare"
+msgstr "Redare fișiere video"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -200,22 +212,28 @@ msgid ""
 "also be adapted for other systems that don't use client-side decorations "
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
+"Celluloid este un reproducător multimedia simplu care poate reda aproape "
+"toate formatele video și audio. Acesta oferă suport pentru liste de redare "
+"și controale MPRIS2. Designul Celluloid urmează recomandările privind "
+"interfața cu utilizatorul GNOME, dar poate fi adaptat și pentru alte sisteme "
+"care nu utilizează decorațiuni pe partea clientului (CSD). Se bazează pe "
+"biblioteca mpv și GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
-msgstr ""
+msgstr "Caracteristici:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:25
 msgid "Drag and drop playlist"
-msgstr ""
+msgstr "Permite glisarea și plasarea de intrări în lista de redare"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
-msgstr ""
+msgstr "Încărcarea fișierelor de configurare mpv externe"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:27
 msgid "MPRIS2 D-Bus interface"
-msgstr ""
+msgstr "Interfață D-Bus MPRIS2"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:36
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:69
@@ -231,36 +249,43 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:479
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:507
 msgid "This release contains the following changes:"
-msgstr ""
+msgstr "Această versiune conține următoarele modificări:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
 msgid ""
 "Add a loading screen that gets displayed during initialization and buffering."
 msgstr ""
+"Adaugă un ecran de încărcare care se afișează în timpul inițializării și "
+"stocării în memoria tampon."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid ""
 "Reduce the time it takes for the main window to get displayed after "
 "launching."
 msgstr ""
+"Reducerea timpului necesar pentru afișarea ferestrei principale după lansare."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
 msgid ""
 "Opening and closing the preferences dialog will no longer trigger an mpv "
 "reset unless options that require it are changed."
 msgstr ""
+"Deschiderea și închiderea dialogului de preferințe nu va mai declanșa o "
+"reinițializare mpv, cu excepția cazului în care opțiunile care o necesită "
+"sunt modificate."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid "Update the look for controls and header bar in floating mode."
 msgstr ""
+"Actualizarea aspectului pentru controale și bara de titlu în modul flotant."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
 msgid "Update some of the deprecated GTK API usage."
-msgstr ""
+msgstr "Actualizarea unora dintre utilizările API GTK depreciate."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
 msgid "Add support for multi-file user scripts."
-msgstr ""
+msgstr "Adaugă suport pentru scripturi de utilizator cu mai multe fișiere."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
@@ -278,278 +303,335 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:528
 msgid "This listing is incomplete. See git log for complete changelog."
 msgstr ""
+"Această listă este incompletă. Consultați jurnalul Git pentru lista completă "
+"de modificări."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
 msgid "Fix a bug where the header bar keeps hiding even when a menu is open."
 msgstr ""
+"Corectarea unei erori în care bara de titlu continuă să fie ascunsă chiar și "
+"atunci când este deschis un meniu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
 msgid "Use toasts instead of dialog to report mpv errors."
 msgstr ""
+"Utilizează baloane de notificări în loc de ferestre de dialog pentru a "
+"raporta erori mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
 msgid "Change default screenshot format to PNG."
-msgstr ""
+msgstr "Schimbarea formatului implicit al capturii de ecran la PNG."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:82
 msgid ""
 "Fix crash that happens when the mpv-config-file key in GSettings contains a "
 "path rather than a URI."
 msgstr ""
+"Rezolvarea prăbușirii care apare atunci când cheia „mpv-config-file” din "
+"GSettings conține o rută în loc de o adresă URI."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Expose the Position MPRIS property."
-msgstr ""
+msgstr "Expune proprietatea „Position MPRIS”."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
 msgid ""
 "Use the numeric style class for the time/duration label, which stops it from "
 "jumping around as it changes."
 msgstr ""
+"Utilizează clasa de stil numeric pentru eticheta de timp/durată, ceea ce "
+"împiedică saltul acesteia pe măsură ce se modifică."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
 msgid "Fix crash when using multiple windows."
-msgstr ""
+msgstr "Corectarea prăbușirii la utilizarea mai multor ferestre."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:108
 msgid "Port the about dialog to libadwaita."
-msgstr ""
+msgstr "Migrarea dialogului «Despre» la libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:111
 msgid "Fix cursor not autohiding on KDE."
 msgstr ""
+"Corectarea unei erori ce împiedica ascunderea automată a cursorului mouse-"
+"ului în KDE."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:114
 msgid "Fix mouse presses/releases becoming unreliable during playback."
 msgstr ""
+"Corectarea apăsărilor/eliberărilor butoanelor mouse-ului care devin "
+"nefiabile în timpul redării."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
+"Face posibilă construirea în Windows. Celluloid încă se blochează la "
+"apăsările butoanelor mouse-ului, dar rulează și poate reda fișiere video."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
 msgid "Add Estonian translation by vaba."
-msgstr ""
+msgstr "Adaugă traducerea în estonă de vaba."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
 msgid "Add Georgian translation by temuri doghonadze."
-msgstr ""
+msgstr "Adaugă traducerea în georgiană de temuri doghonadze."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
 msgid "Add Lithuanian translation by Jonas Smol."
-msgstr ""
+msgstr "Adaugă traducerea în lituaniană de Jonas Smol."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
 msgid "Add Occitan translation by Quentin PAGÈS."
-msgstr ""
+msgstr "Adaugă traducerea în occitană de Quentin PAGÈS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
 msgid "Add Tamil translation by K.B.Dharun Krishna."
-msgstr ""
+msgstr "Adăugați traducerea în tamilă de K.B.Dharun Krishna."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
 msgid "Add Malay translation by @dinazmi."
-msgstr ""
+msgstr "Adaugă traducerea în malaeză de @dinazmi."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:151
 msgid "Use libadwaita."
-msgstr ""
+msgstr "Utilizează libadwaita."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:154
 msgid "Fix on_load hook in scripts not triggering."
-msgstr ""
+msgstr "Remedierea cârligului „on_load” din scripturi care nu se declanșează."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:157
 msgid "Add option to make the video area draggable."
-msgstr ""
+msgstr "Adăugarea opțiunii de a face zona video glisantă."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
 msgid "Fix autofit breaking when playing small videos."
 msgstr ""
+"Corectarea întreruperii ajustării automate la redarea videoclipurilor mici."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 msgid "Make controls layout adaptive."
-msgstr ""
+msgstr "Face ca dispunerea comenzilor să fie adaptabilă."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 msgid "Display chapter marks in the seek bar."
-msgstr ""
+msgstr "Afișează marcajele de capitol în bara de căutare."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 msgid "Display chapter titles in the seek bar popover."
 msgstr ""
+"Afișează titlurile capitolelor în balonul informativ al barei de căutare."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
 msgid "This is mostly a bugfix release. It contains the following changes:"
 msgstr ""
+"Aceasta este în principal o versiune de corectare a erorilor. Aceasta "
+"conține următoarele modificări:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
 msgid "Fix autofit triggering regardless of settings."
-msgstr ""
+msgstr "Repară declanșarea ajustării automate indiferent de configurări."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
 msgid "Fix window size shrinking across sessions."
-msgstr ""
+msgstr "Rezolvarea micșorării dimensiunii ferestrei între sesiuni."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:190
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
+"Rezolvarea prăbușirii la redarea fișierelor cu nume care conțin codificări "
+"nevalide."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
 msgid "Fix drag-and-drop not working with some file managers."
 msgstr ""
+"Corectarea funcției de glisare și plasare care nu funcționa cu unele "
+"administratoare de fișiere."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:196
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
+"Corectarea inițierii redării atunci când ultimul element din lista de redare "
+"este eliminat."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:211
 msgid "Migrate to GTK4."
-msgstr ""
+msgstr "Migrarea la GTK4."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:214
 msgid "Add Greek translation by @lepa22."
-msgstr ""
+msgstr "Adaugă traducerea în greacă de @lepa22."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:217
 msgid "Add Korean translation by @jullee96."
-msgstr ""
+msgstr "Adaugă traducerea în coreeană de @jullee96."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:220
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
-msgstr ""
+msgstr "Adaugă traducerea în norvegiană Bokmål de Allan Nordhøy."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
 msgid "Add Occidental translation by OIS."
-msgstr ""
+msgstr "Adaugă traducerea occidentală realizată de OIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
 msgid "Add Arabic translation by Mohamed Benkouider."
-msgstr ""
+msgstr "Adaugă traducerea în arabă de Mohamed Benkouider."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
 msgid "Add Urdu translation by Ahmed Iqbal."
-msgstr ""
+msgstr "Adaugă traducerea în urdu de Ahmed Iqbal."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
 msgid "Add option to show title buttons in fullscreen mode."
 msgstr ""
+"Adaugă opțiunea de a afișa butoanele de titlu în modul de ecran complet."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
 msgid "Add option to present the window when opening files."
-msgstr ""
+msgstr "Adaugă opțiunea de a prezenta fereastra la deschiderea fișierelor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:238
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
+"Schimbă șablonul implicit al numelui de fișier al capturii de ecran în "
+"FILENAME-TIMESTAMP (%f-%P)."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:241
 msgid "Fix inaccurate timestamp preview."
-msgstr ""
+msgstr "Corectează previzualizarea inexactă a marcajului de timp."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
 msgid "Add Basque translation by @aldatsa."
-msgstr ""
+msgstr "Adaugă traducerea în bască de @aldatsa."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
 msgid "Make the shuffle and loop command line options work properly."
 msgstr ""
+"Face ca opțiunile de linie de comandă de amestecare a intrărilor din lista "
+"de redare și a redării înbuclă să funcționeze corect."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
 msgid "Make the main menu button toggleable by pressing F10."
 msgstr ""
+"Face ca butonul meniului principal să poată fi declanșat prin apăsarea "
+"butonului «F10»."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
-#, fuzzy
 msgid "Add a setting for always appending opened files to the playlist."
-msgstr "Adaugă un fișier Listei de Redare"
+msgstr ""
+"Adaugă o opțiune pentru a adăuga întotdeauna fișierele deschise la lista de "
+"redare."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
 msgstr ""
+"Permite adăugarea de fișiere la lista de redare ținând apăsată tasta «Shift» "
+"în timp ce se plasează fișierele în zona video."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
 msgstr ""
+"Face bara de titlu CSD comutabilă prin intermediul proprietății mpv „border”."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
 msgstr ""
+"Include manifestul Flatpak în depozit. Acest lucru permite ca Celluloid să "
+"fie construit cu un singur clic în aplicații precum GNOME Builder."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr ""
+"Face posibilă activarea meniului contextual atunci când lista de redare este "
+"goală."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:294
 msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as "
 "its value changes."
 msgstr ""
+"Previne redimensionarea constantă a barei de căutare din cauza "
+"redimensionării etichetei marcajului de timp pe măsură ce valoarea acesteia "
+"se modifică."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
 msgstr ""
+"Afișează o singură fereastră de dialog privind erorile numai atunci când un "
+"număr mare de erori apar într-o succesiune rapidă."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:302
 msgid "Add menu item for opening folders."
-msgstr ""
+msgstr "Adaugă element de meniu pentru deschiderea dosarelor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:305
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
 msgstr ""
+"Ajustează poziția elementelor de interfață ale dialogurilor modale în modul "
+"non-CSD pentru a fi mai coerente cu modul CSD."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
 msgid "Add support for loading external video tracks."
-msgstr ""
+msgstr "Adaugă suport pentru încărcarea pistelor video externe."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
 msgid "Make playlist shuffle toggleable."
-msgstr ""
+msgstr "Face ca lista de redare aleatorie să poată fi comutată."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr ""
+"Face ca asocierile tastelor săgeată să funcționeze cu tastele săgeată ale "
+"tastaturii numerice."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:330
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
 msgstr ""
+"Ajustează intervalul butonului de volum pe baza valorii proprietății „volum-"
+"max”."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:334
 msgid "Retain window maximization state across sessions."
-msgstr ""
+msgstr "Păstrează starea de maximizare a ferestrei pe parcursul sesiunilor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
 msgid "Retain loop state across sessions."
-msgstr ""
+msgstr "Păstrează starea buclei între sesiuni."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
 msgid "Implement playlist search."
-msgstr ""
+msgstr "Implementează căutarea în lista de redare."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:343
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
 msgstr ""
+"Actualizează lista de comenzi rapide din dialogul „Taste de comenzi rapide”."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:346
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr ""
+"Gestionarea corectă a ghilimelelor și a secvențelor de eludare în opțiunile "
+"extra mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
 msgid "Display time at cursor position when hovering the seek bar."
 msgstr ""
+"Afișează durata la poziția cursorului atunci când treceți cu cursorul mouse-"
+"ului peste bara de poziție."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
 msgid ""
@@ -557,373 +639,404 @@ msgid ""
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
 "equivalent to passing '--vf=vflip' to mpv."
 msgstr ""
+"Depreciază opțiunea „--mpv-options”. Opțiunile care încep cu „--mpv-” pot fi "
+"utilizate pentru a defini în schimb opțiunile mpv. De exemplu, pasarea "
+"opțiunii „--mpv-vf=vflip” la Celluloid este echivalentă cu pasarea opțiunii "
+"„--vf=vflip” la mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
-#, fuzzy
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
 msgstr ""
-"Mărimea zonei moarte în care mișcarea cursorului nu duce la apariția "
-"controlului."
+"Adaugă suport pentru configurarea zonei moarte, o zonă în care mișcarea "
+"mouse-ului nu va determina afișarea controalelor."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:362
 msgid "Make window sizing work correctly with HiDPI displays."
 msgstr ""
+"Face ca dimensionarea ferestrelor să funcționeze corect cu afișaje HiDPI."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
 msgid "Add Finnish translation by Kimmo Kujansuu."
-msgstr ""
+msgstr "Adaugă traducerea în finlandeză de Kimmo Kujansuu."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:368
 msgid "Add Slovenian translation by @bertronika."
-msgstr ""
+msgstr "Adaugă traducerea în slovenă de @bertronika."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:383
 msgid "Add Persian translation by @danialbehzadi"
-msgstr ""
+msgstr "Adaugă traducerea în persană de @danialbehzadi"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:386
 msgid "Add Ukranian translation by @vl-nix"
-msgstr ""
+msgstr "Adaugă traducerea în ucraineană de @vl-nix"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:389
 msgid ""
 "Add support for showing/hiding window decorations using the mpv option --"
 "border"
 msgstr ""
+"Adaugă suport pentru afișarea/ascunderea decorațiunilor ferestrei folosind "
+"opțiunea mpv „--border”"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
 msgid "Add menu item for opening discs"
-msgstr ""
+msgstr "Adaugă element de meniu pentru deschiderea discurilor"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:395
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
+"Blochează ascunderea automată a cursorului atunci când fereastra emergentă a "
+"cursorului de volum este deschisă în modul fereastră"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:398
 msgid "Fix crash with mpv 0.30"
-msgstr ""
+msgstr "Rezolvă prăbușirea cu mpv 0.30"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:413
 msgid "Rename project to Celluloid"
-msgstr ""
+msgstr "Redenumirea proiectului în Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:416
 msgid "Add Turkish translation by @TeknoMobil"
-msgstr ""
+msgstr "Adaugă traducerea în turcă de @TeknoMobil"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:419
 msgid "Add Esperanto translation by @F3nd0"
-msgstr ""
+msgstr "Adaugă traducerea în esperanto de @F3nd0"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:422
 msgid "Migrate from opengl-cb to the new render API"
-msgstr ""
+msgstr "Migrarea de la opengl-cb la noul API de afișare"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:425
 msgid "Handle numpad keybindings"
-msgstr ""
+msgstr "Gestionează combinațiile de taste ale tastaturii numerice"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:428
 msgid "Handle unicode keybindings"
-msgstr ""
+msgstr "Gestionează combinațiile de taste Unicode"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:431
 msgid "Forward media key events to mpv"
-msgstr ""
+msgstr "Transmiterea evenimentelor privind tastele multimedia către mpv"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:434
-#, fuzzy
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
-msgstr "Viteza minimă cursor la care controlul flotant va fi vizibil."
+msgstr ""
+"Adaugă tasta dconf pentru a controla viteza cursorului la care controalele "
+"nu sunt ascunse"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:437
-#, fuzzy
 msgid "Add option for suppressing playback errors"
-msgstr "Ignorați erorile de redare"
+msgstr "Adaugă opțiunea de suprimare a erorilor de redare"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:452
 msgid "Split up the General tab in the preferences dialog"
-msgstr ""
+msgstr "Divizarea filei „General” din dialogul de preferințe"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:455
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
+"Îmbunătățirea comportamentului la comutarea listei de redare în cadrul "
+"administratorilor de ferestre în mozaic"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:458
 msgid "Move app menu items to primary menu"
-msgstr ""
+msgstr "Mutarea elementelor din meniul aplicației în meniul principal"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
 msgid "Use separate MPRIS DBus connection for each window"
-msgstr ""
+msgstr "Utilizează o conexiune DBus MPRIS separată pentru fiecare fereastră"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:464
 msgid "Add support for MPRIS property LoopStatus"
-msgstr ""
+msgstr "Adaugă suport pentru proprietatea „LoopStatus” a MPRIS"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:467
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
 msgstr ""
+"Adăugă opțiunea „--mpv-options” pentru a defini opțiuni mpv arbitrare din "
+"linia de comandă"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:483
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
 msgstr ""
+"Stabilește directorul implicit al capturilor de ecran la XDG_PICTURES_DIR"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:486
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
 msgstr ""
+"Îmbunătățirea gestionării funcțiilor „--window-scale”, „--autofit”, „--"
+"autofit-larger” și „--autofit-smaller”"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:490
 msgid "Add command line option for setting WM_ROLE"
-msgstr ""
+msgstr "Adaugă opțiunea de linie de comandă pentru configurarea WM_ROLE"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:493
 msgid "Add context menu item for removing playlist items"
 msgstr ""
+"Adăugarea unui element de meniu contextual pentru eliminarea elementelor din "
+"lista de redare"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:496
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
+"Adăugarea unui element de meniu contextual pentru copierea locației "
+"elementelor din lista de redare"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
+"Adaugă opțiunea de a face butoanele de salt să schimbe intrările din lista "
+"de redare în loc de capitole"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:515
 msgid "Make the file chooser accept non-local locations"
-msgstr ""
+msgstr "Face ca selectorul de fișiere să accepte locații non-locale"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:518
 msgid "Add right-click menu entry for looping a single file"
 msgstr ""
+"Adaugă o intrare în meniul clic-dreapta pentru reluarea în buclă a unui "
+"singur fișier"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:521
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
+"Gestionarea evenimentelor de schimbare a proprietății pentru ecran complet "
+"și scalare a ferestrei"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:524
-#, fuzzy
 msgid "Add option to autohide mouse cursor in windowed mode"
-msgstr "Ascunde cursor mouse automat in mod fereastra"
+msgstr ""
+"Adaugă opțiunea de a ascunde automat cursorul mouse-ului în modul fereastră"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:538
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Fereastra principală care prezintă aplicația în acțiune"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:542
 msgid "The main window with CSD disabled"
 msgstr ""
+"Fereastra principală cu decorațiunile pe partea clientului (CSD) dezactivate"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:546
 msgid "The main window with playlist open"
-msgstr ""
+msgstr "Fereastra principală cu lista de redare deschisă"
+
+#: data/io.github.celluloid_player.Celluloid.desktop.in:4
+msgid "Multimedia Player"
+msgstr "Reproducător multimedia"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:5
-msgid "Multimedia Player"
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.desktop.in:6
 msgid "Play movies and videos"
-msgstr ""
+msgstr "Redă filme și videoclipuri"
 
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:17
+#: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
+"Video; Peliculă; Film; Clip; Serie; Reproducător; DVD; TV; Disc; Album; "
+"Muzică; GNOME; mpv;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:23
+#: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
-msgstr ""
+msgstr "Fereastră nouă"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:27
-#, fuzzy
+#: data/io.github.celluloid_player.Celluloid.desktop.in:26
 msgid "Add to Playlist"
-msgstr "Adaugă un fișier Listei de Redare"
+msgstr "Adaugă la lista de redare"
 
-#: src/celluloid-application.c:502
-msgid "Playing"
-msgstr ""
-
-#: src/celluloid-application.c:558
+#: src/celluloid-application.c:528
 msgid "Show release version"
-msgstr ""
+msgstr "Afișează numărul de versiune"
 
-#: src/celluloid-application.c:566
+#: src/celluloid-application.c:536
 msgid "Enqueue"
-msgstr ""
+msgstr "Punere în coada de așteptare"
 
-#: src/celluloid-application.c:574
+#: src/celluloid-application.c:544
 msgid "Create a new window"
-msgstr ""
+msgstr "Creează o fereastră nouă"
 
-#: src/celluloid-application.c:583
+#: src/celluloid-application.c:553
 msgid "OPTIONS"
-msgstr ""
+msgstr "OPȚIUNI"
 
-#: src/celluloid-application.c:590
+#: src/celluloid-application.c:560
 msgid "Set the window role"
-msgstr ""
+msgstr "Stabilește rolul ferestrei"
 
-#: src/celluloid-application.c:598
+#: src/celluloid-application.c:568
 msgid "Don't connect to an already-running instance"
-msgstr ""
+msgstr "Nu se conectează la o instanță care rulează deja"
 
-#: src/celluloid-application.c:609
+#: src/celluloid-application.c:579
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr ""
+msgstr "Definește opțiunea mpv MPVOPTION la VALOARE"
 
-#: src/celluloid-application.c:610
+#: src/celluloid-application.c:580
 msgid "VALUE"
-msgstr ""
+msgstr "VALOARE"
 
-#: src/celluloid-common.c:270
+#: src/celluloid-common.c:280
 msgid "invalid encoding"
-msgstr ""
+msgstr "codificare nevalidă"
 
-#: src/celluloid-control-box.c:452
+#: src/celluloid-control-box.c:447
 msgid "Pause"
-msgstr ""
+msgstr "Pauză"
 
-#: src/celluloid-control-box.c:452 src/celluloid-control-box.c:726
+#: src/celluloid-control-box.c:447 src/celluloid-control-box.c:723
 msgid "Play"
-msgstr ""
+msgstr "Redare"
+
+#: src/celluloid-control-box.c:726
+msgid "Forward"
+msgstr "Derulare înainte"
 
 #: src/celluloid-control-box.c:729
-msgid "Stop"
-msgstr ""
+msgid "Rewind"
+msgstr "Derulare înapoi"
 
 #: src/celluloid-control-box.c:732
-msgid "Forward"
-msgstr ""
+#, fuzzy
+msgid "Next Track"
+msgstr "Pistă _video"
 
 #: src/celluloid-control-box.c:735
-msgid "Rewind"
-msgstr ""
+#, fuzzy
+msgid "Previous Track"
+msgstr "Capitolul anterior"
 
 #: src/celluloid-control-box.c:738
-msgid "Next Chapter"
-msgstr ""
-
-#: src/celluloid-control-box.c:741
-msgid "Previous Chapter"
-msgstr ""
-
-#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:565
-msgid "Loop Playlist"
-msgstr ""
-
-#: src/celluloid-control-box.c:747
-msgid "Shuffle Playlist"
-msgstr ""
-
-#: src/celluloid-control-box.c:750
 #, fuzzy
-msgid "Toggle Playlist"
-msgstr "_Afișează Lista Redare"
+msgid "Show Playlist"
+msgstr "Listă de redare în buclă"
 
-#: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
-msgid "Toggle Fullscreen"
+#: src/celluloid-control-box.c:766
+msgid "Volume"
 msgstr ""
 
-#: src/celluloid-file-chooser.c:145 src/celluloid-plugins-manager.c:201
+#: src/celluloid-controller.c:1369
+msgid "Playing"
+msgstr "Redare"
+
+#: src/celluloid-file-chooser.c:193 src/celluloid-plugins-manager.c:201
 msgid "All Files"
-msgstr ""
+msgstr "Toate fișierele"
 
-#: src/celluloid-file-chooser.c:153
+#: src/celluloid-file-chooser.c:201
 msgid "Media Files"
-msgstr ""
+msgstr "Fișiere multimedia"
 
-#: src/celluloid-file-chooser.c:164
+#: src/celluloid-file-chooser.c:212
 msgid "Audio Files"
-msgstr ""
+msgstr "Fișiere audio"
 
-#: src/celluloid-file-chooser.c:172
+#: src/celluloid-file-chooser.c:220
 msgid "Video Files"
-msgstr ""
+msgstr "Fișiere video"
 
-#: src/celluloid-file-chooser.c:180
+#: src/celluloid-file-chooser.c:228
 msgid "Image Files"
-msgstr ""
+msgstr "Fișiere de imagine"
 
-#: src/celluloid-file-chooser.c:190
+#: src/celluloid-file-chooser.c:238
 msgid "Subtitle Files"
-msgstr ""
-
-#: src/celluloid-file-chooser-button.c:232
-#, fuzzy
-msgid "Open File…"
-msgstr "Deschide Fișier"
+msgstr "Fișiere de subtitrare"
 
 #: src/celluloid-file-chooser-button.c:236
+msgid "Open File…"
+msgstr "Deschide fișierul…"
+
+#: src/celluloid-file-chooser-button.c:240
 msgid "(None)"
+msgstr "(Niciunul)"
+
+#: src/celluloid-header-bar.c:239 src/celluloid-open-location-dialog.c:75
+msgid "Open"
+msgstr "Deschide"
+
+#: src/celluloid-header-bar.c:243
+msgid "Select a Media File, Folder or URL"
 msgstr ""
+
+#: src/celluloid-header-bar.c:245
+msgid "Main Menu"
+msgstr ""
+
+#: src/celluloid-header-bar.c:257
+msgid "Toggle Fullscreen"
+msgstr "Activează/dezactivează modul de ecran complet"
 
 #: src/celluloid-menu.c:106
 msgid "None"
-msgstr ""
+msgstr "Niciunul"
 
 #. For simplicity, also dup the default string used when the
 #. * track has no title.
 #.
 #: src/celluloid-menu.c:121
 msgid "Unknown"
-msgstr ""
+msgstr "Necunoscut"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr ""
+msgstr "În_carcă fișierul extern…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
 #.
 #: src/celluloid-menu.c:207
 msgid "No disc found"
-msgstr ""
+msgstr "Nu s-a găsit niciun disc"
 
 #: src/celluloid-menu.c:235
 msgid "_File"
 msgstr "_Fișier"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:316
-#, fuzzy
 msgid "_Open File…"
-msgstr "Deschide Fișier"
+msgstr "_Deschide fișierul…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:317
 msgid "Open _Folder…"
-msgstr ""
+msgstr "Deschide d_osarul…"
 
 #: src/celluloid-menu.c:238 src/celluloid-menu.c:318
 msgid "Open _Location…"
-msgstr ""
+msgstr "Deschide _locația…"
 
 #: src/celluloid-menu.c:239
 msgid "Open _Disc…"
-msgstr ""
+msgstr "Deschide _discul…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:288
 msgid "_Save Playlist"
-msgstr "_Salvează Lista Redare"
+msgstr "_Salvează lista de redare"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:321
 msgid "_New Window"
-msgstr ""
+msgstr "Fereastră _nouă"
 
 #: src/celluloid-menu.c:242
 msgid "_Quit"
-msgstr ""
+msgstr "_Ieșire"
 
 #: src/celluloid-menu.c:243
 msgid "_Edit"
-msgstr "_Modifică"
+msgstr "_Editare"
 
 #: src/celluloid-menu.c:244 src/celluloid-menu.c:294
 msgid "_Preferences"
@@ -931,15 +1044,15 @@ msgstr "_Preferințe"
 
 #: src/celluloid-menu.c:245 src/celluloid-menu.c:290
 msgid "_Video Track"
-msgstr ""
+msgstr "Pistă _video"
 
 #: src/celluloid-menu.c:246 src/celluloid-menu.c:291
 msgid "_Audio Track"
-msgstr ""
+msgstr "Pistă _audio"
 
 #: src/celluloid-menu.c:247 src/celluloid-menu.c:292
 msgid "S_ubtitle Track"
-msgstr ""
+msgstr "Pistă s_ubtitrare"
 
 #: src/celluloid-menu.c:248
 msgid "_View"
@@ -947,11 +1060,11 @@ msgstr "_Vizualizare"
 
 #: src/celluloid-menu.c:249 src/celluloid-menu.c:286
 msgid "_Toggle Controls"
-msgstr ""
+msgstr "Afișează/ascunde _controalele"
 
 #: src/celluloid-menu.c:250
 msgid "_Fullscreen"
-msgstr "_Tot ecranul"
+msgstr "_Ecran complet"
 
 #: src/celluloid-menu.c:251
 msgid "_Help"
@@ -959,492 +1072,556 @@ msgstr "_Ajutor"
 
 #: src/celluloid-menu.c:252 src/celluloid-menu.c:295
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Combinații taste rapide"
 
 #: src/celluloid-menu.c:253 src/celluloid-menu.c:296
 msgid "_About Celluloid"
-msgstr ""
+msgstr "_Despre Celluloid"
 
 #: src/celluloid-menu.c:319
-#, fuzzy
 msgid "Open _Disc"
-msgstr "Deschide Fișier"
+msgstr "Deschide _discul"
 
 #: src/celluloid-mpv.c:266
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr ""
-
-#: src/celluloid-open-location-dialog.c:75
-#, fuzzy
-msgid "Open"
-msgstr "_Deschide"
+msgstr "Redarea s-a încheiat în mod anormal. Datorită: %s."
 
 #: src/celluloid-open-location-dialog.c:77
-#, fuzzy
 msgid "Cancel"
-msgstr "_Anulează"
+msgstr "Anulează"
 
 #: src/celluloid-open-location-dialog.c:274
 msgid "Location:"
-msgstr "Adresă:"
+msgstr "Locație:"
 
-#: src/celluloid-player.c:667
+#: src/celluloid-player.c:669
 msgid "Failed to apply one or more MPV options."
-msgstr ""
+msgstr "Aplicarea uneia sau mai multor opțiuni MPV a eșuat."
 
-#: src/celluloid-playlist-widget.c:557
+#: src/celluloid-playlist-widget.c:619
 msgid "_Copy Location"
-msgstr ""
+msgstr "_Copiază locația"
 
-#: src/celluloid-playlist-widget.c:558 src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-playlist-widget.c:620 src/celluloid-plugins-manager-item.c:205
 msgid "_Remove"
-msgstr ""
+msgstr "Elimina_re"
 
-#: src/celluloid-playlist-widget.c:560
+#: src/celluloid-playlist-widget.c:622
 msgid "_Add…"
-msgstr ""
+msgstr "_Adaugă…"
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:623
 msgid "Add _Folder…"
-msgstr ""
+msgstr "Adaugă _dosar…"
 
-#: src/celluloid-playlist-widget.c:562
+#: src/celluloid-playlist-widget.c:624
 msgid "Add _Location…"
-msgstr ""
+msgstr "Adaugă _locație…"
 
-#: src/celluloid-playlist-widget.c:563
+#: src/celluloid-playlist-widget.c:625
 msgid "_Shuffle"
-msgstr ""
+msgstr "Redare aleatorie a li_stei de redare"
 
-#: src/celluloid-playlist-widget.c:564
-#, fuzzy
+#: src/celluloid-playlist-widget.c:626
 msgid "Loop File"
-msgstr "Deschide Fișier"
+msgstr "Redare fișier în buclă"
 
-#: src/celluloid-playlist-widget.c:930
+#: src/celluloid-playlist-widget.c:627
+msgid "Loop Playlist"
+msgstr "Listă de redare în buclă"
+
+#: src/celluloid-playlist-widget.c:1023
 #, fuzzy
-msgid "Playlist is Empty"
+msgid "0 files"
+msgstr "Deschide fișier"
+
+#: src/celluloid-playlist-widget.c:1034
+#, fuzzy
+msgid "Hide playlist"
+msgstr "Salvează lista de redare"
+
+#: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
+msgid "Playlist"
 msgstr "Listă de redare"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
-msgid "Add Plugin"
+#: src/celluloid-playlist-widget.c:1064
+#, fuzzy
+msgid "Search in playlist"
+msgstr "Salvează lista de redare"
+
+#: src/celluloid-playlist-widget.c:1067
+#, fuzzy
+msgid "Search in playlist…"
+msgstr "Salvează lista de redare"
+
+#: src/celluloid-playlist-widget.c:1081
+msgid "Disable repeat"
 msgstr ""
+
+#: src/celluloid-playlist-widget.c:1091
+#, fuzzy
+msgid "Repeat file"
+msgstr "Deschide fișier"
+
+#: src/celluloid-playlist-widget.c:1102
+#, fuzzy
+msgid "Repeat playlist"
+msgstr "Salvează lista de redare"
+
+#: src/celluloid-playlist-widget.c:1110
+#, fuzzy
+msgid "Shuffle playlist"
+msgstr "Listă de redare redată aleatoriu"
+
+#: src/celluloid-playlist-widget.c:1135
+msgid "Playlist is Empty"
+msgstr "Lista de redare este goală"
+
+#: src/celluloid-playlist-widget.c:1242
+#, c-format
+msgid "%ld file"
+msgid_plural "%ld files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
+msgid "Add Plugin"
+msgstr "Adaugă un modul"
 
 #: src/celluloid-plugins-manager.c:206
 msgid "Lua Plugins"
-msgstr ""
+msgstr "Module Lua"
 
 #: src/celluloid-plugins-manager.c:212
 msgid "JavaScript Plugins"
-msgstr ""
+msgstr "Module JavaScript"
 
 #: src/celluloid-plugins-manager.c:217
 msgid "C Plugins"
-msgstr ""
+msgstr "Module C"
 
-#: src/celluloid-plugins-manager.c:355
+#: src/celluloid-plugins-manager.c:350
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr ""
+msgstr "Copierea fișierului de la „%s” la „%s” a eșuat. Datorită: %s"
 
-#: src/celluloid-plugins-manager.c:409
+#: src/celluloid-plugins-manager.c:405
 msgid "Plugins"
-msgstr ""
+msgstr "Module"
 
-#: src/celluloid-plugins-manager.c:416
+#: src/celluloid-plugins-manager.c:412
 msgid "Add…"
-msgstr ""
+msgstr "Adaugă…"
 
-#: src/celluloid-plugins-manager.c:450
+#: src/celluloid-plugins-manager.c:446
 msgid "No Plugins Found"
-msgstr ""
+msgstr "Nu s-au găsit module"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:449
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "Pulsați butonul <b>Adaugă...</b> pentru a instala un nou modul"
 
 #: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
-msgstr ""
+msgstr "Elimină modulul"
 
-#: src/celluloid-plugins-manager-item.c:178
+#: src/celluloid-plugins-manager-item.c:175
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr ""
+msgstr "Ștergerea fișierului „%s” a eșuat. Datorită: %s"
 
-#: src/celluloid-plugins-manager-item.c:202
+#: src/celluloid-plugins-manager-item.c:199
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
+"Sunteți sigur că doriți să eliminați acest script? Această acțiune nu poate "
+"fi anulată."
 
-#: src/celluloid-plugins-manager-item.c:209
+#: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
-msgstr ""
+msgstr "_Păstrează"
 
-#: src/celluloid-preferences-dialog.c:322
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:332
 msgid "mpv configuration file"
-msgstr "Calea la fișierul de configurație mpv"
+msgstr "Fișierul de configurare mpv"
 
-#: src/celluloid-preferences-dialog.c:328
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:338
 msgid "mpv input configuration file"
-msgstr "Calea la fișierul de configurație mpv"
+msgstr "Fișierul de configurare al tastelor de comenzi rapide al mpv"
 
-#: src/celluloid-preferences-dialog.c:348
+#: src/celluloid-preferences-dialog.c:358
 msgid "Extra mpv options"
-msgstr ""
+msgstr "Opțiuni extra mpv"
 
-#: src/celluloid-preferences-dialog.c:363
+#: src/celluloid-preferences-dialog.c:373
 msgid "Interface"
-msgstr ""
+msgstr "Interfață"
 
-#: src/celluloid-preferences-dialog.c:371
+#: src/celluloid-preferences-dialog.c:381
 msgid "Config Files"
-msgstr ""
+msgstr "Fișiere de configurare"
 
-#: src/celluloid-preferences-dialog.c:379
+#: src/celluloid-preferences-dialog.c:389
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
-#: src/celluloid-preferences-dialog.c:405
+#: src/celluloid-preferences-dialog.c:421
 msgid "Preferences"
 msgstr "Preferințe"
 
 #: src/celluloid-shortcuts-window.c:46
 msgid "Open file"
-msgstr ""
+msgstr "Deschide fișier"
 
 #: src/celluloid-shortcuts-window.c:47
 msgid "Open location"
-msgstr ""
+msgstr "Deschide locația"
 
 #: src/celluloid-shortcuts-window.c:48
 msgid "Add file to playlist"
-msgstr ""
+msgstr "Adaugă fișierul la lista de redare"
 
 #: src/celluloid-shortcuts-window.c:49
 msgid "Add location to playlist"
-msgstr ""
+msgstr "Adaugă locația la lista de redare"
 
 #: src/celluloid-shortcuts-window.c:50
 msgid "Show preferences dialog"
-msgstr ""
+msgstr "Afișează dialogul de preferințe"
 
 #: src/celluloid-shortcuts-window.c:51
 msgid "Toggle playlist"
-msgstr ""
+msgstr "Afișează/ascunde lista de redare"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Toggle fullscreen mode"
-msgstr ""
+msgstr "Activează/dezactivează modul de ecran complet"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Ieșire din modul de ecran complet"
 
 #: src/celluloid-shortcuts-window.c:54
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
+msgstr "Comută stările OSD între normal și timp/durată de redare"
 
 #: src/celluloid-shortcuts-window.c:55
 msgid "Show filename on the OSD"
-msgstr ""
+msgstr "Afișează numele fișierului pe ecran"
 
 #: src/celluloid-shortcuts-window.c:56
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr ""
+msgstr "Afișează progresul, timpul scurs și durata pe ecran"
 
 #: src/celluloid-shortcuts-window.c:59
 msgid "Seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Derulează înainte/înapoi 5 secunde"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Exact seek backward/forward 1 second"
-msgstr ""
+msgstr "Derulează înainte/înapoi, exact 1 secundă"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Seek backward/forward 1 minute"
-msgstr ""
+msgstr "Derulează înainte/înapoi 1 minut"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Exact seek backward/forward 5 seconds"
-msgstr ""
+msgstr "Derulează înainte/înapoi, exact 5 secunde"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Seek to previous/next subtitle"
-msgstr ""
+msgstr "Derulează la subtitrarea anterioară/următoare"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Step backward/forward a single frame"
-msgstr ""
+msgstr "Derulează înapoi/înainte un singur cadru"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr ""
+msgstr "Derulează la începutul capitolului anterior/următor"
 
 #: src/celluloid-shortcuts-window.c:68
 msgid "Decrease/increase playback speed by 10%"
-msgstr ""
+msgstr "Reduce/mărește viteza de redare cu 10%"
 
 #: src/celluloid-shortcuts-window.c:69
 msgid "Halve/double current playback speed"
-msgstr ""
+msgstr "Reduce la jumătate/dublează viteza curentă de redare"
 
 #: src/celluloid-shortcuts-window.c:70
 msgid "Reset playback speed to normal"
-msgstr ""
+msgstr "Restabilește viteza de redare la normal"
 
 #: src/celluloid-shortcuts-window.c:71
 msgid "Go backward/forward in the playlist"
-msgstr ""
+msgstr "Deplasare înainte/înapoi în lista de redare"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Remove selected playlist item"
-msgstr ""
+msgstr "Elimină elementul selectat din lista de redare"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Save playlist"
-msgstr ""
+msgstr "Salvează lista de redare"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Set/clear A-B loop points"
-msgstr ""
+msgstr "Stabilește/șterge punctele A-B ale buclei"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Toggle infinite looping"
-msgstr ""
+msgstr "Activează/dezactivează redarea în buclă"
 
 #: src/celluloid-shortcuts-window.c:76
 msgid "Pause or unpause"
-msgstr ""
+msgstr "Pune în pauză/reia redarea"
 
 #: src/celluloid-shortcuts-window.c:77
 msgid "Quit"
-msgstr ""
+msgstr "Ieșire"
 
 #: src/celluloid-shortcuts-window.c:78
 msgid "Save current playback position and quit"
-msgstr ""
+msgstr "Salvează poziția curentă de redare și închide programul"
 
 #: src/celluloid-shortcuts-window.c:81
 msgid "Enter search mode"
-msgstr ""
+msgstr "Intră în modul de căutare"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Jump to next match"
-msgstr ""
+msgstr "Salt la potrivirea următoare"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Jump to previous match"
-msgstr ""
+msgstr "Salt la potrivirea anterioară"
 
 #: src/celluloid-shortcuts-window.c:84
 msgid "Exit search mode"
-msgstr ""
+msgstr "Iese din modul de căutare"
 
 #: src/celluloid-shortcuts-window.c:87
 msgid "Cycle through audio tracks"
-msgstr ""
+msgstr "Parcurge ciclic pistele audio"
 
 #: src/celluloid-shortcuts-window.c:88 src/celluloid-shortcuts-window.c:89
 msgid "Decrease/increase volume"
-msgstr ""
+msgstr "Reduce/crește volumul"
 
 #: src/celluloid-shortcuts-window.c:90
 msgid "Mute or unmute"
-msgstr ""
+msgstr "Dezactivează/activează sunetul"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Adjust audio delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Ajustează întârzierea audio cu +/- 0,1 secunde"
 
 #: src/celluloid-shortcuts-window.c:94
 msgid "Toggle subtitle visibility"
-msgstr ""
+msgstr "Afișează/ascunde subtitrarea"
 
 #: src/celluloid-shortcuts-window.c:95
 msgid "Cycle through available subtitles"
-msgstr ""
+msgstr "Parcurge ciclic subtitrările disponibile"
 
 #: src/celluloid-shortcuts-window.c:96
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
-msgstr ""
+msgstr "Ajustează întârzierea subtitrării cu +/- 0,1 secunde"
 
 #: src/celluloid-shortcuts-window.c:97
 msgid "Toggle SSA/ASS subtitles style override"
-msgstr ""
+msgstr "Comută înlocuirea stilului subtitrărilor SSA/ASS"
 
 #: src/celluloid-shortcuts-window.c:98
 msgid "Move subtitles up/down"
-msgstr ""
+msgstr "Mută subtitrările în sus/jos"
 
 #: src/celluloid-shortcuts-window.c:99
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr ""
+msgstr "Activează/dezactivează modul de compatibilitate a aspectului VSFilter"
 
 #: src/celluloid-shortcuts-window.c:102
 msgid "Cycle through video tracks"
-msgstr ""
+msgstr "Parcurge ciclic pistele video"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Decrease/increase pan-and-scan range"
-msgstr ""
+msgstr "Diminuarea/creșterea intervalului de panoramare și baleiaj"
 
 #: src/celluloid-shortcuts-window.c:104
 msgid "Take a screenshot"
-msgstr ""
+msgstr "Fă o captură de ecran"
 
 #: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot, without subtitles"
-msgstr ""
+msgstr "Fă o captură de ecran, fără subtitrări"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, as the window shows it"
-msgstr ""
+msgstr "Fă o captură de ecran, așa cum arată fereastra"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Resize video to half its original size"
-msgstr ""
+msgstr "Redimensionează videoclipul la jumătate din dimensiunea sa originală"
 
 #: src/celluloid-shortcuts-window.c:108
 msgid "Resize video to its original size"
-msgstr ""
+msgstr "Redimensionează videoclipul la dimensiunea sa originală"
 
 #: src/celluloid-shortcuts-window.c:109
 msgid "Resize video to double its original size"
-msgstr ""
+msgstr "Redimensionează videoclipul la dublul dimensiunii sale originale"
 
 #: src/celluloid-shortcuts-window.c:110
 msgid "Adjust contrast"
-msgstr ""
+msgstr "Ajustează contrastul"
 
 #: src/celluloid-shortcuts-window.c:111
 msgid "Adjust brightness"
-msgstr ""
+msgstr "Ajustează luminozitatea"
 
 #: src/celluloid-shortcuts-window.c:112
 msgid "Adjust gamma"
-msgstr ""
+msgstr "Ajustează gamma"
 
 #: src/celluloid-shortcuts-window.c:113
 msgid "Adjust saturation"
-msgstr ""
+msgstr "Ajustează saturația culorilor"
 
 #: src/celluloid-shortcuts-window.c:114
 msgid "Activate or deactivate deinterlacer"
-msgstr ""
+msgstr "Activează sau dezactivează dezîntrețeserea"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Cycle aspect ratio override"
-msgstr ""
+msgstr "Schimbă raportul de aspect"
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Pan the video"
-msgstr ""
+msgstr "Panoramarea videoclipului"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Zoom in/out"
-msgstr ""
+msgstr "Mărire/micșorare"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "Reinițializează parametrii de panoramare/zoom"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
-msgstr ""
+msgstr "Interfața cu utilizatorul"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: src/celluloid-shortcuts-window.c:125
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: src/celluloid-shortcuts-window.c:126
 msgid "Subtitle"
-msgstr ""
+msgstr "Subtitrare"
 
 #: src/celluloid-shortcuts-window.c:127
 msgid "Playback"
-msgstr ""
+msgstr "Redare"
 
 #: src/celluloid-shortcuts-window.c:128
 msgid "Seeking"
-msgstr ""
+msgstr "Derulare"
 
-#: src/celluloid-shortcuts-window.c:129
-msgid "Playlist"
-msgstr "Listă de redare"
-
-#: src/celluloid-video-area.c:741
+#: src/celluloid-video-area.c:688
 msgid "Loading…"
-msgstr ""
+msgstr "Se încarcă…"
 
-#: src/celluloid-video-area.c:752
+#: src/celluloid-video-area.c:699
 msgid "Welcome"
-msgstr ""
+msgstr "Bine ați venit"
 
-#: src/celluloid-video-area.c:755
-msgid "Click the <b>＋</b> button or drag and drop videos here"
-msgstr ""
+#: src/celluloid-video-area.c:702
+#, fuzzy
+msgid "Click the <b>Open</b> button or drag and drop videos here"
+msgstr "Apăsați butonul <b>＋</b> sau glisați și plasați fișierele video aici"
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:737
 msgid "Load Audio Track…"
-msgstr ""
+msgstr "Se încarcă pista audio…"
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:741
 msgid "Load Video Track…"
-msgstr ""
+msgstr "Se încarcă pista video…"
 
-#: src/celluloid-view.c:747
+#: src/celluloid-view.c:745
 msgid "Load Subtitle Track…"
-msgstr ""
+msgstr "Se încarcă pista de subtitrare…"
 
-#: src/celluloid-view.c:926
-msgid "Error"
-msgstr ""
-
-#: src/celluloid-view.c:951
+#: src/celluloid-view.c:934
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr ""
+"Activarea sau dezactivarea decorațiilor pe partea de client necesită "
+"repornirea pentru a avea efect."
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Add Folder to Playlist"
-msgstr ""
+msgstr "Adăugă dosarul la lista de redare"
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Open Folder"
-msgstr ""
+msgstr "Deschide dosar"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Add File to Playlist"
-msgstr "Adaugă un fișier Listei de Redare"
+msgstr "Adaugă fișierul la lista de redare"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Open File"
-msgstr "Deschide Fișier"
+msgstr "Deschide fișier"
 
-#: src/celluloid-view.c:1512
+#: src/celluloid-view.c:1514
 msgid "Add Location to Playlist"
-msgstr ""
+msgstr "Adaugă locația la lista de redare"
 
-#: src/celluloid-view.c:1513
+#: src/celluloid-view.c:1515
 msgid "Open Location"
 msgstr "Deschide Adresa"
 
-#: src/celluloid-view.c:1555
+#: src/celluloid-view.c:1556
 msgid "Save Playlist"
-msgstr "Salvează Lista de Redare"
+msgstr "Salvează lista de redare"
 
-#: src/celluloid-view.c:1617
+#: src/celluloid-view.c:1621
 msgid "translator-credits"
-msgstr "Robert Datcu"
+msgstr ""
+"Robert Datcu, 2015, tradus < 10%\n"
+"Mihai Pavelescu <media.expres@gmail.com>, 2020, tradus < 10%\n"
+"Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024, tradus 100%"
+
+#~ msgid "Use a floating header bar in windowed mode"
+#~ msgstr "Utilizează o bară de titlu flotantă în modul fereastră"
+
+#~ msgid "Always open new window"
+#~ msgstr "Deschide întotdeauna o fereastră nouă"
+
+#~ msgid "Always show title buttons"
+#~ msgstr "Afișează întotdeauna butoanele de titlu"
+
+#~ msgid "Stop"
+#~ msgstr "Stop"
+
+#~ msgid "Next Chapter"
+#~ msgstr "Capitolul următor"
+
+#~ msgid "Toggle Playlist"
+#~ msgstr "Afișează/ascunde lista de redare"
+
+#~ msgid "Error"
+#~ msgstr "Eroare"
 
 #~ msgid "The Celluloid Developers"
 #~ msgstr "Dezvoltatorii Celluloid"

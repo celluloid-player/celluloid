@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-06 23:09+0700\n"
+"POT-Creation-Date: 2025-03-03 22:56-0600\n"
 "PO-Revision-Date: 2022-10-14 11:20+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/celluloid/"
@@ -42,46 +42,49 @@ msgid "Use floating controls in windowed mode"
 msgstr "استخدم عناصر التحكم العائمة في وضع الإطارات"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-#, fuzzy
-msgid "Use a floating header bar in windowed mode"
-msgstr "استخدم عناصر التحكم العائمة في وضع الإطارات"
-
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
 msgstr "إخفاء مؤشر الماوس تلقائيًا في وضع الإطارات"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:52
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr "الحد الأدنى لسرعة المؤشر التي سيتم عندها إظهار عناصر التحكم العائمة."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:59
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
 "حجم المنطقة الميتة التي لن تتسبب فيها حركة المؤشر في إظهار عناصر التحكم."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:65
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons to control the playlist"
 msgstr "استخدام أزرار التخطي للتحكم في قائمة التشغيل"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:71
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
 msgstr "تذكر آخر موقع في منتقي الملفات"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:77
-msgid "Always open new window"
-msgstr "دائما فتح نافذة جديدة"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:72
+#, fuzzy
+msgid "Open new window when opening new files"
+msgstr "ركز على النافذة عند فتح ملفات جديدة"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:83
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:73
+msgid ""
+"When opening new files through D-Bus (e.g. using a file manager), open the "
+"file in a new window."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "قم دائمًا بإلحاق الملفات المفتوحة بقائمة التشغيل"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:89
-msgid "Always show title buttons"
-msgstr "اعرض أزرار العنوان دائمًا"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:87
+#, fuzzy
+msgid "Show title buttons in fullscreen mode"
+msgstr "إضافة خيار لإظهار أزرار العنوان في وضع ملء الشاشة."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
@@ -89,11 +92,11 @@ msgstr ""
 "إذا كان هذا صحيحًا ، فستظهر دائمًا أزرار العنوان (إغلاق ، تكبير ، تصغير ، "
 "إلخ). في حالة الخطأ ، سيتم إخفاء الأزرار في وضع ملء الشاشة."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:98
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Give focus to the window when opening new files"
 msgstr "ركز على النافذة عند فتح ملفات جديدة"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:99
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:97
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
@@ -101,91 +104,91 @@ msgstr ""
 "إذا كان هذا صحيحًا ، فسيركز السيلولويد على النافذة عند فتح ملف جديد. إذا كانت "
 "خاطئة ، فلن يتم إجراء أي محاولة."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:107
-#: src/celluloid-application.c:582
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:105
+#: src/celluloid-application.c:552
 msgid "Options to pass to mpv"
 msgstr "خيارات لتمريرها إلى MPV"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:113
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:111
 msgid "Path to mpv configuration file"
 msgstr "المسار إلى ملف تكوين mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:119
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:117
 msgid "Load mpv configuration file"
 msgstr "تحميل ملف تكوين mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:125
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:123
 msgid "Path to mpv input configuration file"
 msgstr "المسار إلى ملف تكوين إدخال mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:131
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:129
 msgid "Load mpv input configuration file"
 msgstr "تحميل ملف تكوين إدخال mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:137
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:135
 msgid "Enable MPRIS support"
 msgstr "تفعيل دعم MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:143
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:141
 msgid "Enable menubar accelerator key handling"
 msgstr "تفعيل معالجة مفتاح تسريع شريط القوائم"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:149
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:147
 msgid "Prefetch metadata"
 msgstr "الجلب المسبق للبيانات الوصفية"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:153
 msgid "Ignore playback errors"
 msgstr "تجاهل أخطاء التشغيل"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:159
 msgid "Inhibit session idling"
 msgstr "منع تباطؤ الجلسة"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:165
 msgid "Make video area draggable"
 msgstr "اجعل منطقة الفيديو قابلة للسحب"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:177
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:175
 msgid "Width of the window"
 msgstr "منع تباطؤ الجلسة"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:183
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:181
 msgid "Height of the window"
 msgstr "ارتفاع النافذة"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:189
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Whether or not the window is maximized"
 msgstr "سواء تم تكبير النافذة أم لا"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:196
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:194
 msgid "Volume of player"
 msgstr "حجم صوت المشغل"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:202
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:200
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr ""
 "لتحديد ما إذا كان سيتم إجراء تكرار أم لا عند الوصول إلى نهاية قائمة التشغيل"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:208
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:206
 msgid "Width of the playlist"
 msgstr "عرض قائمة التشغيل"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:214
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:212
 msgid "Show/hide the controls"
 msgstr "إظهار / إخفاء الضوابط"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:220
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:218
 msgid "Show/hide the playlist"
 msgstr "إظهار / إخفاء قائمة التشغيل"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:226
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:224
 msgid "URI of the last folder accessed"
 msgstr "URI للمجلد الأخير الذي تم الوصول إليه"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
-#: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:458
+#: data/io.github.celluloid_player.Celluloid.desktop.in:3
+#: src/celluloid-application.c:473
 msgid "Celluloid"
 msgstr "السيليلويد"
 
@@ -757,145 +760,151 @@ msgstr "النافذة الرئيسية مع تعطيل CSD"
 msgid "The main window with playlist open"
 msgstr "النافذة الرئيسية مع قائمة التشغيل مفتوحة"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+#: data/io.github.celluloid_player.Celluloid.desktop.in:4
 msgid "Multimedia Player"
 msgstr "مشغل الوسائط المتعددة"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Play movies and videos"
 msgstr "تشغيل الأفلام ومقاطع الفيديو"
 
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:17
+#: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
 "فيديو ; مسرح ; فيلم ; مقطع ; سلسلة ; مشغل ; DVD ; تلفزيون ; قرص ; ألبوم ; "
 "موسيقى ; جنوم ; mpv ;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:23
+#: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
 msgstr "نافذة جديدة"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:27
+#: data/io.github.celluloid_player.Celluloid.desktop.in:26
 msgid "Add to Playlist"
 msgstr "أضف إلى قائمة التشغيل"
 
-#: src/celluloid-application.c:502
-msgid "Playing"
-msgstr "يشتغل"
-
-#: src/celluloid-application.c:558
+#: src/celluloid-application.c:528
 msgid "Show release version"
 msgstr "عرض نسخة الإصدار"
 
-#: src/celluloid-application.c:566
+#: src/celluloid-application.c:536
 msgid "Enqueue"
 msgstr "في قائمة الانتظار"
 
-#: src/celluloid-application.c:574
+#: src/celluloid-application.c:544
 msgid "Create a new window"
 msgstr "أنشئ نافذة جديدة"
 
-#: src/celluloid-application.c:583
+#: src/celluloid-application.c:553
 msgid "OPTIONS"
 msgstr "الخيارات"
 
-#: src/celluloid-application.c:590
+#: src/celluloid-application.c:560
 msgid "Set the window role"
 msgstr "اضبط دور النافذة"
 
-#: src/celluloid-application.c:598
+#: src/celluloid-application.c:568
 msgid "Don't connect to an already-running instance"
 msgstr "لا تتصل بمثيل قيد التشغيل بالفعل"
 
-#: src/celluloid-application.c:609
+#: src/celluloid-application.c:579
 msgid "Set the mpv option MPVOPTION to VALUE"
 msgstr "اضبط خيار mpv MPVOPTION الى قيمة"
 
-#: src/celluloid-application.c:610
+#: src/celluloid-application.c:580
 msgid "VALUE"
 msgstr "القيمة"
 
-#: src/celluloid-common.c:270
+#: src/celluloid-common.c:280
 msgid "invalid encoding"
 msgstr "ترميز غير صالح"
 
-#: src/celluloid-control-box.c:452
+#: src/celluloid-control-box.c:447
 msgid "Pause"
 msgstr "البث"
 
-#: src/celluloid-control-box.c:452 src/celluloid-control-box.c:726
+#: src/celluloid-control-box.c:447 src/celluloid-control-box.c:723
 msgid "Play"
 msgstr "شغل"
 
-#: src/celluloid-control-box.c:729
-msgid "Stop"
-msgstr "توقف"
-
-#: src/celluloid-control-box.c:732
+#: src/celluloid-control-box.c:726
 msgid "Forward"
 msgstr "الامام"
 
-#: src/celluloid-control-box.c:735
+#: src/celluloid-control-box.c:729
 msgid "Rewind"
 msgstr "اللف"
 
-#: src/celluloid-control-box.c:738
-msgid "Next Chapter"
-msgstr "الفصل القادم"
+#: src/celluloid-control-box.c:732
+#, fuzzy
+msgid "Next Track"
+msgstr "_مسار الفيديو"
 
-#: src/celluloid-control-box.c:741
-msgid "Previous Chapter"
+#: src/celluloid-control-box.c:735
+#, fuzzy
+msgid "Previous Track"
 msgstr "الفصل السابق"
 
-#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:565
-msgid "Loop Playlist"
+#: src/celluloid-control-box.c:738
+#, fuzzy
+msgid "Show Playlist"
 msgstr "تكرار قائمة تشغيل"
 
-#: src/celluloid-control-box.c:747
-msgid "Shuffle Playlist"
-msgstr "قائمة تشغيل عشوائية"
+#: src/celluloid-control-box.c:766
+msgid "Volume"
+msgstr ""
 
-#: src/celluloid-control-box.c:750
-#, fuzzy
-msgid "Toggle Playlist"
-msgstr "تبديل _قائمة التشغيل"
+#: src/celluloid-controller.c:1369
+msgid "Playing"
+msgstr "يشتغل"
 
-#: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
-msgid "Toggle Fullscreen"
-msgstr "تبديل ملء الشاشة"
-
-#: src/celluloid-file-chooser.c:145 src/celluloid-plugins-manager.c:201
+#: src/celluloid-file-chooser.c:193 src/celluloid-plugins-manager.c:201
 msgid "All Files"
 msgstr "كل الملفات"
 
-#: src/celluloid-file-chooser.c:153
+#: src/celluloid-file-chooser.c:201
 msgid "Media Files"
 msgstr "ملفات الوسائط"
 
-#: src/celluloid-file-chooser.c:164
+#: src/celluloid-file-chooser.c:212
 msgid "Audio Files"
 msgstr "ملفات صوتية"
 
-#: src/celluloid-file-chooser.c:172
+#: src/celluloid-file-chooser.c:220
 msgid "Video Files"
 msgstr "ملفات الفيديو"
 
-#: src/celluloid-file-chooser.c:180
+#: src/celluloid-file-chooser.c:228
 msgid "Image Files"
 msgstr "ملفات الصور"
 
-#: src/celluloid-file-chooser.c:190
+#: src/celluloid-file-chooser.c:238
 msgid "Subtitle Files"
 msgstr "ملفات الترجمة"
 
-#: src/celluloid-file-chooser-button.c:232
+#: src/celluloid-file-chooser-button.c:236
 msgid "Open File…"
 msgstr "فتح ملف …"
 
-#: src/celluloid-file-chooser-button.c:236
+#: src/celluloid-file-chooser-button.c:240
 msgid "(None)"
 msgstr "(لا شيء)"
+
+#: src/celluloid-header-bar.c:239 src/celluloid-open-location-dialog.c:75
+msgid "Open"
+msgstr "فتح"
+
+#: src/celluloid-header-bar.c:243
+msgid "Select a Media File, Folder or URL"
+msgstr ""
+
+#: src/celluloid-header-bar.c:245
+msgid "Main Menu"
+msgstr ""
+
+#: src/celluloid-header-bar.c:257
+msgid "Toggle Fullscreen"
+msgstr "تبديل ملء الشاشة"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -1004,10 +1013,6 @@ msgstr "فتح _قرص"
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "تم إنهاء التشغيل بشكل غير طبيعي. السبب:%s."
 
-#: src/celluloid-open-location-dialog.c:75
-msgid "Open"
-msgstr "فتح"
-
 #: src/celluloid-open-location-dialog.c:77
 msgid "Cancel"
 msgstr "الغاء"
@@ -1016,45 +1021,103 @@ msgstr "الغاء"
 msgid "Location:"
 msgstr "موقع:"
 
-#: src/celluloid-player.c:667
+#: src/celluloid-player.c:669
 msgid "Failed to apply one or more MPV options."
 msgstr "فشل في تطبيق خيار MPV واحد أو أكثر."
 
-#: src/celluloid-playlist-widget.c:557
+#: src/celluloid-playlist-widget.c:619
 msgid "_Copy Location"
 msgstr "_نسخ الموقع"
 
-#: src/celluloid-playlist-widget.c:558 src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-playlist-widget.c:620 src/celluloid-plugins-manager-item.c:205
 msgid "_Remove"
 msgstr "_حذف"
 
-#: src/celluloid-playlist-widget.c:560
+#: src/celluloid-playlist-widget.c:622
 msgid "_Add…"
 msgstr "_اضافة…"
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:623
 msgid "Add _Folder…"
 msgstr "اضافة _ملفات…"
 
-#: src/celluloid-playlist-widget.c:562
+#: src/celluloid-playlist-widget.c:624
 msgid "Add _Location…"
 msgstr "اضافة _موقع…"
 
-#: src/celluloid-playlist-widget.c:563
+#: src/celluloid-playlist-widget.c:625
 msgid "_Shuffle"
 msgstr "_عشوائي"
 
-#: src/celluloid-playlist-widget.c:564
+#: src/celluloid-playlist-widget.c:626
 #, fuzzy
 msgid "Loop File"
 msgstr "تكرار _ملف"
 
-#: src/celluloid-playlist-widget.c:930
+#: src/celluloid-playlist-widget.c:627
+msgid "Loop Playlist"
+msgstr "تكرار قائمة تشغيل"
+
+#: src/celluloid-playlist-widget.c:1023
+#, fuzzy
+msgid "0 files"
+msgstr "فتح ملف"
+
+#: src/celluloid-playlist-widget.c:1034
+#, fuzzy
+msgid "Hide playlist"
+msgstr "حفظ قائمة التشغيل"
+
+#: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
+msgid "Playlist"
+msgstr "قائمة التشغيل"
+
+#: src/celluloid-playlist-widget.c:1064
+#, fuzzy
+msgid "Search in playlist"
+msgstr "حفظ قائمة التشغيل"
+
+#: src/celluloid-playlist-widget.c:1067
+#, fuzzy
+msgid "Search in playlist…"
+msgstr "حفظ قائمة التشغيل"
+
+#: src/celluloid-playlist-widget.c:1081
+msgid "Disable repeat"
+msgstr ""
+
+#: src/celluloid-playlist-widget.c:1091
+#, fuzzy
+msgid "Repeat file"
+msgstr "فتح ملف"
+
+#: src/celluloid-playlist-widget.c:1102
+#, fuzzy
+msgid "Repeat playlist"
+msgstr "حفظ قائمة التشغيل"
+
+#: src/celluloid-playlist-widget.c:1110
+#, fuzzy
+msgid "Shuffle playlist"
+msgstr "قائمة تشغيل عشوائية"
+
+#: src/celluloid-playlist-widget.c:1135
 #, fuzzy
 msgid "Playlist is Empty"
 msgstr "قائمة التشغيل فارغة"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
+#: src/celluloid-playlist-widget.c:1242
+#, c-format
+msgid "%ld file"
+msgid_plural "%ld files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
 msgid "Add Plugin"
 msgstr "إضافة برنامج مساعد"
 
@@ -1070,26 +1133,26 @@ msgstr "اضافات JavaScript"
 msgid "C Plugins"
 msgstr "اضافات C"
 
-#: src/celluloid-plugins-manager.c:355
+#: src/celluloid-plugins-manager.c:350
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "فشل نسخ الملف من '%s' إلى '%s'. السبب:%s"
 
-#: src/celluloid-plugins-manager.c:409
+#: src/celluloid-plugins-manager.c:405
 msgid "Plugins"
 msgstr "الإضافات"
 
-#: src/celluloid-plugins-manager.c:416
+#: src/celluloid-plugins-manager.c:412
 #, fuzzy
 msgid "Add…"
 msgstr "_اضافة…"
 
-#: src/celluloid-plugins-manager.c:450
+#: src/celluloid-plugins-manager.c:446
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "لم يتم العثور على مكونات إضافية"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:449
 msgid "Click the <b>Add…</b> button to install a new plugin"
 msgstr ""
 
@@ -1098,50 +1161,50 @@ msgstr ""
 msgid "Remove Plugin"
 msgstr "اضافات C"
 
-#: src/celluloid-plugins-manager-item.c:178
+#: src/celluloid-plugins-manager-item.c:175
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "فشل حذف الملف '%s'. السبب%s"
 
-#: src/celluloid-plugins-manager-item.c:202
+#: src/celluloid-plugins-manager-item.c:199
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "هل أنت متأكد أنك تريد إزالة هذا البرنامج النصي؟ لا يمكن التراجع عن هذا "
 "الإجراء."
 
-#: src/celluloid-plugins-manager-item.c:209
+#: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:322
+#: src/celluloid-preferences-dialog.c:332
 #, fuzzy
 msgid "mpv configuration file"
 msgstr "ملف تكوين mpv:"
 
-#: src/celluloid-preferences-dialog.c:328
+#: src/celluloid-preferences-dialog.c:338
 #, fuzzy
 msgid "mpv input configuration file"
 msgstr "ملف تكوين إدخال mpv:"
 
-#: src/celluloid-preferences-dialog.c:348
+#: src/celluloid-preferences-dialog.c:358
 #, fuzzy
 msgid "Extra mpv options"
 msgstr "خيارات MPV الإضافية:"
 
-#: src/celluloid-preferences-dialog.c:363
+#: src/celluloid-preferences-dialog.c:373
 msgid "Interface"
 msgstr "واجهه المستخدم"
 
-#: src/celluloid-preferences-dialog.c:371
+#: src/celluloid-preferences-dialog.c:381
 msgid "Config Files"
 msgstr "ملفات التكوين"
 
-#: src/celluloid-preferences-dialog.c:379
+#: src/celluloid-preferences-dialog.c:389
 msgid "Miscellaneous"
 msgstr "متفرقات"
 
-#: src/celluloid-preferences-dialog.c:405
+#: src/celluloid-preferences-dialog.c:421
 msgid "Preferences"
 msgstr "التفضيلات"
 
@@ -1410,75 +1473,90 @@ msgstr "التشغيل"
 msgid "Seeking"
 msgstr "السعي"
 
-#: src/celluloid-shortcuts-window.c:129
-msgid "Playlist"
-msgstr "قائمة التشغيل"
-
-#: src/celluloid-video-area.c:741
+#: src/celluloid-video-area.c:688
 msgid "Loading…"
 msgstr ""
 
-#: src/celluloid-video-area.c:752
+#: src/celluloid-video-area.c:699
 msgid "Welcome"
 msgstr ""
 
-#: src/celluloid-video-area.c:755
-msgid "Click the <b>＋</b> button or drag and drop videos here"
+#: src/celluloid-video-area.c:702
+msgid "Click the <b>Open</b> button or drag and drop videos here"
 msgstr ""
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:737
 msgid "Load Audio Track…"
 msgstr "تحميل المسار الصوتي …"
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:741
 msgid "Load Video Track…"
 msgstr "تحميل مسار الفيديو …"
 
-#: src/celluloid-view.c:747
+#: src/celluloid-view.c:745
 msgid "Load Subtitle Track…"
 msgstr "تحميل مسار الترجمة …"
 
-#: src/celluloid-view.c:926
-msgid "Error"
-msgstr "خطأ"
-
-#: src/celluloid-view.c:951
+#: src/celluloid-view.c:934
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
 msgstr "يتطلب تمكين أو تعطيل زخارف CSD إعادة التشغيل حتى تصبح نافذة المفعول."
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Add Folder to Playlist"
 msgstr "إضافة مجلد إلى قائمة التشغيل"
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Open Folder"
 msgstr "فتح مجلد"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Add File to Playlist"
 msgstr "إضافة ملف إلى قائمة التشغيل"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Open File"
 msgstr "فتح ملف"
 
-#: src/celluloid-view.c:1512
+#: src/celluloid-view.c:1514
 msgid "Add Location to Playlist"
 msgstr "أضف الموقع إلى قائمة التشغيل"
 
-#: src/celluloid-view.c:1513
+#: src/celluloid-view.c:1515
 msgid "Open Location"
 msgstr "فتح موقع"
 
-#: src/celluloid-view.c:1555
+#: src/celluloid-view.c:1556
 msgid "Save Playlist"
 msgstr "حفظ قائمة التشغيل"
 
-#: src/celluloid-view.c:1617
+#: src/celluloid-view.c:1621
 msgid "translator-credits"
 msgstr "أرصدة المترجم"
+
+#, fuzzy
+#~ msgid "Use a floating header bar in windowed mode"
+#~ msgstr "استخدم عناصر التحكم العائمة في وضع الإطارات"
+
+#~ msgid "Always open new window"
+#~ msgstr "دائما فتح نافذة جديدة"
+
+#~ msgid "Always show title buttons"
+#~ msgstr "اعرض أزرار العنوان دائمًا"
+
+#~ msgid "Stop"
+#~ msgstr "توقف"
+
+#~ msgid "Next Chapter"
+#~ msgstr "الفصل القادم"
+
+#, fuzzy
+#~ msgid "Toggle Playlist"
+#~ msgstr "تبديل _قائمة التشغيل"
+
+#~ msgid "Error"
+#~ msgstr "خطأ"
 
 #~ msgid "The Celluloid Developers"
 #~ msgstr "مطورو السيليلويد"

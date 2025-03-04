@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.17\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-06 23:09+0700\n"
-"PO-Revision-Date: 2024-04-09 12:01+0000\n"
+"POT-Creation-Date: 2025-03-03 22:56-0600\n"
+"PO-Revision-Date: 2024-07-07 17:10+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -42,20 +42,16 @@ msgid "Use floating controls in windowed mode"
 msgstr "Застосувати плавучі елементи керування у віконному режимі"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-msgid "Use a floating header bar in windowed mode"
-msgstr "Використовувати приховувану панель заголовка у віконному режимі"
-
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
 msgstr "Автоматично ховати курсор миші у віконному режимі"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:52
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr ""
 "Найменша швидкість курсора, за якої з'являтимуться плавучі елементи "
 "керування."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:59
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
@@ -63,27 +59,35 @@ msgstr ""
 "Розмір мертвої зони, в якій рух курсора не призведе до показу елементів "
 "керування."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:65
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons to control the playlist"
 msgstr "Використовуйте кнопки пропуску, щоб керувати добіркою"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:71
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
 msgstr "Запам'ятовувати останнє розташування в оглядачі файлів"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:77
-msgid "Always open new window"
-msgstr "Завжди відкривати нове вікно"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:72
+#, fuzzy
+msgid "Open new window when opening new files"
+msgstr "Фокусуватися на вікні під час відкриття нових файлів"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:83
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:73
+msgid ""
+"When opening new files through D-Bus (e.g. using a file manager), open the "
+"file in a new window."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Завжди додавати відкриті файли до списку відтворення"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:89
-msgid "Always show title buttons"
-msgstr "Завжди показувати кнопки заголовка"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:87
+#, fuzzy
+msgid "Show title buttons in fullscreen mode"
+msgstr "Додайте опцію для показу кнопок заголовка в повноекранному режимі."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
@@ -91,11 +95,11 @@ msgstr ""
 "Якщо встановлено, кнопки заголовка завжди видимі (закрити, розгорнути, "
 "згорнути тощо). Якщо ні — кнопки буде сховано в повноекранному режимі."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:98
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Give focus to the window when opening new files"
 msgstr "Фокусуватися на вікні під час відкриття нових файлів"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:99
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:97
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
@@ -103,97 +107,96 @@ msgstr ""
 "Якщо позначено, Celluloid спробує сфокусуватися на вікні, коли відкриється "
 "новий файл. Якщо ні — жодної спроби не буде зроблено."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:107
-#: src/celluloid-application.c:582
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:105
+#: src/celluloid-application.c:552
 msgid "Options to pass to mpv"
 msgstr "Параметри переходу до mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:113
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:111
 msgid "Path to mpv configuration file"
 msgstr "Шлях до файлу конфігурації MPV"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:119
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:117
 msgid "Load mpv configuration file"
 msgstr "Завантажити файл конфігурації mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:125
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:123
 msgid "Path to mpv input configuration file"
 msgstr "Шлях до файлу конфігурації вводу mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:131
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:129
 msgid "Load mpv input configuration file"
 msgstr "Завантажити файл конфігурації вводу mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:137
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:135
 msgid "Enable MPRIS support"
 msgstr "Увімкнути підтримку MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:143
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:141
 msgid "Enable menubar accelerator key handling"
 msgstr "Увімкнути обробку клавіш прискорення на панелі меню"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:149
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:147
 msgid "Prefetch metadata"
 msgstr "Вибірка метаданих з випереджанням"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:153
 msgid "Ignore playback errors"
 msgstr "Нехтувати помилками відтворення"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:159
 msgid "Inhibit session idling"
 msgstr "Заборонити простій сеансу"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:165
 msgid "Make video area draggable"
 msgstr "Перетягування ділянки відео"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:177
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:175
 msgid "Width of the window"
 msgstr "Ширина вікна"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:183
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:181
 msgid "Height of the window"
 msgstr "Висота вікна"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:189
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Whether or not the window is maximized"
 msgstr "Незалежно від того, розгорнуто вікно чи ні"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:196
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:194
 msgid "Volume of player"
 msgstr "Гучність програвача"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:202
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:200
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "Визначає, чи повторити відтворення коли досягнено кінця добірки"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:208
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:206
 msgid "Width of the playlist"
 msgstr "Ширина панелі добірки"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:214
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:212
 msgid "Show/hide the controls"
 msgstr "Показати/сховати елементи керування"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:220
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:218
 msgid "Show/hide the playlist"
 msgstr "Показати/сховати панель добірки"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:226
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:224
 msgid "URI of the last folder accessed"
 msgstr "URI-адреса останньої відкритої теки"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
-#: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:458
+#: data/io.github.celluloid_player.Celluloid.desktop.in:3
+#: src/celluloid-application.c:473
 msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "Відтворення фільмів і відео"
+msgstr "Відтворення відео"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -246,31 +249,36 @@ msgstr "Цей випуск містить такі зміни:"
 msgid ""
 "Add a loading screen that gets displayed during initialization and buffering."
 msgstr ""
+"Додати екран завантаження, який показується під час ініціалізації та "
+"буферизації."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
 msgid ""
 "Reduce the time it takes for the main window to get displayed after "
 "launching."
-msgstr ""
+msgstr "Скорочення часу показу головного вікна після запуску."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
 msgid ""
 "Opening and closing the preferences dialog will no longer trigger an mpv "
 "reset unless options that require it are changed."
 msgstr ""
+"Відкриття і закриття діалогового вікна налаштувань більше не спричинятиме "
+"скидання mpv, якщо не буде змінено опції, які цього вимагають."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 msgid "Update the look for controls and header bar in floating mode."
 msgstr ""
+"Оновлення вигляду елементів керування та панелі заголовка у плаваючому "
+"режимі."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
 msgid "Update some of the deprecated GTK API usage."
-msgstr ""
+msgstr "Виправлено використання деяких застарілих API GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
-#, fuzzy
 msgid "Add support for multi-file user scripts."
-msgstr "Додано підтримку завантаження зовнішніх відеодоріжок."
+msgstr "Додано підтримку багатофайлових користувацьких скриптів."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
@@ -293,31 +301,38 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
 msgid "Fix a bug where the header bar keeps hiding even when a menu is open."
 msgstr ""
+"Виправлено помилку, коли панель заголовка продовжує ховатися, навіть коли "
+"меню відкрито."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
 msgid "Use toasts instead of dialog to report mpv errors."
 msgstr ""
+"Використовувати вікно «тост» замість діалогового вікна для повідомлення про "
+"помилки mpv."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
-#, fuzzy
 msgid "Change default screenshot format to PNG."
-msgstr "Зміна типового шаблону знімку екрана на FILENAME-TIMESTAMP (%f-%P)."
+msgstr "Зміна типового шаблону знімка екрана на PNG."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:82
 msgid ""
 "Fix crash that happens when the mpv-config-file key in GSettings contains a "
 "path rather than a URI."
 msgstr ""
+"Виправлено збій, що виникає, коли ключ mpv-config-file у GSettings містить "
+"шлях, а не URI."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
 msgid "Expose the Position MPRIS property."
-msgstr ""
+msgstr "Представлення властивості Position MPRIS."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
 msgid ""
 "Use the numeric style class for the time/duration label, which stops it from "
 "jumping around as it changes."
 msgstr ""
+"Використовувати клас числового стилю для мітки часу/тривалості, щоб вона не "
+"стрибала при зміні."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
 msgid "Fix crash when using multiple windows."
@@ -785,144 +800,149 @@ msgstr "Вимкнено CSD головного вікна"
 msgid "The main window with playlist open"
 msgstr "Головне вікно з відкритою добіркою"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+#: data/io.github.celluloid_player.Celluloid.desktop.in:4
 msgid "Multimedia Player"
 msgstr "Мультимедійний програвач"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Play movies and videos"
 msgstr "Відтворення фільмів і відео"
 
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:17
+#: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr ""
-"Відео;Фільм;Кіно;Кліп;Серії;Програвач;Альбом;Музика;Диск;Video;Movie;Film;"
-"Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
+msgstr "Відео;Фільм;Кіно;Кліп;Серії;Програвач;Альбом;Музика;Диск;Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:23
+#: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
 msgstr "Нове вікно"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:27
+#: data/io.github.celluloid_player.Celluloid.desktop.in:26
 msgid "Add to Playlist"
 msgstr "Додати до списку відтворення"
 
-#: src/celluloid-application.c:502
-msgid "Playing"
-msgstr "Відтворюється"
-
-#: src/celluloid-application.c:558
+#: src/celluloid-application.c:528
 msgid "Show release version"
 msgstr "Показати версію випуску"
 
-#: src/celluloid-application.c:566
+#: src/celluloid-application.c:536
 msgid "Enqueue"
 msgstr "Додати в чергу"
 
-#: src/celluloid-application.c:574
+#: src/celluloid-application.c:544
 msgid "Create a new window"
 msgstr "Створити нове вікно"
 
-#: src/celluloid-application.c:583
+#: src/celluloid-application.c:553
 msgid "OPTIONS"
 msgstr "ПАРАМЕТРИ"
 
-#: src/celluloid-application.c:590
+#: src/celluloid-application.c:560
 msgid "Set the window role"
 msgstr "Призначте роль вікна"
 
-#: src/celluloid-application.c:598
+#: src/celluloid-application.c:568
 msgid "Don't connect to an already-running instance"
 msgstr "Не під'єднуватися до вже запущеного екземпляра"
 
-#: src/celluloid-application.c:609
+#: src/celluloid-application.c:579
 msgid "Set the mpv option MPVOPTION to VALUE"
 msgstr "Встановити параметр mpv MPVOPTION для VALUE"
 
-#: src/celluloid-application.c:610
+#: src/celluloid-application.c:580
 msgid "VALUE"
 msgstr "ЗНАЧЕННЯ"
 
-#: src/celluloid-common.c:270
+#: src/celluloid-common.c:280
 msgid "invalid encoding"
 msgstr "неприпустиме кодування"
 
-#: src/celluloid-control-box.c:452
+#: src/celluloid-control-box.c:447
 msgid "Pause"
 msgstr "Призупинити"
 
-#: src/celluloid-control-box.c:452 src/celluloid-control-box.c:726
+#: src/celluloid-control-box.c:447 src/celluloid-control-box.c:723
 msgid "Play"
 msgstr "Відтворити"
 
-#: src/celluloid-control-box.c:729
-msgid "Stop"
-msgstr "Зупинити"
-
-#: src/celluloid-control-box.c:732
+#: src/celluloid-control-box.c:726
 msgid "Forward"
 msgstr "Перемотати вперед"
 
-#: src/celluloid-control-box.c:735
+#: src/celluloid-control-box.c:729
 msgid "Rewind"
 msgstr "Перемотати назад"
 
-#: src/celluloid-control-box.c:738
-msgid "Next Chapter"
-msgstr "Наступний розділ"
+#: src/celluloid-control-box.c:732
+#, fuzzy
+msgid "Next Track"
+msgstr "В_ідеодоріжка"
 
-#: src/celluloid-control-box.c:741
-msgid "Previous Chapter"
+#: src/celluloid-control-box.c:735
+#, fuzzy
+msgid "Previous Track"
 msgstr "Попередній розділ"
 
-#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:565
-msgid "Loop Playlist"
+#: src/celluloid-control-box.c:738
+#, fuzzy
+msgid "Show Playlist"
 msgstr "Повторювати добірку"
 
-#: src/celluloid-control-box.c:747
-msgid "Shuffle Playlist"
-msgstr "Перемішати добірку"
+#: src/celluloid-control-box.c:766
+msgid "Volume"
+msgstr ""
 
-#: src/celluloid-control-box.c:750
-msgid "Toggle Playlist"
-msgstr "Показати/Сховати список відтворення"
+#: src/celluloid-controller.c:1369
+msgid "Playing"
+msgstr "Відтворюється"
 
-#: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
-msgid "Toggle Fullscreen"
-msgstr "Перемикнути повноекранний режим"
-
-#: src/celluloid-file-chooser.c:145 src/celluloid-plugins-manager.c:201
+#: src/celluloid-file-chooser.c:193 src/celluloid-plugins-manager.c:201
 msgid "All Files"
 msgstr "Усі файли"
 
-#: src/celluloid-file-chooser.c:153
+#: src/celluloid-file-chooser.c:201
 msgid "Media Files"
 msgstr "Медіафайли"
 
-#: src/celluloid-file-chooser.c:164
+#: src/celluloid-file-chooser.c:212
 msgid "Audio Files"
 msgstr "Звукові файли"
 
-#: src/celluloid-file-chooser.c:172
+#: src/celluloid-file-chooser.c:220
 msgid "Video Files"
 msgstr "Відеофайли"
 
-#: src/celluloid-file-chooser.c:180
+#: src/celluloid-file-chooser.c:228
 msgid "Image Files"
 msgstr "Файли зображень"
 
-#: src/celluloid-file-chooser.c:190
+#: src/celluloid-file-chooser.c:238
 msgid "Subtitle Files"
 msgstr "Файли субтитрів"
 
-#: src/celluloid-file-chooser-button.c:232
+#: src/celluloid-file-chooser-button.c:236
 msgid "Open File…"
 msgstr "Відкрити файл…"
 
-#: src/celluloid-file-chooser-button.c:236
+#: src/celluloid-file-chooser-button.c:240
 msgid "(None)"
 msgstr "(Нічого)"
+
+#: src/celluloid-header-bar.c:239 src/celluloid-open-location-dialog.c:75
+msgid "Open"
+msgstr "Відкрити"
+
+#: src/celluloid-header-bar.c:243
+msgid "Select a Media File, Folder or URL"
+msgstr ""
+
+#: src/celluloid-header-bar.c:245
+msgid "Main Menu"
+msgstr ""
+
+#: src/celluloid-header-bar.c:257
+msgid "Toggle Fullscreen"
+msgstr "Перемикнути повноекранний режим"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -1031,10 +1051,6 @@ msgstr "Відкрити _диск"
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Відтворення було припинено неочікувано. Причина: %s."
 
-#: src/celluloid-open-location-dialog.c:75
-msgid "Open"
-msgstr "Відкрити"
-
 #: src/celluloid-open-location-dialog.c:77
 msgid "Cancel"
 msgstr "Скасувати"
@@ -1043,44 +1059,98 @@ msgstr "Скасувати"
 msgid "Location:"
 msgstr "Розташування:"
 
-#: src/celluloid-player.c:667
+#: src/celluloid-player.c:669
 msgid "Failed to apply one or more MPV options."
 msgstr "Не вдалося застосувати один або кілька параметрів MPV."
 
-#: src/celluloid-playlist-widget.c:557
+#: src/celluloid-playlist-widget.c:619
 msgid "_Copy Location"
 msgstr "_Копіювати розташування"
 
-#: src/celluloid-playlist-widget.c:558 src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-playlist-widget.c:620 src/celluloid-plugins-manager-item.c:205
 msgid "_Remove"
 msgstr "Ви_лучити"
 
-#: src/celluloid-playlist-widget.c:560
+#: src/celluloid-playlist-widget.c:622
 msgid "_Add…"
 msgstr "_Додати…"
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:623
 msgid "Add _Folder…"
 msgstr "Додати _теку…"
 
-#: src/celluloid-playlist-widget.c:562
+#: src/celluloid-playlist-widget.c:624
 msgid "Add _Location…"
 msgstr "Дод_ати розташування…"
 
-#: src/celluloid-playlist-widget.c:563
+#: src/celluloid-playlist-widget.c:625
 msgid "_Shuffle"
 msgstr "_Перемішати"
 
-#: src/celluloid-playlist-widget.c:564
+#: src/celluloid-playlist-widget.c:626
 msgid "Loop File"
 msgstr "Повторювати файл"
 
-#: src/celluloid-playlist-widget.c:930
+#: src/celluloid-playlist-widget.c:627
+msgid "Loop Playlist"
+msgstr "Повторювати добірку"
+
+#: src/celluloid-playlist-widget.c:1023
 #, fuzzy
+msgid "0 files"
+msgstr "Відкрити файл"
+
+#: src/celluloid-playlist-widget.c:1034
+#, fuzzy
+msgid "Hide playlist"
+msgstr "Зберегти добірку"
+
+#: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
+msgid "Playlist"
+msgstr "Добірка"
+
+#: src/celluloid-playlist-widget.c:1064
+#, fuzzy
+msgid "Search in playlist"
+msgstr "Зберегти добірку"
+
+#: src/celluloid-playlist-widget.c:1067
+#, fuzzy
+msgid "Search in playlist…"
+msgstr "Зберегти добірку"
+
+#: src/celluloid-playlist-widget.c:1081
+msgid "Disable repeat"
+msgstr ""
+
+#: src/celluloid-playlist-widget.c:1091
+#, fuzzy
+msgid "Repeat file"
+msgstr "Відкрити файл"
+
+#: src/celluloid-playlist-widget.c:1102
+#, fuzzy
+msgid "Repeat playlist"
+msgstr "Зберегти добірку"
+
+#: src/celluloid-playlist-widget.c:1110
+#, fuzzy
+msgid "Shuffle playlist"
+msgstr "Перемішати добірку"
+
+#: src/celluloid-playlist-widget.c:1135
 msgid "Playlist is Empty"
 msgstr "Добірка порожня"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
+#: src/celluloid-playlist-widget.c:1242
+#, c-format
+msgid "%ld file"
+msgid_plural "%ld files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
 msgid "Add Plugin"
 msgstr "Додати модуль"
 
@@ -1096,72 +1166,70 @@ msgstr "Модулі JavaScript"
 msgid "C Plugins"
 msgstr "Модулі С"
 
-#: src/celluloid-plugins-manager.c:355
+#: src/celluloid-plugins-manager.c:350
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Не вдалося скопіювати файл з '%s' до '%s'. Причина: %s"
 
-#: src/celluloid-plugins-manager.c:409
+#: src/celluloid-plugins-manager.c:405
 msgid "Plugins"
 msgstr "Модулі"
 
-#: src/celluloid-plugins-manager.c:416
+#: src/celluloid-plugins-manager.c:412
 msgid "Add…"
 msgstr "Додати…"
 
-#: src/celluloid-plugins-manager.c:450
+#: src/celluloid-plugins-manager.c:446
 msgid "No Plugins Found"
 msgstr "Плагінів не знайдено"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:449
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "Клацніть кнопку <b>Додати…</b>, щоб встановити новий плагін"
 
 #: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
 msgstr "Вилучити плагін"
 
-#: src/celluloid-plugins-manager-item.c:178
+#: src/celluloid-plugins-manager-item.c:175
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Не вдалося видалити файл '%s'. Причина: %s"
 
-#: src/celluloid-plugins-manager-item.c:202
+#: src/celluloid-plugins-manager-item.c:199
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr "Ви впевнені, що хочете вилучити цей скрипт? Ця дія незворотна."
 
-#: src/celluloid-plugins-manager-item.c:209
+#: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
 msgstr "_Лишити"
 
-#: src/celluloid-preferences-dialog.c:322
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:332
 msgid "mpv configuration file"
-msgstr "файл конфігурації mpv:"
+msgstr "файл конфігурації mpv"
 
-#: src/celluloid-preferences-dialog.c:328
-#, fuzzy
+#: src/celluloid-preferences-dialog.c:338
 msgid "mpv input configuration file"
-msgstr "файл конфігурації вводу mpv:"
+msgstr "файл конфігурації вводу mpv"
 
-#: src/celluloid-preferences-dialog.c:348
+#: src/celluloid-preferences-dialog.c:358
 msgid "Extra mpv options"
 msgstr "Додаткові параметри mpv"
 
-#: src/celluloid-preferences-dialog.c:363
+#: src/celluloid-preferences-dialog.c:373
 msgid "Interface"
 msgstr "Інтерфейс"
 
-#: src/celluloid-preferences-dialog.c:371
+#: src/celluloid-preferences-dialog.c:381
 msgid "Config Files"
 msgstr "Файли конфігурацій"
 
-#: src/celluloid-preferences-dialog.c:379
+#: src/celluloid-preferences-dialog.c:389
 msgid "Miscellaneous"
 msgstr "Різне"
 
-#: src/celluloid-preferences-dialog.c:405
+#: src/celluloid-preferences-dialog.c:421
 msgid "Preferences"
 msgstr "Параметри"
 
@@ -1395,15 +1463,15 @@ msgstr "Циклічно перевизначати співвідношення
 
 #: src/celluloid-shortcuts-window.c:117
 msgid "Pan the video"
-msgstr ""
+msgstr "Панорамне відео"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Zoom in/out"
-msgstr ""
+msgstr "Наблизити/віддалити"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "Скинути налаштування панорамування/масштабу"
 
 #: src/celluloid-shortcuts-window.c:123
 msgid "User Interface"
@@ -1429,39 +1497,32 @@ msgstr "Відтворення"
 msgid "Seeking"
 msgstr "Перехід"
 
-#: src/celluloid-shortcuts-window.c:129
-msgid "Playlist"
-msgstr "Добірка"
-
-#: src/celluloid-video-area.c:741
+#: src/celluloid-video-area.c:688
 msgid "Loading…"
 msgstr "Завантаження…"
 
-#: src/celluloid-video-area.c:752
+#: src/celluloid-video-area.c:699
 msgid "Welcome"
 msgstr "Вітаємо"
 
-#: src/celluloid-video-area.c:755
-msgid "Click the <b>＋</b> button or drag and drop videos here"
-msgstr ""
+#: src/celluloid-video-area.c:702
+#, fuzzy
+msgid "Click the <b>Open</b> button or drag and drop videos here"
+msgstr "Клацніть кнопку <b>＋</b>, щоб перетягнути сюди відео"
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:737
 msgid "Load Audio Track…"
 msgstr "Завантажити звукову доріжку…"
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:741
 msgid "Load Video Track…"
 msgstr "Завантажити відеодоріжку…"
 
-#: src/celluloid-view.c:747
+#: src/celluloid-view.c:745
 msgid "Load Subtitle Track…"
 msgstr "Завантажити субтитри…"
 
-#: src/celluloid-view.c:926
-msgid "Error"
-msgstr "Помилка"
-
-#: src/celluloid-view.c:951
+#: src/celluloid-view.c:934
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1469,37 +1530,58 @@ msgstr ""
 "Необхідний перезапуск після увімкнення або вимкнення декорування на стороні "
 "клієнта, щоб зміни набули чинності."
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Add Folder to Playlist"
 msgstr "Додати теку у добірку"
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Open Folder"
 msgstr "Відкрити теку"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Add File to Playlist"
 msgstr "Додати файл у добірку"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Open File"
 msgstr "Відкрити файл"
 
-#: src/celluloid-view.c:1512
+#: src/celluloid-view.c:1514
 msgid "Add Location to Playlist"
 msgstr "Додати розташування у добірку"
 
-#: src/celluloid-view.c:1513
+#: src/celluloid-view.c:1515
 msgid "Open Location"
 msgstr "Відкрити розташування"
 
-#: src/celluloid-view.c:1555
+#: src/celluloid-view.c:1556
 msgid "Save Playlist"
 msgstr "Зберегти добірку"
 
-#: src/celluloid-view.c:1617
+#: src/celluloid-view.c:1621
 msgid "translator-credits"
 msgstr "Ihor Hordiichuk"
+
+#~ msgid "Use a floating header bar in windowed mode"
+#~ msgstr "Використовувати приховувану панель заголовка у віконному режимі"
+
+#~ msgid "Always open new window"
+#~ msgstr "Завжди відкривати нове вікно"
+
+#~ msgid "Always show title buttons"
+#~ msgstr "Завжди показувати кнопки заголовка"
+
+#~ msgid "Stop"
+#~ msgstr "Зупинити"
+
+#~ msgid "Next Chapter"
+#~ msgstr "Наступний розділ"
+
+#~ msgid "Toggle Playlist"
+#~ msgstr "Показати/Сховати список відтворення"
+
+#~ msgid "Error"
+#~ msgstr "Помилка"
 
 #~ msgid "The Celluloid Developers"
 #~ msgstr "Розробники Celluloid"
