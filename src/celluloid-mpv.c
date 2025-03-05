@@ -472,16 +472,16 @@ load_file(CelluloidMpv *mpv, const gchar *uri, gboolean append)
 	g_assert(uri);
 	g_info(	"Loading file (append=%s): %s", append?"TRUE":"FALSE", uri);
 
-	mpv_get_property(	priv->mpv_ctx,
+	/*mpv_get_property(	priv->mpv_ctx,
 				"playlist-count",
 				MPV_FORMAT_INT64,
 				&playlist_count );
-
+*/
 	load_cmd[2] = (append && playlist_count > 0)?"append":"replace";
 
 	if(!append)
 	{
-		celluloid_mpv_set_property_flag(mpv, "pause", FALSE);
+		//celluloid_mpv_set_property_flag(mpv, "pause", FALSE);
 	}
 
 	g_assert(priv->mpv_ctx);
@@ -498,15 +498,17 @@ reset(CelluloidMpv *mpv)
 	CelluloidMpvPrivate *priv = get_private(mpv);
 	gchar *loop_file_str;
 	gchar *loop_playlist_str;
-	gboolean loop_file;
-	gboolean loop_playlist;
+	gboolean loop_file = TRUE;
+	gboolean loop_playlist = TRUE;
 
+	/*
 	loop_file_str =		celluloid_mpv_get_property_string
 				(mpv, "loop-file");
 	loop_playlist_str =	celluloid_mpv_get_property_string
 				(mpv, "loop-playlist");
 	loop_file =		(g_strcmp0(loop_file_str, "inf") == 0);
 	loop_playlist =		(g_strcmp0(loop_playlist_str, "inf") == 0);
+	*/
 
 	mpv_free(loop_file_str);
 	mpv_free(loop_playlist_str);
@@ -716,6 +718,7 @@ celluloid_mpv_init_gl(CelluloidMpv *mpv)
 			{MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &init_params},
 			{MPV_RENDER_PARAM_WL_DISPLAY, get_wl_display()},
 			{MPV_RENDER_PARAM_X11_DISPLAY, get_x11_display()},
+			{MPV_RENDER_PARAM_ADVANCED_CONTROL, &(int){1}},
 			{0, NULL} };
 	gint rc = mpv_render_context_create(	&priv->render_ctx,
 						priv->mpv_ctx,
