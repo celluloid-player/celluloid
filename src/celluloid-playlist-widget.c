@@ -263,7 +263,7 @@ make_row(GObject *object, gpointer data)
 {
 	CelluloidPlaylistItem *item = CELLULOID_PLAYLIST_ITEM(object);
 	GtkWidget *row = gtk_list_box_row_new();
-	GtkWidget *row_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	GtkWidget *row_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 	GtkWidget *title_label = NULL;
 	GtkWidget *duration_label = NULL;
 	const gchar *title = celluloid_playlist_item_get_title(item);
@@ -297,7 +297,6 @@ make_row(GObject *object, gpointer data)
 
 	gtk_widget_set_halign(title_label, GTK_ALIGN_START);
 	gtk_widget_set_margin_top(title_label, 12);
-	gtk_widget_set_margin_bottom(title_label, 12);
 	gtk_widget_set_hexpand(title_label, TRUE);
 	gtk_label_set_max_width_chars(GTK_LABEL(title_label), 40);
 	gtk_label_set_ellipsize(GTK_LABEL(title_label), PANGO_ELLIPSIZE_MIDDLE);
@@ -313,14 +312,14 @@ make_row(GObject *object, gpointer data)
 
 	g_assert(duration_label);
 
-	gtk_widget_set_halign(duration_label, GTK_ALIGN_END);
-	gtk_widget_set_margin_top(duration_label, 12);
+	gtk_widget_add_css_class(duration_label, "dim-label");
+	gtk_widget_set_halign(duration_label, GTK_ALIGN_START);
 	gtk_widget_set_margin_bottom(duration_label, 12);
 	gtk_label_set_ellipsize(GTK_LABEL(duration_label), PANGO_ELLIPSIZE_MIDDLE);
 
-	gtk_box_append(GTK_BOX(row_hbox), title_label);
-	gtk_box_append(GTK_BOX(row_hbox), duration_label);
-	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), row_hbox);
+	gtk_box_append(GTK_BOX(row_vbox), title_label);
+	gtk_box_append(GTK_BOX(row_vbox), duration_label);
+	gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), row_vbox);
 
 	return row;
 }
