@@ -307,7 +307,6 @@ make_row(GObject *object, gpointer data)
 	}
 
 	duration_label = gtk_label_new(duration_text);
-	gtk_widget_set_tooltip_text(duration_label, duration_text);
 	g_free(duration_text);
 
 	g_assert(duration_label);
