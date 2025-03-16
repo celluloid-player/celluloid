@@ -34,6 +34,9 @@ G_DECLARE_FINAL_TYPE(CelluloidPreferencesDialog, celluloid_preferences_dialog, C
 GtkWidget *
 celluloid_preferences_dialog_new(GtkWindow *parent);
 
+void
+celluloid_preferences_dialog_present(CelluloidPreferencesDialog *self);
+
 G_END_DECLS
 
 #endif

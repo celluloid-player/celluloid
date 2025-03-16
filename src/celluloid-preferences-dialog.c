@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2024 gnome-mpv
+ * Copyright (c) 2014-2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -33,16 +33,24 @@
 typedef struct PreferencesDialogItem PreferencesDialogItem;
 typedef enum PreferencesDialogItemType PreferencesDialogItemType;
 
+enum
+{
+	PROP_0,
+	PROP_PARENT,
+	N_PROPERTIES
+};
+
 struct _CelluloidPreferencesDialog
 {
-	AdwPreferencesWindow parent_instance;
+	AdwPreferencesDialog parent_instance;
 	GSettings *settings;
 	gboolean needs_mpv_reset;
+	GtkWindow *parent;
 };
 
 struct _CelluloidPreferencesDialogClass
 {
-	AdwPreferencesWindowClass parent_class;
+	AdwPreferencesDialogClass parent_class;
 };
 
 enum PreferencesDialogItemType
@@ -60,7 +68,199 @@ struct PreferencesDialogItem
 	PreferencesDialogItemType type;
 };
 
-G_DEFINE_TYPE(CelluloidPreferencesDialog, celluloid_preferences_dialog, ADW_TYPE_PREFERENCES_WINDOW)
+G_DEFINE_TYPE(CelluloidPreferencesDialog, celluloid_preferences_dialog, ADW_TYPE_PREFERENCES_DIALOG)
+
+static void
+set_property(	GObject *object,
+		guint property_id,
+		const GValue *value,
+		GParamSpec *pspec );
+
+static void
+get_property(	GObject *object,
+		guint property_id,
+		GValue *value,
+		GParamSpec *pspec );
+
+static void
+constructed(GObject *object);
+
+static void
+file_set_handler(CelluloidFileChooserButton *button, gpointer data);
+
+static void
+handle_changed(GSettings *settings, const gchar *key, gpointer data);
+
+static void
+handle_plugins_manager_error(	CelluloidPluginsManager *pmgr,
+				const gchar *message,
+				gpointer data );
+
+static gboolean
+save_settings(AdwPreferencesDialog *dialog);
+
+static void
+free_signal_data(gpointer data, GClosure *closure);
+
+static GtkWidget *
+build_page(	const PreferencesDialogItem *items,
+		GSettings *settings,
+		const char *title,
+		const char *icon_name );
+
+static void
+finalize(GObject *object);
+
+static void
+set_property(	GObject *object,
+		guint property_id,
+		const GValue *value,
+		GParamSpec *pspec )
+{
+	CelluloidPreferencesDialog *self = CELLULOID_PREFERENCES_DIALOG(object);
+
+	switch(property_id)
+	{
+		case PROP_PARENT:
+		self->parent = g_value_get_pointer(value);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+get_property(	GObject *object,
+		guint property_id,
+		GValue *value,
+		GParamSpec *pspec )
+{
+	CelluloidPreferencesDialog *self = CELLULOID_PREFERENCES_DIALOG(object);
+
+	switch(property_id)
+	{
+		case PROP_PARENT:
+		g_value_set_pointer(value, self->parent);
+		break;
+
+		default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+constructed(GObject *object)
+{
+	G_OBJECT_CLASS(celluloid_preferences_dialog_parent_class)->constructed(object);
+
+	CelluloidPreferencesDialog *dlg = CELLULOID_PREFERENCES_DIALOG(object);
+
+	const PreferencesDialogItem interface_items[]
+		= {	{NULL,
+			"autofit-enable",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"csd-enable",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"dark-theme-enable",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"always-use-floating-controls",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"draggable-video-area-enable",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"always-autohide-cursor",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"last-folder-enable",
+			ITEM_TYPE_SWITCH},
+			{NULL, NULL, ITEM_TYPE_INVALID} };
+	const PreferencesDialogItem config_items[]
+		= {	{NULL,
+			"mpv-config-enable",
+			ITEM_TYPE_SWITCH},
+			{_("mpv configuration file"),
+			"mpv-config-file",
+			ITEM_TYPE_FILE_CHOOSER},
+			{NULL,
+			"mpv-input-config-enable",
+			ITEM_TYPE_SWITCH},
+			{_("mpv input configuration file"),
+			"mpv-input-config-file",
+			ITEM_TYPE_FILE_CHOOSER},
+			{NULL, NULL, ITEM_TYPE_INVALID} };
+	const PreferencesDialogItem misc_items[]
+		= {	{NULL,
+			"always-open-new-window",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"always-append-to-playlist",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"ignore-playback-errors",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"prefetch-metadata",
+			ITEM_TYPE_SWITCH},
+			{NULL,
+			"mpris-enable",
+			ITEM_TYPE_SWITCH},
+			{_("Extra mpv options"),
+			"mpv-options",
+			ITEM_TYPE_TEXT_BOX},
+			{NULL, NULL, ITEM_TYPE_INVALID} };
+
+	GtkWidget *page = NULL;
+
+	page = build_page
+		(	interface_items,
+			dlg->settings,
+			_("Interface"),
+			"applications-graphics-symbolic" );
+	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
+					ADW_PREFERENCES_PAGE(page));
+
+	page = build_page
+		(	config_items,
+			dlg->settings,
+			_("Config Files"),
+			"document-properties-symbolic" );
+	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
+					ADW_PREFERENCES_PAGE(page));
+
+	page = build_page
+		(	misc_items,
+			dlg->settings,
+			_("Miscellaneous"),
+			"preferences-other-symbolic" );
+	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
+					ADW_PREFERENCES_PAGE(page));
+
+	AdwPreferencesPage *plugins_manager =
+		celluloid_plugins_manager_new(dlg->parent);
+
+	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
+					plugins_manager );
+
+	g_signal_connect(	dlg,
+				"closed",
+				G_CALLBACK(save_settings),
+				NULL );
+	g_signal_connect(	dlg->settings,
+				"changed",
+				G_CALLBACK(handle_changed),
+				dlg );
+	g_signal_connect(	plugins_manager,
+				"error-raised",
+				G_CALLBACK(handle_plugins_manager_error),
+				dlg );
+}
 
 static void
 file_set_handler(CelluloidFileChooserButton *button, gpointer data)
@@ -101,7 +301,7 @@ handle_plugins_manager_error(	CelluloidPluginsManager *pmgr,
 }
 
 static gboolean
-save_settings(AdwPreferencesWindow *dialog)
+save_settings(AdwPreferencesDialog *dialog)
 {
 	CelluloidPreferencesDialog *dlg = CELLULOID_PREFERENCES_DIALOG(dialog);
 
@@ -255,12 +455,6 @@ build_page(	const PreferencesDialogItem *items,
 }
 
 static void
-preferences_dialog_constructed(GObject *obj)
-{
-	G_OBJECT_CLASS(celluloid_preferences_dialog_parent_class)->constructed(obj);
-}
-
-static void
 finalize(GObject *object)
 {
 	CelluloidPreferencesDialog *dialog = CELLULOID_PREFERENCES_DIALOG(object);
@@ -274,8 +468,20 @@ finalize(GObject *object)
 static void
 celluloid_preferences_dialog_class_init(CelluloidPreferencesDialogClass *klass)
 {
-	G_OBJECT_CLASS(klass)->constructed = preferences_dialog_constructed;
-	G_OBJECT_CLASS(klass)->finalize = finalize;
+	GParamSpec *pspec = NULL;
+	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+	object_class->constructed = constructed;
+	object_class->finalize = finalize;
+	object_class->set_property = set_property;
+	object_class->get_property = get_property;
+
+	pspec = g_param_spec_pointer
+		(	"parent",
+			"Parent",
+			"Parent window",
+			G_PARAM_CONSTRUCT_ONLY|G_PARAM_READWRITE );
+	g_object_class_install_property(object_class, PROP_PARENT, pspec);
 
 	g_signal_new(	"mpv-reset-request",
 			G_TYPE_FROM_CLASS(klass),
@@ -302,113 +508,11 @@ celluloid_preferences_dialog_class_init(CelluloidPreferencesDialogClass *klass)
 static void
 celluloid_preferences_dialog_init(CelluloidPreferencesDialog *dlg)
 {
-	const PreferencesDialogItem interface_items[]
-		= {	{NULL,
-			"autofit-enable",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"csd-enable",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"dark-theme-enable",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"always-use-floating-controls",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"draggable-video-area-enable",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"always-autohide-cursor",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"last-folder-enable",
-			ITEM_TYPE_SWITCH},
-			{NULL, NULL, ITEM_TYPE_INVALID} };
-	const PreferencesDialogItem config_items[]
-		= {	{NULL,
-			"mpv-config-enable",
-			ITEM_TYPE_SWITCH},
-			{_("mpv configuration file"),
-			"mpv-config-file",
-			ITEM_TYPE_FILE_CHOOSER},
-			{NULL,
-			"mpv-input-config-enable",
-			ITEM_TYPE_SWITCH},
-			{_("mpv input configuration file"),
-			"mpv-input-config-file",
-			ITEM_TYPE_FILE_CHOOSER},
-			{NULL, NULL, ITEM_TYPE_INVALID} };
-	const PreferencesDialogItem misc_items[]
-		= {	{NULL,
-			"always-open-new-window",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"always-append-to-playlist",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"ignore-playback-errors",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"prefetch-metadata",
-			ITEM_TYPE_SWITCH},
-			{NULL,
-			"mpris-enable",
-			ITEM_TYPE_SWITCH},
-			{_("Extra mpv options"),
-			"mpv-options",
-			ITEM_TYPE_TEXT_BOX},
-			{NULL, NULL, ITEM_TYPE_INVALID} };
-
 	dlg->settings = g_settings_new(CONFIG_ROOT);
 	dlg->needs_mpv_reset = FALSE;
+	dlg->parent = NULL;
 
 	g_settings_delay(dlg->settings);
-
-	GtkWidget *page = NULL;
-
-	page = build_page
-		(	interface_items,
-			dlg->settings,
-			_("Interface"),
-			"applications-graphics-symbolic" );
-	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
-					ADW_PREFERENCES_PAGE(page));
-
-	page = build_page
-		(	config_items,
-			dlg->settings,
-			_("Config Files"),
-			"document-properties-symbolic" );
-	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
-					ADW_PREFERENCES_PAGE(page));
-
-	page = build_page
-		(	misc_items,
-			dlg->settings,
-			_("Miscellaneous"),
-			"preferences-other-symbolic" );
-	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
-					ADW_PREFERENCES_PAGE(page));
-
-	AdwPreferencesPage *plugins_manager =
-		celluloid_plugins_manager_new(GTK_WINDOW(dlg));
-
-	adw_preferences_window_add(	ADW_PREFERENCES_WINDOW(dlg),
-					plugins_manager );
-
-	g_signal_connect(	dlg,
-				"close-request",
-				G_CALLBACK(save_settings),
-				NULL );
-	g_signal_connect(	dlg->settings,
-				"changed",
-				G_CALLBACK(handle_changed),
-				dlg );
-	g_signal_connect(	plugins_manager,
-				"error-raised",
-				G_CALLBACK(handle_plugins_manager_error),
-				dlg );
 }
 
 GtkWidget *
@@ -416,14 +520,16 @@ celluloid_preferences_dialog_new(GtkWindow *parent)
 {
 	GtkWidget *dlg;
 
-
 	dlg = g_object_new(	celluloid_preferences_dialog_get_type(),
+				"parent", parent,
 				"title", _("Preferences"),
-				"modal", TRUE,
-				"transient-for", parent,
 				NULL );
 
-	gtk_widget_set_visible(dlg, TRUE);
-
 	return dlg;
+}
+
+void
+celluloid_preferences_dialog_present(CelluloidPreferencesDialog *self)
+{
+	adw_dialog_present(ADW_DIALOG(self), GTK_WIDGET(self->parent));
 }

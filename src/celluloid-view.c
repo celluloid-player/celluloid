@@ -1582,7 +1582,8 @@ celluloid_view_show_preferences_dialog(CelluloidView *view)
 				G_CALLBACK(error_handler),
 				view );
 
-	gtk_widget_set_visible(dialog, TRUE);
+	celluloid_preferences_dialog_present
+		(CELLULOID_PREFERENCES_DIALOG(dialog));
 }
 
 void
