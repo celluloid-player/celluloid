@@ -310,10 +310,12 @@ mpv_event_notify(CelluloidMpv *mpv, gint event_id, gpointer event_data)
 	{
 		gboolean vo_configured = FALSE;
 
+		/*
 		celluloid_mpv_get_property(	mpv,
 					"vo-configured",
 					MPV_FORMAT_FLAG,
 					&vo_configured );
+					*/
 
 		/* If the vo is not configured yet, save the content of mpv's
 		 * playlist. This will be loaded again when the vo is
@@ -426,8 +428,10 @@ mpv_property_changed(CelluloidMpv *mpv, const gchar *name, gpointer value)
 		gboolean idle_active = FALSE;
 		gboolean pause = value?*((int *)value):TRUE;
 
+		/*
 		celluloid_mpv_get_property
 			(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
+		*/
 
 		if(idle_active && !pause && !priv->init_vo_config)
 		{
@@ -439,8 +443,10 @@ mpv_property_changed(CelluloidMpv *mpv, const gchar *name, gpointer value)
 		gboolean idle_active = FALSE;
 		gboolean was_empty = FALSE;
 
+		/*
 		celluloid_mpv_get_property
 			(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
+		*/
 
 		was_empty =	priv->init_vo_config ||
 				priv->playlist->len == 0;
@@ -511,6 +517,7 @@ observe_properties(CelluloidMpv *mpv)
 	celluloid_mpv_observe_property(mpv, 0, "volume-max", MPV_FORMAT_DOUBLE);
 	celluloid_mpv_observe_property(mpv, 0, "window-maximized", MPV_FORMAT_FLAG);
 	celluloid_mpv_observe_property(mpv, 0, "window-scale", MPV_FORMAT_DOUBLE);
+	celluloid_mpv_observe_property(mpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
 }
 
 static gchar *
@@ -680,10 +687,10 @@ load_file(CelluloidMpv *mpv, const gchar *uri, gboolean append)
 	gboolean idle_active = FALSE;
 
 	g_object_get(mpv, "ready", &ready, NULL);
-
+/*
 	celluloid_mpv_get_property
 		(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
-
+*/
 	if(idle_active || !ready)
 	{
 		if(!append)
@@ -723,14 +730,14 @@ reset(CelluloidMpv *mpv)
 	gboolean idle_active = FALSE;
 	gint64 playlist_pos = 0;
 	gdouble volume = 0;
-
+/*
 	celluloid_mpv_get_property
 		(mpv, "idle-active", MPV_FORMAT_FLAG, &idle_active);
 	celluloid_mpv_get_property
 		(mpv, "playlist-pos", MPV_FORMAT_INT64, &playlist_pos);
 	celluloid_mpv_get_property
 		(mpv, "volume", MPV_FORMAT_DOUBLE, &volume);
-
+*/
 	CELLULOID_MPV_CLASS(celluloid_player_parent_class)->reset(mpv);
 
 	load_script_opts(CELLULOID_PLAYER(mpv));
@@ -1152,9 +1159,10 @@ update_playlist(CelluloidPlayer *player)
 	prefetch_metadata = g_settings_get_boolean(settings, "prefetch-metadata");
 
 	g_ptr_array_set_size(priv->playlist, 0);
-
+/*
 	celluloid_mpv_get_property
 		(CELLULOID_MPV(player), "playlist", MPV_FORMAT_NODE, &playlist);
+*/
 
 	org_list = playlist.u.list;
 
@@ -1202,9 +1210,10 @@ update_metadata(CelluloidPlayer *player)
 	mpv_node metadata;
 
 	g_ptr_array_set_size(priv->metadata, 0);
-
+/*
 	celluloid_mpv_get_property
 		(CELLULOID_MPV(player), "metadata", MPV_FORMAT_NODE, &metadata);
+*/
 
 	org_list = metadata.u.list;
 
@@ -1249,10 +1258,12 @@ update_chapter_list(CelluloidPlayer *player)
 	mpv_node chapter_list;
 
 	g_ptr_array_set_size(priv->chapter_list, 0);
+	/*
 	celluloid_mpv_get_property(	CELLULOID_MPV(player),
 					"chapter-list",
 					MPV_FORMAT_NODE,
 					&chapter_list );
+	*/
 
 	org_list = chapter_list.u.list;
 
@@ -1281,10 +1292,12 @@ update_track_list(CelluloidPlayer *player)
 	mpv_node track_list;
 
 	g_ptr_array_set_size(priv->track_list, 0);
+	/*
 	celluloid_mpv_get_property(	CELLULOID_MPV(player),
 					"track-list",
 					MPV_FORMAT_NODE,
 					&track_list );
+	*/
 
 	org_list = track_list.u.list;
 
@@ -1595,8 +1608,11 @@ void
 celluloid_player_remove_playlist_entry(CelluloidPlayer *player, gint64 position)
 {
 	CelluloidMpv *mpv = CELLULOID_MPV(player);
+	gboolean idle_active = FALSE;
+	/*
 	gboolean idle_active =	celluloid_mpv_get_property_flag
 				(mpv, "idle-active");
+	*/
 
 	if(idle_active)
 	{
@@ -1624,8 +1640,11 @@ celluloid_player_move_playlist_entry(	CelluloidPlayer *player,
 					gint64 dst )
 {
 	CelluloidMpv *mpv = CELLULOID_MPV(player);
+	gboolean idle_active = FALSE;
+	/*
 	gboolean idle_active =	celluloid_mpv_get_property_flag
 				(mpv, "idle-active");
+	*/
 
 	if(idle_active)
 	{
