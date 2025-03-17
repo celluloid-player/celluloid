@@ -752,19 +752,24 @@ motion_handler(	GtkDropTarget *self,
 			gtk_widget_compute_point
 			(src, GTK_WIDGET(row), &in_point, &out_point);
 
-		g_assert(computed);
+		if(computed)
+		{
+			const gboolean top_half = out_point.y < (row_h / 2);
+			gint row_index = gtk_list_box_row_get_index(row);
 
-		const gboolean top_half = out_point.y < (row_h / 2);
-		gint row_index = gtk_list_box_row_get_index(row);
-
-		css_data =
-			g_strdup_printf
-			(	"row:nth-child(%d)		"
-				"{				"
-				"	%s: 1px solid white;	"
-				"}				",
-				row_index + 1,
-				top_half ? "border-top" : "border-bottom" );
+			css_data =
+				g_strdup_printf
+				(	"row:nth-child(%d)		"
+					"{				"
+					"	%s: 1px solid white;	"
+					"}				",
+					row_index + 1,
+					top_half ? "border-top" : "border-bottom" );
+		}
+		else
+		{
+			g_warning("Failed to calculate highlight position");
+		}
 	}
 	else
 	{
@@ -826,19 +831,24 @@ drop_handler(	GtkDropTarget *self,
 				gtk_widget_compute_point
 				(src, GTK_WIDGET(dst_row), &in_point, &out_point);
 
-			g_assert(computed);
+			if(computed)
+			{
+				const gint row_h =
+					gtk_widget_get_height(GTK_WIDGET(dst_row));
+				const gboolean top_half =
+					out_point.y < (row_h / 2);
+				const gint dst_row_index =
+					gtk_list_box_row_get_index(dst_row);
+				const gint offset =
+					(top_half ? -1 : 0) +
+					(src_index - 1 < dst_row_index ? 0 : 1);
 
-			const gint row_h =
-				gtk_widget_get_height(GTK_WIDGET(dst_row));
-			const gboolean top_half =
-				out_point.y < (row_h / 2);
-			const gint dst_row_index =
-				gtk_list_box_row_get_index(dst_row);
-			const gint offset =
-				(top_half ? -1 : 0) +
-				(src_index - 1 < dst_row_index ? 0 : 1);
-
-			dst_index = CLAMP(dst_row_index + offset, 0, (gint)n_items - 1);
+				dst_index = CLAMP(dst_row_index + offset, 0, (gint)n_items - 1);
+			}
+			else
+			{
+				g_warning("Failed to calculate drop position");
+			}
 		}
 
 		GtkListBoxRow *new_dst_row =
