@@ -507,7 +507,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 
 	gtk_box_append(GTK_BOX(priv->main_box), priv->video_split_view);
 	gtk_window_set_child(GTK_WINDOW(wnd), priv->main_box);
-	gtk_widget_set_size_request(GTK_WIDGET(wnd), 260, 220);
+	gtk_widget_set_size_request(GTK_WIDGET(wnd), 290, 220);
 
 	gtk_widget_set_visible(priv->header_bar, FALSE);
 }
