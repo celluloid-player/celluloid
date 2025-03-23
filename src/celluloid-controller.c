@@ -572,13 +572,14 @@ is_active_handler(GObject *gobject, GParamSpec *pspec, gpointer data)
 	gboolean is_active = TRUE;
 
 	// As of GTK 4.17.4 controller->model may be NULL on window close.
-	g_return_if_fail(controller->model);
-
-	g_object_get(view, "is-active", &is_active, NULL);
-
-	if(!is_active)
+	if(controller->model)
 	{
-		celluloid_model_reset_keys(controller->model);
+		g_object_get(view, "is-active", &is_active, NULL);
+
+		if(!is_active)
+		{
+			celluloid_model_reset_keys(controller->model);
+		}
 	}
 }
 
