@@ -28,9 +28,48 @@
   </ul>
  </description>
  <developer id="io.github.gnome-mpv">
-	 <name>The Celluloid Developers</name>
+  <name>The Celluloid Developers</name>
  </developer>
  <releases>
+  <release date="2025-04-03" version="0.28">
+   <description translate="no">
+    <p>
+     This release contains the following changes:
+    </p>
+    <ul>
+     <li>
+      Add the standard F10 key binding for activating the main menu button.
+     </li>
+     <li>
+      Implement GUI redesign by @jannuary.
+     </li>
+     <li>
+      Update some of the deprecated GTK API usage.
+     </li>
+     <li>
+      Fix a crash that occurs on exit with GTK 4.17.
+     </li>
+     <li>
+      Add support for loading Lua modules from `script-modules`.
+     </li>
+     <li>
+      File durations are now displayed in the playlist when available.
+     </li>
+     <li>
+      Make next/previous buttons control playlist position by default.
+     </li>
+     <li>
+      Add Irish translation by Aindriú Mac Giolla Eoin.
+     </li>
+     <li>
+      Drop Autotools.
+     </li>
+    </ul>
+    <p>
+     This listing is incomplete. See git log for complete changelog.
+    </p>
+   </description>
+  </release>
   <release date="2024-06-24" version="0.27">
    <description translate="no">
     <p>
