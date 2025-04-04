@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.17\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-03 22:56-0600\n"
-"PO-Revision-Date: 2024-07-07 17:10+0000\n"
+"PO-Revision-Date: 2025-03-24 23:34+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -68,24 +68,24 @@ msgid "Remember last location in file chooser"
 msgstr "Запам'ятовувати останнє розташування в оглядачі файлів"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Фокусуватися на вікні під час відкриття нових файлів"
+msgstr "Відкривати нове вікно під час відкриття нових файлів"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Відкриваючи нові файли через D-Bus (наприклад, за допомогою файлового "
+"менеджера), відкривати файл у новому вікні."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Завжди додавати відкриті файли до списку відтворення"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "Додайте опцію для показу кнопок заголовка в повноекранному режимі."
+msgstr "Показувати кнопки заголовків у повноекранному режимі"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -811,7 +811,9 @@ msgstr "Відтворення фільмів і відео"
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr "Відео;Фільм;Кіно;Кліп;Серії;Програвач;Альбом;Музика;Диск;Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
+msgstr ""
+"Відео;Фільм;Кіно;Кліп;Серії;Програвач;Альбом;Музика;Диск;Video;Movie;Film;"
+"Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
@@ -874,23 +876,20 @@ msgid "Rewind"
 msgstr "Перемотати назад"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "В_ідеодоріжка"
+msgstr "Наступна доріжка"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Попередній розділ"
+msgstr "Попередня доріжка"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Повторювати добірку"
+msgstr "Показати список відтворення"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Обсяг"
 
 #: src/celluloid-controller.c:1369
 msgid "Playing"
@@ -934,11 +933,11 @@ msgstr "Відкрити"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Виберіть медіафайл, теку або URL-адресу"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Головне меню"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -1096,47 +1095,40 @@ msgid "Loop Playlist"
 msgstr "Повторювати добірку"
 
 #: src/celluloid-playlist-widget.c:1023
-#, fuzzy
 msgid "0 files"
-msgstr "Відкрити файл"
+msgstr "0 файлів"
 
 #: src/celluloid-playlist-widget.c:1034
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Зберегти добірку"
+msgstr "Сховати список відтворення"
 
 #: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Добірка"
 
 #: src/celluloid-playlist-widget.c:1064
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Зберегти добірку"
+msgstr "Пошук у списку відтворення"
 
 #: src/celluloid-playlist-widget.c:1067
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Зберегти добірку"
+msgstr "Пошук у списку відтворення…"
 
 #: src/celluloid-playlist-widget.c:1081
 msgid "Disable repeat"
-msgstr ""
+msgstr "Вимкнути повтор"
 
 #: src/celluloid-playlist-widget.c:1091
-#, fuzzy
 msgid "Repeat file"
-msgstr "Відкрити файл"
+msgstr "Повторити файл"
 
 #: src/celluloid-playlist-widget.c:1102
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Зберегти добірку"
+msgstr "Повторити список відтворення"
 
 #: src/celluloid-playlist-widget.c:1110
-#, fuzzy
 msgid "Shuffle playlist"
-msgstr "Перемішати добірку"
+msgstr "Перемішати список відтворення"
 
 #: src/celluloid-playlist-widget.c:1135
 msgid "Playlist is Empty"
@@ -1146,9 +1138,9 @@ msgstr "Добірка порожня"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%ld файл"
+msgstr[1] "%ld файли"
+msgstr[2] "%ld файлів"
 
 #: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
 msgid "Add Plugin"
@@ -1327,7 +1319,7 @@ msgstr "Вилучити вибраний файл з добірки"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Save playlist"
-msgstr "Зберегти добірку"
+msgstr "Зберегти список відтворення"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Set/clear A-B loop points"
@@ -1506,9 +1498,8 @@ msgid "Welcome"
 msgstr "Вітаємо"
 
 #: src/celluloid-video-area.c:702
-#, fuzzy
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr "Клацніть кнопку <b>＋</b>, щоб перетягнути сюди відео"
+msgstr "Натисніть кнопку <b>Відкрити</b> або перетягніть відео сюди"
 
 #: src/celluloid-view.c:737
 msgid "Load Audio Track…"
@@ -1556,7 +1547,7 @@ msgstr "Відкрити розташування"
 
 #: src/celluloid-view.c:1556
 msgid "Save Playlist"
-msgstr "Зберегти добірку"
+msgstr "Зберегти список відтворення"
 
 #: src/celluloid-view.c:1621
 msgid "translator-credits"

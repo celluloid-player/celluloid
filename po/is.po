@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-03 22:56-0600\n"
-"PO-Revision-Date: 2024-11-03 21:18+0000\n"
+"PO-Revision-Date: 2025-03-05 18:53+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/is/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -61,9 +61,8 @@ msgid "Remember last location in file chooser"
 msgstr "Muna síðustu staðsetningu í skráaveljara"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Gera gluggann virkann þegar nýjar skrár eru opnaðar"
+msgstr "Opna nýjan glugga þegar nýjar skrár eru opnaðar"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
@@ -76,9 +75,8 @@ msgid "Always append opened files to playlist"
 msgstr "Alltaf bæta opnuðum skrám á spilunarlista"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "Víxla heilskjásham af/á"
+msgstr "Sýna titilhnappa í heilskjásham"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -753,7 +751,9 @@ msgstr "Horfðu á kvikmyndir og myndskeið"
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr "Myndskeið;Vídeó;Kvikmynd;Filma;Þættir;Spilari;DVD;TV;Diskur;albúm;tónlist;GNOME;mpv;"
+msgstr ""
+"Myndskeið;Vídeó;Kvikmynd;Filma;Þættir;Spilari;DVD;TV;Diskur;albúm;tónlist;"
+"GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
@@ -816,23 +816,20 @@ msgid "Rewind"
 msgstr "Spóla til baka"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "Mynds_por"
+msgstr "Næsta spor"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Fyrri kafli"
+msgstr "Fyrra spor"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Víxla endurtekningu spilunarlista af/á"
+msgstr "Birta spilunarlista"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Hljóðstyrkur"
 
 #: src/celluloid-controller.c:1369
 msgid "Playing"
@@ -876,11 +873,11 @@ msgstr "Opna"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Veldu margmiðlunarskrá, möppu eða slóð"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Aðalvalmynd"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -1031,52 +1028,45 @@ msgstr "_Stokka"
 
 #: src/celluloid-playlist-widget.c:626
 msgid "Loop File"
-msgstr "Endurtaka skrá"
+msgstr "Endurtaka skrá aftur"
 
 #: src/celluloid-playlist-widget.c:627
 msgid "Loop Playlist"
 msgstr "Víxla endurtekningu spilunarlista af/á"
 
 #: src/celluloid-playlist-widget.c:1023
-#, fuzzy
 msgid "0 files"
-msgstr "Opna skrá"
+msgstr "0 skrár"
 
 #: src/celluloid-playlist-widget.c:1034
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Vista spilunarlista"
+msgstr "Fela spilunarlista"
 
 #: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Spilunarlisti"
 
 #: src/celluloid-playlist-widget.c:1064
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Vista spilunarlista"
+msgstr "Leita í spilunarlista"
 
 #: src/celluloid-playlist-widget.c:1067
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Vista spilunarlista"
+msgstr "Leita í spilunarlista…"
 
 #: src/celluloid-playlist-widget.c:1081
 msgid "Disable repeat"
-msgstr ""
+msgstr "Gera endurtekningu óvirka"
 
 #: src/celluloid-playlist-widget.c:1091
-#, fuzzy
 msgid "Repeat file"
-msgstr "Opna skrá"
+msgstr "Endurtaka skrá"
 
 #: src/celluloid-playlist-widget.c:1102
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Vista spilunarlista"
+msgstr "Endurtaka spilunarlista"
 
 #: src/celluloid-playlist-widget.c:1110
-#, fuzzy
 msgid "Shuffle playlist"
 msgstr "Stokka spilunarlista"
 
@@ -1088,8 +1078,8 @@ msgstr "Spilunarlisti er tómur"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%ld skrá"
+msgstr[1] "%ld skrár"
 
 #: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
 msgid "Add Plugin"
@@ -1450,7 +1440,7 @@ msgstr "Velkomin"
 
 #: src/celluloid-video-area.c:702
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr ""
+msgstr "Smelltu á <b>Opna</b> hnappinn eða dragðu og slepptu myndskeiðum hér"
 
 #: src/celluloid-view.c:737
 msgid "Load Audio Track…"

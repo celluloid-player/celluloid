@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-03 22:56-0600\n"
-"PO-Revision-Date: 2025-02-06 08:01+0000\n"
+"PO-Revision-Date: 2025-03-04 16:51+0000\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ro/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -69,34 +69,33 @@ msgid "Remember last location in file chooser"
 msgstr "Memorează ultima locație la alegerea fișierelor"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Acordă focalizarea pe fereastră la deschiderea de fișiere noi"
+msgstr "Deschide o fereastră nouă la deschiderea de fișiere noi"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Atunci când se deschid fișiere noi prin D-Bus (de exemplu, utilizând un "
+"manager de fișiere), deschide fișierul într-o fereastră nouă."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Adaugă întotdeauna fișierele deschise la lista de redare"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr ""
-"Adaugă opțiunea de a afișa butoanele de titlu în modul de ecran complet."
+msgstr "Afișează butoanele din bara de titlu în modul de ecran complet."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
-"Dacă este activată, butoanele de titlu (închidere, maximizare, minimizare "
-"etc.) sunt întotdeauna afișate. Dacă este dezactivată, butoanele vor fi "
-"ascunse în modul de ecran complet."
+"Dacă este activată, butoanele din bara de titlu (închidere, maximizare, "
+"minimizare etc.) sunt întotdeauna afișate. Dacă este dezactivată, butoanele "
+"vor fi ascunse în modul de ecran complet."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Give focus to the window when opening new files"
@@ -487,7 +486,8 @@ msgstr "Adaugă traducerea în urdu de Ahmed Iqbal."
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
 msgid "Add option to show title buttons in fullscreen mode."
 msgstr ""
-"Adaugă opțiunea de a afișa butoanele de titlu în modul de ecran complet."
+"Adaugă opțiunea de a afișa butoanele din bara de titlu în modul de ecran "
+"complet."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
 msgid "Add option to present the window when opening files."
@@ -910,23 +910,20 @@ msgid "Rewind"
 msgstr "Derulare înapoi"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "Pistă _video"
+msgstr "Piesa următoare"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Capitolul anterior"
+msgstr "Piesa anterioară"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Listă de redare în buclă"
+msgstr "Afișează lista de redare"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Volum"
 
 #: src/celluloid-controller.c:1369
 msgid "Playing"
@@ -970,11 +967,11 @@ msgstr "Deschide"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Selectați un fișier media, dosar sau URL"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Meniul principal"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -1132,45 +1129,38 @@ msgid "Loop Playlist"
 msgstr "Listă de redare în buclă"
 
 #: src/celluloid-playlist-widget.c:1023
-#, fuzzy
 msgid "0 files"
-msgstr "Deschide fișier"
+msgstr "0 fișiere"
 
 #: src/celluloid-playlist-widget.c:1034
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Salvează lista de redare"
+msgstr "Ascunde lista de redare"
 
 #: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Listă de redare"
 
 #: src/celluloid-playlist-widget.c:1064
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Salvează lista de redare"
+msgstr "Caută în lista de redare"
 
 #: src/celluloid-playlist-widget.c:1067
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Salvează lista de redare"
+msgstr "Caută în lista de redare…"
 
 #: src/celluloid-playlist-widget.c:1081
 msgid "Disable repeat"
-msgstr ""
+msgstr "Dezactivează repetarea"
 
 #: src/celluloid-playlist-widget.c:1091
-#, fuzzy
 msgid "Repeat file"
-msgstr "Deschide fișier"
+msgstr "Repetă redarea fișierului"
 
 #: src/celluloid-playlist-widget.c:1102
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Salvează lista de redare"
+msgstr "Repetă conținutul listei de redare"
 
 #: src/celluloid-playlist-widget.c:1110
-#, fuzzy
 msgid "Shuffle playlist"
 msgstr "Listă de redare redată aleatoriu"
 
@@ -1182,8 +1172,8 @@ msgstr "Lista de redare este goală"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%ld fișier"
+msgstr[1] "%ld fișiere"
 
 #: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
 msgid "Add Plugin"
@@ -1543,9 +1533,9 @@ msgid "Welcome"
 msgstr "Bine ați venit"
 
 #: src/celluloid-video-area.c:702
-#, fuzzy
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr "Apăsați butonul <b>＋</b> sau glisați și plasați fișierele video aici"
+msgstr ""
+"Apăsați butonul <b>Deschide</b> sau glisați și plasați fișierele video aici"
 
 #: src/celluloid-view.c:737
 msgid "Load Audio Track…"

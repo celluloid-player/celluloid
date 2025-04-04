@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-06 23:09+0700\n"
-"PO-Revision-Date: 2024-09-01 18:09+0000\n"
+"POT-Creation-Date: 2025-03-03 22:56-0600\n"
+"PO-Revision-Date: 2025-03-07 21:58+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ga/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :("
 "n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -42,18 +42,14 @@ msgid "Use floating controls in windowed mode"
 msgstr "Bain úsáid as rialuithe ar snámh i mód windowed"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
-msgid "Use a floating header bar in windowed mode"
-msgstr "Bain úsáid as barra ceanntásc ar snámh i mód fuinneoige"
-
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:46
 msgid "Automatically hide mouse cursor in windowed mode"
 msgstr "Cuir cúrsóir na luiche i bhfolach go huathoibríoch i mód fuinneoige"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:52
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
 msgstr "An t-íosluas cúrsóra ag a mbeidh rialtáin ar snámh neamhfholaithe."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:59
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
@@ -61,27 +57,35 @@ msgstr ""
 "Méid an chrios marbh nach mbeidh gluaiseacht cúrsóra ina chúis leis na "
 "rialuithe a thaispeáint."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:65
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons to control the playlist"
 msgstr "Úsáid cnaipí scipeála chun an seinmliosta a rialú"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:71
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
 msgstr "Cuimhnigh ar an suíomh deireanach sa roghnóir comhaid"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:77
-msgid "Always open new window"
-msgstr "Oscail fuinneog nua i gcónaí"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:72
+msgid "Open new window when opening new files"
+msgstr "Oscail fuinneog nua nuair a osclaítear comhaid nua"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:83
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:73
+msgid ""
+"When opening new files through D-Bus (e.g. using a file manager), open the "
+"file in a new window."
+msgstr ""
+"Agus comhaid nua á n-oscailt trí D-Bus (m.sh. ag baint úsáide as bainisteoir "
+"comhad), oscail an comhad i bhfuinneog nua."
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Cuir comhaid oscailte leis an seinmliosta i gcónaí"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:89
-msgid "Always show title buttons"
-msgstr "Taispeáin cnaipí teidil i gcónaí"
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:87
+msgid "Show title buttons in fullscreen mode"
+msgstr "Taispeáin cnaipí teidil i mód lánscáileáin"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:90
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
@@ -89,11 +93,11 @@ msgstr ""
 "Más fíor, taispeántar cnaipí teidil (dún, uasmhéadaigh, íoslaghdaigh, etc.). "
 "Más bréagach é, cuirfear na cnaipí i bhfolach i mód lánscáileáin."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:98
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Give focus to the window when opening new files"
 msgstr "Dírigh ar an bhfuinneog agus comhaid nua á n-oscailt agat"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:99
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:97
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
@@ -101,92 +105,92 @@ msgstr ""
 "Más fíor, tabharfaidh Celluloid fócas don fhuinneog nuair a osclaítear "
 "comhad nua. Má tá sé bréagach, ní dhéanfar aon iarracht."
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:107
-#: src/celluloid-application.c:582
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:105
+#: src/celluloid-application.c:552
 msgid "Options to pass to mpv"
 msgstr "Roghanna chun pas a fháil go mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:113
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:111
 msgid "Path to mpv configuration file"
 msgstr "Conair go comhad cumraíochta mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:119
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:117
 msgid "Load mpv configuration file"
 msgstr "Íoslódáil an comhad cumraíochta mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:125
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:123
 msgid "Path to mpv input configuration file"
 msgstr "Conair go comhad cumraíochta ionchuir mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:131
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:129
 msgid "Load mpv input configuration file"
 msgstr "Íoslódáil an comhad cumraíochta ionchuir mpv"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:137
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:135
 msgid "Enable MPRIS support"
 msgstr "Cumasaigh tacaíocht MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:143
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:141
 msgid "Enable menubar accelerator key handling"
 msgstr "Cumasaigh láimhseáil eochair luasaire an bharra roghchláir"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:149
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:147
 msgid "Prefetch metadata"
 msgstr "Meiteashonraí réamhshocraithe"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:155
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:153
 msgid "Ignore playback errors"
 msgstr "Déan neamhaird de earráidí athsheinm"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:161
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:159
 msgid "Inhibit session idling"
 msgstr "Cuir cosc ar sheisiún réchasta"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:167
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:165
 msgid "Make video area draggable"
 msgstr "Déan an limistéar físeáin a tharraingt siar"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:177
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:175
 msgid "Width of the window"
 msgstr "Leithead na fuinneoige"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:183
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:181
 msgid "Height of the window"
 msgstr "Airde na fuinneoige"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:189
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Whether or not the window is maximized"
 msgstr "Cibé an bhfuil an fhuinneog uasmhéadú nó nach bhfuil"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:196
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:194
 msgid "Volume of player"
 msgstr "Méid an imreora"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:202
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:200
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr ""
 "Cibé an lúbfar nó nach ndéanfar nuair a bheidh deireadh an tseinmliosta "
 "bainte amach"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:208
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:206
 msgid "Width of the playlist"
 msgstr "Leithead an seinmliosta"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:214
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:212
 msgid "Show/hide the controls"
 msgstr "Taispeáin/folaigh na rialtáin"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:220
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:218
 msgid "Show/hide the playlist"
 msgstr "Taispeáin/folaigh an seinmliosta"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:226
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:224
 msgid "URI of the last folder accessed"
 msgstr "URI an fhillteáin dheireanaigh a bhfuarthas rochtain air"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
-#: data/io.github.celluloid_player.Celluloid.desktop.in:4
-#: src/celluloid-application.c:458
+#: data/io.github.celluloid_player.Celluloid.desktop.in:3
+#: src/celluloid-application.c:473
 msgid "Celluloid"
 msgstr "Celluloid"
 
@@ -800,144 +804,148 @@ msgstr "An phríomhfhuinneog le taisclann lárnach urrús díchumasaithe"
 msgid "The main window with playlist open"
 msgstr "An phríomhfhuinneog le seinmliosta oscailte"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:5
+#: data/io.github.celluloid_player.Celluloid.desktop.in:4
 msgid "Multimedia Player"
 msgstr "Imreoir Ilmheáin"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:6
+#: data/io.github.celluloid_player.Celluloid.desktop.in:5
 msgid "Play movies and videos"
 msgstr "Seinn scannáin agus físeáin"
 
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
-#: data/io.github.celluloid_player.Celluloid.desktop.in:17
+#: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 msgstr ""
 "Físeán;Scannán;Scannán;Gearrthóg;Sraith;Seinnteoir;DVD;Teilifís;Diosca;Albam;"
 "Ceol;GNOME;mpv;"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:23
+#: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
 msgstr "Fuinneog Nua"
 
-#: data/io.github.celluloid_player.Celluloid.desktop.in:27
+#: data/io.github.celluloid_player.Celluloid.desktop.in:26
 msgid "Add to Playlist"
 msgstr "Cuir leis an Seinmliosta"
 
-#: src/celluloid-application.c:502
-msgid "Playing"
-msgstr "Ag imirt"
-
-#: src/celluloid-application.c:558
+#: src/celluloid-application.c:528
 msgid "Show release version"
 msgstr "Taispeáin leagan scaoileadh"
 
-#: src/celluloid-application.c:566
+#: src/celluloid-application.c:536
 msgid "Enqueue"
 msgstr "Cuir i scuaine"
 
-#: src/celluloid-application.c:574
+#: src/celluloid-application.c:544
 msgid "Create a new window"
 msgstr "Cruthaigh fuinneog nua"
 
-#: src/celluloid-application.c:583
+#: src/celluloid-application.c:553
 msgid "OPTIONS"
 msgstr "ROGHANNA"
 
-#: src/celluloid-application.c:590
+#: src/celluloid-application.c:560
 msgid "Set the window role"
 msgstr "Socraigh ról na fuinneoige"
 
-#: src/celluloid-application.c:598
+#: src/celluloid-application.c:568
 msgid "Don't connect to an already-running instance"
 msgstr "Ná ceangail le háis atá ar siúl cheana féin"
 
-#: src/celluloid-application.c:609
+#: src/celluloid-application.c:579
 msgid "Set the mpv option MPVOPTION to VALUE"
 msgstr "Socraigh an rogha mpv MPVOPTION go LUACH"
 
-#: src/celluloid-application.c:610
+#: src/celluloid-application.c:580
 msgid "VALUE"
 msgstr "LUACH"
 
-#: src/celluloid-common.c:270
+#: src/celluloid-common.c:280
 msgid "invalid encoding"
 msgstr "ionchódú neamhbhailí"
 
-#: src/celluloid-control-box.c:452
+#: src/celluloid-control-box.c:447
 msgid "Pause"
 msgstr "Sos"
 
-#: src/celluloid-control-box.c:452 src/celluloid-control-box.c:726
+#: src/celluloid-control-box.c:447 src/celluloid-control-box.c:723
 msgid "Play"
 msgstr "Imirt"
 
-#: src/celluloid-control-box.c:729
-msgid "Stop"
-msgstr "Stad"
-
-#: src/celluloid-control-box.c:732
+#: src/celluloid-control-box.c:726
 msgid "Forward"
 msgstr "Ar aghaidh"
 
-#: src/celluloid-control-box.c:735
+#: src/celluloid-control-box.c:729
 msgid "Rewind"
 msgstr "Athchasadh"
 
+#: src/celluloid-control-box.c:732
+msgid "Next Track"
+msgstr "An Chéad Rian Eile"
+
+#: src/celluloid-control-box.c:735
+msgid "Previous Track"
+msgstr "Rian Roimhe Seo"
+
 #: src/celluloid-control-box.c:738
-msgid "Next Chapter"
-msgstr "An Chéad Chaibidil Eile"
+msgid "Show Playlist"
+msgstr "Taispeáin Seinmliosta"
 
-#: src/celluloid-control-box.c:741
-msgid "Previous Chapter"
-msgstr "Caibidil Roimhe Seo"
+#: src/celluloid-control-box.c:766
+msgid "Volume"
+msgstr "Toirt"
 
-#: src/celluloid-control-box.c:744 src/celluloid-playlist-widget.c:565
-msgid "Loop Playlist"
-msgstr "Seinmliosta Lúb"
+#: src/celluloid-controller.c:1369
+msgid "Playing"
+msgstr "Ag imirt"
 
-#: src/celluloid-control-box.c:747
-msgid "Shuffle Playlist"
-msgstr "Seinmliosta Shuffle"
-
-#: src/celluloid-control-box.c:750
-msgid "Toggle Playlist"
-msgstr "Scoránaigh Seinmliosta"
-
-#: src/celluloid-control-box.c:753 src/celluloid-header-bar.c:248
-msgid "Toggle Fullscreen"
-msgstr "Scoránaigh Lánscáileán"
-
-#: src/celluloid-file-chooser.c:145 src/celluloid-plugins-manager.c:201
+#: src/celluloid-file-chooser.c:193 src/celluloid-plugins-manager.c:201
 msgid "All Files"
 msgstr "Gach Comhad"
 
-#: src/celluloid-file-chooser.c:153
+#: src/celluloid-file-chooser.c:201
 msgid "Media Files"
 msgstr "Comhaid Meán"
 
-#: src/celluloid-file-chooser.c:164
+#: src/celluloid-file-chooser.c:212
 msgid "Audio Files"
 msgstr "Comhaid Fuaime"
 
-#: src/celluloid-file-chooser.c:172
+#: src/celluloid-file-chooser.c:220
 msgid "Video Files"
 msgstr "Comhaid Físe"
 
-#: src/celluloid-file-chooser.c:180
+#: src/celluloid-file-chooser.c:228
 msgid "Image Files"
 msgstr "Comhaid Íomhá"
 
-#: src/celluloid-file-chooser.c:190
+#: src/celluloid-file-chooser.c:238
 msgid "Subtitle Files"
 msgstr "Comhaid Fotheideal"
 
-#: src/celluloid-file-chooser-button.c:232
+#: src/celluloid-file-chooser-button.c:236
 msgid "Open File…"
 msgstr "Oscail Comhad…"
 
-#: src/celluloid-file-chooser-button.c:236
+#: src/celluloid-file-chooser-button.c:240
 msgid "(None)"
 msgstr "(Tada)"
+
+#: src/celluloid-header-bar.c:239 src/celluloid-open-location-dialog.c:75
+msgid "Open"
+msgstr "Oscail"
+
+#: src/celluloid-header-bar.c:243
+msgid "Select a Media File, Folder or URL"
+msgstr "Roghnaigh Comhad Meán, Fillteán nó URL"
+
+#: src/celluloid-header-bar.c:245
+msgid "Main Menu"
+msgstr "Príomh-Roghchlár"
+
+#: src/celluloid-header-bar.c:257
+msgid "Toggle Fullscreen"
+msgstr "Scoránaigh Lánscáileán"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -1046,10 +1054,6 @@ msgstr "Oscail _Diosca"
 msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Cuireadh deireadh neamhghnách le hathsheinm. Cúis: %s."
 
-#: src/celluloid-open-location-dialog.c:75
-msgid "Open"
-msgstr "Oscail"
-
 #: src/celluloid-open-location-dialog.c:77
 msgid "Cancel"
 msgstr "Cealaigh"
@@ -1058,43 +1062,93 @@ msgstr "Cealaigh"
 msgid "Location:"
 msgstr "Suíomh:"
 
-#: src/celluloid-player.c:667
+#: src/celluloid-player.c:669
 msgid "Failed to apply one or more MPV options."
 msgstr "Theip ar rogha MPV amháin nó níos mó a chur i bhfeidhm."
 
-#: src/celluloid-playlist-widget.c:557
+#: src/celluloid-playlist-widget.c:619
 msgid "_Copy Location"
 msgstr "_Cóipeáil Suíomh"
 
-#: src/celluloid-playlist-widget.c:558 src/celluloid-plugins-manager-item.c:208
+#: src/celluloid-playlist-widget.c:620 src/celluloid-plugins-manager-item.c:205
 msgid "_Remove"
 msgstr "_Bain"
 
-#: src/celluloid-playlist-widget.c:560
+#: src/celluloid-playlist-widget.c:622
 msgid "_Add…"
 msgstr "_Cuir leis…"
 
-#: src/celluloid-playlist-widget.c:561
+#: src/celluloid-playlist-widget.c:623
 msgid "Add _Folder…"
 msgstr "Cuir _Fillteán leis…"
 
-#: src/celluloid-playlist-widget.c:562
+#: src/celluloid-playlist-widget.c:624
 msgid "Add _Location…"
 msgstr "Cuir _Suíomh leis…"
 
-#: src/celluloid-playlist-widget.c:563
+#: src/celluloid-playlist-widget.c:625
 msgid "_Shuffle"
 msgstr "_Suaitheadh"
 
-#: src/celluloid-playlist-widget.c:564
+#: src/celluloid-playlist-widget.c:626
 msgid "Loop File"
 msgstr "Comhad Lúb"
 
-#: src/celluloid-playlist-widget.c:930
+#: src/celluloid-playlist-widget.c:627
+msgid "Loop Playlist"
+msgstr "Seinmliosta Lúb"
+
+#: src/celluloid-playlist-widget.c:1023
+msgid "0 files"
+msgstr "0 gcomhad"
+
+#: src/celluloid-playlist-widget.c:1034
+msgid "Hide playlist"
+msgstr "Folaigh seinmliosta"
+
+#: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
+msgid "Playlist"
+msgstr "Seinmliosta"
+
+#: src/celluloid-playlist-widget.c:1064
+msgid "Search in playlist"
+msgstr "Cuardaigh sa seinmliosta"
+
+#: src/celluloid-playlist-widget.c:1067
+msgid "Search in playlist…"
+msgstr "Cuardaigh sa seinmliosta…"
+
+#: src/celluloid-playlist-widget.c:1081
+msgid "Disable repeat"
+msgstr "Díchumasaigh athrá"
+
+#: src/celluloid-playlist-widget.c:1091
+msgid "Repeat file"
+msgstr "Déan an comhad"
+
+#: src/celluloid-playlist-widget.c:1102
+msgid "Repeat playlist"
+msgstr "Seinn an seinmliosta arís"
+
+#: src/celluloid-playlist-widget.c:1110
+msgid "Shuffle playlist"
+msgstr "Suaitheadh seinmliosta"
+
+#: src/celluloid-playlist-widget.c:1135
 msgid "Playlist is Empty"
 msgstr "Tá an Seinmliosta Folamh"
 
-#: src/celluloid-plugins-manager.c:192 src/celluloid-plugins-manager.c:446
+#: src/celluloid-playlist-widget.c:1242
+#, c-format
+msgid "%ld file"
+msgid_plural "%ld files"
+msgstr[0] "%ld comhad"
+msgstr[1] "%ld comhaid"
+msgstr[2] "%ld comhaid"
+msgstr[3] "%ld comhaid"
+msgstr[4] "%ld comhaid"
+
+#: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
 msgid "Add Plugin"
 msgstr "Cuir Breiseán leis"
 
@@ -1110,24 +1164,24 @@ msgstr "Breiseáin Javascript"
 msgid "C Plugins"
 msgstr "C Breiseáin"
 
-#: src/celluloid-plugins-manager.c:355
+#: src/celluloid-plugins-manager.c:350
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "Níorbh fhéidir an comhad a chóipeáil ó '%s' go '%s'. Cúis: %s"
 
-#: src/celluloid-plugins-manager.c:409
+#: src/celluloid-plugins-manager.c:405
 msgid "Plugins"
 msgstr "Breiseáin"
 
-#: src/celluloid-plugins-manager.c:416
+#: src/celluloid-plugins-manager.c:412
 msgid "Add…"
 msgstr "Cuir…"
 
-#: src/celluloid-plugins-manager.c:450
+#: src/celluloid-plugins-manager.c:446
 msgid "No Plugins Found"
 msgstr "Níl aon Breiseáin le fáil"
 
-#: src/celluloid-plugins-manager.c:453
+#: src/celluloid-plugins-manager.c:449
 msgid "Click the <b>Add…</b> button to install a new plugin"
 msgstr "Cliceáil an cnaipe <b>Cuir leis…</b> chun breiseán nua a shuiteáil"
 
@@ -1135,47 +1189,47 @@ msgstr "Cliceáil an cnaipe <b>Cuir leis…</b> chun breiseán nua a shuiteáil"
 msgid "Remove Plugin"
 msgstr "Bain Breiseán"
 
-#: src/celluloid-plugins-manager-item.c:178
+#: src/celluloid-plugins-manager-item.c:175
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
 msgstr "Theip ar an comhad '%s' a scriosadh. Cúis: %s"
 
-#: src/celluloid-plugins-manager-item.c:202
+#: src/celluloid-plugins-manager-item.c:199
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
 msgstr ""
 "An bhfuil tú cinnte gur mhaith leat an script seo a bhaint? Ní féidir an "
 "gníomh seo a chur ar ais."
 
-#: src/celluloid-plugins-manager-item.c:209
+#: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
 msgstr "_Coinnigh"
 
-#: src/celluloid-preferences-dialog.c:322
+#: src/celluloid-preferences-dialog.c:332
 msgid "mpv configuration file"
 msgstr "comhad cumraíochta mpv"
 
-#: src/celluloid-preferences-dialog.c:328
+#: src/celluloid-preferences-dialog.c:338
 msgid "mpv input configuration file"
 msgstr "comhad cumraíochta ionchuir mpv"
 
-#: src/celluloid-preferences-dialog.c:348
+#: src/celluloid-preferences-dialog.c:358
 msgid "Extra mpv options"
 msgstr "Roghanna breise mpv"
 
-#: src/celluloid-preferences-dialog.c:363
+#: src/celluloid-preferences-dialog.c:373
 msgid "Interface"
 msgstr "Comhéadan"
 
-#: src/celluloid-preferences-dialog.c:371
+#: src/celluloid-preferences-dialog.c:381
 msgid "Config Files"
 msgstr "Comhaid Configúrtha"
 
-#: src/celluloid-preferences-dialog.c:379
+#: src/celluloid-preferences-dialog.c:389
 msgid "Miscellaneous"
 msgstr "Ilghnéireach"
 
-#: src/celluloid-preferences-dialog.c:405
+#: src/celluloid-preferences-dialog.c:421
 msgid "Preferences"
 msgstr "Roghanna"
 
@@ -1443,39 +1497,31 @@ msgstr "Athsheinm"
 msgid "Seeking"
 msgstr "Ag lorg"
 
-#: src/celluloid-shortcuts-window.c:129
-msgid "Playlist"
-msgstr "Seinmliosta"
-
-#: src/celluloid-video-area.c:741
+#: src/celluloid-video-area.c:688
 msgid "Loading…"
 msgstr "Á lódáil…"
 
-#: src/celluloid-video-area.c:752
+#: src/celluloid-video-area.c:699
 msgid "Welcome"
 msgstr "Fáilte"
 
-#: src/celluloid-video-area.c:755
-msgid "Click the <b>＋</b> button or drag and drop videos here"
-msgstr "Cliceáil an cnaipe <b>＋</b> nó tarraing agus scaoil físeáin anseo"
+#: src/celluloid-video-area.c:702
+msgid "Click the <b>Open</b> button or drag and drop videos here"
+msgstr "Cliceáil an cnaipe <b>Oscail</b> nó tarraing agus scaoil físeáin anseo"
 
-#: src/celluloid-view.c:739
+#: src/celluloid-view.c:737
 msgid "Load Audio Track…"
 msgstr "Luchtaigh Rian Fuaime…"
 
-#: src/celluloid-view.c:743
+#: src/celluloid-view.c:741
 msgid "Load Video Track…"
 msgstr "Luchtaigh Rian Físe…"
 
-#: src/celluloid-view.c:747
+#: src/celluloid-view.c:745
 msgid "Load Subtitle Track…"
 msgstr "Luchtaigh Rian Fotheidil…"
 
-#: src/celluloid-view.c:926
-msgid "Error"
-msgstr "Earráid"
-
-#: src/celluloid-view.c:951
+#: src/celluloid-view.c:934
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1483,34 +1529,55 @@ msgstr ""
 "Chun maisiúcháin ar thaobh an chliaint a chumasú nó a dhíchumasú, ní mór "
 "atosú chun éifeacht a thabhairt."
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Add Folder to Playlist"
 msgstr "Cuir Fillteán leis an seinmliosta"
 
-#: src/celluloid-view.c:1468
+#: src/celluloid-view.c:1470
 msgid "Open Folder"
 msgstr "Fillteán Oscail"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Add File to Playlist"
 msgstr "Cuir Comhad le seinmliosta"
 
-#: src/celluloid-view.c:1473
+#: src/celluloid-view.c:1475
 msgid "Open File"
 msgstr "Oscail Comhad"
 
-#: src/celluloid-view.c:1512
+#: src/celluloid-view.c:1514
 msgid "Add Location to Playlist"
 msgstr "Cuir Suíomh leis an seinmliosta"
 
-#: src/celluloid-view.c:1513
+#: src/celluloid-view.c:1515
 msgid "Open Location"
 msgstr "Suíomh Oscailte"
 
-#: src/celluloid-view.c:1555
+#: src/celluloid-view.c:1556
 msgid "Save Playlist"
 msgstr "Sábháil Seinmliosta"
 
-#: src/celluloid-view.c:1617
+#: src/celluloid-view.c:1621
 msgid "translator-credits"
 msgstr "creidmheasanna aistritheora"
+
+#~ msgid "Use a floating header bar in windowed mode"
+#~ msgstr "Bain úsáid as barra ceanntásc ar snámh i mód fuinneoige"
+
+#~ msgid "Always open new window"
+#~ msgstr "Oscail fuinneog nua i gcónaí"
+
+#~ msgid "Always show title buttons"
+#~ msgstr "Taispeáin cnaipí teidil i gcónaí"
+
+#~ msgid "Stop"
+#~ msgstr "Stad"
+
+#~ msgid "Next Chapter"
+#~ msgstr "An Chéad Chaibidil Eile"
+
+#~ msgid "Toggle Playlist"
+#~ msgstr "Scoránaigh Seinmliosta"
+
+#~ msgid "Error"
+#~ msgstr "Earráid"

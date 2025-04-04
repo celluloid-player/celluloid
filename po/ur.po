@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-03 22:56-0600\n"
-"PO-Revision-Date: 2021-08-30 14:07+0000\n"
-"Last-Translator: Ahmed Iqbal <weblate.0m35o@aleeas.com>\n"
+"PO-Revision-Date: 2025-03-13 16:16+0000\n"
+"Last-Translator: Zafar Hussain Sajjad <zafarhussainsajjad@gmail.com>\n"
 "Language-Team: Urdu <https://hosted.weblate.org/projects/celluloid/celluloid/"
 "ur/>\n"
 "Language: ur\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr ""
+msgstr "آیا ترتیبات پہلے ہی پچھلے ورژن سے منتقل ہو چکی ہیں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
@@ -35,11 +35,11 @@ msgstr "ڈارک تھیم کو فعال کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
-msgstr ""
+msgstr "کلائنٹ سائیڈ ڈیکوریشن کو فعال کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr ""
+msgstr "ونڈو موڈ میں فلوٹنگ کنٹرولز استعمال کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
@@ -47,84 +47,92 @@ msgstr "ماؤس کرسر کو ونڈو موڈ میں خود بخود چھپائ
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
-msgstr ""
+msgstr "کم از کم کرسر کی رفتار جس پر تیرتے کنٹرولز چھپے ہوئے ہوں گے۔"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:54
 msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
+"ڈیڈ زون کا سائز جس میں کرسر کی حرکت کنٹرولز کو ظاہر کرنے کا سبب نہیں بنے گی۔"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons to control the playlist"
-msgstr ""
+msgstr "پلے لسٹ کو کنٹرول کرنے کے لیے اسکیپ بٹن استعمال کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr ""
+msgstr "فائل منتخب کنندہ میں آخری مقام یاد رکھیں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
 msgid "Open new window when opening new files"
-msgstr ""
+msgstr "نئی فائلیں کھولتے وقت نئی ونڈو کھولیں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"D-Bus کے ذریعے نئی فائلیں کھولتے وقت (مثال کے طور پر فائل مینیجر کا استعمال "
+"کرتے ہوئے)، فائل کو ایک نئی ونڈو میں کھولیں۔"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
-msgstr ""
+msgstr "کھلی فائلوں کو ہمیشہ پلے لسٹ میں شامل کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
 msgid "Show title buttons in fullscreen mode"
-msgstr ""
+msgstr "فل سکرین موڈ میں ٹائٹل بٹن دکھائیں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
+"اگر درست ہے تو، عنوان کے بٹن (بند کریں، زیادہ سے زیادہ کریں، کم سے کم کریں، "
+"وغیرہ) ہمیشہ دکھائے جاتے ہیں۔ غلط ہونے کی صورت میں، بٹن پورے اسکرین وضع میں "
+"چھپ جائیں گے۔"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Give focus to the window when opening new files"
-msgstr ""
+msgstr "نئی فائلیں کھولتے وقت ونڈو پر توجہ دیں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:97
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
+"اگر سچ ہے تو، سیلولائڈ ونڈو پر فوکس کرے گا جب ایک نئی فائل کھولی جائے گی۔ "
+"اگر غلط ہے تو کوئی کوشش نہیں کی جائے گی۔"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:105
 #: src/celluloid-application.c:552
 msgid "Options to pass to mpv"
-msgstr ""
+msgstr "ایم پی وی کو منتقل کرنے کے اختیارات"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:111
 msgid "Path to mpv configuration file"
-msgstr ""
+msgstr "ایم پی وی کنفیگریشن فائل کا راستہ"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:117
 msgid "Load mpv configuration file"
-msgstr ""
+msgstr "mpv کنفیگریشن فائل لوڈ کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:123
 msgid "Path to mpv input configuration file"
-msgstr ""
+msgstr "ایم پی وی ان پٹ کنفیگریشن فائل کا راستہ"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:129
 msgid "Load mpv input configuration file"
-msgstr ""
+msgstr "mpv ان پٹ کنفیگریشن فائل لوڈ کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:135
 msgid "Enable MPRIS support"
-msgstr ""
+msgstr "MPRIS سپورٹ کو فعال کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:141
 msgid "Enable menubar accelerator key handling"
-msgstr ""
+msgstr "مینو بار ایکسلریٹر کی ہینڈلنگ کو فعال کریں"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:147
 msgid "Prefetch metadata"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-03 22:56-0600\n"
-"PO-Revision-Date: 2024-07-30 22:09+0000\n"
+"PO-Revision-Date: 2025-03-05 18:53+0000\n"
 "Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/et/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -65,24 +65,24 @@ msgid "Remember last location in file chooser"
 msgstr "Jäta failivalijas viimane asukoht meelde"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Uute failide avamisel säti fookus aknale"
+msgstr "Uute failide avamisel tee seda uues aknas"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Uute failide avamisel D-Busi kaudu (näiteks failihaldurist), ava fail uues "
+"aknas."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Alati lisa avatavad failid esitusloendisse"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "Lisage valik pealkirja nuppude kuvamiseks täisekraanirežiimis."
+msgstr "Täisekraanivaates näita pealkirjanuppe"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -786,7 +786,9 @@ msgstr "Vaata filme ja videoid"
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr "Video;Film;Film;klipp;sari;pleier;DVD;televiisor;plaat;album;muusika;GNOME;mpv;"
+msgstr ""
+"Video;Film;Film;klipp;sari;pleier;DVD;televiisor;plaat;album;muusika;GNOME;"
+"mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
@@ -849,23 +851,20 @@ msgid "Rewind"
 msgstr "Keri tagasi"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "_Videorada"
+msgstr "Järgmine lugu"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Eelmine peatükk"
+msgstr "Eelmine lugu"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Korduv"
+msgstr "Näita esitusloendit"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Helivaljus"
 
 #: src/celluloid-controller.c:1369
 msgid "Playing"
@@ -909,11 +908,11 @@ msgstr "Ava"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Vali meediafail, kaust või võrguaadress"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Põhimenüü"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -987,11 +986,11 @@ msgstr "_Videorada"
 
 #: src/celluloid-menu.c:246 src/celluloid-menu.c:291
 msgid "_Audio Track"
-msgstr "_Audiorada"
+msgstr "_Heliriba"
 
 #: src/celluloid-menu.c:247 src/celluloid-menu.c:292
 msgid "S_ubtitle Track"
-msgstr "S_ubtiitrirada"
+msgstr "S_ubtiitrite riba"
 
 #: src/celluloid-menu.c:248
 msgid "_View"
@@ -1071,47 +1070,40 @@ msgid "Loop Playlist"
 msgstr "Korduv"
 
 #: src/celluloid-playlist-widget.c:1023
-#, fuzzy
 msgid "0 files"
-msgstr "Ava fail"
+msgstr "0 faili"
 
 #: src/celluloid-playlist-widget.c:1034
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Esitusloendi salvestamine"
+msgstr "Peida esitusloend"
 
 #: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
 msgid "Playlist"
 msgstr "Esitusloend"
 
 #: src/celluloid-playlist-widget.c:1064
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Esitusloendi salvestamine"
+msgstr "Otsi esitusloendist"
 
 #: src/celluloid-playlist-widget.c:1067
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Esitusloendi salvestamine"
+msgstr "Otsi esitusloendist…"
 
 #: src/celluloid-playlist-widget.c:1081
 msgid "Disable repeat"
-msgstr ""
+msgstr "Lülita kordamine välja"
 
 #: src/celluloid-playlist-widget.c:1091
-#, fuzzy
 msgid "Repeat file"
-msgstr "Ava fail"
+msgstr "Korda faili"
 
 #: src/celluloid-playlist-widget.c:1102
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Esitusloendi salvestamine"
+msgstr "Korda esitusloendit"
 
 #: src/celluloid-playlist-widget.c:1110
-#, fuzzy
 msgid "Shuffle playlist"
-msgstr "Suvaesitus"
+msgstr "Sega esitusloend"
 
 #: src/celluloid-playlist-widget.c:1135
 msgid "Playlist is Empty"
@@ -1121,8 +1113,8 @@ msgstr "Esitlusloend on tühi"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%ld fail"
+msgstr[1] "%ld faili"
 
 #: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
 msgid "Add Plugin"
@@ -1483,9 +1475,8 @@ msgid "Welcome"
 msgstr "Tere tulemast"
 
 #: src/celluloid-video-area.c:702
-#, fuzzy
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr "Kas klõpsi <b>+</b> nuppu või lohista siia videofaile"
+msgstr "Kas klõpsi <b>Ava</b> nuppu või lohista siia videofaile"
 
 #: src/celluloid-view.c:737
 msgid "Load Audio Track…"
@@ -1497,7 +1488,7 @@ msgstr "Laadi videorada…"
 
 #: src/celluloid-view.c:745
 msgid "Load Subtitle Track…"
-msgstr "Laadi subtiitrirada…"
+msgstr "Laadi subtiitririba…"
 
 #: src/celluloid-view.c:934
 msgid ""
