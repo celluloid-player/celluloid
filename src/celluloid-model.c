@@ -49,6 +49,7 @@ enum
 	PROP_WINDOW_MAXIMIZED,
 	PROP_WINDOW_SCALE,
 	PROP_DISPLAY_FPS,
+	PROP_TIME_POS,
 	N_PROPERTIES
 };
 
@@ -81,6 +82,7 @@ struct _CelluloidModel
 	gboolean window_maximized;
 	gdouble window_scale;
 	gdouble display_fps;
+	gdouble time_pos;
 	GStrv input_binding_list;
 };
 
@@ -310,6 +312,10 @@ set_property(	GObject *object,
 		self->display_fps = g_value_get_double(value);
 		break;
 
+		case PROP_TIME_POS:
+		self->time_pos = g_value_get_double(value);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -419,6 +425,10 @@ get_property(	GObject *object,
 
 		case PROP_DISPLAY_FPS:
 		g_value_set_double(value, self->display_fps);
+		break;
+
+		case PROP_TIME_POS:
+		g_value_set_double(value, self->time_pos);
 		break;
 
 		default:
@@ -565,6 +575,13 @@ set_mpv_property(	GObject *object,
 						"display-fps",
 						MPV_FORMAT_DOUBLE,
 						&self->display_fps );
+		break;
+
+		case PROP_TIME_POS:
+		celluloid_mpv_set_property(	mpv,
+						"time-pos",
+						MPV_FORMAT_DOUBLE,
+						&self->time_pos );
 		break;
 	}
 }
@@ -715,6 +732,7 @@ build_input_binding_list(CelluloidMpv *mpv)
 	mpv_node bindings_node = {0};
 	mpv_node_list *bindings_array = NULL;
 
+	return NULL;
 	const gint err =
 		celluloid_mpv_get_property
 		(	mpv,
@@ -809,6 +827,7 @@ celluloid_model_class_init(CelluloidModelClass *klass)
 			{"volume-max", PROP_VOLUME_MAX, G_TYPE_DOUBLE},
 			{"window-maximized", PROP_WINDOW_MAXIMIZED, G_TYPE_BOOLEAN},
 			{"window-scale", PROP_WINDOW_SCALE, G_TYPE_DOUBLE},
+			{"time-pos", PROP_TIME_POS, G_TYPE_DOUBLE},
 			{NULL, PROP_INVALID, 0} };
 
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
@@ -896,6 +915,7 @@ celluloid_model_init(CelluloidModel *model)
 	model->window_maximized = FALSE;
 	model->window_scale = 1.0;
 	model->display_fps = 0.0;
+	model->time_pos = 0.0;
 	model->input_binding_list = NULL;
 }
 
@@ -940,9 +960,10 @@ celluloid_model_initialize(CelluloidModel *model)
 		CelluloidMpv *mpv =
 			CELLULOID_MPV(model);
 		gboolean shuffle =
-			celluloid_mpv_get_property_flag(mpv, "shuffle");
+			false;
+		//	celluloid_mpv_get_property_flag(mpv, "shuffle");
 
-		g_object_set(model, "shuffle", shuffle, NULL);
+		//g_object_set(model, "shuffle", shuffle, NULL);
 	}
 
 	if(extra_options_contains(model, "loop-playlist"))
@@ -950,12 +971,12 @@ celluloid_model_initialize(CelluloidModel *model)
 		// Sync the property to match mpv's
 		CelluloidMpv *mpv =
 			CELLULOID_MPV(model);
-		gchar *loop_playlist =
+		/*gchar *loop_playlist =
 			celluloid_mpv_get_property_string(mpv, "loop-playlist");
 
 		g_object_set(model, "loop-playlist", loop_playlist, NULL);
 
-		mpv_free(loop_playlist);
+		mpv_free(loop_playlist);*/
 	}
 	else
 	{
@@ -1175,18 +1196,8 @@ celluloid_model_load_subtitle_track(	CelluloidModel *model,
 gdouble
 celluloid_model_get_time_position(CelluloidModel *model)
 {
-	gdouble time_pos = 0.0;
-
-	if(!model->idle_active)
-	{
-		celluloid_mpv_get_property(	CELLULOID_MPV(model),
-						"time-pos",
-						MPV_FORMAT_DOUBLE,
-						&time_pos );
-	}
-
 	/* time-pos may become negative during seeks */
-	return MAX(0, time_pos);
+	return MAX(0, model->time_pos);
 }
 
 void
@@ -1276,18 +1287,23 @@ celluloid_model_get_video_geometry(	CelluloidModel *model,
 {
 	CelluloidMpv *mpv = CELLULOID_MPV(model);
 
+	/*
 	celluloid_mpv_get_property(mpv, "dwidth", MPV_FORMAT_INT64, width);
 	celluloid_mpv_get_property(mpv, "dheight", MPV_FORMAT_INT64, height);
+	*/
 }
 
 gchar *
 celluloid_model_get_current_path(CelluloidModel *model)
 {
 	CelluloidMpv *mpv = CELLULOID_MPV(model);
+	/*
 	gchar *path = celluloid_mpv_get_property_string(mpv, "path");
 	gchar *buf = g_strdup(path);
 
 	mpv_free(path);
 
 	return buf;
+	*/
+	return NULL;
 }
