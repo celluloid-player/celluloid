@@ -9,7 +9,7 @@
 	  log messages, so you may also want to redirect the output to a file.
 	  For example, you can redirect log messages to `/tmp/celluloid.log`
 	  with this command:
-	  `G_MESSAGES_DEBUG=all celluloid --mpv-msg-level=all=trace > /tmp/celluloid.log`.
+	  `G_MESSAGES_DEBUG=all celluloid --mpv-msg-level=all=trace &> /tmp/celluloid.log`.
 - If the issue involves crashing, include a backtrace in the report.
 	- You can create a backtrace by running
 	  `gdb -ex 'set pagination off' -ex run -ex bt celluloid`
