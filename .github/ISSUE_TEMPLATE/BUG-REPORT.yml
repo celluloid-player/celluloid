@@ -1,0 +1,53 @@
+name: Bug Report
+description: File a bug report.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        See [CONTRIBUTING.md](https://github.com/celluloid-player/celluloid/blob/master/.github/CONTRIBUTING.md) for instructions on creating a useful bug report.
+  - type: textarea
+    id: overview
+    attributes:
+      label: Overview
+      placeholder: Provide a general overview of the bug you experienced.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      placeholder: | 
+        1.
+        2.
+        3.
+        ...
+    validations:
+      required: false
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual results
+      description: What actually happened
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected results
+      description: What you expected to happen
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of celluloid are you running?
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional information
+      description: Any additional information you can provide
+    validations:
+      required: false
