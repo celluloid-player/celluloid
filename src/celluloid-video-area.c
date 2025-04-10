@@ -442,6 +442,8 @@ celluloid_video_area_class_init(CelluloidVideoAreaClass *klass)
 static void
 celluloid_video_area_init(CelluloidVideoArea *area)
 {
+	GSettings *settings = g_settings_new(CONFIG_ROOT);
+
 	area->toast_overlay = adw_toast_overlay_new();
 	area->stack = gtk_stack_new();
 	area->gl_area = gtk_gl_area_new();
@@ -461,6 +463,12 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->fs_control_hover = FALSE;
 	area->use_floating_header_bar = FALSE;
 	area->use_floating_controls = FALSE;
+
+	const gboolean enable_graphics_offload =
+		g_settings_get_boolean(settings, "graphics-offload-enable");
+	gtk_graphics_offload_set_enabled
+		(	GTK_GRAPHICS_OFFLOAD(area->graphics_offload),
+			enable_graphics_offload );
 
 	AdwBreakpointCondition *wide_condition =
 		adw_breakpoint_condition_new_length
