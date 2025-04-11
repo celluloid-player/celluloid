@@ -103,7 +103,8 @@ static void
 free_signal_data(gpointer data, GClosure *closure);
 
 static GtkWidget *
-build_page(	const PreferencesDialogItem *items,
+build_page(	CelluloidPreferencesDialog *dialog,
+		const PreferencesDialogItem *items,
 		GSettings *settings,
 		const char *title,
 		const char *icon_name );
@@ -219,7 +220,8 @@ constructed(GObject *object)
 	GtkWidget *page = NULL;
 
 	page = build_page
-		(	interface_items,
+		(	dlg,
+			interface_items,
 			dlg->settings,
 			_("Interface"),
 			"applications-graphics-symbolic" );
@@ -227,7 +229,8 @@ constructed(GObject *object)
 					ADW_PREFERENCES_PAGE(page));
 
 	page = build_page
-		(	config_items,
+		(	dlg,
+			config_items,
 			dlg->settings,
 			_("Config Files"),
 			"document-properties-symbolic" );
@@ -235,7 +238,8 @@ constructed(GObject *object)
 					ADW_PREFERENCES_PAGE(page));
 
 	page = build_page
-		(	misc_items,
+		(	dlg,
+			misc_items,
 			dlg->settings,
 			_("Miscellaneous"),
 			"preferences-other-symbolic" );
@@ -265,9 +269,13 @@ constructed(GObject *object)
 static void
 file_set_handler(CelluloidFileChooserButton *button, gpointer data)
 {
-	GtkRoot *root = gtk_widget_get_root(GTK_WIDGET(button));
-	CelluloidPreferencesDialog *self = CELLULOID_PREFERENCES_DIALOG(root);
-	const gchar *key = data;
+	gpointer *signal_data = data;
+
+	CelluloidPreferencesDialog *self =
+		CELLULOID_PREFERENCES_DIALOG(signal_data[1]);
+	const gchar *key =
+		signal_data[0];
+
 	GFile *file = celluloid_file_chooser_button_get_file(button);
 	gchar *uri = g_file_get_uri(file) ?: g_strdup("");
 
@@ -319,11 +327,15 @@ save_settings(AdwPreferencesDialog *dialog)
 static void
 free_signal_data(gpointer data, GClosure *closure)
 {
-	g_free(data);
+	gpointer *signal_data = data;
+	g_free(signal_data[0]);
+	g_object_unref(signal_data[1]);
+	g_free(signal_data);
 }
 
 static GtkWidget *
-build_page(	const PreferencesDialogItem *items,
+build_page(	CelluloidPreferencesDialog *dialog,
+		const PreferencesDialogItem *items,
 		GSettings *settings,
 		const char *title,
 		const char *icon_name )
@@ -418,6 +430,10 @@ build_page(	const PreferencesDialogItem *items,
 						 NULL );
 			}
 
+			gpointer *signal_data = g_malloc(2 * sizeof(gpointer));
+			signal_data[0] = g_strdup(key);
+			signal_data[1] = g_object_ref(dialog);
+
 			/* For simplicity, changes made to the GSettings
 			 * database externally won't be reflected immediately
 			 * for this type of widget.
@@ -425,7 +441,7 @@ build_page(	const PreferencesDialogItem *items,
 			g_signal_connect_data(	button,
 						"file-set",
 						G_CALLBACK(file_set_handler),
-						g_strdup(key),
+						signal_data,
 						free_signal_data,
 						0 );
 
