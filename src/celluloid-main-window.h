@@ -112,6 +112,13 @@ celluloid_main_window_set_controls_visible(	CelluloidMainWindow *wnd,
 gboolean
 celluloid_main_window_get_controls_visible(CelluloidMainWindow *wnd);
 
+void
+celluloid_main_window_set_main_menu_visible(	CelluloidMainWindow *wnd,
+						gboolean visible );
+
+gboolean
+celluloid_main_window_get_main_menu_visible(CelluloidMainWindow *wnd);
+
 G_END_DECLS
 
 #endif

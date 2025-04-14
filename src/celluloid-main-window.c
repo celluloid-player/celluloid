@@ -116,6 +116,8 @@ resize_video_area_finalize(	GtkWidget *widget,
 static gboolean
 resize_to_target(gpointer data);
 
+static CelluloidHeaderBar *
+get_active_header_bar(CelluloidMainWindow *wnd);
 
 G_DEFINE_TYPE_WITH_PRIVATE(CelluloidMainWindow, celluloid_main_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -353,6 +355,32 @@ resize_to_target(gpointer data)
 	return FALSE;
 }
 
+static CelluloidHeaderBar *
+get_active_header_bar(CelluloidMainWindow *wnd)
+{
+	CelluloidMainWindowPrivate *priv = get_private(wnd);
+	CelluloidHeaderBar *result = NULL;
+
+	CelluloidVideoArea *video_area =
+		CELLULOID_VIDEO_AREA(priv->video_area);
+	CelluloidHeaderBar *video_area_header_bar =
+		celluloid_video_area_get_header_bar(video_area);
+
+	if(gtk_widget_get_visible(priv->header_bar))
+	{
+		result = CELLULOID_HEADER_BAR(priv->header_bar);
+	}
+	else if(gtk_widget_get_visible(GTK_WIDGET(video_area_header_bar)))
+	{
+		result = video_area_header_bar;
+	}
+	else
+	{
+		g_critical("Main window has no active header bar");
+	}
+
+	return result;
+}
 
 static void
 celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
@@ -852,4 +880,48 @@ celluloid_main_window_get_controls_visible(CelluloidMainWindow *wnd)
 	CelluloidVideoArea *video_area = CELLULOID_VIDEO_AREA(priv->video_area);
 
 	return celluloid_video_area_get_control_box_visible(video_area);
+}
+
+void
+celluloid_main_window_set_main_menu_visible(	CelluloidMainWindow *wnd,
+						gboolean visible )
+{
+	const gboolean csd = celluloid_main_window_get_csd_enabled(wnd);
+
+	if(csd)
+	{
+		CelluloidHeaderBar *header_bar = get_active_header_bar(wnd);
+
+		celluloid_header_bar_set_menu_button_popup_visible
+			(header_bar, visible);
+	}
+	else
+	{
+		gtk_application_window_set_show_menubar
+			(GTK_APPLICATION_WINDOW(wnd), visible);
+	}
+}
+
+gboolean
+celluloid_main_window_get_main_menu_visible(CelluloidMainWindow *wnd)
+{
+	gboolean csd = celluloid_main_window_get_csd_enabled(wnd);
+	gboolean result = FALSE;
+
+	if(csd)
+	{
+		CelluloidHeaderBar *header_bar = get_active_header_bar(wnd);
+
+		result =
+			celluloid_header_bar_get_menu_button_popup_visible
+			(header_bar);
+	}
+	else
+	{
+		result =
+			gtk_application_window_get_show_menubar
+			(GTK_APPLICATION_WINDOW(wnd));
+	}
+
+	return result;
 }

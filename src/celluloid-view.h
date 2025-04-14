@@ -125,12 +125,6 @@ celluloid_view_set_controls_visible(CelluloidView *view, gboolean visible);
 gboolean
 celluloid_view_get_controls_visible(CelluloidView *view);
 
-void
-celluloid_view_set_main_menu_visible(CelluloidView *view, gboolean visible);
-
-gboolean
-celluloid_view_get_main_menu_visible(CelluloidView *view);
-
 G_END_DECLS
 
 #endif
