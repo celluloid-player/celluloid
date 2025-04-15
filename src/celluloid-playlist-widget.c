@@ -57,6 +57,7 @@ enum PlaylistColumn
 struct _CelluloidPlaylistWidget
 {
 	AdwBin parent_instance;
+	GSettings *settings;
 	gint64 playlist_count;
 	gboolean searching;
 	CelluloidPlaylistModel *model;
@@ -106,6 +107,9 @@ find_match(	CelluloidPlaylistWidget *wgt,
 
 static void
 constructed(GObject *object);
+
+static void
+dispose(GObject *object);
 
 static void
 set_property(	GObject *object,
@@ -262,6 +266,7 @@ static GtkWidget *
 make_row(GObject *object, gpointer data)
 {
 	CelluloidPlaylistItem *item = CELLULOID_PLAYLIST_ITEM(object);
+	CelluloidPlaylistWidget *wgt = CELLULOID_PLAYLIST_WIDGET(data);
 	GtkWidget *row = gtk_list_box_row_new();
 	GtkWidget *row_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 	GtkWidget *title_label = NULL;
@@ -311,6 +316,12 @@ make_row(GObject *object, gpointer data)
 
 	g_assert(duration_label);
 
+	g_settings_bind(wgt->settings,
+			"show-durations-in-playlist",
+			duration_label,
+			"visible",
+			G_SETTINGS_BIND_GET );
+
 	gtk_widget_add_css_class(duration_label, "dim-label");
 	gtk_widget_set_halign(duration_label, GTK_ALIGN_START);
 	gtk_widget_set_margin_bottom(duration_label, 12);
@@ -347,7 +358,7 @@ constructed(GObject *object)
 		(	GTK_LIST_BOX(self->list_box),
 			G_LIST_MODEL(self->model),
 			(GtkListBoxCreateWidgetFunc)make_row,
-			NULL,
+			self,
 			NULL );
 
 	GtkGesture *click_gesture = gtk_gesture_click_new();
@@ -451,6 +462,17 @@ constructed(GObject *object)
 
 	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)
 		->constructed(object);
+}
+
+static void
+dispose(GObject *object)
+{
+	CelluloidPlaylistWidget *self = CELLULOID_PLAYLIST_WIDGET(object);
+
+	g_clear_object(&self->settings);
+
+	G_OBJECT_CLASS(celluloid_playlist_widget_parent_class)
+		->dispose(object);
 }
 
 static void
@@ -918,6 +940,7 @@ celluloid_playlist_widget_class_init(CelluloidPlaylistWidgetClass *klass)
 	GParamSpec *pspec = NULL;
 
 	obj_class->constructed = constructed;
+	obj_class->dispose = dispose;
 	obj_class->set_property = set_property;
 	obj_class->get_property = get_property;
 
@@ -1011,6 +1034,7 @@ celluloid_playlist_widget_class_init(CelluloidPlaylistWidgetClass *klass)
 static void
 celluloid_playlist_widget_init(CelluloidPlaylistWidget *wgt)
 {
+	wgt->settings = g_settings_new(CONFIG_ROOT);
 	wgt->playlist_count = 0;
 	wgt->searching = FALSE;
 	wgt->loop_file = FALSE;
