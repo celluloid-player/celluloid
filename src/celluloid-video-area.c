@@ -468,7 +468,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 		g_settings_get_boolean(settings, "graphics-offload-enable");
 	gtk_graphics_offload_set_enabled
 		(	GTK_GRAPHICS_OFFLOAD(area->graphics_offload),
-			enable_graphics_offload );
+			!enable_graphics_offload );
 
 	AdwBreakpointCondition *wide_condition =
 		adw_breakpoint_condition_new_length
