@@ -285,6 +285,10 @@ celluloid_header_bar_init(CelluloidHeaderBar *hdr)
 		"{"
 		"	border-radius: 999px;"
 		"}"
+		".top-bar .floating-header menubutton"
+		"{"
+		"	border: none;"
+		"}"
 		".floating-header windowcontrols image"
 		"{"
 		"	background-color: rgba(0,0,0,0.65);"
@@ -368,6 +372,10 @@ celluloid_header_bar_set_floating(CelluloidHeaderBar *hdr, gboolean floating)
 		gtk_widget_add_css_class
 			(GTK_WIDGET(hdr->fullscreen_btn), "raised");
 		gtk_widget_add_css_class
+			(GTK_WIDGET(hdr->open_btn), "osd");
+		gtk_widget_add_css_class
+			(GTK_WIDGET(hdr->menu_btn), "osd");
+		gtk_widget_add_css_class
 			(GTK_WIDGET(open_toggle_btn), "osd");
 		gtk_widget_add_css_class
 			(GTK_WIDGET(open_toggle_btn), "raised");
@@ -386,6 +394,10 @@ celluloid_header_bar_set_floating(CelluloidHeaderBar *hdr, gboolean floating)
 			(GTK_WIDGET(hdr->fullscreen_btn), "osd");
 		gtk_widget_remove_css_class
 			(GTK_WIDGET(hdr->fullscreen_btn), "raised");
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(hdr->open_btn), "osd");
+		gtk_widget_remove_css_class
+			(GTK_WIDGET(hdr->menu_btn), "osd");
 		gtk_widget_remove_css_class
 			(GTK_WIDGET(open_toggle_btn), "osd");
 		gtk_widget_remove_css_class
