@@ -95,6 +95,9 @@ static void
 reveal_controls(CelluloidVideoArea *area);
 
 static void
+compacted_apply_handler(AdwBreakpoint *self, gpointer data);
+
+static void
 destroy_handler(GtkWidget *widget, gpointer data);
 
 static gboolean
@@ -201,6 +204,26 @@ reveal_controls(CelluloidVideoArea *area)
 				(	FS_CONTROL_HIDE_DELAY,
 					timeout_handler,
 					area );
+}
+
+static void
+compacted_apply_handler(AdwBreakpoint *self, gpointer data)
+{
+	CelluloidVideoArea *area = CELLULOID_VIDEO_AREA(data);
+	int minimum_width = 0;
+
+	gtk_widget_measure(	area->toolbar_view,
+				GTK_ORIENTATION_HORIZONTAL,
+				-1,
+				&minimum_width,
+				NULL,
+				NULL,
+				NULL );
+
+	gtk_widget_set_size_request
+		(GTK_WIDGET(area), minimum_width, 200);
+	gtk_widget_set_size_request
+		(GTK_WIDGET(area->toolbar_view), minimum_width, 200);
 }
 
 static void
@@ -486,6 +509,11 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 		adw_breakpoint_condition_new_length
 		(ADW_BREAKPOINT_CONDITION_MAX_WIDTH, 400, ADW_LENGTH_UNIT_SP);
 	area->compacted = adw_breakpoint_new(compacted_condition);
+
+	g_signal_connect(	area->compacted,
+				"apply",
+				G_CALLBACK(compacted_apply_handler),
+				area );
 
 	adw_toolbar_view_set_reveal_top_bars
 		(	ADW_TOOLBAR_VIEW(area->toolbar_view),
