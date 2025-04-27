@@ -21,7 +21,6 @@
 
 #include "celluloid-controller-actions.h"
 #include "celluloid-controller-private.h"
-#include "celluloid-file-chooser.h"
 #include "celluloid-common.h"
 
 static gboolean

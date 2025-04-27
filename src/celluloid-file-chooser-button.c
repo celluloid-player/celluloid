@@ -20,21 +20,13 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "celluloid-file-chooser.h"
 #include "celluloid-file-chooser-button.h"
-
-enum
-{
-	PROP_0,
-	PROP_TITLE,
-	PROP_ACTION,
-	N_PROPERTIES
-};
+#include "celluloid-file-dialog.h"
 
 struct _CelluloidFileChooserButton
 {
 	GtkButton parent;
-	CelluloidFileChooser *file_chooser;
+	CelluloidFileDialog *dialog;
 	GtkWidget *label;
 	GFile *file;
 
@@ -48,18 +40,6 @@ struct _CelluloidFileChooserButtonClass
 };
 
 static void
-set_property(	GObject *object,
-		guint property_id,
-		const GValue *value,
-		GParamSpec *pspec );
-
-static void
-get_property(	GObject *object,
-		guint property_id,
-		GValue *value,
-		GParamSpec *pspec );
-
-static void
 finalize(GObject *object);
 
 static void
@@ -69,65 +49,16 @@ static void
 set_file(CelluloidFileChooserButton *self, GFile *file);
 
 static void
-handle_response(GtkNativeDialog *file_chooser, gint response_id, gpointer data);
+open_dialog_callback(GObject *source_object, GAsyncResult *res, gpointer data);
 
 G_DEFINE_TYPE(CelluloidFileChooserButton, celluloid_file_chooser_button, GTK_TYPE_BUTTON)
-
-static void
-set_property(	GObject *object,
-		guint property_id,
-		const GValue *value,
-		GParamSpec *pspec )
-{
-	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(object);
-
-	switch(property_id)
-	{
-		case PROP_TITLE:
-		g_clear_pointer(&self->title, g_free);
-		self->title = g_value_dup_string(value);
-		break;
-
-		case PROP_ACTION:
-		self->action = g_value_get_enum(value);
-		break;
-
-		default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-get_property(	GObject *object,
-		guint property_id,
-		GValue *value,
-		GParamSpec *pspec )
-{
-	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(object);
-
-	switch(property_id)
-	{
-		case PROP_TITLE:
-		g_value_set_string(value, self->title);
-		break;
-
-		case PROP_ACTION:
-		g_value_set_enum(value, self->action);
-		break;
-
-		default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
-		break;
-	}
-}
 
 static void
 finalize(GObject *object)
 {
 	CelluloidFileChooserButton *button = CELLULOID_FILE_CHOOSER_BUTTON(object);
 
-	gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(button->file_chooser));
+	g_clear_object(&button->dialog);
 	g_clear_object(&button->file);
 	g_clear_object(&button->title);
 
@@ -138,13 +69,17 @@ finalize(GObject *object)
 static void
 clicked(GtkButton *button)
 {
-	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(button);
-	GtkWindow *window = GTK_WINDOW(gtk_widget_get_root(GTK_WIDGET(self)));
+	CelluloidFileChooserButton *self =
+		CELLULOID_FILE_CHOOSER_BUTTON(button);
+	GtkWindow *window =
+		GTK_WINDOW(gtk_widget_get_root(GTK_WIDGET(self)));
 
-	gtk_native_dialog_set_transient_for
-		(GTK_NATIVE_DIALOG(self->file_chooser), window);
-	gtk_native_dialog_show
-		(GTK_NATIVE_DIALOG(self->file_chooser));
+	celluloid_file_dialog_open
+		(	self->dialog,
+			window,
+			NULL,
+			open_dialog_callback,
+			button );
 }
 
 static void
@@ -169,22 +104,19 @@ set_file(CelluloidFileChooserButton *self, GFile *file)
 }
 
 static void
-handle_response(GtkNativeDialog *file_chooser, gint response_id, gpointer data)
+open_dialog_callback(GObject *source_object, GAsyncResult *res, gpointer data)
 {
-	CelluloidFileChooserButton *self =
-		CELLULOID_FILE_CHOOSER_BUTTON
-		(data);
-	GFile *file =
-		celluloid_file_chooser_get_file
-		(CELLULOID_FILE_CHOOSER(file_chooser));
+	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(data);
+	CelluloidFileDialog *dialog = CELLULOID_FILE_DIALOG(source_object);
+	GFile *file = celluloid_file_dialog_open_finish(dialog, res, NULL);
 
-	if(response_id == GTK_RESPONSE_ACCEPT)
+	if(file)
 	{
 		set_file(self, file);
 		g_object_unref(file);
 	}
 
-	gtk_native_dialog_hide(file_chooser);
+	g_object_unref(dialog);
 }
 
 static void
@@ -193,29 +125,8 @@ celluloid_file_chooser_button_class_init(CelluloidFileChooserButtonClass *klass)
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	GtkButtonClass *button_class = GTK_BUTTON_CLASS(klass);
 
-	object_class->set_property = set_property;
-	object_class->get_property = get_property;
 	object_class->finalize = finalize;
 	button_class->clicked = clicked;
-
-	GParamSpec *pspec = NULL;
-
-	pspec = g_param_spec_string
-		(	"title",
-			"Title",
-			"The title of the file chooser dialog",
-			"",
-			G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_TITLE, pspec);
-
-	pspec = g_param_spec_enum
-		(	"action",
-			"Action",
-			"Mode for the file chooser dialog",
-			GTK_TYPE_FILE_CHOOSER_ACTION,
-			GTK_FILE_CHOOSER_ACTION_OPEN,
-			G_PARAM_READWRITE );
-	g_object_class_install_property(object_class, PROP_ACTION, pspec);
 
 	g_signal_new(	"file-set",
 			G_TYPE_FROM_CLASS(klass),
@@ -231,12 +142,7 @@ celluloid_file_chooser_button_class_init(CelluloidFileChooserButtonClass *klass)
 static void
 celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 {
-	self->file_chooser =
-		celluloid_file_chooser_new
-		(	_("Open File…"),
-			NULL,
-			GTK_FILE_CHOOSER_ACTION_OPEN,
-			FALSE );
+	self->dialog = celluloid_file_dialog_new(FALSE);
 	self->label = gtk_label_new(_("(None)"));
 	self->file = NULL;
 	self->title = NULL;
@@ -245,8 +151,7 @@ celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	GtkWidget *icon = gtk_image_new_from_icon_name("document-open-symbolic");
 
-	gtk_native_dialog_set_modal
-		(GTK_NATIVE_DIALOG(self->file_chooser), TRUE);
+	celluloid_file_dialog_set_title(self->dialog, _("Open File…"));
 
 	gtk_widget_set_halign(self->label, GTK_ALIGN_START);
 	gtk_widget_set_halign(icon, GTK_ALIGN_END);
@@ -255,27 +160,12 @@ celluloid_file_chooser_button_init(CelluloidFileChooserButton *self)
 	gtk_box_append(GTK_BOX(box), self->label);
 	gtk_box_append(GTK_BOX(box), icon);
 	gtk_button_set_child(GTK_BUTTON(self), box);
-
-	g_object_bind_property(	self, "title",
-				self->file_chooser, "title",
-				G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE );
-	g_object_bind_property(	self, "action",
-				self->file_chooser, "action",
-				G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE );
-
-	g_signal_connect(	self->file_chooser,
-				"response",
-				G_CALLBACK(handle_response),
-				self );
 }
 
 GtkWidget *
-celluloid_file_chooser_button_new(	const gchar *title,
-					GtkFileChooserAction action )
+celluloid_file_chooser_button_new(void)
 {
 	return GTK_WIDGET(g_object_new(	celluloid_file_chooser_button_get_type(),
-					"title", title,
-					"action", action,
 					NULL ));
 }
 
@@ -285,18 +175,18 @@ celluloid_file_chooser_button_set_file(	CelluloidFileChooserButton *self,
 					GError **error )
 {
 	set_file(self, file);
-	celluloid_file_chooser_set_file(self->file_chooser, file, error);
+	celluloid_file_dialog_set_initial_file(self->dialog, file);
 }
 
 GFile *
 celluloid_file_chooser_button_get_file(CelluloidFileChooserButton *self)
 {
-	return celluloid_file_chooser_get_file(self->file_chooser);
+	return self->file;
 }
 
 void
 celluloid_file_chooser_button_set_filter(	CelluloidFileChooserButton *self,
 						GtkFileFilter *filter )
 {
-	celluloid_file_chooser_set_filter(self->file_chooser, filter);
+	celluloid_file_dialog_set_default_filter(self->dialog, filter);
 }

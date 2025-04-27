@@ -22,7 +22,7 @@
 
 #include "celluloid-plugins-manager.h"
 #include "celluloid-plugins-manager-item.h"
-#include "celluloid-file-chooser.h"
+#include "celluloid-file-dialog.h"
 #include "celluloid-common.h"
 
 enum
@@ -68,7 +68,7 @@ celluloid_plugins_manager_get_property(	GObject *object,
 					GParamSpec *pspec );
 
 static void
-response_handler(GtkNativeDialog *self, gint response_id, gpointer data);
+add_dialog_callback(GObject *source_object, GAsyncResult *res, gpointer data);
 
 static void
 add_handler(GtkButton *button, gpointer data);
@@ -165,65 +165,73 @@ get_list_box_from_pref_group(AdwPreferencesGroup *pref_group)
 }
 
 static void
-response_handler(GtkNativeDialog *self, gint response_id, gpointer data)
+add_dialog_callback(GObject *source_object, GAsyncResult *res, gpointer data)
 {
-	GFile *src = NULL;
+	CelluloidFileDialog *dialog =
+		CELLULOID_FILE_DIALOG(source_object);
+	CelluloidPluginsManager *pmgr =
+		CELLULOID_PLUGINS_MANAGER(data);
+	GListModel *files =
+		celluloid_file_dialog_open_multiple_finish(dialog, res, NULL);
 
-	if(response_id == GTK_RESPONSE_ACCEPT)
+	if(files)
 	{
-		CelluloidFileChooser *chooser = CELLULOID_FILE_CHOOSER(self);
+		const guint n_items = g_list_model_get_n_items(files);
 
-		src = celluloid_file_chooser_get_file(chooser);
-		copy_file_to_directory(CELLULOID_PLUGINS_MANAGER(data), src);
+		for(guint i = 0; i < n_items; i++)
+		{
+			GFile *file = g_list_model_get_item(files, i);
+			copy_file_to_directory(pmgr, file);
+		}
+
+		g_object_unref(files);
 	}
 
-	g_clear_object(&src);
-	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(self));
+	g_object_unref(dialog);
 }
 
 static void
 add_handler(GtkButton *button, gpointer data)
 {
-	CelluloidPluginsManager *pmgr = data;
-	CelluloidFileChooser *dialog = NULL;
-	GtkFileFilter *filter;
+	CelluloidPluginsManager *pmgr = CELLULOID_PLUGINS_MANAGER(data);
+	CelluloidFileDialog *dialog = celluloid_file_dialog_new(TRUE);
 
-	dialog =
-		celluloid_file_chooser_new
-		(	_("Add Plugin"),
-			pmgr->parent_window,
-			GTK_FILE_CHOOSER_ACTION_OPEN,
-			TRUE );
+	celluloid_file_dialog_set_title(dialog, _("Add Plugin"));
 
-	filter = NULL;
+	GListStore *filters = g_list_store_new(GTK_TYPE_FILE_FILTER);
+
+	GtkFileFilter *filter = NULL;
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("All Files"));
 	gtk_file_filter_add_pattern(filter, "*");
-	celluloid_file_chooser_add_filter(dialog, filter);
+	g_list_store_append(filters, filter);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("Lua Plugins"));
 	gtk_file_filter_add_mime_type(filter, "text/x-lua");
-	celluloid_file_chooser_add_filter(dialog, filter);
-	celluloid_file_chooser_set_filter(dialog, filter);
+	g_list_store_append(filters, filter);
+	celluloid_file_dialog_set_default_filter(dialog, filter);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("JavaScript Plugins"));
 	gtk_file_filter_add_mime_type(filter, "application/javascript");
-	celluloid_file_chooser_add_filter(dialog, filter);
+	g_list_store_append(filters, filter);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("C Plugins"));
 	gtk_file_filter_add_mime_type(filter, "application/x-sharedlib");
-	celluloid_file_chooser_add_filter(dialog, filter);
+	g_list_store_append(filters, filter);
 
-	g_signal_connect(	dialog,
-				"response",
-				G_CALLBACK(response_handler),
-				pmgr );
-
-	gtk_native_dialog_show(GTK_NATIVE_DIALOG(dialog));
+	celluloid_file_dialog_set_filters
+		(	dialog,
+			G_LIST_MODEL(filters) );
+	celluloid_file_dialog_open_multiple
+		(	dialog,
+			pmgr->parent_window,
+			NULL,
+			add_dialog_callback,
+			pmgr );
 }
 
 static gboolean

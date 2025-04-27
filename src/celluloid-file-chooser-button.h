@@ -30,8 +30,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(CelluloidFileChooserButton, celluloid_file_chooser_button, CELLULOID, FILE_CHOOSER_BUTTON, GtkButton)
 
 GtkWidget *
-celluloid_file_chooser_button_new(	const gchar *title,
-					GtkFileChooserAction action );
+celluloid_file_chooser_button_new(void);
 
 void
 celluloid_file_chooser_button_set_file(	CelluloidFileChooserButton *self,

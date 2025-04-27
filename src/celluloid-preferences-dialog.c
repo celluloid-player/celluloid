@@ -406,9 +406,7 @@ build_page(	CelluloidPreferencesDialog *dialog,
 			adw_preferences_row_set_title
 				(ADW_PREFERENCES_ROW(widget), label);
 
-			button = celluloid_file_chooser_button_new
-				(	NULL,
-					GTK_FILE_CHOOSER_ACTION_OPEN );
+			button = celluloid_file_chooser_button_new();
 			gtk_widget_set_valign
 				(button, GTK_ALIGN_CENTER);
 			adw_action_row_add_suffix

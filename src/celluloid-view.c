@@ -26,7 +26,7 @@
 #endif
 
 #include "celluloid-view.h"
-#include "celluloid-file-chooser.h"
+#include "celluloid-file-dialog.h"
 #include "celluloid-open-location-dialog.h"
 #include "celluloid-preferences-dialog.h"
 #include "celluloid-shortcuts-window.h"
@@ -131,7 +131,9 @@ show_open_track_dialog(CelluloidView  *view, TrackType type);
 
 /* Dialog responses */
 static void
-open_dialog_response_handler(GtkDialog *dialog, gint response_id, gpointer data);
+open_dialog_callback(	GObject *source_object,
+			GAsyncResult *res,
+			gpointer data );
 
 static void
 open_location_dialog_response_handler(	GtkDialog *dialog,
@@ -139,14 +141,14 @@ open_location_dialog_response_handler(	GtkDialog *dialog,
 					gpointer data );
 
 static void
-open_track_dialog_response_handler(	GtkDialog *dialog,
-					gint response_id,
-					gpointer data );
+open_track_dialog_callback(	GObject *source_object,
+				GAsyncResult *res,
+				gpointer data );
 
 static void
-save_playlist_response_handler(	GtkDialog *dialog,
-				gint response_id,
-				gpointer data );
+save_playlist_callback(	GObject *source_object,
+			GAsyncResult *res,
+			gpointer data );
 
 static gboolean
 mpv_reset_request_handler(AdwPreferencesWindow *dialog, gpointer data);
@@ -729,20 +731,23 @@ show_message_dialog(CelluloidView *view, const gchar *prefix, const gchar *msg)
 static void
 show_open_track_dialog(CelluloidView  *view, TrackType type)
 {
-	const gchar *title = NULL;
+	CelluloidFileDialog *dialog = celluloid_file_dialog_new(TRUE);
 
 	switch(type)
 	{
 		case TRACK_TYPE_AUDIO:
-		title = _("Load Audio Track…");
+		celluloid_file_dialog_set_title
+			(dialog, _("Load Audio Track…"));
 		break;
 
 		case TRACK_TYPE_VIDEO:
-		title = _("Load Video Track…");
+		celluloid_file_dialog_set_title
+			(dialog, _("Load Video Track…"));
 		break;
 
 		case TRACK_TYPE_SUBTITLE:
-		title = _("Load Subtitle Track…");
+		celluloid_file_dialog_set_title
+			(dialog, _("Load Subtitle Track…"));
 		break;
 
 		default:
@@ -750,54 +755,69 @@ show_open_track_dialog(CelluloidView  *view, TrackType type)
 		break;
 	}
 
-	CelluloidFileChooser *chooser =	celluloid_file_chooser_new
-					(	title,
-						GTK_WINDOW(view),
-						GTK_FILE_CHOOSER_ACTION_OPEN,
-						TRUE );
-
-	g_object_set_data(	G_OBJECT(chooser),
+	g_object_set_data(	G_OBJECT(dialog),
 				"track-type",
 				(gpointer)type );
 
-	g_signal_connect(	chooser,
-				"response",
-				G_CALLBACK(open_track_dialog_response_handler),
-				view );
-
-	celluloid_file_chooser_set_default_filters
-		(	chooser,
+	celluloid_file_dialog_set_default_filters
+		(	dialog,
 			type == TRACK_TYPE_AUDIO,
 			type == TRACK_TYPE_VIDEO,
 			FALSE,
 			type == TRACK_TYPE_SUBTITLE );
-
-	celluloid_file_chooser_show(chooser);
+	celluloid_file_dialog_open_multiple
+		(	dialog,
+			GTK_WINDOW(view),
+			NULL,
+			open_track_dialog_callback,
+			view );
 }
 
 static void
-open_dialog_response_handler(GtkDialog *dialog, gint response_id, gpointer data)
+open_dialog_callback(	GObject *source_object,
+			GAsyncResult *res,
+			gpointer data )
 {
-	GPtrArray *args = data;
-	CelluloidView *view = g_ptr_array_index(args, 0);
-	gboolean *append = g_ptr_array_index(args, 1);
+	CelluloidFileDialog *dialog =
+		CELLULOID_FILE_DIALOG(source_object);
+	CelluloidView *view =
+		CELLULOID_VIEW(data);
+	const gboolean append =
+		GPOINTER_TO_INT(g_object_get_data(source_object, "append"));
+	const gboolean select_folder =
+		GPOINTER_TO_INT(g_object_get_data(source_object, "select-folder"));
 
-	if(response_id == GTK_RESPONSE_ACCEPT)
+	GListModel *files = NULL;
+
+	if(select_folder)
 	{
-		CelluloidFileChooser *chooser = CELLULOID_FILE_CHOOSER(dialog);
-		GListModel *files = celluloid_file_chooser_get_files(chooser);
+		GFile *folder =
+			celluloid_file_dialog_select_folder_finish
+			(dialog, res, NULL);
 
-		if(files)
+		if(folder)
 		{
-			g_signal_emit_by_name(view, "file-open", files, *append);
-			g_object_unref(files);
+			GListStore *files_store = g_list_store_new(G_TYPE_FILE);
+			g_list_store_append(files_store, folder);
+
+			files = G_LIST_MODEL(files_store);
+
+			g_object_unref(folder);
 		}
 	}
+	else
+	{
+		files =	celluloid_file_dialog_open_multiple_finish
+			(dialog, res, NULL);
+	}
 
-	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
+	if(files)
+	{
+		g_signal_emit_by_name(view, "file-open", files, append);
+		g_object_unref(files);
+	}
 
-	g_free(append);
-	g_ptr_array_free(args, TRUE);
+	g_object_unref(dialog);
 }
 
 static void
@@ -833,41 +853,45 @@ open_location_dialog_response_handler(	GtkDialog *dialog,
 }
 
 static void
-open_track_dialog_response_handler(	GtkDialog *dialog,
-					gint response_id,
-					gpointer data )
+open_track_dialog_callback(	GObject *source_object,
+				GAsyncResult *res,
+				gpointer data )
 {
-	if(response_id == GTK_RESPONSE_ACCEPT)
+	CelluloidFileDialog *dialog =
+		CELLULOID_FILE_DIALOG(source_object);
+	TrackType type =
+		(TrackType)g_object_get_data(G_OBJECT(dialog), "track-type");
+	const gchar *name =
+		NULL;
+
+	switch(type)
 	{
-		CelluloidFileChooser *chooser = CELLULOID_FILE_CHOOSER(dialog);
-		GListModel *files = celluloid_file_chooser_get_files(chooser);
-		const gchar *name = NULL;
+		case TRACK_TYPE_AUDIO:
+		name = "audio-track-load";
+		break;
 
-		TrackType type =
-			(TrackType)
-			g_object_get_data(G_OBJECT(dialog), "track-type");
+		case TRACK_TYPE_VIDEO:
+		name = "video-track-load";
+		break;
 
-		switch(type)
-		{
-			case TRACK_TYPE_AUDIO:
-			name = "audio-track-load";
-			break;
+		case TRACK_TYPE_SUBTITLE:
+		name = "subtitle-track-load";
+		break;
 
-			case TRACK_TYPE_VIDEO:
-			name = "video-track-load";
-			break;
+		default:
+		g_assert_not_reached();
+		break;
+	}
 
-			case TRACK_TYPE_SUBTITLE:
-			name = "subtitle-track-load";
-			break;
+	CelluloidView *view =
+		CELLULOID_VIEW(data);
+	GListModel *files =
+		celluloid_file_dialog_open_multiple_finish(dialog, res, NULL);
 
-			default:
-			g_assert_not_reached();
-			break;
-		}
-
-		CelluloidView *view = CELLULOID_VIEW(data);
-		const guint n_items = g_list_model_get_n_items(files);
+	if(files)
+	{
+		const guint n_items =
+			g_list_model_get_n_items(files);
 
 		for(guint i = 0; i < n_items; i++)
 		{
@@ -881,37 +905,28 @@ open_track_dialog_response_handler(	GtkDialog *dialog,
 		g_object_unref(files);
 	}
 
-	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
+	g_object_unref(dialog);
 }
 
 static void
-save_playlist_response_handler(	GtkDialog *dialog,
-				gint response_id,
-				gpointer data )
+save_playlist_callback(	GObject *source_object,
+			GAsyncResult *res,
+			gpointer data )
 {
+	CelluloidFileDialog *dialog = CELLULOID_FILE_DIALOG(source_object);
 	CelluloidView *view = CELLULOID_VIEW(data);
-	GFile *dest_file = NULL;
 	GError *error = NULL;
+	GFile *file = celluloid_file_dialog_save_finish(dialog, res, &error);
 
-	if(response_id == GTK_RESPONSE_ACCEPT)
+	if(file)
 	{
-		/* There should be only one file selected. */
-		dest_file =	celluloid_file_chooser_get_file
-				(CELLULOID_FILE_CHOOSER(dialog));
-	}
-
-	celluloid_file_chooser_destroy(CELLULOID_FILE_CHOOSER(dialog));
-
-	if(dest_file)
-	{
-		save_playlist(view, dest_file, &error);
-		g_object_unref(dest_file);
+		save_playlist(view, file, &error);
+		g_object_unref(file);
 	}
 
 	if(error)
 	{
 		show_message_dialog(view, NULL, error->message);
-
 		g_error_free(error);
 	}
 }
@@ -1456,49 +1471,49 @@ celluloid_view_get_main_window(CelluloidView *view)
 
 void
 celluloid_view_show_open_dialog(	CelluloidView *view,
-					gboolean folder,
+					gboolean select_folder,
 					gboolean append )
 {
-	CelluloidFileChooser *chooser;
-	GPtrArray *args;
-	const gchar *title;
-	GtkFileChooserAction action;
-	gboolean *append_buf;
+	CelluloidFileDialog *dialog = celluloid_file_dialog_new(TRUE);
 
-	if(folder)
+	g_object_set_data(	G_OBJECT(dialog),
+				"append",
+				GINT_TO_POINTER(append) );
+	g_object_set_data(	G_OBJECT(dialog),
+				"select-folder",
+				GINT_TO_POINTER(select_folder) );
+
+	if(select_folder)
 	{
-		title = append ? _("Add Folder to Playlist") : _("Open Folder");
-		action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+		celluloid_file_dialog_set_title
+			(	dialog,
+				append ?
+				_("Add Folder to Playlist") :
+				_("Open Folder") );
+		celluloid_file_dialog_select_folder
+			(	dialog,
+				GTK_WINDOW(view),
+				NULL,
+				open_dialog_callback,
+				view );
 	}
 	else
 	{
-		title = append ? _("Add File to Playlist") : _("Open File");
-		action = GTK_FILE_CHOOSER_ACTION_OPEN;
+		celluloid_file_dialog_set_default_filters
+			(dialog, TRUE, TRUE, TRUE, TRUE);
+
+		celluloid_file_dialog_set_title
+			(	dialog,
+				append ?
+				_("Add File to Playlist") :
+				_("Open File") );
+		celluloid_file_dialog_open_multiple
+			(	dialog,
+				GTK_WINDOW(view),
+				NULL,
+				open_dialog_callback,
+				view );
 	}
-
-	chooser =
-		celluloid_file_chooser_new
-		(title, GTK_WINDOW(view), action, TRUE);
-
-	args = g_ptr_array_new();
-	append_buf = g_malloc(sizeof(gboolean));
-	*append_buf = append;
-
-	g_ptr_array_add(args, view);
-	g_ptr_array_add(args, append_buf);
-
-	g_signal_connect(	chooser,
-				"response",
-				G_CALLBACK(open_dialog_response_handler),
-				args );
-
-	if(!folder)
-	{
-		celluloid_file_chooser_set_default_filters
-			(chooser, TRUE, TRUE, TRUE, TRUE);
-	}
-
-	celluloid_file_chooser_show(chooser);
 }
 
 void
@@ -1550,22 +1565,17 @@ celluloid_view_show_open_subtitle_track_dialog(CelluloidView *view)
 void
 celluloid_view_show_save_playlist_dialog(CelluloidView *view)
 {
-	CelluloidFileChooser *file_chooser;
+	CelluloidFileDialog *dialog = celluloid_file_dialog_new(TRUE);
 
-	file_chooser =	celluloid_file_chooser_new
-			(	_("Save Playlist"),
-				GTK_WINDOW(view),
-				GTK_FILE_CHOOSER_ACTION_SAVE,
-				TRUE );
-
-	celluloid_file_chooser_set_current_name(file_chooser, "playlist.m3u");
-
-	g_signal_connect(	file_chooser,
-				"response",
-				G_CALLBACK(save_playlist_response_handler),
-				view );
-
-	gtk_native_dialog_show(GTK_NATIVE_DIALOG(file_chooser));
+	celluloid_file_dialog_set_initial_name
+		(	dialog,
+			"playlist.m3u" );
+	celluloid_file_dialog_save
+		(	dialog,
+			GTK_WINDOW(view),
+			NULL,
+			save_playlist_callback,
+			view );
 }
 
 void
