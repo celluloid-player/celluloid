@@ -137,6 +137,9 @@ constructed(GObject *object)
 
 	AdwOverlaySplitView *video_split_view =
 		ADW_OVERLAY_SPLIT_VIEW(priv->video_split_view);
+	const gint playlist_width =
+		g_settings_get_int(state, "playlist-width");
+
 	adw_overlay_split_view_set_content
 		(video_split_view, priv->video_area);
 	adw_overlay_split_view_set_sidebar
@@ -147,6 +150,8 @@ constructed(GObject *object)
 		(video_split_view, FALSE);
 	adw_overlay_split_view_set_collapsed
 		(video_split_view, TRUE);
+	adw_overlay_split_view_set_max_sidebar_width
+		(video_split_view, playlist_width);
 
 	GtkWidget *sidebar =
 		adw_overlay_split_view_get_sidebar(video_split_view);
