@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-03 22:56-0600\n"
+"POT-Creation-Date: 2025-05-15 20:57-0500\n"
 "PO-Revision-Date: 2022-10-14 11:20+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/celluloid/"
@@ -151,39 +151,48 @@ msgstr "Desactiva la suspensió de la sessió"
 msgid "Make video area draggable"
 msgstr "Fer que l'àrea de vídeo sigui arrossegable"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:175
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:171
+#, fuzzy
+msgid "Display file durations in the playlist"
+msgstr "Utilitzar els botons de salt per a controlar la llista de reproducció"
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:177
+msgid "Enable graphics offload"
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
 msgstr "Amplada de la finestra"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:181
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:193
 msgid "Height of the window"
 msgstr "Alçada de la finestra"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:187
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:199
 msgid "Whether or not the window is maximized"
 msgstr "Maximitza la finestra"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:194
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:206
 msgid "Volume of player"
 msgstr "Volum del reproductor"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:200
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:212
 msgid "Whether or not to loop when the end of playlist is reached"
 msgstr "Reprodueix en bucle la llista de reproducció"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:206
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:218
 msgid "Width of the playlist"
 msgstr "Amplada de la llista de reproducció"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:212
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:224
 msgid "Show/hide the controls"
 msgstr "Mostrar/amagar els controls"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:218
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:230
 msgid "Show/hide the playlist"
 msgstr "Mostrar/amagar la llista de reproducció"
 
-#: data/io.github.celluloid_player.Celluloid.gschema.xml:224
+#: data/io.github.celluloid_player.Celluloid.gschema.xml:236
 msgid "URI of the last folder accessed"
 msgstr "Ubicació de l'última carpeta accedida"
 
@@ -231,287 +240,324 @@ msgid "MPRIS2 D-Bus interface"
 msgstr "Interfície D-Bus de MPRIS2"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:36
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:69
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:144
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:207
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:252
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:287
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:75
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:108
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:140
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:183
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:246
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:326
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:379
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:409
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:418
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:448
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:479
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:507
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:487
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:518
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:546
 msgid "This release contains the following changes:"
 msgstr "Aquesta versió conté els canvis següents:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:40
-msgid ""
-"Add a loading screen that gets displayed during initialization and buffering."
+msgid "Add the standard F10 key binding for activating the main menu button."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:44
-msgid ""
-"Reduce the time it takes for the main window to get displayed after "
-"launching."
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:43
+msgid "Implement GUI redesign by @jannuary."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:48
-msgid ""
-"Opening and closing the preferences dialog will no longer trigger an mpv "
-"reset unless options that require it are changed."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
-msgid "Update the look for controls and header bar in floating mode."
-msgstr ""
-
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:46
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
 msgid "Update some of the deprecated GTK API usage."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:49
+msgid "Fix a crash that occurs on exit with GTK 4.17."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:52
 #, fuzzy
-msgid "Add support for multi-file user scripts."
+msgid "Add support for loading Lua modules from `script-modules`."
 msgstr "Afegeix la possibilitat de carregar pistes de vídeo externes."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:62
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:94
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:137
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:173
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:200
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:245
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:280
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:55
+msgid "File durations are now displayed in the playlist when available."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:58
+msgid "Make next/previous buttons control playlist position by default."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:61
+#, fuzzy
+msgid "Add Irish translation by Aindriú Mac Giolla Eoin."
+msgstr "Afegeix la traducció al turc feta per TeknoMobil"
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:64
+msgid "Drop Autotools."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:68
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:101
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:176
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:212
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:239
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:284
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:319
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:372
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:402
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:411
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:441
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:472
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:500
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:528
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:480
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:539
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:567
 msgid "This listing is incomplete. See git log for complete changelog."
 msgstr ""
 "Aquest llistat és incomplet. Consulteu el registre del Git per obtenir un "
 "registre de canvis complet."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:73
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
+msgid ""
+"Add a loading screen that gets displayed during initialization and buffering."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:83
+msgid ""
+"Reduce the time it takes for the main window to get displayed after "
+"launching."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:87
+msgid ""
+"Opening and closing the preferences dialog will no longer trigger an mpv "
+"reset unless options that require it are changed."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:91
+msgid "Update the look for controls and header bar in floating mode."
+msgstr ""
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:97
+#, fuzzy
+msgid "Add support for multi-file user scripts."
+msgstr "Afegeix la possibilitat de carregar pistes de vídeo externes."
+
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:112
 msgid "Fix a bug where the header bar keeps hiding even when a menu is open."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:76
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:115
 msgid "Use toasts instead of dialog to report mpv errors."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:79
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:118
 #, fuzzy
 msgid "Change default screenshot format to PNG."
 msgstr ""
 "Canviada la plantilla de nom de fitxer de captura de pantalla predeterminada "
 "a FILENAME-TIMESTAMP (%f-%P)."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:82
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
 msgid ""
 "Fix crash that happens when the mpv-config-file key in GSettings contains a "
 "path rather than a URI."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:86
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:125
 msgid "Expose the Position MPRIS property."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:89
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:128
 msgid ""
 "Use the numeric style class for the time/duration label, which stops it from "
 "jumping around as it changes."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:105
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:144
 msgid "Fix crash when using multiple windows."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:108
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:147
 msgid "Port the about dialog to libadwaita."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:111
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:150
 msgid "Fix cursor not autohiding on KDE."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:114
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:153
 msgid "Fix mouse presses/releases becoming unreliable during playback."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:117
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:156
 msgid ""
 "Make it possible to build on Windows. Celluloid still crashes on mouse "
 "clicks, but it runs and can play videos."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:121
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
 #, fuzzy
 msgid "Add Estonian translation by vaba."
 msgstr "Afegeix la traducció a l'eslovè feta per @bertronika."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:124
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
 #, fuzzy
 msgid "Add Georgian translation by temuri doghonadze."
 msgstr "Afegeix la traducció a l'eslovè feta per @bertronika."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:127
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
 #, fuzzy
 msgid "Add Lithuanian translation by Jonas Smol."
 msgstr "Afegeix la traducció a l'ucraïnès feta per vl-nix"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:130
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
 #, fuzzy
 msgid "Add Occitan translation by Quentin PAGÈS."
 msgstr "Afegida la traducció occidental d'OIS."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:133
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:172
 #, fuzzy
 msgid "Add Tamil translation by K.B.Dharun Krishna."
 msgstr "Afegeix la traducció al basc per @aldatsa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:148
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
 #, fuzzy
 msgid "Add Malay translation by @dinazmi."
 msgstr "Afegeix la traducció al basc per @aldatsa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:151
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:190
 msgid "Use libadwaita."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:154
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
 msgid "Fix on_load hook in scripts not triggering."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:157
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:196
 #, fuzzy
 msgid "Add option to make the video area draggable."
 msgstr "Fer que l'àrea de vídeo sigui arrossegable"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:160
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:199
 msgid "Fix autofit breaking when playing small videos."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:163
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:202
 msgid "Make controls layout adaptive."
 msgstr ""
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:166
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:205
 #, fuzzy
 msgid "Display chapter marks in the seek bar."
 msgstr ""
 "Mostra el temps en la posició del punter en situar-lo en la barra de cerca."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:169
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:208
 #, fuzzy
 msgid "Display chapter titles in the seek bar popover."
 msgstr ""
 "Mostra el temps en la posició del punter en situar-lo en la barra de cerca."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:180
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:219
 msgid "This is mostly a bugfix release. It contains the following changes:"
 msgstr "Això és una versió de correcció d'errors. Conté els canvis següents:"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:184
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
 msgid "Fix autofit triggering regardless of settings."
 msgstr ""
 "Corregir l'activació d'ajust automàtic independentment de la configuració."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:187
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
 msgid "Fix window size shrinking across sessions."
 msgstr "Corregir la reducció de la mida de la finestra entre sessions."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:190
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
 msgid "Fix crash when playing files with names containing invalid encoding."
 msgstr ""
 "S'ha corregit una errada en reproduir fitxers amb noms que contenen una "
 "codificació no vàlida."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:193
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
 msgid "Fix drag-and-drop not working with some file managers."
 msgstr ""
 "S'ha corregit l'arrossegar i deixar anar que no funciona amb alguns gestors "
 "de fitxers."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:196
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
 msgid "Fix playback starting when the last playlist item is removed."
 msgstr ""
 "S'ha corregit la reproducció que comença quan s'elimina l'últim element de "
 "la llista de reproducció."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:211
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:250
 msgid "Migrate to GTK4."
 msgstr "Migrar a GTK4."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:214
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:253
 msgid "Add Greek translation by @lepa22."
 msgstr "Afegida la traducció al grec de @lepa22."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:217
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
 msgid "Add Korean translation by @jullee96."
 msgstr "Afegida la traducció al coreà de @jullee96."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:220
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
 msgid "Add Norwegian Bokmål translation by Allan Nordhøy."
 msgstr "Afegida la traducció del noruec bokmål d'Allan Nordhøy."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:223
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
 msgid "Add Occidental translation by OIS."
 msgstr "Afegida la traducció occidental d'OIS."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:226
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
 msgid "Add Arabic translation by Mohamed Benkouider."
 msgstr "Afegida la traducció a l'àrab de Mohamed Benkouider."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:229
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
 msgid "Add Urdu translation by Ahmed Iqbal."
 msgstr "Afegida la traducció en urdú d'Ahmed Iqbal."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:232
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:271
 msgid "Add option to show title buttons in fullscreen mode."
 msgstr ""
 "Afegida l'opció per a mostrar els botons de títol en mode de pantalla "
 "completa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:235
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:274
 msgid "Add option to present the window when opening files."
 msgstr "Afegida l'opció de presentar la finestra en obrir fitxers."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:238
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:277
 msgid ""
 "Change default screenshot filename template to FILENAME-TIMESTAMP (%f-%P)."
 msgstr ""
 "Canviada la plantilla de nom de fitxer de captura de pantalla predeterminada "
 "a FILENAME-TIMESTAMP (%f-%P)."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:241
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:280
 msgid "Fix inaccurate timestamp preview."
 msgstr "Corregida una previsualització de marca de temps incorrecta."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:256
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:295
 msgid "Add Basque translation by @aldatsa."
 msgstr "Afegeix la traducció al basc per @aldatsa."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:259
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
 msgid "Make the shuffle and loop command line options work properly."
 msgstr ""
 "Fes que les opcions de la línia d'ordres de la barreja i el bucle funcionin "
 "correctament."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:262
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:301
 msgid "Make the main menu button toggleable by pressing F10."
 msgstr "Fes que el botó del menú principal es pot commutar prement F10."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:265
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:304
 msgid "Add a setting for always appending opened files to the playlist."
 msgstr ""
 "Afegeix una opció de configuració per a afegir sempre els fitxers oberts a "
 "la llista de reproducció."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:268
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:307
 msgid ""
 "Allow appending files to playlist by holding shift while dropping files onto "
 "the video area."
@@ -519,13 +565,13 @@ msgstr ""
 "Permet que els fitxers adjunts es quedin a la llista de reproducció "
 "mantenint el desplaçament mentre deixeu anar fitxers a l'àrea de vídeo."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:272
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:311
 msgid "Make CSD header bar toggleable via the mpv property \"border\"."
 msgstr ""
 "Fa que la barra de capçalera CSD es pot commutar mitjançant la propietat mpv "
 "«border»."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:275
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:314
 msgid ""
 "Include Flatpak manifest in the repo. This allows Celluloid to be built in "
 "one click in apps like GNOME Builder."
@@ -533,12 +579,12 @@ msgstr ""
 "Inclou el manifest Flatpak al repo. Això permet que Celluloid es construeixi "
 "en un sol clic en aplicacions com gnome builder."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:291
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:330
 msgid "Make it possible to activate context menu when the playlist is empty."
 msgstr ""
 "Permet activar el menú de context quan la llista de reproducció és buida."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:294
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:333
 msgid ""
 "Prevent constant resizing of the seek bar due to timestamp label resizing as "
 "its value changes."
@@ -546,7 +592,7 @@ msgstr ""
 "Evita el canvi constant de la mida de la barra de cerca a causa del canvi de "
 "mida de l'etiqueta de la marca de temps a mesura que canvia el seu valor."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:298
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
 msgid ""
 "Only show a single error dialog when a large number of errors occurs in "
 "rapid succession."
@@ -554,11 +600,11 @@ msgstr ""
 "Només mostra un diàleg d'error únic quan es produeix un gran nombre d'errors "
 "en una successió ràpida."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:302
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:341
 msgid "Add menu item for opening folders."
 msgstr "Afegeix un element al menú per obrir carpetes."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:305
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:344
 msgid ""
 "Adjust position of UI elements of modal dialogs in non-CSD mode to be more "
 "consistent with CSD mode."
@@ -566,21 +612,21 @@ msgstr ""
 "Ajusta la posició dels elements de la interfície d'usuari dels diàlegs "
 "modals en el mode no CSD per ser més coherent amb mode CSD."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:309
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:348
 msgid "Add support for loading external video tracks."
 msgstr "Afegeix la possibilitat de carregar pistes de vídeo externes."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:312
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:351
 msgid "Make playlist shuffle toggleable."
 msgstr "Permet alternar la barreja de les llistes de reproducció."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:315
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:354
 msgid "Make arrow key bindings work with arrow keys on numpad."
 msgstr ""
 "Fa que les combinacions de tecles funcionin amb les tecles de fletxa del "
 "teclat numèric."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:330
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:369
 msgid ""
 "Adjust the range of volume button based on the value of the volume-max "
 "property."
@@ -588,35 +634,35 @@ msgstr ""
 "Ajusta el rang del botó de volum basant-se en el valor de la propietat "
 "«volum màxim»."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:334
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:373
 msgid "Retain window maximization state across sessions."
 msgstr "Recorda l'estat de maximització de la finestra."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:337
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:376
 msgid "Retain loop state across sessions."
 msgstr "Recorda l'estat de la reproducció en bucle."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:340
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:379
 msgid "Implement playlist search."
 msgstr "Implementa la cerca a la llista de reproducció."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:343
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:382
 msgid "Update the list of shortcuts in Keyboard Shortcuts dialog."
 msgstr ""
 "Actualitza la llista de dreceres en el diàleg de les dreceres de teclat."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:346
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:385
 msgid "Correctly handle quotes and escape sequences in extra mpv options."
 msgstr ""
 "Gestiona correctament les cometes i les seqüències d'escapada en les opcions "
 "extra de MPV."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:349
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:388
 msgid "Display time at cursor position when hovering the seek bar."
 msgstr ""
 "Mostra el temps en la posició del punter en situar-lo en la barra de cerca."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:352
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:391
 msgid ""
 "Deprecate '--mpv-options'. Options starting with '--mpv-' can be used to set "
 "mpv options instead. For example, passing '--mpv-vf=vflip' to Celluloid is "
@@ -626,7 +672,7 @@ msgstr ""
 "poden fer servir opcions que comencin per «--mpv-». Per exemple, passar «--"
 "mpv-vf=vflip» al Celluloid equival a passar «--vf=vflip» a mpv."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:358
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:397
 msgid ""
 "Add support for configuring dead zone, an area in which mouse movement will "
 "not cause controls to be shown."
@@ -634,29 +680,29 @@ msgstr ""
 "Afegeix suport per configurar una zona morta, una àrea en la qual el "
 "moviment del ratolí no farà que es mostrin controls."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:362
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:401
 msgid "Make window sizing work correctly with HiDPI displays."
 msgstr ""
 "Ajusta la mida de la finestra correctament en pantalles d'alta densitat "
 "(HiDPI)."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:365
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:404
 msgid "Add Finnish translation by Kimmo Kujansuu."
 msgstr "Afegeix la traducció al finlandès feta per Kimmo Kujansuu."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:368
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:407
 msgid "Add Slovenian translation by @bertronika."
 msgstr "Afegeix la traducció a l'eslovè feta per @bertronika."
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:383
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:422
 msgid "Add Persian translation by @danialbehzadi"
 msgstr "Afegeix la traducció al persa feta per danialbehzad"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:386
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:425
 msgid "Add Ukranian translation by @vl-nix"
 msgstr "Afegeix la traducció a l'ucraïnès feta per vl-nix"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:389
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:428
 msgid ""
 "Add support for showing/hiding window decorations using the mpv option --"
 "border"
@@ -664,85 +710,85 @@ msgstr ""
 "Afegeix compatibilitat per mostrar/amagar les decoracions de la finestra "
 "utilitzant l'opció --border de l'mpv"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:392
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:431
 msgid "Add menu item for opening discs"
 msgstr "Afegeix un element al menú per obrir discs"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:395
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:434
 msgid "Block cursor autohide when volume popup is open in windowed mode"
 msgstr ""
 "Bloqueja l'ocultació automàtica del cursor quan s'obre la finestra emergent "
 "del volum en el mode finestra"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:398
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:437
 msgid "Fix crash with mpv 0.30"
 msgstr "Corregeix el bloqueig amb la versió 0.30 de l'mpv"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:413
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:452
 msgid "Rename project to Celluloid"
 msgstr "Canvia el nom del projecte a Celluloid"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:416
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:455
 msgid "Add Turkish translation by @TeknoMobil"
 msgstr "Afegeix la traducció al turc feta per TeknoMobil"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:419
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:458
 msgid "Add Esperanto translation by @F3nd0"
 msgstr "Afegeix la traducció a l'esperanto feta per F3nd0"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:422
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
 msgid "Migrate from opengl-cb to the new render API"
 msgstr "Canvia de opengl-cb a la nova API de representació"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:425
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:464
 msgid "Handle numpad keybindings"
 msgstr "Controla les combinacions de tecles de teclat numèric"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:428
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:467
 msgid "Handle unicode keybindings"
 msgstr "Controla les assignacions de tecles de l'Unicode"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:431
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:470
 msgid "Forward media key events to mpv"
 msgstr "Reenvia els esdeveniments de les tecles multimèdia a l'mpv"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:434
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:473
 msgid ""
 "Add dconf key for controlling cursor speed at which controls are unhidden"
 msgstr ""
 "Afegeix una clau del dconf per controlar la velocitat del cursor a la qual "
 "s'amaguen els controls"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:437
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:476
 msgid "Add option for suppressing playback errors"
 msgstr "Afegeix una opció per suprimir els errors de reproducció"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:452
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:491
 msgid "Split up the General tab in the preferences dialog"
 msgstr "Divideix la pestanya General al diàleg de preferències"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:455
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:494
 msgid "Improve behavior when toggling playlist under tiling window managers"
 msgstr ""
 "Millora el comportament en mostrar o ocultar la llista de reproducció en els "
 "gestors de finestra de mosaic"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:458
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:497
 msgid "Move app menu items to primary menu"
 msgstr "Desplaça els elements del menú d'aplicació al menú principal"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:461
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:500
 msgid "Use separate MPRIS DBus connection for each window"
 msgstr ""
 "Utilitza una connexió DBUS de la interfície MPRIS separada per a cada "
 "finestra"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:464
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:503
 msgid "Add support for MPRIS property LoopStatus"
 msgstr ""
 "Afegeix compatibilitat amb la propietat LoopStatus de la interfície MPRIS"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:467
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:506
 msgid ""
 "Add option --mpv-options for setting arbitrary mpv options from the command-"
 "line"
@@ -750,13 +796,13 @@ msgstr ""
 "Afegeix l'opció --mpv-options per configurar opcions arbitràries de l'mpv "
 "des de la línia d'ordres"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:483
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:522
 msgid "Set default screenshot directory to XDG_PICTURES_DIR"
 msgstr ""
 "Estableix com a carpeta de captures de pantalla predeterminada la carpeta "
 "XDG_PICTURES_DIR"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:486
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:525
 msgid ""
 "Improve handling of --window-scale, --autofit, --autofit-larger, and --"
 "autofit-smaller"
@@ -764,59 +810,59 @@ msgstr ""
 "Millora el maneig de les opcions --window-scale, --autofit, --autofit-larger "
 "i --autofit-smaller"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:490
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:529
 msgid "Add command line option for setting WM_ROLE"
 msgstr "Afegeix una opció a la línia d'ordres per configurar WM_ROLE"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:493
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:532
 msgid "Add context menu item for removing playlist items"
 msgstr ""
 "Afegeix un element al menú contextual per suprimir elements de la llista de "
 "reproducció"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:496
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:535
 msgid "Add context menu item for copying location of playlist items"
 msgstr ""
 "Afegeix un element al menú contextual per copiar la ubicació dels elements "
 "de la llista de reproducció"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:511
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:550
 msgid ""
 "Add option to make skip buttons change playlist entries rather than chapters"
 msgstr ""
 "Afegeix una opció per fer que els botons de salt seleccionin les entrades de "
 "la llista de reproducció en lloc dels capítols"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:515
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:554
 msgid "Make the file chooser accept non-local locations"
 msgstr "Fa que el selector de fitxers accepti ubicacions no locals"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:518
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:557
 msgid "Add right-click menu entry for looping a single file"
 msgstr ""
 "Afegeix una entrada al menú contextual per reproduir en bucle un únic fitxer"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:521
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:560
 msgid "Handle property change events for fullscreen and window-scale"
 msgstr ""
 "Gestiona els esdeveniments de canvi de propietat per a la pantalla completa "
 "i l'escala de la finestra"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:524
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:563
 msgid "Add option to autohide mouse cursor in windowed mode"
 msgstr ""
 "Afegeix una opció per amagar automàticament el punter del ratolí al mode "
 "finestra"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:538
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:577
 msgid "The main window showing the application in action"
 msgstr "La finestra principal amb l'aplicació en acció"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:542
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:581
 msgid "The main window with CSD disabled"
 msgstr "La finestra principal amb les decoracions del client desactivades"
 
-#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:546
+#: data/io.github.celluloid_player.Celluloid.appdata.xml.in:585
 msgid "The main window with playlist open"
 msgstr "La finestra principal amb la llista de reproducció oberta"
 
@@ -831,9 +877,7 @@ msgstr "Reprodueix pel·lícules i vídeos"
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr ""
-"vídeo;pel·lícula;film;clip;sèrie;reproductor;DVD;TV;disc;àlbum;música;GNOME;"
-"mpv;"
+msgstr "vídeo;pel·lícula;film;clip;sèrie;reproductor;DVD;TV;disc;àlbum;música;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
@@ -914,41 +958,41 @@ msgstr "Llista de reproducció en bucle"
 msgid "Volume"
 msgstr ""
 
-#: src/celluloid-controller.c:1369
+#: src/celluloid-controller.c:1370
 msgid "Playing"
 msgstr "En reproducció"
 
-#: src/celluloid-file-chooser.c:193 src/celluloid-plugins-manager.c:201
-msgid "All Files"
-msgstr "Tots els fitxers"
+#: src/celluloid-file-chooser-button.c:146
+msgid "(None)"
+msgstr "(Cap)"
 
-#: src/celluloid-file-chooser.c:201
-msgid "Media Files"
-msgstr "Fitxers multimèdia"
-
-#: src/celluloid-file-chooser.c:212
-msgid "Audio Files"
-msgstr "Fitxers d'àudio"
-
-#: src/celluloid-file-chooser.c:220
-msgid "Video Files"
-msgstr "Fitxers de vídeo"
-
-#: src/celluloid-file-chooser.c:228
-msgid "Image Files"
-msgstr "Fitxers d'imatge"
-
-#: src/celluloid-file-chooser.c:238
-msgid "Subtitle Files"
-msgstr "Fitxers de subtítols"
-
-#: src/celluloid-file-chooser-button.c:236
+#: src/celluloid-file-chooser-button.c:154
 msgid "Open File…"
 msgstr "Obre un fitxer…"
 
-#: src/celluloid-file-chooser-button.c:240
-msgid "(None)"
-msgstr "(Cap)"
+#: src/celluloid-file-dialog.c:61 src/celluloid-plugins-manager.c:206
+msgid "All Files"
+msgstr "Tots els fitxers"
+
+#: src/celluloid-file-dialog.c:70
+msgid "Audio Files"
+msgstr "Fitxers d'àudio"
+
+#: src/celluloid-file-dialog.c:80
+msgid "Video Files"
+msgstr "Fitxers de vídeo"
+
+#: src/celluloid-file-dialog.c:90
+msgid "Image Files"
+msgstr "Fitxers d'imatge"
+
+#: src/celluloid-file-dialog.c:102
+msgid "Subtitle Files"
+msgstr "Fitxers de subtítols"
+
+#: src/celluloid-file-dialog.c:123
+msgid "Media Files"
+msgstr "Fitxers multimèdia"
 
 #: src/celluloid-header-bar.c:239 src/celluloid-open-location-dialog.c:75
 msgid "Open"
@@ -1085,130 +1129,130 @@ msgstr "Ubicació:"
 msgid "Failed to apply one or more MPV options."
 msgstr "No s'han pogut aplicar una o més opcions de l'mpv."
 
-#: src/celluloid-playlist-widget.c:619
+#: src/celluloid-playlist-widget.c:639
 msgid "_Copy Location"
 msgstr "_Copia la ubicació"
 
-#: src/celluloid-playlist-widget.c:620 src/celluloid-plugins-manager-item.c:205
+#: src/celluloid-playlist-widget.c:640 src/celluloid-plugins-manager-item.c:205
 msgid "_Remove"
 msgstr "_Suprimeix"
 
-#: src/celluloid-playlist-widget.c:622
+#: src/celluloid-playlist-widget.c:642
 msgid "_Add…"
 msgstr "_Afegeix…"
 
-#: src/celluloid-playlist-widget.c:623
+#: src/celluloid-playlist-widget.c:643
 msgid "Add _Folder…"
 msgstr "Afegeix una _carpeta…"
 
-#: src/celluloid-playlist-widget.c:624
+#: src/celluloid-playlist-widget.c:644
 msgid "Add _Location…"
 msgstr "Afegeix una _ubicació…"
 
-#: src/celluloid-playlist-widget.c:625
+#: src/celluloid-playlist-widget.c:645
 msgid "_Shuffle"
 msgstr "_Mescla"
 
-#: src/celluloid-playlist-widget.c:626
+#: src/celluloid-playlist-widget.c:646
 #, fuzzy
 msgid "Loop File"
 msgstr "_Fitxer en bucle"
 
-#: src/celluloid-playlist-widget.c:627
+#: src/celluloid-playlist-widget.c:647
 msgid "Loop Playlist"
 msgstr "Llista de reproducció en bucle"
 
-#: src/celluloid-playlist-widget.c:1023
+#: src/celluloid-playlist-widget.c:1055
 #, fuzzy
 msgid "0 files"
 msgstr "Obre un fitxer"
 
-#: src/celluloid-playlist-widget.c:1034
+#: src/celluloid-playlist-widget.c:1066
 #, fuzzy
 msgid "Hide playlist"
 msgstr "Desa la llista de reproducció"
 
-#: src/celluloid-playlist-widget.c:1037 src/celluloid-shortcuts-window.c:129
+#: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "Llista de reproducció"
 
-#: src/celluloid-playlist-widget.c:1064
+#: src/celluloid-playlist-widget.c:1096
 #, fuzzy
 msgid "Search in playlist"
 msgstr "Desa la llista de reproducció"
 
-#: src/celluloid-playlist-widget.c:1067
+#: src/celluloid-playlist-widget.c:1099
 #, fuzzy
 msgid "Search in playlist…"
 msgstr "Desa la llista de reproducció"
 
-#: src/celluloid-playlist-widget.c:1081
+#: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
 msgstr ""
 
-#: src/celluloid-playlist-widget.c:1091
+#: src/celluloid-playlist-widget.c:1123
 #, fuzzy
 msgid "Repeat file"
 msgstr "Obre un fitxer"
 
-#: src/celluloid-playlist-widget.c:1102
+#: src/celluloid-playlist-widget.c:1134
 #, fuzzy
 msgid "Repeat playlist"
 msgstr "Desa la llista de reproducció"
 
-#: src/celluloid-playlist-widget.c:1110
+#: src/celluloid-playlist-widget.c:1142
 #, fuzzy
 msgid "Shuffle playlist"
 msgstr "Mescla la llista de reproducció"
 
-#: src/celluloid-playlist-widget.c:1135
+#: src/celluloid-playlist-widget.c:1167
 #, fuzzy
 msgid "Playlist is Empty"
 msgstr "La llista de reproducció és buida"
 
-#: src/celluloid-playlist-widget.c:1242
+#: src/celluloid-playlist-widget.c:1274
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/celluloid-plugins-manager.c:193 src/celluloid-plugins-manager.c:442
+#: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
 msgstr "Afegeix un connector"
 
-#: src/celluloid-plugins-manager.c:206
+#: src/celluloid-plugins-manager.c:211
 msgid "Lua Plugins"
 msgstr "Connectors Lua"
 
-#: src/celluloid-plugins-manager.c:212
+#: src/celluloid-plugins-manager.c:217
 msgid "JavaScript Plugins"
 msgstr "Connectors JavaScript"
 
-#: src/celluloid-plugins-manager.c:217
+#: src/celluloid-plugins-manager.c:222
 msgid "C Plugins"
 msgstr "Connectors C"
 
-#: src/celluloid-plugins-manager.c:350
+#: src/celluloid-plugins-manager.c:358
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
 msgstr "No s'ha pogut copiar el fitxer de «%s» a «%s». Motiu: %s"
 
-#: src/celluloid-plugins-manager.c:405
+#: src/celluloid-plugins-manager.c:413
 msgid "Plugins"
 msgstr "Connectors"
 
-#: src/celluloid-plugins-manager.c:412
+#: src/celluloid-plugins-manager.c:420
 #, fuzzy
 msgid "Add…"
 msgstr "_Afegeix…"
 
-#: src/celluloid-plugins-manager.c:446
+#: src/celluloid-plugins-manager.c:454
 #, fuzzy
 msgid "No Plugins Found"
 msgstr "No s'ha trobat cap connector"
 
-#: src/celluloid-plugins-manager.c:449
+#: src/celluloid-plugins-manager.c:457
 msgid "Click the <b>Add…</b> button to install a new plugin"
 msgstr ""
 
@@ -1232,34 +1276,34 @@ msgstr ""
 msgid "_Keep"
 msgstr ""
 
-#: src/celluloid-preferences-dialog.c:332
+#: src/celluloid-preferences-dialog.c:192
 #, fuzzy
 msgid "mpv configuration file"
 msgstr "Fitxer de configuració de l'mpv:"
 
-#: src/celluloid-preferences-dialog.c:338
+#: src/celluloid-preferences-dialog.c:198
 #, fuzzy
 msgid "mpv input configuration file"
 msgstr "Fitxer de configuració de l'entrada de l'mpv:"
 
-#: src/celluloid-preferences-dialog.c:358
+#: src/celluloid-preferences-dialog.c:218
 #, fuzzy
 msgid "Extra mpv options"
 msgstr "Opcions addicionals de l'mpv:"
 
-#: src/celluloid-preferences-dialog.c:373
+#: src/celluloid-preferences-dialog.c:229
 msgid "Interface"
 msgstr "Interfície"
 
-#: src/celluloid-preferences-dialog.c:381
+#: src/celluloid-preferences-dialog.c:238
 msgid "Config Files"
 msgstr "Fitxers de configuració"
 
-#: src/celluloid-preferences-dialog.c:389
+#: src/celluloid-preferences-dialog.c:247
 msgid "Miscellaneous"
 msgstr "Miscel·lània"
 
-#: src/celluloid-preferences-dialog.c:421
+#: src/celluloid-preferences-dialog.c:542
 msgid "Preferences"
 msgstr "Preferències"
 
@@ -1288,270 +1332,274 @@ msgid "Toggle playlist"
 msgstr "Mostra/amaga la llista de reproducció"
 
 #: src/celluloid-shortcuts-window.c:52
+msgid "Show main menu"
+msgstr ""
+
+#: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
 msgstr "Activa/desactiva el mode de pantalla completa"
 
-#: src/celluloid-shortcuts-window.c:53
+#: src/celluloid-shortcuts-window.c:54
 msgid "Leave fullscreen mode"
 msgstr "Surt del mode de pantalla completa"
 
-#: src/celluloid-shortcuts-window.c:54
+#: src/celluloid-shortcuts-window.c:55
 msgid "Toggle OSD states between normal and playback time/duration"
 msgstr "Mostra/amaga en pantalla el temps de reproducció i la durada"
 
-#: src/celluloid-shortcuts-window.c:55
+#: src/celluloid-shortcuts-window.c:56
 msgid "Show filename on the OSD"
 msgstr "Mostra en pantalla el nom del fitxer"
 
-#: src/celluloid-shortcuts-window.c:56
+#: src/celluloid-shortcuts-window.c:57
 msgid "Show progress, elapsed time, and duration on the OSD"
 msgstr "Mostra en pantalla el progrés, el temps transcorregut i la durada"
 
-#: src/celluloid-shortcuts-window.c:59
+#: src/celluloid-shortcuts-window.c:60
 msgid "Seek backward/forward 5 seconds"
 msgstr "Salta 5 segons cap enrere/endavant"
 
-#: src/celluloid-shortcuts-window.c:60
+#: src/celluloid-shortcuts-window.c:61
 msgid "Exact seek backward/forward 1 second"
 msgstr "Salta exactament 1 segon cap enrere/endavant"
 
-#: src/celluloid-shortcuts-window.c:61
+#: src/celluloid-shortcuts-window.c:62
 msgid "Seek backward/forward 1 minute"
 msgstr "Salta 1 minut cap enrere/endavant"
 
-#: src/celluloid-shortcuts-window.c:62
+#: src/celluloid-shortcuts-window.c:63
 msgid "Exact seek backward/forward 5 seconds"
 msgstr "Salta exactament 5 segons cap enrere/endavant"
 
-#: src/celluloid-shortcuts-window.c:63
+#: src/celluloid-shortcuts-window.c:64
 msgid "Seek to previous/next subtitle"
 msgstr "Salta als subtítols anteriors/següents"
 
-#: src/celluloid-shortcuts-window.c:64
+#: src/celluloid-shortcuts-window.c:65
 msgid "Step backward/forward a single frame"
 msgstr "Retrocedeix/avança un sol fotograma"
 
-#: src/celluloid-shortcuts-window.c:65
+#: src/celluloid-shortcuts-window.c:66
 msgid "Seek to the beginning of the previous/next chapter"
 msgstr "Salta al principi del capítol anterior/següent"
 
-#: src/celluloid-shortcuts-window.c:68
+#: src/celluloid-shortcuts-window.c:69
 msgid "Decrease/increase playback speed by 10%"
 msgstr "Disminueix/augmenta la velocitat de reproducció un 10%"
 
-#: src/celluloid-shortcuts-window.c:69
+#: src/celluloid-shortcuts-window.c:70
 msgid "Halve/double current playback speed"
 msgstr "Redueix a la meitat o duplica la velocitat de reproducció"
 
-#: src/celluloid-shortcuts-window.c:70
+#: src/celluloid-shortcuts-window.c:71
 msgid "Reset playback speed to normal"
 msgstr "Restableix la velocitat de reproducció"
 
-#: src/celluloid-shortcuts-window.c:71
+#: src/celluloid-shortcuts-window.c:72
 msgid "Go backward/forward in the playlist"
 msgstr "Retrocedeix/avança a la llista de reproducció"
 
-#: src/celluloid-shortcuts-window.c:72
+#: src/celluloid-shortcuts-window.c:73
 msgid "Remove selected playlist item"
 msgstr "Suprimeix l'element seleccionat de la llista de reproducció"
 
-#: src/celluloid-shortcuts-window.c:73
+#: src/celluloid-shortcuts-window.c:74
 msgid "Save playlist"
 msgstr "Desa la llista de reproducció"
 
-#: src/celluloid-shortcuts-window.c:74
+#: src/celluloid-shortcuts-window.c:75
 msgid "Set/clear A-B loop points"
 msgstr "Fixa/esborra els punts de bucle A-B"
 
-#: src/celluloid-shortcuts-window.c:75
+#: src/celluloid-shortcuts-window.c:76
 msgid "Toggle infinite looping"
 msgstr "Activa/desactiva la reproducció en bucle"
 
-#: src/celluloid-shortcuts-window.c:76
+#: src/celluloid-shortcuts-window.c:77
 msgid "Pause or unpause"
 msgstr "Posa en pausa o continua"
 
-#: src/celluloid-shortcuts-window.c:77
+#: src/celluloid-shortcuts-window.c:78
 msgid "Quit"
 msgstr "Surt"
 
-#: src/celluloid-shortcuts-window.c:78
+#: src/celluloid-shortcuts-window.c:79
 msgid "Save current playback position and quit"
 msgstr "Desa la posició de reproducció actual i surt"
 
-#: src/celluloid-shortcuts-window.c:81
+#: src/celluloid-shortcuts-window.c:82
 msgid "Enter search mode"
 msgstr "Entra al mode de cerca"
 
-#: src/celluloid-shortcuts-window.c:82
+#: src/celluloid-shortcuts-window.c:83
 msgid "Jump to next match"
 msgstr "Ves a la coincidència següent"
 
-#: src/celluloid-shortcuts-window.c:83
+#: src/celluloid-shortcuts-window.c:84
 msgid "Jump to previous match"
 msgstr "Ves a la coincidència anterior"
 
-#: src/celluloid-shortcuts-window.c:84
+#: src/celluloid-shortcuts-window.c:85
 msgid "Exit search mode"
 msgstr "Surt del mode de cerca"
 
-#: src/celluloid-shortcuts-window.c:87
+#: src/celluloid-shortcuts-window.c:88
 msgid "Cycle through audio tracks"
 msgstr "Selecciona la pista d'àudio següent"
 
-#: src/celluloid-shortcuts-window.c:88 src/celluloid-shortcuts-window.c:89
+#: src/celluloid-shortcuts-window.c:89 src/celluloid-shortcuts-window.c:90
 msgid "Decrease/increase volume"
 msgstr "Disminueix/augmenta el volum"
 
-#: src/celluloid-shortcuts-window.c:90
+#: src/celluloid-shortcuts-window.c:91
 msgid "Mute or unmute"
 msgstr "Silencia/activa el so"
 
-#: src/celluloid-shortcuts-window.c:91
+#: src/celluloid-shortcuts-window.c:92
 msgid "Adjust audio delay by +/- 0.1 seconds"
 msgstr "Ajusta el retard de l'àudio en +/- 0.1 segons"
 
-#: src/celluloid-shortcuts-window.c:94
+#: src/celluloid-shortcuts-window.c:95
 msgid "Toggle subtitle visibility"
 msgstr "Mostra/amaga els subtítols"
 
-#: src/celluloid-shortcuts-window.c:95
+#: src/celluloid-shortcuts-window.c:96
 msgid "Cycle through available subtitles"
 msgstr "Selecciona els subtítols següents"
 
-#: src/celluloid-shortcuts-window.c:96
+#: src/celluloid-shortcuts-window.c:97
 msgid "Adjust subtitle delay by +/- 0.1 seconds"
 msgstr "Ajusta el retard dels subtítols en +/- 0.1 segons"
 
-#: src/celluloid-shortcuts-window.c:97
+#: src/celluloid-shortcuts-window.c:98
 msgid "Toggle SSA/ASS subtitles style override"
 msgstr "Activa/desactiva l'anulació de l'estil dels subtítols SSA/ASS"
 
-#: src/celluloid-shortcuts-window.c:98
+#: src/celluloid-shortcuts-window.c:99
 msgid "Move subtitles up/down"
 msgstr "Mou els subtítols amunt/avall"
 
-#: src/celluloid-shortcuts-window.c:99
+#: src/celluloid-shortcuts-window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
 msgstr "Activa/desactiva el mode de compatibilitat d'aspecte del VSFilter"
 
-#: src/celluloid-shortcuts-window.c:102
+#: src/celluloid-shortcuts-window.c:103
 msgid "Cycle through video tracks"
 msgstr "Selecciona la pista de vídeo següent"
 
-#: src/celluloid-shortcuts-window.c:103
+#: src/celluloid-shortcuts-window.c:104
 msgid "Decrease/increase pan-and-scan range"
 msgstr "Disminueix/augmenta el rang de reenquadrament (pan and scan)"
 
-#: src/celluloid-shortcuts-window.c:104
+#: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot"
 msgstr "Fes una captura de pantalla"
 
-#: src/celluloid-shortcuts-window.c:105
+#: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, without subtitles"
 msgstr "Fes una captura de pantalla, sense subtítols"
 
-#: src/celluloid-shortcuts-window.c:106
+#: src/celluloid-shortcuts-window.c:107
 msgid "Take a screenshot, as the window shows it"
 msgstr "Fes una captura de pantalla, tal com es mostra a la finestra"
 
-#: src/celluloid-shortcuts-window.c:107
+#: src/celluloid-shortcuts-window.c:108
 msgid "Resize video to half its original size"
 msgstr "Redimensiona el vídeo a la meitat de la mida original"
 
-#: src/celluloid-shortcuts-window.c:108
+#: src/celluloid-shortcuts-window.c:109
 msgid "Resize video to its original size"
 msgstr "Redimensiona el vídeo a la mida original"
 
-#: src/celluloid-shortcuts-window.c:109
+#: src/celluloid-shortcuts-window.c:110
 msgid "Resize video to double its original size"
 msgstr "Redimensiona el vídeo al doble de la mida original"
 
-#: src/celluloid-shortcuts-window.c:110
+#: src/celluloid-shortcuts-window.c:111
 msgid "Adjust contrast"
 msgstr "Ajusta el contrast"
 
-#: src/celluloid-shortcuts-window.c:111
+#: src/celluloid-shortcuts-window.c:112
 msgid "Adjust brightness"
 msgstr "Ajusta la brillantor"
 
-#: src/celluloid-shortcuts-window.c:112
+#: src/celluloid-shortcuts-window.c:113
 msgid "Adjust gamma"
 msgstr "Ajusta la correcció gamma"
 
-#: src/celluloid-shortcuts-window.c:113
+#: src/celluloid-shortcuts-window.c:114
 msgid "Adjust saturation"
 msgstr "Ajusta la saturació"
 
-#: src/celluloid-shortcuts-window.c:114
+#: src/celluloid-shortcuts-window.c:115
 msgid "Activate or deactivate deinterlacer"
 msgstr "Activa/desactiva el desentrellaçat"
 
-#: src/celluloid-shortcuts-window.c:115
+#: src/celluloid-shortcuts-window.c:116
 msgid "Cycle aspect ratio override"
 msgstr "Selecciona la relació d'aspecte següent"
 
-#: src/celluloid-shortcuts-window.c:117
+#: src/celluloid-shortcuts-window.c:118
 msgid "Pan the video"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:118
+#: src/celluloid-shortcuts-window.c:119
 msgid "Zoom in/out"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:119
+#: src/celluloid-shortcuts-window.c:120
 msgid "Reset pan/zoom settings"
 msgstr ""
 
-#: src/celluloid-shortcuts-window.c:123
+#: src/celluloid-shortcuts-window.c:124
 msgid "User Interface"
 msgstr "Interfície d'usuari"
 
-#: src/celluloid-shortcuts-window.c:124
+#: src/celluloid-shortcuts-window.c:125
 msgid "Video"
 msgstr "Vídeo"
 
-#: src/celluloid-shortcuts-window.c:125
+#: src/celluloid-shortcuts-window.c:126
 msgid "Audio"
 msgstr "Àudio"
 
-#: src/celluloid-shortcuts-window.c:126
+#: src/celluloid-shortcuts-window.c:127
 msgid "Subtitle"
 msgstr "Subtítols"
 
-#: src/celluloid-shortcuts-window.c:127
+#: src/celluloid-shortcuts-window.c:128
 msgid "Playback"
 msgstr "Reproducció"
 
-#: src/celluloid-shortcuts-window.c:128
+#: src/celluloid-shortcuts-window.c:129
 msgid "Seeking"
 msgstr "Cerca"
 
-#: src/celluloid-video-area.c:688
+#: src/celluloid-video-area.c:726
 msgid "Loading…"
 msgstr ""
 
-#: src/celluloid-video-area.c:699
+#: src/celluloid-video-area.c:737
 msgid "Welcome"
 msgstr ""
 
-#: src/celluloid-video-area.c:702
+#: src/celluloid-video-area.c:740
 msgid "Click the <b>Open</b> button or drag and drop videos here"
 msgstr ""
 
-#: src/celluloid-view.c:737
+#: src/celluloid-view.c:740
 msgid "Load Audio Track…"
 msgstr "Carrega una pista d'àudio…"
 
-#: src/celluloid-view.c:741
+#: src/celluloid-view.c:745
 msgid "Load Video Track…"
 msgstr "Carrega una pista de vídeo…"
 
-#: src/celluloid-view.c:745
+#: src/celluloid-view.c:750
 msgid "Load Subtitle Track…"
 msgstr "Carrega una pista de subtítols…"
 
-#: src/celluloid-view.c:934
+#: src/celluloid-view.c:949
 msgid ""
 "Enabling or disabling client-side decorations requires restarting to take "
 "effect."
@@ -1559,40 +1607,39 @@ msgstr ""
 "Per activar o desactivar les decoracions del client cal reiniciar "
 "l'aplicació."
 
-#: src/celluloid-view.c:1470
+#: src/celluloid-view.c:1491
 msgid "Add Folder to Playlist"
 msgstr "Afegeix una carpeta a la llista de reproducció"
 
-#: src/celluloid-view.c:1470
+#: src/celluloid-view.c:1492
 msgid "Open Folder"
 msgstr "Obre una carpeta"
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1508
 msgid "Add File to Playlist"
 msgstr "Afegeix un fitxer a la llista de reproducció"
 
-#: src/celluloid-view.c:1475
+#: src/celluloid-view.c:1509
 msgid "Open File"
 msgstr "Obre un fitxer"
 
-#: src/celluloid-view.c:1514
+#: src/celluloid-view.c:1529
 msgid "Add Location to Playlist"
 msgstr "Afegeix una ubicació a la llista de reproducció"
 
-#: src/celluloid-view.c:1515
+#: src/celluloid-view.c:1530
 msgid "Open Location"
 msgstr "Obre una ubicació"
 
-#: src/celluloid-view.c:1556
-msgid "Save Playlist"
-msgstr "Desa la llista de reproducció"
-
-#: src/celluloid-view.c:1621
+#: src/celluloid-view.c:1632
 msgid "translator-credits"
 msgstr ""
 "Toni Estevez, toni.estevez@gmail.com\n"
 "Adolfo Jayme Barrientos, fitojb@ubuntu.com\n"
 "Maite Guix, maite.guix@me.com"
+
+#~ msgid "Save Playlist"
+#~ msgstr "Desa la llista de reproducció"
 
 #, fuzzy
 #~ msgid "Use a floating header bar in windowed mode"
