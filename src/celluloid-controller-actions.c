@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2022 gnome-mpv
+ * Copyright (c) 2015-2022, 2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -25,15 +25,15 @@
 
 static gboolean
 boolean_to_state(	GBinding *binding,
-		const GValue *from_value,
-		GValue *to_value,
-		gpointer user_data );
+			const GValue *from_value,
+			GValue *to_value,
+			gpointer user_data );
 
 static gboolean
 state_to_boolean(	GBinding *binding,
-		const GValue *from_value,
-		GValue *to_value,
-		gpointer user_data );
+			const GValue *from_value,
+			GValue *to_value,
+			gpointer user_data );
 
 static gboolean
 track_id_to_state(	GBinding *binding,
@@ -165,9 +165,9 @@ show_about_dialog_handler(	GSimpleAction *action,
 
 static gboolean
 boolean_to_state(	GBinding *binding,
-		const GValue *from_value,
-		GValue *to_value,
-		gpointer user_data )
+			const GValue *from_value,
+			GValue *to_value,
+			gpointer user_data )
 {
 	gboolean from = g_value_get_boolean(from_value);
 	GVariant *to = g_variant_new("b", from);
@@ -179,9 +179,9 @@ boolean_to_state(	GBinding *binding,
 
 static gboolean
 state_to_boolean(	GBinding *binding,
-		const GValue *from_value,
-		GValue *to_value,
-		gpointer user_data )
+			const GValue *from_value,
+			GValue *to_value,
+			gpointer user_data )
 {
 	GVariant *from = g_value_get_variant(from_value);
 	gboolean to = g_variant_get_boolean(from);
