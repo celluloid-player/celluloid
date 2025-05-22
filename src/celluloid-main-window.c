@@ -56,9 +56,6 @@ struct _CelluloidMainWindowPrivate
 	gboolean always_floating_controls;
 	gboolean use_floating_controls;
 	gboolean use_floating_header_bar;
-	gboolean playlist_visible;
-	gboolean playlist_first_toggle;
-	gboolean pre_fs_playlist_visible;
 	gint playlist_width;
 	guint resize_tag;
 	GPtrArray *chapter_list;
@@ -460,7 +457,6 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	priv->video_area = celluloid_video_area_new();
 	priv->control_box = celluloid_control_box_new();
 
-	priv->playlist_first_toggle = TRUE;
 	priv->width_offset = 0;
 	priv->height_offset = 0;
 	priv->compact_threshold = -1;
