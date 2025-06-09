@@ -495,6 +495,7 @@ static void
 celluloid_seek_bar_init(CelluloidSeekBar *bar)
 {
 	bar->seek_bar = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+	gtk_widget_set_direction(bar->seek_bar, GTK_TEXT_DIR_LTR);
 	bar->label = celluloid_time_label_new();
 	bar->popover = g_object_ref_sink(gtk_popover_new());
 	bar->popover_label = gtk_label_new(NULL);
