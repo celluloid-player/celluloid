@@ -110,10 +110,9 @@ motion_handler(	GtkEventControllerMotion *controller,
 		gpointer data );
 
 static void
-pressed_handler(	GtkGestureClick *self,
-			gint n_press,
-			gdouble x,
-			gdouble y,
+drag_update_handler(	GtkGestureDrag *self,
+			gdouble start_x,
+			gdouble start_y,
 			gpointer data );
 
 static void
@@ -362,23 +361,24 @@ motion_handler(	GtkEventControllerMotion *controller,
 }
 
 static void
-pressed_handler(	GtkGestureClick *self,
-			gint n_press,
-			gdouble x,
-			gdouble y,
+drag_update_handler(	GtkGestureDrag *self,
+			gdouble offset_x,
+			gdouble offset_y,
 			gpointer data )
 {
 	CelluloidVideoArea *area = CELLULOID_VIDEO_AREA(data);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
+	gdouble start_x = 0;
+	gdouble start_y = 0;
 
-	const gboolean hovering =
-		area->fs_control_hover;
 	const gboolean draggable =
 		g_settings_get_boolean(settings, "draggable-video-area-enable");
 
+	gtk_gesture_drag_get_start_point(self, &start_x, &start_y);
 	reveal_controls(area);
 
-	if(draggable && !hovering)
+	// Only start dragging if the distance is greater than 6
+	if(draggable && offset_x * offset_x + offset_y * offset_y > 6 * 6)
 	{
 		GdkSurface *surface = gtk_widget_get_surface(GTK_WIDGET(data));
 		GdkToplevel *toplevel = GDK_TOPLEVEL(surface);
@@ -387,7 +387,12 @@ pressed_handler(	GtkGestureClick *self,
 		gint button = (gint)gtk_gesture_single_get_button(single);
 
 		gdk_toplevel_begin_move
-			(toplevel, device, button, x, y, GDK_CURRENT_TIME);
+			(	toplevel,
+				device,
+				button,
+				start_x,
+				start_y,
+				GDK_CURRENT_TIME );
 	}
 }
 
@@ -548,14 +553,14 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 				G_CALLBACK(motion_handler),
 				area );
 
-	GtkEventController *area_click_gesture =
-		GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+	GtkEventController *area_drag_gesture =
+		GTK_EVENT_CONTROLLER(gtk_gesture_drag_new());
 	gtk_widget_add_controller
-		(GTK_WIDGET(area), area_click_gesture);
+		(GTK_WIDGET(area), area_drag_gesture);
 
-	g_signal_connect(	area_click_gesture,
-				"pressed",
-				G_CALLBACK(pressed_handler),
+	g_signal_connect(	area_drag_gesture,
+				"drag-update",
+				G_CALLBACK(drag_update_handler),
 				area );
 
 	GtkEventController *control_box_motion_controller =
