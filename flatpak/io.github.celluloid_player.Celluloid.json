@@ -23,9 +23,10 @@
             "cleanup": [ "/bin", "/lib/*.a", "/include", "/lib/pkgconfig", "/share/man" ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz",
-                    "sha256": "1ad2e34b111c802f9d0cdf019e986909123237a28c746b21295b63c9e785d9c3"
+                    "type": "git",
+                    "url": "https://github.com/LuaJIT/LuaJIT",
+                    "tag": "v2.1.0-beta3",
+                    "commit": "8271c643c21d1b2f344e339f559f2de6f3663191"
                 },
                 {
                     "type": "shell",
