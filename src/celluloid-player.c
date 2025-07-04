@@ -771,7 +771,7 @@ load_input_conf(CelluloidPlayer *player, const gchar *input_conf)
 
 	if(!tmp_file)
 	{
-		g_error("Failed to open temporary input config file");
+		g_warning("Failed to open temporary input config file");
 	}
 
 	for(gint i = 0; default_keybinds[i]; i++)
