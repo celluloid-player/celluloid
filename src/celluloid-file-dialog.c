@@ -23,7 +23,22 @@
 #include <glib/gi18n.h>
 
 static void
+save_last_folder(CelluloidFileDialog *dialog, GFile *folder);
+
+static void
 load_last_folder(CelluloidFileDialog *dialog);
+
+static void
+save_last_folder(CelluloidFileDialog *dialog, GFile *folder)
+{
+	gchar *uri = g_file_get_uri(folder);
+	GSettings *win_config = g_settings_new(CONFIG_WIN_STATE);
+
+	g_settings_set_string(win_config, "last-folder-uri", uri?:"");
+
+	g_object_unref(win_config);
+	g_free(uri);
+}
 
 static void
 load_last_folder(CelluloidFileDialog *dialog)
@@ -132,6 +147,72 @@ celluloid_file_dialog_set_default_filters(	CelluloidFileDialog *self,
 	gtk_file_dialog_set_filters(dialog, G_LIST_MODEL(filters));
 
 	g_object_unref(filters);
+}
+
+GFile *
+celluloid_file_dialog_open_finish(	GtkFileDialog *self,
+					GAsyncResult *async_result,
+					GError **error )
+{
+	GFile *result = gtk_file_dialog_open_finish(self, async_result, error);
+
+	if(result)
+	{
+		save_last_folder(self, g_file_get_parent(result));
+	}
+
+	return result;
+}
+
+GListModel *
+celluloid_file_dialog_open_multiple_finish(	GtkFileDialog *self,
+						GAsyncResult *async_result,
+						GError **error )
+{
+	GListModel *result =
+		gtk_file_dialog_open_multiple_finish(self, async_result, error);
+
+	if(result)
+	{
+		// All results are supposed to share the same parent, so this
+		// should be enough.
+		GFile *first_result = G_FILE(g_list_model_get_item(result, 0));
+
+		save_last_folder(self, g_file_get_parent(first_result));
+	}
+
+	return result;
+}
+
+GFile *
+celluloid_file_dialog_select_folder_finish(	GtkFileDialog *self,
+						GAsyncResult *async_result,
+						GError **error )
+{
+	GFile *result =
+		gtk_file_dialog_select_folder_finish(self, async_result, error);
+
+	if(result)
+	{
+		save_last_folder(self, g_file_get_parent(result));
+	}
+
+	return result;
+}
+
+GFile *
+celluloid_file_dialog_save_finish(	GtkFileDialog *self,
+					GAsyncResult *async_result,
+					GError **error )
+{
+	GFile *result = gtk_file_dialog_save_finish(self, async_result, error);
+
+	if(result)
+	{
+		save_last_folder(self, g_file_get_parent(result));
+	}
+
+	return result;
 }
 
 CelluloidFileDialog *

@@ -33,13 +33,9 @@ G_BEGIN_DECLS
 #define celluloid_file_dialog_set_initial_file(self, file) gtk_file_dialog_set_initial_file(self, file)
 #define celluloid_file_dialog_get_initial_file(self) gtk_file_dialog_get_initial_file(self)
 #define celluloid_file_dialog_open(self, parent, cancellable, callback, data) gtk_file_dialog_open(self, parent, cancellable, callback, data)
-#define celluloid_file_dialog_open_finish(self, result, error) gtk_file_dialog_open_finish(self, result, error)
 #define celluloid_file_dialog_open_multiple(self, parent, cancellable, callback, data) gtk_file_dialog_open_multiple(self, parent, cancellable, callback, data)
-#define celluloid_file_dialog_open_multiple_finish(self, result, error) gtk_file_dialog_open_multiple_finish(self, result, error)
 #define celluloid_file_dialog_select_folder(self, parent, cancellable, callback, data) gtk_file_dialog_select_folder(self, parent, cancellable, callback, data)
-#define celluloid_file_dialog_select_folder_finish(self, result, error) gtk_file_dialog_select_folder_finish(self, result, error)
 #define celluloid_file_dialog_save(self, parent, cancellable, callback, data) gtk_file_dialog_save(self, parent, cancellable, callback, data)
-#define celluloid_file_dialog_save_finish(self, result, error) gtk_file_dialog_save_finish(self, result, error)
 
 void
 celluloid_file_dialog_set_default_filters(	CelluloidFileDialog *self,
@@ -47,6 +43,26 @@ celluloid_file_dialog_set_default_filters(	CelluloidFileDialog *self,
 						gboolean video,
 						gboolean image,
 						gboolean subtitle );
+
+GFile *
+celluloid_file_dialog_open_finish(	GtkFileDialog *self,
+					GAsyncResult *async_result,
+					GError **error );
+
+GListModel *
+celluloid_file_dialog_open_multiple_finish(	GtkFileDialog *self,
+						GAsyncResult *async_result,
+						GError **error );
+
+GFile *
+celluloid_file_dialog_select_folder_finish(	GtkFileDialog *self,
+						GAsyncResult *async_result,
+						GError **error );
+
+GFile *
+celluloid_file_dialog_save_finish(	GtkFileDialog *self,
+					GAsyncResult *async_result,
+					GError **error );
 
 CelluloidFileDialog *
 celluloid_file_dialog_new(gboolean restore_state);
