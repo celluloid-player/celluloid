@@ -44,6 +44,13 @@ body:
       description: What version of celluloid are you running?
     validations:
       required: true
+  - type: input
+    id: install
+    attributes:
+      label: Install method
+      description: How did you install Celluloid? (e.g. distro package, Flatpak, Snap)
+    validations:
+      required: false
   - type: textarea
     id: additional
     attributes:
