@@ -1093,7 +1093,15 @@ metadata_cache_update_handler(CelluloidModel *model, gint64 pos, gpointer data)
 	GPtrArray *playlist = NULL;
 
 	g_object_get(G_OBJECT(model), "playlist", &playlist, NULL);
-	celluloid_view_update_playlist(view, playlist);
+
+    /* Update the playlist widget view only once, when 
+     * handling the final entry in the playlist. 
+     */
+    gint64 playlist_count = playlist ? playlist->len : 0;
+    if (pos == playlist_count - 1)
+    {
+	  celluloid_view_update_playlist(view, playlist);
+    }
 }
 
 static void
