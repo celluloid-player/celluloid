@@ -773,7 +773,6 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	adw_clamp_set_child(ADW_CLAMP(box->clamp), box->controls_box);
 	adw_clamp_set_tightening_threshold(ADW_CLAMP(box->clamp), 700);
 
-	box->inner_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_append(GTK_BOX(box->controls_box), box->title_widget);
 	gtk_box_append(GTK_BOX(box->controls_box), box->secondary_seek_bar);
 	gtk_box_append(GTK_BOX(box->controls_box), box->inner_box);
