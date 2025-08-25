@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2024 gnome-mpv
+ * Copyright (c) 2014-2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -53,6 +53,7 @@ struct _CelluloidControlBox
 	GtkWidget *title_widget;
 	GtkWidget *controls_box;
 	GtkWidget *inner_box;
+	GtkWidget *playback_buttons_box;
 	GtkWidget *play_button;
 	GtkWidget *forward_button;
 	GtkWidget *rewind_button;
@@ -694,6 +695,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->title_widget = gtk_label_new("");
 	box->controls_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	box->inner_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	box->playback_buttons_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	box->play_button = gtk_button_new();
 	box->forward_button = gtk_button_new();
 	box->rewind_button = gtk_button_new();
@@ -737,6 +739,8 @@ celluloid_control_box_init(CelluloidControlBox *box)
 			"sidebar-show-right-symbolic",
 			_("Show Playlist") );
 
+	gtk_widget_set_direction(box->playback_buttons_box, GTK_TEXT_DIR_LTR);
+
 	gtk_widget_add_css_class(box->controls_box,"control-box");
 	gtk_widget_add_css_class(box->controls_box, "toolbar");
 	gtk_widget_add_css_class(box->title_widget, "heading");
@@ -776,11 +780,12 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	gtk_box_append(GTK_BOX(box->controls_box), box->title_widget);
 	gtk_box_append(GTK_BOX(box->controls_box), box->secondary_seek_bar);
 	gtk_box_append(GTK_BOX(box->controls_box), box->inner_box);
-	gtk_box_append(GTK_BOX(box->inner_box), box->previous_button);
-	gtk_box_append(GTK_BOX(box->inner_box), box->rewind_button);
-	gtk_box_append(GTK_BOX(box->inner_box), box->play_button);
-	gtk_box_append(GTK_BOX(box->inner_box), box->forward_button);
-	gtk_box_append(GTK_BOX(box->inner_box), box->next_button);
+	gtk_box_append(GTK_BOX(box->playback_buttons_box), box->previous_button);
+	gtk_box_append(GTK_BOX(box->playback_buttons_box), box->rewind_button);
+	gtk_box_append(GTK_BOX(box->playback_buttons_box), box->play_button);
+	gtk_box_append(GTK_BOX(box->playback_buttons_box), box->forward_button);
+	gtk_box_append(GTK_BOX(box->playback_buttons_box), box->next_button);
+	gtk_box_append(GTK_BOX(box->inner_box), box->playback_buttons_box);
 	gtk_box_append(GTK_BOX(box->inner_box), box->seek_bar);
 	gtk_box_append(GTK_BOX(box->inner_box), box->volume_button);
 	gtk_box_append(GTK_BOX(box->inner_box), box->playlist_button);
