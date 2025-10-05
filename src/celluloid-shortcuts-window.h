@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 gnome-mpv
+ * Copyright (c) 2016-2021, 2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -26,11 +26,11 @@
 
 G_BEGIN_DECLS
 
-typedef GtkShortcutsWindow CelluloidShortcutsWindow;
+typedef AdwShortcutsDialog CelluloidShortcutsWindow;
 
-#define CELLULOID_SHORTCUTS_WINDOW GTK_SHORTCUTS_WINDOW
-#define CELLULOID_TYPE_SHORTCUTS_WINDOW GTK_TYPE_SHORTCUTS_WINDOW
-#define CELLULOID_IS_SHORTCUTS_WINDOW GTK_IS_SHORTCUTS_WINDOW
+#define CELLULOID_SHORTCUTS_WINDOW ADW_SHORTCUTS_DIALOG
+#define CELLULOID_TYPE_SHORTCUTS_WINDOW ADW_TYPE_SHORTCUTS_DIALOG
+#define CELLULOID_IS_SHORTCUTS_WINDOW ADW_IS_SHORTCUTS_DIALOG
 
 GtkWidget *
 celluloid_shortcuts_window_new(GtkWindow *parent);

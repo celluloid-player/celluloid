@@ -1600,8 +1600,12 @@ void
 celluloid_view_show_shortcuts_dialog(CelluloidView *view)
 {
 	GtkWidget *wnd = celluloid_shortcuts_window_new(GTK_WINDOW(view));
+	AdwDialog *dialog = ADW_DIALOG(wnd);
+	gint height = -1;
 
-	gtk_widget_set_visible(wnd, TRUE);
+	gtk_window_get_default_size(GTK_WINDOW(view), NULL, &height);
+	adw_dialog_present(dialog, GTK_WIDGET(view));
+	adw_dialog_set_content_height(dialog, MAX(256, height - 128));
 }
 
 void

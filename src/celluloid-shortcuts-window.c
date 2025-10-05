@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2022 gnome-mpv
+ * Copyright (c) 2016-2022, 2025 gnome-mpv
  *
  * This file is part of Celluloid.
  *
@@ -20,6 +20,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <adwaita.h>
 
 #include "celluloid-shortcuts-window.h"
 
@@ -37,7 +38,7 @@ struct ShortcutGroup
 
 typedef struct ShortcutEntry ShortcutEntry;
 typedef struct ShortcutGroup ShortcutGroup;
-typedef GtkShortcutsWindow CelluloidShortcutsWindow;
+typedef AdwShortcutsDialog CelluloidShortcutsWindow;
 
 static void
 celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
@@ -129,62 +130,34 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 			{_("Seeking"), seeking},
 			{_("Playlist"), playlist},
 			{NULL, NULL} };
-	GObject *section =
-		g_object_new
-		(	gtk_shortcuts_section_get_type(),
-			"section-name", "shortcuts",
-			"visible", TRUE,
-			NULL );
 
 	for(gint i  = 0; groups[i].title; i++)
 	{
 		const ShortcutEntry *entries =
 			groups[i].entries;
-		GObject *group =
-			g_object_new
-			(	gtk_shortcuts_group_get_type(),
-				"title", groups[i].title,
-				NULL );
+		AdwShortcutsSection *section =
+			adw_shortcuts_section_new(groups[i].title);
 
 		for(gint j  = 0; entries[j].accel; j++)
 		{
-			GObject *entry =
-				g_object_new
-				(	gtk_shortcuts_shortcut_get_type(),
-					"accelerator", entries[j].accel,
-					"title", entries[j].title,
-					NULL );
+			AdwShortcutsItem *item =
+				adw_shortcuts_item_new
+				(entries[j].title, entries[j].accel);
 
-			GTK_BUILDABLE_GET_IFACE(group)->
-				add_child(	GTK_BUILDABLE(group),
-						NULL,
-						entry,
-						"GtkShortcutsEntry" );
+			adw_shortcuts_section_add(section, item);
 		}
 
-		GTK_BUILDABLE_GET_IFACE(section)->
-			add_child(	GTK_BUILDABLE(section),
-					NULL,
-					group,
-					"GtkShortcutsGroup" );
+		AdwShortcutsDialog *dialog = ADW_SHORTCUTS_DIALOG(wnd);
+		adw_shortcuts_dialog_add(dialog, section);
 	}
-
-	GTK_BUILDABLE_GET_IFACE(wnd)->
-		add_child(	GTK_BUILDABLE(wnd),
-				NULL,
-				section,
-				"GtkShortcutsSection" );
 }
 
 GtkWidget *
 celluloid_shortcuts_window_new(GtkWindow *parent)
 {
-	GtkWidget *result = GTK_WIDGET(g_object_new(	gtk_shortcuts_window_get_type(),
-							"transient-for", parent,
-							"modal", TRUE,
-							NULL));
+	GObject *result = g_object_new(adw_shortcuts_dialog_get_type(), NULL);
 
 	celluloid_shortcuts_window_init(CELLULOID_SHORTCUTS_WINDOW(result));
 
-	return result;
+	return GTK_WIDGET(result);
 }
