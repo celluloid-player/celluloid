@@ -27,7 +27,7 @@ sources = [
   'celluloid-plugins-manager-item.c',
   'celluloid-preferences-dialog.c',
   'celluloid-seek-bar.c',
-  'celluloid-shortcuts-window.c',
+  'celluloid-shortcuts-dialog.c',
   'celluloid-time-label.c',
   'celluloid-video-area.c',
   'celluloid-view.c',

@@ -22,7 +22,7 @@
 #include <gtk/gtk.h>
 #include <adwaita.h>
 
-#include "celluloid-shortcuts-window.h"
+#include "celluloid-shortcuts-dialog.h"
 
 struct ShortcutEntry
 {
@@ -38,10 +38,10 @@ struct ShortcutGroup
 
 typedef struct ShortcutEntry ShortcutEntry;
 typedef struct ShortcutGroup ShortcutGroup;
-typedef AdwShortcutsDialog CelluloidShortcutsWindow;
+typedef AdwShortcutsDialog CelluloidShortcutsDialog;
 
 static void
-celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
+celluloid_shortcuts_dialog_init(CelluloidShortcutsDialog *wnd)
 {
 	const ShortcutEntry general[]
 		= {	{"<Ctrl>o", _("Open file")},
@@ -153,11 +153,11 @@ celluloid_shortcuts_window_init(CelluloidShortcutsWindow *wnd)
 }
 
 GtkWidget *
-celluloid_shortcuts_window_new(GtkWindow *parent)
+celluloid_shortcuts_dialog_new(GtkWindow *parent)
 {
 	GObject *result = g_object_new(adw_shortcuts_dialog_get_type(), NULL);
 
-	celluloid_shortcuts_window_init(CELLULOID_SHORTCUTS_WINDOW(result));
+	celluloid_shortcuts_dialog_init(CELLULOID_SHORTCUTS_DIALOG(result));
 
 	return GTK_WIDGET(result);
 }

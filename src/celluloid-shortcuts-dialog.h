@@ -17,8 +17,8 @@
  * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHORTCUTS_WINDOW_H
-#define SHORTCUTS_WINDOW_H
+#ifndef SHORTCUTS_DIALOG_H
+#define SHORTCUTS_DIALOG_H
 
 #include <glib.h>
 #include <glib-object.h>
@@ -26,14 +26,14 @@
 
 G_BEGIN_DECLS
 
-typedef AdwShortcutsDialog CelluloidShortcutsWindow;
+typedef AdwShortcutsDialog CelluloidShortcutsDialog;
 
-#define CELLULOID_SHORTCUTS_WINDOW ADW_SHORTCUTS_DIALOG
-#define CELLULOID_TYPE_SHORTCUTS_WINDOW ADW_TYPE_SHORTCUTS_DIALOG
-#define CELLULOID_IS_SHORTCUTS_WINDOW ADW_IS_SHORTCUTS_DIALOG
+#define CELLULOID_SHORTCUTS_DIALOG ADW_SHORTCUTS_DIALOG
+#define CELLULOID_TYPE_SHORTCUTS_DIALOG ADW_TYPE_SHORTCUTS_DIALOG
+#define CELLULOID_IS_SHORTCUTS_DIALOG ADW_IS_SHORTCUTS_DIALOG
 
 GtkWidget *
-celluloid_shortcuts_window_new(GtkWindow *parent);
+celluloid_shortcuts_dialog_new(GtkWindow *parent);
 
 G_END_DECLS
 

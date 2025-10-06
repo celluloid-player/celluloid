@@ -29,7 +29,7 @@
 #include "celluloid-file-dialog.h"
 #include "celluloid-open-location-dialog.h"
 #include "celluloid-preferences-dialog.h"
-#include "celluloid-shortcuts-window.h"
+#include "celluloid-shortcuts-dialog.h"
 #include "celluloid-authors.h"
 #include "celluloid-marshal.h"
 #include "celluloid-menu.h"
@@ -1599,7 +1599,7 @@ celluloid_view_show_preferences_dialog(CelluloidView *view)
 void
 celluloid_view_show_shortcuts_dialog(CelluloidView *view)
 {
-	GtkWidget *wnd = celluloid_shortcuts_window_new(GTK_WINDOW(view));
+	GtkWidget *wnd = celluloid_shortcuts_dialog_new(GTK_WINDOW(view));
 	AdwDialog *dialog = ADW_DIALOG(wnd);
 	gint height = -1;
 
