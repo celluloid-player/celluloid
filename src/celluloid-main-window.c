@@ -47,7 +47,7 @@ enum
 
 struct _CelluloidMainWindowPrivate
 {
-	GtkApplicationWindow parent;
+	AdwApplicationWindow parent;
 	gint width_offset;
 	gint height_offset;
 	gint resize_target[2];

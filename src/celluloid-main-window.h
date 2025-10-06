@@ -23,6 +23,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
+#include <adwaita.h>
 
 #include "celluloid-playlist-widget.h"
 #include "celluloid-control-box.h"
@@ -32,11 +33,11 @@ G_BEGIN_DECLS
 
 #define CELLULOID_TYPE_MAIN_WINDOW (celluloid_main_window_get_type ())
 
-G_DECLARE_DERIVABLE_TYPE(CelluloidMainWindow, celluloid_main_window, CELLULOID, MAIN_WINDOW, GtkApplicationWindow)
+G_DECLARE_DERIVABLE_TYPE(CelluloidMainWindow, celluloid_main_window, CELLULOID, MAIN_WINDOW, AdwApplicationWindow)
 
 struct _CelluloidMainWindowClass
 {
-	GtkApplicationWindowClass parent_class;
+	AdwApplicationWindowClass parent_class;
 };
 
 GtkWidget *
