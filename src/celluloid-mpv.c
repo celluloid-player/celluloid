@@ -41,6 +41,10 @@
 #include <gdk/win32/gdkwin32.h>
 #include <epoxy/wgl.h>
 #endif
+#ifdef GDK_WINDOWING_MACOS
+#include <gdk/macos/gdkmacos.h>
+#include <dlfcn.h>
+#endif
 
 #include "celluloid-mpv.h"
 #include "celluloid-common.h"
@@ -151,6 +155,10 @@ get_proc_address(void *fn_ctx, const gchar *name)
 #ifdef GDK_WINDOWING_WIN32
 	if (GDK_IS_WIN32_DISPLAY(display))
 		return wglGetProcAddress(name);
+#endif
+#ifdef GDK_WINDOWING_MACOS
+	if (GDK_IS_MACOS_DISPLAY(display))
+		return dlsym(RTLD_DEFAULT, name);
 #endif
 	g_assert_not_reached();
 	return NULL;
