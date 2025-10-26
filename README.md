@@ -10,7 +10,7 @@ Repository Mirror: https://codeberg.org/celluloid-player/celluloid
 
 ## Dependencies
 
-- appstream-glib (build)
+- appstream (build)
 - pkg-config (build)
 - gcc (build)
 - glib >= 2.68

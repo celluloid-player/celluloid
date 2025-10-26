@@ -4,7 +4,7 @@ install_data([
   'io.github.celluloid_player.Celluloid.gschema.xml',
 ], install_dir: schemadir)
 
-appdata = i18n.merge_file(
+metainfo = i18n.merge_file(
   input: 'io.github.celluloid_player.Celluloid.appdata.xml.in',
   output: 'io.github.celluloid_player.Celluloid.appdata.xml',
   po_dir: '../po',
@@ -40,9 +40,9 @@ configure_file(
   install_dir: join_paths(get_option('datadir'), 'dbus-1', 'services')
 )
 
-appstream_util = find_program('appstream-util', required: false)
-if appstream_util.found()
-  test('Validate appstream file', appstream_util, args: ['validate', '--nonet', appdata])
+appstreamcli = find_program('appstreamcli', required: false)
+if appstreamcli.found()
+  test('Validate appstream file', appstreamcli, args: ['validate', '--no-net', metainfo])
 endif
 
 desktop_file_validate = find_program('desktop-file-validate', required: false)
