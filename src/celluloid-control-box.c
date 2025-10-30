@@ -69,6 +69,7 @@ struct _CelluloidControlBox
 	gboolean narrow;
 	gboolean compact;
 	gboolean fullscreened;
+	gboolean floating;
 	gboolean pause;
 	gboolean show_playlist;
 	gdouble time_position;
@@ -96,9 +97,6 @@ get_property(	GObject *object,
 		GValue *value,
 		GParamSpec *pspec );
 
-static void
-css_changed(GtkWidget *self, GtkCssStyleChange *change);
-
 static gboolean
 gtk_to_mpv_volume(	GBinding *binding,
 			const GValue *from_value,
@@ -113,6 +111,9 @@ mpv_to_gtk_volume(	GBinding *binding,
 
 static void
 seek_handler(CelluloidSeekBar *seek_bar, gdouble value, gpointer data);
+
+static void
+notify_popover_visible_handler(GObject *self, GParamSpec *pspec, gpointer data);
 
 static void
 volume_changed_handler(GtkVolumeButton *button, gdouble value, gpointer data);
@@ -318,29 +319,6 @@ get_property(	GObject *object,
 	}
 }
 
-static void
-css_changed(GtkWidget *self, GtkCssStyleChange *change)
-{
-	GTK_WIDGET_CLASS(celluloid_control_box_parent_class)
-		->css_changed(self, change);
-
-	CelluloidControlBox *box = CELLULOID_CONTROL_BOX(self);
-	gint offset = -6;
-	graphene_rect_t bounds;
-
-	if(gtk_widget_compute_bounds(self, box->seek_bar, &bounds))
-	{
-		offset = (gint)bounds.origin.y;
-	}
-	else
-	{
-		g_warning("Failed to calculate offset for timestamp popover.");
-	}
-
-	g_object_set(box->seek_bar, "popover-y-offset", offset, NULL);
-	g_object_set(box->secondary_seek_bar, "popover-y-offset", offset, NULL);
-}
-
 static gboolean
 gtk_to_mpv_volume(	GBinding *binding,
 			const GValue *from_value,
@@ -369,6 +347,29 @@ static void
 seek_handler(CelluloidSeekBar *seek_bar, gdouble value, gpointer data)
 {
 	g_signal_emit_by_name(data, "seek", value);
+}
+
+static void
+notify_popover_visible_handler(GObject *self, GParamSpec *pspec, gpointer data)
+{
+	CelluloidControlBox *box = CELLULOID_CONTROL_BOX(data);
+	gint offset = -6;
+	graphene_rect_t bounds;
+
+	if(gtk_widget_compute_bounds(GTK_WIDGET(data), box->seek_bar, &bounds))
+	{
+		// 12 is the margin from the CSS class used in floating mode.
+		// As of 2025/10/29, there doesn't seem to be an obvious way to
+		// get this value without relying on deprecated API.
+		offset = (gint)bounds.origin.y - (box->floating ? -12 : 0);
+	}
+	else
+	{
+		g_warning("Failed to calculate offset for timestamp popover.");
+	}
+
+	g_object_set(box->seek_bar, "popover-y-offset", offset, NULL);
+	g_object_set(box->secondary_seek_bar, "popover-y-offset", offset, NULL);
 }
 
 static void
@@ -520,12 +521,10 @@ static void
 celluloid_control_box_class_init(CelluloidControlBoxClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 	GParamSpec *pspec = NULL;
 
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
-	widget_class->css_changed = css_changed;
 
 	pspec = g_param_spec_boolean
 		(	"skip-enabled",
@@ -711,6 +710,7 @@ celluloid_control_box_init(CelluloidControlBox *box)
 	box->narrow = FALSE;
 	box->compact = FALSE;
 	box->fullscreened = FALSE;
+	box->floating = FALSE;
 	box->pause = TRUE;
 	box->show_playlist = FALSE;
 	box->time_position = 0.0;
@@ -858,6 +858,10 @@ celluloid_control_box_init(CelluloidControlBox *box)
 				"seek",
 				G_CALLBACK(seek_handler),
 				box );
+	g_signal_connect(	box->seek_bar,
+				"notify::popover-visible",
+				G_CALLBACK(notify_popover_visible_handler),
+				box );
 	g_signal_connect(	box->secondary_seek_bar,
 				"seek",
 				G_CALLBACK(seek_handler),
@@ -956,6 +960,8 @@ celluloid_control_box_set_floating(CelluloidControlBox *box, gboolean floating)
 		adw_clamp_set_maximum_size
 			(ADW_CLAMP(box->clamp), G_MAXINT);
 	}
+
+	box->floating = floating;
 }
 
 void

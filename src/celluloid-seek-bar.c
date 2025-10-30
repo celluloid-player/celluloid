@@ -34,6 +34,7 @@ enum
 	PROP_ENABLED,
 	PROP_SHOW_LABEL,
 	PROP_POPOVER_Y_OFFSET,
+	PROP_POPOVER_VISIBLE,
 	N_PROPERTIES
 };
 
@@ -194,6 +195,10 @@ get_property(	GObject *object,
 		g_value_set_int(value, self->popover_y_offset);
 		break;
 
+		case PROP_POPOVER_VISIBLE:
+		g_value_set_boolean(value, self->popover_visible);
+		break;
+
 		default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
 		break;
@@ -235,6 +240,8 @@ enter_handler(	GtkEventControllerMotion *controller,
 	if(bar->duration > 0)
 	{
 		bar->popover_visible = TRUE;
+		g_object_notify(G_OBJECT(bar), "popover-visible");
+
 		bar->popover_timeout_id =
 			g_timeout_add(	100,
 					(GSourceFunc)update_popover_visibility,
@@ -255,6 +262,8 @@ leave_handler(GtkEventControllerMotion *widget, gpointer data)
 	}
 
 	bar->popover_visible = FALSE;
+	g_object_notify(G_OBJECT(bar), "popover-visible");
+
 	bar->popover_timeout_id =
 		g_timeout_add(100, (GSourceFunc)update_popover_visibility, bar);
 
@@ -478,6 +487,14 @@ celluloid_seek_bar_class_init(CelluloidSeekBarClass *klass)
 			0,
 			G_PARAM_READWRITE );
 	g_object_class_install_property(object_class, PROP_POPOVER_Y_OFFSET, pspec);
+
+	pspec = g_param_spec_boolean
+		(	"popover-visible",
+			"Popover visible",
+			"Whether the timestamp popover is visible",
+			FALSE,
+			G_PARAM_READABLE );
+	g_object_class_install_property(object_class, PROP_POPOVER_VISIBLE, pspec);
 
 	g_signal_new(	"seek",
 			G_TYPE_FROM_CLASS(klass),
