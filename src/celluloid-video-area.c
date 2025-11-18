@@ -92,6 +92,9 @@ static void
 set_cursor_visible(CelluloidVideoArea *area, gboolean visible);
 
 static void
+hide_floating_controls(CelluloidVideoArea *area);
+
+static void
 reveal_controls(CelluloidVideoArea *area);
 
 static void
@@ -177,12 +180,19 @@ set_fullscreen_state(CelluloidVideoArea *area, gboolean fullscreen)
 	celluloid_video_area_set_use_floating_header_bar
 		(area, area->use_floating_controls || fullscreen);
 	celluloid_video_area_set_control_box_floating
-		(area, TRUE);
+		(area, area->use_floating_controls || fullscreen);
+}
 
-	adw_toolbar_view_set_reveal_top_bars
-		(ADW_TOOLBAR_VIEW(area->toolbar_view), TRUE);
-	adw_toolbar_view_set_reveal_bottom_bars
-		(ADW_TOOLBAR_VIEW(area->toolbar_view), TRUE);
+static void
+hide_floating_controls(CelluloidVideoArea *area)
+{
+	if(area->use_floating_controls)
+	{
+		adw_toolbar_view_set_reveal_top_bars
+			(ADW_TOOLBAR_VIEW(area->toolbar_view), FALSE);
+		adw_toolbar_view_set_reveal_bottom_bars
+			(ADW_TOOLBAR_VIEW(area->toolbar_view), FALSE);
+	}
 }
 
 static void
@@ -643,9 +653,11 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 			area->use_floating_controls || area->fullscreened);
 
 	adw_toolbar_view_set_reveal_top_bars
-		(ADW_TOOLBAR_VIEW(area->toolbar_view), TRUE);
+		(	ADW_TOOLBAR_VIEW(area->toolbar_view),
+			!area->use_floating_header_bar);
 	adw_toolbar_view_set_reveal_bottom_bars
-		(ADW_TOOLBAR_VIEW(area->toolbar_view), TRUE);
+		(	ADW_TOOLBAR_VIEW(area->toolbar_view),
+			!area->use_floating_controls);
 
 	//TODO: Reduce spacing for headerbar when in compact mode
 	adw_breakpoint_add_setters
@@ -694,25 +706,6 @@ celluloid_video_area_show_toast_message(	CelluloidVideoArea *area,
 }
 
 void
-celluloid_video_area_set_reveal_control_box(	CelluloidVideoArea *area,
-						gboolean reveal )
-{
-	adw_toolbar_view_set_reveal_bottom_bars
-		(ADW_TOOLBAR_VIEW(area->toolbar_view), reveal);
-
-	g_source_clear(&area->timeout_tag);
-
-	if(reveal)
-	{
-		area->timeout_tag =
-			g_timeout_add_seconds
-			(	FS_CONTROL_HIDE_DELAY,
-				timeout_handler,
-				area );
-	}
-}
-
-void
 celluloid_video_area_set_control_box_visible(	CelluloidVideoArea *area,
 						gboolean visible )
 {
@@ -726,6 +719,7 @@ celluloid_video_area_set_status(	CelluloidVideoArea *area,
 	switch(status)
 	{
 		case CELLULOID_VIDEO_AREA_STATUS_LOADING:
+		hide_floating_controls(area);
 		adw_status_page_set_title
 			(	ADW_STATUS_PAGE(area->initial_page),
 				_("Loading…") );
@@ -737,6 +731,7 @@ celluloid_video_area_set_status(	CelluloidVideoArea *area,
 		break;
 
 		case CELLULOID_VIDEO_AREA_STATUS_IDLE:
+		reveal_controls(area);
 		adw_status_page_set_title
 			(	ADW_STATUS_PAGE(area->initial_page),
 				_("Welcome") );
@@ -748,6 +743,7 @@ celluloid_video_area_set_status(	CelluloidVideoArea *area,
 		break;
 
 		case CELLULOID_VIDEO_AREA_STATUS_PLAYING:
+		hide_floating_controls(area);
 		gtk_stack_set_visible_child
 			(GTK_STACK(area->stack), area->graphics_offload);
 		break;
