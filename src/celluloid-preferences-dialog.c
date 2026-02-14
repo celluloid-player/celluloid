@@ -255,6 +255,8 @@ constructed(GObject *object)
 	adw_preferences_dialog_add(	ADW_PREFERENCES_DIALOG(dlg),
 					plugins_manager );
 
+	gtk_widget_set_size_request(GTK_WIDGET(dlg), 720, -1);
+
 	g_signal_connect(	dlg,
 				"closed",
 				G_CALLBACK(save_settings),
