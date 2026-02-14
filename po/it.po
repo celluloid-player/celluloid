@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2024-09-29 11:16+0000\n"
-"Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
+"PO-Revision-Date: 2025-05-28 13:05+0000\n"
+"Last-Translator: Luiz Carlos Lucasv <csversut@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/it/>\n"
 "Language: it\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -67,7 +67,6 @@ msgid "Remember last location in file chooser"
 msgstr "Ricorda l'ultima posizione del selettore file"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
 msgstr "Apri una nuova finestra all'apertura di nuovi file"
 
@@ -76,17 +75,16 @@ msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Quando si aprono nuovi file tramite D-Bus (ad esempio utilizzando un file "
+"manager), aprire il file in una nuova finestra."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Aggiungi sempre i file aperti alla playlist"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr ""
-"Aggiunta un'opzione per mostrare i pulsanti del titolo nella modalità a "
-"schermo intero."
+msgstr "Mostra i pulsanti del titolo in modalità a schermo intero"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -155,13 +153,12 @@ msgid "Make video area draggable"
 msgstr "Rendi l'area del video trascinabile"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "Usa i pulsanti di salto per controllare la playlist"
+msgstr "Visualizzare la durata dei file nella playlist"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "Abilita l'offload grafico"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -327,17 +324,14 @@ msgid "Rewind"
 msgstr "Torna indietro"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
 msgstr "Prossima traccia"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
 msgstr "Traccia precedente"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
 msgstr "Mostra la playlist"
 
@@ -549,12 +543,10 @@ msgid "Loop Playlist"
 msgstr "Ripeti la playlist"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
 msgstr "0 file"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
 msgstr "Nascondi la Playlist"
 
@@ -563,33 +555,28 @@ msgid "Playlist"
 msgstr "Playlist"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
 msgstr "Cerca nella Playlist"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Cerca nella Playlist"
+msgstr "Cerca nella Playlist…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
 msgstr "Disattiva ripetizione"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
 msgstr "Ripeti file"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
 msgstr "Ripeti Playlist"
 
 #: src/celluloid-playlist-widget.c:1142
-#, fuzzy
 msgid "Shuffle playlist"
-msgstr "Mischia la playlist"
+msgstr "Playlist casuale"
 
 #: src/celluloid-playlist-widget.c:1167
 msgid "Playlist is Empty"
@@ -599,8 +586,8 @@ msgstr "La playlist è vuota"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "file"
+msgstr[1] "%ld file"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -964,7 +951,6 @@ msgid "Welcome"
 msgstr "Benvenuto"
 
 #: src/celluloid-video-area.c:740
-#, fuzzy
 msgid "Click the <b>Open</b> button or drag and drop videos here"
 msgstr "Fai clic sul pulsante <b>Apri</b> o trascina e rilascia i video qui"
 

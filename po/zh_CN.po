@@ -14,21 +14,21 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2024-06-24 03:04+0000\n"
-"Last-Translator: ZhangPeng <scbeta@qq.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"celluloid/celluloid/zh_Hans/>\n"
+"PO-Revision-Date: 2026-02-01 12:01+0000\n"
+"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
+"projects/celluloid/celluloid/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6-rc\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "是否已从上一个版本迁移设置"
+msgstr "是否已从先前版本迁移设置"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
@@ -36,7 +36,7 @@ msgstr "自动调整窗口大小以适合视频"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
 msgid "Prefer dark theme"
-msgstr "使用暗色主题"
+msgstr "优先使用深色主题"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 msgid "Enable client-side decorations"
@@ -44,11 +44,11 @@ msgstr "启用客户端装饰"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr "窗口模式下启用浮动控制"
+msgstr "窗口模式下使用浮动控制"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr "窗口模式下自动隐藏鼠标指针"
+msgstr "窗口模式下自动隐藏鼠标光标"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 msgid "The minimum cursor speed at which floating controls will be unhidden."
@@ -66,27 +66,25 @@ msgstr "使用跳转按钮控制播放列表"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr "记住文件选择器中的最后一个位置"
+msgstr "记住文件选择器中的上次位置"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "打开新文件时聚焦窗口"
+msgstr "打开新文件时新建窗口"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
-msgstr ""
+msgstr "通过 D-Bus 打开新文件时（例如使用文件管理器），在新窗口中打开文件。"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
-msgstr "总是添加打开的文件到播放列表"
+msgstr "始终将打开的文件添加到播放列表"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "添加选项以在全屏模式下显示标题按钮。"
+msgstr "全屏模式下显示标题按钮"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -111,23 +109,23 @@ msgstr ""
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:105
 #: src/celluloid-application.c:552
 msgid "Options to pass to mpv"
-msgstr "要传递给 MPV 的选项"
+msgstr "要传递给 mpv 的选项"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:111
 msgid "Path to mpv configuration file"
-msgstr "MPV 配置文件的路径"
+msgstr "mpv 配置文件的路径"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:117
 msgid "Load mpv configuration file"
-msgstr "加载 MPV 配置文件"
+msgstr "加载 mpv 配置文件"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:123
 msgid "Path to mpv input configuration file"
-msgstr "MPV 输入配置文件的路径"
+msgstr "mpv 输入配置文件的路径"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:129
 msgid "Load mpv input configuration file"
-msgstr "加载 MPV 输入配置文件"
+msgstr "加载 mpv 输入配置文件"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:135
 msgid "Enable MPRIS support"
@@ -154,13 +152,12 @@ msgid "Make video area draggable"
 msgstr "使视频区域可拖动"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "使用跳转按钮控制播放列表"
+msgstr "在播放列表中显示文件时长"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "启用图形卸载"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -196,7 +193,7 @@ msgstr "显示/隐藏播放列表"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:236
 msgid "URI of the last folder accessed"
-msgstr "最近访问的文件夹 URI"
+msgstr "上次访问文件夹的 URI"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:7
 #: data/io.github.celluloid_player.Celluloid.desktop.in:3
@@ -230,7 +227,7 @@ msgstr "拖放播放列表"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
-msgstr "正在载入外部 MPV 配置文件"
+msgstr "正在加载外部 mpv 配置文件"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:27
 msgid "MPRIS2 D-Bus interface"
@@ -259,7 +256,9 @@ msgstr "播放电影和视频"
 #. Translators: Search terms to find this application. Don't translate the semicolons! The list MUST also end with a semicolon!
 #: data/io.github.celluloid_player.Celluloid.desktop.in:16
 msgid "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
-msgstr "视频;电影;剪辑;系列;播放器;DVD;TV;碟片;专辑;音乐;GNOME;mpv;"
+msgstr ""
+"Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;视频;电"
+"影;剪辑;系列;播放器;碟片;专辑;音乐;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
@@ -295,7 +294,7 @@ msgstr "不要连接到已经运行中的实例"
 
 #: src/celluloid-application.c:579
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr "设置 mpv 选项 MPVOPTION 到 VALUE"
+msgstr "将 mpv 选项 MPVOPTION 设置为 VALUE"
 
 #: src/celluloid-application.c:580
 msgid "VALUE"
@@ -322,23 +321,20 @@ msgid "Rewind"
 msgstr "快退"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "视频轨道(_V)"
+msgstr "下一个"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "上一章节"
+msgstr "上一个"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "循环播放列表"
+msgstr "显示播放列表"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "音量"
 
 #: src/celluloid-controller.c:1370
 msgid "Playing"
@@ -366,7 +362,7 @@ msgstr "视频文件"
 
 #: src/celluloid-file-dialog.c:90
 msgid "Image Files"
-msgstr "图像文件"
+msgstr "图片文件"
 
 #: src/celluloid-file-dialog.c:102
 msgid "Subtitle Files"
@@ -382,11 +378,11 @@ msgstr "打开"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "选择媒体文件、文件夹或 URL"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "主菜单"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -405,7 +401,7 @@ msgstr "未知"
 
 #: src/celluloid-menu.c:154
 msgid "_Load External…"
-msgstr "载入外部(_L)…"
+msgstr "加载外部(_L)…"
 
 #. Disable the menu item by setting the action to something
 #. * invalid.
@@ -420,7 +416,7 @@ msgstr "文件(_F)"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:316
 msgid "_Open File…"
-msgstr "_打开文件…"
+msgstr "打开文件(_O)…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:317
 msgid "Open _Folder…"
@@ -484,7 +480,7 @@ msgstr "帮助(_H)"
 
 #: src/celluloid-menu.c:252 src/celluloid-menu.c:295
 msgid "_Keyboard Shortcuts"
-msgstr "快捷键(_K)"
+msgstr "键盘快捷键(_K)"
 
 #: src/celluloid-menu.c:253 src/celluloid-menu.c:296
 msgid "_About Celluloid"
@@ -509,7 +505,7 @@ msgstr "路径："
 
 #: src/celluloid-player.c:669
 msgid "Failed to apply one or more MPV options."
-msgstr "应用一个或多个 MPV 选项失败。"
+msgstr "无法应用一个或多个 mpv 选项。"
 
 #: src/celluloid-playlist-widget.c:639
 msgid "_Copy Location"
@@ -537,57 +533,49 @@ msgstr "随机播放(_S)"
 
 #: src/celluloid-playlist-widget.c:646
 msgid "Loop File"
-msgstr "循环播放文件"
+msgstr "文件循环播放"
 
 #: src/celluloid-playlist-widget.c:647
 msgid "Loop Playlist"
-msgstr "循环播放列表"
+msgstr "播放列表循环播放"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
-msgstr "打开文件"
+msgstr "0 个文件"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
-msgstr "保存播放列表"
+msgstr "隐藏播放列表"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "播放列表"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
-msgstr "保存播放列表"
+msgstr "在播放列表中搜索"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "保存播放列表"
+msgstr "在播放列表中搜索…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
-msgstr ""
+msgstr "禁用重复播放"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
-msgstr "打开文件"
+msgstr "文件重复播放"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "保存播放列表"
+msgstr "播放列表重复播放"
 
 #: src/celluloid-playlist-widget.c:1142
-#, fuzzy
 msgid "Shuffle playlist"
-msgstr "随机播放列表"
+msgstr "播放列表随机播放"
 
 #: src/celluloid-playlist-widget.c:1167
-#, fuzzy
 msgid "Playlist is Empty"
 msgstr "播放列表为空"
 
@@ -595,7 +583,7 @@ msgstr "播放列表为空"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
+msgstr[0] "%ld 个文件"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -616,7 +604,7 @@ msgstr "C 程序插件"
 #: src/celluloid-plugins-manager.c:358
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr "从 '%s' 拷贝文件到 '%s' 失败。原因：%s"
+msgstr "无法将文件从“%s”复制到“%s”。原因：%s"
 
 #: src/celluloid-plugins-manager.c:413
 msgid "Plugins"
@@ -632,7 +620,7 @@ msgstr "未找到插件"
 
 #: src/celluloid-plugins-manager.c:457
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "点击<b>添加…</b>按钮安装新插件"
 
 #: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
@@ -641,12 +629,12 @@ msgstr "移除插件"
 #: src/celluloid-plugins-manager-item.c:175
 #, c-format
 msgid "Failed to delete file '%s'. Reason: %s"
-msgstr "删除文件 '%s' 失败。原因：%s"
+msgstr "无法删除文件“%s”。原因：%s"
 
 #: src/celluloid-plugins-manager-item.c:199
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
-msgstr "您确定移除此脚本吗？该操作无法被撤销。"
+msgstr "确定要移除此脚本吗？此操作无法撤销。"
 
 #: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
@@ -654,19 +642,19 @@ msgstr "保留(_K)"
 
 #: src/celluloid-preferences-dialog.c:192
 msgid "mpv configuration file"
-msgstr "mpv配置文件"
+msgstr "mpv 配置文件"
 
 #: src/celluloid-preferences-dialog.c:198
 msgid "mpv input configuration file"
-msgstr "mpv输入配置文件"
+msgstr "mpv 输入配置文件"
 
 #: src/celluloid-preferences-dialog.c:218
 msgid "Extra mpv options"
-msgstr "额外的 MPV 选项"
+msgstr "额外的 mpv 选项"
 
 #: src/celluloid-preferences-dialog.c:229
 msgid "Interface"
-msgstr "用户界面"
+msgstr "界面"
 
 #: src/celluloid-preferences-dialog.c:238
 msgid "Config Files"
@@ -706,7 +694,7 @@ msgstr "切换播放列表"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
-msgstr ""
+msgstr "显示主菜单"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
@@ -714,7 +702,7 @@ msgstr "切换全屏模式"
 
 #: src/celluloid-shortcuts-window.c:54
 msgid "Leave fullscreen mode"
-msgstr "离开全屏模式"
+msgstr "退出全屏模式"
 
 #: src/celluloid-shortcuts-window.c:55
 msgid "Toggle OSD states between normal and playback time/duration"
@@ -854,7 +842,7 @@ msgstr "移动到上一行/下一行字幕"
 
 #: src/celluloid-shortcuts-window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr "切换 VSFilter aspect 兼容模式"
+msgstr "切换 VSFilter 宽高比兼容模式"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Cycle through video tracks"
@@ -862,7 +850,7 @@ msgstr "循环播放视频轨道"
 
 #: src/celluloid-shortcuts-window.c:104
 msgid "Decrease/increase pan-and-scan range"
-msgstr "减小/增加 pan-and-scan 范围"
+msgstr "减小/增大平移和扫描范围"
 
 #: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot"
@@ -910,7 +898,7 @@ msgstr "激活/取消激活去隔行扫描器"
 
 #: src/celluloid-shortcuts-window.c:116
 msgid "Cycle aspect ratio override"
-msgstr "循环切换宽高比重写"
+msgstr "循环切换宽高比覆盖"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Pan the video"
@@ -950,7 +938,7 @@ msgstr "跳转"
 
 #: src/celluloid-video-area.c:726
 msgid "Loading…"
-msgstr "加载中…"
+msgstr "正在加载…"
 
 #: src/celluloid-video-area.c:737
 msgid "Welcome"
@@ -958,7 +946,7 @@ msgstr "欢迎"
 
 #: src/celluloid-video-area.c:740
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr ""
+msgstr "点击<b>打开</b>按钮或将视频拖放到此处"
 
 #: src/celluloid-view.c:740
 msgid "Load Audio Track…"

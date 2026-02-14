@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2025-03-05 18:53+0000\n"
+"PO-Revision-Date: 2025-09-28 18:01+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/is/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
-"X-Generator: Weblate 5.10.3-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -69,6 +69,8 @@ msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Þegar nýjar skrár eru opnaðar í gegnum D-Bus (t.d. með skráastjóra) skal "
+"opna skrána í nýjum glugga."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
@@ -144,13 +146,12 @@ msgid "Make video area draggable"
 msgstr "Gera svæði myndmerkis draganlegt"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "Nota sleppa-hnappa til að stjórna spilunarlistanum"
+msgstr "Birta tímalengd skráa í spilunarlistanum"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "Virkja afhleðslu myndefnis"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -617,7 +618,7 @@ msgstr "Engar viðbætur fundust"
 
 #: src/celluloid-plugins-manager.c:457
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "Smelltu á <b>Bæta við…</b> hnappinn til að setja upp nýja viðbót"
 
 #: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
@@ -692,9 +693,8 @@ msgid "Toggle playlist"
 msgstr "Víxla spilunarlista af/á"
 
 #: src/celluloid-shortcuts-window.c:52
-#, fuzzy
 msgid "Show main menu"
-msgstr "Aðalvalmynd"
+msgstr "Birta aðalvalmynd"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"

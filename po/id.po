@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2024-04-23 19:07+0000\n"
-"Last-Translator: Juan Manuel <juanmanueldilo09@gmail.com>\n"
+"PO-Revision-Date: 2025-09-26 04:01+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/id/>\n"
 "Language: id\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -66,24 +66,24 @@ msgid "Remember last location in file chooser"
 msgstr "Ingat lokasi terakhir di pemilih file"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Berikan fokus ke jendela saat membuka file baru"
+msgstr "Buka window baru saat membuka file baru"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Ketika membuka file baru melalui D-Bus (cth. menggunakan file manager), buka "
+"file tersebut dalam window baru."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Selalu tambahkan berkas yang dibuka ke daftar putar"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "Tambahkan opsi untuk menampilkan tombol judul dalam mode layar penuh."
+msgstr "Tampilkan tombol judul dalam mode layar penuh."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -151,13 +151,12 @@ msgid "Make video area draggable"
 msgstr "Jadikan area video dapat diseret"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "Gunakan tombol lewati untuk mengontrol daftar putar"
+msgstr "Tampilkan durasi file dalam daftar putar"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "Aktifkan graphics offload"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -202,9 +201,8 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "Putar film dan video"
+msgstr "Putar video"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -263,7 +261,7 @@ msgstr "Video;Movie;Film;Clip;Series;Player;DVD;TV;Disc;Album;Music;GNOME;mpv;"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:22
 msgid "New Window"
-msgstr "Jendela Baru"
+msgstr "Window Baru"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:26
 msgid "Add to Playlist"
@@ -275,27 +273,27 @@ msgstr "Tampilkan versi rilis"
 
 #: src/celluloid-application.c:536
 msgid "Enqueue"
-msgstr "Mengantri"
+msgstr "Daftar tunggu"
 
 #: src/celluloid-application.c:544
 msgid "Create a new window"
-msgstr "Buat jendela baru"
+msgstr "Buat window baru"
 
 #: src/celluloid-application.c:553
 msgid "OPTIONS"
-msgstr "OPSI"
+msgstr "Pilihan"
 
 #: src/celluloid-application.c:560
 msgid "Set the window role"
-msgstr "Atur peran jendela"
+msgstr "Pengaturan Window"
 
 #: src/celluloid-application.c:568
 msgid "Don't connect to an already-running instance"
-msgstr "Jangan sambungkan ke instance yang sudah berjalan"
+msgstr "Jangan sambungkan ke contoh yang sudah berjalan"
 
 #: src/celluloid-application.c:579
 msgid "Set the mpv option MPVOPTION to VALUE"
-msgstr "Setel opsi mpv MPVOPTION ke VALUE"
+msgstr "Setel pilihan mpv MPVOPTION ke VALUE"
 
 #: src/celluloid-application.c:580
 msgid "VALUE"
@@ -322,23 +320,20 @@ msgid "Rewind"
 msgstr "Mundur"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "_Trek Video"
+msgstr "_Video Selanjutnya"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Bab Sebelumnya"
+msgstr "Track Sebelumnya"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Loop Daftar Putar"
+msgstr "Tampilkan Daftar Putar"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Volume Suara"
 
 #: src/celluloid-controller.c:1370
 msgid "Playing"
@@ -382,11 +377,11 @@ msgstr "Buka"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Pilih File Media, Folder atau URL"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Menu Utama"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -536,67 +531,58 @@ msgid "_Shuffle"
 msgstr "_Acak"
 
 #: src/celluloid-playlist-widget.c:646
-#, fuzzy
 msgid "Loop File"
-msgstr "Putar ulang _File"
+msgstr "Putar ulang file"
 
 #: src/celluloid-playlist-widget.c:647
 msgid "Loop Playlist"
 msgstr "Loop Daftar Putar"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
-msgstr "Buka berkas"
+msgstr "0 file"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Simpan daftar putar"
+msgstr "Sembunyikan Daftar Putar"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "Daftar Putar"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Simpan daftar putar"
+msgstr "Cari daftar putar"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Simpan daftar putar"
+msgstr "Cari daftar putar…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
-msgstr ""
+msgstr "Non-aktifkan pengulangan"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
-msgstr "Buka berkas"
+msgstr "Pengulangan file"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Simpan daftar putar"
+msgstr "Ulangi daftar putar"
 
 #: src/celluloid-playlist-widget.c:1142
-#, fuzzy
 msgid "Shuffle playlist"
-msgstr "Acak Daftar Putar"
+msgstr "Acak daftar putar"
 
 #: src/celluloid-playlist-widget.c:1167
-#, fuzzy
 msgid "Playlist is Empty"
-msgstr "Daftar Putar kosong"
+msgstr "Daftar putar kosong"
 
 #: src/celluloid-playlist-widget.c:1274
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
+msgstr[0] "Berkas %ld"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -624,23 +610,20 @@ msgid "Plugins"
 msgstr "Plugin"
 
 #: src/celluloid-plugins-manager.c:420
-#, fuzzy
 msgid "Add…"
-msgstr "_Tambahkan…"
+msgstr "Tambahkan…"
 
 #: src/celluloid-plugins-manager.c:454
-#, fuzzy
 msgid "No Plugins Found"
-msgstr "Tak ada plugin yang ditemukan"
+msgstr "Tidak ditemukan plugin."
 
 #: src/celluloid-plugins-manager.c:457
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "Klik tombol <B>Tambah…</B> untuk memasang plugin baru"
 
 #: src/celluloid-plugins-manager-item.c:83
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "Plugin C"
+msgstr "Hapus Plugin"
 
 #: src/celluloid-plugins-manager-item.c:175
 #, c-format
@@ -656,17 +639,15 @@ msgstr ""
 
 #: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
-msgstr ""
+msgstr "_Simpan"
 
 #: src/celluloid-preferences-dialog.c:192
-#, fuzzy
 msgid "mpv configuration file"
-msgstr "berkas konfigurasi mpv:"
+msgstr "Berkas konfigurasi mpv"
 
 #: src/celluloid-preferences-dialog.c:198
-#, fuzzy
 msgid "mpv input configuration file"
-msgstr "file konfigurasi input mpv:"
+msgstr "Berkas konfigurasi input mpv"
 
 #: src/celluloid-preferences-dialog.c:218
 msgid "Extra mpv options"
@@ -714,7 +695,7 @@ msgstr "Alihkan daftar putar"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
-msgstr ""
+msgstr "Tampilkan menu utama"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
@@ -922,15 +903,15 @@ msgstr "Beralih penggantian aspek rasio"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Pan the video"
-msgstr ""
+msgstr "Geser video"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Zoom in/out"
-msgstr ""
+msgstr "Perbesar/perkecil"
 
 #: src/celluloid-shortcuts-window.c:120
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "Reset pengaturan pan/zoom"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "User Interface"
@@ -958,15 +939,15 @@ msgstr "Mencari"
 
 #: src/celluloid-video-area.c:726
 msgid "Loading…"
-msgstr ""
+msgstr "Memuat…"
 
 #: src/celluloid-video-area.c:737
 msgid "Welcome"
-msgstr ""
+msgstr "Selamat datang"
 
 #: src/celluloid-video-area.c:740
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr ""
+msgstr "Klik tombol <b>Buka</b> atau seret dan lepas video di sini"
 
 #: src/celluloid-view.c:740
 msgid "Load Audio Track…"

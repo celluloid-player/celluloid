@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2024-09-03 07:09+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2026-02-11 17:09+0000\n"
+"Last-Translator: ovl-1 <ovl-002@mailinator.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "celluloid/celluloid/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 #, fuzzy
@@ -27,12 +27,11 @@ msgstr "Hvorvidt innstillingene allerede har blitt flyttet fra forrige versjon"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
-msgstr "Tilpass vindu til videooppløsning automatisk"
+msgstr "Tilpass vindusstørrelse automatisk til video"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:23
-#, fuzzy
 msgid "Prefer dark theme"
-msgstr "Mørk drakt"
+msgstr "Foretrekk mørkt tema"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:29
 #, fuzzy
@@ -41,11 +40,11 @@ msgstr "Klientside-dekorasjoner"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:35
 msgid "Use floating controls in windowed mode"
-msgstr "Flytende kontroller i vindusbasert modus"
+msgstr "Bruk flytende kontroller i vindusmodus"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:41
 msgid "Automatically hide mouse cursor in windowed mode"
-msgstr "Skjul musepeker i vindusbasert modus automatisk"
+msgstr "Skjul musepeker i vindusmodus automatisk"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:47
 #, fuzzy
@@ -60,18 +59,16 @@ msgid ""
 msgstr "Dødsonestørrelse der pekerbevegelse ikke vil vise kontrollene."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
-#, fuzzy
 msgid "Use skip buttons to control the playlist"
-msgstr "Bruk »Hopp over»-knappen for å kontrollere spilleliste"
+msgstr "Bruk »Hopp over»-knapper for å kontrollere spillelisten"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
-msgstr "Husk siste posisjon i filvelgeren"
+msgstr "Husk siste plassering i filvelgeren"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Vis vindu ved åpning av nye filer"
+msgstr "Åpne nytt vindu ved åpning av nye filer"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
@@ -84,30 +81,28 @@ msgid "Always append opened files to playlist"
 msgstr "Alltid legg til åpnede filer i spilleliste"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "Veksle fullskjermsvisning"
+msgstr "Vis tittelknapper i fullskjermvisning"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
-#, fuzzy
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
-"Viser knapper (lukk, maksimer, minimer, osv.) Skjuler knapper i "
-"fullskjermsmodus hvis avslått."
+"Hvis \"true\", vises tittelknapper (lukk, maksimer, minimer, osv.) alltid. "
+"Hvis \"false\", blir knappene skjult i fullskjermmodus."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
-#, fuzzy
 msgid "Give focus to the window when opening new files"
-msgstr "Vis vindu ved åpning av nye filer"
+msgstr "Gi fokus til vinduet ved åpning av nye filer"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:97
-#, fuzzy
 msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
-msgstr "Prøver å vise vinduet hvis ny fil åpnes."
+msgstr ""
+"Hvis \"true\", vil Celluloid gi fokus til vinduet når en ny fil åpnes. Hvis "
+"\"false\", blir ingen forsøk gjort."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:105
 #: src/celluloid-application.c:552
@@ -132,7 +127,7 @@ msgstr "Last inn mpv-oppsettsfil for inndata"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:135
 msgid "Enable MPRIS support"
-msgstr "MPRIS-støtte"
+msgstr "Aktiver MPRIS-støtte"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:141
 msgid "Enable menubar accelerator key handling"
@@ -155,9 +150,8 @@ msgid "Make video area draggable"
 msgstr ""
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "Bruk »Hopp over»-knappen for å kontrollere spilleliste"
+msgstr "Vis filens lengde i spillelisten"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
@@ -188,14 +182,12 @@ msgid "Width of the playlist"
 msgstr "Spillelistebredde"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:224
-#, fuzzy
 msgid "Show/hide the controls"
-msgstr "Hvorvidt kontroller skal vises"
+msgstr "Vis/skjul kontroller"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:230
-#, fuzzy
 msgid "Show/hide the playlist"
-msgstr "Vis eller ikke vis spillelisten"
+msgstr "Vis/skjul spillelisten"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:236
 msgid "URI of the last folder accessed"
@@ -208,9 +200,8 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "Spill filmer og videoer"
+msgstr "Spiller videoer"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -333,37 +324,32 @@ msgid "Rewind"
 msgstr "Spol tilbake"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "_Videospor"
+msgstr "Neste spor"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Forrige kapittel"
+msgstr "Forrige spor"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Gjenta spilleliste"
+msgstr "Vis spilleliste"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Volum"
 
 #: src/celluloid-controller.c:1370
 msgid "Playing"
-msgstr "Spiller …"
+msgstr "Spiller"
 
 #: src/celluloid-file-chooser-button.c:146
-#, fuzzy
 msgid "(None)"
-msgstr "Ingen"
+msgstr "(Ingen)"
 
 #: src/celluloid-file-chooser-button.c:154
-#, fuzzy
 msgid "Open File…"
-msgstr "Åpne fil"
+msgstr "Åpne fil…"
 
 #: src/celluloid-file-dialog.c:61 src/celluloid-plugins-manager.c:206
 msgid "All Files"
@@ -390,21 +376,20 @@ msgid "Media Files"
 msgstr "Mediafiler"
 
 #: src/celluloid-header-bar.c:239 src/celluloid-open-location-dialog.c:75
-#, fuzzy
 msgid "Open"
-msgstr "_Åpne"
+msgstr "Åpne"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Velg en mediafil, mappe eller nettadresse"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Hovedmeny"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
-msgstr "Veksle fullskjermsvisning"
+msgstr "Slå av/på fullskjermvisning"
 
 #: src/celluloid-menu.c:106
 msgid "None"
@@ -426,7 +411,6 @@ msgstr "_Last inn ekstern …"
 #. * invalid.
 #.
 #: src/celluloid-menu.c:207
-#, fuzzy
 msgid "No disc found"
 msgstr "Fant ingen disk"
 
@@ -435,9 +419,8 @@ msgid "_File"
 msgstr "_Fil"
 
 #: src/celluloid-menu.c:236 src/celluloid-menu.c:316
-#, fuzzy
 msgid "_Open File…"
-msgstr "Åpne fil"
+msgstr "_Åpne fil…"
 
 #: src/celluloid-menu.c:237 src/celluloid-menu.c:317
 msgid "Open _Folder…"
@@ -508,9 +491,8 @@ msgid "_About Celluloid"
 msgstr "_Om Celluloid"
 
 #: src/celluloid-menu.c:319
-#, fuzzy
 msgid "Open _Disc"
-msgstr "Åpne _disk …"
+msgstr "Åpne _disk"
 
 #: src/celluloid-mpv.c:266
 #, c-format
@@ -518,9 +500,8 @@ msgid "Playback was terminated abnormally. Reason: %s."
 msgstr "Avspilling avsluttet uventet. Grunn: %s."
 
 #: src/celluloid-open-location-dialog.c:77
-#, fuzzy
 msgid "Cancel"
-msgstr "_Avbryt"
+msgstr "Avbryt"
 
 #: src/celluloid-open-location-dialog.c:274
 msgid "Location:"
@@ -556,51 +537,44 @@ msgid "_Shuffle"
 msgstr "_Tilfeldig avspilling"
 
 #: src/celluloid-playlist-widget.c:646
-#, fuzzy
 msgid "Loop File"
-msgstr "Gjenta _fil"
+msgstr "Gjenta fil"
 
 #: src/celluloid-playlist-widget.c:647
 msgid "Loop Playlist"
 msgstr "Gjenta spilleliste"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
-msgstr "Åpne fil"
+msgstr "0 filer"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Lagre spilleliste"
+msgstr "Skjul spilleliste"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "Spilleliste"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Lagre spilleliste"
+msgstr "Søk i spilleliste"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Lagre spilleliste"
+msgstr "Søk i spilleliste…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
-msgstr ""
+msgstr "Slå av gjentagelse"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
-msgstr "Åpne fil"
+msgstr "Gjenta fil"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Lagre spilleliste"
+msgstr "Gjenta spilleliste"
 
 #: src/celluloid-playlist-widget.c:1142
 #, fuzzy
@@ -616,8 +590,8 @@ msgstr "Spillelisten er tom"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%ld fil"
+msgstr[1] "%ld filer"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -645,23 +619,20 @@ msgid "Plugins"
 msgstr "Programtillegg"
 
 #: src/celluloid-plugins-manager.c:420
-#, fuzzy
 msgid "Add…"
-msgstr "_Legg til …"
+msgstr "Legg til…"
 
 #: src/celluloid-plugins-manager.c:454
-#, fuzzy
 msgid "No Plugins Found"
-msgstr "Fant ingen programutvidelser"
+msgstr "Fant ingen programtillegg"
 
 #: src/celluloid-plugins-manager.c:457
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "Klikk <b>Legg til…</b>-knappen for å installere et nytt tillegg"
 
 #: src/celluloid-plugins-manager-item.c:83
-#, fuzzy
 msgid "Remove Plugin"
-msgstr "C-programutvidelser"
+msgstr "Fjern programtillegg"
 
 #: src/celluloid-plugins-manager-item.c:175
 #, c-format
@@ -677,22 +648,19 @@ msgstr ""
 
 #: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
-msgstr ""
+msgstr "_Behold"
 
 #: src/celluloid-preferences-dialog.c:192
-#, fuzzy
 msgid "mpv configuration file"
-msgstr "mpv-oppsettsfil:"
+msgstr "mpv-oppsettsfil"
 
 #: src/celluloid-preferences-dialog.c:198
-#, fuzzy
 msgid "mpv input configuration file"
-msgstr "mpv-oppsettsfil for inndata:"
+msgstr "mpv-oppsettsfil for inndata"
 
 #: src/celluloid-preferences-dialog.c:218
-#, fuzzy
 msgid "Extra mpv options"
-msgstr "Ekstra mpv-innstillinger:"
+msgstr "Ekstra mpv-alternativer"
 
 #: src/celluloid-preferences-dialog.c:229
 msgid "Interface"
@@ -704,7 +672,7 @@ msgstr "Oppsettsfiler"
 
 #: src/celluloid-preferences-dialog.c:247
 msgid "Miscellaneous"
-msgstr "Ymse"
+msgstr "Diverse"
 
 #: src/celluloid-preferences-dialog.c:542
 msgid "Preferences"
@@ -736,11 +704,11 @@ msgstr "Veksle spilleliste"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
-msgstr ""
+msgstr "Vis hovedmeny"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
-msgstr "Veksle fullskjermsvisning"
+msgstr "Slå av/på fullskjermvisning"
 
 #: src/celluloid-shortcuts-window.c:54
 msgid "Leave fullscreen mode"
@@ -760,23 +728,23 @@ msgstr "Vis framdrift, forløpt tid, og varighet i overleggsmenyen"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Seek backward/forward 5 seconds"
-msgstr "Blafre framover/tilbake 5 sekunder"
+msgstr "Søk framover/tilbake 5 sekunder"
 
 #: src/celluloid-shortcuts-window.c:61
 msgid "Exact seek backward/forward 1 second"
-msgstr "Eksakt blafring framover/tilbake ett sekund"
+msgstr "Eksakt søk framover/tilbake ett sekund"
 
 #: src/celluloid-shortcuts-window.c:62
 msgid "Seek backward/forward 1 minute"
-msgstr "Blafre framover/tilbake ett minutt"
+msgstr "Søk framover/tilbake ett minutt"
 
 #: src/celluloid-shortcuts-window.c:63
 msgid "Exact seek backward/forward 5 seconds"
-msgstr "Eksakt blafring framover/tilbake 5 sekunder"
+msgstr "Eksakt søk framover/tilbake 5 sekunder"
 
 #: src/celluloid-shortcuts-window.c:64
 msgid "Seek to previous/next subtitle"
-msgstr "Blafre til forrige/neste undertekst"
+msgstr "Søk til forrige/neste undertekst"
 
 #: src/celluloid-shortcuts-window.c:65
 msgid "Step backward/forward a single frame"
@@ -784,7 +752,7 @@ msgstr "Hopp tilbake/fram én bilderamme"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr "Blafre til begynnelsen av forrige/neste kapittel"
+msgstr "Søk til begynnelsen av forrige/neste kapittel"
 
 #: src/celluloid-shortcuts-window.c:69
 msgid "Decrease/increase playback speed by 10%"
@@ -832,7 +800,7 @@ msgstr "Lagre nåværende avspillingsposisjon og avslutt"
 
 #: src/celluloid-shortcuts-window.c:82
 msgid "Enter search mode"
-msgstr "Skriv inn søkemodus"
+msgstr "Gå i søkemodus"
 
 #: src/celluloid-shortcuts-window.c:83
 msgid "Jump to next match"
@@ -856,7 +824,7 @@ msgstr "Senk/øk lydstyrke"
 
 #: src/celluloid-shortcuts-window.c:91
 msgid "Mute or unmute"
-msgstr "Forstum eller opphev forstumming"
+msgstr "Demp eller opphev demping"
 
 #: src/celluloid-shortcuts-window.c:92
 msgid "Adjust audio delay by +/- 0.1 seconds"
@@ -885,7 +853,7 @@ msgstr "Flytt undertekster opp-/nedover"
 
 #: src/celluloid-shortcuts-window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr "Veksle kompatibilitetsmodus for VSFilter-skjermretning"
+msgstr "Kompatibilitetsmodus av/på for VSFilter-bildeforhold"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Cycle through video tracks"
@@ -893,19 +861,19 @@ msgstr "Bla gjennom videospor"
 
 #: src/celluloid-shortcuts-window.c:104
 msgid "Decrease/increase pan-and-scan range"
-msgstr "Senk/øk panorerings- og letings-spenn"
+msgstr "Reduser/øk området for panorering og skanning"
 
 #: src/celluloid-shortcuts-window.c:105
 msgid "Take a screenshot"
-msgstr "Skjermavbildning"
+msgstr "Ta et skjermbilde"
 
 #: src/celluloid-shortcuts-window.c:106
 msgid "Take a screenshot, without subtitles"
-msgstr "Skjermavbildning, uten undertekster"
+msgstr "Ta et skjermbilde, uten undertekster"
 
 #: src/celluloid-shortcuts-window.c:107
 msgid "Take a screenshot, as the window shows it"
-msgstr "Skjermavbildning, som vinduet er"
+msgstr "Ta et skjermbilde, som vinduet viser det"
 
 #: src/celluloid-shortcuts-window.c:108
 msgid "Resize video to half its original size"
@@ -928,7 +896,6 @@ msgid "Adjust brightness"
 msgstr "Juster lysstyrke"
 
 #: src/celluloid-shortcuts-window.c:113
-#, fuzzy
 msgid "Adjust gamma"
 msgstr "Juster gamma"
 
@@ -948,15 +915,15 @@ msgstr "Veksle overstyring av sideforhold"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Pan the video"
-msgstr ""
+msgstr "Panorer videoen"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Zoom in/out"
-msgstr ""
+msgstr "Zoom inn/ut"
 
 #: src/celluloid-shortcuts-window.c:120
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "Tilbakestill innstillinger for panorering/zoom"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "User Interface"
@@ -980,19 +947,19 @@ msgstr "Avspilling"
 
 #: src/celluloid-shortcuts-window.c:129
 msgid "Seeking"
-msgstr "Blafring"
+msgstr "Søking"
 
 #: src/celluloid-video-area.c:726
 msgid "Loading…"
-msgstr ""
+msgstr "Laster…"
 
 #: src/celluloid-video-area.c:737
 msgid "Welcome"
-msgstr ""
+msgstr "Velkommen"
 
 #: src/celluloid-video-area.c:740
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr ""
+msgstr "Klikk <b>Åpne</b>-knappen eller dra og slipp videoer her"
 
 #: src/celluloid-view.c:740
 msgid "Load Audio Track…"
@@ -1003,9 +970,8 @@ msgid "Load Video Track…"
 msgstr "Last inn videospor …"
 
 #: src/celluloid-view.c:750
-#, fuzzy
 msgid "Load Subtitle Track…"
-msgstr "Last inn undertekst …"
+msgstr "Last inn undertekstspor…"
 
 #: src/celluloid-view.c:949
 #, fuzzy

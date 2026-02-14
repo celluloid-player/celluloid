@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2024-07-07 17:10+0000\n"
-"Last-Translator: Oğuz Ersen <oguz@ersen.moe>\n"
+"PO-Revision-Date: 2025-08-30 15:01+0000\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/tr/>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.13.1-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -64,24 +64,24 @@ msgid "Remember last location in file chooser"
 msgstr "Dosya seçicide son konumu hatırla"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Yeni dosyaları açarken pencereye odaklan"
+msgstr "Yeni dosyaları yeni pencerede aç"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Yeni dosyaları D-Bus aracılığıyla (örn. bir dosya yöneticisi kullanarak) "
+"açarken yeni pencerede aç."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Açılan dosyaları her zaman oynatma listesine ekle"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "Başlık düğmelerini tam ekran kipinde gösterme seçeneği ekle."
+msgstr "Tam ekran kipindeyken başlık düğmelerini göster"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -149,13 +149,12 @@ msgid "Make video area draggable"
 msgstr "Video alanını sürüklenebilir hale getir"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "Oynatma listesini denetlemek için atlama düğmelerini kullan"
+msgstr "Oynatma listesinde süreleri göster"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "Grafik boşaltmayı etkinleştir"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -321,23 +320,20 @@ msgid "Rewind"
 msgstr "Geri Sar"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "_Video"
+msgstr "Sonraki Parça"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Önceki Bölüm"
+msgstr "Önceki Parça"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Yinele"
+msgstr "Oynatma Listesini Göster"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Ses düzeyi"
 
 #: src/celluloid-controller.c:1370
 msgid "Playing"
@@ -381,11 +377,11 @@ msgstr "Aç"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Bir Ortam Dosyası, Klasör veya URL seçin"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Ana Menü"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -543,45 +539,38 @@ msgid "Loop Playlist"
 msgstr "Yinele"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
-msgstr "Dosya aç"
+msgstr "0 dosya"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Oynatma listesini kaydet"
+msgstr "Oynatma listesini gizle"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "Oynatma Listesi"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Oynatma listesini kaydet"
+msgstr "Oynatma listesinde ara"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Oynatma listesini kaydet"
+msgstr "Oynatma listesinde ara…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
-msgstr ""
+msgstr "Tekrarı kaldır"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
-msgstr "Dosya aç"
+msgstr "Dosyayı yinele"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Oynatma listesini kaydet"
+msgstr "Oynatma listesini yinele"
 
 #: src/celluloid-playlist-widget.c:1142
-#, fuzzy
 msgid "Shuffle playlist"
 msgstr "Oynatma Listesini Karıştır"
 
@@ -593,8 +582,8 @@ msgstr "Oynatma Listesi Boş"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%ld dosya"
+msgstr[1] "%ld dosya"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -707,7 +696,7 @@ msgstr "Oynatma listesini değiştir"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
-msgstr ""
+msgstr "Ana menüyü göster"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
@@ -958,9 +947,8 @@ msgid "Welcome"
 msgstr "Hoş Geldiniz"
 
 #: src/celluloid-video-area.c:740
-#, fuzzy
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr "<b>＋</b> düğmesine tıklayın veya videoları buraya sürükleyip bırakın"
+msgstr "<b>Aç</b> düğmesine tıklayın veya videoları buraya sürükleyip bırakın"
 
 #: src/celluloid-view.c:740
 msgid "Load Audio Track…"

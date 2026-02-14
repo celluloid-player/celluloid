@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: celluloid\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2024-12-28 13:29+0000\n"
+"PO-Revision-Date: 2025-07-27 13:02+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/fa/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -61,30 +61,32 @@ msgid "Remember last location in file chooser"
 msgstr "به خاطر سپردن آخرین مکان در گزینشگر پرونده"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "دادن تمرکز به پنجره هنگام گشودن پرونده‌های جدید"
+msgstr "گشودن پنجرهٔ جدید هنگام گشودن پرونده‌های جدید"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"گشودن پرونده رد پنجره‌ای جدید هنگام گشودن پرونده‌های جدید از دی‌باس (مثل "
+"استفاده از مدیر پرونده)."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "پرونده‌های گشوده همواره به سیاههٔ پخش افزوده شوند"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "تغییر حالت تمام‌صفحه"
+msgstr "نمایش دکمه‌های عنوان در حالت تمام‌صفحه"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
 "If true, title buttons (close, maximize, minimize, etc.) are always shown. "
 "If false, the buttons will be hidden in fullscreen mode."
 msgstr ""
+"اگر درست باشد دکمه‌های عنوان (بستن، بیشینه، کمینه و…) همواره نشان داده خواهند "
+"شد. اگر نادرست باشد دکمه‌ها در حالت تمام‌صفحه پنهان خواهند شد."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:96
 msgid "Give focus to the window when opening new files"
@@ -95,6 +97,8 @@ msgid ""
 "If true, Celluloid will give focus to the window when a new file is opened. "
 "If false, no attempt will be made."
 msgstr ""
+"اگر ردست باشد سلولوید هنگام گشوده شدن پرونده‌ای جدید روی پنجره تمرکز خواهد "
+"کرد. اگر نادرست باشد تلاشی نخواهد شد."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:105
 #: src/celluloid-application.c:552
@@ -142,13 +146,12 @@ msgid "Make video area draggable"
 msgstr "کشیدنی کردن ناحیهٔ ویدیو"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "استفاده از دکمه‌های پرش برای واپایش سیاههٔ پخش"
+msgstr "نمایش طول پرونده‌ها در سیاههٔ پخش"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "به کار انداختن تخلیهٔ گرافیکی"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -314,23 +317,20 @@ msgid "Rewind"
 msgstr "عقب"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "قطعهٔ _ویدیویی"
+msgstr "قطعهٔ بعدی"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "فصل پیشین"
+msgstr "قطعهٔ پیشین"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "فهرست پخش حلقه‌ای"
+msgstr "نمایش سیاههٔ پخش"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "حجم صدا"
 
 #: src/celluloid-controller.c:1370
 msgid "Playing"
@@ -374,11 +374,11 @@ msgstr "گشودن"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "گزینش نشانی، شاخه یا پروندهٔ رسانه"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "فهرست اصلی"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -536,45 +536,38 @@ msgid "Loop Playlist"
 msgstr "فهرست پخش حلقه‌ای"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
-msgstr "گشودن پرونده"
+msgstr "۰ پرونده"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
-msgstr "ذخیرهٔ سیاههٔ پخش"
+msgstr "نهفتن سیاههٔ پخش"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "فهرست پخش"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
-msgstr "ذخیرهٔ سیاههٔ پخش"
+msgstr "جست‌وجو در سیاههٔ پخش"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "ذخیرهٔ سیاههٔ پخش"
+msgstr "جست‌وجو در سیاههٔ پخش…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
-msgstr ""
+msgstr "از کار انداختن تکرار"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
-msgstr "گشودن پرونده"
+msgstr "تکرار پرونده"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "ذخیرهٔ سیاههٔ پخش"
+msgstr "تکرار سیاههٔ پخش"
 
 #: src/celluloid-playlist-widget.c:1142
-#, fuzzy
 msgid "Shuffle playlist"
 msgstr "بر زدن سیاههٔ پخش"
 
@@ -586,7 +579,7 @@ msgstr "سیاههٔ پخش خالیست"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
+msgstr[0] "%ld پرونده"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -607,7 +600,7 @@ msgstr "افزایه‌های سی"
 #: src/celluloid-plugins-manager.c:358
 #, c-format
 msgid "Failed to copy file from '%s' to '%s'. Reason: %s"
-msgstr ""
+msgstr "شکست در رونوشت پرونده از %s به %s. دلیل: %s"
 
 #: src/celluloid-plugins-manager.c:413
 msgid "Plugins"
@@ -623,7 +616,7 @@ msgstr "هیچ افزایه‌ای پیدا نشد"
 
 #: src/celluloid-plugins-manager.c:457
 msgid "Click the <b>Add…</b> button to install a new plugin"
-msgstr ""
+msgstr "زدن <b>افزودن…</b> برای نصب افزایهٔ جدید"
 
 #: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
@@ -637,7 +630,7 @@ msgstr "شکست در حذف پروندهٔ %s. دلیل: %s"
 #: src/celluloid-plugins-manager-item.c:199
 msgid ""
 "Are you sure you want to remove this script? This action cannot be undone."
-msgstr ""
+msgstr "مطمئنید که می‌خواهید این کدنوشته را بردارید؟ این کنش بازگشت‌پذیر نیست."
 
 #: src/celluloid-plugins-manager-item.c:206
 msgid "_Keep"
@@ -697,7 +690,7 @@ msgstr "تغییر حالت فهرست پخش"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
-msgstr ""
+msgstr "نمایش فهرست اصلی"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
@@ -709,7 +702,7 @@ msgstr "خروجی از حالت تمام‌صفحه"
 
 #: src/celluloid-shortcuts-window.c:55
 msgid "Toggle OSD states between normal and playback time/duration"
-msgstr ""
+msgstr "تغییر وضعیت نمایش روی صفحه بین عادی و طول پخش"
 
 #: src/celluloid-shortcuts-window.c:56
 msgid "Show filename on the OSD"
@@ -717,7 +710,7 @@ msgstr "نمایش نام پرونده روی صفحه"
 
 #: src/celluloid-shortcuts-window.c:57
 msgid "Show progress, elapsed time, and duration on the OSD"
-msgstr ""
+msgstr "نمایش پیشرفت، زمان رفته و طول روی صفحه"
 
 #: src/celluloid-shortcuts-window.c:60
 msgid "Seek backward/forward 5 seconds"
@@ -745,7 +738,7 @@ msgstr "یک قاب به پیش یا پس رفتن"
 
 #: src/celluloid-shortcuts-window.c:66
 msgid "Seek to the beginning of the previous/next chapter"
-msgstr ""
+msgstr "رفتن به آغاز فصل پیشین یا بعدی"
 
 #: src/celluloid-shortcuts-window.c:69
 msgid "Decrease/increase playback speed by 10%"
@@ -845,7 +838,7 @@ msgstr "جابه‌جایی زیرنویس به بالا/پایین"
 
 #: src/celluloid-shortcuts-window.c:100
 msgid "Toggle VSFilter aspect compatibility mode"
-msgstr ""
+msgstr "تغییر حالت سازگاری ابعاد VSFilter"
 
 #: src/celluloid-shortcuts-window.c:103
 msgid "Cycle through video tracks"
@@ -897,11 +890,11 @@ msgstr "تنظیم اشباع"
 
 #: src/celluloid-shortcuts-window.c:115
 msgid "Activate or deactivate deinterlacer"
-msgstr ""
+msgstr "به یا از کار انداختن رفع لرزش"
 
 #: src/celluloid-shortcuts-window.c:116
 msgid "Cycle aspect ratio override"
-msgstr ""
+msgstr "پایمالی نسبت ابعاد چرخه"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Pan the video"
@@ -949,7 +942,7 @@ msgstr "خوش آمدید"
 
 #: src/celluloid-video-area.c:740
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr ""
+msgstr "زدن روی دکمهٔ <b>گشودن</b> یا کشیدن و رها کردن ویدیوها در این‌جا"
 
 #: src/celluloid-view.c:740
 msgid "Load Audio Track…"

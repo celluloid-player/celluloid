@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2024-07-07 17:10+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"PO-Revision-Date: 2025-09-13 08:40+0000\n"
+"Last-Translator: サンチェスハビエル <venador233@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/es/>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -68,26 +68,24 @@ msgid "Remember last location in file chooser"
 msgstr "Recordar la última ubicación en el selector de archivos"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Dar el foco a la ventana al abrir nuevos archivos"
+msgstr "Abrir una nueva ventana al abrir otros archivos"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Al abrir archivos a través de D-Bus (por ejemplo, al usar un gestor de "
+"archivos), abrir el archivo en una nueva ventana."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Añadir siempre los archivos abiertos a la lista de reproducción"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr ""
-"Añadida la opción de mostrar los botones de título en el modo de pantalla "
-"completa."
+msgstr "Mostrar botones de título en el modo pantalla completa"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -156,13 +154,12 @@ msgid "Make video area draggable"
 msgstr "Hacer que el área de vídeo se pueda arrastrar"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "Usar los botones de salto para controlar la lista de reproducción"
+msgstr "Mostrar la duración de los archivos en la lista de reproducción"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "Habilitar descarga de gráficos"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -330,23 +327,20 @@ msgid "Rewind"
 msgstr "Rebobinar"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "Pista de _vídeo"
+msgstr "SIguiente pista"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Capítulo anterior"
+msgstr "Pista anterior"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Lista de reproducción en bucle"
+msgstr "Mostrar lista de reproducción"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Volumen"
 
 #: src/celluloid-controller.c:1370
 msgid "Playing"
@@ -390,11 +384,11 @@ msgstr "Abrir"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Seleccionar un archivo multimedia, carpeta o enlace"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Menú principal"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -552,47 +546,40 @@ msgid "Loop Playlist"
 msgstr "Lista de reproducción en bucle"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
-msgstr "Abrir archivo"
+msgstr "Ningún archivo"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Guardar la lista de reproducción"
+msgstr "Ocultar lista de reproducción"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "Lista de reproducción"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Guardar la lista de reproducción"
+msgstr "Buscar en la lista de reproducción"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Guardar la lista de reproducción"
+msgstr "Buscar en la lista de reproducción…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
-msgstr ""
+msgstr "Deshabilitar reproducción en bucle"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
-msgstr "Abrir archivo"
+msgstr "Repetir la reproducción del archivo"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Guardar la lista de reproducción"
+msgstr "Repetir la reproducción de la lista"
 
 #: src/celluloid-playlist-widget.c:1142
-#, fuzzy
 msgid "Shuffle playlist"
-msgstr "Mezclar lista de reproducción"
+msgstr "Reproducir la lista aleatoriamente"
 
 #: src/celluloid-playlist-widget.c:1167
 msgid "Playlist is Empty"
@@ -602,8 +589,8 @@ msgstr "Lista de reproducción vacía"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%ld archivo"
+msgstr[1] "%ld archivos"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -715,7 +702,7 @@ msgstr "Conmutar lista de reproducción"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
-msgstr ""
+msgstr "Mostrar menú principal"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
@@ -966,9 +953,8 @@ msgid "Welcome"
 msgstr "Le damos la bienvenida"
 
 #: src/celluloid-video-area.c:740
-#, fuzzy
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr "Haz clic en el botón <b>＋</b> o arrastra y suelta los vídeos aquí"
+msgstr "Haz clic en el botón <b>Abrir</b> o arrastra y suelta los vídeos aquí"
 
 #: src/celluloid-view.c:740
 msgid "Load Audio Track…"
@@ -1008,7 +994,7 @@ msgstr "Abrir archivo"
 
 #: src/celluloid-view.c:1529
 msgid "Add Location to Playlist"
-msgstr "Añadir una ubicación a la lista de reproducción"
+msgstr "Añadir Ubicación a la lista de reproducción"
 
 #: src/celluloid-view.c:1530
 msgid "Open Location"
@@ -1019,7 +1005,8 @@ msgid "translator-credits"
 msgstr ""
 "Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2021\n"
 "Toni Estevez, <toni.estevez@gmail.com>\n"
-"Sergio D. Márquez, <marquez.sergio.d@gmail.com>"
+"Sergio D. Márquez, <marquez.sergio.d@gmail.com>\n"
+"Revisión,  J. Sánchez <venador233@gmail.com>, 2025"
 
 #~ msgid "This release contains the following changes:"
 #~ msgstr "Esta versión contiene los cambios siguientes:"

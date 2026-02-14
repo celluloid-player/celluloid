@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2025-05-16 13:07+0000\n"
-"Last-Translator: bittin1ddc447d824349b2 <bittin@reimu.nl>\n"
+"PO-Revision-Date: 2025-06-16 23:01+0000\n"
+"Last-Translator: polybit <nilssoder@hani.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/sv/>\n"
 "Language: sv\n"
@@ -17,12 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
 "Whether the settings has already been migrated from the previous version"
-msgstr "Om inställningarna redan har migrerats från den föregående versionen"
+msgstr ""
+"Huruvida inställningarna redan har migrerats från den föregående versionen"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:17
 msgid "Automatically resize window to fit video"
@@ -53,12 +54,12 @@ msgid ""
 "Size of the dead zone in which cursor movement will not cause the controls "
 "to be shown."
 msgstr ""
-"Storlek på den döda zon i vilken markörens rörelse inte kommer att medföra "
-"att kontrollerna visas."
+"Storlek på den zon i vilken markörens rörelse inte kommer att medföra att "
+"kontrollerna visas."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:60
 msgid "Use skip buttons to control the playlist"
-msgstr "Använd hoppa över-knappar för att kontrollera spelningslistan"
+msgstr "Använd hoppa över-knappar för att kontrollera spellistan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:66
 msgid "Remember last location in file chooser"
@@ -82,7 +83,7 @@ msgstr "Lägg alltid till öppna filer till spellistan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
 msgid "Show title buttons in fullscreen mode"
-msgstr "Visa titelknappar i fullskärmsläge."
+msgstr "Visa titelknappar i fullskärmsläge"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -175,19 +176,19 @@ msgstr "Volym för spelaren"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:212
 msgid "Whether or not to loop when the end of playlist is reached"
-msgstr "Om spelningslistan skall börja om när slutet nås"
+msgstr "Om spellistan skall börja om när slutet nås"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:218
 msgid "Width of the playlist"
-msgstr "Spelningslistans bredd"
+msgstr "Spellistans bredd"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:224
 msgid "Show/hide the controls"
-msgstr "Visa/göm kontrollerna"
+msgstr "Visa/dölj kontrollerna"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:230
 msgid "Show/hide the playlist"
-msgstr "Visa/göm spelningslistan"
+msgstr "Visa/dölj spellistan"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:236
 msgid "URI of the last folder accessed"
@@ -212,10 +213,10 @@ msgid ""
 "(CSD). It is based on the mpv library and GTK."
 msgstr ""
 "Celluloid är en enkel mediaspelare som kan spela upp i stort sett alla film- "
-"och ljudformat. Den stödjer spelningslistor och MPRIS2 "
-"mediaspelarkontroller. Designen av Celluloid följer GNOME Human Interface "
-"Guidelines, men kan också anpassas för andra system som inte använder "
-"klientsidans dekorationer (CSD). Den är baserad på biblioteket mpv och GTK."
+"och ljudformat. Den stödjer spellistor och MPRIS2:s mediaspelarkontroller. "
+"Designen av Celluloid följer GNOME Human Interface Guidelines, men kan också "
+"anpassas för andra system som inte använder klientdekorationer (CSD). Den är "
+"baserad på biblioteket mpv och GTK."
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:23
 msgid "Features:"
@@ -223,7 +224,7 @@ msgstr "Funktioner:"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:25
 msgid "Drag and drop playlist"
-msgstr "Dra och släpp spelningslista"
+msgstr "Dra och släpp spellista"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:26
 msgid "Loading external mpv configuration files"
@@ -243,7 +244,7 @@ msgstr "Huvudfönstret med CSD inaktiverat"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:615
 msgid "The main window with playlist open"
-msgstr "Huvudfönstret med spelningslista öppen"
+msgstr "Huvudfönstret med spellista öppen"
 
 #: data/io.github.celluloid_player.Celluloid.desktop.in:4
 msgid "Multimedia Player"
@@ -431,7 +432,7 @@ msgstr "Öppna _skiva…"
 
 #: src/celluloid-menu.c:240 src/celluloid-menu.c:288
 msgid "_Save Playlist"
-msgstr "_Spara spelningslista"
+msgstr "_Spara spellista"
 
 #: src/celluloid-menu.c:241 src/celluloid-menu.c:321
 msgid "_New Window"
@@ -532,11 +533,11 @@ msgstr "_Blanda"
 
 #: src/celluloid-playlist-widget.c:646
 msgid "Loop File"
-msgstr "Upprepa fil"
+msgstr "Loopa fil"
 
 #: src/celluloid-playlist-widget.c:647
 msgid "Loop Playlist"
-msgstr "Upprepa spelningslista"
+msgstr "Loopa spellista"
 
 #: src/celluloid-playlist-widget.c:1055
 msgid "0 files"
@@ -548,7 +549,7 @@ msgstr "Dölj spellista"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
-msgstr "Spelningslista"
+msgstr "Spellista"
 
 #: src/celluloid-playlist-widget.c:1096
 msgid "Search in playlist"
@@ -679,11 +680,11 @@ msgstr "Öppna plats"
 
 #: src/celluloid-shortcuts-window.c:48
 msgid "Add file to playlist"
-msgstr "Lägg till fil i spelningslista"
+msgstr "Lägg till fil i spellista"
 
 #: src/celluloid-shortcuts-window.c:49
 msgid "Add location to playlist"
-msgstr "Lägg till plats i spelningslista"
+msgstr "Lägg till plats i spellista"
 
 #: src/celluloid-shortcuts-window.c:50
 msgid "Show preferences dialog"
@@ -691,7 +692,7 @@ msgstr "Visa dialogrutan för alternativ"
 
 #: src/celluloid-shortcuts-window.c:51
 msgid "Toggle playlist"
-msgstr "Visa/Dölj spelningslista"
+msgstr "Visa/dölj spellista"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
@@ -759,15 +760,15 @@ msgstr "Återställ normal uppspelningshastighet"
 
 #: src/celluloid-shortcuts-window.c:72
 msgid "Go backward/forward in the playlist"
-msgstr "Gå bakåt/framåt i spelningslistan"
+msgstr "Gå bakåt/framåt i spellistan"
 
 #: src/celluloid-shortcuts-window.c:73
 msgid "Remove selected playlist item"
-msgstr "Ta bort markerat objekt från spelningslista"
+msgstr "Ta bort markerat föremål från spellistan"
 
 #: src/celluloid-shortcuts-window.c:74
 msgid "Save playlist"
-msgstr "Spara spelningslista"
+msgstr "Spara spellista"
 
 #: src/celluloid-shortcuts-window.c:75
 msgid "Set/clear A-B loop points"
@@ -971,7 +972,7 @@ msgstr ""
 
 #: src/celluloid-view.c:1491
 msgid "Add Folder to Playlist"
-msgstr "Lägg till mapp till spelningslista"
+msgstr "Lägg till mapp i spellista"
 
 #: src/celluloid-view.c:1492
 msgid "Open Folder"
@@ -979,7 +980,7 @@ msgstr "Öppna mapp"
 
 #: src/celluloid-view.c:1508
 msgid "Add File to Playlist"
-msgstr "Lägg till fil i spelningslista"
+msgstr "Lägg till fil i spellista"
 
 #: src/celluloid-view.c:1509
 msgid "Open File"
@@ -987,7 +988,7 @@ msgstr "Öppna fil"
 
 #: src/celluloid-view.c:1529
 msgid "Add Location to Playlist"
-msgstr "Lägg till plats till spelningslista"
+msgstr "Lägg till plats i spellista"
 
 #: src/celluloid-view.c:1530
 msgid "Open Location"

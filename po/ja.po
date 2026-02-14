@@ -10,8 +10,9 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2024-07-12 22:09+0000\n"
-"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
+"PO-Revision-Date: 2025-08-19 04:02+0000\n"
+"Last-Translator: rainy_sunset <rainy_sunset@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/ja/>\n"
 "Language: ja\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.13\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -65,24 +66,23 @@ msgid "Remember last location in file chooser"
 msgstr "最後に選択したファイルの場所を保持する"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "新しいファイルを開くときにウィンドウにフォーカスを移す"
+msgstr "新しいファイルを開くときは新しいウィンドウで開く"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
-msgstr ""
+msgstr "D-Bus経由（ファイルマネージャーからなど）で新しいファイルを開くとき、新しいウ"
+"ィンドウで開く。"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "常に開いたファイルをプレイリストに追加する"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr "フルスクリーンモードでタイトルボタンを表示するオプションを追加"
+msgstr "フルスクリーンモードでタイトルボタンを表示"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -150,13 +150,12 @@ msgid "Make video area draggable"
 msgstr "ビデオエリアをドラッグ可能にする"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "スキップボタンでプレイリストを操作する"
+msgstr "プレイリストにファイルの長さを表示"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "描画負荷軽減を有効化"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -323,23 +322,20 @@ msgid "Rewind"
 msgstr "戻る"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "ビデオトラック(_V)"
+msgstr "次のトラック"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "前のチャプター"
+msgstr "前のトラック"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "プレイリストをループ"
+msgstr "プレイリストを表示"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "音量"
 
 #: src/celluloid-controller.c:1370
 msgid "Playing"
@@ -383,11 +379,11 @@ msgstr "開く"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "メディアファイル・フォルダー・URLを選択"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "メインメニュー"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -498,7 +494,7 @@ msgstr "ディスクを開く(_D)"
 #: src/celluloid-mpv.c:266
 #, c-format
 msgid "Playback was terminated abnormally. Reason: %s."
-msgstr "再生が異常終了しました。理由: %s"
+msgstr "再生が異常終了しました。理由: %s。"
 
 #: src/celluloid-open-location-dialog.c:77
 msgid "Cancel"
@@ -545,45 +541,38 @@ msgid "Loop Playlist"
 msgstr "プレイリストをループ"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
-msgstr "ファイルを開く"
+msgstr "0 ファイル"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
-msgstr "プレイリストを保存する"
+msgstr "プレイリストを非表示"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "プレイリスト"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
-msgstr "プレイリストを保存する"
+msgstr "プレイリストを検索"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "プレイリストを保存する"
+msgstr "プレイリストを検索…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
-msgstr ""
+msgstr "リピート再生を無効化"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
-msgstr "ファイルを開く"
+msgstr "ファイルをリピート再生"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "プレイリストを保存する"
+msgstr "プレイリストをリピート再生"
 
 #: src/celluloid-playlist-widget.c:1142
-#, fuzzy
 msgid "Shuffle playlist"
 msgstr "プレイリストをシャッフル"
 
@@ -595,7 +584,7 @@ msgstr "プレイリストが空です"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
+msgstr[0] "%ld 件のファイル"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -708,7 +697,7 @@ msgstr "プレイリストを表示/非表示"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
-msgstr ""
+msgstr "メインメニューを表示"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
@@ -959,9 +948,8 @@ msgid "Welcome"
 msgstr "ようこそ"
 
 #: src/celluloid-video-area.c:740
-#, fuzzy
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr "<b>＋</b>ボタンをクリックするか、動画をここにドラッグ & ドロップ"
+msgstr "<b>開く</b>ボタンをクリックするか、動画をここにドラッグアンドドロップ"
 
 #: src/celluloid-view.c:740
 msgid "Load Audio Track…"

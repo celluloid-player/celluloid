@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: gnome-mpv 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-18 14:47-0500\n"
-"PO-Revision-Date: 2023-10-22 11:01+0000\n"
-"Last-Translator: menom <menom1@protonmail.com>\n"
+"PO-Revision-Date: 2025-07-01 11:07+0000\n"
+"Last-Translator: Fjuro <git@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/celluloid/"
 "celluloid/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:11
 msgid ""
@@ -71,25 +71,24 @@ msgid "Remember last location in file chooser"
 msgstr "Zapamatovat poslední otevřenou složku"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:72
-#, fuzzy
 msgid "Open new window when opening new files"
-msgstr "Při otevírání nových souborů přejít na okno"
+msgstr "Při otevírání nových souborů otevřít nové okno"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:73
 msgid ""
 "When opening new files through D-Bus (e.g. using a file manager), open the "
 "file in a new window."
 msgstr ""
+"Při otevírání nových souborů skrze D-Bus (např. pomocí správce souborů) "
+"otevřít soubor v novém okně."
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:81
 msgid "Always append opened files to playlist"
 msgstr "Otevřené soubory vždy připojit do seznamu přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:87
-#, fuzzy
 msgid "Show title buttons in fullscreen mode"
-msgstr ""
-"Přidána možnost pro zobrazení popisků tlačítek v režimu celé obrazovky."
+msgstr "Zobrazit popisky tlačítek v režimu celé obrazovky"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:88
 msgid ""
@@ -158,13 +157,12 @@ msgid "Make video area draggable"
 msgstr "Umožnit přetahování plochou přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:171
-#, fuzzy
 msgid "Display file durations in the playlist"
-msgstr "Použít tlačítka pro přeskakování pro ovládání seznamu přehrávání"
+msgstr "Zobrazit trvání souborů v seznamu přehrávání"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:177
 msgid "Enable graphics offload"
-msgstr ""
+msgstr "Povolit přenesení grafického zpracování"
 
 #: data/io.github.celluloid_player.Celluloid.gschema.xml:187
 msgid "Width of the window"
@@ -209,9 +207,8 @@ msgid "Celluloid"
 msgstr "Celluloid"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:8
-#, fuzzy
 msgid "Plays videos"
-msgstr "Přehrávat filmy a videa"
+msgstr "Přehrává videa"
 
 #: data/io.github.celluloid_player.Celluloid.appdata.xml.in:16
 msgid ""
@@ -330,23 +327,20 @@ msgid "Rewind"
 msgstr "Zpět"
 
 #: src/celluloid-control-box.c:732
-#, fuzzy
 msgid "Next Track"
-msgstr "Stopa _videa"
+msgstr "Další stopa"
 
 #: src/celluloid-control-box.c:735
-#, fuzzy
 msgid "Previous Track"
-msgstr "Předchozí kapitola"
+msgstr "Předchozí stopa"
 
 #: src/celluloid-control-box.c:738
-#, fuzzy
 msgid "Show Playlist"
-msgstr "Opakovat seznam přehrávání ve smyčce"
+msgstr "Zobrazit seznam přehrávání"
 
 #: src/celluloid-control-box.c:766
 msgid "Volume"
-msgstr ""
+msgstr "Hlasitost"
 
 #: src/celluloid-controller.c:1370
 msgid "Playing"
@@ -390,11 +384,11 @@ msgstr "Otevřít"
 
 #: src/celluloid-header-bar.c:243
 msgid "Select a Media File, Folder or URL"
-msgstr ""
+msgstr "Vyberte multimediální soubor, složku nebo adresu"
 
 #: src/celluloid-header-bar.c:245
 msgid "Main Menu"
-msgstr ""
+msgstr "Hlavní nabídka"
 
 #: src/celluloid-header-bar.c:257
 msgid "Toggle Fullscreen"
@@ -544,59 +538,50 @@ msgid "_Shuffle"
 msgstr "_Náhodně"
 
 #: src/celluloid-playlist-widget.c:646
-#, fuzzy
 msgid "Loop File"
-msgstr "Opakovat _soubor"
+msgstr "Opakovat soubor"
 
 #: src/celluloid-playlist-widget.c:647
 msgid "Loop Playlist"
 msgstr "Opakovat seznam přehrávání ve smyčce"
 
 #: src/celluloid-playlist-widget.c:1055
-#, fuzzy
 msgid "0 files"
-msgstr "Otevřít soubor"
+msgstr "0 souborů"
 
 #: src/celluloid-playlist-widget.c:1066
-#, fuzzy
 msgid "Hide playlist"
-msgstr "Uložit seznam přehrávání"
+msgstr "Skrýt seznam přehrávání"
 
 #: src/celluloid-playlist-widget.c:1069 src/celluloid-shortcuts-window.c:130
 msgid "Playlist"
 msgstr "Seznam přehrávání"
 
 #: src/celluloid-playlist-widget.c:1096
-#, fuzzy
 msgid "Search in playlist"
-msgstr "Uložit seznam přehrávání"
+msgstr "Hledat v seznamu přehrávání"
 
 #: src/celluloid-playlist-widget.c:1099
-#, fuzzy
 msgid "Search in playlist…"
-msgstr "Uložit seznam přehrávání"
+msgstr "Hledat v seznamu přehrávání…"
 
 #: src/celluloid-playlist-widget.c:1113
 msgid "Disable repeat"
-msgstr ""
+msgstr "Zakázat opakování"
 
 #: src/celluloid-playlist-widget.c:1123
-#, fuzzy
 msgid "Repeat file"
-msgstr "Otevřít soubor"
+msgstr "Opakovat soubor"
 
 #: src/celluloid-playlist-widget.c:1134
-#, fuzzy
 msgid "Repeat playlist"
-msgstr "Uložit seznam přehrávání"
+msgstr "Opakovat seznam přehrávání"
 
 #: src/celluloid-playlist-widget.c:1142
-#, fuzzy
 msgid "Shuffle playlist"
 msgstr "Zamíchat seznam přehrávání"
 
 #: src/celluloid-playlist-widget.c:1167
-#, fuzzy
 msgid "Playlist is Empty"
 msgstr "Seznam přehrávání je prázdný"
 
@@ -604,9 +589,9 @@ msgstr "Seznam přehrávání je prázdný"
 #, c-format
 msgid "%ld file"
 msgid_plural "%ld files"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%ld soubor"
+msgstr[1] "%ld soubory"
+msgstr[2] "%ld souborů"
 
 #: src/celluloid-plugins-manager.c:199 src/celluloid-plugins-manager.c:450
 msgid "Add Plugin"
@@ -644,6 +629,7 @@ msgstr "Nebyly nalezeny žádné zásuvné moduly"
 #: src/celluloid-plugins-manager.c:457
 msgid "Click the <b>Add…</b> button to install a new plugin"
 msgstr ""
+"Klikněte na tlačítko <b>Přidat…</b> pro instalaci nového zásuvného modulu"
 
 #: src/celluloid-plugins-manager-item.c:83
 msgid "Remove Plugin"
@@ -664,14 +650,12 @@ msgid "_Keep"
 msgstr "_Zachovat"
 
 #: src/celluloid-preferences-dialog.c:192
-#, fuzzy
 msgid "mpv configuration file"
-msgstr "Konfigurační soubor mpv:"
+msgstr "Konfigurační soubor mpv"
 
 #: src/celluloid-preferences-dialog.c:198
-#, fuzzy
 msgid "mpv input configuration file"
-msgstr "Vstupní konfigurační soubor mpv:"
+msgstr "Vstupní konfigurační soubor mpv"
 
 #: src/celluloid-preferences-dialog.c:218
 msgid "Extra mpv options"
@@ -719,7 +703,7 @@ msgstr "Přepnout seznam přehrávání"
 
 #: src/celluloid-shortcuts-window.c:52
 msgid "Show main menu"
-msgstr ""
+msgstr "Zobrazit hlavní nabídku"
 
 #: src/celluloid-shortcuts-window.c:53
 msgid "Toggle fullscreen mode"
@@ -927,15 +911,15 @@ msgstr "Procházet přepsání poměru stran"
 
 #: src/celluloid-shortcuts-window.c:118
 msgid "Pan the video"
-msgstr ""
+msgstr "Posunout video"
 
 #: src/celluloid-shortcuts-window.c:119
 msgid "Zoom in/out"
-msgstr ""
+msgstr "Přiblížit/oddálit"
 
 #: src/celluloid-shortcuts-window.c:120
 msgid "Reset pan/zoom settings"
-msgstr ""
+msgstr "Resetovat nastavení přiblížení/posunutí"
 
 #: src/celluloid-shortcuts-window.c:124
 msgid "User Interface"
@@ -963,7 +947,7 @@ msgstr "Posouvání"
 
 #: src/celluloid-video-area.c:726
 msgid "Loading…"
-msgstr ""
+msgstr "Načítání…"
 
 #: src/celluloid-video-area.c:737
 msgid "Welcome"
@@ -971,7 +955,7 @@ msgstr "Vítejte"
 
 #: src/celluloid-video-area.c:740
 msgid "Click the <b>Open</b> button or drag and drop videos here"
-msgstr ""
+msgstr "Klikněte na tlačítko <b>Otevřít</b> nebo sem přesuňte videa"
 
 #: src/celluloid-view.c:740
 msgid "Load Audio Track…"
