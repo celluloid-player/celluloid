@@ -185,6 +185,15 @@ build_subtitle_track_menu(const GPtrArray *list)
 }
 
 static GMenu *
+build_secondary_subtitle_track_menu(const GPtrArray *list)
+{
+	return	build_menu_from_track_list
+		(	list,
+			"win.set-secondary-subtitle-track",
+			"win.load-track('sub-add')" );
+}
+
+static GMenu *
 build_disc_menu(const GPtrArray *disc_list)
 {
 	GMenu *menu = g_menu_new();
@@ -221,6 +230,7 @@ celluloid_menu_build_full(	GMenu *menu,
 	GMenu *video_menu = NULL;
 	GMenu *audio_menu = NULL;
 	GMenu *subtitle_menu = NULL;
+	GMenu *secondary_subtitle_menu = NULL;
 	GMenu *disc_menu = NULL;
 
 	split_track_list
@@ -229,6 +239,7 @@ celluloid_menu_build_full(	GMenu *menu,
 	video_menu = build_video_track_menu(video_tracks);
 	audio_menu = build_audio_track_menu(audio_tracks);
 	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
+	secondary_subtitle_menu = build_secondary_subtitle_track_menu(subtitle_tracks);
 	disc_menu = build_disc_menu(disc_list);
 
 	const CelluloidMenuEntry entries[]
@@ -245,6 +256,7 @@ celluloid_menu_build_full(	GMenu *menu,
 			CELLULOID_MENU_SUBMENU(_("_Video Track"), video_menu),
 			CELLULOID_MENU_SUBMENU(_("_Audio Track"), audio_menu),
 			CELLULOID_MENU_SUBMENU(_("S_ubtitle Track"), subtitle_menu),
+			CELLULOID_MENU_SUBMENU(_("Se_condary Subtitle Track"), secondary_subtitle_menu),
 			CELLULOID_MENU_SUBMENU(_("_View"), NULL),
 			CELLULOID_MENU_ITEM(_("_Toggle Controls"), "win.toggle-controls"),
 			CELLULOID_MENU_ITEM(_("_Fullscreen"), "win.toggle-fullscreen"),
@@ -261,6 +273,7 @@ celluloid_menu_build_full(	GMenu *menu,
 	g_object_unref(video_menu);
 	g_object_unref(audio_menu);
 	g_object_unref(subtitle_menu);
+	g_object_unref(secondary_subtitle_menu);
 	g_object_unref(disc_menu);
 }
 
@@ -273,6 +286,7 @@ celluloid_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 	GMenu *video_menu = NULL;
 	GMenu *audio_menu = NULL;
 	GMenu *subtitle_menu = NULL;
+	GMenu *secondary_subtitle_menu = NULL;
 
 	split_track_list
 		(track_list, &audio_tracks, &video_tracks, &subtitle_tracks);
@@ -280,6 +294,7 @@ celluloid_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 	video_menu = build_video_track_menu(video_tracks);
 	audio_menu = build_audio_track_menu(audio_tracks);
 	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
+	secondary_subtitle_menu = build_secondary_subtitle_track_menu(subtitle_tracks);
 
 	const CelluloidMenuEntry entries[]
 		= {	CELLULOID_MENU_SEPARATOR,
@@ -290,6 +305,7 @@ celluloid_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 			CELLULOID_MENU_SUBMENU(_("_Video Track"), video_menu),
 			CELLULOID_MENU_SUBMENU(_("_Audio Track"), audio_menu),
 			CELLULOID_MENU_SUBMENU(_("S_ubtitle Track"), subtitle_menu),
+			CELLULOID_MENU_SUBMENU(_("Secondary Subtitle Track"), secondary_subtitle_menu),
 			CELLULOID_MENU_SEPARATOR,
 			CELLULOID_MENU_ITEM(_("_Preferences"), "win.show-preferences-dialog"),
 			CELLULOID_MENU_ITEM(_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog"),
@@ -304,6 +320,7 @@ celluloid_menu_build_menu_btn(GMenu *menu, const GPtrArray *track_list)
 	g_object_unref(video_menu);
 	g_object_unref(audio_menu);
 	g_object_unref(subtitle_menu);
+	g_object_unref(secondary_subtitle_menu);
 }
 
 void
