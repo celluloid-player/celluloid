@@ -1394,7 +1394,7 @@ guess_content_handler(GMount *mount, GAsyncResult *res, gpointer data)
 
 		for(gint i = 0; path && !protocol && types && types[i]; i++)
 		{
-			if(g_strcmp0(types[i], "x-content/video-blueray") == 0)
+			if(g_strcmp0(types[i], "x-content/video-bluray") == 0)
 			{
 				protocol = "bd";
 			}
