@@ -859,17 +859,12 @@ celluloid_main_window_set_controls_visible(	CelluloidMainWindow *wnd,
 {
 	GSettings *settings = g_settings_new(CONFIG_WIN_STATE);
 	CelluloidMainWindowPrivate *priv = get_private(wnd);
-	const gboolean floating = priv->use_floating_controls;
-	const gboolean fullscreen = gtk_window_is_fullscreen(GTK_WINDOW(wnd));
 
-	if(!(fullscreen || floating))
-	{
-		celluloid_video_area_set_control_box_visible
-			(	CELLULOID_VIDEO_AREA(priv->video_area),
-				visible || fullscreen || floating );
+	celluloid_video_area_set_control_box_visible
+		(	CELLULOID_VIDEO_AREA(priv->video_area),
+			visible );
 
-		g_settings_set_boolean (settings, "show-controls", visible);
-	}
+	g_settings_set_boolean (settings, "show-controls", visible);
 
 	g_clear_object(&settings);
 }
