@@ -1078,8 +1078,36 @@ parse_track_entry(mpv_node_list *node)
 				entry->type = TRACK_TYPE_SUBTITLE;
 			}
 		}
+		else if(g_strcmp0(node->keys[i], "metadata") == 0)
+		{
+			const struct mpv_node_list *metadata =
+				node->values[i].u.list;
+
+			for(gint i = 0; i < metadata->num; i++)
+			{
+				const gchar *key =
+					metadata->keys[i];
+				const gchar *value =
+					metadata->values[i].u.string;
+
+				// Sometimes the track title is in "name"
+				// instead of "title".  This allows "name" as
+				// fallback if "title" is not present. If
+				// entry->title is not NULL, do nothing so that
+				// we give "title" higher priority.
+				if(!entry->title && g_strcmp0(key, "name") == 0)
+				{
+					entry->title = g_strdup(value);
+				}
+			}
+
+		}
 		else if(g_strcmp0(node->keys[i], "title") == 0)
 		{
+			// If both "name" and "title" are present but "name" is
+			// encountered first, entry->title will already be
+			// occupied here, so it needs to be freed first.
+			g_free(entry->title);
 			entry->title = g_strdup(node->values[i].u.string);
 		}
 		else if(g_strcmp0(node->keys[i], "lang") == 0)
