@@ -11,25 +11,30 @@ i18n = import('i18n')
 cc = meson.get_compiler('c')
 
 test_cflags = [
-  '-funsigned-char',
-  '-fstack-protector-strong',
-  '-fPIE',
-  '-fPIC',
-  '-Wconversion',
-  '-Winline',
-  '-Wno-padded',
-  '-Wno-unused-parameter',
-  '-Wstrict-prototypes',
-  '-Wmissing-prototypes',
-  '-Werror=implicit-function-declaration',
-  '-Werror=pointer-arith',
-  '-Werror=init-self',
+  ['-funsigned-char'],
+  ['-fstack-protector-strong'],
+  ['-fPIE'],
+  ['-fPIC'],
+  ['-Wconversion'],
+  ['-Winline'],
+  ['-Wno-padded'],
+  ['-Wno-unused-parameter'],
+  ['-Wstrict-prototypes'],
+  ['-Wmissing-prototypes'],
+  ['-Werror=implicit-function-declaration'],
+  ['-Werror=pointer-arith'],
+  ['-Werror=init-self'],
   ['-Werror=format-security', '-Werror=format=2'], # Must be checked together
-  '-Werror=missing-include-dirs',
-  '-Werror=date-time'
+  ['-Werror=missing-include-dirs'],
+  ['-Werror=date-time']
 ]
 global_cflags = []
 foreach cflag : test_cflags
+  # Skip problematic flag on Windows/MSYS2
+  if host_machine.system() == 'windows' and '-Werror=missing-include-dirs' in cflag
+    continue
+  endif
+
   if cc.has_multi_arguments(cflag)
     global_cflags += cflag
   endif
