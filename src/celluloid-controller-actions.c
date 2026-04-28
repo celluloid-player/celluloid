@@ -289,6 +289,16 @@ bind_properties(CelluloidController *controller)
 					NULL );
 
 	action =	g_action_map_lookup_action
+			(G_ACTION_MAP(window), "set-secondary-subtitle-track");
+	g_object_bind_property_full(	controller->model, "secondary-sid",
+					action, "state",
+					G_BINDING_BIDIRECTIONAL,
+					track_id_to_state,
+					state_to_track_id,
+					NULL,
+					NULL );
+
+	action =	g_action_map_lookup_action
 			(G_ACTION_MAP(window), "toggle-shuffle-playlist");
 	g_object_bind_property_full(	controller->model, "shuffle",
 					action, "state",
@@ -646,6 +656,10 @@ celluloid_controller_action_register_actions(CelluloidController *controller)
 			.state = "@x 0",
 			.parameter_type = "x"},
 			{.name = "set-subtitle-track",
+			.change_state = set_subtitle_track_handler,
+			.state = "@x 0",
+			.parameter_type = "x"},
+			{.name = "set-secondary-subtitle-track",
 			.change_state = set_subtitle_track_handler,
 			.state = "@x 0",
 			.parameter_type = "x"},
