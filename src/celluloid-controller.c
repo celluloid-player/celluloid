@@ -30,6 +30,7 @@
 #include "celluloid-controller.h"
 #include "celluloid-controller-actions.h"
 #include "celluloid-controller-input.h"
+#include "celluloid-file.h"
 #include "celluloid-player-options.h"
 #include "celluloid-def.h"
 
@@ -548,8 +549,10 @@ file_open_handler(	CelluloidView *view,
 
 	for(guint i = 0; i < files_count; i++)
 	{
-		GFile *file = g_list_model_get_item(files, i);
-		gchar *uri = g_file_get_path(file) ?: g_file_get_uri(file);
+		CelluloidFile *file = g_list_model_get_item(files, i);
+		gchar *uri =
+			celluloid_file_get_path(file) ?:
+			celluloid_file_get_uri(file);
 
 		has_media_file |= !extension_matches(uri, subtitle_exts);
 		celluloid_model_load_file(model, uri, append || i > 0);

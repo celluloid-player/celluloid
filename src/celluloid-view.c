@@ -34,6 +34,7 @@
 #include "celluloid-marshal.h"
 #include "celluloid-menu.h"
 #include "celluloid-common.h"
+#include "celluloid-file.h"
 #include "celluloid-def.h"
 
 enum
@@ -842,7 +843,7 @@ open_location_dialog_response_handler(	GtkDialog *dialog,
 		CelluloidView *view = g_ptr_array_index(args, 0);
 		gboolean *append = g_ptr_array_index(args, 1);
 
-		GFile *file = g_file_new_for_uri(uri);
+		CelluloidFile *file = celluloid_file_new_for_uri(uri);
 		GListStore *list = g_list_store_new(G_TYPE_OBJECT);
 
 		g_list_store_append(list, file);
@@ -1040,7 +1041,8 @@ drop_handler(	GtkDropTarget *self,
 
 			for(gint i = 0; uris[i]; i++)
 			{
-				GFile *file = g_file_new_for_uri(uris[i]);
+				CelluloidFile *file =
+					celluloid_file_new_for_uri(uris[i]);
 
 				g_list_store_append(files, file);
 				g_object_unref(file);

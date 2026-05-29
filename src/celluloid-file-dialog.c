@@ -17,6 +17,7 @@
  * along with Celluloid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "celluloid-file.h"
 #include "celluloid-file-dialog.h"
 #include "celluloid-def.h"
 #include <gtk/gtk.h>
@@ -149,19 +150,23 @@ celluloid_file_dialog_set_default_filters(	CelluloidFileDialog *self,
 	g_object_unref(filters);
 }
 
-GFile *
+CelluloidFile *
 celluloid_file_dialog_open_finish(	GtkFileDialog *self,
 					GAsyncResult *async_result,
 					GError **error )
 {
-	GFile *result = gtk_file_dialog_open_finish(self, async_result, error);
+	GFile *gfile = gtk_file_dialog_open_finish(self, async_result, error);
+	CelluloidFile *cfile = NULL;
 
-	if(result)
+	if(gfile)
 	{
-		save_last_folder(self, g_file_get_parent(result));
+		cfile = celluloid_file_new_for_gfile(gfile);
+
+		save_last_folder(self, g_file_get_parent(gfile));
+		g_object_unref(gfile);
 	}
 
-	return result;
+	return cfile;
 }
 
 GListModel *
@@ -169,19 +174,38 @@ celluloid_file_dialog_open_multiple_finish(	GtkFileDialog *self,
 						GAsyncResult *async_result,
 						GError **error )
 {
-	GListModel *result =
+	GListModel *gfiles =
 		gtk_file_dialog_open_multiple_finish(self, async_result, error);
+	GListStore *result =
+		g_list_store_new(CELLULOID_TYPE_FILE);
 
-	if(result)
+	if(gfiles)
 	{
 		// All results are supposed to share the same parent, so this
 		// should be enough.
-		GFile *first_result = G_FILE(g_list_model_get_item(result, 0));
+		GFile *first_gfile = G_FILE(g_list_model_get_item(gfiles, 0));
+		save_last_folder(self, g_file_get_parent(first_gfile));
 
-		save_last_folder(self, g_file_get_parent(first_result));
+		guint i = 0;
+		GFile *gfile = NULL;
+
+		while(gfile || i == 0)
+		{
+			GFile *gfile =
+				g_list_model_get_item(gfiles, i++);
+
+			if (gfile)
+			{
+				CelluloidFile *cfile =
+					celluloid_file_new_for_gfile(gfile);
+
+				g_list_store_append(result, cfile);
+				g_object_unref(gfile);
+			}
+		}
 	}
 
-	return result;
+	return G_LIST_MODEL(result);
 }
 
 GFile *

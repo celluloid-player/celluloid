@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+#include "celluloid-file.h"
+
 G_BEGIN_DECLS
 
 #define CELLULOID_FILE_DIALOG GTK_FILE_DIALOG
@@ -44,7 +46,7 @@ celluloid_file_dialog_set_default_filters(	CelluloidFileDialog *self,
 						gboolean image,
 						gboolean subtitle );
 
-GFile *
+CelluloidFile *
 celluloid_file_dialog_open_finish(	GtkFileDialog *self,
 					GAsyncResult *async_result,
 					GError **error );

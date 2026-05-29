@@ -7,6 +7,7 @@ sources = [
   'celluloid-controller.c',
   'celluloid-controller-actions.c',
   'celluloid-controller-input.c',
+  'celluloid-file.c',
   'celluloid-file-chooser-button.c',
   'celluloid-file-dialog.c',
   'celluloid-header-bar.c',

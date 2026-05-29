@@ -106,9 +106,14 @@ set_file(CelluloidFileChooserButton *self, GFile *file)
 static void
 open_dialog_callback(GObject *source_object, GAsyncResult *res, gpointer data)
 {
-	CelluloidFileChooserButton *self = CELLULOID_FILE_CHOOSER_BUTTON(data);
-	CelluloidFileDialog *dialog = CELLULOID_FILE_DIALOG(source_object);
-	GFile *file = celluloid_file_dialog_open_finish(dialog, res, NULL);
+	CelluloidFileChooserButton *self =
+		CELLULOID_FILE_CHOOSER_BUTTON(data);
+	CelluloidFileDialog *dialog =
+		CELLULOID_FILE_DIALOG(source_object);
+	CelluloidFile *cfile =
+		celluloid_file_dialog_open_finish(dialog, res, NULL);
+	GFile *file =
+		celluloid_file_get_gfile(cfile);
 
 	if(file)
 	{
