@@ -32,6 +32,7 @@
 
 #include "celluloid-application.h"
 #include "celluloid-controller.h"
+#include "celluloid-file.h"
 #include "celluloid-mpv.h"
 #include "celluloid-common.h"
 #include "celluloid-def.h"
@@ -271,13 +272,9 @@ activate_handler(GApplication *gapp, gpointer data)
 }
 
 static void
-open_handler(	GApplication *gapp,
-		GFile **files,
-		gint n_files,
-		gchar *hint,
-		gpointer data )
+open_files(CelluloidApplication *app, CelluloidFile **files, gint n_files)
 {
-	CelluloidApplication *app = data;
+	GApplication *gapp = G_APPLICATION(app);
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 
 	/* Only activate new-window if always-open-new-window is set. It is not
@@ -296,7 +293,7 @@ open_handler(	GApplication *gapp,
 		GtkApplication *gtkapp = GTK_APPLICATION(gapp);
 		GtkWindow *window = gtk_application_get_active_window(gtkapp);
 		GActionMap *map = G_ACTION_MAP(window);
-		gchar *uri = g_file_get_uri(((GFile **)files)[i]);
+		gchar *uri = celluloid_file_get_uri(files[i]);
 		gboolean append = i != 0 || app->enqueue;
 		GVariant *param = g_variant_new("(sb)", uri, append);
 		GAction *action = g_action_map_lookup_action(map, "open");
@@ -307,6 +304,23 @@ open_handler(	GApplication *gapp,
 	}
 
 	g_object_unref(settings);
+}
+
+static void
+open_handler(	GApplication *gapp,
+		GFile **files,
+		gint n_files,
+		gchar *hint,
+		gpointer data )
+{
+	CelluloidFile *cfiles[n_files];
+
+	for(gint i = 0; i < n_files; i++)
+	{
+		cfiles[i] = celluloid_file_new_for_gfile(files[i]);
+	}
+
+	open_files(CELLULOID_APPLICATION(data), cfiles, n_files);
 }
 
 static gint
@@ -416,7 +430,7 @@ command_line_handler(	GApplication *gapp,
 	GSettings *settings = g_settings_new(CONFIG_ROOT);
 	gboolean always_open_new_window = FALSE;
 	const gint n_files = argc-1;
-	GFile *files[n_files];
+	CelluloidFile *files[n_files];
 
 	app->enqueue = FALSE;
 	app->new_window = FALSE;
@@ -428,12 +442,6 @@ command_line_handler(	GApplication *gapp,
 	g_variant_dict_lookup(options, "enqueue", "b", &app->enqueue);
 	g_variant_dict_lookup(options, "new-window", "b", &app->new_window);
 	g_variant_dict_lookup(options, "role", "s", &app->role);
-
-	for(gint i = 0; i < n_files; i++)
-	{
-		files[i] =	g_application_command_line_create_file_for_arg
-				(cli, argv[i+1]);
-	}
 
 	/* Only activate the new-window action or emit the activate signal if
 	 * there are no files to be opened. If there are files, open_handler()
@@ -450,10 +458,25 @@ command_line_handler(	GApplication *gapp,
 		g_application_activate(gapp);
 	}
 
+	for(gint i = 0; i < n_files; i++)
+	{
+		if(g_uri_is_valid(argv[i+1], G_URI_FLAGS_HAS_PASSWORD, NULL))
+		{
+			files[i] = celluloid_file_new_for_uri(argv[i+1]);
+		}
+		else
+		{
+			GFile *gfile =
+				g_application_command_line_create_file_for_arg
+				(cli, argv[i+1]);
+
+			files[i] = celluloid_file_new_for_gfile(gfile);
+		}
+	}
+
 	if(n_files > 0)
 	{
-		g_application_open
-			(gapp, files, n_files, app->enqueue?"enqueue":"");
+		open_files(app, files, n_files);
 	}
 
 	for(gint i = 0; i < n_files; i++)
