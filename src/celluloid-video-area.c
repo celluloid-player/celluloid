@@ -827,6 +827,12 @@ celluloid_video_area_get_control_box(CelluloidVideoArea *area)
 	return CELLULOID_CONTROL_BOX(area->control_box);
 }
 
+GtkStack *
+celluloid_video_area_get_stack(CelluloidVideoArea *area)
+{
+	return GTK_STACK(area->stack);
+}
+
 gint64
 celluloid_video_area_get_xid(CelluloidVideoArea *area)
 {

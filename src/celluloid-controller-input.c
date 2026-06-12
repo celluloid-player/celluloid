@@ -335,10 +335,12 @@ scroll_handler(	GtkEventControllerScroll *scroll_controller,
 void
 celluloid_controller_input_connect_signals(CelluloidController *controller)
 {
-	CelluloidMainWindow *wnd =	celluloid_view_get_main_window
-					(controller->view);
-	CelluloidVideoArea *video_area =	celluloid_main_window_get_video_area
-						(wnd);
+	CelluloidMainWindow *wnd =
+		celluloid_view_get_main_window(controller->view);
+	CelluloidVideoArea *video_area =
+		celluloid_main_window_get_video_area(wnd);
+	GtkStack *stack =
+		celluloid_video_area_get_stack(video_area);
 
 	g_signal_connect(	controller->key_controller,
 				"key-pressed",
@@ -354,7 +356,7 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 	gtk_gesture_single_set_button
 		(GTK_GESTURE_SINGLE(click_gesture), 0);
 	gtk_widget_add_controller
-		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(click_gesture));
+		(GTK_WIDGET(stack), GTK_EVENT_CONTROLLER(click_gesture));
 
 	g_signal_connect(	click_gesture,
 				"pressed",
@@ -372,7 +374,7 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 	GtkEventController *const motion_controller =
 		controller->motion_controller;
 	gtk_widget_add_controller
-		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(motion_controller));
+		(GTK_WIDGET(stack), GTK_EVENT_CONTROLLER(motion_controller));
 
 	g_signal_connect(	motion_controller,
 				"motion",
@@ -382,7 +384,7 @@ celluloid_controller_input_connect_signals(CelluloidController *controller)
 	GtkEventController *const scroll_controller =
 		controller->scroll_controller;
 	gtk_widget_add_controller
-		(GTK_WIDGET(video_area), GTK_EVENT_CONTROLLER(scroll_controller));
+		(GTK_WIDGET(stack), GTK_EVENT_CONTROLLER(scroll_controller));
 
 	g_signal_connect(	scroll_controller,
 				"scroll",
@@ -395,13 +397,15 @@ celluloid_controller_input_disconnect_signals(CelluloidController *controller)
 {
 	CelluloidMainWindow *wnd =
 		celluloid_view_get_main_window(controller->view);
-	GtkWidget *video_area =
-		GTK_WIDGET(celluloid_main_window_get_video_area(wnd));
+	CelluloidVideoArea *video_area =
+		celluloid_main_window_get_video_area(wnd);
+	GtkStack *stack =
+		celluloid_video_area_get_stack(video_area);
 
 	gtk_widget_remove_controller
-		(video_area, controller->motion_controller);
+		(GTK_WIDGET(stack), controller->motion_controller);
 	gtk_widget_remove_controller
-		(video_area, controller->scroll_controller);
+		(GTK_WIDGET(stack), controller->scroll_controller);
 	gtk_widget_remove_controller
-		(video_area, GTK_EVENT_CONTROLLER(controller->click_gesture));
+		(GTK_WIDGET(stack), GTK_EVENT_CONTROLLER(controller->click_gesture));
 }

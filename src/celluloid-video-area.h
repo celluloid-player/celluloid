@@ -90,6 +90,9 @@ celluloid_video_area_get_header_bar(CelluloidVideoArea *area);
 CelluloidControlBox *
 celluloid_video_area_get_control_box(CelluloidVideoArea *area);
 
+GtkStack *
+celluloid_video_area_get_stack(CelluloidVideoArea *area);
+
 gint64
 celluloid_video_area_get_xid(CelluloidVideoArea *area);
 
