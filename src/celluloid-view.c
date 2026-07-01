@@ -1037,7 +1037,7 @@ drop_handler(	GtkDropTarget *self,
 
 		if(uris)
 		{
-			files = g_list_store_new(G_TYPE_FILE);
+			files = g_list_store_new(CELLULOID_TYPE_FILE);
 
 			for(gint i = 0; uris[i]; i++)
 			{
@@ -1059,11 +1059,15 @@ drop_handler(	GtkDropTarget *self,
 	{
 		const GSList *slist = g_value_get_boxed(value);
 
-		files = g_list_store_new(G_TYPE_FILE);
+		files = g_list_store_new(CELLULOID_TYPE_FILE);
 
 		for(const GSList *cur = slist; cur; cur = cur->next)
 		{
-			g_list_store_append(files, G_FILE(cur->data));
+			CelluloidFile *file =
+				celluloid_file_new_for_gfile(G_FILE(cur->data));
+
+			g_list_store_append(files, file);
+			g_object_unref(file);
 		}
 	}
 	else
