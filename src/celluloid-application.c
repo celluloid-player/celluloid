@@ -269,6 +269,12 @@ activate_handler(GApplication *gapp, gpointer data)
 	{
 		initialize_gui(app);
 	}
+	else
+	{
+		GtkApplication *gtkapp = GTK_APPLICATION(app);
+		GtkWindow *window = gtk_application_get_active_window(gtkapp);
+		gtk_window_present(window);
+	}
 }
 
 static void
@@ -453,7 +459,7 @@ command_line_handler(	GApplication *gapp,
 	{
 		activate_action_string(G_ACTION_MAP(gapp), "new-window");
 	}
-	else if(n_files == 0 && !app->controllers)
+	else if(n_files == 0)
 	{
 		g_application_activate(gapp);
 	}
