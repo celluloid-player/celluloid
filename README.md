@@ -139,6 +139,10 @@ translate this string. Instead, you should put your name, and optionally your
 email address, in the following format: `FirstName LastName <Email Address>`.
 Your name will then appear in the About dialog when your translation is active.
 
+## AI-Generated Code
+
+Due to the lack of clarity around its copyright status, AI-generated code is not accepted in this project. Please do not include AI-generated code in your pull requests.
+
 ## License
 
 Celluloid is free software: you can redistribute it and/or modify
