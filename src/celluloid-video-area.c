@@ -61,6 +61,7 @@ struct _CelluloidVideoArea
 	guint timeout_tag;
 	gboolean fullscreened;
 	gboolean fs_control_hover;
+	gboolean keep_cursor_visible;
 	gboolean use_floating_header_bar;
 	gboolean use_floating_controls;
 	AdwBreakpoint *wide;
@@ -293,6 +294,7 @@ timeout_handler(gpointer data)
 
 	if(control_box
 	&& !area->fs_control_hover
+	&& !area->keep_cursor_visible
 	&& !celluloid_control_box_get_volume_popup_visible(control_box)
 	&& !open_button_active
 	&& !menu_button_active
@@ -499,6 +501,7 @@ celluloid_video_area_init(CelluloidVideoArea *area)
 	area->timeout_tag = 0;
 	area->fullscreened = FALSE;
 	area->fs_control_hover = FALSE;
+	area->keep_cursor_visible = FALSE;
 	area->use_floating_header_bar = FALSE;
 	area->use_floating_controls = FALSE;
 
@@ -801,6 +804,32 @@ celluloid_video_area_set_control_box_floating(	CelluloidVideoArea *area,
 	{
 		adw_toolbar_view_set_bottom_bar_style(ADW_TOOLBAR_VIEW(area->toolbar_view), ADW_TOOLBAR_RAISED_BORDER);
 	}
+}
+
+void
+celluloid_video_area_set_keep_cursor_visible(	CelluloidVideoArea *area,
+						gboolean visible )
+{
+	if (visible)
+	{
+		set_cursor_visible(area, TRUE);
+	}
+	else
+	{
+		g_source_clear(&area->timeout_tag);
+		area->timeout_tag =	g_timeout_add_seconds
+					(	FS_CONTROL_HIDE_DELAY,
+						timeout_handler,
+						area );
+	}
+
+	area->keep_cursor_visible = visible;
+}
+
+void
+celluloid_video_area_hide_cursor(CelluloidVideoArea *area)
+{
+	set_cursor_visible(area, FALSE);
 }
 
 void

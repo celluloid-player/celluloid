@@ -91,6 +91,9 @@ static void
 notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data);
 
 static void
+notify_show_sidebar_handler(GObject *object, GParamSpec *pspec, gpointer data);
+
+static void
 seek_handler(GtkWidget *widget, gdouble value, gpointer data);
 
 static void
@@ -243,6 +246,21 @@ notify_fullscreened_handler(GObject *object, GParamSpec *pspec, gpointer data)
 		(wnd, floating_header_bar);
 
 	g_object_unref(settings);
+}
+
+static void
+notify_show_sidebar_handler(GObject *object, GParamSpec *pspec, gpointer data)
+{
+	CelluloidMainWindow *wnd = CELLULOID_MAIN_WINDOW(data);
+	CelluloidVideoArea *video_area = CELLULOID_VIDEO_AREA(get_private(wnd)->video_area);
+	gboolean show_sidebar = FALSE;
+
+	g_object_get(object, "show-sidebar", &show_sidebar, NULL);
+
+	if (!show_sidebar)
+	{
+		celluloid_video_area_set_keep_cursor_visible(video_area, FALSE);
+	}
 }
 
 static void
@@ -515,6 +533,10 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	g_signal_connect(	priv->control_box,
 				"button-clicked",
 				G_CALLBACK(button_clicked_handler),
+				wnd );
+	g_signal_connect(	priv->video_split_view,
+				"notify::show-sidebar",
+				G_CALLBACK(notify_show_sidebar_handler),
 				wnd );
 	g_signal_connect(	video_area_control_box,
 				"seek",

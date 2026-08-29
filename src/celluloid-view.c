@@ -1781,8 +1781,13 @@ celluloid_view_set_playlist_pos(CelluloidView *view, gint64 pos)
 void
 celluloid_view_set_playlist_visible(CelluloidView *view, gboolean visible)
 {
-	celluloid_main_window_set_playlist_visible
-		(CELLULOID_MAIN_WINDOW(view), visible);
+	CelluloidMainWindow *wnd =
+		CELLULOID_MAIN_WINDOW(view);
+	CelluloidVideoArea *video_area =
+		celluloid_main_window_get_video_area(wnd);
+
+	celluloid_video_area_set_keep_cursor_visible(video_area, visible);
+	celluloid_main_window_set_playlist_visible(wnd, visible);
 }
 
 gboolean

@@ -79,6 +79,13 @@ celluloid_video_area_set_control_box_floating(	CelluloidVideoArea *area,
 						gboolean floating );
 
 void
+celluloid_video_area_set_keep_cursor_visible(	CelluloidVideoArea *area,
+						gboolean visible );
+
+void
+celluloid_video_area_hide_cursor(CelluloidVideoArea *area);
+
+void
 celluloid_video_area_queue_render(CelluloidVideoArea *area);
 
 GtkGLArea *
