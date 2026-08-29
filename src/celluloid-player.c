@@ -119,6 +119,9 @@ apply_options_array_string(CelluloidMpv *mpv, const gchar *args);
 static void
 apply_extra_options(CelluloidPlayer *player);
 
+static gboolean
+options_request_pause(const gchar *options);
+
 static void
 load_file(CelluloidMpv *mpv, const gchar *uri, gboolean append);
 
@@ -209,6 +212,9 @@ set_property(	GObject *object,
 		case PROP_EXTRA_OPTIONS:
 		g_free(priv->extra_options);
 		priv->extra_options = g_value_dup_string(value);
+		celluloid_mpv_set_autoplay
+			(	CELLULOID_MPV(object),
+				!options_request_pause(priv->extra_options) );
 		break;
 
 		default:
@@ -451,9 +457,12 @@ mpv_property_changed(CelluloidMpv *mpv, const gchar *name, gpointer value)
 		}
 
 		/* Check if we're transitioning from empty playlist to non-empty
-		 * playlist.
+		 * playlist. Start playback unless the user requested starting
+		 * paused (e.g. --mpv-pause).
 		 */
-		if(was_empty && priv->playlist->len > 0)
+		if(	was_empty &&
+			priv->playlist->len > 0 &&
+			celluloid_mpv_get_autoplay(mpv) )
 		{
 			celluloid_mpv_set_property_flag(mpv, "pause", FALSE);
 		}
@@ -628,15 +637,20 @@ apply_options_array_string(CelluloidMpv *mpv, const gchar *args)
 
 		if(key && *key)
 		{
-			g_debug("Applying option: --%s=%s", key, value);
+			/* Flag options without an explicit value (e.g. --pause)
+			 * are equivalent to --option=yes in mpv.
+			 */
+			const gchar *option_value = value ? value : "yes";
 
-			if(celluloid_mpv_set_option_string(mpv, key, value) < 0)
+			g_debug("Applying option: --%s=%s", key, option_value);
+
+			if(celluloid_mpv_set_option_string(mpv, key, option_value) < 0)
 			{
 				fail_count++;
 
 				g_warning(	"Failed to apply option: --%s=%s\n",
 						key,
-						value );
+						option_value );
 			}
 		}
 		else
@@ -654,6 +668,46 @@ apply_options_array_string(CelluloidMpv *mpv, const gchar *args)
 	return fail_count*(-1);
 }
 
+static gboolean
+options_request_pause(const gchar *options)
+{
+	gboolean result = FALSE;
+	const gchar *cur = options;
+
+	while(cur && *cur)
+	{
+		gchar *key = NULL;
+		gchar *value = NULL;
+
+		cur = parse_option(cur, &key, &value);
+
+		if(key && *key)
+		{
+			if(g_strcmp0(key, "pause") == 0)
+			{
+				result =	!value ||
+						*value == '\0' ||
+						g_ascii_strcasecmp(value, "yes") == 0 ||
+						g_ascii_strcasecmp(value, "true") == 0 ||
+						g_strcmp0(value, "1") == 0;
+			}
+			else if(g_strcmp0(key, "no-pause") == 0)
+			{
+				result = FALSE;
+			}
+		}
+		else
+		{
+			cur = NULL;
+		}
+
+		g_free(key);
+		g_free(value);
+	}
+
+	return result;
+}
+
 static void
 apply_extra_options(CelluloidPlayer *player)
 {
@@ -662,6 +716,8 @@ apply_extra_options(CelluloidPlayer *player)
 	gchar *extra_options = priv->extra_options;
 
 	g_debug("Applying extra mpv options: %s", extra_options);
+
+	celluloid_mpv_set_autoplay(mpv, !options_request_pause(extra_options));
 
 	/* Apply extra options */
 	if(extra_options && apply_options_array_string(mpv, extra_options) < 0)

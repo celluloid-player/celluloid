@@ -95,6 +95,12 @@ celluloid_mpv_set_option_string(	CelluloidMpv *mpv,
 					const gchar *name,
 					const gchar *value );
 
+void
+celluloid_mpv_set_autoplay(CelluloidMpv *mpv, gboolean autoplay);
+
+gboolean
+celluloid_mpv_get_autoplay(CelluloidMpv *mpv);
+
 gint
 celluloid_mpv_get_property(	CelluloidMpv *mpv,
 				const gchar *name,

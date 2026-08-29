@@ -74,6 +74,7 @@ struct _CelluloidMpvPrivate
 	gboolean init_vo_config;
 	gboolean force_opengl;
 	gboolean use_opengl;
+	gboolean autoplay;
 	gint64 wid;
 	void *render_update_callback_data;
 	void (*render_update_callback)(void *data);
@@ -487,7 +488,10 @@ load_file(CelluloidMpv *mpv, const gchar *uri, gboolean append)
 
 	load_cmd[2] = (append && playlist_count > 0)?"append":"replace";
 
-	if(!append)
+	/* Start playback unless the user requested starting paused (e.g. via
+	 * --mpv-pause or Extra MPV Options).
+	 */
+	if(!append && priv->autoplay)
 	{
 		celluloid_mpv_set_property_flag(mpv, "pause", FALSE);
 	}
@@ -684,6 +688,7 @@ celluloid_mpv_init(CelluloidMpv *mpv)
 	priv->ready = FALSE;
 	priv->init_vo_config = TRUE;
 	priv->use_opengl = FALSE;
+	priv->autoplay = TRUE;
 	priv->wid = -1;
 	priv->render_update_callback_data = NULL;
 	priv->render_update_callback = NULL;
@@ -900,6 +905,18 @@ celluloid_mpv_set_option_string(	CelluloidMpv *mpv,
 					const gchar *value )
 {
 	return mpv_set_option_string(get_private(mpv)->mpv_ctx, name, value);
+}
+
+void
+celluloid_mpv_set_autoplay(CelluloidMpv *mpv, gboolean autoplay)
+{
+	get_private(mpv)->autoplay = autoplay;
+}
+
+gboolean
+celluloid_mpv_get_autoplay(CelluloidMpv *mpv)
+{
+	return get_private(mpv)->autoplay;
 }
 
 gint
