@@ -147,8 +147,10 @@ mpv_event_notify(	CelluloidMpv *mpv,
 		CelluloidMetadataCacheEntry *entry = NULL;
 		gchar *path = NULL;
 
+		/*
 		celluloid_mpv_get_property
 			(mpv, "path", MPV_FORMAT_STRING, &path);
+			*/
 
 		if(path)
 		{
@@ -163,6 +165,7 @@ mpv_event_notify(	CelluloidMpv *mpv,
 			gchar *media_title = NULL;
 			mpv_node metadata;
 
+/*
 			celluloid_mpv_get_property(	mpv,
 							"duration",
 							MPV_FORMAT_DOUBLE,
@@ -175,7 +178,7 @@ mpv_event_notify(	CelluloidMpv *mpv,
 							"metadata",
 							MPV_FORMAT_NODE,
 							&metadata );
-
+*/
 			if(!entry->title)
 			{
 				entry->title = g_strdup(media_title);
