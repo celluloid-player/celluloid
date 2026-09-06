@@ -42,6 +42,7 @@ enum
 	PROP_0,
 	PROP_ALWAYS_FLOATING_CONTROLS,
 	PROP_CHAPTER_LIST,
+	PROP_SHOW_PLAYLIST,
 	N_PROPERTIES
 };
 
@@ -56,6 +57,7 @@ struct _CelluloidMainWindowPrivate
 	gboolean always_floating_controls;
 	gboolean use_floating_controls;
 	gboolean use_floating_header_bar;
+	gboolean show_playlist;
 	gint playlist_width;
 	guint resize_tag;
 	GPtrArray *chapter_list;
@@ -190,6 +192,10 @@ set_property(	GObject *object,
 	{
 		priv->chapter_list = g_value_get_pointer(value);
 	}
+	else if(property_id == PROP_SHOW_PLAYLIST)
+	{
+		priv->show_playlist = g_value_get_boolean(value);
+	}
 	else
 	{
 		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -211,6 +217,10 @@ get_property(	GObject *object,
 	else if(property_id == PROP_CHAPTER_LIST)
 	{
 		g_value_set_pointer(value, priv->chapter_list);
+	}
+	else if(property_id == PROP_SHOW_PLAYLIST)
+	{
+		g_value_set_boolean(value, priv->show_playlist);
 	}
 	else
 	{
@@ -431,6 +441,14 @@ celluloid_main_window_class_init(CelluloidMainWindowClass *klass)
 			G_PARAM_READWRITE );
 	g_object_class_install_property(obj_class, PROP_CHAPTER_LIST, pspec);
 
+	pspec = g_param_spec_boolean
+		(	"show-playlist",
+			"Playlist shown",
+			"Whether the playlist panel is shown",
+			FALSE,
+			G_PARAM_READWRITE );
+	g_object_class_install_property(obj_class, PROP_SHOW_PLAYLIST, pspec);
+
 	g_signal_new(	"button-clicked",
 			G_TYPE_FROM_CLASS(klass),
 			G_SIGNAL_RUN_FIRST|G_SIGNAL_DETAILED,
@@ -464,6 +482,7 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	priv->always_floating_controls = FALSE;
 	priv->use_floating_controls = FALSE;
 	priv->use_floating_header_bar = FALSE;
+	priv->show_playlist = FALSE;
 	priv->playlist_width = PLAYLIST_DEFAULT_WIDTH;
 	priv->resize_tag = 0;
 	priv->chapter_list = NULL;
@@ -493,6 +512,9 @@ celluloid_main_window_init(CelluloidMainWindow *wnd)
 	g_object_bind_property(	wnd, "fullscreened",
 				priv->video_area, "fullscreened",
 				G_BINDING_DEFAULT );
+	g_object_bind_property(	priv->video_split_view, "show-sidebar",
+				wnd, "show-playlist",
+				G_BINDING_BIDIRECTIONAL );
 
 	g_object_bind_property(	priv->header_bar, "open-button-active",
 				video_area_header_bar, "open-button-active",
