@@ -66,6 +66,8 @@ celluloid_metadata_cache_entry_new(void)
 	CelluloidMetadataCacheEntry *entry =
 		g_new0(CelluloidMetadataCacheEntry, 1);
 
+	entry->duration = -1.0;
+
 	entry->tags =	g_ptr_array_new_with_free_func
 			((GDestroyNotify)celluloid_metadata_entry_free);
 
