@@ -1196,14 +1196,21 @@ update_playlist(CelluloidPlayer *player)
 			entry = parse_playlist_entry(org_list->values[i].u.list);
 
 			if(	prefetch_metadata &&
-				(!entry->title || entry->duration < 0.0) )
+				!(entry->title || entry->duration >= 0.0) )
 			{
 				CelluloidMetadataCacheEntry *cache_entry;
 
-				cache_entry =	celluloid_metadata_cache_lookup
-						(priv->cache, entry->filename);
-				entry->title =	g_strdup(cache_entry->title);
-				entry->duration = cache_entry->duration;
+				cache_entry =
+					celluloid_metadata_cache_lookup
+					(priv->cache, entry->filename);
+				entry->title =
+					entry->title ?
+					entry->title :
+					g_strdup(cache_entry->title);
+				entry->duration =
+					entry->duration >= 0.0 ?
+					entry->duration :
+					cache_entry->duration;
 			}
 
 			g_ptr_array_add(priv->playlist, entry);
