@@ -147,6 +147,7 @@
 				"SLEEP", "Sleep",\
 				"CANCEL", "Cancel",\
 				"RECORD", "AudioRecord",\
+				"TAB", "ISO_Left_Tab",\
 				"", "Control_L",\
 				"", "Control_R",\
 				"", "Alt_L",\
