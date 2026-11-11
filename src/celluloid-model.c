@@ -31,6 +31,7 @@ enum
 	PROP_AID,
 	PROP_VID,
 	PROP_SID,
+	PROP_SECONDARY_SID,
 	PROP_CHAPTERS,
 	PROP_CORE_IDLE,
 	PROP_IDLE_ACTIVE,
@@ -63,6 +64,7 @@ struct _CelluloidModel
 	gchar *aid;
 	gchar *vid;
 	gchar *sid;
+	gchar *secondary_sid;
 	gint64 chapters;
 	gboolean core_idle;
 	gboolean idle_active;
@@ -201,6 +203,25 @@ set_property(	GObject *object,
 		case PROP_SID:
 		g_free(self->sid);
 		self->sid = g_value_dup_string(value);
+
+		if(self->secondary_sid != NULL && g_ascii_strcasecmp(self->sid, self->secondary_sid) == 0)
+		{
+			g_free(self->secondary_sid);
+			self->secondary_sid = g_strdup("no");
+			set_mpv_property(object, PROP_SECONDARY_SID, NULL, NULL);
+		}
+		break;
+
+		case PROP_SECONDARY_SID:
+		g_free(self->secondary_sid);
+		self->secondary_sid = g_value_dup_string(value);
+
+		if(self->sid != NULL && g_ascii_strcasecmp(self->sid, self->secondary_sid) == 0)
+		{
+			g_free(self->sid);
+			self->sid = g_strdup("no");
+			set_mpv_property(object, PROP_SID, NULL, NULL);
+		}
 		break;
 
 		case PROP_CHAPTERS:
@@ -344,6 +365,10 @@ get_property(	GObject *object,
 		g_value_set_string(value, self->sid);
 		break;
 
+		case PROP_SECONDARY_SID:
+		g_value_set_string(value, self->secondary_sid);
+		break;
+
 		case PROP_CHAPTERS:
 		g_value_set_int64(value, self->chapters);
 		break;
@@ -451,6 +476,7 @@ static void finalize(GObject *object)
 	g_free(model->aid);
 	g_free(model->vid);
 	g_free(model->sid);
+	g_free(model->secondary_sid);
 	g_free(model->loop_file);
 	g_free(model->loop_playlist);
 	g_free(model->media_title);
@@ -488,6 +514,13 @@ set_mpv_property(	GObject *object,
 						"sid",
 						MPV_FORMAT_STRING,
 						&self->sid );
+		break;
+
+		case PROP_SECONDARY_SID:
+		celluloid_mpv_set_property(	mpv,
+						"secondary-sid",
+						MPV_FORMAT_STRING,
+						&self->secondary_sid );
 		break;
 
 		case PROP_FULLSCREEN:
@@ -793,6 +826,7 @@ celluloid_model_class_init(CelluloidModelClass *klass)
 	mpv_props[] = {	{"aid", PROP_AID, G_TYPE_STRING},
 			{"vid", PROP_VID, G_TYPE_STRING},
 			{"sid", PROP_SID, G_TYPE_STRING},
+			{"secondary-sid", PROP_SECONDARY_SID, G_TYPE_STRING},
 			{"chapters", PROP_CHAPTERS, G_TYPE_INT64},
 			{"core-idle", PROP_CORE_IDLE, G_TYPE_BOOLEAN},
 			{"idle-active", PROP_IDLE_ACTIVE, G_TYPE_BOOLEAN},
